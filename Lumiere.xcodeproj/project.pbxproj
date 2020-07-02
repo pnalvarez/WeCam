@@ -100,12 +100,12 @@
 		3F95781324AD6FBC00B79818 = {
 			isa = PBXGroup;
 			children = (
+				22BD1C32F3E6A29ED16C1D4A /* Frameworks */,
 				3F95781E24AD6FBC00B79818 /* Lumiere */,
 				3F95783524AD6FBE00B79818 /* LumiereTests */,
 				3F95784024AD6FBE00B79818 /* LumiereUITests */,
-				3F95781D24AD6FBC00B79818 /* Products */,
 				816E9AAB491F6DA3C65B683E /* Pods */,
-				22BD1C32F3E6A29ED16C1D4A /* Frameworks */,
+				3F95781D24AD6FBC00B79818 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
@@ -122,18 +122,14 @@
 		3F95781E24AD6FBC00B79818 /* Lumiere */ = {
 			isa = PBXGroup;
 			children = (
-				3F95785524AD719800B79818 /* Common */,
-				3F95785424AD718F00B79818 /* Provider */,
-				3F95785324AD718900B79818 /* Business */,
-				3F95785224AD718400B79818 /* View Model */,
-				3F95785124AD717F00B79818 /* Model */,
-				3F95785024AD716A00B79818 /* View */,
-				3F95784F24AD716100B79818 /* App */,
-				3F95781F24AD6FBC00B79818 /* AppDelegate.swift */,
-				3F95782124AD6FBC00B79818 /* SceneDelegate.swift */,
-				3F95782824AD6FBE00B79818 /* Assets.xcassets */,
-				3F95782A24AD6FBE00B79818 /* LaunchScreen.storyboard */,
 				3F95782D24AD6FBE00B79818 /* Info.plist */,
+				3F95784F24AD716100B79818 /* App */,
+				3F95785324AD718900B79818 /* Business */,
+				3F95785524AD719800B79818 /* Common */,
+				3F95785124AD717F00B79818 /* Model */,
+				3F95785424AD718F00B79818 /* Provider */,
+				3F95785024AD716A00B79818 /* View */,
+				3F95785224AD718400B79818 /* View Model */,
 			);
 			path = Lumiere;
 			sourceTree = "<group>";
@@ -159,6 +155,10 @@
 		3F95784F24AD716100B79818 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				3F95781F24AD6FBC00B79818 /* AppDelegate.swift */,
+				3F95782824AD6FBE00B79818 /* Assets.xcassets */,
+				3F95782A24AD6FBE00B79818 /* LaunchScreen.storyboard */,
+				3F95782124AD6FBC00B79818 /* SceneDelegate.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
