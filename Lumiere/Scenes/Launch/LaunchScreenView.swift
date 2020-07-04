@@ -40,7 +40,7 @@ extension LaunchScreenView: ViewCodeProtocol {
     }
     
     func configureViews() {
-        backgroundColor = .white
+        backgroundColor = UIColor(rgb: 0xffffff)
         isUserInteractionEnabled = false
     }
 }
