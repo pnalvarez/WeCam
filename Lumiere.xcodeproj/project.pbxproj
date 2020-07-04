@@ -167,25 +167,7 @@
 		3F95781324AD6FBC00B79818 = {
 			isa = PBXGroup;
 			children = (
-				3F9578AB24B016B900B79818 /* Roboto-MediumItalic.ttf */,
-				3F9578AA24B016B200B79818 /* Roboto-Light.ttf */,
-				3F9578A924B016B000B79818 /* RobotoCondensed-Light.ttf */,
-				3F9578A724B016AE00B79818 /* RobotoCondensed-Bold.ttf */,
-				3F9578AF24B016BF00B79818 /* Roboto-BlackItalic.ttf */,
-				3F9578B024B016C100B79818 /* RobotoCondensed-Regular.ttf */,
-				3F9578AE24B016BE00B79818 /* RobotoCondensed-BoldItalic.ttf */,
-				3F9578B124B016C200B79818 /* Roboto-Thin.ttf */,
-				3F9578B224B016C400B79818 /* Apache License.txt */,
-				3F9578A824B016AF00B79818 /* RobotoCondensed-Italic.ttf */,
-				3F9578AD24B016BD00B79818 /* RobotoCondensed-LightItalic.ttf */,
-				3F9578AC24B016BB00B79818 /* Roboto-BoldItalic.ttf */,
-				3F9578B324B016C500B79818 /* Roboto-Bold.ttf */,
-				3F9578A624B016AC00B79818 /* Roboto-ThinItalic.ttf */,
-				3F9578A524B016AA00B79818 /* Roboto-LightItalic.ttf */,
-				3F9578A424B016A900B79818 /* Roboto-Medium.ttf */,
-				3F9578A324B016A700B79818 /* Roboto-Italic.ttf */,
-				3F9578A224B016A500B79818 /* Roboto-Black.ttf */,
-				3F9578A024B0166500B79818 /* Roboto-Regular.ttf */,
+				3F9578C324B0181C00B79818 /* Fonts */,
 				22BD1C32F3E6A29ED16C1D4A /* Frameworks */,
 				3F95781E24AD6FBC00B79818 /* Lumiere */,
 				3F95783524AD6FBE00B79818 /* LumiereTests */,
@@ -337,6 +319,32 @@
 				3F95787024AEA4B800B79818 /* SignInViewController.swift */,
 			);
 			path = "Sign In";
+			sourceTree = "<group>";
+		};
+		3F9578C324B0181C00B79818 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				3F9578AA24B016B200B79818 /* Roboto-Light.ttf */,
+				3F9578A924B016B000B79818 /* RobotoCondensed-Light.ttf */,
+				3F9578A724B016AE00B79818 /* RobotoCondensed-Bold.ttf */,
+				3F9578AF24B016BF00B79818 /* Roboto-BlackItalic.ttf */,
+				3F9578B024B016C100B79818 /* RobotoCondensed-Regular.ttf */,
+				3F9578AE24B016BE00B79818 /* RobotoCondensed-BoldItalic.ttf */,
+				3F9578B124B016C200B79818 /* Roboto-Thin.ttf */,
+				3F9578B224B016C400B79818 /* Apache License.txt */,
+				3F9578A824B016AF00B79818 /* RobotoCondensed-Italic.ttf */,
+				3F9578AD24B016BD00B79818 /* RobotoCondensed-LightItalic.ttf */,
+				3F9578AC24B016BB00B79818 /* Roboto-BoldItalic.ttf */,
+				3F9578B324B016C500B79818 /* Roboto-Bold.ttf */,
+				3F9578A624B016AC00B79818 /* Roboto-ThinItalic.ttf */,
+				3F9578A524B016AA00B79818 /* Roboto-LightItalic.ttf */,
+				3F9578A424B016A900B79818 /* Roboto-Medium.ttf */,
+				3F9578A324B016A700B79818 /* Roboto-Italic.ttf */,
+				3F9578A224B016A500B79818 /* Roboto-Black.ttf */,
+				3F9578A024B0166500B79818 /* Roboto-Regular.ttf */,
+				3F9578AB24B016B900B79818 /* Roboto-MediumItalic.ttf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 		816E9AAB491F6DA3C65B683E /* Pods */ = {
