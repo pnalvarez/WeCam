@@ -46,6 +46,15 @@
 		3F9578C024B0170900B79818 /* Roboto-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F9578A624B016AC00B79818 /* Roboto-ThinItalic.ttf */; };
 		3F9578C124B0171000B79818 /* RobotoCondensed-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F9578AD24B016BD00B79818 /* RobotoCondensed-LightItalic.ttf */; };
 		3F9578C224B0171500B79818 /* Apache License.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3F9578B224B016C400B79818 /* Apache License.txt */; };
+		3F9578C624B0195600B79818 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9578C524B0195600B79818 /* SignUpView.swift */; };
+		3F9578C824B0196300B79818 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9578C724B0196300B79818 /* SignUpViewController.swift */; };
+		3F9578CA24B0196C00B79818 /* SignUpInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9578C924B0196C00B79818 /* SignUpInteractor.swift */; };
+		3F9578CC24B0197500B79818 /* SignUpPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9578CB24B0197500B79818 /* SignUpPresenter.swift */; };
+		3F9578CE24B0197F00B79818 /* SignUpProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9578CD24B0197F00B79818 /* SignUpProvider.swift */; };
+		3F9578D024B0198700B79818 /* SignUpRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9578CF24B0198700B79818 /* SignUpRouter.swift */; };
+		3F9578D224B0198F00B79818 /* SignUpModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9578D124B0198F00B79818 /* SignUpModels.swift */; };
+		3F9578D424B019BE00B79818 /* MovieStyleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9578D324B019BE00B79818 /* MovieStyleButton.swift */; };
+		3F9578D724B01A0600B79818 /* MovieStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9578D624B01A0600B79818 /* MovieStyle.swift */; };
 		489089FEB8140F8A2E1B993D /* Pods_Lumiere_LumiereUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B84867081F3814C0729E0A6F /* Pods_Lumiere_LumiereUITests.framework */; };
 		E48219FC3C20557A161CBC0F /* Pods_Lumiere.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 601738D471DE051660DE4EDE /* Pods_Lumiere.framework */; };
 /* End PBXBuildFile section */
@@ -115,6 +124,15 @@
 		3F9578B124B016C200B79818 /* Roboto-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Thin.ttf"; sourceTree = "<group>"; };
 		3F9578B224B016C400B79818 /* Apache License.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Apache License.txt"; sourceTree = "<group>"; };
 		3F9578B324B016C500B79818 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Bold.ttf"; sourceTree = "<group>"; };
+		3F9578C524B0195600B79818 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
+		3F9578C724B0196300B79818 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		3F9578C924B0196C00B79818 /* SignUpInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpInteractor.swift; sourceTree = "<group>"; };
+		3F9578CB24B0197500B79818 /* SignUpPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpPresenter.swift; sourceTree = "<group>"; };
+		3F9578CD24B0197F00B79818 /* SignUpProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpProvider.swift; sourceTree = "<group>"; };
+		3F9578CF24B0198700B79818 /* SignUpRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpRouter.swift; sourceTree = "<group>"; };
+		3F9578D124B0198F00B79818 /* SignUpModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpModels.swift; sourceTree = "<group>"; };
+		3F9578D324B019BE00B79818 /* MovieStyleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieStyleButton.swift; sourceTree = "<group>"; };
+		3F9578D624B01A0600B79818 /* MovieStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieStyle.swift; sourceTree = "<group>"; };
 		5AC706A5F046CA56FB3C61F2 /* Pods_LumiereTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LumiereTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		601738D471DE051660DE4EDE /* Pods_Lumiere.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Lumiere.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		763D8EED12FD7F99BFEBD056 /* Pods-LumiereTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LumiereTests.release.xcconfig"; path = "Target Support Files/Pods-LumiereTests/Pods-LumiereTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -190,11 +208,11 @@
 		3F95781E24AD6FBC00B79818 /* Lumiere */ = {
 			isa = PBXGroup;
 			children = (
-				3F95786724AD79C900B79818 /* Scenes */,
+				3F95782D24AD6FBE00B79818 /* Info.plist */,
 				3F95784F24AD716100B79818 /* App */,
 				3F95785324AD718900B79818 /* Business */,
 				3F95785524AD719800B79818 /* Common */,
-				3F95782D24AD6FBE00B79818 /* Info.plist */,
+				3F95786724AD79C900B79818 /* Scenes */,
 			);
 			path = Lumiere;
 			sourceTree = "<group>";
@@ -238,6 +256,7 @@
 		3F95785524AD719800B79818 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				3F9578D524B019FB00B79818 /* Model */,
 				3F95785B24AD761D00B79818 /* API */,
 				3F95785C24AD762100B79818 /* Extensions */,
 				3F95785824AD75FE00B79818 /* Protocols */,
@@ -259,6 +278,7 @@
 		3F95785924AD760500B79818 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				3F9578D324B019BE00B79818 /* MovieStyleButton.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -288,6 +308,7 @@
 		3F95786724AD79C900B79818 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				3F9578C424B0194400B79818 /* Sign Up */,
 				3F95786F24AEA49700B79818 /* Sign In */,
 				3F95786824AD79D100B79818 /* Launch */,
 			);
@@ -345,6 +366,28 @@
 				3F9578AB24B016B900B79818 /* Roboto-MediumItalic.ttf */,
 			);
 			path = Fonts;
+			sourceTree = "<group>";
+		};
+		3F9578C424B0194400B79818 /* Sign Up */ = {
+			isa = PBXGroup;
+			children = (
+				3F9578C924B0196C00B79818 /* SignUpInteractor.swift */,
+				3F9578D124B0198F00B79818 /* SignUpModels.swift */,
+				3F9578CB24B0197500B79818 /* SignUpPresenter.swift */,
+				3F9578CD24B0197F00B79818 /* SignUpProvider.swift */,
+				3F9578CF24B0198700B79818 /* SignUpRouter.swift */,
+				3F9578C524B0195600B79818 /* SignUpView.swift */,
+				3F9578C724B0196300B79818 /* SignUpViewController.swift */,
+			);
+			path = "Sign Up";
+			sourceTree = "<group>";
+		};
+		3F9578D524B019FB00B79818 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				3F9578D624B01A0600B79818 /* MovieStyle.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		816E9AAB491F6DA3C65B683E /* Pods */ = {
@@ -619,18 +662,27 @@
 				3F95786624AD785900B79818 /* BaseRouterProtocol.swift in Sources */,
 				3F95787524AEA4C900B79818 /* SignInInteractor.swift in Sources */,
 				3F95787724AEA4D100B79818 /* SignInPresenter.swift in Sources */,
+				3F9578C624B0195600B79818 /* SignUpView.swift in Sources */,
 				3F95787D24AEA4F000B79818 /* SignInProvider.swift in Sources */,
 				3F95786C24AEA0CF00B79818 /* LaunchScreenPresenter.swift in Sources */,
+				3F9578D224B0198F00B79818 /* SignUpModels.swift in Sources */,
 				3F95787924AEA4DE00B79818 /* SignInRouter.swift in Sources */,
 				3F95785E24AD764700B79818 /* ViewCodeProtocol.swift in Sources */,
 				3F95786124AD775D00B79818 /* LaunchScreenViewController.swift in Sources */,
 				3F95787B24AEA4EA00B79818 /* SignInModels.swift in Sources */,
+				3F9578D024B0198700B79818 /* SignUpRouter.swift in Sources */,
 				3F95787324AEA4C000B79818 /* SignInView.swift in Sources */,
 				3F95786424AD77E200B79818 /* LaunchScreenRouter.swift in Sources */,
+				3F9578D724B01A0600B79818 /* MovieStyle.swift in Sources */,
+				3F9578CE24B0197F00B79818 /* SignUpProvider.swift in Sources */,
+				3F9578C824B0196300B79818 /* SignUpViewController.swift in Sources */,
 				3F95786A24AEA07100B79818 /* LaunchScreenInteractor.swift in Sources */,
+				3F9578D424B019BE00B79818 /* MovieStyleButton.swift in Sources */,
 				3F95782224AD6FBC00B79818 /* SceneDelegate.swift in Sources */,
 				3F95786E24AEA16000B79818 /* LaunchScreenModels.swift in Sources */,
 				3F95785724AD75E700B79818 /* LaunchScreenView.swift in Sources */,
+				3F9578CA24B0196C00B79818 /* SignUpInteractor.swift in Sources */,
+				3F9578CC24B0197500B79818 /* SignUpPresenter.swift in Sources */,
 				3F95787F24AEB09900B79818 /* UIColor+.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
