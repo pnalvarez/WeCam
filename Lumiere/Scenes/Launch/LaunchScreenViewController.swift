@@ -12,7 +12,7 @@ protocol LaunchScreenDisplayLogic: class {
     func displayLaunchImage()
 }
 
-class LaunchScreenViewController: UIViewController {
+class LaunchScreenViewController: BaseViewController {
     
     private lazy var iconView: UIImageView = {
         let iconView = UIImageView(frame: .zero)

@@ -6,4 +6,10 @@
 //  Copyright © 2020 Pedro Alvarez. All rights reserved.
 //
 
-import Foundation
+protocol SignUpProviderProtocol {
+    
+}
+
+class SignUpProvider: SignUpProviderProtocol {
+    
+}

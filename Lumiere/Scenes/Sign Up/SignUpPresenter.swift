@@ -6,4 +6,15 @@
 //  Copyright © 2020 Pedro Alvarez. All rights reserved.
 //
 
-import Foundation
+protocol SignUpPresentationLogic {
+    
+}
+
+class SignUpPresenter: SignUpPresentationLogic {
+    
+    private unowned var viewController: SignUpDisplayLogic
+    
+    init(viewController: SignUpDisplayLogic) {
+        self.viewController = viewController
+    }
+}

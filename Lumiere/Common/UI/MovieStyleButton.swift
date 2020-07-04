@@ -8,10 +8,6 @@
 
 import UIKit
 
-protocol MovieStyleButtonDelegate: class {
-    func didTap(withStyle style: String)
-}
-
 class MovieStyleButton: UIButton {
     
     private let disableColor = UIColor(rgb: 0xe50c3c)
@@ -19,8 +15,6 @@ class MovieStyleButton: UIButton {
     private let textColor =  UIColor(rgb: 0xffffff)
     
     private var movieStyle: String
-    
-    private weak var delegate: MovieStyleButtonDelegate?
     
     private(set) var isOn: Bool = false {
         didSet {
@@ -33,10 +27,8 @@ class MovieStyleButton: UIButton {
     }
     
     init(frame: CGRect,
-         movieStyle: String,
-         delegate: MovieStyleButtonDelegate? = nil) {
+         movieStyle: String) {
         self.movieStyle = movieStyle
-        self.delegate = delegate
         super.init(frame: frame)
     }
     
@@ -44,12 +36,16 @@ class MovieStyleButton: UIButton {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func swap() {
+        isOn = !isOn
+    }
+    
     private func setup() {
         layer.cornerRadius = 4
         titleLabel?.textAlignment = .center
         titleLabel?.textColor = textColor
         titleLabel?.font = UIFont(name: "Roboto-Regular", size: 16)
-        addTarget(self, action: #selector(didTap), for: .touchUpInside)
+        titleLabel?.text = movieStyle
         disableButton()
     }
     
@@ -62,11 +58,3 @@ class MovieStyleButton: UIButton {
     }
 }
 
-extension MovieStyleButton {
-    
-    @objc
-    private func didTap() {
-        isOn = !isOn
-        delegate?.didTap(withStyle: movieStyle)
-    }
-}

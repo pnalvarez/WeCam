@@ -14,7 +14,7 @@ protocol SignInDisplayLogic: class {
     func didFetchSignUp()
 }
 
-class SignInViewController: UIViewController {
+class SignInViewController: BaseViewController {
     
     private lazy var emailTextField: UITextField = {
         return UITextField(frame: .zero)
