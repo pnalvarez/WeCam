@@ -17,7 +17,6 @@ class SignUpView: UIView {
     private unowned var passwordTextField: UITextField
     private unowned var confirmTextField: UITextField
     private unowned var professionalTextField: UITextField
-    private unowned var collectionView: UICollectionView
     private unowned var signUpButton: UIButton
     
     private lazy var cathegoriesLbl: UILabel = { return UILabel(frame: .zero) }()
@@ -28,6 +27,12 @@ class SignUpView: UIView {
         return UICollectionViewFlowLayout()
     }()
     
+    private lazy var emptyView : UIView = {
+        let view = UIView(frame: .zero)
+        view.backgroundColor = .green
+        return view
+    }()
+    
     init(frame: CGRect,
          imageButton: UIButton,
          nameTextField: UITextField,
@@ -36,7 +41,6 @@ class SignUpView: UIView {
          passwordTextField: UITextField,
          confirmTextField: UITextField,
          professionalTextField: UITextField,
-         collectionView: UICollectionView,
          signUpButton: UIButton) {
         self.imageButton = imageButton
         self.nameTextField = nameTextField
@@ -45,9 +49,9 @@ class SignUpView: UIView {
         self.passwordTextField = passwordTextField
         self.confirmTextField = confirmTextField
         self.professionalTextField = professionalTextField
-        self.collectionView = collectionView
         self.signUpButton = signUpButton
         super.init(frame: frame)
+        applyViewCode()
     }
     
     required init?(coder: NSCoder) {
@@ -62,7 +66,6 @@ class SignUpView: UIView {
 extension SignUpView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
-        scrollView.addSubview(containerView)
         containerView.addSubview(imageButton)
         containerView.addSubview(nameTextField)
         containerView.addSubview(cellphoneTextField)
@@ -71,8 +74,10 @@ extension SignUpView: ViewCodeProtocol {
         containerView.addSubview(confirmTextField)
         containerView.addSubview(professionalTextField)
         containerView.addSubview(cathegoriesLbl)
-        containerView.addSubview(collectionView)
+        containerView.addSubview(emptyView)
+//        containerView.addSubview(collectionView)
         containerView.addSubview(signUpButton)
+        scrollView.addSubview(containerView)
         addSubview(scrollView)
     }
     
@@ -81,14 +86,15 @@ extension SignUpView: ViewCodeProtocol {
             make.edges.equalToSuperview()
         }
         containerView.snp.makeConstraints { make in
-            make.center.equalToSuperview()
+            make.edges.equalToSuperview()
             make.width.equalToSuperview()
             make.height.equalToSuperview().priority(250)
         }
         imageButton.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(30)
+            make.top.equalToSuperview().offset(30)
             make.centerX.equalToSuperview()
             make.height.width.equalTo(84)
+            make.bottom.equalTo(signUpButton.snp.top).offset(-891)
         }
         nameTextField.snp.makeConstraints { make in
             make.top.equalTo(imageButton.snp.bottom).offset(62)
@@ -96,57 +102,100 @@ extension SignUpView: ViewCodeProtocol {
             make.height.equalTo(29)
         }
         cellphoneTextField.snp.makeConstraints { make in
-            make.top.equalTo(nameTextField.snp.bottom).offset(62)
+            make.top.equalTo(nameTextField.snp.bottom).offset(17)
             make.left.right.equalToSuperview().inset(71)
             make.height.equalTo(29)
         }
         emailTextField.snp.makeConstraints { make in
-            make.top.equalTo(nameTextField.snp.bottom).offset(62)
+            make.top.equalTo(nameTextField.snp.bottom).offset(17)
             make.left.right.equalToSuperview().inset(71)
             make.height.equalTo(29)
         }
         passwordTextField.snp.makeConstraints { make in
-            make.top.equalTo(emailTextField.snp.bottom).offset(62)
+            make.top.equalTo(emailTextField.snp.bottom).offset(17)
             make.left.right.equalToSuperview().inset(71)
             make.height.equalTo(29)
         }
         confirmTextField.snp.makeConstraints { make in
-            make.top.equalTo(passwordTextField.snp.bottom).offset(62)
+            make.top.equalTo(passwordTextField.snp.bottom).offset(17)
             make.left.right.equalToSuperview().inset(71)
             make.height.equalTo(29)
         }
         professionalTextField.snp.makeConstraints { make in
-            make.top.equalTo(confirmTextField.snp.bottom).offset(62)
+            make.top.equalTo(confirmTextField.snp.bottom).offset(17)
             make.left.right.equalToSuperview().inset(71)
             make.height.equalTo(29)
         }
         signUpButton.snp.makeConstraints { make in
             make.bottom.equalToSuperview().inset(45)
+            make.top.equalTo(emptyView.snp.bottom).offset(54)
             make.height.equalTo(30)
             make.width.equalTo(99)
             make.centerX.equalToSuperview()
         }
-        collectionView.snp.makeConstraints { make in
-            make.bottom.equalTo(signUpButton.snp.top).offset(-38)
-            make.height.equalTo(501)
-            make.left.right.equalToSuperview()
-        }
+//        collectionView.snp.makeConstraints { make in
+//            make.bottom.equalTo(signUpButton.snp.top).offset(-38)
+//            make.height.equalTo(501)
+//            make.left.right.equalToSuperview()
+//        }
         cathegoriesLbl.snp.makeConstraints { make in
-            make.bottom.equalTo(collectionView.snp.top).offset(-25)
+            make.top.equalTo(professionalTextField.snp.bottom).offset(22)
             make.centerX.equalToSuperview()
             make.height.equalTo(19)
             make.width.equalTo(176)
         }
+        emptyView.snp.makeConstraints { make in
+            make.top.equalTo(cathegoriesLbl.snp.bottom).offset(36)
+            make.left.right.equalToSuperview()
+            make.height.equalTo(400)
+        }
     }
     
     func configureViews() {
-        containerView.backgroundColor = SignUp.Constants.backgroundColor
+        scrollView.bounces = false
+        scrollView.alwaysBounceVertical = false
+        scrollView.backgroundColor = .white
+        
+        containerView.backgroundColor = SignUp.Constants.Colors.backgroundColor
+        
+        imageButton.layoutIfNeeded()
         imageButton.layer.cornerRadius = imageButton.frame.size.height / 2
+        imageButton.clipsToBounds = true
         imageButton.layer.borderWidth = 1
-        imageButton.layer.borderColor = SignUp.Constants.imageButtonLayerColor.cgColor
+        imageButton.layer.borderColor = SignUp.Constants.Colors.imageButtonLayerColor.cgColor
         imageButton.backgroundColor = .white
         imageButton.imageView?.contentMode = .scaleAspectFit
         
+        nameTextField.backgroundColor = SignUp.Constants.Colors.textFieldBackgroundColor
+        nameTextField.attributedPlaceholder = NSAttributedString(string: SignUp.Constants.Texts.namePlaceholder,
+                                                                 attributes: [NSAttributedString.Key.foregroundColor: SignUp.Constants.Colors.textFieldPlaceHolderColor, NSAttributedString.Key.font: SignUp.Constants.Fonts.placeholderFont])
         
+        cellphoneTextField.backgroundColor = SignUp.Constants.Colors.textFieldBackgroundColor
+        nameTextField.attributedPlaceholder = NSAttributedString(string: SignUp.Constants.Texts.cellphonePlaceholder,
+                                                                 attributes: [NSAttributedString.Key.foregroundColor: SignUp.Constants.Colors.textFieldPlaceHolderColor, NSAttributedString.Key.font: SignUp.Constants.Fonts.placeholderFont])
+        
+        emailTextField.backgroundColor = SignUp.Constants.Colors.textFieldBackgroundColor
+        emailTextField.attributedPlaceholder = NSAttributedString(string: SignUp.Constants.Texts.emailPlaceholder,
+                                                                  attributes: [NSAttributedString.Key.foregroundColor: SignUp.Constants.Colors.textFieldPlaceHolderColor, NSAttributedString.Key.font: SignUp.Constants.Fonts.placeholderFont])
+        
+        passwordTextField.backgroundColor = SignUp.Constants.Colors.textFieldBackgroundColor
+        passwordTextField.attributedPlaceholder = NSAttributedString(string: SignUp.Constants.Texts.passwordPlaceholder,
+                                                                     attributes: [NSAttributedString.Key.foregroundColor: SignUp.Constants.Colors.textFieldPlaceHolderColor, NSAttributedString.Key.font: SignUp.Constants.Fonts.placeholderFont])
+        
+        confirmTextField.backgroundColor = SignUp.Constants.Colors.textFieldBackgroundColor
+        confirmTextField.attributedPlaceholder = NSAttributedString(string: SignUp.Constants.Texts.confirmationPlaceholder,
+                                                                    attributes: [NSAttributedString.Key.foregroundColor: SignUp.Constants.Colors.textFieldPlaceHolderColor, NSAttributedString.Key.font: SignUp.Constants.Fonts.placeholderFont])
+        
+        professionalTextField.backgroundColor = SignUp.Constants.Colors.textFieldBackgroundColor
+        professionalTextField.attributedPlaceholder = NSAttributedString(string: SignUp.Constants.Texts.professionalArea,
+                                                                         attributes: [NSAttributedString.Key.foregroundColor: SignUp.Constants.Colors.textFieldPlaceHolderColor, NSAttributedString.Key.font: SignUp.Constants.Fonts.placeholderFont])
+        cathegoriesLbl.attributedText = NSAttributedString(string: SignUp.Constants.Texts.cathegories,
+                                                           attributes: [NSAttributedString.Key.font: SignUp.Constants.Fonts.cathegoriesLblFont, NSAttributedString.Key.foregroundColor: SignUp.Constants.Colors.cathegoriesLblColor, NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue])
+        signUpButton.layer.cornerRadius = 4
+        signUpButton.backgroundColor = SignUp.Constants.Colors.signUpButtonBackgroundColor
+        signUpButton.setAttributedTitle(NSAttributedString(string: SignUp.Constants.Texts.signUpButton,
+                                                           attributes: [NSAttributedString.Key.font: SignUp.Constants.Fonts.signUpButtonFont, NSAttributedString.Key.foregroundColor: SignUp.Constants.Colors.signUpButtonTextColor]),
+                                                            for: .normal)
+
     }
 }

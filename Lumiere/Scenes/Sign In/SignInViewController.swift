@@ -36,6 +36,10 @@ class SignInViewController: BaseViewController {
         return UIButton(frame: .zero)
     }()
     
+    private lazy var scrollView: UIScrollView = {
+        return UIScrollView(frame: .zero)
+    }()
+    
     private lazy var mainView: SignInView = {
         return SignInView(frame: .zero,
                           emailTextField: emailTextField,
@@ -55,7 +59,7 @@ class SignInViewController: BaseViewController {
     
     override func loadView() {
         super.loadView()
-        view = mainView
+        view = scrollView
     }
 }
 
