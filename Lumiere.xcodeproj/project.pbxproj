@@ -10,6 +10,16 @@
 		10A9BE69AE83BE34EE130E0A /* Pods_LumiereTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AC706A5F046CA56FB3C61F2 /* Pods_LumiereTests.framework */; };
 		3F8116DE24B6AB620083A3DA /* ReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8116DD24B6AB620083A3DA /* ReusableView.swift */; };
 		3F8116E024B6ABEE0083A3DA /* UICollectionView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8116DF24B6ABEE0083A3DA /* UICollectionView+.swift */; };
+		3F81177124BE97F40083A3DA /* ProjectStepsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F81177024BE97F40083A3DA /* ProjectStepsController.swift */; };
+		3F81177324BE97FC0083A3DA /* ProjectStepsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F81177224BE97FC0083A3DA /* ProjectStepsView.swift */; };
+		3F81177524BE98090083A3DA /* ProjectStepsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F81177424BE98090083A3DA /* ProjectStepsInteractor.swift */; };
+		3F81177724BE98160083A3DA /* ProjectStepsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F81177624BE98160083A3DA /* ProjectStepsPresenter.swift */; };
+		3F81177924BE981D0083A3DA /* ProjectStepsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F81177824BE981D0083A3DA /* ProjectStepsRouter.swift */; };
+		3F81177B24BE98380083A3DA /* ProjectStepsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F81177A24BE98380083A3DA /* ProjectStepsModels.swift */; };
+		3F81177D24BE98410083A3DA /* ProjectStepsWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F81177C24BE98410083A3DA /* ProjectStepsWorker.swift */; };
+		3F81178024BF62240083A3DA /* ThemeFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F81177F24BF62240083A3DA /* ThemeFonts.swift */; };
+		3F81178224BF65D80083A3DA /* UIImage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F81178124BF65D80083A3DA /* UIImage+.swift */; };
+		3F81178424BF67E90083A3DA /* ProjectSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F81178324BF67E90083A3DA /* ProjectSlider.swift */; };
 		3F95782024AD6FBC00B79818 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F95781F24AD6FBC00B79818 /* AppDelegate.swift */; };
 		3F95782224AD6FBC00B79818 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F95782124AD6FBC00B79818 /* SceneDelegate.swift */; };
 		3F95782924AD6FBE00B79818 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F95782824AD6FBE00B79818 /* Assets.xcassets */; };
@@ -84,6 +94,16 @@
 /* Begin PBXFileReference section */
 		3F8116DD24B6AB620083A3DA /* ReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableView.swift; sourceTree = "<group>"; };
 		3F8116DF24B6ABEE0083A3DA /* UICollectionView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+.swift"; sourceTree = "<group>"; };
+		3F81177024BE97F40083A3DA /* ProjectStepsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectStepsController.swift; sourceTree = "<group>"; };
+		3F81177224BE97FC0083A3DA /* ProjectStepsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectStepsView.swift; sourceTree = "<group>"; };
+		3F81177424BE98090083A3DA /* ProjectStepsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectStepsInteractor.swift; sourceTree = "<group>"; };
+		3F81177624BE98160083A3DA /* ProjectStepsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectStepsPresenter.swift; sourceTree = "<group>"; };
+		3F81177824BE981D0083A3DA /* ProjectStepsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectStepsRouter.swift; sourceTree = "<group>"; };
+		3F81177A24BE98380083A3DA /* ProjectStepsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectStepsModels.swift; sourceTree = "<group>"; };
+		3F81177C24BE98410083A3DA /* ProjectStepsWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectStepsWorker.swift; sourceTree = "<group>"; };
+		3F81177F24BF62240083A3DA /* ThemeFonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeFonts.swift; sourceTree = "<group>"; };
+		3F81178124BF65D80083A3DA /* UIImage+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+.swift"; sourceTree = "<group>"; };
+		3F81178324BF67E90083A3DA /* ProjectSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSlider.swift; sourceTree = "<group>"; };
 		3F95781C24AD6FBC00B79818 /* Lumiere.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lumiere.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F95781F24AD6FBC00B79818 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3F95782124AD6FBC00B79818 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -192,6 +212,28 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		3F81176F24BE97AB0083A3DA /* ProjectSteps */ = {
+			isa = PBXGroup;
+			children = (
+				3F81177024BE97F40083A3DA /* ProjectStepsController.swift */,
+				3F81177224BE97FC0083A3DA /* ProjectStepsView.swift */,
+				3F81177424BE98090083A3DA /* ProjectStepsInteractor.swift */,
+				3F81177624BE98160083A3DA /* ProjectStepsPresenter.swift */,
+				3F81177824BE981D0083A3DA /* ProjectStepsRouter.swift */,
+				3F81177A24BE98380083A3DA /* ProjectStepsModels.swift */,
+				3F81177C24BE98410083A3DA /* ProjectStepsWorker.swift */,
+			);
+			path = ProjectSteps;
+			sourceTree = "<group>";
+		};
+		3F81177E24BF621B0083A3DA /* Themes */ = {
+			isa = PBXGroup;
+			children = (
+				3F81177F24BF62240083A3DA /* ThemeFonts.swift */,
+			);
+			path = Themes;
+			sourceTree = "<group>";
+		};
 		3F95781324AD6FBC00B79818 = {
 			isa = PBXGroup;
 			children = (
@@ -280,8 +322,10 @@
 		3F95785924AD760500B79818 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				3F81177E24BF621B0083A3DA /* Themes */,
 				3F9578D324B019BE00B79818 /* MovieStyleButton.swift */,
 				3F9578DC24B0314D00B79818 /* BaseViewController.swift */,
+				3F81178324BF67E90083A3DA /* ProjectSlider.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -307,6 +351,7 @@
 				3F9578DA24B0240C00B79818 /* String+.swift */,
 				3F8116DD24B6AB620083A3DA /* ReusableView.swift */,
 				3F8116DF24B6ABEE0083A3DA /* UICollectionView+.swift */,
+				3F81178124BF65D80083A3DA /* UIImage+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -315,6 +360,7 @@
 			isa = PBXGroup;
 			children = (
 				3F95786824AD79D100B79818 /* Launch */,
+				3F81176F24BE97AB0083A3DA /* ProjectSteps */,
 				3F95786F24AEA49700B79818 /* Sign In */,
 				3F9578C424B0194400B79818 /* Sign Up */,
 			);
@@ -665,7 +711,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				3F95787124AEA4B800B79818 /* SignInController.swift in Sources */,
+				3F81177924BE981D0083A3DA /* ProjectStepsRouter.swift in Sources */,
 				3F95782024AD6FBC00B79818 /* AppDelegate.swift in Sources */,
+				3F81177124BE97F40083A3DA /* ProjectStepsController.swift in Sources */,
 				3F8116E024B6ABEE0083A3DA /* UICollectionView+.swift in Sources */,
 				3F95786624AD785900B79818 /* BaseRouterProtocol.swift in Sources */,
 				3F95787524AEA4C900B79818 /* SignInInteractor.swift in Sources */,
@@ -674,17 +722,25 @@
 				3F9578C624B0195600B79818 /* SignUpView.swift in Sources */,
 				3F8116DE24B6AB620083A3DA /* ReusableView.swift in Sources */,
 				3F95787D24AEA4F000B79818 /* SignInProvider.swift in Sources */,
+				3F81178424BF67E90083A3DA /* ProjectSlider.swift in Sources */,
+				3F81177524BE98090083A3DA /* ProjectStepsInteractor.swift in Sources */,
 				3F95786C24AEA0CF00B79818 /* LaunchScreenPresenter.swift in Sources */,
 				3F9578D224B0198F00B79818 /* SignUpModels.swift in Sources */,
 				3F95787924AEA4DE00B79818 /* SignInRouter.swift in Sources */,
+				3F81178024BF62240083A3DA /* ThemeFonts.swift in Sources */,
 				3F95785E24AD764700B79818 /* ViewCodeProtocol.swift in Sources */,
+				3F81177724BE98160083A3DA /* ProjectStepsPresenter.swift in Sources */,
 				3F95786124AD775D00B79818 /* LaunchScreenController.swift in Sources */,
 				3F95787B24AEA4EA00B79818 /* SignInModels.swift in Sources */,
 				3F9578D024B0198700B79818 /* SignUpRouter.swift in Sources */,
+				3F81177B24BE98380083A3DA /* ProjectStepsModels.swift in Sources */,
+				3F81177D24BE98410083A3DA /* ProjectStepsWorker.swift in Sources */,
+				3F81177324BE97FC0083A3DA /* ProjectStepsView.swift in Sources */,
 				3F95787324AEA4C000B79818 /* SignInView.swift in Sources */,
 				3F95786424AD77E200B79818 /* LaunchScreenRouter.swift in Sources */,
 				3F9578D724B01A0600B79818 /* MovieStyle.swift in Sources */,
 				3F9578CE24B0197F00B79818 /* SignUpProvider.swift in Sources */,
+				3F81178224BF65D80083A3DA /* UIImage+.swift in Sources */,
 				3F9578D924B01E8F00B79818 /* SignUpCollectionViewCell.swift in Sources */,
 				3F9578C824B0196300B79818 /* SignUpController.swift in Sources */,
 				3F95786A24AEA07100B79818 /* LaunchScreenInteractor.swift in Sources */,
