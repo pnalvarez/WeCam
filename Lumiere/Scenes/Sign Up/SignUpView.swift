@@ -18,14 +18,11 @@ class SignUpView: UIView {
     private unowned var confirmTextField: UITextField
     private unowned var professionalTextField: UITextField
     private unowned var signUpButton: UIButton
+    private unowned var collectionView: UICollectionView
     
     private lazy var cathegoriesLbl: UILabel = { return UILabel(frame: .zero) }()
     private lazy var containerView: UIView = { return UIView(frame: .zero) }()
     private lazy var scrollView: UIScrollView = { return UIScrollView(frame: .zero) }()
-    
-    private lazy var collectionViewLayout: UICollectionViewFlowLayout = {
-        return UICollectionViewFlowLayout()
-    }()
     
     private lazy var emptyView : UIView = {
         let view = UIView(frame: .zero)
@@ -41,7 +38,8 @@ class SignUpView: UIView {
          passwordTextField: UITextField,
          confirmTextField: UITextField,
          professionalTextField: UITextField,
-         signUpButton: UIButton) {
+         signUpButton: UIButton,
+         collectionView: UICollectionView) {
         self.imageButton = imageButton
         self.nameTextField = nameTextField
         self.cellphoneTextField = cellphoneTextField
@@ -50,6 +48,7 @@ class SignUpView: UIView {
         self.confirmTextField = confirmTextField
         self.professionalTextField = professionalTextField
         self.signUpButton = signUpButton
+        self.collectionView = collectionView
         super.init(frame: frame)
         applyViewCode()
     }
@@ -74,8 +73,7 @@ extension SignUpView: ViewCodeProtocol {
         containerView.addSubview(confirmTextField)
         containerView.addSubview(professionalTextField)
         containerView.addSubview(cathegoriesLbl)
-        containerView.addSubview(emptyView)
-//        containerView.addSubview(collectionView)
+        containerView.addSubview(collectionView)
         containerView.addSubview(signUpButton)
         scrollView.addSubview(containerView)
         addSubview(scrollView)
@@ -128,26 +126,21 @@ extension SignUpView: ViewCodeProtocol {
         }
         signUpButton.snp.makeConstraints { make in
             make.bottom.equalToSuperview().inset(45)
-            make.top.equalTo(emptyView.snp.bottom).offset(54)
+            make.top.equalTo(collectionView.snp.bottom).offset(54)
             make.height.equalTo(30)
             make.width.equalTo(99)
             make.centerX.equalToSuperview()
         }
-//        collectionView.snp.makeConstraints { make in
-//            make.bottom.equalTo(signUpButton.snp.top).offset(-38)
-//            make.height.equalTo(501)
-//            make.left.right.equalToSuperview()
-//        }
+        collectionView.snp.makeConstraints { make in
+            make.top.equalTo(cathegoriesLbl.snp.bottom).offset(25)
+            make.height.equalTo(501)
+            make.left.right.equalToSuperview()
+        }
         cathegoriesLbl.snp.makeConstraints { make in
             make.top.equalTo(professionalTextField.snp.bottom).offset(22)
             make.centerX.equalToSuperview()
             make.height.equalTo(19)
             make.width.equalTo(176)
-        }
-        emptyView.snp.makeConstraints { make in
-            make.top.equalTo(cathegoriesLbl.snp.bottom).offset(36)
-            make.left.right.equalToSuperview()
-            make.height.equalTo(400)
         }
     }
     
@@ -196,6 +189,9 @@ extension SignUpView: ViewCodeProtocol {
         signUpButton.setAttributedTitle(NSAttributedString(string: SignUp.Constants.Texts.signUpButton,
                                                            attributes: [NSAttributedString.Key.font: SignUp.Constants.Fonts.signUpButtonFont, NSAttributedString.Key.foregroundColor: SignUp.Constants.Colors.signUpButtonTextColor]),
                                                             for: .normal)
-
+        
+        collectionView.bounces = false
+        collectionView.alwaysBounceVertical = false
+        collectionView.alwaysBounceHorizontal = false
     }
 }

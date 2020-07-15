@@ -17,7 +17,9 @@ struct SignUp {
             static let textFieldPlaceHolderColor = UIColor(rgb: 0x707070)
             static let cathegoriesLblColor = UIColor(rgb: 0x707070)
             static let signUpButtonBackgroundColor = UIColor(rgb: 0xe50c3c)
+            static let signUpButtonDeactivatedColor = UIColor(rgb: 0xff1893)
             static let signUpButtonTextColor = UIColor(rgb: 0xffffff)
+            static let signUpCollectionViewCellText = UIColor(rgb: 0xffffff)
         }
         
         struct Texts {
@@ -39,6 +41,32 @@ struct SignUp {
             static let placeholderFont = UIFont(name: "Roboto-Regular", size: 12)
             static let cathegoriesLblFont = UIFont(name: "Roboto-Bold", size: 16)
             static let signUpButtonFont = UIFont(name: "Roboto-Regular", size: 16)
+        }
+    }
+    
+    struct Request {
+        
+        struct SelectedCathegory {
+            let cathegory: MovieStyle
+        }
+    }
+    
+    struct Info {
+        
+        struct Data {
+            
+            struct UserData {
+                let name: String
+                let cellPhone: String
+                let email: String
+                let password: String
+                let professionalArea: String
+                let interestCathegories: InteretCathegories
+            }
+            
+            struct InteretCathegories {
+                var cathegories: [MovieStyle]
+            }
         }
     }
 }

@@ -28,6 +28,6 @@ class LaunchScreenRouter: BaseRouterProtocol {
 extension LaunchScreenRouter: LaunchScreenRouterProtocol {
     
     func routeToLoginScreen() {
-        routeTo(nextVC: UINavigationController(rootViewController: SignUpViewController()))
+        routeTo(nextVC: UINavigationController(rootViewController: SignUpController()))
     }
 }

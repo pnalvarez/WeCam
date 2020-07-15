@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		10A9BE69AE83BE34EE130E0A /* Pods_LumiereTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AC706A5F046CA56FB3C61F2 /* Pods_LumiereTests.framework */; };
+		3F8116DE24B6AB620083A3DA /* ReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8116DD24B6AB620083A3DA /* ReusableView.swift */; };
+		3F8116E024B6ABEE0083A3DA /* UICollectionView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8116DF24B6ABEE0083A3DA /* UICollectionView+.swift */; };
 		3F95782024AD6FBC00B79818 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F95781F24AD6FBC00B79818 /* AppDelegate.swift */; };
 		3F95782224AD6FBC00B79818 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F95782124AD6FBC00B79818 /* SceneDelegate.swift */; };
 		3F95782924AD6FBE00B79818 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F95782824AD6FBE00B79818 /* Assets.xcassets */; };
@@ -16,13 +18,13 @@
 		3F95784224AD6FBE00B79818 /* LumiereUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F95784124AD6FBE00B79818 /* LumiereUITests.swift */; };
 		3F95785724AD75E700B79818 /* LaunchScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F95785624AD75E700B79818 /* LaunchScreenView.swift */; };
 		3F95785E24AD764700B79818 /* ViewCodeProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F95785D24AD764700B79818 /* ViewCodeProtocol.swift */; };
-		3F95786124AD775D00B79818 /* LaunchScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F95786024AD775D00B79818 /* LaunchScreenViewController.swift */; };
+		3F95786124AD775D00B79818 /* LaunchScreenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F95786024AD775D00B79818 /* LaunchScreenController.swift */; };
 		3F95786424AD77E200B79818 /* LaunchScreenRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F95786324AD77E200B79818 /* LaunchScreenRouter.swift */; };
 		3F95786624AD785900B79818 /* BaseRouterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F95786524AD785900B79818 /* BaseRouterProtocol.swift */; };
 		3F95786A24AEA07100B79818 /* LaunchScreenInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F95786924AEA07100B79818 /* LaunchScreenInteractor.swift */; };
 		3F95786C24AEA0CF00B79818 /* LaunchScreenPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F95786B24AEA0CF00B79818 /* LaunchScreenPresenter.swift */; };
 		3F95786E24AEA16000B79818 /* LaunchScreenModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F95786D24AEA16000B79818 /* LaunchScreenModels.swift */; };
-		3F95787124AEA4B800B79818 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F95787024AEA4B800B79818 /* SignInViewController.swift */; };
+		3F95787124AEA4B800B79818 /* SignInController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F95787024AEA4B800B79818 /* SignInController.swift */; };
 		3F95787324AEA4C000B79818 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F95787224AEA4C000B79818 /* SignInView.swift */; };
 		3F95787524AEA4C900B79818 /* SignInInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F95787424AEA4C900B79818 /* SignInInteractor.swift */; };
 		3F95787724AEA4D100B79818 /* SignInPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F95787624AEA4D100B79818 /* SignInPresenter.swift */; };
@@ -47,7 +49,7 @@
 		3F9578C124B0171000B79818 /* RobotoCondensed-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F9578AD24B016BD00B79818 /* RobotoCondensed-LightItalic.ttf */; };
 		3F9578C224B0171500B79818 /* Apache License.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3F9578B224B016C400B79818 /* Apache License.txt */; };
 		3F9578C624B0195600B79818 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9578C524B0195600B79818 /* SignUpView.swift */; };
-		3F9578C824B0196300B79818 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9578C724B0196300B79818 /* SignUpViewController.swift */; };
+		3F9578C824B0196300B79818 /* SignUpController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9578C724B0196300B79818 /* SignUpController.swift */; };
 		3F9578CA24B0196C00B79818 /* SignUpInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9578C924B0196C00B79818 /* SignUpInteractor.swift */; };
 		3F9578CC24B0197500B79818 /* SignUpPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9578CB24B0197500B79818 /* SignUpPresenter.swift */; };
 		3F9578CE24B0197F00B79818 /* SignUpProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9578CD24B0197F00B79818 /* SignUpProvider.swift */; };
@@ -80,6 +82,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3F8116DD24B6AB620083A3DA /* ReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableView.swift; sourceTree = "<group>"; };
+		3F8116DF24B6ABEE0083A3DA /* UICollectionView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+.swift"; sourceTree = "<group>"; };
 		3F95781C24AD6FBC00B79818 /* Lumiere.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lumiere.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F95781F24AD6FBC00B79818 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3F95782124AD6FBC00B79818 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -94,13 +98,13 @@
 		3F95784324AD6FBE00B79818 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3F95785624AD75E700B79818 /* LaunchScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenView.swift; sourceTree = "<group>"; };
 		3F95785D24AD764700B79818 /* ViewCodeProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewCodeProtocol.swift; sourceTree = "<group>"; };
-		3F95786024AD775D00B79818 /* LaunchScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenViewController.swift; sourceTree = "<group>"; };
+		3F95786024AD775D00B79818 /* LaunchScreenController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenController.swift; sourceTree = "<group>"; };
 		3F95786324AD77E200B79818 /* LaunchScreenRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenRouter.swift; sourceTree = "<group>"; };
 		3F95786524AD785900B79818 /* BaseRouterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseRouterProtocol.swift; sourceTree = "<group>"; };
 		3F95786924AEA07100B79818 /* LaunchScreenInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenInteractor.swift; sourceTree = "<group>"; };
 		3F95786B24AEA0CF00B79818 /* LaunchScreenPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenPresenter.swift; sourceTree = "<group>"; };
 		3F95786D24AEA16000B79818 /* LaunchScreenModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenModels.swift; sourceTree = "<group>"; };
-		3F95787024AEA4B800B79818 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
+		3F95787024AEA4B800B79818 /* SignInController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInController.swift; sourceTree = "<group>"; };
 		3F95787224AEA4C000B79818 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		3F95787424AEA4C900B79818 /* SignInInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInInteractor.swift; sourceTree = "<group>"; };
 		3F95787624AEA4D100B79818 /* SignInPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInPresenter.swift; sourceTree = "<group>"; };
@@ -128,7 +132,7 @@
 		3F9578B224B016C400B79818 /* Apache License.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Apache License.txt"; sourceTree = "<group>"; };
 		3F9578B324B016C500B79818 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Bold.ttf"; sourceTree = "<group>"; };
 		3F9578C524B0195600B79818 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
-		3F9578C724B0196300B79818 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		3F9578C724B0196300B79818 /* SignUpController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpController.swift; sourceTree = "<group>"; };
 		3F9578C924B0196C00B79818 /* SignUpInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpInteractor.swift; sourceTree = "<group>"; };
 		3F9578CB24B0197500B79818 /* SignUpPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpPresenter.swift; sourceTree = "<group>"; };
 		3F9578CD24B0197F00B79818 /* SignUpProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpProvider.swift; sourceTree = "<group>"; };
@@ -301,6 +305,8 @@
 			children = (
 				3F95787E24AEB09900B79818 /* UIColor+.swift */,
 				3F9578DA24B0240C00B79818 /* String+.swift */,
+				3F8116DD24B6AB620083A3DA /* ReusableView.swift */,
+				3F8116DF24B6ABEE0083A3DA /* UICollectionView+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -318,7 +324,7 @@
 		3F95786824AD79D100B79818 /* Launch */ = {
 			isa = PBXGroup;
 			children = (
-				3F95786024AD775D00B79818 /* LaunchScreenViewController.swift */,
+				3F95786024AD775D00B79818 /* LaunchScreenController.swift */,
 				3F95785624AD75E700B79818 /* LaunchScreenView.swift */,
 				3F95786324AD77E200B79818 /* LaunchScreenRouter.swift */,
 				3F95786924AEA07100B79818 /* LaunchScreenInteractor.swift */,
@@ -337,7 +343,7 @@
 				3F95787C24AEA4F000B79818 /* SignInProvider.swift */,
 				3F95787824AEA4DE00B79818 /* SignInRouter.swift */,
 				3F95787224AEA4C000B79818 /* SignInView.swift */,
-				3F95787024AEA4B800B79818 /* SignInViewController.swift */,
+				3F95787024AEA4B800B79818 /* SignInController.swift */,
 			);
 			path = "Sign In";
 			sourceTree = "<group>";
@@ -377,7 +383,7 @@
 				3F9578CD24B0197F00B79818 /* SignUpProvider.swift */,
 				3F9578CF24B0198700B79818 /* SignUpRouter.swift */,
 				3F9578C524B0195600B79818 /* SignUpView.swift */,
-				3F9578C724B0196300B79818 /* SignUpViewController.swift */,
+				3F9578C724B0196300B79818 /* SignUpController.swift */,
 				3F9578D824B01E8F00B79818 /* SignUpCollectionViewCell.swift */,
 			);
 			path = "Sign Up";
@@ -658,19 +664,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3F95787124AEA4B800B79818 /* SignInViewController.swift in Sources */,
+				3F95787124AEA4B800B79818 /* SignInController.swift in Sources */,
 				3F95782024AD6FBC00B79818 /* AppDelegate.swift in Sources */,
+				3F8116E024B6ABEE0083A3DA /* UICollectionView+.swift in Sources */,
 				3F95786624AD785900B79818 /* BaseRouterProtocol.swift in Sources */,
 				3F95787524AEA4C900B79818 /* SignInInteractor.swift in Sources */,
 				3F95787724AEA4D100B79818 /* SignInPresenter.swift in Sources */,
 				3F9578DD24B0314D00B79818 /* BaseViewController.swift in Sources */,
 				3F9578C624B0195600B79818 /* SignUpView.swift in Sources */,
+				3F8116DE24B6AB620083A3DA /* ReusableView.swift in Sources */,
 				3F95787D24AEA4F000B79818 /* SignInProvider.swift in Sources */,
 				3F95786C24AEA0CF00B79818 /* LaunchScreenPresenter.swift in Sources */,
 				3F9578D224B0198F00B79818 /* SignUpModels.swift in Sources */,
 				3F95787924AEA4DE00B79818 /* SignInRouter.swift in Sources */,
 				3F95785E24AD764700B79818 /* ViewCodeProtocol.swift in Sources */,
-				3F95786124AD775D00B79818 /* LaunchScreenViewController.swift in Sources */,
+				3F95786124AD775D00B79818 /* LaunchScreenController.swift in Sources */,
 				3F95787B24AEA4EA00B79818 /* SignInModels.swift in Sources */,
 				3F9578D024B0198700B79818 /* SignUpRouter.swift in Sources */,
 				3F95787324AEA4C000B79818 /* SignInView.swift in Sources */,
@@ -678,7 +686,7 @@
 				3F9578D724B01A0600B79818 /* MovieStyle.swift in Sources */,
 				3F9578CE24B0197F00B79818 /* SignUpProvider.swift in Sources */,
 				3F9578D924B01E8F00B79818 /* SignUpCollectionViewCell.swift in Sources */,
-				3F9578C824B0196300B79818 /* SignUpViewController.swift in Sources */,
+				3F9578C824B0196300B79818 /* SignUpController.swift in Sources */,
 				3F95786A24AEA07100B79818 /* LaunchScreenInteractor.swift in Sources */,
 				3F9578D424B019BE00B79818 /* MovieStyleButton.swift in Sources */,
 				3F95782224AD6FBC00B79818 /* SceneDelegate.swift in Sources */,

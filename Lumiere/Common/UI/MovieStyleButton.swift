@@ -14,7 +14,7 @@ class MovieStyleButton: UIButton {
     private let enableColor = UIColor(rgb: 0xe50c3c)
     private let textColor =  UIColor(rgb: 0xffffff)
     
-    private var movieStyle: String
+    private var movieStyle: String?
     
     private(set) var isOn: Bool = false {
         didSet {
@@ -26,9 +26,7 @@ class MovieStyleButton: UIButton {
         }
     }
     
-    init(frame: CGRect,
-         movieStyle: String) {
-        self.movieStyle = movieStyle
+    override init(frame: CGRect) {
         super.init(frame: frame)
     }
     
@@ -38,6 +36,11 @@ class MovieStyleButton: UIButton {
     
     func swap() {
         isOn = !isOn
+    }
+    
+    func setupStyle(style: String) {
+        self.movieStyle = style
+        setup()
     }
     
     private func setup() {

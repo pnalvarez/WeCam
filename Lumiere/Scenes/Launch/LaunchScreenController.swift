@@ -1,5 +1,5 @@
 //
-//  LaunchScreenVC.swift
+//  LaunchController.swift
 //  Lumiere
 //
 //  Created by Pedro Alvarez on 01/07/20.
@@ -12,7 +12,7 @@ protocol LaunchScreenDisplayLogic: class {
     func displayLaunchImage()
 }
 
-class LaunchScreenViewController: BaseViewController {
+class LaunchScreenController: BaseViewController {
     
     private lazy var iconView: UIImageView = {
         let iconView = UIImageView(frame: .zero)
@@ -52,7 +52,7 @@ class LaunchScreenViewController: BaseViewController {
     }
 }
 
-extension LaunchScreenViewController {
+extension LaunchScreenController {
     
     private func setup() {
         let viewController = self
@@ -63,7 +63,7 @@ extension LaunchScreenViewController {
     }
 }
 
-extension LaunchScreenViewController: LaunchScreenDisplayLogic {
+extension LaunchScreenController: LaunchScreenDisplayLogic {
     
     func displayLaunchImage() {
         iconView.image = UIImage(named: LaunchScreen.Constants.displayLaunchImage)

@@ -6,7 +6,7 @@
 //  Copyright © 2020 Pedro Alvarez. All rights reserved.
 //
 
-enum MovieStyle: String {
+enum MovieStyle: String, CaseIterable {
     case action = "Ação"
     case animation = "Animação"
     case adventure = "Aventure"
@@ -21,4 +21,12 @@ enum MovieStyle: String {
     case series = "Seriado"
     case suspense = "Suspense"
     case horror = "Terror"
+    
+    static func toArray() -> [MovieStyle] {
+        var array: [MovieStyle] = []
+        for value in MovieStyle.allCases {
+            array.append(value)
+        }
+        return array
+    }
 }

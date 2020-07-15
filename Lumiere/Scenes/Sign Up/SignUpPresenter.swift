@@ -7,7 +7,7 @@
 //
 
 protocol SignUpPresentationLogic {
-    
+    func didFetchMovieStyles(_ styles: [MovieStyle])
 }
 
 class SignUpPresenter: SignUpPresentationLogic {
@@ -16,5 +16,9 @@ class SignUpPresenter: SignUpPresentationLogic {
     
     init(viewController: SignUpDisplayLogic) {
         self.viewController = viewController
+    }
+    
+    func didFetchMovieStyles(_ styles: [MovieStyle]) {
+        viewController.displayMovieStyles(styles)
     }
 }

@@ -8,25 +8,40 @@
 
 import UIKit
 
-protocol SignUpCollectionViewCellDelegate: class {
-    func didSelectButton(withStyle style: MovieStyle)
-    func didUnselectButton(withStyle style: MovieStyle)
-}
-
 class SignUpCollectionViewCell: UICollectionViewCell {
     
-    private lazy var movieStyleButton: MovieStyleButton = {
-        let button = MovieStyleButton(frame: .zero,
-                                      movieStyle: movieStyle?.rawValue ?? .empty)
-        button.addTarget(self, action: #selector(didTapButton), for: .touchUpOutside)
-        return button
-    }()
+    enum State {
+        case enable
+        case disable
+    }
+    
+    private lazy var mainLbl: UILabel = { return UILabel(frame: .zero) }()
     
     private var movieStyle: MovieStyle?
     
-    private weak var delegate: SignUpCollectionViewCellDelegate?
+    var state: State = .disable {
+        didSet {
+            switch state {
+            case .enable:
+                enableButton()
+                break
+            case .disable:
+                disableButton()
+            }
+        }
+    }
     
-    private func setup(movieStyle: MovieStyle) {
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        layer.cornerRadius = 4
+        backgroundColor = SignUp.Constants.Colors.signUpButtonDeactivatedColor
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setup(movieStyle: MovieStyle) {
         self.movieStyle = movieStyle
         applyViewCode()
     }
@@ -34,33 +49,37 @@ class SignUpCollectionViewCell: UICollectionViewCell {
 
 extension SignUpCollectionViewCell {
     
-    @objc
-    private func didTapButton() {
-        guard let style = movieStyle else { return }
-        if movieStyleButton.isOn {
-            delegate?.didUnselectButton(withStyle: style)
-        } else {
-            delegate?.didSelectButton(withStyle: style)
-        }
-        movieStyleButton.swap()
+    private func enableButton() {
+        backgroundColor = SignUp.Constants.Colors.signUpButtonBackgroundColor
+    }
+    
+    private func disableButton() {
+        backgroundColor = SignUp.Constants.Colors.signUpButtonDeactivatedColor
     }
 }
 
 extension SignUpCollectionViewCell: ViewCodeProtocol {
     
     func buildViewHierarchy() {
-        addSubview(movieStyleButton)
+        addSubview(mainLbl)
     }
     
     func setupConstraints() {
-        movieStyleButton.snp.makeConstraints { make in
+        mainLbl.snp.makeConstraints { make in
             make.center.equalToSuperview()
-            make.height.equalTo(87)
-            make.width.equalTo(99)
+            make.top.bottom.equalToSuperview()
+            make.left.right.equalToSuperview().inset(5)
         }
     }
     
     func configureViews() {
-        backgroundColor = .white
+        mainLbl.backgroundColor = .clear
+        mainLbl.text = movieStyle?.rawValue
+        mainLbl.textAlignment = .center
+        mainLbl.numberOfLines = 1
+        mainLbl.font = SignUp.Constants.Fonts.cathegoriesLblFont
+        mainLbl.textColor = SignUp.Constants.Colors.signUpCollectionViewCellText
+        mainLbl.adjustsFontSizeToFitWidth = true
+        mainLbl.minimumScaleFactor = 0.5
     }
 }

@@ -14,7 +14,7 @@ protocol SignInDisplayLogic: class {
     func didFetchSignUp()
 }
 
-class SignInViewController: BaseViewController {
+class SignInController: BaseViewController {
     
     private lazy var emailTextField: UITextField = {
         return UITextField(frame: .zero)
@@ -50,7 +50,7 @@ class SignInViewController: BaseViewController {
     }()
     
     private var interactor: SignInBusinessRules?
-    private var router: SignInRouterProtocol?
+    var router: SignInRouterProtocol?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,7 +63,7 @@ class SignInViewController: BaseViewController {
     }
 }
 
-extension SignInViewController {
+extension SignInController {
     
     @objc
     private func forgetButtonTapped() {
@@ -81,7 +81,7 @@ extension SignInViewController {
     }
 }
 
-extension SignInViewController {
+extension SignInController {
     
     private func setup() {
 //        let viewController = self
@@ -90,7 +90,7 @@ extension SignInViewController {
     }
 }
 
-extension SignInViewController: SignInDisplayLogic {
+extension SignInController: SignInDisplayLogic {
     
     func didFetchForgot() {
         

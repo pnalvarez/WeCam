@@ -25,4 +25,13 @@ extension UIColor {
             blue: rgb & 0xFF
         )
     }
+    
+    convenience init(rgb: Int, a: CGFloat = 1.0) {
+        self.init(
+            red: CGFloat((rgb >> 16) & 0xFF),
+            green: CGFloat((rgb >> 8) & 0xFF),
+            blue: CGFloat(rgb & 0xFF),
+            alpha: a
+        )
+    }
 }
