@@ -14,8 +14,16 @@ protocol SignUpDisplayLogic: class {
 
 class SignUpController: BaseViewController {
     
+    private lazy var backButton: UIButton = {
+        let view = UIButton(frame: .zero)
+        view.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
+        return view
+    }()
+    
     private lazy var imageButton: UIButton = {
-        return UIButton(frame: .zero)
+        let view = UIButton(frame: .zero)
+        view.addTarget(self, action: #selector(didTapImageButton), for: .touchUpInside)
+        return view
     }()
     
     private lazy var nameTextField: UITextField = {
@@ -59,6 +67,7 @@ class SignUpController: BaseViewController {
                            width: view.frame.width,
                            height: SignUp.Constants.Dimensions.mainViewHeight)
         return SignUpView(frame: frame,
+                          backButton: backButton,
                           imageButton: imageButton,
                           nameTextField: nameTextField,
                           cellphoneTextField: cellphoneTextField,
@@ -86,8 +95,7 @@ class SignUpController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.titleView = UIImageView(image: UIImage(named: "tipografia-projeto 2"))
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "voltar 1"), style: .done, target: nil, action: nil)
+        navigationController?.setNavigationBarHidden(true, animated: true)
         setupCollectionView()
         interactor?.fetchMovieStyles()
     }
@@ -101,10 +109,10 @@ class SignUpController: BaseViewController {
         let viewController = self
         let interactor = SignUpInteractor(viewController: viewController)
         let router = SignUpRouter()
-//        router.viewController = viewController
+        router.viewController = viewController
         viewController.router = router
         viewController.interactor = interactor
-//        router.dataStore = interactor
+        router.dataStore = interactor
     }
 }
 
@@ -167,9 +175,23 @@ extension SignUpController: UICollectionViewDelegateFlowLayout {
 
 extension SignUpController {
     
+    @objc func didTapImageButton() {
+        
+    }
+    
+    @objc
+    private func didTapBackButton() {
+        router?.routeBack()
+    }
+    
     @objc
     private func didTapSignUpButton() {
-        
+        let request = SignUp.Request.SignUp(name: nameTextField.text ?? .empty,
+                                            email: emailTextField.text ?? .empty,
+                                            password: passwordTextField.text ?? .empty,
+                                            confirmation: confirmTextField.text ?? .empty,
+                                            professionalArea: professionalTextField.text ?? .empty)
+        interactor?.fetchSignUp(request)
     }
     
     private func setupCollectionView() {

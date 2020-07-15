@@ -9,6 +9,7 @@
 protocol SignUpBusinessLogic {
     func fetchMovieStyles()
     func didSelectCathegory(_ request: SignUp.Request.SelectedCathegory)
+    func fetchSignUp(_ request: SignUp.Request.SignUp)
 }
 
 protocol SignUpDataStore {
@@ -44,5 +45,9 @@ extension SignUpInteractor: SignUpBusinessLogic {
             return
         }
         interestCathegories.cathegories.remove(at: index)
+    }
+    
+    func fetchSignUp(_ request: SignUp.Request.SignUp) {
+        
     }
 }

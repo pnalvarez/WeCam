@@ -10,6 +10,7 @@ import UIKit
 
 class SignUpView: UIView {
     
+    private unowned var backButton: UIButton
     private unowned var imageButton: UIButton
     private unowned var nameTextField: UITextField
     private unowned var cellphoneTextField: UITextField
@@ -23,14 +24,10 @@ class SignUpView: UIView {
     private lazy var cathegoriesLbl: UILabel = { return UILabel(frame: .zero) }()
     private lazy var containerView: UIView = { return UIView(frame: .zero) }()
     private lazy var scrollView: UIScrollView = { return UIScrollView(frame: .zero) }()
-    
-    private lazy var emptyView : UIView = {
-        let view = UIView(frame: .zero)
-        view.backgroundColor = .green
-        return view
-    }()
+    private lazy var titleHeaderIcon: UIImageView = { return UIImageView(frame: .zero) }()
     
     init(frame: CGRect,
+         backButton: UIButton,
          imageButton: UIButton,
          nameTextField: UITextField,
          cellphoneTextField: UITextField,
@@ -40,6 +37,7 @@ class SignUpView: UIView {
          professionalTextField: UITextField,
          signUpButton: UIButton,
          collectionView: UICollectionView) {
+        self.backButton = backButton
         self.imageButton = imageButton
         self.nameTextField = nameTextField
         self.cellphoneTextField = cellphoneTextField
@@ -65,6 +63,8 @@ class SignUpView: UIView {
 extension SignUpView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
+        containerView.addSubview(backButton)
+        containerView.addSubview(titleHeaderIcon)
         containerView.addSubview(imageButton)
         containerView.addSubview(nameTextField)
         containerView.addSubview(cellphoneTextField)
@@ -88,8 +88,20 @@ extension SignUpView: ViewCodeProtocol {
             make.width.equalToSuperview()
             make.height.equalToSuperview().priority(250)
         }
+        titleHeaderIcon.snp.makeConstraints { make in
+            make.top.equalToSuperview().inset(8)
+            make.centerX.equalToSuperview()
+            make.height.equalTo(52)
+            make.width.equalTo(144)
+        }
+        backButton.snp.makeConstraints { make in
+            make.top.equalToSuperview().inset(8)
+            make.left.equalToSuperview().inset(28)
+            make.height.equalTo(28)
+            make.width.equalTo(32)
+        }
         imageButton.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(30)
+            make.top.equalTo(titleHeaderIcon.snp.bottom).offset(30)
             make.centerX.equalToSuperview()
             make.height.width.equalTo(84)
             make.bottom.equalTo(signUpButton.snp.top).offset(-891)
@@ -125,7 +137,7 @@ extension SignUpView: ViewCodeProtocol {
             make.height.equalTo(29)
         }
         signUpButton.snp.makeConstraints { make in
-            make.bottom.equalToSuperview().inset(45)
+            make.bottom.equalToSuperview().inset(10)
             make.top.equalTo(collectionView.snp.bottom).offset(54)
             make.height.equalTo(30)
             make.width.equalTo(99)
@@ -145,11 +157,16 @@ extension SignUpView: ViewCodeProtocol {
     }
     
     func configureViews() {
+        scrollView.showsVerticalScrollIndicator = false
         scrollView.bounces = false
         scrollView.alwaysBounceVertical = false
         scrollView.backgroundColor = .white
         
         containerView.backgroundColor = SignUp.Constants.Colors.backgroundColor
+        
+        titleHeaderIcon.image = SignUp.Constants.Images.titleHeaderIcon
+        
+        backButton.setImage(SignUp.Constants.Images.backButton, for: .normal)
         
         imageButton.layoutIfNeeded()
         imageButton.layer.cornerRadius = imageButton.frame.size.height / 2
@@ -164,7 +181,7 @@ extension SignUpView: ViewCodeProtocol {
                                                                  attributes: [NSAttributedString.Key.foregroundColor: SignUp.Constants.Colors.textFieldPlaceHolderColor, NSAttributedString.Key.font: SignUp.Constants.Fonts.placeholderFont])
         
         cellphoneTextField.backgroundColor = SignUp.Constants.Colors.textFieldBackgroundColor
-        nameTextField.attributedPlaceholder = NSAttributedString(string: SignUp.Constants.Texts.cellphonePlaceholder,
+        cellphoneTextField.attributedPlaceholder = NSAttributedString(string: SignUp.Constants.Texts.cellphonePlaceholder,
                                                                  attributes: [NSAttributedString.Key.foregroundColor: SignUp.Constants.Colors.textFieldPlaceHolderColor, NSAttributedString.Key.font: SignUp.Constants.Fonts.placeholderFont])
         
         emailTextField.backgroundColor = SignUp.Constants.Colors.textFieldBackgroundColor
