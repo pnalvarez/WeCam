@@ -133,7 +133,7 @@ extension SignUpView: ViewCodeProtocol {
         }
         professionalTextField.snp.makeConstraints { make in
             make.top.equalTo(confirmTextField.snp.bottom).offset(17)
-            make.left.right.equalToSuperview().inset(71)
+            make.left.right.equalToSuperview().inset(71)xz
         }
         signUpButton.snp.makeConstraints { make in
             make.bottom.equalToSuperview().inset(10)
@@ -189,7 +189,7 @@ extension SignUpView: ViewCodeProtocol {
         
         passwordTextField.backgroundColor = SignUp.Constants.Colors.textFieldBackgroundColor
         passwordTextField.attributedPlaceholder = NSAttributedString(string: SignUp.Constants.Texts.passwordPlaceholder,
-                                                                     attributes: [NSAttributedString.Key.foregroundColor: SignUp.Constants.Colors.textFieldPlaceHolderColor, NSAttributedString.Key.font: SignUp.Constants.Fonts.placeholderFont])
+                                                                     attributes: [NSAttributedString.Key.foregroundColor: SignUp.Constants.Colors.textFieldPlaceHolderColor, NSAttributedString.Key.font: SignUp.Constants.Fonts.placeholderFont!])
         
         confirmTextField.backgroundColor = SignUp.Constants.Colors.textFieldBackgroundColor
         confirmTextField.attributedPlaceholder = NSAttributedString(string: SignUp.Constants.Texts.confirmationPlaceholder,
