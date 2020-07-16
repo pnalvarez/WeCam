@@ -134,7 +134,6 @@ extension SignUpView: ViewCodeProtocol {
         professionalTextField.snp.makeConstraints { make in
             make.top.equalTo(confirmTextField.snp.bottom).offset(17)
             make.left.right.equalToSuperview().inset(71)
-            make.height.equalTo(29)
         }
         signUpButton.snp.makeConstraints { make in
             make.bottom.equalToSuperview().inset(10)
