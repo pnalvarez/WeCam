@@ -62,6 +62,7 @@
 		3F9578D924B01E8F00B79818 /* SignUpCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9578D824B01E8F00B79818 /* SignUpCollectionViewCell.swift */; };
 		3F9578DB24B0240C00B79818 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9578DA24B0240C00B79818 /* String+.swift */; };
 		3F9578DD24B0314D00B79818 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9578DC24B0314D00B79818 /* BaseViewController.swift */; };
+		3FE8DF4124C3F738005DE30D /* ThemeFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE8DF4024C3F738005DE30D /* ThemeFonts.swift */; };
 		489089FEB8140F8A2E1B993D /* Pods_Lumiere_LumiereUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B84867081F3814C0729E0A6F /* Pods_Lumiere_LumiereUITests.framework */; };
 		E48219FC3C20557A161CBC0F /* Pods_Lumiere.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 601738D471DE051660DE4EDE /* Pods_Lumiere.framework */; };
 /* End PBXBuildFile section */
@@ -147,6 +148,7 @@
 		3F9578D824B01E8F00B79818 /* SignUpCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpCollectionViewCell.swift; sourceTree = "<group>"; };
 		3F9578DA24B0240C00B79818 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		3F9578DC24B0314D00B79818 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		3FE8DF4024C3F738005DE30D /* ThemeFonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeFonts.swift; sourceTree = "<group>"; };
 		5AC706A5F046CA56FB3C61F2 /* Pods_LumiereTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LumiereTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		601738D471DE051660DE4EDE /* Pods_Lumiere.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Lumiere.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		763D8EED12FD7F99BFEBD056 /* Pods-LumiereTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LumiereTests.release.xcconfig"; path = "Target Support Files/Pods-LumiereTests/Pods-LumiereTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -308,6 +310,7 @@
 		3F95785924AD760500B79818 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				3FE8DF3F24C3F72A005DE30D /* Themes */,
 				3F1158A824C3EFF300075C73 /* Cells */,
 				3F9578D324B019BE00B79818 /* MovieStyleButton.swift */,
 				3F9578DC24B0314D00B79818 /* BaseViewController.swift */,
@@ -425,6 +428,14 @@
 				3F1158AE24C3F0EC00075C73 /* TeamMemberViewModel.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		3FE8DF3F24C3F72A005DE30D /* Themes */ = {
+			isa = PBXGroup;
+			children = (
+				3FE8DF4024C3F738005DE30D /* ThemeFonts.swift */,
+			);
+			path = Themes;
 			sourceTree = "<group>";
 		};
 		816E9AAB491F6DA3C65B683E /* Pods */ = {
@@ -705,6 +716,7 @@
 				3F8116DE24B6AB620083A3DA /* ReusableView.swift in Sources */,
 				3F95787D24AEA4F000B79818 /* SignInProvider.swift in Sources */,
 				3F95786C24AEA0CF00B79818 /* LaunchScreenPresenter.swift in Sources */,
+				3FE8DF4124C3F738005DE30D /* ThemeFonts.swift in Sources */,
 				3F9578D224B0198F00B79818 /* SignUpModels.swift in Sources */,
 				3F1158AD24C3F04200075C73 /* TeamMemberCollectionViewCell.swift in Sources */,
 				3F95787924AEA4DE00B79818 /* SignInRouter.swift in Sources */,
