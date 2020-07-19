@@ -63,6 +63,7 @@
 		3F9578DB24B0240C00B79818 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9578DA24B0240C00B79818 /* String+.swift */; };
 		3F9578DD24B0314D00B79818 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9578DC24B0314D00B79818 /* BaseViewController.swift */; };
 		3FE8DF4124C3F738005DE30D /* ThemeFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE8DF4024C3F738005DE30D /* ThemeFonts.swift */; };
+		3FE8DF4324C3FA51005DE30D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3FE8DF4224C3FA51005DE30D /* GoogleService-Info.plist */; };
 		489089FEB8140F8A2E1B993D /* Pods_Lumiere_LumiereUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B84867081F3814C0729E0A6F /* Pods_Lumiere_LumiereUITests.framework */; };
 		E48219FC3C20557A161CBC0F /* Pods_Lumiere.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 601738D471DE051660DE4EDE /* Pods_Lumiere.framework */; };
 /* End PBXBuildFile section */
@@ -149,6 +150,7 @@
 		3F9578DA24B0240C00B79818 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		3F9578DC24B0314D00B79818 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		3FE8DF4024C3F738005DE30D /* ThemeFonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeFonts.swift; sourceTree = "<group>"; };
+		3FE8DF4224C3FA51005DE30D /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		5AC706A5F046CA56FB3C61F2 /* Pods_LumiereTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LumiereTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		601738D471DE051660DE4EDE /* Pods_Lumiere.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Lumiere.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		763D8EED12FD7F99BFEBD056 /* Pods-LumiereTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LumiereTests.release.xcconfig"; path = "Target Support Files/Pods-LumiereTests/Pods-LumiereTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -248,6 +250,7 @@
 		3F95781E24AD6FBC00B79818 /* Lumiere */ = {
 			isa = PBXGroup;
 			children = (
+				3FE8DF4224C3FA51005DE30D /* GoogleService-Info.plist */,
 				3F95782D24AD6FBE00B79818 /* Info.plist */,
 				3F95784F24AD716100B79818 /* App */,
 				3F95785524AD719800B79818 /* Common */,
@@ -571,6 +574,7 @@
 				3F9578C024B0170900B79818 /* Roboto-ThinItalic.ttf in Resources */,
 				3F9578BB24B016F200B79818 /* Roboto-Bold.ttf in Resources */,
 				3F9578BA24B016F100B79818 /* Roboto-LightItalic.ttf in Resources */,
+				3FE8DF4324C3FA51005DE30D /* GoogleService-Info.plist in Resources */,
 				3F9578BF24B0170600B79818 /* Roboto-Medium.ttf in Resources */,
 				3F9578B824B016EE00B79818 /* Roboto-Black.ttf in Resources */,
 				3F9578B924B016EF00B79818 /* Roboto-Italic.ttf in Resources */,
