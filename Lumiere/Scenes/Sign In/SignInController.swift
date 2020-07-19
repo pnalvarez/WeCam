@@ -72,7 +72,7 @@ extension SignInController {
     
     @objc
     private func signUpButtonTapped() {
-        
+        router?.routeToSignUp()
     }
     
     @objc
@@ -84,8 +84,8 @@ extension SignInController {
 extension SignInController {
     
     private func setup() {
-//        let viewController = self
-//        interactor = SignInInteractor(viewController: viewController)
+        let viewController = self
+        interactor = SignInInteractor(viewController: viewController)
     
     }
 }

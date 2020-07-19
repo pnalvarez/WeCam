@@ -25,7 +25,6 @@ class SignUpRouter: NSObject, SignUpDataTransfer {
 }
 
 extension SignUpRouter: BaseRouterProtocol {
-
     
     func routeTo(nextVC: UIViewController) {
         viewController?.navigationController?.pushViewController(nextVC, animated: true)
