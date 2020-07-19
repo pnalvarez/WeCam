@@ -23,11 +23,22 @@ class TeamMemberCollectionViewCell: UICollectionViewCell {
     
     private var viewModel: TeamMemberViewModel?
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        layer.cornerRadius = 2
+        layer.borderWidth = 1
+        layer.borderColor = UIColor(rgb: 0xe5dfdf).cgColor
+        backgroundColor = .gray
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     func setup(viewModel: TeamMemberViewModel) {
         self.viewModel = viewModel
         applyViewCode()
     }
-    
 }
 
 extension TeamMemberCollectionViewCell: ViewCodeProtocol {
@@ -59,10 +70,15 @@ extension TeamMemberCollectionViewCell: ViewCodeProtocol {
     func configureViews() {
         pictureImageView.contentMode = .scaleAspectFit
         pictureImageView.image = viewModel?.image
+        pictureImageView.layer.cornerRadius = pictureImageView.frame.height / 2
+        pictureImageView.clipsToBounds = true
         
-        nameLbl.text = viewModel?.name
+        nameLbl.attributedText = viewModel?.name
         nameLbl.textAlignment = .center
         nameLbl.numberOfLines = 0
-        nameLbl.font = themefon
+        
+        jobLbl.attributedText = viewModel?.jobDescription
+        jobLbl.textAlignment = .center
+        jobLbl.numberOfLines = 0
     }
 }
