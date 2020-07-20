@@ -37,4 +37,4 @@ DerivedData/
 !*.xcworkspace/contents.xcworkspacedata
 **/xcshareddata/WorkspaceSettings.xcsettings
 
-# End of https://www.toptal.com/developers/gitignore/api/xcode
+# End of https://www.toptal.com/developers/gitignore/api/xcode.DS_Store
