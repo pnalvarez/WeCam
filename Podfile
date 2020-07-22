@@ -14,6 +14,8 @@ target 'Lumiere' do
 	pod 'RxCocoa', '~> 5.1.1'
   pod 'Firebase/Core'
   pod 'Firebase/Database'
+	pod 'Firebase/Auth'
+  pod 'Firebase/Firestore'
 
   target 'LumiereTests' do
     inherit! :search_paths

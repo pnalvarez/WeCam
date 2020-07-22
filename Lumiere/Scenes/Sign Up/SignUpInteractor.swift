@@ -48,6 +48,6 @@ extension SignUpInteractor: SignUpBusinessLogic {
     }
     
     func fetchSignUp(_ request: SignUp.Request.SignUp) {
-        
+        provider.fetchSignUp(request)
     }
 }

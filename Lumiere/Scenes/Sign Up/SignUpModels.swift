@@ -60,6 +60,7 @@ struct SignUp {
             let email: String
             let password: String
             let confirmation: String
+            let phoneNumber: String
             let professionalArea: String
         }
     }

@@ -12,10 +12,10 @@ import Firebase
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
+        FirebaseAuthHelper().createUser(user: UserModel(name: "name", email: "de0108@hotmail.com", password: "12345678", phoneNumber: "21998920668", professionalArea: "Computer Scientist")) { response in
+        }
         return true
     }
 }

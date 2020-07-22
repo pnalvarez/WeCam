@@ -190,6 +190,7 @@ extension SignUpController {
                                             email: emailTextField.text ?? .empty,
                                             password: passwordTextField.text ?? .empty,
                                             confirmation: confirmTextField.text ?? .empty,
+                                            phoneNumber: cellphoneTextField.text ?? .empty,
                                             professionalArea: professionalTextField.text ?? .empty)
         interactor?.fetchSignUp(request)
     }
