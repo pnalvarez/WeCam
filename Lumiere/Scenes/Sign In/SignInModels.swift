@@ -17,10 +17,11 @@ struct SignIn {
         }
         
         struct Fonts {
-            static let textField = UIFont(name: "Roboto-Regular", size: 12)
-            static let forgetButton = UIFont(name: "Roboto-Regular", size: 12)
-            static let signUp = UIFont(name: "Roboto-Regular", size: 12)
-            static let enterButton = UIFont(name: "Roboto-Regular", size: 12)
+            static let textFieldPlaceholder = ThemeFonts.RobotoRegular(12).rawValue
+            static let forgetButton = ThemeFonts.RobotoRegular(12).rawValue
+            static let signUp = ThemeFonts.RobotoRegular(12).rawValue
+            static let enterButton = ThemeFonts.RobotoRegular(12).rawValue
+            static let textFieldText = ThemeFonts.RobotoRegular(12).rawValue
         }
         
         struct Texts {
@@ -36,6 +37,7 @@ struct SignIn {
             static let enterButtonBackground = UIColor(rgb: 0xe50c3c)
             static let enterButtonTextColor = UIColor(rgb: 0xffffff)
             static let backgroundColor = UIColor(rgb: 0xffffff)
+            static let textFieldColor = UIColor(rgb: 0x222222)
         }
     }
     

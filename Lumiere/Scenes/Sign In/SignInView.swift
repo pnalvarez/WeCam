@@ -108,12 +108,21 @@ extension SignInView: ViewCodeProtocol {
         bottomLogoImageView.image = UIImage(named: SignIn.Constants.Images.bottomLogo)
         
         emailTextField.placeholder = SignIn.Constants.Texts.emailTextField
-        emailTextField.attributedPlaceholder = NSAttributedString(string: SignIn.Constants.Texts.emailTextField, attributes: [NSAttributedString.Key.foregroundColor: UIColor(rgb: 0x707070), NSAttributedString.Key.font: SignIn.Constants.Fonts.textField])
+        emailTextField.attributedPlaceholder = NSAttributedString(string: SignIn.Constants.Texts.emailTextField, attributes: [NSAttributedString.Key.foregroundColor: UIColor(rgb: 0x707070), NSAttributedString.Key.font: SignIn.Constants.Fonts.textFieldPlaceholder])
+        emailTextField.font = SignIn.Constants.Fonts.textFieldText
+        emailTextField.autocapitalizationType = .none
+        emailTextField.textColor = SignIn.Constants.Colors.textFieldColor
         emailTextField.backgroundColor = SignIn.Constants.Colors.textFieldBackground
+        emailTextField.autocorrectionType = .no
         
         passwordTextField.placeholder = SignIn.Constants.Texts.passwordTextField
-        passwordTextField.attributedPlaceholder = NSAttributedString(string: SignIn.Constants.Texts.passwordTextField, attributes: [NSAttributedString.Key.foregroundColor: UIColor(rgb: 0x707070), NSAttributedString.Key.font: SignIn.Constants.Fonts.textField])
+        passwordTextField.attributedPlaceholder = NSAttributedString(string: SignIn.Constants.Texts.passwordTextField, attributes: [NSAttributedString.Key.foregroundColor: UIColor(rgb: 0x707070), NSAttributedString.Key.font: SignIn.Constants.Fonts.textFieldPlaceholder])
+        passwordTextField.font = SignIn.Constants.Fonts.textFieldText
+        passwordTextField.autocapitalizationType = .none
+        passwordTextField.textColor = SignIn.Constants.Colors.textFieldColor
         passwordTextField.backgroundColor = SignIn.Constants.Colors.textFieldBackground
+        passwordTextField.autocorrectionType = .no
+        passwordTextField.isSecureTextEntry = true
         
         forgetButton.setAttributedTitle(NSAttributedString(string: SignIn.Constants.Texts.forgetButton, attributes: [NSAttributedString.Key.foregroundColor : UIColor(rgb: 0x707070), NSAttributedString.Key.font: SignIn.Constants.Fonts.forgetButton, NSAttributedString.Key.underlineStyle : NSUnderlineStyle.single.rawValue]), for: .normal)
         
