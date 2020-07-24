@@ -9,7 +9,7 @@ import FirebaseDatabase
 import FirebaseAuth
 
 protocol SignUpProviderProtocol {
-    func fetchSignUp(_ request: SignUp.Request.SignUp)
+    func fetchSignUp(_ request: SignUp.Request.SignUpProviderRequest)
 }
 
 class SignUpProvider: SignUpProviderProtocol {
@@ -22,14 +22,15 @@ class SignUpProvider: SignUpProviderProtocol {
         self.helper = FirebaseAuthHelper()
     }
     
-    func fetchSignUp(_ request: SignUp.Request.SignUp) {
-        let user = UserModel(name: request.name,
-                             email: request.email,
-                             password: request.password,
-                             phoneNumber: request.phoneNumber,
-                             professionalArea: request.professionalArea)
+    func fetchSignUp(_ request: SignUp.Request.SignUpProviderRequest) {
+        let user = UserModel(name: request.userData.name,
+                             email: request.userData.email,
+                             password: request.userData.password,
+                             phoneNumber: request.userData.cellPhone,
+                             professionalArea: request.userData.professionalArea,
+                             interestCathegories: request.userData.interestCathegories.cathegories)
         helper.createUser(user: user) { success in
-            
+            //ROUTE TO HOME
         }
     }
 }

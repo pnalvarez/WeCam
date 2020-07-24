@@ -12,4 +12,5 @@ struct UserModel {
     let password: String
     let phoneNumber: String
     let professionalArea: String
+    let interestCathegories: [MovieStyle]
 }

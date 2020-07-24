@@ -14,12 +14,13 @@ protocol SignInRoutingLogic {
 }
 
 protocol SignInDataTransfer {
-    
+    var dataStore: SignInDataStore? { get set }
 }
 
 class SignInRouter: NSObject, SignInDataTransfer {
     
     weak var viewController: SignInController?
+    var dataStore: SignInDataStore?
 }
 
 extension SignInRouter: SignInRoutingLogic {
@@ -28,5 +29,4 @@ extension SignInRouter: SignInRoutingLogic {
            let signUpController = SignUpController()
            viewController?.navigationController?.pushViewController(signUpController, animated: true)
        }
-    
 }

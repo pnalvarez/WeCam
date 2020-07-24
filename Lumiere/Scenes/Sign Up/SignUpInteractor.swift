@@ -48,6 +48,14 @@ extension SignUpInteractor: SignUpBusinessLogic {
     }
     
     func fetchSignUp(_ request: SignUp.Request.SignUp) {
-        provider.fetchSignUp(request)
+        userData = SignUp.Info.Data.UserData(name: request.name,
+                                             cellPhone: request.phoneNumber,
+                                             email: request.email,
+                                             password: request.password,
+                                             professionalArea: request.professionalArea,
+                                             interestCathegories: interestCathegories)
+        guard let data = userData else { return }
+        let providerRequest = SignUp.Request.SignUpProviderRequest(userData: data)
+        provider.fetchSignUp(providerRequest)
     }
 }

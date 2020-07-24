@@ -92,7 +92,7 @@ extension SignInView: ViewCodeProtocol {
             make.centerX.equalToSuperview()
         }
         signUpButton.snp.makeConstraints { make in
-            make.bottom.equalToSuperview().inset(16)
+            make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).offset(-16)
             make.height.equalTo(14)
             make.width.equalTo(64)
             make.centerX.equalToSuperview()

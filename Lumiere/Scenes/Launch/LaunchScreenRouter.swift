@@ -19,7 +19,7 @@ class LaunchScreenRouter: BaseRouterProtocol {
     var window: UIWindow?
     
     func routeTo(nextVC: UIViewController) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             self.window?.rootViewController = nextVC
         }
     }
@@ -28,6 +28,6 @@ class LaunchScreenRouter: BaseRouterProtocol {
 extension LaunchScreenRouter: LaunchScreenRouterProtocol {
     
     func routeToLoginScreen() {
-        routeTo(nextVC: UINavigationController(rootViewController: SignUpController()))
+        routeTo(nextVC: UINavigationController(rootViewController: SignInController()))
     }
 }

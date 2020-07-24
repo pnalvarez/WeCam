@@ -54,10 +54,6 @@ class SignUpView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        endEditing(true)
-    }
 }
 
 extension SignUpView: ViewCodeProtocol {
@@ -104,7 +100,6 @@ extension SignUpView: ViewCodeProtocol {
             make.top.equalTo(titleHeaderIcon.snp.bottom).offset(30)
             make.centerX.equalToSuperview()
             make.height.width.equalTo(84)
-            make.bottom.equalTo(signUpButton.snp.top).offset(-891)
         }
         nameTextField.snp.makeConstraints { make in
             make.top.equalTo(imageButton.snp.bottom).offset(62)
@@ -117,7 +112,7 @@ extension SignUpView: ViewCodeProtocol {
             make.height.equalTo(29)
         }
         emailTextField.snp.makeConstraints { make in
-            make.top.equalTo(nameTextField.snp.bottom).offset(17)
+            make.top.equalTo(cellphoneTextField.snp.bottom).offset(17)
             make.left.right.equalToSuperview().inset(71)
             make.height.equalTo(29)
         }
@@ -138,13 +133,13 @@ extension SignUpView: ViewCodeProtocol {
         }
         signUpButton.snp.makeConstraints { make in
             make.bottom.equalToSuperview().inset(10)
-            make.top.equalTo(collectionView.snp.bottom).offset(54)
+            make.top.equalTo(titleHeaderIcon.snp.bottom).offset(1020)
             make.height.equalTo(30)
             make.width.equalTo(99)
             make.centerX.equalToSuperview()
         }
         collectionView.snp.makeConstraints { make in
-            make.top.equalTo(cathegoriesLbl.snp.bottom).offset(25)
+            make.top.equalTo(cathegoriesLbl.snp.bottom).offset(36)
             make.height.equalTo(501)
             make.left.right.equalToSuperview()
         }
@@ -161,6 +156,7 @@ extension SignUpView: ViewCodeProtocol {
         scrollView.bounces = false
         scrollView.alwaysBounceVertical = false
         scrollView.backgroundColor = .white
+        scrollView.contentSize = CGSize(width: frame.width, height: 1200)
         
         containerView.backgroundColor = SignUp.Constants.Colors.backgroundColor
         
@@ -179,26 +175,45 @@ extension SignUpView: ViewCodeProtocol {
         nameTextField.backgroundColor = SignUp.Constants.Colors.textFieldBackgroundColor
         nameTextField.attributedPlaceholder = NSAttributedString(string: SignUp.Constants.Texts.namePlaceholder,
                                                                  attributes: [NSAttributedString.Key.foregroundColor: SignUp.Constants.Colors.textFieldPlaceHolderColor, NSAttributedString.Key.font: SignUp.Constants.Fonts.placeholderFont])
+        nameTextField.font = SignUp.Constants.Fonts.textFieldFont
+        nameTextField.textColor = SignUp.Constants.Colors.textFieldColor
+        nameTextField.autocapitalizationType = .none
         
         cellphoneTextField.backgroundColor = SignUp.Constants.Colors.textFieldBackgroundColor
         cellphoneTextField.attributedPlaceholder = NSAttributedString(string: SignUp.Constants.Texts.cellphonePlaceholder,
                                                                  attributes: [NSAttributedString.Key.foregroundColor: SignUp.Constants.Colors.textFieldPlaceHolderColor, NSAttributedString.Key.font: SignUp.Constants.Fonts.placeholderFont])
+        cellphoneTextField.font = SignUp.Constants.Fonts.textFieldFont
+        cellphoneTextField.textColor = SignUp.Constants.Colors.textFieldColor
+        cellphoneTextField.autocapitalizationType = .none
         
         emailTextField.backgroundColor = SignUp.Constants.Colors.textFieldBackgroundColor
         emailTextField.attributedPlaceholder = NSAttributedString(string: SignUp.Constants.Texts.emailPlaceholder,
                                                                   attributes: [NSAttributedString.Key.foregroundColor: SignUp.Constants.Colors.textFieldPlaceHolderColor, NSAttributedString.Key.font: SignUp.Constants.Fonts.placeholderFont])
+        emailTextField.font = SignUp.Constants.Fonts.textFieldFont
+        emailTextField.textColor = SignUp.Constants.Colors.textFieldColor
+        emailTextField.autocapitalizationType = .none
         
         passwordTextField.backgroundColor = SignUp.Constants.Colors.textFieldBackgroundColor
         passwordTextField.attributedPlaceholder = NSAttributedString(string: SignUp.Constants.Texts.passwordPlaceholder,
                                                                      attributes: [NSAttributedString.Key.foregroundColor: SignUp.Constants.Colors.textFieldPlaceHolderColor, NSAttributedString.Key.font: SignUp.Constants.Fonts.placeholderFont])
+        passwordTextField.font = SignUp.Constants.Fonts.textFieldFont
+        passwordTextField.textColor = SignUp.Constants.Colors.textFieldColor
+        passwordTextField.autocapitalizationType = .none
         
         confirmTextField.backgroundColor = SignUp.Constants.Colors.textFieldBackgroundColor
         confirmTextField.attributedPlaceholder = NSAttributedString(string: SignUp.Constants.Texts.confirmationPlaceholder,
                                                                     attributes: [NSAttributedString.Key.foregroundColor: SignUp.Constants.Colors.textFieldPlaceHolderColor, NSAttributedString.Key.font: SignUp.Constants.Fonts.placeholderFont])
+        confirmTextField.font = SignUp.Constants.Fonts.textFieldFont
+        confirmTextField.textColor = SignUp.Constants.Colors.textFieldColor
+        confirmTextField.autocapitalizationType = .none
         
         professionalTextField.backgroundColor = SignUp.Constants.Colors.textFieldBackgroundColor
         professionalTextField.attributedPlaceholder = NSAttributedString(string: SignUp.Constants.Texts.professionalArea,
                                                                          attributes: [NSAttributedString.Key.foregroundColor: SignUp.Constants.Colors.textFieldPlaceHolderColor, NSAttributedString.Key.font: SignUp.Constants.Fonts.placeholderFont])
+        professionalTextField.font = SignUp.Constants.Fonts.textFieldFont
+        professionalTextField.textColor = SignUp.Constants.Colors.textFieldColor
+        professionalTextField.autocapitalizationType = .none
+        
         cathegoriesLbl.attributedText = NSAttributedString(string: SignUp.Constants.Texts.cathegories,
                                                            attributes: [NSAttributedString.Key.font: SignUp.Constants.Fonts.cathegoriesLblFont, NSAttributedString.Key.foregroundColor: SignUp.Constants.Colors.cathegoriesLblColor, NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue])
         signUpButton.layer.cornerRadius = 4

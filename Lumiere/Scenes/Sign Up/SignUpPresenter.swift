@@ -8,6 +8,7 @@
 
 protocol SignUpPresentationLogic {
     func didFetchMovieStyles(_ styles: [MovieStyle])
+    
 }
 
 class SignUpPresenter: SignUpPresentationLogic {

@@ -98,11 +98,17 @@ class SignUpController: BaseViewController {
         navigationController?.setNavigationBarHidden(true, animated: true)
         setupCollectionView()
         interactor?.fetchMovieStyles()
+        cellphoneTextField.delegate = self
     }
     
     override func loadView() {
         super.loadView()
         view = mainView
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        view.endEditing(true)
     }
     
     private func setup() {
@@ -113,6 +119,37 @@ class SignUpController: BaseViewController {
         viewController.router = router
         viewController.interactor = interactor
         router.dataStore = interactor
+    }
+}
+
+extension SignUpController: UITextFieldDelegate {
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let  char = string.cString(using: String.Encoding.utf8)!
+        let isBackSpace = strcmp(char, "\\b")
+
+        if (isBackSpace == -92) && (textField.text?.count)! > 0 {
+            print("Backspace was pressed")
+            textField.text!.removeLast()
+            return false
+        }
+
+        if textField == cellphoneTextField
+        {
+            if (textField.text?.count)! == 2
+            {
+                textField.text = "(\(textField.text!)) "  //There we are ading () and space two things
+            }
+            else if (textField.text?.count)! == 10
+            {
+                textField.text = "\(textField.text!)-" //there we are ading - in textfield
+            }
+            else if (textField.text?.count)! > 14
+            {
+                return false
+            }
+        }
+        return true
     }
 }
 

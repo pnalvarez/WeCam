@@ -33,13 +33,11 @@ class SignInController: BaseViewController {
     }()
     
     private lazy var signUpButton: UIButton = {
-        return UIButton(frame: .zero)
+        let view = UIButton(frame: .zero)
+        view.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
+        return view
     }()
-    
-    private lazy var scrollView: UIScrollView = {
-        return UIScrollView(frame: .zero)
-    }()
-    
+
     private lazy var mainView: SignInView = {
         return SignInView(frame: .zero,
                           emailTextField: emailTextField,
@@ -54,12 +52,18 @@ class SignInController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.isNavigationBarHidden = true
         setup()
     }
     
     override func loadView() {
         super.loadView()
-        view = scrollView
+        view = mainView
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        view.endEditing(true)
     }
 }
 
@@ -85,8 +89,12 @@ extension SignInController {
     
     private func setup() {
         let viewController = self
-        interactor = SignInInteractor(viewController: viewController)
-    
+        let interactor = SignInInteractor(viewController: viewController)
+        let router = SignInRouter()
+        router.dataStore = interactor
+        router.viewController = viewController
+        viewController.interactor = interactor
+        viewController.router = router
     }
 }
 

@@ -20,6 +20,7 @@ struct SignUp {
             static let signUpButtonDeactivatedColor = UIColor(rgb: 0xe50c3c).withAlphaComponent(0.6)
             static let signUpButtonTextColor = UIColor(rgb: 0xffffff)
             static let signUpCollectionViewCellText = UIColor(rgb: 0xffffff)
+            static let textFieldColor = UIColor(rgb: 0x222222)
         }
         
         struct Texts {
@@ -35,12 +36,14 @@ struct SignUp {
         
         struct Dimensions {
             static let mainViewHeight: CGFloat = 1150
+            static let scrollViewHeigh: CGFloat = 1200
         }
         
         struct Fonts {
-            static let placeholderFont = UIFont(name: "Roboto-Regular", size: 12)
-            static let cathegoriesLblFont = UIFont(name: "Roboto-Bold", size: 16)
-            static let signUpButtonFont = UIFont(name: "Roboto-Regular", size: 16)
+            static let placeholderFont = ThemeFonts.RobotoRegular(12).rawValue
+            static let cathegoriesLblFont = ThemeFonts.RobotoBold(16).rawValue
+            static let signUpButtonFont = ThemeFonts.RobotoRegular(12).rawValue
+            static let textFieldFont = ThemeFonts.RobotoRegular(12).rawValue
         }
         
         struct Images {
@@ -63,6 +66,14 @@ struct SignUp {
             let phoneNumber: String
             let professionalArea: String
         }
+        
+        struct SignUpProviderRequest {
+            let userData: Info.Data.UserData
+        }
+    }
+    
+    struct Error {
+
     }
     
     struct Info {
