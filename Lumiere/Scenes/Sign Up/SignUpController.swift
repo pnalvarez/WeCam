@@ -97,6 +97,8 @@ class SignUpController: BaseViewController {
     private var interactor: SignUpBusinessLogic?
     private var router: SignUpRouterProtocol?
     
+    private let imagePicker = UIImagePickerController()
+    
     init() {
         super.init(nibName: nil, bundle: nil)
         setup()
@@ -112,6 +114,7 @@ class SignUpController: BaseViewController {
         setupCollectionView()
         interactor?.fetchMovieStyles()
         cellphoneTextField.delegate = self
+        imagePicker.delegate = self
     }
     
     override func loadView() {
@@ -196,6 +199,16 @@ extension SignUpController: UICollectionViewDataSource, UICollectionViewDelegate
     }
 }
 
+extension SignUpController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage{
+                    imageButton.setImage(image, for: .normal)
+                }
+        self.dismiss(animated: true, completion: nil)
+    }
+}
+
 extension SignUpController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView,
@@ -226,7 +239,8 @@ extension SignUpController: UICollectionViewDelegateFlowLayout {
 extension SignUpController {
     
     @objc func didTapImageButton() {
-        
+        imagePicker.allowsEditing = true
+        present(imagePicker, animated: true, completion: { })
     }
     
     @objc
