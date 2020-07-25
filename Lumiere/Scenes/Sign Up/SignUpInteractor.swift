@@ -123,12 +123,14 @@ extension SignUpInteractor: SignUpBusinessLogic {
                                              password: request.password,
                                              professionalArea: request.professionalArea,
                                              interestCathegories: interestCathegories)
-        guard let data = userData else { return }
+        guard let user = userData else { return }
+        let createUserRequest = SignUp.Request.CreateUser(email: request.email, password: request.password)
         
-        let providerRequest = SignUp.Request.SignUpProviderRequest(userData: data)
-        provider.fetchSignUp(providerRequest) { result in
+        provider.fetchSignUp(createUserRequest) { result in
             switch result {
-            case .success:
+            case .success(let data):
+                let providerRequest = SignUp.Request.SignUpProviderRequest(userData: user,
+                                                                           userId: data.user.uid)
                 self.saveUserInfo(providerRequest)
                 break
             case .error(let error):

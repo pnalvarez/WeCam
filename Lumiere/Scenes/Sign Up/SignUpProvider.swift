@@ -10,15 +10,10 @@ import FirebaseAuth
 import Firebase
 
 protocol SignUpProviderProtocol {
-    func fetchSignUp(_ request: SignUp.Request.SignUpProviderRequest,
-                     completion: @escaping (SignUpResponse) -> Void)
+    func fetchSignUp(_ request: SignUp.Request.CreateUser,
+                     completion: @escaping (SignUp.Response.RegisterUser) -> Void)
     func saveUserInfo(_ request: SignUp.Request.SignUpProviderRequest,
-                      completion: @escaping (SignUpResponse) -> Void)
-}
-
-enum SignUpResponse {
-    case success
-    case error(Error)
+                      completion: @escaping (SignUp.Response.SaveUserInfo) -> Void)
 }
 
 class SignUpProvider: SignUpProviderProtocol {
@@ -31,25 +26,25 @@ class SignUpProvider: SignUpProviderProtocol {
         self.helper = FirebaseAuthHelper()
     }
     
-    func fetchSignUp(_ request: SignUp.Request.SignUpProviderRequest,
-                     completion: @escaping (SignUpResponse) -> Void) {
-        let user = UserModel(name: request.userData.name,
-                             email: request.userData.email,
-                             password: request.userData.password,
-                             phoneNumber: request.userData.cellPhone,
-                             professionalArea: request.userData.professionalArea,
-                             interestCathegories: request.userData.interestCathegories.cathegories.map({$0.rawValue}))
-        helper.createUser(user: user, completion: completion)
+    func fetchSignUp(_ request: SignUp.Request.CreateUser,
+                     completion: @escaping (SignUp.Response.RegisterUser) -> Void) {
+        let newRequest = CreateUserRequest(email: request.email, password: request.password)
+        helper.createUser(request: newRequest, completion: completion)
     }
     
     func saveUserInfo(_ request: SignUp.Request.SignUpProviderRequest,
-                      completion: @escaping (SignUpResponse) -> Void) {
-        let user = UserModel(name: request.userData.name,
-                             email: request.userData.email,
-                             password: request.userData.password,
-                             phoneNumber: request.userData.cellPhone,
-                             professionalArea: request.userData.professionalArea,
-                             interestCathegories: request.userData.interestCathegories.cathegories.map({$0.rawValue}))
-        helper.registerUserData(user: user, completion: completion)
+                      completion: @escaping (SignUp.Response.SaveUserInfo) -> Void) {
+        let newRequest = SaveUserInfoRequest(name: request.userData.email,
+                                             email: request.userData.email,
+                                             password: request.userData.password,
+                                             phoneNumber: request.userData.cellPhone,
+                                             professionalArea: request.userData.professionalArea,
+                                             interestCathegories: request
+                                                .userData
+                                                .interestCathegories
+                                                .cathegories
+                                                .map({$0.rawValue}),
+                                             userId: request.userId)
+        helper.registerUserData(request: newRequest, completion: completion)
     }
 }

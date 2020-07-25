@@ -6,6 +6,8 @@
 //  Copyright © 2020 Pedro Alvarez. All rights reserved.
 //
 import UIKit
+import Firebase
+import FirebaseAuth
 
 struct SignUp {
     
@@ -74,6 +76,7 @@ struct SignUp {
         
         struct SignUpProviderRequest {
             let userData: Info.Data.UserData
+            let userId: String
         }
     }
     
@@ -98,6 +101,19 @@ struct SignUp {
         
         struct ServerError {
             let error: Error
+        }
+    }
+    
+    struct Response {
+        
+        enum RegisterUser {
+            case success(AuthDataResult)
+            case error(Error)
+        }
+        
+        enum SaveUserInfo {
+            case success
+            case error(Error)
         }
     }
     
