@@ -12,6 +12,7 @@ protocol SignUpDisplayLogic: class {
     func displayMovieStyles(_ viewModel: [MovieStyle])
     func displayInformationError(_ viewModel: SignUp.Info.ViewModel.Error)
     func displayConfirmationMatchError()
+    func displayLoading(_ loading: Bool)
 }
 
 class SignUpController: BaseViewController {
@@ -63,6 +64,15 @@ class SignUpController: BaseViewController {
         return button
     }()
     
+    private lazy var activityView: UIActivityIndicatorView = {
+        let view = UIActivityIndicatorView(frame: .zero)
+        view.color = ThemeColors.mainRedColor.rawValue
+        view.backgroundColor = UIColor.white.withAlphaComponent(0.5)
+        view.startAnimating()
+        view.isHidden = true
+        return view
+    }()
+    
     private lazy var mainView: SignUpView = {
         let frame = CGRect(x: 0,
                            y: 0,
@@ -78,7 +88,8 @@ class SignUpController: BaseViewController {
                           confirmTextField: confirmTextField,
                           professionalTextField: professionalTextField,
                           signUpButton: signUpButton,
-                          collectionView: collectionView)
+                          collectionView: collectionView,
+                          activityView: activityView)
     }()
     
     private var movieStyles: [MovieStyle] = []
@@ -263,5 +274,9 @@ extension SignUpController: SignUpDisplayLogic {
         alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
         present(alertController, animated: true, completion: nil)
         mainView.displayUnmatchedFields()
+    }
+    
+    func displayLoading(_ loading: Bool) {
+        activityView.isHidden = !loading
     }
 }

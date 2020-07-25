@@ -20,6 +20,7 @@ class SignUpView: UIView {
     private unowned var professionalTextField: UITextField
     private unowned var signUpButton: UIButton
     private unowned var collectionView: UICollectionView
+    private unowned var activityView: UIActivityIndicatorView
     
     private lazy var cathegoriesLbl: UILabel = { return UILabel(frame: .zero) }()
     private lazy var containerView: UIView = { return UIView(frame: .zero) }()
@@ -36,7 +37,8 @@ class SignUpView: UIView {
          confirmTextField: UITextField,
          professionalTextField: UITextField,
          signUpButton: UIButton,
-         collectionView: UICollectionView) {
+         collectionView: UICollectionView,
+         activityView: UIActivityIndicatorView) {
         self.backButton = backButton
         self.imageButton = imageButton
         self.nameTextField = nameTextField
@@ -47,6 +49,7 @@ class SignUpView: UIView {
         self.professionalTextField = professionalTextField
         self.signUpButton = signUpButton
         self.collectionView = collectionView
+        self.activityView = activityView
         super.init(frame: frame)
         applyViewCode()
     }
@@ -105,6 +108,7 @@ extension SignUpView: ViewCodeProtocol {
         containerView.addSubview(signUpButton)
         scrollView.addSubview(containerView)
         addSubview(scrollView)
+        addSubview(activityView)
     }
     
     func setupConstraints() {
@@ -115,6 +119,9 @@ extension SignUpView: ViewCodeProtocol {
             make.edges.equalToSuperview()
             make.width.equalToSuperview()
             make.height.equalToSuperview().priority(250)
+        }
+        activityView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
         titleHeaderIcon.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(8)

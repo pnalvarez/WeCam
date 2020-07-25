@@ -9,6 +9,7 @@
 protocol SignUpPresentationLogic {
     func didFetchMovieStyles(_ styles: [MovieStyle])
     func presentError(_ response: SignUp.Error.SignUpErrors)
+    func presentLoading(_ loading: Bool)
 }
 
 class SignUpPresenter: SignUpPresentationLogic {
@@ -43,5 +44,9 @@ class SignUpPresenter: SignUpPresentationLogic {
         case .passwordMatch:
             viewController.displayConfirmationMatchError()
         }
+    }
+    
+    func presentLoading(_ loading: Bool) {
+        viewController.displayLoading(loading)
     }
 }

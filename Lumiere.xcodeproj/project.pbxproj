@@ -75,6 +75,7 @@
 		3FE8DF5624C7BE0B005DE30D /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE8DF5524C7BE0B005DE30D /* UserModel.swift */; };
 		3FE8DF5824C7BEE2005DE30D /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE8DF5724C7BEE2005DE30D /* Constants.swift */; };
 		3FE8DF5A24CBD271005DE30D /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE8DF5924CBD271005DE30D /* UIView+.swift */; };
+		3FE8DF5C24CBD81C005DE30D /* ThemeColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE8DF5B24CBD81C005DE30D /* ThemeColors.swift */; };
 		489089FEB8140F8A2E1B993D /* Pods_Lumiere_LumiereUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B84867081F3814C0729E0A6F /* Pods_Lumiere_LumiereUITests.framework */; };
 		E48219FC3C20557A161CBC0F /* Pods_Lumiere.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 601738D471DE051660DE4EDE /* Pods_Lumiere.framework */; };
 /* End PBXBuildFile section */
@@ -173,6 +174,7 @@
 		3FE8DF5524C7BE0B005DE30D /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		3FE8DF5724C7BEE2005DE30D /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		3FE8DF5924CBD271005DE30D /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
+		3FE8DF5B24CBD81C005DE30D /* ThemeColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeColors.swift; sourceTree = "<group>"; };
 		5AC706A5F046CA56FB3C61F2 /* Pods_LumiereTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LumiereTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		601738D471DE051660DE4EDE /* Pods_Lumiere.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Lumiere.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		763D8EED12FD7F99BFEBD056 /* Pods-LumiereTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LumiereTests.release.xcconfig"; path = "Target Support Files/Pods-LumiereTests/Pods-LumiereTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -464,6 +466,7 @@
 			isa = PBXGroup;
 			children = (
 				3FE8DF4024C3F738005DE30D /* ThemeFonts.swift */,
+				3FE8DF5B24CBD81C005DE30D /* ThemeColors.swift */,
 			);
 			path = Themes;
 			sourceTree = "<group>";
@@ -759,6 +762,7 @@
 				3FE8DF5424C52F72005DE30D /* FirebaseAuthHelper.swift in Sources */,
 				3F95787524AEA4C900B79818 /* SignInInteractor.swift in Sources */,
 				3F95787724AEA4D100B79818 /* SignInPresenter.swift in Sources */,
+				3FE8DF5C24CBD81C005DE30D /* ThemeColors.swift in Sources */,
 				3F9578DD24B0314D00B79818 /* BaseViewController.swift in Sources */,
 				3FE8DF5624C7BE0B005DE30D /* UserModel.swift in Sources */,
 				3F9578C624B0195600B79818 /* SignUpView.swift in Sources */,

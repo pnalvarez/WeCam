@@ -102,6 +102,7 @@ extension SignUpInteractor: SignUpBusinessLogic {
         guard !checkErrors(with: request) else {
             return
         }
+        presenter.presentLoading(true)
         userData = SignUp.Info.Data.UserData(name: request.name,
                                              cellPhone: request.phoneNumber,
                                              email: request.email,
