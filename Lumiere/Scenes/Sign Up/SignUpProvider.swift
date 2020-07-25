@@ -7,9 +7,18 @@
 //
 import FirebaseDatabase
 import FirebaseAuth
+import Firebase
 
 protocol SignUpProviderProtocol {
-    func fetchSignUp(_ request: SignUp.Request.SignUpProviderRequest)
+    func fetchSignUp(_ request: SignUp.Request.SignUpProviderRequest,
+                     completion: @escaping (SignUpResponse) -> Void)
+    func saveUserInfo(_ request: SignUp.Request.SignUpProviderRequest,
+                      completion: @escaping (SignUpResponse) -> Void)
+}
+
+enum SignUpResponse {
+    case success
+    case error(Error)
 }
 
 class SignUpProvider: SignUpProviderProtocol {
@@ -22,15 +31,25 @@ class SignUpProvider: SignUpProviderProtocol {
         self.helper = FirebaseAuthHelper()
     }
     
-    func fetchSignUp(_ request: SignUp.Request.SignUpProviderRequest) {
+    func fetchSignUp(_ request: SignUp.Request.SignUpProviderRequest,
+                     completion: @escaping (SignUpResponse) -> Void) {
         let user = UserModel(name: request.userData.name,
                              email: request.userData.email,
                              password: request.userData.password,
                              phoneNumber: request.userData.cellPhone,
                              professionalArea: request.userData.professionalArea,
-                             interestCathegories: request.userData.interestCathegories.cathegories)
-        helper.createUser(user: user) { success in
-            //ROUTE TO HOME
-        }
+                             interestCathegories: request.userData.interestCathegories.cathegories.map({$0.rawValue}))
+        helper.createUser(user: user, completion: completion)
+    }
+    
+    func saveUserInfo(_ request: SignUp.Request.SignUpProviderRequest,
+                      completion: @escaping (SignUpResponse) -> Void) {
+        let user = UserModel(name: request.userData.name,
+                             email: request.userData.email,
+                             password: request.userData.password,
+                             phoneNumber: request.userData.cellPhone,
+                             professionalArea: request.userData.professionalArea,
+                             interestCathegories: request.userData.interestCathegories.cathegories.map({$0.rawValue}))
+        helper.registerUserData(user: user, completion: completion)
     }
 }

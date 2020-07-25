@@ -16,7 +16,7 @@ protocol SignInDataStore {
     var dataStore: SignIn.Home.Response? { get set }
 }
 
-class SignInInteractor: SignInBusinessRules, SignInDataStore {
+class SignInInteractor: SignInDataStore {
     
     private var presenter: SignInPresentationLogic
     private var provider: SignInProviderProtocol
@@ -27,6 +27,9 @@ class SignInInteractor: SignInBusinessRules, SignInDataStore {
         self.presenter = SignInPresenter(viewController: viewController)
         self.provider = SignInProvider()
     }
+}
+
+extension SignInInteractor: SignInBusinessRules {
     
     func signIn(request: SignIn.Models.Request) {
         presenter.didFetchLoginResponse(response: SignIn.Models.Response.LoggedUser())

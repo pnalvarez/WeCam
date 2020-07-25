@@ -8,8 +8,10 @@
 
 protocol SignUpPresentationLogic {
     func didFetchMovieStyles(_ styles: [MovieStyle])
-    func presentError(_ response: SignUp.Error.SignUpErrors)
+    func presentError(_ response: SignUp.Errors.SignUpErrors)
     func presentLoading(_ loading: Bool)
+    func didSignUpUser()
+    func didFetchServerError(_ error: SignUp.Errors.ServerError)
 }
 
 class SignUpPresenter: SignUpPresentationLogic {
@@ -24,7 +26,7 @@ class SignUpPresenter: SignUpPresentationLogic {
         viewController.displayMovieStyles(styles)
     }
     
-    func presentError(_ response: SignUp.Error.SignUpErrors) {
+    func presentError(_ response: SignUp.Errors.SignUpErrors) {
         switch response {
         case .cellPhoneIncomplete,
              .cellPhoneInvalid,
@@ -48,5 +50,14 @@ class SignUpPresenter: SignUpPresentationLogic {
     
     func presentLoading(_ loading: Bool) {
         viewController.displayLoading(loading)
+    }
+    
+    func didSignUpUser() {
+        viewController.displayDidSignUpUser()
+    }
+    
+    func didFetchServerError(_ error: SignUp.Errors.ServerError) {
+        let viewModel = SignUp.Info.ViewModel.Error(description: error.error.localizedDescription)
+        viewController.displayServerError(viewModel)
     }
 }

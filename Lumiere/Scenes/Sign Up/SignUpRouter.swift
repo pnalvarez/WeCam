@@ -12,6 +12,7 @@ typealias SignUpRouterProtocol = NSObject & SignUpRoutingLogic & SignUpDataTrans
 protocol SignUpRoutingLogic {
     func routeToHome()
     func routeBack()
+    func routeBack(withError error: SignUp.Info.ViewModel.Error)
 }
 
 protocol SignUpDataTransfer {
@@ -39,5 +40,16 @@ extension SignUpRouter: SignUpRoutingLogic {
     
     func routeBack() {
         viewController?.navigationController?.popViewController(animated: true)
+    }
+    
+    func routeBack(withError error: SignUp.Info.ViewModel.Error) {
+        guard let navigationController = viewController?.navigationController else { return }
+        let alertController = UIAlertController(title: "Erro no Cadastro",
+                                                message: error.description,
+                                                preferredStyle: .alert)
+        let defaultAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
+        alertController.addAction(defaultAction)
+        navigationController.popViewController(animated: true)
+        navigationController.present(alertController, animated: true, completion: nil)
     }
 }

@@ -9,7 +9,7 @@
 protocol SignUpBusinessLogic {
     func fetchMovieStyles()
     func didSelectCathegory(_ request: SignUp.Request.SelectedCathegory)
-    func fetchSignUp(_ request: SignUp.Request.SignUp)
+    func fetchSignUp(_ request: SignUp.Request.UserData)
 }
 
 protocol SignUpDataStore {
@@ -34,7 +34,7 @@ class SignUpInteractor: SignUpDataStore {
 
 extension SignUpInteractor {
     
-    private func checkErrors(with request: SignUp.Request.SignUp) -> Bool{
+    private func checkErrors(with request: SignUp.Request.UserData) -> Bool{
         guard !request.name.isEmpty else {
             presenter.presentError(.nameIncomplete)
             return true
@@ -81,6 +81,20 @@ extension SignUpInteractor {
         }
         return false
     }
+    
+    private func saveUserInfo(_ request: SignUp.Request.SignUpProviderRequest) {
+        provider.saveUserInfo(request) { response in
+            switch response {
+            case .success:
+                self.presenter.didSignUpUser()
+                self.presenter.presentLoading(false)
+                break
+            case .error(let error):
+                self.presenter.didFetchServerError(SignUp.Errors.ServerError(error: error))
+                self.presenter.presentLoading(false)
+            }
+        }
+    }
 }
 
 extension SignUpInteractor: SignUpBusinessLogic {
@@ -98,7 +112,7 @@ extension SignUpInteractor: SignUpBusinessLogic {
         interestCathegories.cathegories.remove(at: index)
     }
     
-    func fetchSignUp(_ request: SignUp.Request.SignUp) {
+    func fetchSignUp(_ request: SignUp.Request.UserData) {
         guard !checkErrors(with: request) else {
             return
         }
@@ -112,6 +126,15 @@ extension SignUpInteractor: SignUpBusinessLogic {
         guard let data = userData else { return }
         
         let providerRequest = SignUp.Request.SignUpProviderRequest(userData: data)
-        provider.fetchSignUp(providerRequest)
+        provider.fetchSignUp(providerRequest) { result in
+            switch result {
+            case .success:
+                self.saveUserInfo(providerRequest)
+                break
+            case .error(let error):
+                self.presenter.didFetchServerError(SignUp.Errors.ServerError(error: error))
+                self.presenter.presentLoading(false)
+            }
+        }
     }
 }

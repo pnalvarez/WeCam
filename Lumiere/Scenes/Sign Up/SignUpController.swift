@@ -13,6 +13,8 @@ protocol SignUpDisplayLogic: class {
     func displayInformationError(_ viewModel: SignUp.Info.ViewModel.Error)
     func displayConfirmationMatchError()
     func displayLoading(_ loading: Bool)
+    func displayServerError(_ viewModel: SignUp.Info.ViewModel.Error)
+    func displayDidSignUpUser()
 }
 
 class SignUpController: BaseViewController {
@@ -250,7 +252,7 @@ extension SignUpController {
     
     @objc
     private func didTapSignUpButton() {
-        let request = SignUp.Request.SignUp(name: nameTextField.text ?? .empty,
+        let request = SignUp.Request.UserData(name: nameTextField.text ?? .empty,
                                             email: emailTextField.text ?? .empty,
                                             password: passwordTextField.text ?? .empty,
                                             confirmation: confirmTextField.text ?? .empty,
@@ -292,5 +294,13 @@ extension SignUpController: SignUpDisplayLogic {
     
     func displayLoading(_ loading: Bool) {
         activityView.isHidden = !loading
+    }
+    
+    func displayServerError(_ viewModel: SignUp.Info.ViewModel.Error) {
+        router?.routeBack(withError: viewModel)
+    }
+    
+    func displayDidSignUpUser() {
+        router?.routeBack()
     }
 }

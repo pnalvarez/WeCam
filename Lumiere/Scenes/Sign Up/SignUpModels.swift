@@ -58,7 +58,7 @@ struct SignUp {
             let cathegory: MovieStyle
         }
         
-        struct SignUp {
+        struct UserData {
             let name: String
             let email: String
             let password: String
@@ -67,12 +67,17 @@ struct SignUp {
             let professionalArea: String
         }
         
+        struct CreateUser {
+            let email: String
+            let password: String
+        }
+        
         struct SignUpProviderRequest {
             let userData: Info.Data.UserData
         }
     }
     
-    struct Error {
+    struct Errors {
 
         enum SignUpErrors: String {
             case nameIncomplete = "Informação Incompleta: Nome"
@@ -89,6 +94,10 @@ struct SignUp {
             case movieStyles = "Insira pelo menos uma categoria de interesse"
             case emailAlreadyRegistered = "Erro: O email já está cadastrado"
             case genericError = "Ocorreu um erro ao tentar cadastrar usuário, tente novamente mais tarde"
+        }
+        
+        struct ServerError {
+            let error: Error
         }
     }
     
