@@ -9,9 +9,9 @@
 import UIKit
 
 protocol SignInDisplayLogic: class {
-    func didFetchLoginResponse()
-    func didFetchForgot()
-    func didFetchSignUp()
+    func displaySuccessfulLogin()
+    func displayServerError(_ viewModel: SignIn.ViewModel.ServerError)
+    func displayLoading(_ loading: Bool)
 }
 
 class SignInController: BaseViewController {
@@ -25,7 +25,9 @@ class SignInController: BaseViewController {
     }()
     
     private lazy var enterButton: UIButton = {
-        return UIButton(frame: .zero)
+        let view = UIButton(frame: .zero)
+        view.addTarget(self, action: #selector(enterButtonTapped), for: .touchUpInside)
+        return view
     }()
     
     private lazy var forgetButton: UIButton = {
@@ -37,6 +39,15 @@ class SignInController: BaseViewController {
         view.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
         return view
     }()
+    
+    private lazy var activityView: UIActivityIndicatorView = {
+        let view = UIActivityIndicatorView(frame: .zero)
+        view.backgroundColor = UIColor.white.withAlphaComponent(0.5)
+        view.color = ThemeColors.mainRedColor.rawValue
+        view.startAnimating()
+        view.isHidden = true
+        return view
+    }()
 
     private lazy var mainView: SignInView = {
         return SignInView(frame: .zero,
@@ -44,7 +55,8 @@ class SignInController: BaseViewController {
                           passwordTextField: passwordTextField,
                           enterButton: enterButton,
                           forgetButton: forgetButton,
-                          signUpButton: signUpButton)
+                          signUpButton: signUpButton,
+                          activityView: activityView)
     }()
     
     private var interactor: SignInBusinessRules?
@@ -81,7 +93,9 @@ extension SignInController {
     
     @objc
     private func enterButtonTapped() {
-        
+        let request = SignIn.Models.Request(email: emailTextField.text ?? .empty,
+                                            password: passwordTextField.text ?? .empty)
+        interactor?.fetchSignIn(request: request)
     }
 }
 
@@ -100,15 +114,18 @@ extension SignInController {
 
 extension SignInController: SignInDisplayLogic {
     
-    func didFetchForgot() {
-        
+    func displaySuccessfulLogin() {
+        router?.routeToHome()
     }
     
-    func didFetchSignUp() {
-        
+    func displayLoading(_ loading: Bool) {
+        activityView.isHidden = !loading
     }
     
-    func didFetchLoginResponse() {
-        
+    func displayServerError(_ viewModel: SignIn.ViewModel.ServerError) {
+        let alertController = UIAlertController(title: "Erro de Login", message: viewModel.description, preferredStyle: .alert)
+        let defaultAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
+        alertController.addAction(defaultAction)
+        present(alertController, animated: true, completion: nil)
     }
 }

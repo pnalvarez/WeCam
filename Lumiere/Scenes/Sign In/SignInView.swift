@@ -15,6 +15,7 @@ class SignInView: UIView {
     private unowned var enterButton: UIButton
     private unowned var forgetButton: UIButton
     private unowned var signUpButton: UIButton
+    private unowned var activityView: UIActivityIndicatorView
     
     private lazy var topLogoImageView: UIImageView = {
         return UIImageView(frame: .zero)
@@ -29,12 +30,14 @@ class SignInView: UIView {
          passwordTextField: UITextField,
          enterButton: UIButton,
          forgetButton: UIButton,
-         signUpButton: UIButton) {
+         signUpButton: UIButton,
+         activityView: UIActivityIndicatorView) {
         self.emailTextField = emailTextField
         self.passwordTextField = passwordTextField
         self.enterButton = enterButton
         self.forgetButton = forgetButton
         self.signUpButton = signUpButton
+        self.activityView = activityView
         super.init(frame: frame)
         applyViewCode()
     }
@@ -54,6 +57,7 @@ extension SignInView: ViewCodeProtocol {
         addSubview(signUpButton)
         addSubview(topLogoImageView)
         addSubview(bottomLogoImageView)
+        addSubview(activityView)
     }
     
     func setupConstraints() {
@@ -94,6 +98,9 @@ extension SignInView: ViewCodeProtocol {
             make.height.equalTo(14)
             make.width.equalTo(64)
             make.centerX.equalToSuperview()
+        }
+        activityView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
     }
     

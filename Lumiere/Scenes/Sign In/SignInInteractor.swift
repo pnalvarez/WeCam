@@ -7,9 +7,7 @@
 //
 
 protocol SignInBusinessRules {
-    func signIn(request: SignIn.Models.Request)
-    func didForget()
-    func didTapSignUp()
+    func fetchSignIn(request: SignIn.Models.Request)
 }
 
 protocol SignInDataStore {
@@ -31,16 +29,21 @@ class SignInInteractor: SignInDataStore {
 
 extension SignInInteractor: SignInBusinessRules {
     
-    func signIn(request: SignIn.Models.Request) {
-        presenter.didFetchLoginResponse(response: SignIn.Models.Response.LoggedUser())
-    }
-    
-    func didForget() {
-        presenter.didFetchForgetResponse()
-    }
-    
-    func didTapSignUp() {
-        presenter.didFetchSignUpResponse()
+    func fetchSignIn(request: SignIn.Models.Request) {
+        presenter.presentLoading(true)
+        provider.fetchSignIn(request: request) { response in
+            switch response {
+            case .success:
+                self.presenter.presentLoading(false)
+                self.presenter.didFetchSuccessLogin()
+                break
+            case .error(let error):
+                self.presenter.presentLoading(false)
+                self.presenter.didFetchServerError(error)
+                break
+            }
+        }
+        presenter.didFetchSuccessLogin()
     }
 }
 

@@ -39,9 +39,14 @@ class FirebaseAuthHelper {
             }
     }
     
-    func signInUser(request: SignInRequest) {
-//        Auth.auth().signIn(withEmail: request.email, password: request.password) { (credentials, error) in
-//            credentials?.credential.
-//        }
+    func signInUser(request: SignInRequest,
+                    completion: @escaping (SignIn.Response.SignInResponse) -> Void) {
+        Auth.auth().signIn(withEmail: request.email, password: request.password) { (credentials, error) in
+            if let error = error {
+                completion(.error(SignIn.Errors.ServerError(error: error)))
+            } else {
+                completion(.success)
+            }
+        }
     }
 }

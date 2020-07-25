@@ -417,13 +417,13 @@
 		3F95786F24AEA49700B79818 /* Sign In */ = {
 			isa = PBXGroup;
 			children = (
+				3F95787024AEA4B800B79818 /* SignInController.swift */,
 				3F95787424AEA4C900B79818 /* SignInInteractor.swift */,
 				3F95787A24AEA4EA00B79818 /* SignInModels.swift */,
 				3F95787624AEA4D100B79818 /* SignInPresenter.swift */,
 				3F95787C24AEA4F000B79818 /* SignInProvider.swift */,
 				3F95787824AEA4DE00B79818 /* SignInRouter.swift */,
 				3F95787224AEA4C000B79818 /* SignInView.swift */,
-				3F95787024AEA4B800B79818 /* SignInController.swift */,
 			);
 			path = "Sign In";
 			sourceTree = "<group>";

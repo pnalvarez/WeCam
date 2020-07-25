@@ -7,9 +7,9 @@
 //
 
 protocol SignInPresentationLogic {
-    func didFetchLoginResponse(response: SignIn.Models.Response.LoggedUser)
-    func didFetchForgetResponse()
-    func didFetchSignUpResponse()
+    func didFetchSuccessLogin()
+    func didFetchServerError(_ error: SignIn.Errors.ServerError)
+    func presentLoading(_ loading: Bool)
 }
 
 class SignInPresenter: SignInPresentationLogic {
@@ -20,16 +20,17 @@ class SignInPresenter: SignInPresentationLogic {
         self.viewController = viewController
     }
     
-    func didFetchLoginResponse(response: SignIn.Models.Response.LoggedUser) {
-        viewController.didFetchLoginResponse()
+    func didFetchSuccessLogin() {
+        viewController.displaySuccessfulLogin()
     }
     
-    func didFetchForgetResponse() {
-        viewController.didFetchForgot()
+    func presentLoading(_ loading: Bool) {
+        viewController.displayLoading(loading)
     }
     
-    func didFetchSignUpResponse() {
-        viewController.didFetchSignUp()
+    func didFetchServerError(_ error: SignIn.Errors.ServerError) {
+        let viewModel = SignIn.ViewModel.ServerError(description: error.error.localizedDescription)
+        viewController.displayServerError(viewModel)
     }
 }
 

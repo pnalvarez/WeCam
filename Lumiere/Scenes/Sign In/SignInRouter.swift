@@ -11,6 +11,7 @@ typealias SignInRouterProtocol = NSObject & SignInRoutingLogic & SignInDataTrans
 
 protocol SignInRoutingLogic {
     func routeToSignUp()
+    func routeToHome()
 }
 
 protocol SignInDataTransfer {
@@ -29,4 +30,8 @@ extension SignInRouter: SignInRoutingLogic {
            let signUpController = SignUpController()
            viewController?.navigationController?.pushViewController(signUpController, animated: true)
        }
+    
+    func routeToHome() {
+        
+    }
 }

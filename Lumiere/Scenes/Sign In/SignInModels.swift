@@ -47,20 +47,20 @@ struct SignIn {
             let email: String
             let password: String
         }
+    }
+    
+    struct Response {
         
-        struct Response {
-            
-            struct LoggedUser {
-                
-            }
-            
-            struct ForgetModel {
-                
-            }
-            
-            struct SignUpModel {
-                
-            }
+        enum SignInResponse {
+            case success
+            case error(Errors.ServerError)
+        }
+    }
+    
+    struct Errors {
+        
+        struct ServerError {
+            let error: Error
         }
     }
     
@@ -76,6 +76,10 @@ struct SignIn {
         
         struct SignUpViewModel {
             
+        }
+        
+        struct ServerError {
+            let description: String
         }
     }
     
