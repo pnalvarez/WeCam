@@ -32,6 +32,57 @@ class SignUpInteractor: SignUpDataStore {
     }
 }
 
+extension SignUpInteractor {
+    
+    private func checkErrors(with request: SignUp.Request.SignUp) -> Bool{
+        guard !request.name.isEmpty else {
+            presenter.presentError(.nameIncomplete)
+            return true
+        }
+        guard request.name.split(separator: Character(.space)).count > 1 else {
+            presenter.presentError(.nameInvalid)
+            return true
+        }
+        guard !request.phoneNumber.isEmpty else {
+            presenter.presentError(.cellPhoneIncomplete)
+            return true
+        }
+        guard request.phoneNumber.count == 15 else {
+            presenter.presentError(.cellPhoneInvalid)
+            return true
+        }
+        guard !request.email.isEmpty else {
+            presenter.presentError(.emailIncomplete)
+            return true
+        }
+        guard request.email.isValidEmail() else {
+            presenter.presentError(.emailInvalid)
+            return true
+        }
+        guard !request.password.isEmpty else {
+            presenter.presentError(.passwordIncomplete)
+            return true
+        }
+        guard !request.confirmation.isEmpty else {
+            presenter.presentError(.confirmationIncomplete)
+            return true
+        }
+        guard request.password == request.confirmation else {
+            presenter.presentError(.passwordMatch)
+            return true
+        }
+        guard !request.professionalArea.isEmpty else {
+            presenter.presentError(.professional)
+            return true
+        }
+        guard interestCathegories.cathegories.count > 0 else {
+            presenter.presentError(.movieStyles)
+            return true
+        }
+        return false
+    }
+}
+
 extension SignUpInteractor: SignUpBusinessLogic {
     
     func fetchMovieStyles() {
@@ -48,6 +99,9 @@ extension SignUpInteractor: SignUpBusinessLogic {
     }
     
     func fetchSignUp(_ request: SignUp.Request.SignUp) {
+        guard !checkErrors(with: request) else {
+            return
+        }
         userData = SignUp.Info.Data.UserData(name: request.name,
                                              cellPhone: request.phoneNumber,
                                              email: request.email,
@@ -55,6 +109,7 @@ extension SignUpInteractor: SignUpBusinessLogic {
                                              professionalArea: request.professionalArea,
                                              interestCathegories: interestCathegories)
         guard let data = userData else { return }
+        
         let providerRequest = SignUp.Request.SignUpProviderRequest(userData: data)
         provider.fetchSignUp(providerRequest)
     }

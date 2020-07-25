@@ -56,6 +56,38 @@ class SignUpView: UIView {
     }
 }
 
+extension SignUpView {
+    
+    func updateAllTextFields() {
+        for view in allSubviews {
+            if let textField = view as? UITextField {
+                if let isEmpty = textField.text?.isEmpty {
+                    if isEmpty {
+                        textField.layer.borderWidth = 1
+                        textField.layer.borderColor = UIColor.red.cgColor
+                    } else {
+                        textField.layer.borderWidth = 0
+                        textField.layer.borderColor = UIColor.clear.cgColor
+                    }
+                }
+            }
+        }
+    }
+    
+    func displayUnmatchedFields() {
+        for view in allSubviews {
+            if let textField = view as? UITextField {
+                textField.layer.borderWidth = 0
+                textField.layer.borderColor = UIColor.clear.cgColor
+            }
+        }
+        passwordTextField.layer.borderWidth = 1
+        passwordTextField.layer.borderColor = UIColor.red.cgColor
+        confirmTextField.layer.borderWidth = 1
+        confirmTextField.layer.borderColor = UIColor.red.cgColor
+    }
+}
+
 extension SignUpView: ViewCodeProtocol {
     
     func buildViewHierarchy() {

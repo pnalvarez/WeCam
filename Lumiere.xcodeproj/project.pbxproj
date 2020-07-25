@@ -74,6 +74,7 @@
 		3FE8DF5424C52F72005DE30D /* FirebaseAuthHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE8DF5324C52F72005DE30D /* FirebaseAuthHelper.swift */; };
 		3FE8DF5624C7BE0B005DE30D /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE8DF5524C7BE0B005DE30D /* UserModel.swift */; };
 		3FE8DF5824C7BEE2005DE30D /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE8DF5724C7BEE2005DE30D /* Constants.swift */; };
+		3FE8DF5A24CBD271005DE30D /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE8DF5924CBD271005DE30D /* UIView+.swift */; };
 		489089FEB8140F8A2E1B993D /* Pods_Lumiere_LumiereUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B84867081F3814C0729E0A6F /* Pods_Lumiere_LumiereUITests.framework */; };
 		E48219FC3C20557A161CBC0F /* Pods_Lumiere.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 601738D471DE051660DE4EDE /* Pods_Lumiere.framework */; };
 /* End PBXBuildFile section */
@@ -171,6 +172,7 @@
 		3FE8DF5324C52F72005DE30D /* FirebaseAuthHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAuthHelper.swift; sourceTree = "<group>"; };
 		3FE8DF5524C7BE0B005DE30D /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		3FE8DF5724C7BEE2005DE30D /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		3FE8DF5924CBD271005DE30D /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		5AC706A5F046CA56FB3C61F2 /* Pods_LumiereTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LumiereTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		601738D471DE051660DE4EDE /* Pods_Lumiere.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Lumiere.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		763D8EED12FD7F99BFEBD056 /* Pods-LumiereTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LumiereTests.release.xcconfig"; path = "Target Support Files/Pods-LumiereTests/Pods-LumiereTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -364,6 +366,7 @@
 				3F9578DA24B0240C00B79818 /* String+.swift */,
 				3F8116DD24B6AB620083A3DA /* ReusableView.swift */,
 				3F8116DF24B6ABEE0083A3DA /* UICollectionView+.swift */,
+				3FE8DF5924CBD271005DE30D /* UIView+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -769,6 +772,7 @@
 				3FE8DF4E24C529E9005DE30D /* InProgressProjectDetailsRouter.swift in Sources */,
 				3F95785E24AD764700B79818 /* ViewCodeProtocol.swift in Sources */,
 				3FE8DF5024C529F3005DE30D /* InProgressProjectDetailsProvider.swift in Sources */,
+				3FE8DF5A24CBD271005DE30D /* UIView+.swift in Sources */,
 				3F95786124AD775D00B79818 /* LaunchScreenController.swift in Sources */,
 				3F95787B24AEA4EA00B79818 /* SignInModels.swift in Sources */,
 				3F9578D024B0198700B79818 /* SignUpRouter.swift in Sources */,

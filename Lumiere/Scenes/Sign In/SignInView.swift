@@ -60,14 +60,12 @@ extension SignInView: ViewCodeProtocol {
         topLogoImageView.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(77)
             make.height.equalTo(124)
-            make.width.equalTo(104)
-            make.centerX.equalToSuperview()
+            make.left.right.equalToSuperview().inset(136)
         }
         bottomLogoImageView.snp.makeConstraints { make in
             make.top.equalTo(topLogoImageView.snp.bottom)
             make.height.equalTo(38)
-            make.width.equalTo(104)
-            make.centerX.equalTo(topLogoImageView.snp.centerX)
+            make.left.right.equalToSuperview().inset(136)
         }
         emailTextField.snp.makeConstraints { make in
             make.top.equalTo(bottomLogoImageView.snp.bottom).offset(2)
@@ -77,7 +75,7 @@ extension SignInView: ViewCodeProtocol {
         passwordTextField.snp.makeConstraints { make in
             make.top.equalTo(emailTextField.snp.bottom).offset(5)
             make.height.equalTo(29)
-             make.left.right.equalToSuperview().inset(71)
+            make.left.right.equalToSuperview().inset(71)
         }
         forgetButton.snp.makeConstraints { make in
             make.top.equalTo(passwordTextField.snp.bottom).offset(11)
@@ -87,7 +85,7 @@ extension SignInView: ViewCodeProtocol {
         }
         enterButton.snp.makeConstraints { make in
             make.top.equalTo(forgetButton.snp.bottom).offset(45)
-            make.height.equalTo(30)
+            make.height.equalTo(40)
             make.width.equalTo(99)
             make.centerX.equalToSuperview()
         }
@@ -128,7 +126,7 @@ extension SignInView: ViewCodeProtocol {
         
         enterButton.titleLabel?.font = SignIn.Constants.Fonts.enterButton
         enterButton.backgroundColor = SignIn.Constants.Colors.enterButtonBackground
-        enterButton.setTitle(SignIn.Constants.Texts.enterButton, for: .normal)
+        enterButton.setTitle(SignIn.Constants.Texts.enterButton.uppercased(), for: .normal)
         enterButton.titleLabel?.textColor = SignIn.Constants.Colors.enterButtonTextColor
         enterButton.layer.cornerRadius = 4
         

@@ -8,7 +8,7 @@
 
 protocol SignUpPresentationLogic {
     func didFetchMovieStyles(_ styles: [MovieStyle])
-    
+    func presentError(_ response: SignUp.Error.SignUpErrors)
 }
 
 class SignUpPresenter: SignUpPresentationLogic {
@@ -21,5 +21,27 @@ class SignUpPresenter: SignUpPresentationLogic {
     
     func didFetchMovieStyles(_ styles: [MovieStyle]) {
         viewController.displayMovieStyles(styles)
+    }
+    
+    func presentError(_ response: SignUp.Error.SignUpErrors) {
+        switch response {
+        case .cellPhoneIncomplete,
+             .cellPhoneInvalid,
+             .confirmationIncomplete,
+             .emailAlreadyRegistered,
+             .emailIncomplete,
+             .emailInvalid,
+             .genericError,
+             .movieStyles,
+             .nameIncomplete,
+             .nameInvalid,
+             .passwordIncomplete,
+             .passwordInvalid,
+             .professional:
+            viewController.displayInformationError(SignUp.Info.ViewModel.Error(description: response.rawValue))
+            break
+        case .passwordMatch:
+            viewController.displayConfirmationMatchError()
+        }
     }
 }

@@ -74,6 +74,22 @@ struct SignUp {
     
     struct Error {
 
+        enum SignUpErrors: String {
+            case nameIncomplete = "Informação Incompleta: Nome"
+            case nameInvalid = "Nome inválido, por favor inserir nome e sobrenome"
+            case cellPhoneIncomplete = "Informação Incompleta: Celular"
+            case cellPhoneInvalid = "Formato de celular inválido"
+            case emailIncomplete = "Informação Incompleta: E-mail"
+            case emailInvalid = "Formato de email inválido"
+            case passwordIncomplete = "Informação Incompleta: Senha"
+            case passwordInvalid = "Padrão de e-mail inválido"
+            case confirmationIncomplete = "Por favor, confirme sua senha"
+            case passwordMatch = "Inconsistência: Senha e confirmação não batem"
+            case professional = "Informação Incompleta: Area profissional"
+            case movieStyles = "Insira pelo menos uma categoria de interesse"
+            case emailAlreadyRegistered = "Erro: O email já está cadastrado"
+            case genericError = "Ocorreu um erro ao tentar cadastrar usuário, tente novamente mais tarde"
+        }
     }
     
     struct Info {
@@ -91,6 +107,13 @@ struct SignUp {
             
             struct InteretCathegories {
                 var cathegories: [MovieStyle]
+            }
+        }
+        
+        struct ViewModel {
+            
+            struct Error {
+                let description: String
             }
         }
     }

@@ -10,6 +10,8 @@ import UIKit
 
 protocol SignUpDisplayLogic: class {
     func displayMovieStyles(_ viewModel: [MovieStyle])
+    func displayInformationError(_ viewModel: SignUp.Info.ViewModel.Error)
+    func displayConfirmationMatchError()
 }
 
 class SignUpController: BaseViewController {
@@ -247,5 +249,19 @@ extension SignUpController: SignUpDisplayLogic {
         DispatchQueue.main.async {
             self.collectionView.reloadData()
         }
+    }
+    
+    func displayInformationError(_ viewModel: SignUp.Info.ViewModel.Error) {
+        let alertController = UIAlertController(title: "Erro no cadastro", message: viewModel.description, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        present(alertController, animated: true, completion: nil)
+        mainView.updateAllTextFields()
+    }
+    
+    func displayConfirmationMatchError() {
+        let alertController = UIAlertController(title: "Erro no cadastro", message: "Senha e confirmação não conferem", preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        present(alertController, animated: true, completion: nil)
+        mainView.displayUnmatchedFields()
     }
 }
