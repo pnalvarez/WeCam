@@ -29,18 +29,19 @@ class FirebaseAuthHelper {
     
     func registerUserData(request: SaveUserInfoRequest,
                           completion: @escaping (SignUp.Response.SaveUserInfo) -> Void) {
-//        let ref = Database.database().reference()
-//        let child = ref.child("users").child(authData.user.uid ?? .empty).observe(.childAdded) { response in
-////            print("Snapshot",authData.va)
-//        }
-        let db = Firestore.firestore()
-        db.collection(Constants.usersPath).addDocument(data: ["name": request.name, "email" : request.email, "password" : request.password, "phone_number": request.phoneNumber, "professional_area": request.professionalArea, "interest_cathegories": request.interestCathegories, "userId": request.userId]) { error in
-            if let error = error {
-                completion(.error(error))
-            } else {
-                completion(.success)
+        Database.database().reference().child(Constants.usersPath).child(request.userId).updateChildValues( ["name": request.name, "email" : request.email, "password" : request.password, "phone_number": request.phoneNumber, "professional_area": request.professionalArea, "interest_cathegories": request.interestCathegories]) {
+            (error, ref) in
+                if let error = error {
+                    completion(.error(error))
+                } else {
+                    completion(.success)
+                }
             }
-        }
-        
+    }
+    
+    func signInUser(request: SignInRequest) {
+//        Auth.auth().signIn(withEmail: request.email, password: request.password) { (credentials, error) in
+//            credentials?.credential.
+//        }
     }
 }
