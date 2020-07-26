@@ -62,6 +62,12 @@ struct SignIn {
         struct ServerError {
             let error: Error
         }
+        
+        enum InputError: String {
+            case emailEmpty = "Informação vazia: E-mail"
+            case emailInvalid = "E-mail inválido"
+            case passwordEmpty = "Informação vazia: Senha"
+        }
     }
     
     struct ViewModel {
@@ -78,7 +84,7 @@ struct SignIn {
             
         }
         
-        struct ServerError {
+        struct SignInError {
             let description: String
         }
     }

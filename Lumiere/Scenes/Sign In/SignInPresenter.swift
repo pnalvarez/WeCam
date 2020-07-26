@@ -9,6 +9,7 @@
 protocol SignInPresentationLogic {
     func didFetchSuccessLogin()
     func didFetchServerError(_ error: SignIn.Errors.ServerError)
+    func didFetchInputError(_ error: SignIn.Errors.InputError)
     func presentLoading(_ loading: Bool)
 }
 
@@ -29,8 +30,20 @@ class SignInPresenter: SignInPresentationLogic {
     }
     
     func didFetchServerError(_ error: SignIn.Errors.ServerError) {
-        let viewModel = SignIn.ViewModel.ServerError(description: error.error.localizedDescription)
+        let viewModel = SignIn.ViewModel.SignInError(description: error.error.localizedDescription)
         viewController.displayServerError(viewModel)
+    }
+
+    func didFetchInputError(_ error: SignIn.Errors.InputError) {
+        let viewModel = SignIn.ViewModel.SignInError(description: error.rawValue)
+        switch error {
+        case .emailEmpty,
+             .emailInvalid:
+            viewController.displayEmailError(viewModel)
+            break
+        case .passwordEmpty:
+            viewController.displaypasswordError(viewModel)
+        }
     }
 }
 

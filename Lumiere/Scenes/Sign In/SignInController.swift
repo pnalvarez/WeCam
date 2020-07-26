@@ -10,8 +10,10 @@ import UIKit
 
 protocol SignInDisplayLogic: class {
     func displaySuccessfulLogin()
-    func displayServerError(_ viewModel: SignIn.ViewModel.ServerError)
+    func displayServerError(_ viewModel: SignIn.ViewModel.SignInError)
     func displayLoading(_ loading: Bool)
+    func displayEmailError(_ viewModel: SignIn.ViewModel.SignInError)
+    func displaypasswordError(_ viewModel: SignIn.ViewModel.SignInError)
 }
 
 class SignInController: BaseViewController {
@@ -115,6 +117,10 @@ extension SignInController {
 extension SignInController: SignInDisplayLogic {
     
     func displaySuccessfulLogin() {
+        emailTextField.layer.borderWidth = 0
+        emailTextField.layer.borderColor = UIColor.clear.cgColor
+        passwordTextField.layer.borderWidth = 0
+        passwordTextField.layer.borderColor = UIColor.clear.cgColor
         router?.routeToHome()
     }
     
@@ -122,10 +128,37 @@ extension SignInController: SignInDisplayLogic {
         activityView.isHidden = !loading
     }
     
-    func displayServerError(_ viewModel: SignIn.ViewModel.ServerError) {
+    func displayServerError(_ viewModel: SignIn.ViewModel.SignInError) {
         let alertController = UIAlertController(title: "Erro de Login", message: viewModel.description, preferredStyle: .alert)
         let defaultAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
         alertController.addAction(defaultAction)
         present(alertController, animated: true, completion: nil)
+    }
+    
+    func displayEmailError(_ viewModel: SignIn.ViewModel.SignInError) {
+        let alertController = UIAlertController(title: "Erro ao inserir dados", message: viewModel.description, preferredStyle: .alert)
+        let defaultAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
+        alertController.addAction(defaultAction)
+        present(alertController, animated: true, completion: nil)
+        emailTextField.layer.borderWidth = 1
+        emailTextField.layer.borderColor = UIColor.red.cgColor
+        guard let text = passwordTextField.text, !text.isEmpty else {
+            passwordTextField.layer.borderWidth = 1
+            passwordTextField.layer.borderColor = UIColor.red.cgColor
+            return
+        }
+        passwordTextField.layer.borderWidth = 0
+        passwordTextField.layer.borderColor = UIColor.clear.cgColor
+    }
+    
+    func displaypasswordError(_ viewModel: SignIn.ViewModel.SignInError) {
+        let alertController = UIAlertController(title: "Erro ao inserir dados", message: viewModel.description, preferredStyle: .alert)
+        let defaultAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
+        alertController.addAction(defaultAction)
+        present(alertController, animated: true, completion: nil)
+        passwordTextField.layer.borderWidth = 1
+        passwordTextField.layer.borderColor = UIColor.red.cgColor
+        emailTextField.layer.borderWidth = 0
+        emailTextField.layer.borderColor = UIColor.clear.cgColor
     }
 }

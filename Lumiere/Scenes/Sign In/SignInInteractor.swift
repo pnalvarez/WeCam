@@ -27,10 +27,33 @@ class SignInInteractor: SignInDataStore {
     }
 }
 
+extension SignInInteractor {
+    
+    private func checkErrors(_ request: SignIn.Models.Request) -> Bool{
+        guard !request.email.isEmpty else {
+            presenter.didFetchInputError(.emailEmpty)
+            return true
+        }
+        guard request.email.isValidEmail() else {
+            presenter.didFetchInputError(.emailInvalid)
+            return true
+        }
+        guard !request.password.isEmpty else {
+            presenter.didFetchInputError(.passwordEmpty)
+            return true
+        }
+        return false
+    }
+}
+
 extension SignInInteractor: SignInBusinessRules {
     
     func fetchSignIn(request: SignIn.Models.Request) {
         presenter.presentLoading(true)
+        guard !checkErrors(request) else {
+            presenter.presentLoading(false)
+            return
+        }
         provider.fetchSignIn(request: request) { response in
             switch response {
             case .success:
