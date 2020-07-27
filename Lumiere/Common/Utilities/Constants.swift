@@ -9,4 +9,5 @@
 struct Constants {
     
     static let usersPath = "users"
+    static let profileImagesPath = "profile_images"
 }

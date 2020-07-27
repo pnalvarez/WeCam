@@ -10,6 +10,8 @@ import FirebaseAuth
 import FirebaseAnalytics
 import FirebaseFirestore
 import FirebaseDatabase
+import FirebaseStorage
+import Kingfisher
 
 class FirebaseAuthHelper {
     
@@ -29,14 +31,42 @@ class FirebaseAuthHelper {
     
     func registerUserData(request: SaveUserInfoRequest,
                           completion: @escaping (SignUp.Response.SaveUserInfo) -> Void) {
-        Database.database().reference().child(Constants.usersPath).child(request.userId).updateChildValues( ["name": request.name, "email" : request.email, "password" : request.password, "phone_number": request.phoneNumber, "professional_area": request.professionalArea, "interest_cathegories": request.interestCathegories]) {
-            (error, ref) in
+        if let imageData = request.image {
+            let profileImageReference = Storage.storage().reference().child(Constants.profileImagesPath).child(request.userId)
+            profileImageReference.putData(imageData, metadata: nil) { (metadata, error) in
                 if let error = error {
+                    print("Error",error.localizedDescription)
                     completion(.error(error))
-                } else {
-                    completion(.success)
+                }
+                profileImageReference.downloadURL { (url, error) in
+                    if let error = error {
+                        completion(.error(error))
+                    }
+                    guard let url = url else {
+                        completion(.genericError)
+                        return
+                    }
+                    let urlString = url.absoluteString
+                    let dictionary: [String : Any] = ["profile_image_url": urlString,
+                                                      "name": request.name,
+                                                      "email" : request.email,
+                                                      "password" : request.password,
+                                                      "phone_number": request.phoneNumber,
+                                                      "professional_area": request.professionalArea,
+                                                      "interest_cathegories": request.interestCathegories]
+                    
+                    Database.database().reference().child(Constants.usersPath).child(request.userId).updateChildValues(dictionary) {
+                    (error, ref) in
+                        if let error = error {
+                            completion(.error(error))
+                        } else {
+                            completion(.success)
+                        }
+                    }
                 }
             }
+        }
+        completion(.genericError)
     }
     
     func signInUser(request: SignInRequest,
@@ -50,3 +80,4 @@ class FirebaseAuthHelper {
         }
     }
 }
+

@@ -34,6 +34,7 @@ struct SignUp {
             static let professionalArea = "Area Profissional"
             static let cathegories = "Categorias de Interesse"
             static let signUpButton = "Cadastrar"
+            static let genericError = "Ocorreu um erro genérico ao tentar cadastrar"
         }
         
         struct Dimensions {
@@ -61,6 +62,7 @@ struct SignUp {
         }
         
         struct UserData {
+            let image: UIImage?
             let name: String
             let email: String
             let password: String
@@ -75,7 +77,7 @@ struct SignUp {
         }
         
         struct SignUpProviderRequest {
-            let userData: Info.Data.UserData
+            let userData: Info.Model.UserData
             let userId: String
         }
     }
@@ -114,14 +116,16 @@ struct SignUp {
         enum SaveUserInfo {
             case success
             case error(Error)
+            case genericError
         }
     }
     
     struct Info {
         
-        struct Data {
+        struct Model {
             
             struct UserData {
+                let image: Data?
                 let name: String
                 let cellPhone: String
                 let email: String

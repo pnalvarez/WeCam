@@ -34,7 +34,8 @@ class SignUpProvider: SignUpProviderProtocol {
     
     func saveUserInfo(_ request: SignUp.Request.SignUpProviderRequest,
                       completion: @escaping (SignUp.Response.SaveUserInfo) -> Void) {
-        let newRequest = SaveUserInfoRequest(name: request.userData.email,
+        let newRequest = SaveUserInfoRequest(image: request.userData.image,
+                                             name: request.userData.email,
                                              email: request.userData.email,
                                              password: request.userData.password,
                                              phoneNumber: request.userData.cellPhone,

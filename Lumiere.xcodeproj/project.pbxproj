@@ -457,14 +457,14 @@
 		3F9578C424B0194400B79818 /* Sign Up */ = {
 			isa = PBXGroup;
 			children = (
+				3F9578D824B01E8F00B79818 /* SignUpCollectionViewCell.swift */,
+				3F9578C724B0196300B79818 /* SignUpController.swift */,
 				3F9578C924B0196C00B79818 /* SignUpInteractor.swift */,
 				3F9578D124B0198F00B79818 /* SignUpModels.swift */,
 				3F9578CB24B0197500B79818 /* SignUpPresenter.swift */,
 				3F9578CD24B0197F00B79818 /* SignUpProvider.swift */,
 				3F9578CF24B0198700B79818 /* SignUpRouter.swift */,
 				3F9578C524B0195600B79818 /* SignUpView.swift */,
-				3F9578C724B0196300B79818 /* SignUpController.swift */,
-				3F9578D824B01E8F00B79818 /* SignUpCollectionViewCell.swift */,
 			);
 			path = "Sign Up";
 			sourceTree = "<group>";

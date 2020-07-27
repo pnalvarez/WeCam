@@ -12,6 +12,7 @@ protocol SignUpPresentationLogic {
     func presentLoading(_ loading: Bool)
     func didSignUpUser()
     func didFetchServerError(_ error: SignUp.Errors.ServerError)
+    func didFetchGenericError()
 }
 
 class SignUpPresenter: SignUpPresentationLogic {
@@ -58,6 +59,11 @@ class SignUpPresenter: SignUpPresentationLogic {
     
     func didFetchServerError(_ error: SignUp.Errors.ServerError) {
         let viewModel = SignUp.Info.ViewModel.Error(description: error.error.localizedDescription)
+        viewController.displayServerError(viewModel)
+    }
+    
+    func didFetchGenericError() {
+        let viewModel = SignUp.Info.ViewModel.Error(description: SignUp.Constants.Texts.genericError)
         viewController.displayServerError(viewModel)
     }
 }

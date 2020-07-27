@@ -16,6 +16,8 @@ target 'Lumiere' do
   pod 'Firebase/Database'
 	pod 'Firebase/Auth'
   pod 'Firebase/Firestore'
+  pod 'Firebase/Storage'
+  pod 'Kingfisher', '~> 4.5.0'
 
   target 'LumiereTests' do
     inherit! :search_paths

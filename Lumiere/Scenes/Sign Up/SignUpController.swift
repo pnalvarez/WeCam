@@ -252,7 +252,8 @@ extension SignUpController {
     
     @objc
     private func didTapSignUpButton() {
-        let request = SignUp.Request.UserData(name: nameTextField.text ?? .empty,
+        let request = SignUp.Request.UserData(image: imageButton.currentImage,
+                                            name: nameTextField.text ?? .empty,
                                             email: emailTextField.text ?? .empty,
                                             password: passwordTextField.text ?? .empty,
                                             confirmation: confirmTextField.text ?? .empty,

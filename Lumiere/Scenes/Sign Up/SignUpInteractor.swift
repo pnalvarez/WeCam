@@ -5,6 +5,7 @@
 //  Created by Pedro Alvarez on 03/07/20.
 //  Copyright © 2020 Pedro Alvarez. All rights reserved.
 //
+import Foundation
 
 protocol SignUpBusinessLogic {
     func fetchMovieStyles()
@@ -13,8 +14,8 @@ protocol SignUpBusinessLogic {
 }
 
 protocol SignUpDataStore {
-    var userData: SignUp.Info.Data.UserData? { get set }
-    var interestCathegories: SignUp.Info.Data.InteretCathegories { get set }
+    var userData: SignUp.Info.Model.UserData? { get set }
+    var interestCathegories: SignUp.Info.Model.InteretCathegories { get set }
 }
 
 class SignUpInteractor: SignUpDataStore {
@@ -22,8 +23,8 @@ class SignUpInteractor: SignUpDataStore {
     var presenter: SignUpPresentationLogic
     var provider: SignUpProviderProtocol
     
-    var userData: SignUp.Info.Data.UserData?
-    var interestCathegories: SignUp.Info.Data.InteretCathegories = SignUp.Info.Data.InteretCathegories(cathegories: [])
+    var userData: SignUp.Info.Model.UserData?
+    var interestCathegories: SignUp.Info.Model.InteretCathegories = SignUp.Info.Model.InteretCathegories(cathegories: [])
     
     init(viewController: SignUpDisplayLogic,
          provider: SignUpProviderProtocol = SignUpProvider()) {
@@ -92,6 +93,10 @@ extension SignUpInteractor {
             case .error(let error):
                 self.presenter.didFetchServerError(SignUp.Errors.ServerError(error: error))
                 self.presenter.presentLoading(false)
+                break
+            case .genericError:
+                self.presenter.didFetchGenericError()
+                self.presenter.presentLoading(false)
             }
         }
     }
@@ -117,7 +122,8 @@ extension SignUpInteractor: SignUpBusinessLogic {
             return
         }
         presenter.presentLoading(true)
-        userData = SignUp.Info.Data.UserData(name: request.name,
+        userData = SignUp.Info.Model.UserData(image: request.image?.jpegData(compressionQuality: 0.5),
+                                             name: request.name,
                                              cellPhone: request.phoneNumber,
                                              email: request.email,
                                              password: request.password,
