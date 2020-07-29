@@ -5,29 +5,98 @@
 //  Created by Pedro Alvarez on 28/07/20.
 //  Copyright © 2020 Pedro Alvarez. All rights reserved.
 //
-
+@testable import Lumiere
 import XCTest
 
 class SignUpProvider_Tests: XCTestCase {
-
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    
+    var sut: SignUpProvider!
+    private var mock: FirebaseAuthHelperProtocol! = FirebaseHelperMock()
+    
+    override func setUp() {
+        sut = SignUpProvider(helper: mock)
     }
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    override func tearDown() {
+        sut = nil
+        mock = nil
     }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+    
+    func testFetchSignUp_Success() {
+        var testable: String?
+        sut.fetchSignUp(SignUp.Request.CreateUser(email: "usuarioteste@hotmail.com",
+                                                  password: "1234")) { response in
+                                                    switch response {
+                                                    case .success(let data):
+                                                        testable = data.uid
+                                                        break
+                                                    case .error(_):
+                                                        break
+                                                    }
+                                                    XCTAssertNotNil(testable)
         }
     }
-
+    
+    func testFetchSignUp_Error() {
+        var testable: String?
+        sut.fetchSignUp(SignUp.Request.CreateUser(email: "usuarioteste@hotmail.com",
+                                                  password: "ERROR")) { response in
+                                                    switch response {
+                                                    case .success(let data):
+                                                        testable = data.uid
+                                                        break
+                                                    case .error(_):
+                                                        break
+                                                    }
+                                                    XCTAssertNil(testable)
+        }
+    }
+    
+    func testSaveUserInfo_Success() {
+        var testable = false
+        sut.saveUserInfo(SignUp
+            .Request
+            .SignUpProviderRequest(userData: SignUp.Info.Model.UserData(image: nil,
+                                                                        name: "Test",
+                                                                        cellPhone: "12345678",
+                                                                        email: "usuarioteste@hotmail.com",
+                                                                        password: "123456",
+                                                                        professionalArea: "Test",
+                                                                        interestCathegories: .init(cathegories: [])),
+                                   userId: "id")) { response in
+                                    switch response {
+                                    case .success:
+                                        testable = true
+                                        break
+                                    default:
+                                        break
+                                    }
+                                    
+        }
+        XCTAssertTrue(testable)
+    }
+    
+    func testSaveUserInfo_Error() {
+        var testable = false
+        sut.saveUserInfo(SignUp
+            .Request
+            .SignUpProviderRequest(userData: SignUp.Info.Model.UserData(image: nil,
+                                                                        name: "ERROR",
+                                                                        cellPhone: "12345678",
+                                                                        email: "usuarioteste@hotmail.com",
+                                                                        password: "123456",
+                                                                        professionalArea: "Test",
+                                                                        interestCathegories: .init(cathegories: [])),
+                                   userId: "id")) { response in
+                                    switch response {
+                                    case .error(_):
+                                        testable = true
+                                        break
+                                    default:
+                                        break
+                                    }
+                                    
+        }
+        XCTAssertTrue(testable)
+    }
 }

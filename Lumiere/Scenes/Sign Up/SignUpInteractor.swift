@@ -136,7 +136,7 @@ extension SignUpInteractor: SignUpBusinessLogic {
             switch result {
             case .success(let data):
                 let providerRequest = SignUp.Request.SignUpProviderRequest(userData: user,
-                                                                           userId: data.user.uid)
+                                                                           userId: data.uid)
                 self.saveUserInfo(providerRequest)
                 break
             case .error(let error):

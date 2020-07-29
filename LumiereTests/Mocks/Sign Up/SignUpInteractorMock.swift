@@ -7,3 +7,18 @@
 //
 
 @testable import Lumiere
+
+class SignUpInteractorMock: SignUpBusinessLogic {
+    
+    func fetchMovieStyles() {
+        
+    }
+    
+    func didSelectCathegory(_ request: SignUp.Request.SelectedCathegory) {
+        
+    }
+    
+    func fetchSignUp(_ request: SignUp.Request.UserData) {
+        
+    }
+}

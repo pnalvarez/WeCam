@@ -109,7 +109,7 @@ struct SignUp {
     struct Response {
         
         enum RegisterUser {
-            case success(AuthDataResult)
+            case success(UserResponse)
             case error(Error)
         }
         
@@ -117,6 +117,10 @@ struct SignUp {
             case success
             case error(Error)
             case genericError
+        }
+        
+        struct UserResponse {
+            let uid: String
         }
     }
     

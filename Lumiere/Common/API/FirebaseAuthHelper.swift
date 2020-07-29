@@ -13,7 +13,16 @@ import FirebaseDatabase
 import FirebaseStorage
 import Kingfisher
 
-class FirebaseAuthHelper {
+protocol FirebaseAuthHelperProtocol {
+    func createUser(request: CreateUserRequest,
+                    completion: @escaping (SignUp.Response.RegisterUser) -> Void)
+    func registerUserData(request: SaveUserInfoRequest,
+                          completion: @escaping (SignUp.Response.SaveUserInfo) -> Void)
+    func signInUser(request: SignInRequest,
+                    completion: @escaping (SignIn.Response.SignInResponse) -> Void)
+}
+
+class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
     
     func createUser(request: CreateUserRequest,
                     completion: @escaping (SignUp.Response.RegisterUser) -> Void) {
@@ -23,7 +32,8 @@ class FirebaseAuthHelper {
                 return
             } else {
                 if let result = response {
-                    completion(.success(result))
+                    let newResult = SignUp.Response.UserResponse(uid: result.user.uid)
+                    completion(.success(newResult))
                 }
             }
         }

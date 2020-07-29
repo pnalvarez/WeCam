@@ -19,11 +19,11 @@ protocol SignUpProviderProtocol {
 class SignUpProvider: SignUpProviderProtocol {
     
     private let reference: DatabaseReference
-    private let helper: FirebaseAuthHelper
+    private let helper: FirebaseAuthHelperProtocol
     
-    init() {
+    init(helper: FirebaseAuthHelperProtocol = FirebaseAuthHelper()) {
         self.reference = Database.database().reference()
-        self.helper = FirebaseAuthHelper()
+        self.helper = helper
     }
     
     func fetchSignUp(_ request: SignUp.Request.CreateUser,
@@ -35,7 +35,7 @@ class SignUpProvider: SignUpProviderProtocol {
     func saveUserInfo(_ request: SignUp.Request.SignUpProviderRequest,
                       completion: @escaping (SignUp.Response.SaveUserInfo) -> Void) {
         let newRequest = SaveUserInfoRequest(image: request.userData.image,
-                                             name: request.userData.email,
+                                             name: request.userData.name,
                                              email: request.userData.email,
                                              password: request.userData.password,
                                              phoneNumber: request.userData.cellPhone,
