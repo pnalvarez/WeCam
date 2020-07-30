@@ -16,14 +16,15 @@ protocol SignInDataStore {
 
 class SignInInteractor: SignInDataStore {
     
-    private var presenter: SignInPresentationLogic
-    private var provider: SignInProviderProtocol
+    var presenter: SignInPresentationLogic
+    var provider: SignInProviderProtocol
     
     var dataStore: SignIn.Home.Response?
     
-    init(viewController: SignInDisplayLogic) {
+    init(viewController: SignInDisplayLogic,
+         provider: SignInProviderProtocol = SignInProvider()) {
         self.presenter = SignInPresenter(viewController: viewController)
-        self.provider = SignInProvider()
+        self.provider = provider
     }
 }
 

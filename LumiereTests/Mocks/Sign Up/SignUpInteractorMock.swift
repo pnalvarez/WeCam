@@ -10,8 +10,13 @@
 
 class SignUpInteractorMock: SignUpBusinessLogic {
     
+    var presenter: SignUpPresentationLogic
+    
+    init(presenter: SignUpPresentationLogic) {
+        self.presenter = presenter
+    }
     func fetchMovieStyles() {
-        
+
     }
     
     func didSelectCathegory(_ request: SignUp.Request.SelectedCathegory) {

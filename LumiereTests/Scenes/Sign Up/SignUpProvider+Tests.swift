@@ -14,12 +14,14 @@ class SignUpProvider_Tests: XCTestCase {
     private var mock: FirebaseAuthHelperProtocol! = FirebaseHelperMock()
     
     override func setUp() {
+        super.setUp()
         sut = SignUpProvider(helper: mock)
     }
 
     override func tearDown() {
         sut = nil
         mock = nil
+        super.tearDown()
     }
     
     func testFetchSignUp_Success() {

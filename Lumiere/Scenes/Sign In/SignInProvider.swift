@@ -12,10 +12,10 @@ protocol SignInProviderProtocol {
 
 class SignInProvider: SignInProviderProtocol {
     
-    private let builder: FirebaseAuthHelper
+    private let builder: FirebaseAuthHelperProtocol
     
-    init() {
-        self.builder = FirebaseAuthHelper()
+    init(builder: FirebaseAuthHelperProtocol = FirebaseAuthHelper()) {
+        self.builder = builder
     }
     
     func fetchSignIn(request: SignIn.Models.Request, completion: @escaping (SignIn.Response.SignInResponse) -> Void) {

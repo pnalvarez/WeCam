@@ -5,29 +5,54 @@
 //  Created by Pedro Alvarez on 28/07/20.
 //  Copyright © 2020 Pedro Alvarez. All rights reserved.
 //
-
+@testable import Lumiere
 import XCTest
 
 class SignInProvider_Tests: XCTestCase {
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    var sut: SignInProvider!
+    var mock: FirebaseAuthHelperProtocol!
+    
+    var successFlag = false
+    var failureFlag = false
+    
+    override func setUp() {
+        super.setUp()
+        mock = FirebaseHelperMock()
+        sut = SignInProvider(builder: mock)
     }
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    override func tearDown() {
+        sut = nil
+        mock = nil
+        super.tearDown()
     }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+    
+    func testFetchSignIn_Success() {
+        sut.fetchSignIn(request: SignIn.Models.Request(email: "user@hotmail.com",
+                                                       password: "123456")) { response in
+                                                        switch response {
+                                                        case .success:
+                                                            self.successFlag = true
+                                                            break
+                                                        case .error(_):
+                                                            break
+                                                        }
         }
+        XCTAssertTrue(successFlag)
     }
-
+    
+    func testFetchSignIn_Error() {
+        sut.fetchSignIn(request: SignIn.Models.Request(email: "ERROR",
+                                                       password: "123456")) { response in
+                                                        switch response {
+                                                        case .success:
+                                                            break
+                                                        case .error(_):
+                                                            self.failureFlag = true
+                                                            break
+                                                        }
+        }
+        XCTAssertTrue(failureFlag)
+    }
 }

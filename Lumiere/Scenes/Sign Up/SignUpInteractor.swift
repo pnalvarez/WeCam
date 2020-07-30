@@ -132,7 +132,7 @@ extension SignUpInteractor: SignUpBusinessLogic {
         guard let user = userData else { return }
         let createUserRequest = SignUp.Request.CreateUser(email: request.email, password: request.password)
         
-        provider.fetchSignUp(createUserRequest) { result in
+        provider.fetchSignUp(createUserRequest) { result in 
             switch result {
             case .success(let data):
                 let providerRequest = SignUp.Request.SignUpProviderRequest(userData: user,
