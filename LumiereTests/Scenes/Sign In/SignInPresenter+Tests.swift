@@ -5,29 +5,77 @@
 //  Created by Pedro Alvarez on 28/07/20.
 //  Copyright © 2020 Pedro Alvarez. All rights reserved.
 //
-
+@testable import Lumiere
 import XCTest
 
 class SignInPresenter_Tests: XCTestCase {
-
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    
+    enum ErrorMock: Error {
+        case generic
     }
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
+    var sut: SignInPresenter!
+    
+    var successFlag = false
+    var loading: Bool?
+    var error: SignIn.ViewModel.SignInError?
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    override func setUp() {
+        super.setUp()
+        sut = SignInPresenter(viewController: self)
     }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+    
+    override func tearDown() {
+        sut = nil
+        error = nil
+        super.tearDown()
     }
+    
+    func testDidFetchSuccessLogin() {
+        sut.didFetchSuccessLogin()
+        XCTAssertTrue(successFlag)
+    }
+    
+    func testPresentLoading() {
+        sut.presentLoading(true)
+        XCTAssertNotNil(loading)
+    }
+    
+    func testDidFetchServerError() {
+        sut.didFetchServerError(SignIn.Errors.ServerError(error: ErrorMock.generic))
+        XCTAssertNotNil(error)
+    }
+    
+    func testDidFetchInputError_email() {
+        sut.didFetchInputError(.emailEmpty)
+        XCTAssertNotNil(error)
+    }
+    
+    func testDidFetchInputError_password() {
+        sut.didFetchInputError(.passwordEmpty)
+        XCTAssertNotNil(error)
+    }
+}
 
+extension SignInPresenter_Tests: SignInDisplayLogic {
+    
+    func displaySuccessfulLogin() {
+        successFlag = true
+    }
+    
+    func displayServerError(_ viewModel: SignIn.ViewModel.SignInError) {
+        error = viewModel
+    }
+    
+    func displayLoading(_ loading: Bool) {
+        self.loading = loading
+    }
+    
+    func displayEmailError(_ viewModel: SignIn.ViewModel.SignInError) {
+        error = viewModel
+    }
+    
+    func displaypasswordError(_ viewModel: SignIn.ViewModel.SignInError) {
+        error = viewModel
+    }
 }

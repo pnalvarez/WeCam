@@ -14,7 +14,7 @@ final class SignInProviderMock: SignInProviderProtocol {
     }
     
     func fetchSignIn(request: SignIn.Models.Request, completion: @escaping (SignIn.Response.SignInResponse) -> Void) {
-        if request.email == "ERROR" {
+        if request.email == "ERROR@hotmail.com" {
             completion(.error(SignIn.Errors.ServerError(error: ErrorMock.generic)))
         } else {
             completion(.success)
