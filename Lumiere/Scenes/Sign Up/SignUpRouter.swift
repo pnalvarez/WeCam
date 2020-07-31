@@ -39,7 +39,13 @@ extension SignUpRouter: SignUpRoutingLogic {
     }
     
     func routeBack() {
+        guard let navigationController = viewController?.navigationController else { return }
+        let alertController = UIAlertController(title: "Cadastro efetivado", message: "Usuário foi cadastrado com sucesso em nosso banco de dados", preferredStyle: .alert)
+        let defaultAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
         viewController?.navigationController?.popViewController(animated: true)
+        alertController.addAction(defaultAction)
+        navigationController.popViewController(animated: true)
+        navigationController.present(alertController, animated: true, completion: nil)
     }
     
     func routeBack(withError error: SignUp.Info.ViewModel.Error) {

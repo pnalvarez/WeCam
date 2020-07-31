@@ -45,7 +45,6 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
             let profileImageReference = Storage.storage().reference().child(Constants.profileImagesPath).child(request.userId)
             profileImageReference.putData(imageData, metadata: nil) { (metadata, error) in
                 if let error = error {
-                    print("Error",error.localizedDescription)
                     completion(.error(error))
                 }
                 profileImageReference.downloadURL { (url, error) in
@@ -76,7 +75,6 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                 }
             }
         }
-        completion(.genericError)
     }
     
     func signInUser(request: SignInRequest,
@@ -84,6 +82,7 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
         Auth.auth().signIn(withEmail: request.email, password: request.password) { (credentials, error) in
             if let error = error {
                 completion(.error(SignIn.Errors.ServerError(error: error)))
+                return
             } else {
                 completion(.success)
             }
