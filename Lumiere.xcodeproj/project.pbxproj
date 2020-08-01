@@ -26,6 +26,13 @@
 		3F8D137824D0EDAD00AED7EB /* SignInInteractorMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D137724D0EDAD00AED7EB /* SignInInteractorMock.swift */; };
 		3F8D137C24D0EDCB00AED7EB /* SignUpProviderMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D137B24D0EDCB00AED7EB /* SignUpProviderMock.swift */; };
 		3F8D137E24D0EDD400AED7EB /* SignUpInteractorMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D137D24D0EDD400AED7EB /* SignUpInteractorMock.swift */; };
+		3F8D138624D5361A00AED7EB /* ProfileDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D138524D5361A00AED7EB /* ProfileDetailsView.swift */; };
+		3F8D138824D5362800AED7EB /* ProfileDetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D138724D5362800AED7EB /* ProfileDetailsController.swift */; };
+		3F8D138A24D5363200AED7EB /* ProfileDetailsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D138924D5363200AED7EB /* ProfileDetailsInteractor.swift */; };
+		3F8D138C24D5363A00AED7EB /* ProfileDetailsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D138B24D5363A00AED7EB /* ProfileDetailsPresenter.swift */; };
+		3F8D138E24D5364000AED7EB /* ProfileDetailsWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D138D24D5364000AED7EB /* ProfileDetailsWorker.swift */; };
+		3F8D139024D5364C00AED7EB /* ProfileDetailsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D138F24D5364C00AED7EB /* ProfileDetailsRouter.swift */; };
+		3F8D139224D5365700AED7EB /* ProfileDetailsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D139124D5365700AED7EB /* ProfileDetailsModels.swift */; };
 		3F95782024AD6FBC00B79818 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F95781F24AD6FBC00B79818 /* AppDelegate.swift */; };
 		3F95782224AD6FBC00B79818 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F95782124AD6FBC00B79818 /* SceneDelegate.swift */; };
 		3F95782924AD6FBE00B79818 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F95782824AD6FBE00B79818 /* Assets.xcassets */; };
@@ -130,6 +137,13 @@
 		3F8D137724D0EDAD00AED7EB /* SignInInteractorMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInInteractorMock.swift; sourceTree = "<group>"; };
 		3F8D137B24D0EDCB00AED7EB /* SignUpProviderMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpProviderMock.swift; sourceTree = "<group>"; };
 		3F8D137D24D0EDD400AED7EB /* SignUpInteractorMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpInteractorMock.swift; sourceTree = "<group>"; };
+		3F8D138524D5361A00AED7EB /* ProfileDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailsView.swift; sourceTree = "<group>"; };
+		3F8D138724D5362800AED7EB /* ProfileDetailsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailsController.swift; sourceTree = "<group>"; };
+		3F8D138924D5363200AED7EB /* ProfileDetailsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailsInteractor.swift; sourceTree = "<group>"; };
+		3F8D138B24D5363A00AED7EB /* ProfileDetailsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailsPresenter.swift; sourceTree = "<group>"; };
+		3F8D138D24D5364000AED7EB /* ProfileDetailsWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailsWorker.swift; sourceTree = "<group>"; };
+		3F8D138F24D5364C00AED7EB /* ProfileDetailsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailsRouter.swift; sourceTree = "<group>"; };
+		3F8D139124D5365700AED7EB /* ProfileDetailsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailsModels.swift; sourceTree = "<group>"; };
 		3F95781C24AD6FBC00B79818 /* Lumiere.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lumiere.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F95781F24AD6FBC00B79818 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3F95782124AD6FBC00B79818 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -358,6 +372,20 @@
 			path = "Sign In";
 			sourceTree = "<group>";
 		};
+		3F8D138424D535EA00AED7EB /* Profile Details */ = {
+			isa = PBXGroup;
+			children = (
+				3F8D138524D5361A00AED7EB /* ProfileDetailsView.swift */,
+				3F8D138724D5362800AED7EB /* ProfileDetailsController.swift */,
+				3F8D138924D5363200AED7EB /* ProfileDetailsInteractor.swift */,
+				3F8D138B24D5363A00AED7EB /* ProfileDetailsPresenter.swift */,
+				3F8D138D24D5364000AED7EB /* ProfileDetailsWorker.swift */,
+				3F8D138F24D5364C00AED7EB /* ProfileDetailsRouter.swift */,
+				3F8D139124D5365700AED7EB /* ProfileDetailsModels.swift */,
+			);
+			path = "Profile Details";
+			sourceTree = "<group>";
+		};
 		3F95781324AD6FBC00B79818 = {
 			isa = PBXGroup;
 			children = (
@@ -490,6 +518,7 @@
 		3F95786724AD79C900B79818 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				3F8D138424D535EA00AED7EB /* Profile Details */,
 				3FE8DF4424C5295E005DE30D /* InProgressProjectDetails */,
 				3F95786824AD79D100B79818 /* Launch */,
 				3F95786F24AEA49700B79818 /* Sign In */,
@@ -871,6 +900,8 @@
 				3F95782024AD6FBC00B79818 /* AppDelegate.swift in Sources */,
 				3F8116E024B6ABEE0083A3DA /* UICollectionView+.swift in Sources */,
 				3F95786624AD785900B79818 /* BaseRouterProtocol.swift in Sources */,
+				3F8D138824D5362800AED7EB /* ProfileDetailsController.swift in Sources */,
+				3F8D139024D5364C00AED7EB /* ProfileDetailsRouter.swift in Sources */,
 				3FE8DF4624C52993005DE30D /* InProgressProjectDetailsController.swift in Sources */,
 				3FE8DF4A24C529D7005DE30D /* InProgressProjectDetailsInteractor.swift in Sources */,
 				3FE8DF5424C52F72005DE30D /* FirebaseAuthHelper.swift in Sources */,
@@ -878,6 +909,7 @@
 				3F95787724AEA4D100B79818 /* SignInPresenter.swift in Sources */,
 				3FE8DF5C24CBD81C005DE30D /* ThemeColors.swift in Sources */,
 				3F9578DD24B0314D00B79818 /* BaseViewController.swift in Sources */,
+				3F8D138A24D5363200AED7EB /* ProfileDetailsInteractor.swift in Sources */,
 				3FE8DF5624C7BE0B005DE30D /* UserModel.swift in Sources */,
 				3F9578C624B0195600B79818 /* SignUpView.swift in Sources */,
 				3F8116DE24B6AB620083A3DA /* ReusableView.swift in Sources */,
@@ -891,12 +923,14 @@
 				3F95787924AEA4DE00B79818 /* SignInRouter.swift in Sources */,
 				3FE8DF4E24C529E9005DE30D /* InProgressProjectDetailsRouter.swift in Sources */,
 				3F95785E24AD764700B79818 /* ViewCodeProtocol.swift in Sources */,
+				3F8D138624D5361A00AED7EB /* ProfileDetailsView.swift in Sources */,
 				3FE8DF5024C529F3005DE30D /* InProgressProjectDetailsProvider.swift in Sources */,
 				3FE8DF5A24CBD271005DE30D /* UIView+.swift in Sources */,
 				3F95786124AD775D00B79818 /* LaunchScreenController.swift in Sources */,
 				3F95787B24AEA4EA00B79818 /* SignInModels.swift in Sources */,
 				3F9578D024B0198700B79818 /* SignUpRouter.swift in Sources */,
 				3F95787324AEA4C000B79818 /* SignInView.swift in Sources */,
+				3F8D138C24D5363A00AED7EB /* ProfileDetailsPresenter.swift in Sources */,
 				3FE8DF5224C529F9005DE30D /* InProgressProjectDetailsModels.swift in Sources */,
 				3F0CAA6624CCE41D005E2558 /* SignInRequest.swift in Sources */,
 				3FE8DF4824C529C7005DE30D /* InProgressDetailsProjectView.swift in Sources */,
@@ -905,6 +939,7 @@
 				3F9578CE24B0197F00B79818 /* SignUpProvider.swift in Sources */,
 				3FE8DF4C24C529E1005DE30D /* InProgressProjectDetailsPresenter.swift in Sources */,
 				3F9578D924B01E8F00B79818 /* SignUpCollectionViewCell.swift in Sources */,
+				3F8D138E24D5364000AED7EB /* ProfileDetailsWorker.swift in Sources */,
 				3F9578C824B0196300B79818 /* SignUpController.swift in Sources */,
 				3F95786A24AEA07100B79818 /* LaunchScreenInteractor.swift in Sources */,
 				3FE8DF5824C7BEE2005DE30D /* Constants.swift in Sources */,
@@ -915,6 +950,7 @@
 				3F95785724AD75E700B79818 /* LaunchScreenView.swift in Sources */,
 				3F9578DB24B0240C00B79818 /* String+.swift in Sources */,
 				3F9578CA24B0196C00B79818 /* SignUpInteractor.swift in Sources */,
+				3F8D139224D5365700AED7EB /* ProfileDetailsModels.swift in Sources */,
 				3F9578CC24B0197500B79818 /* SignUpPresenter.swift in Sources */,
 				3F95787F24AEB09900B79818 /* UIColor+.swift in Sources */,
 			);
