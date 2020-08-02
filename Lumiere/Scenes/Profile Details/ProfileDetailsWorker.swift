@@ -14,7 +14,8 @@ protocol ProfileDetailsWorkerProtocol {
     func fetchCurrentUserData(_ request: ProfileDetails.Request.FetchCurrentUserData,
                               completion: @escaping (ProfileDetails.Response.CurrentUser) -> Void)
     func fetchProjectData(_ request: ProfileDetails.Request.ProjectInfo)
-    func fetchAddConnection(_ request: ProfileDetails.Request.NewConnectNotification)
+    func fetchAddConnection(_ request: ProfileDetails.Request.NewConnectNotification,
+                            completion: @escaping (ProfileDetails.Response.AddConnection) -> Void)
 }
 
 class ProfileDetailsWorker: ProfileDetailsWorkerProtocol {
@@ -85,7 +86,25 @@ class ProfileDetailsWorker: ProfileDetailsWorkerProtocol {
         //TO DO
     }
     
-    func fetchAddConnection(_ request: ProfileDetails.Request.NewConnectNotification) {
-        
+    func fetchAddConnection(_ request: ProfileDetails.Request.NewConnectNotification,
+                            completion: @escaping (ProfileDetails.Response.AddConnection) -> Void) {
+        let notificationDict: [String : Any] = ["image": request.image,
+                                                "email": request.email,
+                                                "name": request.name,
+                                                "ocupation": request.ocupation,
+                                                "userId": request.fromUserId]
+        var notifications = request.oldNotifications
+        notifications.append(notificationDict)
+        let newRequest = SaveNotificationsRequest(userId: request.toUserId,
+                                                  notifications: notifications)
+        builder.addConnectNotifications(request: newRequest) { response in
+            switch response {
+            case .success:
+                completion(.success)
+                break
+            case .error(let error):
+                completion(.error(error))
+            }
+        }
     }
 }

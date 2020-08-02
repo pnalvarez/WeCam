@@ -21,6 +21,8 @@ protocol FirebaseAuthHelperProtocol {
                           completion: @escaping (SignUp.Response.SaveUserInfo) -> Void)
     func fetchUserConnectNotifications(request: GetConnectNotificationRequest,
                                        completion: @escaping (GetUserConnectNotificationsResponse) -> Void)
+    func addConnectNotifications(request: SaveNotificationsRequest,
+                                 completion: @escaping (AddConnectNotificationResponse) -> Void)
     func signInUser(request: SignInRequest,
                     completion: @escaping (SignIn.Response.SignInResponse) -> Void)
     func fetchCurrentUser(request: FetchCurrentUserIdRequest,
@@ -108,6 +110,26 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                 } else {
                     completion(.error)
                 }
+        }
+    }
+    
+    func addConnectNotifications(request: SaveNotificationsRequest,
+                                 completion: @escaping (AddConnectNotificationResponse) -> Void) {
+        var integerDict = [String : Any]()
+        for index in 0..<request.notifications.count {
+            integerDict["\(index)"] = request.notifications[index]
+        }
+        Database
+            .database()
+            .reference()
+            .child(Constants.usersPath)
+            .child(request.userId)
+            .child("connect_notifications")
+            .updateChildValues(integerDict) { error, ref in
+                if let error = error {
+                    completion(.error(error))
+                }
+                completion(.success)
         }
     }
     

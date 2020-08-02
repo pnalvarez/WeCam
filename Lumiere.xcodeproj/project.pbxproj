@@ -47,6 +47,8 @@
 		3F8D13AC24D7466A00AED7EB /* FetchCurrentUserIdRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D13AB24D7466A00AED7EB /* FetchCurrentUserIdRequest.swift */; };
 		3F8D13AE24D746B100AED7EB /* CurrentUserIdResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D13AD24D746B100AED7EB /* CurrentUserIdResponse.swift */; };
 		3F8D13B024D74E1600AED7EB /* GetUserConnectNotificationsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D13AF24D74E1600AED7EB /* GetUserConnectNotificationsResponse.swift */; };
+		3F8D13B224D750F900AED7EB /* SaveNotificationsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D13B124D750F900AED7EB /* SaveNotificationsRequest.swift */; };
+		3F8D13B424D753AD00AED7EB /* AddConnectNotificationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D13B324D753AD00AED7EB /* AddConnectNotificationResponse.swift */; };
 		3F95782024AD6FBC00B79818 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F95781F24AD6FBC00B79818 /* AppDelegate.swift */; };
 		3F95782224AD6FBC00B79818 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F95782124AD6FBC00B79818 /* SceneDelegate.swift */; };
 		3F95782924AD6FBE00B79818 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F95782824AD6FBE00B79818 /* Assets.xcassets */; };
@@ -172,6 +174,8 @@
 		3F8D13AB24D7466A00AED7EB /* FetchCurrentUserIdRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchCurrentUserIdRequest.swift; sourceTree = "<group>"; };
 		3F8D13AD24D746B100AED7EB /* CurrentUserIdResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserIdResponse.swift; sourceTree = "<group>"; };
 		3F8D13AF24D74E1600AED7EB /* GetUserConnectNotificationsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUserConnectNotificationsResponse.swift; sourceTree = "<group>"; };
+		3F8D13B124D750F900AED7EB /* SaveNotificationsRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveNotificationsRequest.swift; sourceTree = "<group>"; };
+		3F8D13B324D753AD00AED7EB /* AddConnectNotificationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddConnectNotificationResponse.swift; sourceTree = "<group>"; };
 		3F95781C24AD6FBC00B79818 /* Lumiere.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lumiere.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F95781F24AD6FBC00B79818 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3F95782124AD6FBC00B79818 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -303,6 +307,7 @@
 				3F8D13A224D65FCD00AED7EB /* GetConnectNotificationRequest.swift */,
 				3F8D13A624D73F5E00AED7EB /* FetchUserDataRequest.swift */,
 				3F8D13AB24D7466A00AED7EB /* FetchCurrentUserIdRequest.swift */,
+				3F8D13B124D750F900AED7EB /* SaveNotificationsRequest.swift */,
 			);
 			path = Requests;
 			sourceTree = "<group>";
@@ -437,6 +442,7 @@
 				3F8D13A924D73FA000AED7EB /* UserDataResponse.swift */,
 				3F8D13AD24D746B100AED7EB /* CurrentUserIdResponse.swift */,
 				3F8D13AF24D74E1600AED7EB /* GetUserConnectNotificationsResponse.swift */,
+				3F8D13B324D753AD00AED7EB /* AddConnectNotificationResponse.swift */,
 			);
 			path = "Backend Responses";
 			sourceTree = "<group>";
@@ -971,6 +977,7 @@
 				3F8D138A24D5363200AED7EB /* ProfileDetailsInteractor.swift in Sources */,
 				3FE8DF5624C7BE0B005DE30D /* UserModel.swift in Sources */,
 				3F8D139F24D53BA600AED7EB /* NotificationsRouter.swift in Sources */,
+				3F8D13B224D750F900AED7EB /* SaveNotificationsRequest.swift in Sources */,
 				3F9578C624B0195600B79818 /* SignUpView.swift in Sources */,
 				3F8116DE24B6AB620083A3DA /* ReusableView.swift in Sources */,
 				3F8D139524D53A3600AED7EB /* NotificationsTableView.swift in Sources */,
@@ -1007,6 +1014,7 @@
 				3FE8DF4C24C529E1005DE30D /* InProgressProjectDetailsPresenter.swift in Sources */,
 				3F9578D924B01E8F00B79818 /* SignUpCollectionViewCell.swift in Sources */,
 				3F8D138E24D5364000AED7EB /* ProfileDetailsWorker.swift in Sources */,
+				3F8D13B424D753AD00AED7EB /* AddConnectNotificationResponse.swift in Sources */,
 				3F8D13A124D53C4400AED7EB /* NotificationsModels.swift in Sources */,
 				3F9578C824B0196300B79818 /* SignUpController.swift in Sources */,
 				3F95786A24AEA07100B79818 /* LaunchScreenInteractor.swift in Sources */,

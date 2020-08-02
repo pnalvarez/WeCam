@@ -112,7 +112,7 @@ struct ProfileDetails {
             let ocupation: String
             let email: String
             let image: String
-            let oldNotifications: Array<Any>
+            var oldNotifications: Array<Any>
         }
         
         struct FetchCurrentUserId {
