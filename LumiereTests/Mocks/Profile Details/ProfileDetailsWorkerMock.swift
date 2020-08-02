@@ -9,8 +9,14 @@
 
 final class ProfileDetailsWorkerMock: ProfileDetailsWorkerProtocol {
     
-    func fetchUserConnectNotifications(_ request: ProfileDetails.Request.FetchNotifications, completion: @escaping (ProfileDetails.Response.AllNotifications) -> Void) {
-        
+    func fetchUserConnectNotifications(_ request: ProfileDetails.Request.FetchNotifications,
+                                       completion: @escaping (ProfileDetails.Response.AllNotifications) -> Void) {
+//        completion(ProfileDetails
+//            .Response
+//            .AllNotifications
+//            .success(ProfileDetails
+//                .Response
+//                .CurrentUserResponseData(userData: [""])))
     }
     
     func fetchCurrentUserId(_ request: ProfileDetails.Request.FetchCurrentUserId, completion: @escaping (ProfileDetails.Response.CurrentUserId) -> Void) {

@@ -99,16 +99,19 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
         .child(Constants.usersPath)
         .child(request.userId)
         .child("connect_notifications")
-            .observe(.value) { snapshot in
+            .observeSingleEvent(of: .value) { snapshot in
                 if snapshot.value is NSNull {
                     let notificationsResponse = GetUserConnectNotificationsResponse.success(.empty)
                     completion(notificationsResponse)
+                    return
                 } else if let values = snapshot.value as? Array<Any> {
                     notifications = values
                     let notificationsResponse = GetUserConnectNotificationsResponse.success(notifications)
                     completion(notificationsResponse)
+                    return
                 } else {
                     completion(.error)
+                    return
                 }
         }
     }
@@ -189,9 +192,10 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
             .reference()
             .child(Constants.usersPath)
             .child(request.userId)
-            .observe(.value) { snapshot in
+            .observeSingleEvent(of: .value) { snapshot in
                 if let value = snapshot.value as? [String : Any] {
                     completion(.success(value))
+                    return
                 }
                 completion(.error)
         }

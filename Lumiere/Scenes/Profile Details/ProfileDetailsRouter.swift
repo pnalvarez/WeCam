@@ -33,6 +33,6 @@ extension ProfileDetailsRouter: BaseRouterProtocol {
 extension ProfileDetailsRouter: ProfileDetailsRoutingLogic {
     
     func routeBack() {
-        
+        viewController?.navigationController?.popViewController(animated: true)
     }
 }

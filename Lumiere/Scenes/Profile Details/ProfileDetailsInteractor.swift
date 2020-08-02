@@ -46,13 +46,18 @@ extension ProfileDetailsInteractor: ProfileDetailsBusinessLogic {
             switch response {
             case .success(let data):
                 self.currentUserId = data
-                self.fetchCurrentUserData(ProfileDetails.Request.FetchCurrentUserData(userId: data))
+                self.fetchCurrentUserData(ProfileDetails
+                    .Request
+                    .FetchCurrentUserData(userId: data))
                 break
             case .error:
                 self.presenter.presentLoading(false)
                 self.presenter.presentError(ProfileDetails
                     .Errors
-                    .ProfileDetailsError(description: ProfileDetails.Constants.Texts.genericError))
+                    .ProfileDetailsError(description: ProfileDetails
+                        .Constants
+                        .Texts
+                        .genericError))
                 break
             }
         }
@@ -73,6 +78,8 @@ extension ProfileDetailsInteractor: ProfileDetailsBusinessLogic {
                                                                              image: image,
                                                                              email: email,
                                                                              ocupation: ocupation)
+                    guard let id = self.userData?.id else { return }
+                    self.fetchAllNotifications(ProfileDetails.Request.FetchNotifications(userId: id))
                 }
                 break
             case .error:

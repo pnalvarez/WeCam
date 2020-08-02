@@ -47,7 +47,7 @@ extension LaunchScreenRouter: ScreenTestingProtocol {
                                                                name: "User Test",
                                                                occupation: "Artist",
                                                                email: "user@hotmail.com",
-                                                               phoneNumber: "(20)2294-5711",
+                                                               phoneNumber: "(20) 2294-5711",
                                                                connectionsCount: 1020,
                                                                progressingProjectsIds: [],
                                                                finishedProjectsIds: [])

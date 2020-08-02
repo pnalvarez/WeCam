@@ -5,7 +5,7 @@
 //  Created by Pedro Alvarez on 02/07/20.
 //  Copyright © 2020 Pedro Alvarez. All rights reserved.
 //
-import Foundation
+import UIKit
 
 typealias SignInRouterProtocol = NSObject & SignInRoutingLogic & SignInDataTransfer
 
@@ -20,8 +20,15 @@ protocol SignInDataTransfer {
 
 class SignInRouter: NSObject, SignInDataTransfer {
     
-    weak var viewController: SignInController?
+    weak var viewController: UIViewController?
     var dataStore: SignInDataStore?
+}
+
+extension SignInRouter: BaseRouterProtocol {
+    
+    func routeTo(nextVC: UIViewController) {
+        viewController?.navigationController?.pushViewController(nextVC, animated: true)
+    }
 }
 
 extension SignInRouter: SignInRoutingLogic {
@@ -32,6 +39,17 @@ extension SignInRouter: SignInRoutingLogic {
        }
     
     func routeToHome() {
-        
+        let vc = ProfileDetailsController()
+        guard var dataStore = vc.router?.dataStore else { return }
+        dataStore.userData = ProfileDetails.Info.Received.User(id: "TDPWhy2FadewBoNsm5yP7leuhJ03",
+                                                               image: nil,
+                                                               name: "User Test",
+                                                               occupation: "Artist",
+                                                               email: "user@hotmail.com",
+                                                               phoneNumber: "(20) 2294-5711",
+                                                               connectionsCount: 1020,
+                                                               progressingProjectsIds: [],
+                                                               finishedProjectsIds: [])
+        routeTo(nextVC: vc)
     }
 }
