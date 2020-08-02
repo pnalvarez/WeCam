@@ -7,8 +7,14 @@
 //
 
 protocol ProfileDetailsWorkerProtocol {
+    func fetchUserConnectNotifications(_ request: ProfileDetails.Request.FetchNotifications,
+                                       completion: @escaping (ProfileDetails.Response.AllNotifications) -> Void)
+    func fetchCurrentUserId(_ request: ProfileDetails.Request.FetchCurrentUserId,
+                            completion: @escaping (ProfileDetails.Response.CurrentUserId) -> Void)
+    func fetchCurrentUserData(_ request: ProfileDetails.Request.FetchCurrentUserData,
+                              completion: @escaping (ProfileDetails.Response.CurrentUser) -> Void)
     func fetchProjectData(_ request: ProfileDetails.Request.ProjectInfo)
-    func fetchAddConnection(_ request: ProfileDetails.Request.AddConnection)
+    func fetchAddConnection(_ request: ProfileDetails.Request.NewConnectNotification)
 }
 
 class ProfileDetailsWorker: ProfileDetailsWorkerProtocol {
@@ -19,11 +25,67 @@ class ProfileDetailsWorker: ProfileDetailsWorkerProtocol {
         self.builder = builder
     }
     
+    func fetchUserConnectNotifications(_ request: ProfileDetails.Request.FetchNotifications, completion: @escaping (ProfileDetails.Response.AllNotifications) -> Void) {
+        let newRequest = GetConnectNotificationRequest(userId: request.userId)
+        builder.fetchUserConnectNotifications(request: newRequest) { response in
+            switch response {
+            case .success(let data):
+                let newResponseData = ProfileDetails
+                    .Response
+                    .NotificationsResponseData(notifications: data)
+                let newResponse = ProfileDetails
+                    .Response
+                    .AllNotifications
+                    .success(newResponseData)
+                completion(newResponse)
+                break
+            case .error:
+                completion(.error)
+            }
+        }
+    }
+    
+    func fetchCurrentUserId(_ request: ProfileDetails.Request.FetchCurrentUserId, completion: @escaping (ProfileDetails.Response.CurrentUserId) -> Void) {
+        let newRequest = FetchCurrentUserIdRequest()
+        builder.fetchCurrentUser(request: newRequest) { response in
+            switch response {
+            case .success(let data):
+                let newResponse = ProfileDetails
+                    .Response
+                    .CurrentUserId
+                    .success(data)
+                completion(newResponse)
+                break
+            case .error:
+                completion(.error)
+            }
+        }
+    }
+    
+    func fetchCurrentUserData(_ request: ProfileDetails.Request.FetchCurrentUserData,
+                              completion: @escaping (ProfileDetails.Response.CurrentUser) -> Void) {
+        let newRequest = FetchUserDataRequest(userId: request.userId)
+        builder.fetchUserData(request: newRequest) { response in
+            switch response {
+            case .success(let data):
+                let newResponse = ProfileDetails
+                    .Response
+                    .CurrentUser.success(ProfileDetails
+                        .Response
+                        .CurrentUserResponseData(userData: data))
+                completion(newResponse)
+                break
+            case .error:
+                completion(.error)
+            }
+        }
+    }
+    
     func fetchProjectData(_ request: ProfileDetails.Request.ProjectInfo) {
         //TO DO
     }
     
-    func fetchAddConnection(_ request: ProfileDetails.Request.AddConnection) {
-        //TO DO
+    func fetchAddConnection(_ request: ProfileDetails.Request.NewConnectNotification) {
+        
     }
 }

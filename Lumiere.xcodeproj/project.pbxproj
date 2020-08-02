@@ -40,6 +40,13 @@
 		3F8D139D24D53B7B00AED7EB /* NotificationsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D139C24D53B7B00AED7EB /* NotificationsPresenter.swift */; };
 		3F8D139F24D53BA600AED7EB /* NotificationsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D139E24D53BA600AED7EB /* NotificationsRouter.swift */; };
 		3F8D13A124D53C4400AED7EB /* NotificationsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D13A024D53C4400AED7EB /* NotificationsModels.swift */; };
+		3F8D13A324D65FCD00AED7EB /* GetConnectNotificationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D13A224D65FCD00AED7EB /* GetConnectNotificationRequest.swift */; };
+		3F8D13A524D73C2600AED7EB /* Array+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D13A424D73C2600AED7EB /* Array+.swift */; };
+		3F8D13A724D73F5E00AED7EB /* FetchUserDataRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D13A624D73F5E00AED7EB /* FetchUserDataRequest.swift */; };
+		3F8D13AA24D73FA000AED7EB /* UserDataResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D13A924D73FA000AED7EB /* UserDataResponse.swift */; };
+		3F8D13AC24D7466A00AED7EB /* FetchCurrentUserIdRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D13AB24D7466A00AED7EB /* FetchCurrentUserIdRequest.swift */; };
+		3F8D13AE24D746B100AED7EB /* CurrentUserIdResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D13AD24D746B100AED7EB /* CurrentUserIdResponse.swift */; };
+		3F8D13B024D74E1600AED7EB /* GetUserConnectNotificationsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D13AF24D74E1600AED7EB /* GetUserConnectNotificationsResponse.swift */; };
 		3F95782024AD6FBC00B79818 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F95781F24AD6FBC00B79818 /* AppDelegate.swift */; };
 		3F95782224AD6FBC00B79818 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F95782124AD6FBC00B79818 /* SceneDelegate.swift */; };
 		3F95782924AD6FBE00B79818 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F95782824AD6FBE00B79818 /* Assets.xcassets */; };
@@ -158,6 +165,13 @@
 		3F8D139C24D53B7B00AED7EB /* NotificationsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsPresenter.swift; sourceTree = "<group>"; };
 		3F8D139E24D53BA600AED7EB /* NotificationsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsRouter.swift; sourceTree = "<group>"; };
 		3F8D13A024D53C4400AED7EB /* NotificationsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsModels.swift; sourceTree = "<group>"; };
+		3F8D13A224D65FCD00AED7EB /* GetConnectNotificationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetConnectNotificationRequest.swift; sourceTree = "<group>"; };
+		3F8D13A424D73C2600AED7EB /* Array+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+.swift"; sourceTree = "<group>"; };
+		3F8D13A624D73F5E00AED7EB /* FetchUserDataRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchUserDataRequest.swift; sourceTree = "<group>"; };
+		3F8D13A924D73FA000AED7EB /* UserDataResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataResponse.swift; sourceTree = "<group>"; };
+		3F8D13AB24D7466A00AED7EB /* FetchCurrentUserIdRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchCurrentUserIdRequest.swift; sourceTree = "<group>"; };
+		3F8D13AD24D746B100AED7EB /* CurrentUserIdResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserIdResponse.swift; sourceTree = "<group>"; };
+		3F8D13AF24D74E1600AED7EB /* GetUserConnectNotificationsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUserConnectNotificationsResponse.swift; sourceTree = "<group>"; };
 		3F95781C24AD6FBC00B79818 /* Lumiere.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lumiere.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F95781F24AD6FBC00B79818 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3F95782124AD6FBC00B79818 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -286,6 +300,9 @@
 				3F0CAA6124CCE0E8005E2558 /* CreateUserRequest.swift */,
 				3F0CAA6324CCE118005E2558 /* SaveUserInfoRequest.swift */,
 				3F0CAA6524CCE41D005E2558 /* SignInRequest.swift */,
+				3F8D13A224D65FCD00AED7EB /* GetConnectNotificationRequest.swift */,
+				3F8D13A624D73F5E00AED7EB /* FetchUserDataRequest.swift */,
+				3F8D13AB24D7466A00AED7EB /* FetchCurrentUserIdRequest.swift */,
 			);
 			path = Requests;
 			sourceTree = "<group>";
@@ -414,6 +431,16 @@
 			path = Notifications;
 			sourceTree = "<group>";
 		};
+		3F8D13A824D73F8800AED7EB /* Backend Responses */ = {
+			isa = PBXGroup;
+			children = (
+				3F8D13A924D73FA000AED7EB /* UserDataResponse.swift */,
+				3F8D13AD24D746B100AED7EB /* CurrentUserIdResponse.swift */,
+				3F8D13AF24D74E1600AED7EB /* GetUserConnectNotificationsResponse.swift */,
+			);
+			path = "Backend Responses";
+			sourceTree = "<group>";
+		};
 		3F95781324AD6FBC00B79818 = {
 			isa = PBXGroup;
 			children = (
@@ -484,6 +511,7 @@
 		3F95785524AD719800B79818 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				3F8D13A824D73F8800AED7EB /* Backend Responses */,
 				3F0CAA6024CCE0CD005E2558 /* Requests */,
 				3F9578D524B019FB00B79818 /* Model */,
 				3F95785B24AD761D00B79818 /* API */,
@@ -539,6 +567,7 @@
 				3F8116DD24B6AB620083A3DA /* ReusableView.swift */,
 				3F8116DF24B6ABEE0083A3DA /* UICollectionView+.swift */,
 				3FE8DF5924CBD271005DE30D /* UIView+.swift */,
+				3F8D13A424D73C2600AED7EB /* Array+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -926,6 +955,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3F95787124AEA4B800B79818 /* SignInController.swift in Sources */,
+				3F8D13A524D73C2600AED7EB /* Array+.swift in Sources */,
 				3F95782024AD6FBC00B79818 /* AppDelegate.swift in Sources */,
 				3F8116E024B6ABEE0083A3DA /* UICollectionView+.swift in Sources */,
 				3F95786624AD785900B79818 /* BaseRouterProtocol.swift in Sources */,
@@ -948,6 +978,7 @@
 				3F95787D24AEA4F000B79818 /* SignInProvider.swift in Sources */,
 				3F95786C24AEA0CF00B79818 /* LaunchScreenPresenter.swift in Sources */,
 				3F0CAA6424CCE118005E2558 /* SaveUserInfoRequest.swift in Sources */,
+				3F8D13A324D65FCD00AED7EB /* GetConnectNotificationRequest.swift in Sources */,
 				3FE8DF4124C3F738005DE30D /* ThemeFonts.swift in Sources */,
 				3F9578D224B0198F00B79818 /* SignUpModels.swift in Sources */,
 				3F1158AD24C3F04200075C73 /* TeamMemberCollectionViewCell.swift in Sources */,
@@ -957,6 +988,7 @@
 				3F95785E24AD764700B79818 /* ViewCodeProtocol.swift in Sources */,
 				3F8D138624D5361A00AED7EB /* ProfileDetailsView.swift in Sources */,
 				3FE8DF5024C529F3005DE30D /* InProgressProjectDetailsProvider.swift in Sources */,
+				3F8D13A724D73F5E00AED7EB /* FetchUserDataRequest.swift in Sources */,
 				3FE8DF5A24CBD271005DE30D /* UIView+.swift in Sources */,
 				3F95786124AD775D00B79818 /* LaunchScreenController.swift in Sources */,
 				3F95787B24AEA4EA00B79818 /* SignInModels.swift in Sources */,
@@ -980,14 +1012,18 @@
 				3F95786A24AEA07100B79818 /* LaunchScreenInteractor.swift in Sources */,
 				3FE8DF5824C7BEE2005DE30D /* Constants.swift in Sources */,
 				3F9578D424B019BE00B79818 /* MovieStyleButton.swift in Sources */,
+				3F8D13AC24D7466A00AED7EB /* FetchCurrentUserIdRequest.swift in Sources */,
 				3F95782224AD6FBC00B79818 /* SceneDelegate.swift in Sources */,
 				3F95786E24AEA16000B79818 /* LaunchScreenModels.swift in Sources */,
 				3F1158AF24C3F0EC00075C73 /* TeamMemberViewModel.swift in Sources */,
 				3F95785724AD75E700B79818 /* LaunchScreenView.swift in Sources */,
 				3F9578DB24B0240C00B79818 /* String+.swift in Sources */,
+				3F8D13AE24D746B100AED7EB /* CurrentUserIdResponse.swift in Sources */,
 				3F9578CA24B0196C00B79818 /* SignUpInteractor.swift in Sources */,
 				3F8D139224D5365700AED7EB /* ProfileDetailsModels.swift in Sources */,
+				3F8D13AA24D73FA000AED7EB /* UserDataResponse.swift in Sources */,
 				3F9578CC24B0197500B79818 /* SignUpPresenter.swift in Sources */,
+				3F8D13B024D74E1600AED7EB /* GetUserConnectNotificationsResponse.swift in Sources */,
 				3F95787F24AEB09900B79818 /* UIColor+.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -65,6 +65,14 @@ struct ProfileDetails {
                 let finishedProjects: [Project]
             }
             
+            struct CurrentUser {
+                let id: String
+                let name: String
+                let image: String
+                let email: String
+                let ocupation: String
+            }
+            
             struct Project {
                 let id: String
                 let image: Data
@@ -93,6 +101,28 @@ struct ProfileDetails {
     
     struct Request {
         
+        struct FetchNotifications {
+            let userId: String
+        }
+        
+        struct NewConnectNotification {
+            let fromUserId: String
+            let toUserId: String
+            let name: String
+            let ocupation: String
+            let email: String
+            let image: String
+            let oldNotifications: Array<Any>
+        }
+        
+        struct FetchCurrentUserId {
+            
+        }
+        
+        struct FetchCurrentUserData {
+            let userId: String
+        }
+        
         struct UserData {
             
         }
@@ -112,9 +142,39 @@ struct ProfileDetails {
     
     struct Errors {
         
+        enum ProfileDetailsError: Error {
+            case genericError
+        }
     }
     
     struct Response {
         
+        enum AllNotifications {
+            case success(NotificationsResponseData)
+            case error
+        }
+        
+        enum CurrentUserId {
+            case success(String)
+            case error
+        }
+        
+        enum CurrentUser {
+            case success(CurrentUserResponseData)
+            case error
+        }
+        
+        enum AddConnection {
+            case success
+            case error(Error)
+        }
+        
+        struct NotificationsResponseData {
+            let notifications: Array<Any>
+        }
+        
+        struct CurrentUserResponseData {
+            let userData: [String : Any]
+        }
     }
 }
