@@ -49,6 +49,9 @@
 		3F8D13B024D74E1600AED7EB /* GetUserConnectNotificationsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D13AF24D74E1600AED7EB /* GetUserConnectNotificationsResponse.swift */; };
 		3F8D13B224D750F900AED7EB /* SaveNotificationsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D13B124D750F900AED7EB /* SaveNotificationsRequest.swift */; };
 		3F8D13B424D753AD00AED7EB /* AddConnectNotificationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D13B324D753AD00AED7EB /* AddConnectNotificationResponse.swift */; };
+		3F8D13B724D75A2700AED7EB /* ProfileDetailsInteractor+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D13B624D75A2700AED7EB /* ProfileDetailsInteractor+Tests.swift */; };
+		3F8D13B924D75A3400AED7EB /* ProfileDetailsPresenter+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D13B824D75A3400AED7EB /* ProfileDetailsPresenter+Tests.swift */; };
+		3F8D13BC24D75A4F00AED7EB /* ProfileDetailsWorkerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D13BB24D75A4F00AED7EB /* ProfileDetailsWorkerMock.swift */; };
 		3F95782024AD6FBC00B79818 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F95781F24AD6FBC00B79818 /* AppDelegate.swift */; };
 		3F95782224AD6FBC00B79818 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F95782124AD6FBC00B79818 /* SceneDelegate.swift */; };
 		3F95782924AD6FBE00B79818 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F95782824AD6FBE00B79818 /* Assets.xcassets */; };
@@ -176,6 +179,9 @@
 		3F8D13AF24D74E1600AED7EB /* GetUserConnectNotificationsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUserConnectNotificationsResponse.swift; sourceTree = "<group>"; };
 		3F8D13B124D750F900AED7EB /* SaveNotificationsRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveNotificationsRequest.swift; sourceTree = "<group>"; };
 		3F8D13B324D753AD00AED7EB /* AddConnectNotificationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddConnectNotificationResponse.swift; sourceTree = "<group>"; };
+		3F8D13B624D75A2700AED7EB /* ProfileDetailsInteractor+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProfileDetailsInteractor+Tests.swift"; sourceTree = "<group>"; };
+		3F8D13B824D75A3400AED7EB /* ProfileDetailsPresenter+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProfileDetailsPresenter+Tests.swift"; sourceTree = "<group>"; };
+		3F8D13BB24D75A4F00AED7EB /* ProfileDetailsWorkerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailsWorkerMock.swift; sourceTree = "<group>"; };
 		3F95781C24AD6FBC00B79818 /* Lumiere.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lumiere.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F95781F24AD6FBC00B79818 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3F95782124AD6FBC00B79818 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -346,6 +352,7 @@
 		3F8D136124D0EC6700AED7EB /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				3F8D13B524D75A0B00AED7EB /* Profile Details */,
 				3F8D136324D0EC7B00AED7EB /* Sign In */,
 				3F8D136224D0EC7500AED7EB /* Sign Up */,
 			);
@@ -375,6 +382,7 @@
 		3F8D137224D0ED7E00AED7EB /* Mocks */ = {
 			isa = PBXGroup;
 			children = (
+				3F8D13BA24D75A3900AED7EB /* Profile Details */,
 				3F8D138124D0EDEC00AED7EB /* Sign In */,
 				3F8D138024D0EDE600AED7EB /* Sign Up */,
 				3F8D137F24D0EDDF00AED7EB /* Firebase */,
@@ -445,6 +453,23 @@
 				3F8D13B324D753AD00AED7EB /* AddConnectNotificationResponse.swift */,
 			);
 			path = "Backend Responses";
+			sourceTree = "<group>";
+		};
+		3F8D13B524D75A0B00AED7EB /* Profile Details */ = {
+			isa = PBXGroup;
+			children = (
+				3F8D13B624D75A2700AED7EB /* ProfileDetailsInteractor+Tests.swift */,
+				3F8D13B824D75A3400AED7EB /* ProfileDetailsPresenter+Tests.swift */,
+			);
+			path = "Profile Details";
+			sourceTree = "<group>";
+		};
+		3F8D13BA24D75A3900AED7EB /* Profile Details */ = {
+			isa = PBXGroup;
+			children = (
+				3F8D13BB24D75A4F00AED7EB /* ProfileDetailsWorkerMock.swift */,
+			);
+			path = "Profile Details";
 			sourceTree = "<group>";
 		};
 		3F95781324AD6FBC00B79818 = {
@@ -1040,6 +1065,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3F8D13B724D75A2700AED7EB /* ProfileDetailsInteractor+Tests.swift in Sources */,
 				3F8D136724D0ED0D00AED7EB /* SignInInteractor+Tests.swift in Sources */,
 				3F8D137C24D0EDCB00AED7EB /* SignUpProviderMock.swift in Sources */,
 				3F8D136D24D0ED5C00AED7EB /* SignUpInteractor+Tests.swift in Sources */,
@@ -1051,7 +1077,9 @@
 				3F95783724AD6FBE00B79818 /* LumiereTests.swift in Sources */,
 				3F8D137424D0ED9200AED7EB /* FirebaseHelperMock.swift in Sources */,
 				3F8D137E24D0EDD400AED7EB /* SignUpInteractorMock.swift in Sources */,
+				3F8D13BC24D75A4F00AED7EB /* ProfileDetailsWorkerMock.swift in Sources */,
 				3F8D137124D0ED7500AED7EB /* SignUpProvider+Tests.swift in Sources */,
+				3F8D13B924D75A3400AED7EB /* ProfileDetailsPresenter+Tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
