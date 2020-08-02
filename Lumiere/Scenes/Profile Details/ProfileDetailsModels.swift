@@ -32,6 +32,11 @@ struct ProfileDetails {
             static let backButton = UIImage(named: "voltar 1")
             static let add = UIImage(named: "+")
         }
+        
+        struct Texts {
+            static let addConnectionError = "Erro ao tentar adicionar conexão"
+            static let genericError = "Ocorreu um erro genérico"
+        }
     }
     
     struct Info {
@@ -142,8 +147,8 @@ struct ProfileDetails {
     
     struct Errors {
         
-        enum ProfileDetailsError: Error {
-            case genericError
+        struct ProfileDetailsError {
+            let description: String
         }
     }
     

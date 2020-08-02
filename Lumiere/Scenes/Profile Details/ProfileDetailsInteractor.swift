@@ -49,6 +49,10 @@ extension ProfileDetailsInteractor: ProfileDetailsBusinessLogic {
                 self.fetchCurrentUserData(ProfileDetails.Request.FetchCurrentUserData(userId: data))
                 break
             case .error:
+                self.presenter.presentLoading(false)
+                self.presenter.presentError(ProfileDetails
+                    .Errors
+                    .ProfileDetailsError(description: ProfileDetails.Constants.Texts.genericError))
                 break
             }
         }
@@ -72,6 +76,10 @@ extension ProfileDetailsInteractor: ProfileDetailsBusinessLogic {
                 }
                 break
             case .error:
+                self.presenter.presentLoading(false)
+                self.presenter.presentError(ProfileDetails
+                    .Errors
+                    .ProfileDetailsError(description: ProfileDetails.Constants.Texts.genericError))
                 break
             }
         }
@@ -95,6 +103,10 @@ extension ProfileDetailsInteractor: ProfileDetailsBusinessLogic {
                 self.fetchAddConnection(newConnectNotificationRequest)
                  break
             case .error:
+                self.presenter.presentLoading(false)
+                self.presenter.presentError(ProfileDetails
+                    .Errors
+                    .ProfileDetailsError(description: ProfileDetails.Constants.Texts.genericError))
                 break
             }
         }
@@ -114,11 +126,22 @@ extension ProfileDetailsInteractor: ProfileDetailsBusinessLogic {
     }
     
     func fetchAddConnection(_ request: ProfileDetails.Request.NewConnectNotification) {
-        
+        worker.fetchAddConnection(request) { response in
+            switch response {
+            case .success:
+                self.presenter.didFetchAddConnection()
+                break
+            case .error(let error):
+                self.presenter.presentError(ProfileDetails
+                    .Errors
+                    .ProfileDetailsError(description: error.localizedDescription))
+            }
+        }
     }
     
     func fetchAddConnection(_ request: ProfileDetails.Request.AddConnection) {
-        
+        presenter.presentLoading(true)
+        fetchCurrentUserId(ProfileDetails.Request.FetchCurrentUserId())
     }
     
     func fetchAllConnections(_ reques: ProfileDetails.Request.AllConnections) {
