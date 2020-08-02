@@ -10,7 +10,7 @@ import UIKit
 typealias ProfileDetailsRouterProtocol = NSObject & ProfileDetailsRoutingLogic & ProfileDetailsDataTransfer
 
 protocol ProfileDetailsRoutingLogic {
-    
+    func routeBack()
 }
 
 protocol ProfileDetailsDataTransfer {
@@ -32,4 +32,7 @@ extension ProfileDetailsRouter: BaseRouterProtocol {
 
 extension ProfileDetailsRouter: ProfileDetailsRoutingLogic {
     
+    func routeBack() {
+        
+    }
 }

@@ -7,9 +7,23 @@
 //
 
 protocol ProfileDetailsWorkerProtocol {
-    
+    func fetchProjectData(_ request: ProfileDetails.Request.ProjectInfo)
+    func fetchAddConnection(_ request: ProfileDetails.Request.AddConnection)
 }
 
 class ProfileDetailsWorker: ProfileDetailsWorkerProtocol {
     
+    private let builder: FirebaseAuthHelperProtocol
+    
+    init(builder: FirebaseAuthHelperProtocol = FirebaseAuthHelper()) {
+        self.builder = builder
+    }
+    
+    func fetchProjectData(_ request: ProfileDetails.Request.ProjectInfo) {
+        //TO DO
+    }
+    
+    func fetchAddConnection(_ request: ProfileDetails.Request.AddConnection) {
+        //TO DO
+    }
 }

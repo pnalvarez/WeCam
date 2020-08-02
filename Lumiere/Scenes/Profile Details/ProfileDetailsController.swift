@@ -9,17 +9,45 @@
 import UIKit
 
 protocol ProfileDetailsDisplayLogic: class {
-    
+    func displayUserInfo(_ viewModel: ProfileDetails.Info.ViewModel.User)
 }
 
 class ProfileDetailsController: BaseViewController {
     
+    private lazy var backButton: UIButton = {
+        let view = UIButton(frame: .zero)
+        view.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
+        view.layer.cornerRadius = 16
+        view.clipsToBounds = true
+        view.setImage(ProfileDetails.Constants.Images.backButton, for: .normal)
+        return view
+    }()
+    
+    private lazy var addConnectionButton: UIButton = {
+        let view = UIButton(frame: .zero)
+        view.addTarget(self, action: #selector(didTapAddConnectionButton), for: .touchUpInside)
+        view.setImage(ProfileDetails.Constants.Images.add, for: .normal)
+        return view
+    }()
+    
+    private lazy var allConnectionsButton: UIButton = {
+        let view = UIButton(frame: .zero)
+        view.addTarget(self, action: #selector(didTapAllConnectionsButton), for: .touchUpInside)
+        view.layer.cornerRadius = 4
+        view.backgroundColor = ProfileDetails.Constants.Colors.allConnectionsButton
+        return view
+    }()
+    
     private lazy var mainView: ProfileDetailsView = {
-        return ProfileDetailsView(frame: .zero)
+        let view = ProfileDetailsView(frame: .zero,
+                                  backButton: backButton,
+                                  addConnectionButton: addConnectionButton,
+                                  allConnectionsButton: allConnectionsButton)
+        return view
     }()
     
     private var interactor: ProfileDetailsBusinessLogic?
-    private var router: ProfileDetailsRouterProtocol?
+    var router: ProfileDetailsRouterProtocol?
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -32,6 +60,8 @@ class ProfileDetailsController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.setNavigationBarHidden(true, animated: true)
+        interactor?.fetchUserData(ProfileDetails.Request.UserData())
     }
     
     override func loadView() {
@@ -50,6 +80,27 @@ class ProfileDetailsController: BaseViewController {
     }
 }
 
+extension ProfileDetailsController {
+    
+    @objc
+    private func didTapBackButton() {
+        router?.routeBack()
+    }
+    
+    @objc
+    private func didTapAddConnectionButton() {
+        interactor?.fetchAddConnection(ProfileDetails.Request.AddConnection())
+    }
+    
+    @objc
+    private func didTapAllConnectionsButton() {
+        interactor?.fetchAllConnections(ProfileDetails.Request.AllConnections())
+    }
+}
+
 extension ProfileDetailsController: ProfileDetailsDisplayLogic {
     
+    func displayUserInfo(_ viewModel: ProfileDetails.Info.ViewModel.User) {
+        mainView.setup(viewModel: viewModel)
+    }
 }

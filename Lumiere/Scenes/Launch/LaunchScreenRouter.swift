@@ -13,6 +13,10 @@ protocol LaunchScreenRouterProtocol: BaseRouterProtocol {
     func routeToLoginScreen()
 }
 
+protocol ScreenTestingProtocol {
+    func routeToProfileDetails()
+}
+
 class LaunchScreenRouter: BaseRouterProtocol {
     
     weak var viewController: UIViewController?
@@ -28,6 +32,25 @@ class LaunchScreenRouter: BaseRouterProtocol {
 extension LaunchScreenRouter: LaunchScreenRouterProtocol {
     
     func routeToLoginScreen() {
-        routeTo(nextVC: UINavigationController(rootViewController: SignInController()))
+        routeToProfileDetails()
+//        routeTo(nextVC: UINavigationController(rootViewController: ProfileDetailsController()))
+    }
+}
+
+extension LaunchScreenRouter: ScreenTestingProtocol {
+    
+    func routeToProfileDetails() {
+        let vc = ProfileDetailsController()
+        guard var dataStore = vc.router?.dataStore else { return }
+        dataStore.userData = ProfileDetails.Info.Received.User(id: "1234",
+                                                               image: nil,
+                                                               name: "User Test",
+                                                               occupation: "Artist",
+                                                               email: "user@hotmail.com",
+                                                               phoneNumber: "(20)2294-5711",
+                                                               connectionsCount: 1020,
+                                                               progressingProjectsIds: [],
+                                                               finishedProjectsIds: [])
+        routeTo(nextVC: vc)
     }
 }

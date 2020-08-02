@@ -33,6 +33,13 @@
 		3F8D138E24D5364000AED7EB /* ProfileDetailsWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D138D24D5364000AED7EB /* ProfileDetailsWorker.swift */; };
 		3F8D139024D5364C00AED7EB /* ProfileDetailsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D138F24D5364C00AED7EB /* ProfileDetailsRouter.swift */; };
 		3F8D139224D5365700AED7EB /* ProfileDetailsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D139124D5365700AED7EB /* ProfileDetailsModels.swift */; };
+		3F8D139524D53A3600AED7EB /* NotificationsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D139424D53A3600AED7EB /* NotificationsTableView.swift */; };
+		3F8D139724D53AA300AED7EB /* NotificationsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D139624D53AA300AED7EB /* NotificationsController.swift */; };
+		3F8D139924D53B0900AED7EB /* NotificationsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D139824D53B0900AED7EB /* NotificationsInteractor.swift */; };
+		3F8D139B24D53B5C00AED7EB /* NotificationsWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D139A24D53B5C00AED7EB /* NotificationsWorker.swift */; };
+		3F8D139D24D53B7B00AED7EB /* NotificationsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D139C24D53B7B00AED7EB /* NotificationsPresenter.swift */; };
+		3F8D139F24D53BA600AED7EB /* NotificationsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D139E24D53BA600AED7EB /* NotificationsRouter.swift */; };
+		3F8D13A124D53C4400AED7EB /* NotificationsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D13A024D53C4400AED7EB /* NotificationsModels.swift */; };
 		3F95782024AD6FBC00B79818 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F95781F24AD6FBC00B79818 /* AppDelegate.swift */; };
 		3F95782224AD6FBC00B79818 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F95782124AD6FBC00B79818 /* SceneDelegate.swift */; };
 		3F95782924AD6FBE00B79818 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F95782824AD6FBE00B79818 /* Assets.xcassets */; };
@@ -144,6 +151,13 @@
 		3F8D138D24D5364000AED7EB /* ProfileDetailsWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailsWorker.swift; sourceTree = "<group>"; };
 		3F8D138F24D5364C00AED7EB /* ProfileDetailsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailsRouter.swift; sourceTree = "<group>"; };
 		3F8D139124D5365700AED7EB /* ProfileDetailsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailsModels.swift; sourceTree = "<group>"; };
+		3F8D139424D53A3600AED7EB /* NotificationsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsTableView.swift; sourceTree = "<group>"; };
+		3F8D139624D53AA300AED7EB /* NotificationsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsController.swift; sourceTree = "<group>"; };
+		3F8D139824D53B0900AED7EB /* NotificationsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsInteractor.swift; sourceTree = "<group>"; };
+		3F8D139A24D53B5C00AED7EB /* NotificationsWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsWorker.swift; sourceTree = "<group>"; };
+		3F8D139C24D53B7B00AED7EB /* NotificationsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsPresenter.swift; sourceTree = "<group>"; };
+		3F8D139E24D53BA600AED7EB /* NotificationsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsRouter.swift; sourceTree = "<group>"; };
+		3F8D13A024D53C4400AED7EB /* NotificationsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsModels.swift; sourceTree = "<group>"; };
 		3F95781C24AD6FBC00B79818 /* Lumiere.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lumiere.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F95781F24AD6FBC00B79818 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3F95782124AD6FBC00B79818 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -375,15 +389,29 @@
 		3F8D138424D535EA00AED7EB /* Profile Details */ = {
 			isa = PBXGroup;
 			children = (
-				3F8D138524D5361A00AED7EB /* ProfileDetailsView.swift */,
 				3F8D138724D5362800AED7EB /* ProfileDetailsController.swift */,
 				3F8D138924D5363200AED7EB /* ProfileDetailsInteractor.swift */,
-				3F8D138B24D5363A00AED7EB /* ProfileDetailsPresenter.swift */,
-				3F8D138D24D5364000AED7EB /* ProfileDetailsWorker.swift */,
-				3F8D138F24D5364C00AED7EB /* ProfileDetailsRouter.swift */,
 				3F8D139124D5365700AED7EB /* ProfileDetailsModels.swift */,
+				3F8D138B24D5363A00AED7EB /* ProfileDetailsPresenter.swift */,
+				3F8D138F24D5364C00AED7EB /* ProfileDetailsRouter.swift */,
+				3F8D138524D5361A00AED7EB /* ProfileDetailsView.swift */,
+				3F8D138D24D5364000AED7EB /* ProfileDetailsWorker.swift */,
 			);
 			path = "Profile Details";
+			sourceTree = "<group>";
+		};
+		3F8D139324D53A1E00AED7EB /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				3F8D139424D53A3600AED7EB /* NotificationsTableView.swift */,
+				3F8D139624D53AA300AED7EB /* NotificationsController.swift */,
+				3F8D139824D53B0900AED7EB /* NotificationsInteractor.swift */,
+				3F8D139A24D53B5C00AED7EB /* NotificationsWorker.swift */,
+				3F8D139C24D53B7B00AED7EB /* NotificationsPresenter.swift */,
+				3F8D139E24D53BA600AED7EB /* NotificationsRouter.swift */,
+				3F8D13A024D53C4400AED7EB /* NotificationsModels.swift */,
+			);
+			path = Notifications;
 			sourceTree = "<group>";
 		};
 		3F95781324AD6FBC00B79818 = {
@@ -518,6 +546,7 @@
 		3F95786724AD79C900B79818 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				3F8D139324D53A1E00AED7EB /* Notifications */,
 				3F8D138424D535EA00AED7EB /* Profile Details */,
 				3FE8DF4424C5295E005DE30D /* InProgressProjectDetails */,
 				3F95786824AD79D100B79818 /* Launch */,
@@ -911,8 +940,10 @@
 				3F9578DD24B0314D00B79818 /* BaseViewController.swift in Sources */,
 				3F8D138A24D5363200AED7EB /* ProfileDetailsInteractor.swift in Sources */,
 				3FE8DF5624C7BE0B005DE30D /* UserModel.swift in Sources */,
+				3F8D139F24D53BA600AED7EB /* NotificationsRouter.swift in Sources */,
 				3F9578C624B0195600B79818 /* SignUpView.swift in Sources */,
 				3F8116DE24B6AB620083A3DA /* ReusableView.swift in Sources */,
+				3F8D139524D53A3600AED7EB /* NotificationsTableView.swift in Sources */,
 				3F0CAA6224CCE0E8005E2558 /* CreateUserRequest.swift in Sources */,
 				3F95787D24AEA4F000B79818 /* SignInProvider.swift in Sources */,
 				3F95786C24AEA0CF00B79818 /* LaunchScreenPresenter.swift in Sources */,
@@ -921,6 +952,7 @@
 				3F9578D224B0198F00B79818 /* SignUpModels.swift in Sources */,
 				3F1158AD24C3F04200075C73 /* TeamMemberCollectionViewCell.swift in Sources */,
 				3F95787924AEA4DE00B79818 /* SignInRouter.swift in Sources */,
+				3F8D139924D53B0900AED7EB /* NotificationsInteractor.swift in Sources */,
 				3FE8DF4E24C529E9005DE30D /* InProgressProjectDetailsRouter.swift in Sources */,
 				3F95785E24AD764700B79818 /* ViewCodeProtocol.swift in Sources */,
 				3F8D138624D5361A00AED7EB /* ProfileDetailsView.swift in Sources */,
@@ -929,17 +961,21 @@
 				3F95786124AD775D00B79818 /* LaunchScreenController.swift in Sources */,
 				3F95787B24AEA4EA00B79818 /* SignInModels.swift in Sources */,
 				3F9578D024B0198700B79818 /* SignUpRouter.swift in Sources */,
+				3F8D139D24D53B7B00AED7EB /* NotificationsPresenter.swift in Sources */,
 				3F95787324AEA4C000B79818 /* SignInView.swift in Sources */,
 				3F8D138C24D5363A00AED7EB /* ProfileDetailsPresenter.swift in Sources */,
 				3FE8DF5224C529F9005DE30D /* InProgressProjectDetailsModels.swift in Sources */,
 				3F0CAA6624CCE41D005E2558 /* SignInRequest.swift in Sources */,
 				3FE8DF4824C529C7005DE30D /* InProgressDetailsProjectView.swift in Sources */,
+				3F8D139B24D53B5C00AED7EB /* NotificationsWorker.swift in Sources */,
+				3F8D139724D53AA300AED7EB /* NotificationsController.swift in Sources */,
 				3F95786424AD77E200B79818 /* LaunchScreenRouter.swift in Sources */,
 				3F9578D724B01A0600B79818 /* MovieStyle.swift in Sources */,
 				3F9578CE24B0197F00B79818 /* SignUpProvider.swift in Sources */,
 				3FE8DF4C24C529E1005DE30D /* InProgressProjectDetailsPresenter.swift in Sources */,
 				3F9578D924B01E8F00B79818 /* SignUpCollectionViewCell.swift in Sources */,
 				3F8D138E24D5364000AED7EB /* ProfileDetailsWorker.swift in Sources */,
+				3F8D13A124D53C4400AED7EB /* NotificationsModels.swift in Sources */,
 				3F9578C824B0196300B79818 /* SignUpController.swift in Sources */,
 				3F95786A24AEA07100B79818 /* LaunchScreenInteractor.swift in Sources */,
 				3FE8DF5824C7BEE2005DE30D /* Constants.swift in Sources */,
