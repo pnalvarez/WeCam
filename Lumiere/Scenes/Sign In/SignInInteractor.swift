@@ -67,7 +67,6 @@ extension SignInInteractor: SignInBusinessRules {
                 break
             }
         }
-        presenter.didFetchSuccessLogin()
     }
 }
 
