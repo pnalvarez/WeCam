@@ -39,17 +39,20 @@ extension SignInRouter: SignInRoutingLogic {
        }
     
     func routeToHome() {
-        let vc = ProfileDetailsController()
+        let vc = NotificationsController()
         guard var dataStore = vc.router?.dataStore else { return }
-        dataStore.userData = ProfileDetails.Info.Received.User(id: "TDPWhy2FadewBoNsm5yP7leuhJ03",
-                                                               image: nil,
-                                                               name: "User Test",
-                                                               occupation: "Artist",
-                                                               email: "user@hotmail.com",
-                                                               phoneNumber: "(20) 2294-5711",
-                                                               connectionsCount: 1020,
-                                                               progressingProjectsIds: [],
-                                                               finishedProjectsIds: [])
+        dataStore.currentUser = Notifications.Info.Received.CurrentUser(userId: "TDPWhy2FadewBoNsm5yP7leuhJ03")
+//        let vc = ProfileDetailsController()
+//        guard var dataStore = vc.router?.dataStore else { return }
+//        dataStore.userData = ProfileDetails.Info.Received.User(id: "TDPWhy2FadewBoNsm5yP7leuhJ03",
+//                                                               image: nil,
+//                                                               name: "User Test",
+//                                                               occupation: "Artist",
+//                                                               email: "user@hotmail.com",
+//                                                               phoneNumber: "(20) 2294-5711",
+//                                                               connectionsCount: 1020,
+//                                                               progressingProjectsIds: [],
+//                                                               finishedProjectsIds: [])
         routeTo(nextVC: vc)
     }
 }

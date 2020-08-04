@@ -14,12 +14,13 @@ protocol NotificationsRoutingLogic {
 }
 
 protocol NotificationsDataTransfer {
-    
+    var dataStore: NotificationsDataStore? { get set }
 }
 
 class NotificationsRouter: NSObject, NotificationsDataTransfer {
     
     weak var viewController: UIViewController?
+    var dataStore: NotificationsDataStore?
 }
 
 extension NotificationsRouter: BaseRouterProtocol {

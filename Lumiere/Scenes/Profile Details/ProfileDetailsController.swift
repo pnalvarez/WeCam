@@ -118,11 +118,12 @@ extension ProfileDetailsController: ProfileDetailsDisplayLogic {
     }
     
     func displayLoading(_ loading: Bool) {
+        addConnectionButton.isUserInteractionEnabled = !loading
         addConnectionActivity.isHidden = !loading
     }
     
     func displayAddedConnection() {
-        
+        //TO DO
     }
     
     func displayError(_ viewModel: String) {

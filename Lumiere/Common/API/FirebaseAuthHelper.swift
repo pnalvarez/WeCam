@@ -147,34 +147,6 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
             }
         }
     }
-//
-//    func fetchUserConnectNotifications(request: GetConnectNotificationRequest,
-//                                       completion: @escaping (ProfileDetails.Response.AllNotifications) -> Void) {
-//        var notifications: Array<Any> = .empty
-//        Database
-//        .database()
-//        .reference()
-//        .child(Constants.usersPath)
-//        .child(request.userId)
-//        .child("connect_notifications")
-//            .observe(.value) { snapshot in
-//                if snapshot.value is NSNull {
-//                    completion(.success(ProfileDetails
-//                        .Response
-//                        .NotificationsResponseData(notifications: .empty)))
-//                } else if let values = snapshot.value as? Array<Any> {
-//                    notifications = values
-//                    completion(.success(ProfileDetails
-//                        .Response
-//                        .NotificationsResponseData(notifications: notifications)))
-//                } else {
-//                    completion(.error(ProfileDetails
-//                        .Errors
-//                        .ProfileDetailsError
-//                        .genericError))
-//                }
-//        }
-//    }
     
     func fetchCurrentUser(request: FetchCurrentUserIdRequest,
                           completion: @escaping (CurrentUserIdResponse) -> Void) {
