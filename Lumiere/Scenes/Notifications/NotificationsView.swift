@@ -35,10 +35,15 @@ extension NotificationsView: ViewCodeProtocol {
     
     func setupConstraints() {
         tableView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(12.5)
+            make.right.left.bottom.equalToSuperview()
         }
         activityView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+    }
+    
+    func configureViews() {
+        backgroundColor = .white
     }
 }

@@ -37,7 +37,9 @@ struct Notifications {
             static let yesButtonBackgroundClicked = UIColor(rgb: 0xc4c4c4)
             static let noButtonBackgroundClicked = UIColor(rgb: 0xc4c4c4)
             static let activity = UIColor(rgb: 0x222222)
-            static let activityBackground = UIColor.clear
+            static let activityBackground = UIColor(rgb: 0xffffff)
+            static let notificationCellBackground = UIColor(rgb: 0xffffff)
+            static let notificationCellLayer = UIColor(rgb: 0xe0e0e0).cgColor
         }
         
         struct Texts {
@@ -52,7 +54,7 @@ struct Notifications {
         struct Dimensions {
             
             struct Heights {
-                static let notificationTableViewCell: CGFloat = 160
+                static let notificationTableViewCell: CGFloat = 194
             }
         }
     }

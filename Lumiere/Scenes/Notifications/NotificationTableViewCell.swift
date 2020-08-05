@@ -15,9 +15,18 @@ protocol NotificationTableViewCellDelegate: class {
 
 class NotificationTableViewCell: UITableViewCell {
     
+    private lazy var containerView: UIView = {
+        let view = UIView(frame: .zero)
+        view.layer.cornerRadius = 2
+        view.layer.borderWidth = 1
+        view.layer.borderColor = Notifications.Constants.Colors.notificationCellLayer
+        view.backgroundColor = Notifications.Constants.Colors.notificationCellBackground
+        return view
+    }()
+    
     private lazy var profileImageView: UIImageView = {
         let view = UIImageView(frame: .zero)
-        view.contentMode = .scaleAspectFit
+        view.contentMode = .scaleAspectFill
         view.layer.cornerRadius = 45
         view.clipsToBounds = true
         return view
@@ -67,8 +76,7 @@ class NotificationTableViewCell: UITableViewCell {
         view.layer.borderColor = Notifications.Constants.Colors.yesButtonLayer
         view.setTitle(Notifications.Constants.Texts.yesButton, for: .normal)
         view.titleLabel?.font = Notifications.Constants.Fonts.yesButtonLbl
-        view.setTitleColor(Notifications.Constants.Colors.yesButtonBackground, for: .normal)
-        view.backgroundColor = Notifications.Constants.Colors.yesButtonBackground
+        view.setTitleColor(Notifications.Constants.Colors.yesButtonText, for: .normal)
         return view
     }()
     
@@ -80,8 +88,7 @@ class NotificationTableViewCell: UITableViewCell {
         view.layer.borderColor = Notifications.Constants.Colors.noButtonLayer
         view.setTitle(Notifications.Constants.Texts.noButton, for: .normal)
         view.titleLabel?.font = Notifications.Constants.Fonts.noButtonLbl
-        view.setTitleColor(Notifications.Constants.Colors.noButtonBackground, for: .normal)
-        view.backgroundColor = Notifications.Constants.Colors.noButtonBackground
+        view.setTitleColor(Notifications.Constants.Colors.noButtonText, for: .normal)
         return view
     }()
     
@@ -125,17 +132,24 @@ extension NotificationTableViewCell {
 extension NotificationTableViewCell: ViewCodeProtocol {
     
     func buildViewHierarchy() {
-        addSubview(profileImageView)
-        addSubview(nameLbl)
-        addSubview(emailLbl)
-        addSubview(ocupationLbl)
-        addSubview(phoneNumberLbl)
-        addSubview(notificationLbl)
-        addSubview(yesButton)
-        addSubview(noButton)
+        containerView.addSubview(profileImageView)
+        containerView.addSubview(nameLbl)
+        containerView.addSubview(emailLbl)
+        containerView.addSubview(ocupationLbl)
+        containerView.addSubview(phoneNumberLbl)
+        containerView.addSubview(notificationLbl)
+        containerView.addSubview(yesButton)
+        containerView.addSubview(noButton)
+        addSubview(containerView)
     }
     
     func setupConstraints() {
+        containerView.snp.makeConstraints { make in
+            make.top.equalToSuperview().inset(8.5)
+            make.left.equalToSuperview().inset(11)
+            make.right.equalToSuperview().inset(17)
+            make.bottom.equalToSuperview().offset(-8.5)
+        }
         profileImageView.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(10)
             make.left.equalToSuperview().inset(11)
@@ -144,22 +158,22 @@ extension NotificationTableViewCell: ViewCodeProtocol {
         nameLbl.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(9)
             make.left.equalTo(profileImageView.snp.right).offset(18)
-            make.width.equalTo(144)
+            make.right.equalToSuperview()
         }
         ocupationLbl.snp.makeConstraints { make in
             make.top.equalTo(nameLbl.snp.bottom)
             make.left.equalTo(nameLbl)
-            make.width.equalTo(nameLbl)
+            make.right.equalToSuperview()
         }
         emailLbl.snp.makeConstraints { make in
             make.top.equalTo(ocupationLbl.snp.bottom)
             make.left.equalTo(ocupationLbl)
-            make.width.equalTo(ocupationLbl)
+            make.right.equalToSuperview()
         }
         phoneNumberLbl.snp.makeConstraints { make in
             make.top.equalTo(emailLbl.snp.bottom)
             make.left.equalTo(emailLbl)
-            make.width.equalTo(emailLbl)
+            make.right.equalToSuperview()
         }
         notificationLbl.snp.makeConstraints { make in
             make.top.equalTo(phoneNumberLbl.snp.bottom).offset(1)
@@ -187,5 +201,6 @@ extension NotificationTableViewCell: ViewCodeProtocol {
         ocupationLbl.text = viewModel?.ocupation
         emailLbl.attributedText = viewModel?.email
         phoneNumberLbl.text = viewModel?.phoneNumber
+        selectionStyle = .none
     }
 }

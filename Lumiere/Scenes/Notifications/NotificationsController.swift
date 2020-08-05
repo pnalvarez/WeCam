@@ -27,7 +27,6 @@ class NotificationsController: BaseViewController {
     
     private lazy var tableView: NotificationsTableView = {
         let view = NotificationsTableView(frame: .zero)
-        view.assignProtocols(to: self)
         return view
     }()
     
@@ -59,7 +58,8 @@ class NotificationsController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.isNavigationBarHidden = true
-        registerCells()
+        setupTableView()
+        refreshTableView()
         interactor?.fetchNotifications()
     }
     
@@ -81,7 +81,8 @@ class NotificationsController: BaseViewController {
 
 extension NotificationsController {
     
-    private func registerCells() {
+    private func setupTableView() {
+        tableView.assignProtocols(to: self)
         tableView.registerCell(cellType: NotificationTableViewCell.self)
     }
     

@@ -14,7 +14,7 @@ class NotificationsTableView: UITableView {
         super.init(frame: frame, style: style)
         bounces = false
         alwaysBounceVertical = false
-        backgroundColor = .clear
+        backgroundColor = .white
         separatorStyle = .none
     }
     

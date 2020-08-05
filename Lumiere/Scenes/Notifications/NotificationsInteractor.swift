@@ -66,6 +66,7 @@ extension NotificationsInteractor {
                         guard let notifications = self.notifications else {
                             return
                         }
+                        self.presenter.presentLoading(false)
                         self.presenter.presentNotifications(notifications)
                         break
                     case .error(let _):
@@ -79,9 +80,9 @@ extension NotificationsInteractor {
 extension NotificationsInteractor: NotificationsBusinessLogic {
     
     func fetchNotifications() {
+        presenter.presentLoading(true)
         guard let currentUserId = currentUser?.userId else { return }
         worker.fetchNotifications(Notifications.Request.FetchNotifications(userId: currentUserId)) { response in
-            self.presenter.presentLoading(false)
             switch response {
             case .success(let data):
                 self.buildNotificationsModel(withData: data)
