@@ -137,6 +137,10 @@ struct Notifications {
         struct NotificationAnswer {
             let index: Int
         }
+        
+        struct FetchImageData {
+            let url: URL
+        }
     }
     
     struct Response {
@@ -146,8 +150,18 @@ struct Notifications {
             case error
         }
         
+        enum FetchImageData {
+            case success(FetchImageDataResponseData)
+            case error(Error)
+        }
+        
         struct FetchNotificationsResponseData {
             let notifications: Array<Any>
         }
+        
+        struct FetchImageDataResponseData {
+            let data: Data
+        }
+        
     }
 }

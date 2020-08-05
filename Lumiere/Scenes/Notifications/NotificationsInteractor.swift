@@ -21,7 +21,7 @@ protocol NotificationsDataStore {
 }
 
 class NotificationsInteractor: NotificationsDataStore {
-    
+
     var presenter: NotificationsPresentationLogic
     var worker: NotificationsWorkerProtocol
     
@@ -37,7 +37,7 @@ class NotificationsInteractor: NotificationsDataStore {
 
 extension NotificationsInteractor {
     
-    private func buildNotificationsModel(withData data: Notifications.Response.FetchNotificationsResponseData) {
+    private func buildNotificationsModel(withData data: Notifications.Response.FetchNotificationsResponseData){
         var upcomingNotifications = [Notifications.Info.Model.Notification]()
         for notification in data.notifications {
             if let dictionary = notification as? [String : Any],
@@ -47,20 +47,33 @@ extension NotificationsInteractor {
                 let ocupation = dictionary["ocupation"] as? String,
                 let userId = dictionary["userId"] as? String,
                 let imageUrl = URL(string: imageUrlString) {
-                imageUrl.getData { (data, response, error) in
-                    upcomingNotifications.append(Notifications
-                        .Info
-                        .Model
-                        .Notification(type: .connection,
-                                      userId: userId,
-                                      image: data,
-                                      name: name,
-                                      ocupation: ocupation,
-                                      email: email))
+                worker.fetchImageData(Notifications.Request.FetchImageData(url: imageUrl)) { response in
+                    switch response {
+                    case .success(let data):
+                        upcomingNotifications.append(Notifications
+                            .Info
+                            .Model
+                            .Notification(type: .connection,
+                                          userId: userId,
+                                          image: data.data,
+                                          name: name,
+                                          ocupation: ocupation,
+                                          email: email))
+                        self.notifications = Notifications
+                            .Info
+                            .Model
+                            .UpcomingNotifications(notifications: upcomingNotifications)
+                        guard let notifications = self.notifications else {
+                            return
+                        }
+                        self.presenter.presentNotifications(notifications)
+                        break
+                    case .error(let _):
+                        break
+                    }
                 }
             }
         }
-        self.notifications = Notifications.Info.Model.UpcomingNotifications(notifications: upcomingNotifications)
     }
 }
 extension NotificationsInteractor: NotificationsBusinessLogic {
@@ -72,8 +85,6 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
             switch response {
             case .success(let data):
                 self.buildNotificationsModel(withData: data)
-                guard let notifications = self.notifications else { return }
-                self.presenter.presentNotifications(notifications)
                 break
             case .error:
                 self.presenter.presentError(Notifications
