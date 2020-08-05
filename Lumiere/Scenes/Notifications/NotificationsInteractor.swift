@@ -66,10 +66,9 @@ extension NotificationsInteractor {
                         guard let notifications = self.notifications else {
                             return
                         }
-                        self.presenter.presentLoading(false)
                         self.presenter.presentNotifications(notifications)
                         break
-                    case .error(let _):
+                    case .error( _):
                         break
                     }
                 }
@@ -77,6 +76,7 @@ extension NotificationsInteractor {
         }
     }
 }
+
 extension NotificationsInteractor: NotificationsBusinessLogic {
     
     func fetchNotifications() {
@@ -85,9 +85,11 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
         worker.fetchNotifications(Notifications.Request.FetchNotifications(userId: currentUserId)) { response in
             switch response {
             case .success(let data):
+                self.presenter.presentLoading(false)
                 self.buildNotificationsModel(withData: data)
                 break
             case .error:
+                self.presenter.presentLoading(false)
                 self.presenter.presentError(Notifications
                     .Errors
                     .NotificationError(error: Notifications
@@ -103,7 +105,10 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
     }
     
     func didSelectProfile(_ request: Notifications.Request.SelectProfile) {
-        
+        guard let id = notifications?.notifications[request.index].userId else {
+            return
+        }
+        //CONTINUE
     }
     
     func didAcceptNotification(_ request: Notifications.Request.NotificationAnswer) {

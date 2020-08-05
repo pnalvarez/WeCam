@@ -126,7 +126,7 @@ extension NotificationsController: UITableViewDataSource {
 extension NotificationsController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        interactor?.didSelectProfile(Notifications.Request.SelectProfile(index: indexPath.row))
     }
 }
 

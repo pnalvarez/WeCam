@@ -176,12 +176,12 @@ extension NotificationTableViewCell: ViewCodeProtocol {
             make.right.equalToSuperview()
         }
         notificationLbl.snp.makeConstraints { make in
-            make.top.equalTo(phoneNumberLbl.snp.bottom).offset(1)
+            make.top.equalTo(phoneNumberLbl.snp.bottom).offset(5)
             make.left.equalTo(phoneNumberLbl)
             make.width.equalTo(223)
         }
         yesButton.snp.makeConstraints { make in
-            make.top.equalTo(notificationLbl.snp.bottom).offset(20)
+            make.top.equalTo(notificationLbl.snp.bottom).offset(15)
             make.left.equalTo(profileImageView.snp.right).offset(41)
             make.height.equalTo(28)
             make.width.equalTo(56)
@@ -201,6 +201,7 @@ extension NotificationTableViewCell: ViewCodeProtocol {
         ocupationLbl.text = viewModel?.ocupation
         emailLbl.attributedText = viewModel?.email
         phoneNumberLbl.text = viewModel?.phoneNumber
+        notificationLbl.text = Notifications.Constants.Texts.connectNotificationText
         selectionStyle = .none
     }
 }
