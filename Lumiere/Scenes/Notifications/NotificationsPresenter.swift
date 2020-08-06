@@ -11,6 +11,7 @@ protocol NotificationsPresentationLogic {
     func presentLoading(_ loading: Bool)
     func presentError(_ response: Notifications.Errors.NotificationError)
     func presentNotifications(_ response: Notifications.Info.Model.UpcomingNotifications)
+    func didFetchUserData()
 }
 
 class NotificationsPresenter: NotificationsPresentationLogic {
@@ -55,6 +56,10 @@ class NotificationsPresenter: NotificationsPresentationLogic {
             viewModel.notifications.append(upcomingNotification)
         }
         viewController.displayNotificationns(viewModel)
+    }
+    
+    func didFetchUserData() {
+        
     }
 }
 

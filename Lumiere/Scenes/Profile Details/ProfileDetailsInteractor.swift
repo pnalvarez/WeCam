@@ -126,7 +126,7 @@ extension ProfileDetailsInteractor: ProfileDetailsBusinessLogic {
                                                       occupation: userData?.occupation ?? .empty,
                                                       email: userData?.email ?? .empty,
                                                       phoneNumber: userData?.phoneNumber ?? .empty,
-                                                      connectionsCount: userData?.connectionsCount ?? 0,
+                                                      connectionsCount: userData?.connectionsCount ?? .empty,
                                                       progressingProjects: [],
                                                       finishedProjects: [])
         presenter.presentUserInfo(response)

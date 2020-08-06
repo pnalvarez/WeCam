@@ -88,6 +88,17 @@ struct Notifications {
                 let ocupation: String
                 let email: String
             }
+            
+            struct User {
+                let id: String
+                let name: String
+                let email: String
+                let phoneNumber: String
+                let image: Data?
+                let ocupation: String
+                let connectionsCount: String
+                //TO DO PROJECTS
+            }
         }
         
         struct ViewModel {
@@ -143,6 +154,10 @@ struct Notifications {
         struct FetchImageData {
             let url: URL
         }
+        
+        struct FetchUserData {
+            let userId: String
+        }
     }
     
     struct Response {
@@ -157,12 +172,21 @@ struct Notifications {
             case error(Error)
         }
         
+        enum FetchUser {
+            case success(FetchUserResponseData)
+            case error
+        }
+        
         struct FetchNotificationsResponseData {
             let notifications: Array<Any>
         }
         
         struct FetchImageDataResponseData {
             let data: Data
+        }
+        
+        struct FetchUserResponseData {
+            let data: [String : Any]
         }
         
     }

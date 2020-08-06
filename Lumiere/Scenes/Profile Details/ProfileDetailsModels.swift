@@ -50,7 +50,7 @@ struct ProfileDetails {
                 let occupation: String
                 let email: String
                 let phoneNumber: String
-                let connectionsCount: Int
+                let connectionsCount: String
                 let progressingProjectsIds: [String]
                 let finishedProjectsIds: [String]
             }
@@ -65,7 +65,7 @@ struct ProfileDetails {
                 let occupation: String
                 let email: String
                 let phoneNumber: String
-                let connectionsCount: Int
+                let connectionsCount: String
                 let progressingProjects: [Project]
                 let finishedProjects: [Project]
             }

@@ -11,6 +11,8 @@ protocol NotificationsWorkerProtocol {
                             completion: @escaping (Notifications.Response.FetchNotifications) -> Void)
     func fetchImageData(_ request: Notifications.Request.FetchImageData,
                         completion: @escaping (Notifications.Response.FetchImageData) -> Void)
+    func fetchUserData(_ request: Notifications.Request.FetchUserData,
+                       completion: @escaping (Notifications.Response.FetchUser) -> Void)
 }
 
 class NotificationsWorker: NotificationsWorkerProtocol {
@@ -50,6 +52,21 @@ class NotificationsWorker: NotificationsWorkerProtocol {
                 completion(.success(Notifications
                     .Response
                     .FetchImageDataResponseData(data: data)))
+            }
+        }
+    }
+    
+    func fetchUserData(_ request: Notifications.Request.FetchUserData,
+                       completion: @escaping (Notifications.Response.FetchUser) -> Void) {
+        let newRequest = FetchUserDataRequest(userId: request.userId)
+        builder.fetchUserData(request: newRequest) { response in
+            switch response {
+            case .success(let data):
+                completion(.success(Notifications.Response.FetchUserResponseData(data: data)))
+                break
+            case .error:
+                completion(.error)
+                break
             }
         }
     }

@@ -48,7 +48,7 @@ extension LaunchScreenRouter: ScreenTestingProtocol {
                                                                occupation: "Artist",
                                                                email: "user@hotmail.com",
                                                                phoneNumber: "(20) 2294-5711",
-                                                               connectionsCount: 1020,
+                                                               connectionsCount: "1020",
                                                                progressingProjectsIds: [],
                                                                finishedProjectsIds: [])
         routeTo(nextVC: vc)

@@ -18,6 +18,7 @@ protocol NotificationsBusinessLogic {
 protocol NotificationsDataStore {
     var currentUser: Notifications.Info.Received.CurrentUser? { get set }
     var notifications: Notifications.Info.Model.UpcomingNotifications? { get set }
+    var selectedUser: Notifications.Info.Model.User? { get set }
 }
 
 class NotificationsInteractor: NotificationsDataStore {
@@ -27,6 +28,7 @@ class NotificationsInteractor: NotificationsDataStore {
     
     var currentUser: Notifications.Info.Received.CurrentUser?
     var notifications: Notifications.Info.Model.UpcomingNotifications?
+    var selectedUser: Notifications.Info.Model.User?
     
     init(viewController: NotificationsDisplayLogic,
          worker: NotificationsWorkerProtocol = NotificationsWorker()) {
@@ -75,6 +77,18 @@ extension NotificationsInteractor {
             }
         }
     }
+    
+    private func buildSelectedUser(withData data: Notifications.Response.FetchUserResponseData,
+                                   userId: String) {
+        if let name = data.data["name"] as? String,
+            let email = data.data["email"] as? String,
+            let ocupation = data.data["professional_area"] as? String,
+            let phoneNumber = data.data["phone_number"] as? String,
+            let image = data.data["profile_image_url"] as? String {
+            
+        }
+        
+    }
 }
 
 extension NotificationsInteractor: NotificationsBusinessLogic {
@@ -108,7 +122,17 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
         guard let id = notifications?.notifications[request.index].userId else {
             return
         }
-        //CONTINUE
+        let request = Notifications.Request.FetchUserData(userId: id)
+        worker.fetchUserData(request) { response in
+            switch response {
+            case .success(let data): 
+                self.buildSelectedUser(withData: data, userId: id)
+                self.presenter.didFetchUserData()
+                break
+            case .error:
+                break
+            }
+        }
     }
     
     func didAcceptNotification(_ request: Notifications.Request.NotificationAnswer) {

@@ -29,7 +29,7 @@ class LaunchScreenController: BaseViewController {
     private var window: UIWindow
     
     private var interactor: LaunchScreenBusinessRules?
-    private var router: LaunchScreenRouterProtocol?
+    var router: LaunchScreenRouterProtocol?
     
     init(window: UIWindow) {
         self.window = window

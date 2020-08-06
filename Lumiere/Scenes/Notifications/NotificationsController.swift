@@ -12,6 +12,7 @@ protocol NotificationsDisplayLogic: class {
     func displayLoading(_ loading: Bool)
     func displayError(_ viewModel: Notifications.Info.ViewModel.NotificationError)
     func displayNotificationns(_ viewModel: Notifications.Info.ViewModel.UpcomingNotifications)
+    func displaySelectedUser()
 }
 
 class NotificationsController: BaseViewController {
@@ -146,5 +147,9 @@ extension  NotificationsController: NotificationsDisplayLogic {
     
     func displayNotificationns(_ viewModel: Notifications.Info.ViewModel.UpcomingNotifications) {
         self.viewModel = viewModel
+    }
+    
+    func displaySelectedUser() {
+        
     }
 }
