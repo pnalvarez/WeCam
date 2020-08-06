@@ -45,7 +45,7 @@ struct ProfileDetails {
             
             struct User {
                 let id: String
-                let image: Data?
+                let image: String?
                 let name: String
                 let occupation: String
                 let email: String
@@ -60,7 +60,7 @@ struct ProfileDetails {
             
             struct User {
                 let id: String
-                let image: Data?
+                let image: String?
                 let name: String
                 let occupation: String
                 let email: String

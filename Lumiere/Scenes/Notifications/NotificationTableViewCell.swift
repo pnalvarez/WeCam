@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 protocol NotificationTableViewCellDelegate: class {
     func didTapYesButton(index: Int)
@@ -196,12 +197,13 @@ extension NotificationTableViewCell: ViewCodeProtocol {
     
     func configureViews() {
         backgroundColor = Notifications.Constants.Colors.background
-        profileImageView.image = viewModel?.image
         nameLbl.text = viewModel?.name
         ocupationLbl.text = viewModel?.ocupation
         emailLbl.attributedText = viewModel?.email
         phoneNumberLbl.text = viewModel?.phoneNumber
         notificationLbl.text = Notifications.Constants.Texts.connectNotificationText
         selectionStyle = .none
+        guard let imageStr = viewModel?.image else { return }
+        profileImageView.sd_setImage(with: URL(string: imageStr), completed: nil)
     }
 }

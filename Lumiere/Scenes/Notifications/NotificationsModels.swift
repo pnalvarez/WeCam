@@ -83,7 +83,7 @@ struct Notifications {
             struct Notification {
                 let type: NotificationType
                 let userId: String
-                let image: Data?
+                let image: String?
                 let name: String
                 let ocupation: String
                 let email: String
@@ -94,7 +94,7 @@ struct Notifications {
                 let name: String
                 let email: String
                 let phoneNumber: String
-                let image: Data?
+                let image: String?
                 let ocupation: String
                 let connectionsCount: String
                 //TO DO PROJECTS
@@ -109,7 +109,7 @@ struct Notifications {
             
             struct Notification {
                 let notificationText: String
-                let image: UIImage?
+                let image: String?
                 let name: String
                 let ocupation: String
                 let email: NSAttributedString
@@ -167,11 +167,6 @@ struct Notifications {
             case error
         }
         
-        enum FetchImageData {
-            case success(FetchImageDataResponseData)
-            case error(Error)
-        }
-        
         enum FetchUser {
             case success(FetchUserResponseData)
             case error
@@ -181,13 +176,8 @@ struct Notifications {
             let notifications: Array<Any>
         }
         
-        struct FetchImageDataResponseData {
-            let data: Data
-        }
-        
         struct FetchUserResponseData {
             let data: [String : Any]
         }
-        
     }
 }

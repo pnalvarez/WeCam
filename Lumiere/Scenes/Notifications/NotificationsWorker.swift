@@ -9,8 +9,6 @@
 protocol NotificationsWorkerProtocol {
     func fetchNotifications(_ request: Notifications.Request.FetchNotifications,
                             completion: @escaping (Notifications.Response.FetchNotifications) -> Void)
-    func fetchImageData(_ request: Notifications.Request.FetchImageData,
-                        completion: @escaping (Notifications.Response.FetchImageData) -> Void)
     func fetchUserData(_ request: Notifications.Request.FetchUserData,
                        completion: @escaping (Notifications.Response.FetchUser) -> Void)
 }
@@ -39,19 +37,6 @@ class NotificationsWorker: NotificationsWorkerProtocol {
             case .error:
                 completion(.error)
                 break
-            }
-        }
-    }
-    
-    func fetchImageData(_ request: Notifications.Request.FetchImageData,
-                        completion: @escaping (Notifications.Response.FetchImageData) -> Void) {
-        request.url.getData { data, response, error in
-            if let error = error {
-                completion(.error(error))
-            } else if let data = data {
-                completion(.success(Notifications
-                    .Response
-                    .FetchImageDataResponseData(data: data)))
             }
         }
     }

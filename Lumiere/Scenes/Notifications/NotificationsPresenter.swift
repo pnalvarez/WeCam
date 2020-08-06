@@ -41,7 +41,7 @@ class NotificationsPresenter: NotificationsPresentationLogic {
                 .Info
                 .ViewModel
                 .Notification(notificationText: Notifications.Constants.Texts.connectNotificationText,
-                              image: UIImage.getImage(from: notification.image),
+                              image: notification.image,
                               name: notification.name,
                               ocupation: notification.ocupation,
                               email: NSAttributedString(string: notification.email,

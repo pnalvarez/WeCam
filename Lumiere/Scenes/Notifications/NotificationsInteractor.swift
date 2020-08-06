@@ -43,39 +43,20 @@ extension NotificationsInteractor {
         var upcomingNotifications = [Notifications.Info.Model.Notification]()
         for notification in data.notifications {
             if let dictionary = notification as? [String : Any],
-                let imageUrlString = dictionary["image"] as? String,
+                let image = dictionary["image"] as? String,
                 let name = dictionary["name"] as? String,
                 let email = dictionary["email"] as? String,
                 let ocupation = dictionary["ocupation"] as? String,
-                let userId = dictionary["userId"] as? String,
-                let imageUrl = URL(string: imageUrlString) {
-                worker.fetchImageData(Notifications.Request.FetchImageData(url: imageUrl)) { response in
-                    switch response {
-                    case .success(let data):
-                        upcomingNotifications.append(Notifications
-                            .Info
-                            .Model
-                            .Notification(type: .connection,
-                                          userId: userId,
-                                          image: data.data,
-                                          name: name,
-                                          ocupation: ocupation,
-                                          email: email))
-                        self.notifications = Notifications
-                            .Info
-                            .Model
-                            .UpcomingNotifications(notifications: upcomingNotifications)
-                        guard let notifications = self.notifications else {
-                            return
-                        }
-                        self.presenter.presentNotifications(notifications)
-                        break
-                    case .error( _):
-                        break
-                    }
-                }
+                let userId = dictionary["userId"] as? String {
+                upcomingNotifications.append(Notifications.Info.Model.Notification(type: .connection,
+                                                                                   userId: userId,
+                                                                                   image: image,
+                                                                                   name: name,
+                                                                                   ocupation: ocupation,
+                                                                                   email: email))
             }
         }
+        self.notifications = Notifications.Info.Model.UpcomingNotifications(notifications: upcomingNotifications)
     }
     
     private func buildSelectedUser(withData data: Notifications.Response.FetchUserResponseData,
@@ -99,8 +80,10 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
         worker.fetchNotifications(Notifications.Request.FetchNotifications(userId: currentUserId)) { response in
             switch response {
             case .success(let data):
-                self.presenter.presentLoading(false)
                 self.buildNotificationsModel(withData: data)
+                self.presenter.presentLoading(false)
+                guard let notifications = self.notifications else { return }
+                self.presenter.presentNotifications(notifications)
                 break
             case .error:
                 self.presenter.presentLoading(false)
