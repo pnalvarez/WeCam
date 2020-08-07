@@ -6,6 +6,7 @@
 //  Copyright © 2020 Pedro Alvarez. All rights reserved.
 //
 import UIKit
+import ObjectMapper
 
 struct ProfileDetails {
     
@@ -87,7 +88,7 @@ struct ProfileDetails {
         struct ViewModel {
             
             struct User {
-                let image: UIImage?
+                let image: String?
                 let name: NSAttributedString
                 let occupation: NSAttributedString
                 let email: NSAttributedString
@@ -153,6 +154,27 @@ struct ProfileDetails {
     }
     
     struct Response {
+        
+        final class User: Mappable {
+            
+            var name: String?
+            var email: String?
+            var ocupation: String?
+            var phoneNumber: String?
+            var image: String?
+            var connectionsCount: Int?
+            
+            init?(map: Map) {}
+                       
+            func mapping(map: Map) {
+                name <- map["name"]
+                email <- map["email"]
+                ocupation <- map["professional_area"]
+                phoneNumber <- map["phone_number"]
+                image <- map["profile_image_url"]
+                connectionsCount <- map["connections_count"]
+            }
+        }
         
         enum AllNotifications {
             case success(NotificationsResponseData)

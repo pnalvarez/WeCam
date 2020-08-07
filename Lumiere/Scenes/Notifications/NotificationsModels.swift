@@ -6,6 +6,7 @@
 //  Copyright © 2020 Pedro Alvarez. All rights reserved.
 //
 import UIKit
+import ObjectMapper
 
 struct Notifications {
     
@@ -167,9 +168,25 @@ struct Notifications {
             case error
         }
         
-        enum FetchUser {
-            case success(FetchUserResponseData)
-            case error
+        final class User: Mappable {
+            
+            var name: String?
+            var email: String?
+            var ocupation: String?
+            var phoneNumber: String?
+            var image: String?
+            var connectionsCount: Int?
+            
+            init?(map: Map) {}
+                       
+            func mapping(map: Map) {
+                name <- map["name"]
+                email <- map["email"]
+                ocupation <- map["professional_area"]
+                phoneNumber <- map["phone_number"]
+                image <- map["profile_image_url"]
+                connectionsCount <- map["connections_count"]
+            }
         }
         
         struct FetchNotificationsResponseData {

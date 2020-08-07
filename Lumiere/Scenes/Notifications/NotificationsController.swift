@@ -150,6 +150,6 @@ extension  NotificationsController: NotificationsDisplayLogic {
     }
     
     func displaySelectedUser() {
-        
+        router?.routeToProfileDetails()
     }
 }

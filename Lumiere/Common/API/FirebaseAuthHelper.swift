@@ -13,6 +13,12 @@ import FirebaseDatabase
 import FirebaseStorage
 import Kingfisher
 import RxSwift
+import ObjectMapper
+
+enum FirebaseErrors: Error {
+    case parseError
+    case genericError
+}
 
 protocol FirebaseAuthHelperProtocol {
     func createUser(request: CreateUserRequest,
@@ -27,8 +33,8 @@ protocol FirebaseAuthHelperProtocol {
                     completion: @escaping (SignIn.Response.SignInResponse) -> Void)
     func fetchCurrentUser(request: FetchCurrentUserIdRequest,
                           completion: @escaping (CurrentUserIdResponse) -> Void)
-    func fetchUserData(request: FetchUserDataRequest,
-                       completion: @escaping (UserDataResponse) -> Void)
+    func fetchUserData<T: Mappable>(request: FetchUserDataRequest,
+                       completion: @escaping (BaseResponse<T>) -> Void)
 }
 
 class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
@@ -73,7 +79,8 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                                                       "phone_number": request.phoneNumber,
                                                       "professional_area": request.professionalArea,
                                                       "interest_cathegories": request.interestCathegories,
-                                                      "connect_notifications": ["1"],
+                                                      "connections_count": 0,
+                                                      "connect_notifications": [],
                                                       "project_notifications": [],
                                                       "author_notifications": []]
                     
@@ -157,8 +164,9 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
         completion(.success(id))
     }
     
-    func fetchUserData(request: FetchUserDataRequest,
-                       completion: @escaping (UserDataResponse) -> Void) {
+    func fetchUserData<T: Mappable>(request: FetchUserDataRequest,
+                       completion: @escaping (BaseResponse<T>) -> Void) {
+        
         Database
             .database()
             .reference()
@@ -166,10 +174,14 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
             .child(request.userId)
             .observeSingleEvent(of: .value) { snapshot in
                 if let value = snapshot.value as? [String : Any] {
-                    completion(.success(value))
+                    guard let response = Mapper<T>().map(JSON: value) else {
+                        completion(.error(FirebaseErrors.parseError))
+                        return
+                    }
+                    completion(.success(response))
                     return
                 }
-                completion(.error)
+                completion(.error(FirebaseErrors.genericError))
         }
     }
 }

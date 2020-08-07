@@ -29,7 +29,7 @@ class ProfileDetailsPresenter: ProfileDetailsPresentationLogic {
         let viewModel = ProfileDetails
             .Info
             .ViewModel
-            .User(image: nil,
+            .User(image: response.image,
                   name: NSAttributedString(string: response.name,
                                            attributes: [NSAttributedString
                                             .Key

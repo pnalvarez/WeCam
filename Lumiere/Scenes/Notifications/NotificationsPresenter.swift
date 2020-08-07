@@ -59,7 +59,7 @@ class NotificationsPresenter: NotificationsPresentationLogic {
     }
     
     func didFetchUserData() {
-        
+        viewController.displaySelectedUser()
     }
 }
 

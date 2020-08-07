@@ -23,7 +23,7 @@ class NotificationsRouter: NSObject, NotificationsDataTransfer {
     var dataStore: NotificationsDataStore?
     
     private func transferDataToProfileDetails(from origin: NotificationsController,
-                                              to destination: ProfileDetailsController) {
+                                              to destination: inout ProfileDetailsController) {
         guard let source = dataStore?.selectedUser,
             var destinationSource = destination.router?.dataStore else {
                 return
@@ -49,9 +49,9 @@ extension NotificationsRouter: BaseRouterProtocol {
 extension NotificationsRouter: NotificationsRoutingLogic {
     
     func routeToProfileDetails() {
-        let newVc = ProfileDetailsController()
+        var newVc = ProfileDetailsController()
         if let notificationsController = viewController as? NotificationsController {
-            transferDataToProfileDetails(from: notificationsController, to: newVc)
+            transferDataToProfileDetails(from: notificationsController, to: &newVc)
             routeTo(nextVC: newVc)
         }
     }

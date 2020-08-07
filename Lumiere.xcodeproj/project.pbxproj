@@ -58,6 +58,7 @@
 		3F8D13C424D79FE100AED7EB /* GetAllNotificationsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D13C324D79FE100AED7EB /* GetAllNotificationsRequest.swift */; };
 		3F8D13C624D8F5A100AED7EB /* URL+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D13C524D8F5A100AED7EB /* URL+.swift */; };
 		3F8D13C824D8FC1400AED7EB /* UIImage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D13C724D8FC1400AED7EB /* UIImage+.swift */; };
+		3F8D13CA24DCCD2100AED7EB /* BaseResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D13C924DCCD2100AED7EB /* BaseResponse.swift */; };
 		3F95782024AD6FBC00B79818 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F95781F24AD6FBC00B79818 /* AppDelegate.swift */; };
 		3F95782224AD6FBC00B79818 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F95782124AD6FBC00B79818 /* SceneDelegate.swift */; };
 		3F95782924AD6FBE00B79818 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F95782824AD6FBE00B79818 /* Assets.xcassets */; };
@@ -194,6 +195,7 @@
 		3F8D13C324D79FE100AED7EB /* GetAllNotificationsRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetAllNotificationsRequest.swift; sourceTree = "<group>"; };
 		3F8D13C524D8F5A100AED7EB /* URL+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+.swift"; sourceTree = "<group>"; };
 		3F8D13C724D8FC1400AED7EB /* UIImage+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+.swift"; sourceTree = "<group>"; };
+		3F8D13C924DCCD2100AED7EB /* BaseResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseResponse.swift; sourceTree = "<group>"; };
 		3F95781C24AD6FBC00B79818 /* Lumiere.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lumiere.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F95781F24AD6FBC00B79818 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3F95782124AD6FBC00B79818 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -466,6 +468,7 @@
 				3F8D13AD24D746B100AED7EB /* CurrentUserIdResponse.swift */,
 				3F8D13AF24D74E1600AED7EB /* GetUserConnectNotificationsResponse.swift */,
 				3F8D13B324D753AD00AED7EB /* AddConnectNotificationResponse.swift */,
+				3F8D13C924DCCD2100AED7EB /* BaseResponse.swift */,
 			);
 			path = "Backend Responses";
 			sourceTree = "<group>";
@@ -1058,6 +1061,7 @@
 				3F95786424AD77E200B79818 /* LaunchScreenRouter.swift in Sources */,
 				3F9578D724B01A0600B79818 /* MovieStyle.swift in Sources */,
 				3F9578CE24B0197F00B79818 /* SignUpProvider.swift in Sources */,
+				3F8D13CA24DCCD2100AED7EB /* BaseResponse.swift in Sources */,
 				3F8D13C024D78CBF00AED7EB /* NotificationTableViewCell.swift in Sources */,
 				3FE8DF4C24C529E1005DE30D /* InProgressProjectDetailsPresenter.swift in Sources */,
 				3F9578D924B01E8F00B79818 /* SignUpCollectionViewCell.swift in Sources */,

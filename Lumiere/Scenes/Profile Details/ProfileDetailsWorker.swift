@@ -12,7 +12,7 @@ protocol ProfileDetailsWorkerProtocol {
     func fetchCurrentUserId(_ request: ProfileDetails.Request.FetchCurrentUserId,
                             completion: @escaping (ProfileDetails.Response.CurrentUserId) -> Void)
     func fetchCurrentUserData(_ request: ProfileDetails.Request.FetchCurrentUserData,
-                              completion: @escaping (ProfileDetails.Response.CurrentUser) -> Void)
+                              completion: @escaping (BaseResponse<ProfileDetails.Response.User>) -> Void)
     func fetchProjectData(_ request: ProfileDetails.Request.ProjectInfo)
     func fetchAddConnection(_ request: ProfileDetails.Request.NewConnectNotification,
                             completion: @escaping (ProfileDetails.Response.AddConnection) -> Void)
@@ -64,22 +64,9 @@ class ProfileDetailsWorker: ProfileDetailsWorkerProtocol {
     }
     
     func fetchCurrentUserData(_ request: ProfileDetails.Request.FetchCurrentUserData,
-                              completion: @escaping (ProfileDetails.Response.CurrentUser) -> Void) {
+                              completion: @escaping (BaseResponse<ProfileDetails.Response.User>) -> Void) {
         let newRequest = FetchUserDataRequest(userId: request.userId)
-        builder.fetchUserData(request: newRequest) { response in
-            switch response {
-            case .success(let data):
-                let newResponse = ProfileDetails
-                    .Response
-                    .CurrentUser.success(ProfileDetails
-                        .Response
-                        .CurrentUserResponseData(userData: data))
-                completion(newResponse)
-                break
-            case .error:
-                completion(.error)
-            }
-        }
+        builder.fetchUserData(request: newRequest, completion: completion)
     }
     
     func fetchProjectData(_ request: ProfileDetails.Request.ProjectInfo) {

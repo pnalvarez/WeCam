@@ -19,7 +19,7 @@ class ProfileDetailsView: UIView {
         let view = UIImageView(frame: .zero)
         view.layer.cornerRadius = 42.75
         view.clipsToBounds = true
-        view.contentMode = .scaleAspectFit
+        view.contentMode = .scaleAspectFill
         return view
     }()
     
@@ -138,10 +138,13 @@ extension ProfileDetailsView: ViewCodeProtocol {
     func configureViews() {
         backgroundColor = .white
         allConnectionsButton.setAttributedTitle(viewModel?.connectionsCount, for: .normal)
-        photoImageView.image = viewModel?.image
         nameLbl.attributedText = viewModel?.name
         occupationLbl.attributedText = viewModel?.occupation
         emailLbl.attributedText = viewModel?.email
         phoneNumberLbl.attributedText = viewModel?.phoneNumber
+        guard let image = viewModel?.image else {
+            return
+        }
+        photoImageView.sd_setImage(with: URL(string: image), completed: nil)
     }
 }

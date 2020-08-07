@@ -59,16 +59,15 @@ extension NotificationsInteractor {
         self.notifications = Notifications.Info.Model.UpcomingNotifications(notifications: upcomingNotifications)
     }
     
-    private func buildSelectedUser(withData data: Notifications.Response.FetchUserResponseData,
+    private func buildSelectedUser(withData data: Notifications.Response.User,
                                    userId: String) {
-        if let name = data.data["name"] as? String,
-            let email = data.data["email"] as? String,
-            let ocupation = data.data["professional_area"] as? String,
-            let phoneNumber = data.data["phone_number"] as? String,
-            let image = data.data["profile_image_url"] as? String {
-            
-        }
-        
+        selectedUser = Notifications.Info.Model.User(id: userId,
+                                                     name: data.name ?? .empty,
+                                                     email: data.email ?? .empty,
+                                                     phoneNumber: data.phoneNumber ?? .empty,
+                                                     image: data.image ?? .empty,
+                                                     ocupation: data.ocupation ?? .empty,
+                                                     connectionsCount: "\(data.connectionsCount ?? 0)")
     }
 }
 
@@ -108,7 +107,7 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
         let request = Notifications.Request.FetchUserData(userId: id)
         worker.fetchUserData(request) { response in
             switch response {
-            case .success(let data): 
+            case .success(let data):
                 self.buildSelectedUser(withData: data, userId: id)
                 self.presenter.didFetchUserData()
                 break

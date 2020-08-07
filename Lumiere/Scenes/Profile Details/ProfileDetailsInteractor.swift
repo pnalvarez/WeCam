@@ -67,20 +67,13 @@ extension ProfileDetailsInteractor: ProfileDetailsBusinessLogic {
         worker.fetchCurrentUserData(request) { response in
             switch response {
             case .success(let data):
-                let userData = data.userData
-                if let currentUserId = self.currentUserId,
-                    let name = userData["name"] as? String,
-                    let email = userData["email"] as? String,
-                    let image = userData["profile_image_url"] as? String,
-                    let ocupation = userData["professional_area"] as? String {
-                    self.currentUser = ProfileDetails.Info.Model.CurrentUser(id: currentUserId,
-                                                                             name: name,
-                                                                             image: image,
-                                                                             email: email,
-                                                                             ocupation: ocupation)
-                    guard let id = self.userData?.id else { return }
-                    self.fetchAllNotifications(ProfileDetails.Request.FetchNotifications(userId: id))
-                }
+                self.currentUser = ProfileDetails.Info.Model.CurrentUser(id: self.currentUserId ?? .empty,
+                                                                         name: data.name ?? .empty,
+                                                                         image: data.image ?? .empty,
+                                                                         email: data.email ?? .empty,
+                                                                         ocupation: data.ocupation ?? .empty)
+                guard let id = self.currentUserId else { return }
+                self.fetchAllNotifications(ProfileDetails.Request.FetchNotifications(userId: id))
                 break
             case .error:
                 self.presenter.presentLoading(false)
