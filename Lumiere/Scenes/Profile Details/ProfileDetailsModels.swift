@@ -157,24 +157,25 @@ struct ProfileDetails {
         
         final class User: Mappable {
             
+            var id: String?
             var name: String?
             var email: String?
             var ocupation: String?
             var phoneNumber: String?
             var image: String?
-            var connectionsCount: Int?
             
             init?(map: Map) {}
                        
             func mapping(map: Map) {
+                id <- map["id"]
                 name <- map["name"]
                 email <- map["email"]
                 ocupation <- map["professional_area"]
                 phoneNumber <- map["phone_number"]
                 image <- map["profile_image_url"]
-                connectionsCount <- map["connections_count"]
             }
         }
+        
         
         enum AllNotifications {
             case success(NotificationsResponseData)

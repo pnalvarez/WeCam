@@ -31,8 +31,8 @@ protocol FirebaseAuthHelperProtocol {
                                  completion: @escaping (AddConnectNotificationResponse) -> Void)
     func signInUser(request: SignInRequest,
                     completion: @escaping (SignIn.Response.SignInResponse) -> Void)
-    func fetchCurrentUser(request: FetchCurrentUserIdRequest,
-                          completion: @escaping (CurrentUserIdResponse) -> Void)
+    func fetchCurrentUser<T: Mappable>(request: FetchCurrentUserIdRequest,
+                                       completion: @escaping (BaseResponse<T>) -> Void)
     func fetchUserData<T: Mappable>(request: FetchUserDataRequest,
                        completion: @escaping (BaseResponse<T>) -> Void)
 }
@@ -134,8 +134,7 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
             .reference()
             .child(Constants.usersPath)
             .child(request.userId)
-            .child("connect_notifications")
-            .updateChildValues(integerDict) { error, ref in
+            .updateChildValues(["connect_notifications": request.notifications]) { error, ref in
                 if let error = error {
                     completion(.error(error))
                 }
@@ -155,18 +154,33 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
         }
     }
     
-    func fetchCurrentUser(request: FetchCurrentUserIdRequest,
-                          completion: @escaping (CurrentUserIdResponse) -> Void) {
+    func fetchCurrentUser<T: Mappable>(request: FetchCurrentUserIdRequest,
+                          completion: @escaping (BaseResponse<T>) -> Void) {
         guard let id = Auth.auth().currentUser?.uid else {
-            completion(.error)
+            completion(.error(FirebaseErrors.genericError))
             return
         }
-        completion(.success(id))
+        Database
+            .database()
+            .reference()
+            .child(Constants.usersPath)
+            .child(id)
+            .observeSingleEvent(of: .value) { snapshot in
+                if var value = snapshot.value as? [String : Any] {
+                    value["id"] = id
+                    guard let response = Mapper<T>().map(JSON: value) else {
+                        completion(.error(FirebaseErrors.parseError))
+                        return
+                    }
+                    completion(.success(response))
+                    return
+                }
+                completion(.error(FirebaseErrors.genericError))
+        }
     }
     
     func fetchUserData<T: Mappable>(request: FetchUserDataRequest,
                        completion: @escaping (BaseResponse<T>) -> Void) {
-        
         Database
             .database()
             .reference()

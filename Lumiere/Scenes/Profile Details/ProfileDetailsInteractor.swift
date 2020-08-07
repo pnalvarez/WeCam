@@ -45,10 +45,14 @@ extension ProfileDetailsInteractor: ProfileDetailsBusinessLogic {
         worker.fetchCurrentUserId(request) { response in
             switch response {
             case .success(let data):
-                self.currentUserId = data
-                self.fetchCurrentUserData(ProfileDetails
-                    .Request
-                    .FetchCurrentUserData(userId: data))
+                self.currentUserId = data.id
+                self.currentUser = ProfileDetails.Info.Model.CurrentUser(id: data.id ?? .empty,
+                                                                         name: data.name ?? .empty,
+                                                                         image: data.image ?? .empty,
+                                                                         email: data.email ?? .empty,
+                                                                         ocupation: data.ocupation ?? .empty)
+                guard let id = self.userData?.id else { return }
+                self.fetchAllNotifications(ProfileDetails.Request.FetchNotifications(userId: id))
                 break
             case .error:
                 self.presenter.presentLoading(false)

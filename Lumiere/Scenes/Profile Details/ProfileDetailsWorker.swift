@@ -10,7 +10,7 @@ protocol ProfileDetailsWorkerProtocol {
     func fetchUserConnectNotifications(_ request: ProfileDetails.Request.FetchNotifications,
                                        completion: @escaping (ProfileDetails.Response.AllNotifications) -> Void)
     func fetchCurrentUserId(_ request: ProfileDetails.Request.FetchCurrentUserId,
-                            completion: @escaping (ProfileDetails.Response.CurrentUserId) -> Void)
+                            completion: @escaping (BaseResponse<ProfileDetails.Response.User>) -> Void)
     func fetchCurrentUserData(_ request: ProfileDetails.Request.FetchCurrentUserData,
                               completion: @escaping (BaseResponse<ProfileDetails.Response.User>) -> Void)
     func fetchProjectData(_ request: ProfileDetails.Request.ProjectInfo)
@@ -19,6 +19,7 @@ protocol ProfileDetailsWorkerProtocol {
 }
 
 class ProfileDetailsWorker: ProfileDetailsWorkerProtocol {
+    
     
     private let builder: FirebaseAuthHelperProtocol
     
@@ -46,21 +47,10 @@ class ProfileDetailsWorker: ProfileDetailsWorkerProtocol {
         }
     }
     
-    func fetchCurrentUserId(_ request: ProfileDetails.Request.FetchCurrentUserId, completion: @escaping (ProfileDetails.Response.CurrentUserId) -> Void) {
+    func fetchCurrentUserId(_ request: ProfileDetails.Request.FetchCurrentUserId,
+                            completion: @escaping (BaseResponse<ProfileDetails.Response.User>) -> Void) {
         let newRequest = FetchCurrentUserIdRequest()
-        builder.fetchCurrentUser(request: newRequest) { response in
-            switch response {
-            case .success(let data):
-                let newResponse = ProfileDetails
-                    .Response
-                    .CurrentUserId
-                    .success(data)
-                completion(newResponse)
-                break
-            case .error:
-                completion(.error)
-            }
-        }
+        builder.fetchCurrentUser(request: newRequest, completion: completion)
     }
     
     func fetchCurrentUserData(_ request: ProfileDetails.Request.FetchCurrentUserData,
