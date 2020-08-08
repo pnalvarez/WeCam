@@ -14,6 +14,8 @@ protocol NotificationsWorkerProtocol {
                        completion: @escaping (BaseResponse<Notifications.Response.User>) -> Void)
     func fetchConnectUsers(_ request: Notifications.Request.ConnectUsers,
                            completion: @escaping (EmptyResponse) -> Void)
+    func fetchUserRelation(_ request: Notifications.Request.UserRelation,
+                           completion: @escaping (BaseResponse<Notifications.Response.Relation>) -> Void)
 }
 
 class NotificationsWorker: NotificationsWorkerProtocol {
@@ -41,5 +43,12 @@ class NotificationsWorker: NotificationsWorkerProtocol {
                                              toUserId: request.toUserId)
         builder.fetchConnectUsers(request: newRequest,
                                   completion: completion)
+    }
+    
+    func fetchUserRelation(_ request: Notifications.Request.UserRelation,
+                           completion: @escaping (BaseResponse<Notifications.Response.Relation>) -> Void) {
+        let newRequest = FetchUserRelationRequest(fromUserId: request.fromUserId,
+                                                  toUserId: request.toUserId)
+        builder.fetchUserRelation(request: newRequest, completion: completion)
     }
 }

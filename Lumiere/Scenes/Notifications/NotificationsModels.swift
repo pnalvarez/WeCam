@@ -77,6 +77,13 @@ struct Notifications {
                 case projectAuthorizing
             }
             
+            enum UserRelation {
+                case connected
+                case pending
+                case sent
+                case nothing
+            }
+            
             struct UpcomingNotifications {
                 var notifications: [Notification]
             }
@@ -91,6 +98,7 @@ struct Notifications {
             }
             
             struct User {
+                let relation: UserRelation
                 let id: String
                 let name: String
                 let email: String
@@ -164,6 +172,11 @@ struct Notifications {
             let fromUserId: String
             let toUserId: String
         }
+        
+        struct UserRelation {
+            let fromUserId: String
+            let toUserId: String
+        }
     }
     
     struct Response {
@@ -205,6 +218,17 @@ struct Notifications {
                 name <- map["name"]
                 ocupation <- map["ocupation"]
                 userId <- map["userId"]
+            }
+        }
+        
+        final class Relation: Mappable {
+            
+            var relation: String?
+            
+            init?(map: Map) { }
+            
+            func mapping(map: Map) {
+                relation <- map["relation"]
             }
         }
     }

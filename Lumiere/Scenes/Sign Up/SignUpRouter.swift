@@ -12,6 +12,7 @@ typealias SignUpRouterProtocol = NSObject & SignUpRoutingLogic & SignUpDataTrans
 protocol SignUpRoutingLogic {
     func routeToHome()
     func routeBack()
+    func routeBackSuccess()
     func routeBack(withError error: SignUp.Info.ViewModel.Error)
 }
 
@@ -39,10 +40,14 @@ extension SignUpRouter: SignUpRoutingLogic {
     }
     
     func routeBack() {
+        viewController?.navigationController?.popViewController(animated: true)
+    }
+    
+    func routeBackSuccess() {
         guard let navigationController = viewController?.navigationController else { return }
         let alertController = UIAlertController(title: "Cadastro efetivado", message: "Usuário foi cadastrado com sucesso em nosso banco de dados", preferredStyle: .alert)
         let defaultAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
-        viewController?.navigationController?.popViewController(animated: true)
+//        viewController?.navigationController?.popViewController(animated: true)
         alertController.addAction(defaultAction)
         navigationController.popViewController(animated: true)
         navigationController.present(alertController, animated: true, completion: nil)

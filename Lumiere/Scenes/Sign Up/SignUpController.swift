@@ -240,7 +240,8 @@ extension SignUpController: UICollectionViewDelegateFlowLayout {
 
 extension SignUpController {
     
-    @objc func didTapImageButton() {
+    @objc
+    func didTapImageButton() {
         imagePicker.allowsEditing = true
         present(imagePicker, animated: true, completion: { })
     }
@@ -302,6 +303,6 @@ extension SignUpController: SignUpDisplayLogic {
     }
     
     func displayDidSignUpUser() {
-        router?.routeBack()
+        router?.routeBackSuccess()
     }
 }

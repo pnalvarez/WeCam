@@ -19,22 +19,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 }
 
-final class TestMappable: Mappable {
-    
-    var relation: String?
-    
-    init?(map: Map) { }
-    
-    func mapping(map: Map) {
-        relation <- map["relation"]
-    }
-}
-
-extension AppDelegate {
-    
-    private func fetchTest(request: FetchUserRelationRequest,
-                           completion: @escaping (BaseResponse<TestMappable>) -> Void) {
-        FirebaseAuthHelper().fetchUserRelation(request: request, completion: completion)
-    }
-}
-
