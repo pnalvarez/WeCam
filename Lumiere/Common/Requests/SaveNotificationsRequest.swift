@@ -9,6 +9,7 @@
 import Foundation
 
 struct SaveNotificationsRequest {
-    let userId: String
+    let fromUserId: String
+    let toUserId: String
     let notifications: Array<Any>
 }

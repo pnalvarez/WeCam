@@ -31,7 +31,7 @@ struct ProfileDetails {
         
         struct Images {
             static let backButton = UIImage(named: "voltar 1")
-            static let add = UIImage(named: "+")
+            static let addConnection = UIImage(named: "fazer-conexao 1")
             static let isConnection = UIImage(named: "icone-conexao-feita 1")
             static let pending = UIImage(named: "pendente 1")
         }

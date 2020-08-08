@@ -144,12 +144,44 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
         }
         realtimeDB
             .child(Constants.usersPath)
-            .child(request.userId)
+            .child(request.toUserId)
             .updateChildValues(["connect_notifications": request.notifications]) { error, ref in
                 if let error = error {
                     completion(.error(error))
                 }
-                completion(.success)
+                self.realtimeDB
+                    .child(Constants.usersPath)
+                    .child(request.fromUserId)
+                    .child("pending_connections").observeSingleEvent(of: .value) { snapshot in
+                        guard var pendingConnections = snapshot.value as? Array<Any> else {
+                            self.realtimeDB
+                                .child(Constants.usersPath)
+                                .child(request.fromUserId)
+                                .updateChildValues(["pending_connections": [request.toUserId]]) { error, ref in
+                                    if let error = error {
+                                        completion(.error(error))
+                                        return
+                                    }
+                                    completion(.success)
+                                    return
+                            }
+                            completion(.error(FirebaseErrors.genericError))
+                            return
+                        }
+                        pendingConnections.append(request.toUserId)
+                        self.realtimeDB
+                            .child(Constants.usersPath)
+                            .child(request.fromUserId)
+                            .updateChildValues(["pending_connections": pendingConnections]) { error, ref in
+                                if let error = error {
+                                    completion(.error(error))
+                                    return
+                                }
+                                completion(.success)
+                                return
+                        }
+                }
+                completion(.error(FirebaseErrors.genericError))
         }
     }
     

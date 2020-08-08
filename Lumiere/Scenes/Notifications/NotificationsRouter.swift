@@ -28,7 +28,22 @@ class NotificationsRouter: NSObject, NotificationsDataTransfer {
             var destinationSource = destination.router?.dataStore else {
                 return
         }
-        destinationSource.userData = ProfileDetails.Info.Received.User(connectionType: .nothing,
+        var relation: ProfileDetails.Info.ConnectionType
+        switch source.relation {
+        case .connected:
+            relation = .contact
+            break
+        case .pending:
+            relation = .pending
+            break
+        case .sent:
+            relation = .sent
+            break
+        case .nothing:
+            relation = .nothing
+            break
+        }
+        destinationSource.userData = ProfileDetails.Info.Received.User(connectionType: relation,
                                                                        id: source.id,
                                                                        image: source.image,
                                                                        name: source.name,

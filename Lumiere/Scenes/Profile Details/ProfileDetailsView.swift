@@ -121,8 +121,8 @@ extension ProfileDetailsView: ViewCodeProtocol {
         addConnectionButton.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide.snp.top).inset(40)
             make.left.equalTo(nameLbl.snp.right).offset(9)
-            make.height.equalTo(28)
-            make.width.equalTo(14)
+            make.height.equalTo(30)
+            make.width.equalTo(30)
         }
         addConnectionActivity.snp.makeConstraints { make in
             make.edges.equalTo(addConnectionButton)

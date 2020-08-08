@@ -58,8 +58,10 @@ class ProfileDetailsWorker: ProfileDetailsWorkerProtocol {
                                                 "userId": request.fromUserId]
         var notifications = request.oldNotifications.toJSON()
         notifications.append(notificationDict)
-        let newRequest = SaveNotificationsRequest(userId: request.toUserId,
+        let newRequest = SaveNotificationsRequest(fromUserId: request.fromUserId,
+                                                  toUserId: request.toUserId,
                                                   notifications: notifications)
         builder.addConnectNotifications(request: newRequest, completion: completion)
     }
 }
+
