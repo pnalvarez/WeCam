@@ -12,6 +12,8 @@ protocol NotificationsWorkerProtocol {
                             completion: @escaping (BaseResponse<Array<Notifications.Response.ConnectNotification>>) -> Void)
     func fetchUserData(_ request: Notifications.Request.FetchUserData,
                        completion: @escaping (BaseResponse<Notifications.Response.User>) -> Void)
+    func fetchConnectUsers(_ request: Notifications.Request.ConnectUsers,
+                           completion: @escaping (EmptyResponse) -> Void)
 }
 
 class NotificationsWorker: NotificationsWorkerProtocol {
@@ -25,27 +27,19 @@ class NotificationsWorker: NotificationsWorkerProtocol {
     func fetchNotifications(_ request: Notifications.Request.FetchNotifications, completion: @escaping (BaseResponse<Array<Notifications.Response.ConnectNotification>>) -> Void) {
         let newRequest = GetConnectNotificationRequest(userId: request.userId)
         builder.fetchUserConnectNotifications(request: newRequest, completion: completion)
-//        builder.fetchUserConnectNotifications(request: newRequest) { response in
-//            switch response {
-//            case .success(let data):
-//                let newResponse = Notifications
-//                    .Response
-//                    .FetchNotifications
-//                    .success(Notifications
-//                        .Response
-//                        .FetchNotificationsResponseData(notifications: data))
-//                completion(newResponse)
-//                break
-//            case .error:
-//                completion(.error)
-//                break
-//            }
-//        }
     }
     
     func fetchUserData(_ request: Notifications.Request.FetchUserData,
                        completion: @escaping (BaseResponse<Notifications.Response.User>) -> Void) {
         let newRequest = FetchUserDataRequest(userId: request.userId)
         builder.fetchUserData(request: newRequest, completion: completion)
+    }
+    
+    func fetchConnectUsers(_ request: Notifications.Request.ConnectUsers,
+                           completion: @escaping (EmptyResponse) -> Void) {
+        let newRequest = ConnectUsersRequest(fromUserId: request.fromUserId,
+                                             toUserId: request.toUserId)
+        builder.fetchConnectUsers(request: newRequest,
+                                  completion: completion)
     }
 }

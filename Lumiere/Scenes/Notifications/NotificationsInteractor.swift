@@ -48,19 +48,6 @@ extension NotificationsInteractor {
                                                                                name: notification.name ?? .empty,
                                                                                ocupation: notification.ocupation ?? .empty,
                                                                                email: notification.email ?? .empty))
-//            if let dictionary = notification as? [String : Any],
-//                let image = dictionary["image"] as? String,
-//                let name = dictionary["name"] as? String,
-//                let email = dictionary["email"] as? String,
-//                let ocupation = dictionary["ocupation"] as? String,
-//                let userId = dictionary["userId"] as? String {
-//                upcomingNotifications.append(Notifications.Info.Model.Notification(type: .connection,
-//                                                                                   userId: userId,
-//                                                                                   image: image,
-//                                                                                   name: name,
-//                                                                                   ocupation: ocupation,
-//                                                                                   email: email))
-//            }
         }
         self.notifications = Notifications.Info.Model.UpcomingNotifications(notifications: upcomingNotifications)
     }
@@ -96,24 +83,6 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
                 break
             }
         }
-//        worker.fetchNotifications(Notifications.Request.FetchNotifications(userId: currentUserId)) { response in
-//            switch response {
-//            case .success(let data):
-//                self.buildNotificationsModel(withData: data)
-//                self.presenter.presentLoading(false)
-//                guard let notifications = self.notifications else { return }
-//                self.presenter.presentNotifications(notifications)
-//                break
-//            case .error:
-//                self.presenter.presentLoading(false)
-//                self.presenter.presentError(Notifications
-//                    .Errors
-//                    .NotificationError(error: Notifications
-//                        .Errors
-//                        .GenericError.generic))
-//                break
-//            }
-//        }
     }
     
     func updateNotifications() {
@@ -138,7 +107,21 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
     }
     
     func didAcceptNotification(_ request: Notifications.Request.NotificationAnswer) {
-        
+        let index = request.index
+        let notification = notifications?.notifications[index]
+        guard let fromUserId = notification?.userId, let toUserId = currentUser?.userId else { return }
+        let newRequest = Notifications.Request.ConnectUsers(fromUserId: fromUserId,
+                                                            toUserId: toUserId)
+        worker.fetchConnectUsers(newRequest) { response in
+            switch response {
+            case .success:
+                self.presenter.didAcceptUser()
+                break
+            case .error(let error):
+                self.presenter.presentError(error.localizedDescription)
+                break
+            }
+        }
     }
     
     func didRefuseNotification(_ request: Notifications.Request.NotificationAnswer) {

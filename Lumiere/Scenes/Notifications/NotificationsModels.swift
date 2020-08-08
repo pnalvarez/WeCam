@@ -159,6 +159,11 @@ struct Notifications {
         struct FetchUserData {
             let userId: String
         }
+        
+        struct ConnectUsers {
+            let fromUserId: String
+            let toUserId: String
+        }
     }
     
     struct Response {

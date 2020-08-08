@@ -97,7 +97,7 @@ extension NotificationsController {
 extension NotificationsController: NotificationTableViewCellDelegate {
     
     func didTapYesButton(index: Int) {
-        
+        interactor?.didAcceptNotification(Notifications.Request.NotificationAnswer(index: index))
     }
     
     func didTapNoButton(index: Int) {

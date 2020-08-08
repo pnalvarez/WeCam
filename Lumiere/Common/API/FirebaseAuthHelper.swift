@@ -11,14 +11,13 @@ import FirebaseAnalytics
 import FirebaseFirestore
 import FirebaseDatabase
 import FirebaseStorage
-import Kingfisher
-import RxSwift
 import ObjectMapper
 
 enum FirebaseErrors: String, Error {
     case parseError = "Ocorreu um erro"
     case genericError = "Ocorreu um erro genérico"
     case fetchConnectionsError = "Ocorreu um erro ao buscar as notificações"
+    case connectUsersError = "Ocorreu um erro ao aceitar a solicitação"
 }
 
 protocol FirebaseAuthHelperProtocol {
@@ -36,13 +35,19 @@ protocol FirebaseAuthHelperProtocol {
                                        completion: @escaping (BaseResponse<T>) -> Void)
     func fetchUserData<T: Mappable>(request: FetchUserDataRequest,
                        completion: @escaping (BaseResponse<T>) -> Void)
+    func fetchConnectUsers(request: ConnectUsersRequest,
+                           completion: @escaping (EmptyResponse) -> Void)
 }
 
 class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
     
+    private let realtimeDB = Database.database().reference()
+    private let authReference = Auth.auth()
+    private let storage = Storage.storage().reference()
+    
     func createUser(request: CreateUserRequest,
                     completion: @escaping (SignUp.Response.RegisterUser) -> Void) {
-        Auth.auth().createUser(withEmail: request.email,
+        authReference.createUser(withEmail: request.email,
                                password: request.password) { (response, error) in
             if let error = error {
                 completion(.error(error))
@@ -59,7 +64,7 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
     func registerUserData(request: SaveUserInfoRequest,
                           completion: @escaping (SignUp.Response.SaveUserInfo) -> Void) {
         if let imageData = request.image {
-            let profileImageReference = Storage.storage().reference().child(Constants.profileImagesPath).child(request.userId)
+            let profileImageReference = storage.child(Constants.profileImagesPath).child(request.userId)
             profileImageReference.putData(imageData, metadata: nil) { (metadata, error) in
                 if let error = error {
                     completion(.error(error))
@@ -85,7 +90,7 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                                                       "project_notifications": [],
                                                       "author_notifications": []]
                     
-                    Database.database().reference().child(Constants.usersPath).child(request.userId).updateChildValues(dictionary) {
+                    self.realtimeDB.child(Constants.usersPath).child(request.userId).updateChildValues(dictionary) {
                     (error, ref) in
                         if let error = error {
                             completion(.error(error))
@@ -101,9 +106,7 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
     func fetchUserConnectNotifications<T: Mappable>(request: GetConnectNotificationRequest,
                                        completion: @escaping (BaseResponse<Array<T>>) -> Void) {
         var notifications: Array<Any> = .empty
-        Database
-        .database()
-        .reference()
+        realtimeDB
         .child(Constants.usersPath)
         .child(request.userId)
         .child("connect_notifications")
@@ -134,9 +137,7 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
         for index in 0..<request.notifications.count {
             integerDict["\(index)"] = request.notifications[index]
         }
-        Database
-            .database()
-            .reference()
+        realtimeDB
             .child(Constants.usersPath)
             .child(request.userId)
             .updateChildValues(["connect_notifications": request.notifications]) { error, ref in
@@ -149,7 +150,7 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
     
     func signInUser(request: SignInRequest,
                     completion: @escaping (SignIn.Response.SignInResponse) -> Void) {
-        Auth.auth().signIn(withEmail: request.email, password: request.password) { (credentials, error) in
+        authReference.signIn(withEmail: request.email, password: request.password) { (credentials, error) in
             if let error = error {
                 completion(.error(SignIn.Errors.ServerError(error: error)))
                 return
@@ -165,9 +166,7 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
             completion(.error(FirebaseErrors.genericError))
             return
         }
-        Database
-            .database()
-            .reference()
+        realtimeDB
             .child(Constants.usersPath)
             .child(id)
             .observeSingleEvent(of: .value) { snapshot in
@@ -186,9 +185,7 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
     
     func fetchUserData<T: Mappable>(request: FetchUserDataRequest,
                        completion: @escaping (BaseResponse<T>) -> Void) {
-        Database
-            .database()
-            .reference()
+        realtimeDB
             .child(Constants.usersPath)
             .child(request.userId)
             .observeSingleEvent(of: .value) { snapshot in
@@ -201,6 +198,87 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                     return
                 }
                 completion(.error(FirebaseErrors.genericError))
+        }
+    }
+    
+    //MARK: **** Mehod name: fetchConnectUsers
+    //This method takes to user ids and connect each other in the database
+    func fetchConnectUsers(request: ConnectUsersRequest,
+                           completion: @escaping (EmptyResponse) -> Void) {
+        let fromUserConnections = realtimeDB
+                                    .child(Constants.usersPath)
+                                    .child(request.fromUserId)
+        let toUserConnections = realtimeDB
+                                .child(Constants.usersPath)
+                                .child(request.toUserId)
+        
+        fromUserConnections.child("connections").observeSingleEvent(of: .value) { snapshot in
+            if snapshot.value is NSNull {
+                fromUserConnections.updateChildValues(["connections": [request.toUserId]]) { error, ref in
+                    if let error = error {
+                        completion(.error(error))
+                        return
+                    }
+                }
+                toUserConnections.child("connections").observeSingleEvent(of: .value) { snapshot in
+                    if snapshot.value is NSNull {
+                        toUserConnections.updateChildValues(["connections" : [request.fromUserId]]) { error, ref in
+                            if let error = error {
+                                completion(.error(error))
+                                return
+                            }
+                            completion(.success)
+                            return
+                        }
+                    }
+                    else if var connections = snapshot.value as? Array<Any> {
+                        connections.append(request.fromUserId)
+                        toUserConnections.updateChildValues(["connections": [request.fromUserId]]) { error, ref in
+                            if let error = error {
+                                completion(.error(error))
+                                return
+                            }
+                        }
+                        completion(.success)
+                        return
+                    }
+                }
+            }
+            else if var connections = snapshot.value as? Array<Any> {
+                connections.append(request.toUserId)
+                fromUserConnections.updateChildValues(["connections": connections]) { error, ref in
+                    if let error = error {
+                        completion(.error(error))
+                        return
+                    }
+                }
+                toUserConnections.child("connections").observeSingleEvent(of: .value) { snapshot in
+                    if snapshot.value is NSNull {
+                        toUserConnections.updateChildValues(["connections" : [request.fromUserId]]) { error, ref in
+                            if let error = error {
+                                completion(.error(error))
+                                return
+                            }
+                            completion(.success)
+                            return
+                        }
+                    }
+                    else if var connections = snapshot.value as? Array<Any> {
+                        connections.append(request.fromUserId)
+                        toUserConnections.updateChildValues(["connections": connections]) { error, ref in
+                            if let error = error {
+                                completion(.error(error))
+                                return
+                            }
+                        }
+                        completion(.success)
+                        return
+                    }
+                }
+            }
+            else {
+                completion(.error(FirebaseErrors.genericError))
+            }
         }
     }
 }

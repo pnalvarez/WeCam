@@ -113,30 +113,6 @@ extension ProfileDetailsInteractor: ProfileDetailsBusinessLogic {
                 break
             }
         }
-            
-//        worker.fetchUserConnectNotifications(request) { response in
-//            switch response{
-//            case .success(let data):
-//                guard let currentUser = self.currentUser,
-//                    let toUserId = self.userData?.id else { return }
-//                let newConnectNotificationRequest = ProfileDetails
-//                    .Request
-//                    .NewConnectNotification(fromUserId: currentUser.id,
-//                                            toUserId: toUserId,
-//                                            name: currentUser.name,
-//                                            ocupation: currentUser.ocupation,
-//                                            email: currentUser.email,
-//                                            image: currentUser.image,
-//                                            oldNotifications: data.notifications)
-//                self.fetchAddConnection(newConnectNotificationRequest)
-//                 break
-//            case .error:
-//                self.presenter.presentLoading(false)
-//                self.presenter.presentError(ProfileDetails
-//                    .Errors
-//                    .ProfileDetailsError(description: ProfileDetails.Constants.Texts.genericError))
-//                break
-//            }
     }
     
     func fetchUserData(_ request: ProfileDetails.Request.UserData) {
