@@ -38,6 +38,8 @@ protocol FirebaseAuthHelperProtocol {
                        completion: @escaping (BaseResponse<T>) -> Void)
     func fetchConnectUsers(request: ConnectUsersRequest,
                            completion: @escaping (EmptyResponse) -> Void)
+    func fetchDeleteNotification(request: ConnectUsersRequest,
+                                 completion: @escaping (EmptyResponse) -> Void)
 }
 
 class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
@@ -291,6 +293,36 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
             else {
                 completion(.error(FirebaseErrors.genericError))
             }
+        }
+    }
+    
+    func fetchDeleteNotification(request: ConnectUsersRequest,
+                                 completion: @escaping (EmptyResponse) -> Void) {
+        realtimeDB
+            .child(Constants.usersPath)
+            .child(request.toUserId)
+            .child("connect_notifications").observeSingleEvent(of: .value) { snapshot in
+                guard var notifications = snapshot.value as? Array<Any> else {
+                    completion(.error(FirebaseErrors.parseError))
+                    return
+                }
+                notifications.removeAll {
+                    if let notification = $0 as? [String : Any] {
+                        if let userId = notification["userId"] as? String {
+                            return userId == request.fromUserId
+                        }
+                    }
+                    return false
+                }
+                self.realtimeDB
+                    .child(Constants.usersPath)
+                    .child(request.toUserId)
+                    .updateChildValues(["connect_notifications": notifications]) { error, ref in
+                        if let error = error {
+                            completion(.error(error))
+                        }
+                        completion(.success)
+                }
         }
     }
 }
