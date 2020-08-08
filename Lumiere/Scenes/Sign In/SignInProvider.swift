@@ -7,7 +7,8 @@
 //
 
 protocol SignInProviderProtocol {
-    func fetchSignIn(request: SignIn.Models.Request, completion: @escaping (SignIn.Response.SignInResponse) -> Void)
+    func fetchSignIn(request: SignIn.Models.Request,
+                     completion: @escaping (BaseResponse<SignIn.Response.LoggedUser>) -> Void)
 }
 
 class SignInProvider: SignInProviderProtocol {
@@ -18,7 +19,8 @@ class SignInProvider: SignInProviderProtocol {
         self.builder = builder
     }
     
-    func fetchSignIn(request: SignIn.Models.Request, completion: @escaping (SignIn.Response.SignInResponse) -> Void) {
+    func fetchSignIn(request: SignIn.Models.Request,
+                     completion: @escaping (BaseResponse<SignIn.Response.LoggedUser>) -> Void) {
         let newRequest = SignInRequest(email: request.email, password: request.password)
         builder.signInUser(request: newRequest, completion: completion)
     }

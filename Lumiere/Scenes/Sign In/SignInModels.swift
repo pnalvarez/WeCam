@@ -6,6 +6,7 @@
 //  Copyright © 2020 Pedro Alvarez. All rights reserved.
 //
 import UIKit
+import ObjectMapper
 
 struct SignIn {
     
@@ -47,9 +48,24 @@ struct SignIn {
             let email: String
             let password: String
         }
+        
+        struct User {
+            let id: String
+        }
     }
     
     struct Response {
+        
+        final class LoggedUser: Mappable {
+            
+            var id: String?
+            
+            init?(map: Map) { }
+            
+            func mapping(map: Map) {
+                id <- map["id"]
+            }
+        }
         
         enum SignInResponse {
             case success

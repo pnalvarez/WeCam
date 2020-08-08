@@ -18,6 +18,7 @@ enum FirebaseErrors: String, Error {
     case genericError = "Ocorreu um erro genérico"
     case fetchConnectionsError = "Ocorreu um erro ao buscar as notificações"
     case connectUsersError = "Ocorreu um erro ao aceitar a solicitação"
+    case signInError = "Ocorreu um erro ao tentar logar"
 }
 
 protocol FirebaseAuthHelperProtocol {
@@ -29,8 +30,8 @@ protocol FirebaseAuthHelperProtocol {
                                        completion: @escaping (BaseResponse<[T]>) -> Void)
     func addConnectNotifications(request: SaveNotificationsRequest,
                                  completion: @escaping (EmptyResponse) -> Void)
-    func signInUser(request: SignInRequest,
-                    completion: @escaping (SignIn.Response.SignInResponse) -> Void)
+    func signInUser<T: Mappable>(request: SignInRequest,
+                    completion: @escaping (BaseResponse<T>) -> Void)
     func fetchCurrentUser<T: Mappable>(request: FetchCurrentUserIdRequest,
                                        completion: @escaping (BaseResponse<T>) -> Void)
     func fetchUserData<T: Mappable>(request: FetchUserDataRequest,
@@ -148,14 +149,19 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
         }
     }
     
-    func signInUser(request: SignInRequest,
-                    completion: @escaping (SignIn.Response.SignInResponse) -> Void) {
+    func signInUser<T: Mappable>(request: SignInRequest,
+                    completion: @escaping (BaseResponse<T>) -> Void) {
         authReference.signIn(withEmail: request.email, password: request.password) { (credentials, error) in
             if let error = error {
-                completion(.error(SignIn.Errors.ServerError(error: error)))
+                completion(.error(error))
                 return
             } else {
-                completion(.success)
+                let response: [String : Any] = ["id": credentials?.user.uid ?? .empty]
+                guard let signInResponse = Mapper<T>().map(JSON: response) else {
+                    completion(.error(FirebaseErrors.parseError))
+                    return
+                }
+                completion(.success(signInResponse))
             }
         }
     }
@@ -214,7 +220,8 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
         
         fromUserConnections.child("connections").observeSingleEvent(of: .value) { snapshot in
             if snapshot.value is NSNull {
-                fromUserConnections.updateChildValues(["connections": [request.toUserId]]) { error, ref in
+                fromUserConnections.updateChildValues(["connections": [request.toUserId],
+                                                       "connections_count": 1]) { error, ref in
                     if let error = error {
                         completion(.error(error))
                         return
@@ -222,7 +229,8 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                 }
                 toUserConnections.child("connections").observeSingleEvent(of: .value) { snapshot in
                     if snapshot.value is NSNull {
-                        toUserConnections.updateChildValues(["connections" : [request.fromUserId]]) { error, ref in
+                        toUserConnections.updateChildValues(["connections" : [request.fromUserId],
+                                                             "connections_count": 1]) { error, ref in
                             if let error = error {
                                 completion(.error(error))
                                 return
@@ -233,7 +241,8 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                     }
                     else if var connections = snapshot.value as? Array<Any> {
                         connections.append(request.fromUserId)
-                        toUserConnections.updateChildValues(["connections": [request.fromUserId]]) { error, ref in
+                        toUserConnections.updateChildValues(["connections": [request.fromUserId],
+                                                             "connections_count": 1]) { error, ref in
                             if let error = error {
                                 completion(.error(error))
                                 return
@@ -246,7 +255,8 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
             }
             else if var connections = snapshot.value as? Array<Any> {
                 connections.append(request.toUserId)
-                fromUserConnections.updateChildValues(["connections": connections]) { error, ref in
+                fromUserConnections.updateChildValues(["connections": connections,
+                                                       "connections_count": connections.count]) { error, ref in
                     if let error = error {
                         completion(.error(error))
                         return
@@ -254,7 +264,8 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                 }
                 toUserConnections.child("connections").observeSingleEvent(of: .value) { snapshot in
                     if snapshot.value is NSNull {
-                        toUserConnections.updateChildValues(["connections" : [request.fromUserId]]) { error, ref in
+                        toUserConnections.updateChildValues(["connections" : [request.fromUserId],
+                                                             "connections_count": 1 ]) { error, ref in
                             if let error = error {
                                 completion(.error(error))
                                 return
@@ -265,7 +276,8 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                     }
                     else if var connections = snapshot.value as? Array<Any> {
                         connections.append(request.fromUserId)
-                        toUserConnections.updateChildValues(["connections": connections]) { error, ref in
+                        toUserConnections.updateChildValues(["connections": connections,
+                                                             "connections_count": connections.count]) { error, ref in
                             if let error = error {
                                 completion(.error(error))
                                 return

@@ -168,11 +168,6 @@ struct Notifications {
     
     struct Response {
         
-        enum FetchNotifications {
-            case success(FetchNotificationsResponseData)
-            case error
-        }
-        
         final class User: Mappable {
             
             var name: String?
@@ -211,14 +206,6 @@ struct Notifications {
                 ocupation <- map["ocupation"]
                 userId <- map["userId"]
             }
-        }
-        
-        struct FetchNotificationsResponseData {
-            let notifications: Array<Any>
-        }
-        
-        struct FetchUserResponseData {
-            let data: [String : Any]
         }
     }
 }

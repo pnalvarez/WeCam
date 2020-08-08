@@ -11,7 +11,7 @@ protocol SignInBusinessRules {
 }
 
 protocol SignInDataStore {
-    var dataStore: SignIn.Home.Response? { get set }
+    var loggedUser: SignIn.Models.User? { get set }
 }
 
 class SignInInteractor: SignInDataStore {
@@ -19,7 +19,7 @@ class SignInInteractor: SignInDataStore {
     var presenter: SignInPresentationLogic
     var provider: SignInProviderProtocol
     
-    var dataStore: SignIn.Home.Response?
+    var loggedUser: SignIn.Models.User?
     
     init(viewController: SignInDisplayLogic,
          provider: SignInProviderProtocol = SignInProvider()) {
@@ -57,13 +57,14 @@ extension SignInInteractor: SignInBusinessRules {
         }
         provider.fetchSignIn(request: request) { response in
             switch response {
-            case .success:
+            case .success(let data):
                 self.presenter.presentLoading(false)
+                self.loggedUser = SignIn.Models.User(id: data.id ?? .empty)
                 self.presenter.didFetchSuccessLogin()
                 break
             case .error(let error):
                 self.presenter.presentLoading(false)
-                self.presenter.didFetchServerError(error)
+                self.presenter.didFetchServerError(SignIn.Errors.ServerError(error: error))
                 break
             }
         }

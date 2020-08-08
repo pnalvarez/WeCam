@@ -41,7 +41,7 @@ extension SignInRouter: SignInRoutingLogic {
     func routeToHome() {
         let vc = NotificationsController()
         guard var dataStore = vc.router?.dataStore else { return }
-        dataStore.currentUser = Notifications.Info.Received.CurrentUser(userId: "TDPWhy2FadewBoNsm5yP7leuhJ03")
+        dataStore.currentUser = Notifications.Info.Received.CurrentUser(userId: self.dataStore?.loggedUser?.id ?? .empty)
 //        let vc = ProfileDetailsController()
 //        guard var dataStore = vc.router?.dataStore else { return }
 //        dataStore.userData = ProfileDetails.Info.Received.User(id: "TDPWhy2FadewBoNsm5yP7leuhJ03",
