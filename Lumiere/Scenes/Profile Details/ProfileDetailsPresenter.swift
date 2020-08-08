@@ -9,7 +9,6 @@ import UIKit
 
 protocol ProfileDetailsPresentationLogic {
     func presentUserInfo(_ response: ProfileDetails.Info.Model.User)
-    func presentLoading(_ loading: Bool)
     func didFetchAddConnection()
     func presentError(_ response: ProfileDetails.Errors.ProfileDetailsError)
 }
@@ -80,10 +79,6 @@ class ProfileDetailsPresenter: ProfileDetailsPresentationLogic {
                   progressingProjects: progressingProjects,
                   finishedProjects: finishedProjects)
         viewController.displayUserInfo(viewModel)
-    }
-    
-    func presentLoading(_ loading: Bool) {
-        viewController.displayLoading(loading)
     }
     
     func didFetchAddConnection() {

@@ -10,7 +10,6 @@ import UIKit
 
 protocol ProfileDetailsDisplayLogic: class {
     func displayUserInfo(_ viewModel: ProfileDetails.Info.ViewModel.User)
-    func displayLoading(_ loading: Bool)
     func displayAddedConnection()
     func displayError(_ viewModel: String)
 }
@@ -40,21 +39,11 @@ class ProfileDetailsController: BaseViewController {
         return view
     }()
     
-    private lazy var addConnectionActivity: UIActivityIndicatorView = {
-        let view = UIActivityIndicatorView(frame: .zero)
-        view.backgroundColor = .white
-        view.color = .black
-        view.startAnimating()
-        view.isHidden = true
-        return view
-    }()
-    
     private lazy var mainView: ProfileDetailsView = {
         let view = ProfileDetailsView(frame: .zero,
                                   backButton: backButton,
                                   addConnectionButton: addConnectionButton,
-                                  allConnectionsButton: allConnectionsButton,
-                                  addConnectionActivity: addConnectionActivity)
+                                  allConnectionsButton: allConnectionsButton)
         return view
     }()
     
@@ -114,11 +103,6 @@ extension ProfileDetailsController: ProfileDetailsDisplayLogic {
     
     func displayUserInfo(_ viewModel: ProfileDetails.Info.ViewModel.User) {
         mainView.setup(viewModel: viewModel)
-    }
-    
-    func displayLoading(_ loading: Bool) {
-        addConnectionButton.isUserInteractionEnabled = !loading
-        addConnectionActivity.isHidden = !loading
     }
     
     func displayAddedConnection() {

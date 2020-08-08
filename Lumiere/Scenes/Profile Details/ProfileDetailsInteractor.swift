@@ -55,7 +55,6 @@ extension ProfileDetailsInteractor: ProfileDetailsBusinessLogic {
                 self.fetchAllNotifications(ProfileDetails.Request.FetchNotifications(userId: id))
                 break
             case .error:
-                self.presenter.presentLoading(false)
                 self.presenter.presentError(ProfileDetails
                     .Errors
                     .ProfileDetailsError(description: ProfileDetails
@@ -80,7 +79,6 @@ extension ProfileDetailsInteractor: ProfileDetailsBusinessLogic {
                 self.fetchAllNotifications(ProfileDetails.Request.FetchNotifications(userId: id))
                 break
             case .error:
-                self.presenter.presentLoading(false)
                 self.presenter.presentError(ProfileDetails
                     .Errors
                     .ProfileDetailsError(description: ProfileDetails.Constants.Texts.genericError))
@@ -106,7 +104,6 @@ extension ProfileDetailsInteractor: ProfileDetailsBusinessLogic {
                 self.fetchAddConnection(newConnectNotificationRequest)
                 break
             case .error(let error):
-                self.presenter.presentLoading(false)
                 self.presenter.presentError(ProfileDetails
                 .Errors
                 .ProfileDetailsError(description: error.localizedDescription))
@@ -133,11 +130,9 @@ extension ProfileDetailsInteractor: ProfileDetailsBusinessLogic {
         worker.fetchAddConnection(request) { response in
             switch response {
             case .success:
-                self.presenter.presentLoading(false)
                 self.presenter.didFetchAddConnection()
                 break
             case .error(let error):
-                self.presenter.presentLoading(false)
                 self.presenter.presentError(ProfileDetails
                     .Errors
                     .ProfileDetailsError(description: error.localizedDescription))
@@ -146,7 +141,6 @@ extension ProfileDetailsInteractor: ProfileDetailsBusinessLogic {
     }
     
     func fetchAddConnection(_ request: ProfileDetails.Request.AddConnection) {
-        presenter.presentLoading(true)
         fetchCurrentUserId(ProfileDetails.Request.FetchCurrentUserId())
     }
     

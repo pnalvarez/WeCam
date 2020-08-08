@@ -13,7 +13,6 @@ class ProfileDetailsView: UIView {
     private unowned var backButton: UIButton
     private unowned var addConnectionButton: UIButton
     private unowned var allConnectionsButton: UIButton
-    private unowned var addConnectionActivity: UIActivityIndicatorView
     
     private lazy var photoImageView: UIImageView = {
         let view = UIImageView(frame: .zero)
@@ -56,12 +55,10 @@ class ProfileDetailsView: UIView {
     init(frame: CGRect,
          backButton: UIButton,
          addConnectionButton: UIButton,
-         allConnectionsButton: UIButton,
-         addConnectionActivity: UIActivityIndicatorView) {
+         allConnectionsButton: UIButton) {
         self.backButton = backButton
         self.addConnectionButton = addConnectionButton
         self.allConnectionsButton = allConnectionsButton
-        self.addConnectionActivity = addConnectionActivity
         super.init(frame: frame)
     }
     
@@ -86,7 +83,6 @@ extension ProfileDetailsView: ViewCodeProtocol {
         addSubview(phoneNumberLbl)
         addSubview(addConnectionButton)
         addSubview(allConnectionsButton)
-        addSubview(addConnectionActivity)
     }
     
     func setupConstraints() {
@@ -123,9 +119,6 @@ extension ProfileDetailsView: ViewCodeProtocol {
             make.left.equalTo(nameLbl.snp.right).offset(9)
             make.height.equalTo(30)
             make.width.equalTo(30)
-        }
-        addConnectionActivity.snp.makeConstraints { make in
-            make.edges.equalTo(addConnectionButton)
         }
         allConnectionsButton.snp.makeConstraints { make in
             make.top.equalTo(phoneNumberLbl.snp.bottom).offset(39)
