@@ -32,6 +32,8 @@ struct ProfileDetails {
         struct Images {
             static let backButton = UIImage(named: "voltar 1")
             static let add = UIImage(named: "+")
+            static let isConnection = UIImage(named: "icone-conexao-feita 1")
+            static let pending = UIImage(named: "pendente 1")
         }
         
         struct Texts {
@@ -42,9 +44,16 @@ struct ProfileDetails {
     
     struct Info {
         
+        enum ConnectionType {
+            case contact
+            case pending
+            case nothing
+        }
+        
         struct Received {
             
             struct User {
+                let connectionType: ConnectionType
                 let id: String
                 let image: String?
                 let name: String
@@ -60,6 +69,7 @@ struct ProfileDetails {
         struct Model{
             
             struct User {
+                let connectionType: ConnectionType
                 let id: String
                 let image: String?
                 let name: String
@@ -88,6 +98,7 @@ struct ProfileDetails {
         struct ViewModel {
             
             struct User {
+                let connectionTypeImage: UIImage?
                 let image: String?
                 let name: NSAttributedString
                 let occupation: NSAttributedString

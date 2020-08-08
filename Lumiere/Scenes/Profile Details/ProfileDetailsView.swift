@@ -142,6 +142,7 @@ extension ProfileDetailsView: ViewCodeProtocol {
         occupationLbl.attributedText = viewModel?.occupation
         emailLbl.attributedText = viewModel?.email
         phoneNumberLbl.attributedText = viewModel?.phoneNumber
+        addConnectionButton.setImage(viewModel?.connectionTypeImage, for: .normal)
         guard let image = viewModel?.image else {
             return
         }

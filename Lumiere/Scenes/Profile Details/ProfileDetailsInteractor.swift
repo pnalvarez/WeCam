@@ -116,7 +116,8 @@ extension ProfileDetailsInteractor: ProfileDetailsBusinessLogic {
     }
     
     func fetchUserData(_ request: ProfileDetails.Request.UserData) {
-        let response = ProfileDetails.Info.Model.User(id: userData?.id ?? .empty,
+        let response = ProfileDetails.Info.Model.User(connectionType: userData?.connectionType ?? .nothing,
+                                                      id: userData?.id ?? .empty,
                                                       image: userData?.image,
                                                       name: userData?.name ?? .empty,
                                                       occupation: userData?.occupation ?? .empty,

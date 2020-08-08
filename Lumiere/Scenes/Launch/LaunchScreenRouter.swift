@@ -42,7 +42,8 @@ extension LaunchScreenRouter: ScreenTestingProtocol {
     func routeToProfileDetails() {
         let vc = ProfileDetailsController()
         guard var dataStore = vc.router?.dataStore else { return }
-        dataStore.userData = ProfileDetails.Info.Received.User(id: "1234",
+        dataStore.userData = ProfileDetails.Info.Received.User(connectionType: .contact,
+                                                               id: "1234",
                                                                image: nil,
                                                                name: "User Test",
                                                                occupation: "Artist",

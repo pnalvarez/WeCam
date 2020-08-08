@@ -26,10 +26,22 @@ class ProfileDetailsPresenter: ProfileDetailsPresentationLogic {
 //        guard let image = response.image else { return }
         let progressingProjects = buildProjectsViewModel(from: response.progressingProjects)
         let finishedProjects = buildProjectsViewModel(from: response.finishedProjects)
+        var connectionTypeImage: UIImage?
+        switch response.connectionType {
+        case .contact:
+            connectionTypeImage = ProfileDetails.Constants.Images.isConnection
+            break
+        case .pending:
+            connectionTypeImage = ProfileDetails.Constants.Images.pending
+            break
+        case .nothing:
+            connectionTypeImage = ProfileDetails.Constants.Images.add
+        }
         let viewModel = ProfileDetails
             .Info
             .ViewModel
-            .User(image: response.image,
+            .User(connectionTypeImage: connectionTypeImage,
+                  image: response.image,
                   name: NSAttributedString(string: response.name,
                                            attributes: [NSAttributedString
                                             .Key

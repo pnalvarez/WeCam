@@ -29,7 +29,6 @@ class ProfileDetailsController: BaseViewController {
     private lazy var addConnectionButton: UIButton = {
         let view = UIButton(frame: .zero)
         view.addTarget(self, action: #selector(didTapAddConnectionButton), for: .touchUpInside)
-        view.setImage(ProfileDetails.Constants.Images.add, for: .normal)
         return view
     }()
     
