@@ -40,6 +40,8 @@ protocol FirebaseAuthHelperProtocol {
                            completion: @escaping (EmptyResponse) -> Void)
     func fetchDeleteNotification(request: ConnectUsersRequest,
                                  completion: @escaping (EmptyResponse) -> Void)
+    func fetchUserRelation<T: Mappable>(request: FetchUserRelationRequest,
+                                        completion: @escaping (BaseResponse<T>) -> Void)
 }
 
 class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
@@ -323,6 +325,122 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                         }
                         completion(.success)
                 }
+        }
+    }
+    
+    func fetchUserRelation<T>(request: FetchUserRelationRequest,
+                              completion: @escaping (BaseResponse<T>) -> Void) where T : Mappable {
+        checkConnected(request: request) { result in
+            if result {
+                let response: [String : Any] = ["relation" : "CONNECTED"]
+                guard let mappedResponse = Mapper<T>().map(JSON: response) else {
+                    completion(.error(FirebaseErrors.parseError))
+                    return
+                }
+                completion(.success(mappedResponse))
+                return
+            }
+            self.checkPending(request: request) { result in
+                if result {
+                    let response: [String : Any] = ["relation" : "PENDING"]
+                    guard let mappedResponse = Mapper<T>().map(JSON: response) else {
+                        completion(.error(FirebaseErrors.parseError))
+                        return
+                    }
+                    completion(.success(mappedResponse))
+                    return
+                }
+                self.checkSent(request: request) { result in
+                    if result {
+                        let response: [String : Any] = ["relation" : "SENT"]
+                        guard let mappedResponse = Mapper<T>().map(JSON: response) else {
+                            completion(.error(FirebaseErrors.parseError))
+                            return
+                    }
+                    completion(.success(mappedResponse))
+                    return
+                    }
+                    let response: [String : Any] = ["relation" : "NOTHING"]
+                    guard let mappedResponse = Mapper<T>().map(JSON: response) else {
+                        completion(.error(FirebaseErrors.parseError))
+                        return
+                    }
+                    completion(.success(mappedResponse))
+                }
+            }
+        }
+    }
+}
+
+//MARK: User Relationships
+extension FirebaseAuthHelper {
+    
+    private func checkConnected(request: FetchUserRelationRequest,
+                                completion: @escaping (Bool) -> Void) {
+        realtimeDB
+            .child(Constants.usersPath)
+            .child(request.fromUserId)
+            .child("connections").observeSingleEvent(of: .value) { snapshot in
+                guard let connections = snapshot.value as? Array<Any> else {
+                    completion(false)
+                    return
+                }
+                if connections.contains(where: { connection in
+                    if let userId = connection as? String {
+                        return userId == request.toUserId
+                    }
+                    return false
+                }) {
+                    completion(true)
+                    return
+                }
+                completion(false)
+        }
+    }
+    
+    private func checkPending(request: FetchUserRelationRequest,
+                              completion: @escaping (Bool) -> Void) {
+        realtimeDB
+            .child(Constants.usersPath)
+            .child(request.fromUserId)
+            .child("pending_connections").observeSingleEvent(of: .value) { snapshot in
+                guard let pendingConnections = snapshot.value as? Array<Any> else {
+                    completion(false)
+                    return
+                }
+                if pendingConnections.contains(where: { connection in
+                    if let userId = connection as? String {
+                        return userId == request.toUserId
+                    }
+                    return false
+                }) {
+                    completion(true)
+                    return
+                }
+                completion(false)
+        }
+    }
+    
+    private func checkSent(request: FetchUserRelationRequest,
+                           completion: @escaping (Bool) -> Void) {
+        realtimeDB
+            .child(Constants.usersPath)
+            .child(request.toUserId)
+            .child("pending_connections").observeSingleEvent(of: .value) { snapshot in
+                guard let pendingConnections = snapshot.value as? Array<Any> else {
+                    completion(false)
+                    return
+                }
+                if pendingConnections.contains(where: { connection in
+                    if let userId = connection as? String {
+                        return userId == request.fromUserId
+                    }
+                    return false
+                }) {
+                    completion(true)
+                    return
+                }
+                completion(false)
         }
     }
 }

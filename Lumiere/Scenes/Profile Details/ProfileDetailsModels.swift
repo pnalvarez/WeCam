@@ -46,6 +46,7 @@ struct ProfileDetails {
         
         enum ConnectionType {
             case contact
+            case sent
             case pending
             case nothing
         }

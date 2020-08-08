@@ -28,7 +28,7 @@ class ProfileDetailsPresenter: ProfileDetailsPresentationLogic {
         let finishedProjects = buildProjectsViewModel(from: response.finishedProjects)
         var connectionTypeImage: UIImage?
         switch response.connectionType {
-        case .contact:
+        case .contact, .sent:
             connectionTypeImage = ProfileDetails.Constants.Images.isConnection
             break
         case .pending:
