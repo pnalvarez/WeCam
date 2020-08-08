@@ -118,7 +118,7 @@ struct ProfileDetails {
             let ocupation: String
             let email: String
             let image: String
-            var oldNotifications: Array<Any>
+            var oldNotifications: Array<ProfileDetails.Response.Notification>
         }
         
         struct FetchCurrentUserId {
@@ -176,6 +176,24 @@ struct ProfileDetails {
             }
         }
         
+        final class Notification: Mappable {
+            
+            var email: String?
+            var image: String?
+            var name: String?
+            var ocupation: String?
+            var userId: String?
+            
+            init?(map: Map) { }
+            
+            func mapping(map: Map) {
+                email <- map["email"]
+                image <- map["image"]
+                name <- map["name"]
+                ocupation <- map["ocupation"]
+                userId <- map["userId"]
+            }
+        }
         
         enum AllNotifications {
             case success(NotificationsResponseData)

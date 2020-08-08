@@ -9,7 +9,7 @@ import UIKit
 
 protocol NotificationsPresentationLogic {
     func presentLoading(_ loading: Bool)
-    func presentError(_ response: Notifications.Errors.NotificationError)
+    func presentError(_ response: String)
     func presentNotifications(_ response: Notifications.Info.Model.UpcomingNotifications)
     func didFetchUserData()
 }
@@ -26,11 +26,11 @@ class NotificationsPresenter: NotificationsPresentationLogic {
         viewController.displayLoading(loading)
     }
     
-    func presentError(_ response: Notifications.Errors.NotificationError) {
+    func presentError(_ response: String) {
         let viewModel = Notifications
             .Info
             .ViewModel
-            .NotificationError(description: Notifications.Constants.Texts.error)
+            .NotificationError(description: response)
         viewController.displayError(viewModel)
     }
     

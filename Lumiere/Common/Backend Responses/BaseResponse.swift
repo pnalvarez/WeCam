@@ -10,3 +10,8 @@ enum BaseResponse<T> {
     case success(T)
     case error(Error)
 }
+
+enum EmptyResponse {
+    case success
+    case error(Error)
+}

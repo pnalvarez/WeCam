@@ -189,6 +189,25 @@ struct Notifications {
             }
         }
         
+        final class ConnectNotification: Mappable {
+            
+            var email: String?
+            var image: String?
+            var name: String?
+            var ocupation: String?
+            var userId: String?
+            
+            init?(map: Map) { }
+            
+            func mapping(map: Map) {
+                email <- map["email"]
+                image <- map["image"]
+                name <- map["name"]
+                ocupation <- map["ocupation"]
+                userId <- map["userId"]
+            }
+        }
+        
         struct FetchNotificationsResponseData {
             let notifications: Array<Any>
         }

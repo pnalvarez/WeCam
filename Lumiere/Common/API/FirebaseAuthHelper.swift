@@ -15,9 +15,10 @@ import Kingfisher
 import RxSwift
 import ObjectMapper
 
-enum FirebaseErrors: Error {
-    case parseError
-    case genericError
+enum FirebaseErrors: String, Error {
+    case parseError = "Ocorreu um erro"
+    case genericError = "Ocorreu um erro genérico"
+    case fetchConnectionsError = "Ocorreu um erro ao buscar as notificações"
 }
 
 protocol FirebaseAuthHelperProtocol {
@@ -25,10 +26,10 @@ protocol FirebaseAuthHelperProtocol {
                     completion: @escaping (SignUp.Response.RegisterUser) -> Void)
     func registerUserData(request: SaveUserInfoRequest,
                           completion: @escaping (SignUp.Response.SaveUserInfo) -> Void)
-    func fetchUserConnectNotifications(request: GetConnectNotificationRequest,
-                                       completion: @escaping (GetUserConnectNotificationsResponse) -> Void)
+    func fetchUserConnectNotifications<T: Mappable>(request: GetConnectNotificationRequest,
+                                       completion: @escaping (BaseResponse<[T]>) -> Void)
     func addConnectNotifications(request: SaveNotificationsRequest,
-                                 completion: @escaping (AddConnectNotificationResponse) -> Void)
+                                 completion: @escaping (EmptyResponse) -> Void)
     func signInUser(request: SignInRequest,
                     completion: @escaping (SignIn.Response.SignInResponse) -> Void)
     func fetchCurrentUser<T: Mappable>(request: FetchCurrentUserIdRequest,
@@ -97,8 +98,8 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
         }
     }
     
-    func fetchUserConnectNotifications(request: GetConnectNotificationRequest,
-                                       completion: @escaping (GetUserConnectNotificationsResponse) -> Void) {
+    func fetchUserConnectNotifications<T: Mappable>(request: GetConnectNotificationRequest,
+                                       completion: @escaping (BaseResponse<Array<T>>) -> Void) {
         var notifications: Array<Any> = .empty
         Database
         .database()
@@ -108,23 +109,27 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
         .child("connect_notifications")
             .observeSingleEvent(of: .value) { snapshot in
                 if snapshot.value is NSNull {
-                    let notificationsResponse = GetUserConnectNotificationsResponse.success(.empty)
-                    completion(notificationsResponse)
+                    let response = Mapper<T>().mapArray(JSONArray: .empty)
+                    completion(.success(response))
                     return
                 } else if let values = snapshot.value as? Array<Any> {
                     notifications = values
-                    let notificationsResponse = GetUserConnectNotificationsResponse.success(notifications)
-                    completion(notificationsResponse)
+                    guard let notificationsArray = notifications as? Array<[String : Any]> else {
+                        completion(.error(FirebaseErrors.parseError))
+                        return
+                    }
+                    let response = Mapper<T>().mapArray(JSONArray: notificationsArray)
+                    completion(.success(response))
                     return
                 } else {
-                    completion(.error)
+                    completion(.error(FirebaseErrors.fetchConnectionsError))
                     return
                 }
         }
     }
     
     func addConnectNotifications(request: SaveNotificationsRequest,
-                                 completion: @escaping (AddConnectNotificationResponse) -> Void) {
+                                 completion: @escaping (EmptyResponse) -> Void) {
         var integerDict = [String : Any]()
         for index in 0..<request.notifications.count {
             integerDict["\(index)"] = request.notifications[index]

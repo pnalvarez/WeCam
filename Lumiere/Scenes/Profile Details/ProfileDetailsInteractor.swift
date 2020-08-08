@@ -91,29 +91,52 @@ extension ProfileDetailsInteractor: ProfileDetailsBusinessLogic {
     
     func fetchAllNotifications(_ request: ProfileDetails.Request.FetchNotifications) {
         worker.fetchUserConnectNotifications(request) { response in
-            switch response{
+            switch response {
             case .success(let data):
                 guard let currentUser = self.currentUser,
                     let toUserId = self.userData?.id else { return }
-                let newConnectNotificationRequest = ProfileDetails
-                    .Request
-                    .NewConnectNotification(fromUserId: currentUser.id,
-                                            toUserId: toUserId,
-                                            name: currentUser.name,
-                                            ocupation: currentUser.ocupation,
-                                            email: currentUser.email,
-                                            image: currentUser.image,
-                                            oldNotifications: data.notifications)
+                let newConnectNotificationRequest = ProfileDetails.Request.NewConnectNotification(
+                    fromUserId: currentUser.id,
+                    toUserId: toUserId,
+                    name: currentUser.name,
+                    ocupation: currentUser.ocupation,
+                    email: currentUser.email,
+                    image: currentUser.image,
+                    oldNotifications: data)
                 self.fetchAddConnection(newConnectNotificationRequest)
-                 break
-            case .error:
+                break
+            case .error(let error):
                 self.presenter.presentLoading(false)
                 self.presenter.presentError(ProfileDetails
-                    .Errors
-                    .ProfileDetailsError(description: ProfileDetails.Constants.Texts.genericError))
+                .Errors
+                .ProfileDetailsError(description: error.localizedDescription))
                 break
             }
         }
+            
+//        worker.fetchUserConnectNotifications(request) { response in
+//            switch response{
+//            case .success(let data):
+//                guard let currentUser = self.currentUser,
+//                    let toUserId = self.userData?.id else { return }
+//                let newConnectNotificationRequest = ProfileDetails
+//                    .Request
+//                    .NewConnectNotification(fromUserId: currentUser.id,
+//                                            toUserId: toUserId,
+//                                            name: currentUser.name,
+//                                            ocupation: currentUser.ocupation,
+//                                            email: currentUser.email,
+//                                            image: currentUser.image,
+//                                            oldNotifications: data.notifications)
+//                self.fetchAddConnection(newConnectNotificationRequest)
+//                 break
+//            case .error:
+//                self.presenter.presentLoading(false)
+//                self.presenter.presentError(ProfileDetails
+//                    .Errors
+//                    .ProfileDetailsError(description: ProfileDetails.Constants.Texts.genericError))
+//                break
+//            }
     }
     
     func fetchUserData(_ request: ProfileDetails.Request.UserData) {
