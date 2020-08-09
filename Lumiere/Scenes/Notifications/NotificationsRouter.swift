@@ -22,12 +22,9 @@ class NotificationsRouter: NSObject, NotificationsDataTransfer {
     weak var viewController: UIViewController?
     var dataStore: NotificationsDataStore?
     
-    private func transferDataToProfileDetails(from origin: NotificationsController,
-                                              to destination: inout ProfileDetailsController) {
-        guard let source = dataStore?.selectedUser,
-            var destinationSource = destination.router?.dataStore else {
-                return
-        }
+    private func transferDataToProfileDetails(from origin: NotificationsDataStore,
+                                              to destination: inout ProfileDetailsDataStore) {
+        guard let source = origin.selectedUser else { return }
         var relation: ProfileDetails.Info.ConnectionType
         switch source.relation {
         case .connected:
@@ -43,15 +40,16 @@ class NotificationsRouter: NSObject, NotificationsDataTransfer {
             relation = .nothing
             break
         }
-        destinationSource.userData = ProfileDetails.Info.Received.User(connectionType: relation,
-                                                                       id: source.id,
-                                                                       image: source.image,
-                                                                       name: source.name,
-                                                                       occupation: source.ocupation,
-                                                                       email: source.email,
-                                                                       phoneNumber: source.phoneNumber,
-                                                                       connectionsCount: "\(source.connectionsCount)",
-                                                                       progressingProjectsIds: .empty, finishedProjectsIds: .empty)
+        destination.userData = ProfileDetails.Info.Received.User(connectionType: relation,
+                                                                 id: source.id,
+                                                                 image: source.image,
+                                                                 name: source.name,
+                                                                 occupation: source.ocupation,
+                                                                 email: source.email,
+                                                                 phoneNumber: source.phoneNumber,
+                                                                 connectionsCount: "\(source.connectionsCount)",
+                                                                 progressingProjectsIds: .empty,
+                                                                 finishedProjectsIds: .empty)
     }
 }
 
@@ -65,10 +63,13 @@ extension NotificationsRouter: BaseRouterProtocol {
 extension NotificationsRouter: NotificationsRoutingLogic {
     
     func routeToProfileDetails() {
-        var newVc = ProfileDetailsController()
-        if let notificationsController = viewController as? NotificationsController {
-            transferDataToProfileDetails(from: notificationsController, to: &newVc)
+        let newVc = ProfileDetailsController()
+            guard let dataStore = dataStore,
+                var destinationDataStore = newVc.router?.dataStore else {
+                    return
+            }
+            transferDataToProfileDetails(from: dataStore, to: &destinationDataStore)
             routeTo(nextVC: newVc)
-        }
     }
 }
+

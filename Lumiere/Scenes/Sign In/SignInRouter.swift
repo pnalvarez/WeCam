@@ -42,7 +42,7 @@ extension SignInRouter: SignInRoutingLogic {
         let vc = NotificationsController()
         guard var dataStore = vc.router?.dataStore else { return }
         dataStore.currentUser = Notifications.Info.Received.CurrentUser(userId: self.dataStore?.loggedUser?.id ?? .empty)
-        
+
 //        FirebaseAuthHelper().fetchSendConnectionRequest(request: ["userId": "NHTOCGn3SLPyLq7Nsfj2Y4yqkMl2"]) {
 //            response in
 //        }

@@ -42,6 +42,7 @@ extension ProfileDetailsInteractor {
         worker.fetchSendConnectionRequest(ProfileDetails.Request.SendConnectionRequest(id: id)) { response in
             switch response {
             case .success:
+                self.userData?.connectionType = .pending
                 break
             case .error(let error):
                 self.presenter.presentNewInteractionIcon(ProfileDetails
@@ -60,6 +61,7 @@ extension ProfileDetailsInteractor {
         worker.fetchAcceptConnection(ProfileDetails.Request.AcceptConnectionRequest(id: id)) { response in
             switch response {
             case .success:
+                self.userData?.connectionType = .contact
                 break
             case .error(let error):
                 self.presenter.presentNewInteractionIcon(ProfileDetails
@@ -78,6 +80,7 @@ extension ProfileDetailsInteractor {
         worker.fetchRemoveConnection(ProfileDetails.Request.RemoveConnection(id: id)) { response in
             switch response {
             case .success:
+                self.userData?.connectionType = .nothing
                 break
             case .error(let error):
                 self.presenter.presentNewInteractionIcon(ProfileDetails
@@ -97,6 +100,7 @@ extension ProfileDetailsInteractor {
         worker.fetchRemovePendingConnection(ProfileDetails.Request.RemovePendingConnection(id: id)) { response in
             switch response {
             case .success:
+                self.userData?.connectionType = .nothing
                 break
             case .error(let error):
                 self.presenter.presentNewInteractionIcon(ProfileDetails
@@ -128,7 +132,9 @@ extension ProfileDetailsInteractor: ProfileDetailsBusinessLogic {
     }
     
     func fetchInteract(_ request: ProfileDetails.Request.AddConnection) {
-        guard let connectionType = userData?.connectionType else { return }
+        guard let connectionType = userData?.connectionType else {
+            return
+        }
         switch connectionType {
         case .contact:
             presenter.presentNewInteractionIcon(ProfileDetails

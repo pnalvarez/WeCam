@@ -53,8 +53,30 @@ struct ProfileDetails {
         
         struct Received {
             
-            struct User {
-                let connectionType: ConnectionType
+            class User {
+                
+                init(connectionType: ConnectionType,
+                     id: String,
+                     image: String?,
+                     name: String,
+                     occupation: String,
+                     email: String,
+                     phoneNumber: String,
+                     connectionsCount: String,
+                     progressingProjectsIds: [String],
+                     finishedProjectsIds: [String]) {
+                    self.connectionType = connectionType
+                    self.id = id
+                    self.image = image
+                    self.name = name
+                    self.occupation = occupation
+                    self.email = email
+                    self.phoneNumber = phoneNumber
+                    self.connectionsCount = connectionsCount
+                    self.progressingProjectsIds = progressingProjectsIds
+                    self.finishedProjectsIds = finishedProjectsIds
+                }
+                var connectionType: ConnectionType
                 let id: String
                 let image: String?
                 let name: String
