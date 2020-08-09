@@ -40,10 +40,8 @@ extension SignInRouter: SignInRoutingLogic {
     
     func routeToHome() {
         let vc = NotificationsController()
-        FirebaseAuthHelper().fetch
-//        let vc = NotificationsController()
-//        guard var dataStore = vc.router?.dataStore else { return }
-//        dataStore.currentUser = Notifications.Info.Received.CurrentUser(userId: self.dataStore?.loggedUser?.id ?? .empty)
+        guard var dataStore = vc.router?.dataStore else { return }
+        dataStore.currentUser = Notifications.Info.Received.CurrentUser(userId: self.dataStore?.loggedUser?.id ?? .empty)
         /******/
 //        let vc = ProfileDetailsController()
 //        guard var dataStore = vc.router?.dataStore else { return }

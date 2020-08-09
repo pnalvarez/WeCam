@@ -728,7 +728,7 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                                     })
                                     self.realtimeDB
                                         .child(Constants.usersPath)
-                                        .child(currentUserId)
+                                        .child(userId)
                                         .updateChildValues(["pending_connections": pendingConnections]) { error, ref in
                                             if let error = error {
                                                 completion(.error(error))
