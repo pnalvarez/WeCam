@@ -9,7 +9,6 @@ import UIKit
 
 protocol ProfileDetailsPresentationLogic {
     func presentUserInfo(_ response: ProfileDetails.Info.Model.User)
-    func didFetchInteraction()
     func presentError(_ response: ProfileDetails.Errors.ProfileDetailsError)
     func presentNewInteractionIcon(_ response: ProfileDetails.Info.Model.NewConnectionType)
 }
@@ -27,13 +26,13 @@ class ProfileDetailsPresenter: ProfileDetailsPresentationLogic {
         let finishedProjects = buildProjectsViewModel(from: response.finishedProjects)
         var connectionTypeImage: UIImage?
         switch response.connectionType {
-        case .contact, .sent:
+        case .contact:
             connectionTypeImage = ProfileDetails.Constants.Images.isConnection
             break
         case .pending:
             connectionTypeImage = ProfileDetails.Constants.Images.pending
             break
-        case .nothing:
+        case .nothing, .sent:
             connectionTypeImage = ProfileDetails.Constants.Images.addConnection
         }
         let viewModel = ProfileDetails
@@ -79,10 +78,6 @@ class ProfileDetailsPresenter: ProfileDetailsPresentationLogic {
                   progressingProjects: progressingProjects,
                   finishedProjects: finishedProjects)
         viewController.displayUserInfo(viewModel)
-    }
-    
-    func didFetchInteraction() {
-        viewController.displaySuccessfulInteraction()
     }
     
     func presentError(_ response: ProfileDetails.Errors.ProfileDetailsError) {

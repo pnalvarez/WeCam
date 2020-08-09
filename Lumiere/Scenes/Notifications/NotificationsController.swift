@@ -61,6 +61,10 @@ class NotificationsController: BaseViewController {
         navigationController?.isNavigationBarHidden = true
         setupTableView()
         refreshTableView()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         interactor?.fetchNotifications()
     }
     

@@ -10,7 +10,6 @@ import UIKit
 
 protocol ProfileDetailsDisplayLogic: class {
     func displayUserInfo(_ viewModel: ProfileDetails.Info.ViewModel.User)
-    func displaySuccessfulInteraction()
     func displayError(_ viewModel: String)
     func displayNewConnectionType(_ viewModel: ProfileDetails.Info.ViewModel.NewConnectionType)
 }
@@ -104,10 +103,6 @@ extension ProfileDetailsController: ProfileDetailsDisplayLogic {
     
     func displayUserInfo(_ viewModel: ProfileDetails.Info.ViewModel.User) {
         mainView.setup(viewModel: viewModel)
-    }
-    
-    func displaySuccessfulInteraction() {
-        
     }
     
     func displayError(_ viewModel: String) {
