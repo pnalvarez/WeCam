@@ -42,6 +42,16 @@ protocol FirebaseAuthHelperProtocol {
                                  completion: @escaping (EmptyResponse) -> Void)
     func fetchUserRelation<T: Mappable>(request: FetchUserRelationRequest,
                                         completion: @escaping (BaseResponse<T>) -> Void)
+    func fetchRemoveConnection(request: [String : Any],
+                                            completion: @escaping (EmptyResponse) -> Void)
+    func fetchRemovePendingConnection(request: [String : Any],
+                                      completion: @escaping (EmptyResponse) -> Void)
+    func fetchRemoveSentConnectionRequest(request: [String : Any],
+                                          completion: @escaping (EmptyResponse) -> Void)
+    func fetchSendConnectionRequest(request: [String : Any],
+                                    completion: @escaping (EmptyResponse) -> Void)
+    func fetchAcceptConnection(request: [String: Any],
+                               completion: @escaping (EmptyResponse) -> Void)
 }
 
 class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
@@ -399,6 +409,345 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                     }
                     completion(.success(mappedResponse))
                 }
+            }
+        }
+    }
+    
+    func fetchRemoveConnection(request: [String : Any],
+                               completion: @escaping (EmptyResponse) -> Void) {
+        if let userId = request["userId"] as? String,
+            let currentUserId = authReference.currentUser?.uid {
+            realtimeDB
+                .child(Constants.usersPath)
+                .child(userId)
+                .child("connections")
+                .observeSingleEvent(of: .value) { snapshot in
+                    guard var connections = snapshot.value as? Array<Any> else {
+                        completion(.error(FirebaseErrors.genericError))
+                        return
+                    }
+                    connections.removeAll(where: { connection in
+                        if let id = connection as? String {
+                            return id == currentUserId
+                        }
+                        return false
+                    })
+                    self.realtimeDB
+                        .child(Constants.usersPath)
+                        .child(userId)
+                        .updateChildValues(["connections": connections]) { error, ref in
+                            if let error = error {
+                                completion(.error(error))
+                                return
+                            }
+                            self.realtimeDB
+                                .child(Constants.usersPath)
+                                .child(userId).updateChildValues(["connections_count": connections.count]) { error, ref in
+                                    self.realtimeDB
+                                        .child(Constants.usersPath)
+                                        .child(currentUserId)
+                                        .child("connections")
+                                        .observeSingleEvent(of: .value) { snapshot in
+                                            guard var connections = snapshot.value as? Array<Any> else {
+                                                completion(.error(FirebaseErrors.genericError))
+                                                return
+                                            }
+                                            connections.removeAll(where: { connection in
+                                                if let id = connection as? String {
+                                                    return id == userId
+                                                }
+                                                return false
+                                            })
+                                            self.realtimeDB
+                                                .child(Constants.usersPath)
+                                                .child(currentUserId)
+                                                .updateChildValues(["connections": connections]) { error, ref in
+                                                    if let error = error {
+                                                        completion(.error(error))
+                                                        return
+                                                    }
+                                                    self.realtimeDB
+                                                        .child(Constants.usersPath)
+                                                        .child(currentUserId).updateChildValues(["connections_count": connections.count]) { error, ref in
+                                                            if let error = error {
+                                                                completion(.error(error))
+                                                                return
+                                                            }
+                                                            completion(.success)
+                                                            return
+                                                    }
+                                            }
+                                    }
+                                    
+                            }
+                    }
+            }
+        }
+    }
+    
+    func fetchRemovePendingConnection(request: [String : Any],
+                                      completion: @escaping (EmptyResponse) -> Void) {
+        if let userId = request["userId"] as? String,
+            let currentUserId = authReference.currentUser?.uid {
+            realtimeDB
+                .child(Constants.usersPath)
+                .child(currentUserId)
+                .child("pending_connections")
+                .observeSingleEvent(of: .value) { snapshot in
+                    guard var pendingConnections = snapshot.value as? Array<Any> else {
+                        completion(.error(FirebaseErrors.genericError))
+                        return
+                    }
+                    pendingConnections.removeAll(where: { pendingConnection in
+                        if let id = pendingConnection as? String {
+                            return id == userId
+                        }
+                        return false
+                    })
+                    self.realtimeDB
+                        .child(Constants.usersPath)
+                        .child(currentUserId)
+                        .updateChildValues(["pending_connections": pendingConnections]) { error, ref in
+                            if let error = error {
+                                completion(.error(error))
+                                return
+                            }
+                            self.realtimeDB
+                                .child(Constants.usersPath)
+                                .child(userId)
+                                .child("connect_notifications")
+                                .observeSingleEvent(of: .value) { snapshot in
+                                    guard var notifications = snapshot.value as? Array<Any> else {
+                                        completion(.error(FirebaseErrors.genericError))
+                                        return
+                                    }
+                                    notifications.removeAll(where: { notification in
+                                        if let notification = notification as? [String : Any] {
+                                            if let id = notification["userId"] as? String {
+                                                return id == currentUserId
+                                            }
+                                        }
+                                        return false
+                                    })
+                                    self.realtimeDB
+                                        .child(Constants.usersPath)
+                                        .child(userId)
+                                        .updateChildValues(["connect_notifications": notifications]) { error, ref in
+                                            if let error = error {
+                                                completion(.error(error))
+                                                return
+                                            }
+                                            completion(.success)
+                                    }
+                            }
+                    }
+            }
+        }
+    }
+    
+    func fetchRemoveSentConnectionRequest(request: [String : Any],
+                                          completion: @escaping (EmptyResponse) -> Void) {
+        if let userId = request["userId"] as? String,
+            let currentUserId = authReference.currentUser?.uid {
+            realtimeDB
+                .child(Constants.usersPath)
+                .child(currentUserId)
+                .child("connect_notifications")
+                .observeSingleEvent(of: .value) { snapshot in
+                    guard var notifications = snapshot.value as? Array<Any> else {
+                        completion(.error(FirebaseErrors.genericError))
+                        return
+                    }
+                    notifications.removeAll(where: { notification in
+                        if let notification = notification as? [String : Any],
+                            let id = notification["userId"] as? String{
+                            return id == currentUserId
+                        }
+                        return false
+                    })
+                    self.realtimeDB
+                        .child(Constants.usersPath)
+                        .child(currentUserId)
+                        .updateChildValues(["connect_notifications": notifications]) { error, ref in
+                            if let error = error {
+                                completion(.error(error))
+                                return
+                            }
+                            self.realtimeDB
+                                .child(Constants.usersPath)
+                                .child(userId)
+                                .child("pending_connections")
+                                .observeSingleEvent(of: .value) { snapshot in
+                                    guard var pendingConnections = snapshot.value as? Array<Any> else {
+                                        completion(.error(FirebaseErrors.genericError))
+                                        return
+                                    }
+                                    pendingConnections.removeAll(where: { pendingConnection in
+                                        if let id = pendingConnection as? String {
+                                            return id == currentUserId
+                                        }
+                                        return false
+                                    })
+                                    self.realtimeDB
+                                        .child(Constants.usersPath)
+                                        .child(userId)
+                                        .updateChildValues(["pending_connections": pendingConnections]) { error, ref in
+                                            if let error = error {
+                                                completion(.error(error))
+                                                return
+                                            }
+                                            completion(.success)
+                                    }
+                            }
+                    }
+            }
+        }
+    }
+    
+    func fetchSendConnectionRequest(request: [String : Any],
+                                    completion: @escaping (EmptyResponse) -> Void) {
+        if let userId = request["userId"] as? String,
+            let currentUserId = authReference.currentUser?.uid {
+            realtimeDB
+                .child(Constants.usersPath)
+                .child(currentUserId)
+                .child("pending_connections")
+                .observeSingleEvent(of: .value) { snapshot in
+                    var pendingArray: Array<Any>
+                    if var pendingConnections = snapshot.value as? Array<Any> {
+                        pendingConnections.append(userId)
+                        pendingArray = pendingConnections
+                    } else {
+                        pendingArray = [userId]
+                    }
+                    self.realtimeDB
+                        .child(Constants.usersPath)
+                        .child(currentUserId)
+                        .updateChildValues(["pending_connections": pendingArray]) { error, ref in
+                            if let error = error {
+                                completion(.error(error))
+                                return
+                            }
+                            self.realtimeDB
+                                .child(Constants.usersPath)
+                                .child(currentUserId)
+                                .observeSingleEvent(of: .value) { snapshot in
+                                    if let user = snapshot.value as? [String : Any],
+                                        let email = user["email"] as? String,
+                                        let image = user["profile_image_url"] as? String,
+                                        let name = user["name"] as? String,
+                                        let ocupation = user["professional_area"] as? String {
+                                        self.realtimeDB
+                                            .child(Constants.usersPath)
+                                            .child(userId)
+                                            .child("connect_notifications")
+                                            .observeSingleEvent(of: .value) { snapshot in
+                                                var notificationsArray: Array<Any>
+                                                if var notifications = snapshot.value as? Array<Any> {
+                                                    notifications.append(
+                                                        ["email": email,
+                                                        "image": image,
+                                                        "name": name,
+                                                        "ocupation": ocupation,
+                                                        "userId": currentUserId
+                                                        ])
+                                                    notificationsArray = notifications
+                                                } else {
+                                                    notificationsArray = [
+                                                        ["email": email,
+                                                         "image": image,
+                                                         "name": name,
+                                                         "ocupation": ocupation,
+                                                        "userId": currentUserId
+                                                                        ]
+                                                    ]
+                                                }
+                                                self.realtimeDB
+                                                    .child(Constants.usersPath)
+                                                    .child(userId)
+                                                    .updateChildValues(["connect_notifications": notificationsArray]) { error, ref in
+                                                        if let error = error {
+                                                            completion(.error(error))
+                                                            return
+                                                        }
+                                                        completion(.success)
+                                                        return
+                                                }
+                                        }
+                                    } else {
+                                        completion(.error(FirebaseErrors.parseError))
+                                    }
+                            }
+                    }
+            }
+        }
+    }
+    
+    func fetchAcceptConnection(request: [String : Any],
+                               completion: @escaping (EmptyResponse) -> Void) {
+        if let userId = request["userId"] as? String,
+            let currentUserId = authReference.currentUser?.uid {
+            realtimeDB
+                .child(Constants.usersPath)
+                .child(currentUserId)
+                .child("connect_notifications")
+                .observeSingleEvent(of: .value) { snapshot in
+                    guard var notifications = snapshot.value as? Array<Any> else {
+                        completion(.error(FirebaseErrors.genericError))
+                        return
+                    }
+                    notifications.removeAll(where: { notification in
+                        if let notification = notification as? [String : Any],
+                            let id = notification["userId"] as? String {
+                            return id == userId
+                        }
+                        return false
+                    })
+                    self.realtimeDB
+                        .child(Constants.usersPath)
+                        .child(currentUserId)
+                        .updateChildValues(["connect_notifications": notifications]) { error, ref in
+                            if let error = error {
+                                completion(.error(error))
+                                return
+                            }
+                            self.realtimeDB
+                                .child(Constants.usersPath)
+                                .child(userId)
+                                .child("pending_connections")
+                                .observeSingleEvent(of: .value) { snapshot in
+                                    guard var pendingConnections = snapshot.value as? Array<Any> else {
+                                        completion(.error(FirebaseErrors.genericError))
+                                        return
+                                    }
+                                    pendingConnections.removeAll(where: { pendingConnection in
+                                        if let id = pendingConnection as? String {
+                                            return id == currentUserId
+                                        }
+                                        return false
+                                    })
+                                    self.realtimeDB
+                                        .child(Constants.usersPath)
+                                        .child(currentUserId)
+                                        .updateChildValues(["pending_connections": pendingConnections]) { error, ref in
+                                            if let error = error {
+                                                completion(.error(error))
+                                                return
+                                            }
+                                            self.fetchConnectUsers(request: ConnectUsersRequest(
+                                                fromUserId: userId,
+                                                toUserId: currentUserId)) { response in
+                                                    switch response {
+                                                    case .success:
+                                                        completion(.success)
+                                                        break
+                                                    case .error(let error):
+                                                        completion(.error(error))
+                                                    }
+                                            }
+                                    }
+                            }
+                    }
             }
         }
     }

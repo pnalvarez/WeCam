@@ -9,7 +9,7 @@ import UIKit
 
 protocol ProfileDetailsPresentationLogic {
     func presentUserInfo(_ response: ProfileDetails.Info.Model.User)
-    func didFetchAddConnection()
+    func didFetchInteraction()
     func presentError(_ response: ProfileDetails.Errors.ProfileDetailsError)
 }
 
@@ -81,7 +81,7 @@ class ProfileDetailsPresenter: ProfileDetailsPresentationLogic {
         viewController.displayUserInfo(viewModel)
     }
     
-    func didFetchAddConnection() {
+    func didFetchInteraction() {
         
     }
     

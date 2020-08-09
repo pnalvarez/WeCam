@@ -27,7 +27,7 @@ class ProfileDetailsController: BaseViewController {
     
     private lazy var addConnectionButton: UIButton = {
         let view = UIButton(frame: .zero)
-        view.addTarget(self, action: #selector(didTapAddConnectionButton), for: .touchUpInside)
+        view.addTarget(self, action: #selector(didTapAddCInteractButton), for: .touchUpInside)
         return view
     }()
     
@@ -89,8 +89,8 @@ extension ProfileDetailsController {
     }
     
     @objc
-    private func didTapAddConnectionButton() {
-        interactor?.fetchAddConnection(ProfileDetails.Request.AddConnection())
+    private func didTapAddCInteractButton() {
+        interactor?.fetchInteract(ProfileDetails.Request.AddConnection())
     }
     
     @objc

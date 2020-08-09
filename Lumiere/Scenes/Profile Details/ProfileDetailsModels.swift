@@ -156,6 +156,22 @@ struct ProfileDetails {
         struct ProjectInfo {
             let id: String
         }
+        
+        struct RemoveConnection {
+            let id: String
+        }
+        
+        struct RemovePendingConnection {
+            let id: String
+        }
+        
+        struct SendConnectionRequest {
+            let id: String
+        }
+        
+        struct AcceptConnectionRequest {
+            let id: String
+        }
     }
     
     struct Errors {
