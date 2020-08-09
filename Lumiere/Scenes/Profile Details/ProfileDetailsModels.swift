@@ -94,6 +94,10 @@ struct ProfileDetails {
                 let id: String
                 let image: Data
             }
+            
+            struct NewConnectionType {
+                let connectionType: ConnectionType
+            }
         }
         
         struct ViewModel {
@@ -112,6 +116,10 @@ struct ProfileDetails {
             
             struct Project {
                 let id: String
+                let image: UIImage?
+            }
+            
+            struct NewConnectionType {
                 let image: UIImage?
             }
         }

@@ -10,8 +10,9 @@ import UIKit
 
 protocol ProfileDetailsDisplayLogic: class {
     func displayUserInfo(_ viewModel: ProfileDetails.Info.ViewModel.User)
-    func displayAddedConnection()
+    func displaySuccessfulInteraction()
     func displayError(_ viewModel: String)
+    func displayNewConnectionType(_ viewModel: ProfileDetails.Info.ViewModel.NewConnectionType)
 }
 
 class ProfileDetailsController: BaseViewController {
@@ -105,8 +106,8 @@ extension ProfileDetailsController: ProfileDetailsDisplayLogic {
         mainView.setup(viewModel: viewModel)
     }
     
-    func displayAddedConnection() {
-        //TO DO
+    func displaySuccessfulInteraction() {
+        
     }
     
     func displayError(_ viewModel: String) {
@@ -118,5 +119,9 @@ extension ProfileDetailsController: ProfileDetailsDisplayLogic {
                                                 preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
         present(alertController, animated: true, completion: nil)
+    }
+    
+    func displayNewConnectionType(_ viewModel: ProfileDetails.Info.ViewModel.NewConnectionType) {
+        addConnectionButton.setImage(viewModel.image, for: .normal)
     }
 }

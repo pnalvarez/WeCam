@@ -11,6 +11,7 @@ protocol ProfileDetailsPresentationLogic {
     func presentUserInfo(_ response: ProfileDetails.Info.Model.User)
     func didFetchInteraction()
     func presentError(_ response: ProfileDetails.Errors.ProfileDetailsError)
+    func presentNewInteractionIcon(_ response: ProfileDetails.Info.Model.NewConnectionType)
 }
 
 class ProfileDetailsPresenter: ProfileDetailsPresentationLogic {
@@ -22,7 +23,6 @@ class ProfileDetailsPresenter: ProfileDetailsPresentationLogic {
     }
     
     func presentUserInfo(_ response: ProfileDetails.Info.Model.User) {
-//        guard let image = response.image else { return }
         let progressingProjects = buildProjectsViewModel(from: response.progressingProjects)
         let finishedProjects = buildProjectsViewModel(from: response.finishedProjects)
         var connectionTypeImage: UIImage?
@@ -82,11 +82,30 @@ class ProfileDetailsPresenter: ProfileDetailsPresentationLogic {
     }
     
     func didFetchInteraction() {
-        
+        viewController.displaySuccessfulInteraction()
     }
     
     func presentError(_ response: ProfileDetails.Errors.ProfileDetailsError) {
         
+    }
+    
+    func presentNewInteractionIcon(_ response: ProfileDetails.Info.Model.NewConnectionType) {
+        var image: UIImage?
+        switch response.connectionType {
+        case .contact:
+            image = ProfileDetails.Constants.Images.isConnection
+            break
+        case .pending:
+            image = ProfileDetails.Constants.Images.pending
+            break
+        case .sent:
+            image = ProfileDetails.Constants.Images.addConnection
+            break
+        case .nothing:
+            image = ProfileDetails.Constants.Images.addConnection
+        }
+        let viewModel = ProfileDetails.Info.ViewModel.NewConnectionType(image: image)
+        viewController.displayNewConnectionType(viewModel)
     }
 }
 
