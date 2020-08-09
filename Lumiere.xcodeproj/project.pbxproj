@@ -13,6 +13,14 @@
 		3F0CAA6624CCE41D005E2558 /* SignInRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0CAA6524CCE41D005E2558 /* SignInRequest.swift */; };
 		3F1158AD24C3F04200075C73 /* TeamMemberCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1158AC24C3F04200075C73 /* TeamMemberCollectionViewCell.swift */; };
 		3F1158AF24C3F0EC00075C73 /* TeamMemberViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1158AE24C3F0EC00075C73 /* TeamMemberViewModel.swift */; };
+		3F6EEA2F24E0A3680075C500 /* ConnectionsListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6EEA2E24E0A3680075C500 /* ConnectionsListController.swift */; };
+		3F6EEA3124E0A3720075C500 /* ConnectionsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6EEA3024E0A3720075C500 /* ConnectionsListView.swift */; };
+		3F6EEA3324E0A37B0075C500 /* ConnectionsListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6EEA3224E0A37B0075C500 /* ConnectionsListInteractor.swift */; };
+		3F6EEA3524E0A38E0075C500 /* ConnectionsListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6EEA3424E0A38E0075C500 /* ConnectionsListPresenter.swift */; };
+		3F6EEA3724E0A3970075C500 /* ConnectionsListWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6EEA3624E0A3970075C500 /* ConnectionsListWorker.swift */; };
+		3F6EEA3924E0A3A50075C500 /* ConnectionsListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6EEA3824E0A3A50075C500 /* ConnectionsListRouter.swift */; };
+		3F6EEA3B24E0A3AE0075C500 /* ConnectionsListModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6EEA3A24E0A3AE0075C500 /* ConnectionsListModels.swift */; };
+		3F6EEA3D24E0A6B10075C500 /* ConnectionsListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6EEA3C24E0A6B10075C500 /* ConnectionsListTableViewCell.swift */; };
 		3F8116DE24B6AB620083A3DA /* ReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8116DD24B6AB620083A3DA /* ReusableView.swift */; };
 		3F8116E024B6ABEE0083A3DA /* UICollectionView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8116DF24B6ABEE0083A3DA /* UICollectionView+.swift */; };
 		3F8D136724D0ED0D00AED7EB /* SignInInteractor+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D136624D0ED0D00AED7EB /* SignInInteractor+Tests.swift */; };
@@ -152,6 +160,14 @@
 		3F0CAA6524CCE41D005E2558 /* SignInRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInRequest.swift; sourceTree = "<group>"; };
 		3F1158AC24C3F04200075C73 /* TeamMemberCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamMemberCollectionViewCell.swift; sourceTree = "<group>"; };
 		3F1158AE24C3F0EC00075C73 /* TeamMemberViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamMemberViewModel.swift; sourceTree = "<group>"; };
+		3F6EEA2E24E0A3680075C500 /* ConnectionsListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsListController.swift; sourceTree = "<group>"; };
+		3F6EEA3024E0A3720075C500 /* ConnectionsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsListView.swift; sourceTree = "<group>"; };
+		3F6EEA3224E0A37B0075C500 /* ConnectionsListInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsListInteractor.swift; sourceTree = "<group>"; };
+		3F6EEA3424E0A38E0075C500 /* ConnectionsListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsListPresenter.swift; sourceTree = "<group>"; };
+		3F6EEA3624E0A3970075C500 /* ConnectionsListWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsListWorker.swift; sourceTree = "<group>"; };
+		3F6EEA3824E0A3A50075C500 /* ConnectionsListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsListRouter.swift; sourceTree = "<group>"; };
+		3F6EEA3A24E0A3AE0075C500 /* ConnectionsListModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsListModels.swift; sourceTree = "<group>"; };
+		3F6EEA3C24E0A6B10075C500 /* ConnectionsListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsListTableViewCell.swift; sourceTree = "<group>"; };
 		3F8116DD24B6AB620083A3DA /* ReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableView.swift; sourceTree = "<group>"; };
 		3F8116DF24B6ABEE0083A3DA /* UICollectionView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+.swift"; sourceTree = "<group>"; };
 		3F8D136624D0ED0D00AED7EB /* SignInInteractor+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SignInInteractor+Tests.swift"; sourceTree = "<group>"; };
@@ -361,6 +377,21 @@
 				3F1158AC24C3F04200075C73 /* TeamMemberCollectionViewCell.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		3F6EEA2D24E0A3550075C500 /* Connections List */ = {
+			isa = PBXGroup;
+			children = (
+				3F6EEA2E24E0A3680075C500 /* ConnectionsListController.swift */,
+				3F6EEA3024E0A3720075C500 /* ConnectionsListView.swift */,
+				3F6EEA3224E0A37B0075C500 /* ConnectionsListInteractor.swift */,
+				3F6EEA3424E0A38E0075C500 /* ConnectionsListPresenter.swift */,
+				3F6EEA3624E0A3970075C500 /* ConnectionsListWorker.swift */,
+				3F6EEA3824E0A3A50075C500 /* ConnectionsListRouter.swift */,
+				3F6EEA3A24E0A3AE0075C500 /* ConnectionsListModels.swift */,
+				3F6EEA3C24E0A6B10075C500 /* ConnectionsListTableViewCell.swift */,
+			);
+			path = "Connections List";
 			sourceTree = "<group>";
 		};
 		3F8D136024D0EC5F00AED7EB /* Common */ = {
@@ -633,6 +664,7 @@
 		3F95786724AD79C900B79818 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				3F6EEA2D24E0A3550075C500 /* Connections List */,
 				3F8D139324D53A1E00AED7EB /* Notifications */,
 				3F8D138424D535EA00AED7EB /* Profile Details */,
 				3FE8DF4424C5295E005DE30D /* InProgressProjectDetails */,
@@ -1029,6 +1061,7 @@
 				3F9578DD24B0314D00B79818 /* BaseViewController.swift in Sources */,
 				3F8D138A24D5363200AED7EB /* ProfileDetailsInteractor.swift in Sources */,
 				3FE8DF5624C7BE0B005DE30D /* UserModel.swift in Sources */,
+				3F6EEA3324E0A37B0075C500 /* ConnectionsListInteractor.swift in Sources */,
 				3F8D139F24D53BA600AED7EB /* NotificationsRouter.swift in Sources */,
 				3F8D13B224D750F900AED7EB /* SaveNotificationsRequest.swift in Sources */,
 				3F8D13C824D8FC1400AED7EB /* UIImage+.swift in Sources */,
@@ -1047,6 +1080,7 @@
 				3F95787924AEA4DE00B79818 /* SignInRouter.swift in Sources */,
 				3F8D139924D53B0900AED7EB /* NotificationsInteractor.swift in Sources */,
 				3FE8DF4E24C529E9005DE30D /* InProgressProjectDetailsRouter.swift in Sources */,
+				3F6EEA3724E0A3970075C500 /* ConnectionsListWorker.swift in Sources */,
 				3F95785E24AD764700B79818 /* ViewCodeProtocol.swift in Sources */,
 				3F8D138624D5361A00AED7EB /* ProfileDetailsView.swift in Sources */,
 				3FE8DF5024C529F3005DE30D /* InProgressProjectDetailsProvider.swift in Sources */,
@@ -1059,6 +1093,7 @@
 				3F95787324AEA4C000B79818 /* SignInView.swift in Sources */,
 				3F8D138C24D5363A00AED7EB /* ProfileDetailsPresenter.swift in Sources */,
 				3F8D13C224D799A200AED7EB /* NotificationsView.swift in Sources */,
+				3F6EEA3B24E0A3AE0075C500 /* ConnectionsListModels.swift in Sources */,
 				3F8D13CE24DF388700AED7EB /* FetchUserRelationRequest.swift in Sources */,
 				3FE8DF5224C529F9005DE30D /* InProgressProjectDetailsModels.swift in Sources */,
 				3F0CAA6624CCE41D005E2558 /* SignInRequest.swift in Sources */,
@@ -1072,6 +1107,7 @@
 				3F8D13C024D78CBF00AED7EB /* NotificationTableViewCell.swift in Sources */,
 				3FE8DF4C24C529E1005DE30D /* InProgressProjectDetailsPresenter.swift in Sources */,
 				3F9578D924B01E8F00B79818 /* SignUpCollectionViewCell.swift in Sources */,
+				3F6EEA3924E0A3A50075C500 /* ConnectionsListRouter.swift in Sources */,
 				3F8D138E24D5364000AED7EB /* ProfileDetailsWorker.swift in Sources */,
 				3F8D13B424D753AD00AED7EB /* AddConnectNotificationResponse.swift in Sources */,
 				3F8D13A124D53C4400AED7EB /* NotificationsModels.swift in Sources */,
@@ -1082,9 +1118,12 @@
 				3F8D13AC24D7466A00AED7EB /* FetchCurrentUserIdRequest.swift in Sources */,
 				3F8D13CC24DE59F700AED7EB /* ConnectUsersRequest.swift in Sources */,
 				3F95782224AD6FBC00B79818 /* SceneDelegate.swift in Sources */,
+				3F6EEA2F24E0A3680075C500 /* ConnectionsListController.swift in Sources */,
 				3F95786E24AEA16000B79818 /* LaunchScreenModels.swift in Sources */,
 				3F1158AF24C3F0EC00075C73 /* TeamMemberViewModel.swift in Sources */,
 				3F95785724AD75E700B79818 /* LaunchScreenView.swift in Sources */,
+				3F6EEA3124E0A3720075C500 /* ConnectionsListView.swift in Sources */,
+				3F6EEA3D24E0A6B10075C500 /* ConnectionsListTableViewCell.swift in Sources */,
 				3F8D13BE24D789EF00AED7EB /* UITableView+.swift in Sources */,
 				3F9578DB24B0240C00B79818 /* String+.swift in Sources */,
 				3F8D13AE24D746B100AED7EB /* CurrentUserIdResponse.swift in Sources */,
@@ -1093,6 +1132,7 @@
 				3F8D13AA24D73FA000AED7EB /* UserDataResponse.swift in Sources */,
 				3F9578CC24B0197500B79818 /* SignUpPresenter.swift in Sources */,
 				3F8D13B024D74E1600AED7EB /* GetUserConnectNotificationsResponse.swift in Sources */,
+				3F6EEA3524E0A38E0075C500 /* ConnectionsListPresenter.swift in Sources */,
 				3F95787F24AEB09900B79818 /* UIColor+.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
