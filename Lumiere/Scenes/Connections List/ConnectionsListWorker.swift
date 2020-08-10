@@ -7,7 +7,10 @@
 //
 
 protocol ConnectionsListWorkerProtocol {
-    
+    func fetchConnections(_ request: ConnectionsList.Request.FetchConnections,
+                          completion: @escaping (BaseResponse<[ConnectionsList.Info.Response.Connection]>) -> Void)
+    func fetchRemoveConnection(_ request: ConnectionsList.Request.FetchRemoveConnectionWithId,
+                               completion: @escaping (EmptyResponse) -> Void)
 }
 
 class ConnectionsListWorker: ConnectionsListWorkerProtocol {
@@ -16,5 +19,15 @@ class ConnectionsListWorker: ConnectionsListWorkerProtocol {
     
     init() {
         self.builder = FirebaseAuthHelper()
+    }
+    
+    func fetchConnections(_ request: ConnectionsList.Request.FetchConnections,
+                          completion: @escaping (BaseResponse<[ConnectionsList.Info.Response.Connection]>) -> Void) {
+        builder.fetchCurrentUserConnections(completion: completion)
+    }
+    
+    func fetchRemoveConnection(_ request: ConnectionsList.Request.FetchRemoveConnectionWithId,
+                               completion: @escaping (EmptyResponse) -> Void) {
+        builder.fetchRemoveConnection(request: ["userId" : request.userId], completion: completion)
     }
 }

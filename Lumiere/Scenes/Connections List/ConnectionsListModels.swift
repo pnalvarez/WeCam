@@ -6,6 +6,7 @@
 //  Copyright © 2020 Pedro Alvarez. All rights reserved.
 //
 import UIKit
+import ObjectMapper
 
 struct ConnectionsList {
     
@@ -38,9 +39,20 @@ struct ConnectionsList {
         
         struct Received {
             
+            struct User {
+                let name: String
+            }
         }
         
         struct Model {
+            
+            struct CurrentUser {
+                let name: String
+            }
+            
+            struct UserConnections {
+                var connections: [Connection]
+            }
             
             struct Connection {
                 let userId: String
@@ -70,11 +82,46 @@ struct ConnectionsList {
         
         struct Response {
             
+            final class Connection: Mappable {
+                
+                var name: String?
+                var ocupation: String?
+                var image: String?
+                var userId: String?
+                
+                init?(map: Map) { }
+                
+                func mapping(map: Map) {
+                    name <- map["name"]
+                    ocupation <- map["ocupation"]
+                    image <- map["image"]
+                    userId <- map["userId"]
+                }
+            }
         }
     }
     
     struct Request {
         
+        struct FetchConnections {
+            
+        }
+        
+        struct FetchUserDetails {
+            
+        }
+        
+        struct FetchProfileDetails {
+            
+        }
+        
+        struct FetchRemoveConnection {
+            let index: Int
+        }
+        
+        struct FetchRemoveConnectionWithId {
+            let userId: String
+        }
     }
     
     struct Errors {

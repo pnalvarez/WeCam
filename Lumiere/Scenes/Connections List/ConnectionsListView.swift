@@ -10,6 +10,7 @@ import UIKit
 
 class ConnectionsListView: UIView {
     
+    private unowned var activityView: UIActivityIndicatorView
     private unowned var tableView: UITableView
     
     private lazy var nameHeaderLbl: UILabel = {
@@ -22,7 +23,9 @@ class ConnectionsListView: UIView {
     private var viewModel: ConnectionsList.Info.ViewModel.CurrentUser?
     
     init(frame: CGRect,
+         activityView: UIActivityIndicatorView,
          tableView: UITableView) {
+        self.activityView = activityView
         self.tableView = tableView
         super.init(frame: frame)
     }
@@ -42,6 +45,7 @@ extension ConnectionsListView: ViewCodeProtocol {
     func buildViewHierarchy() {
         addSubview(nameHeaderLbl)
         addSubview(tableView)
+        addSubview(activityView)
     }
     
     func setupConstraints() {
@@ -53,6 +57,9 @@ extension ConnectionsListView: ViewCodeProtocol {
         tableView.snp.makeConstraints { make in
             make.top.equalTo(nameHeaderLbl.snp.bottom).offset(47)
             make.bottom.left.right.equalToSuperview()
+        }
+        activityView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
     }
     

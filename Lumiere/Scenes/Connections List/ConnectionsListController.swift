@@ -10,9 +10,20 @@ import UIKit
 protocol ConnectionsListDisplayLogic: class {
     func displayCurrentUser(_ viewModel: ConnectionsList.Info.ViewModel.CurrentUser)
     func displayConnections(_ viewModel: ConnectionsList.Info.ViewModel.UpcomingConnections)
+    func displayLoading(_ loading: Bool)
+    func displayProfileDetails()
 }
 
 class ConnectionsListController: BaseViewController {
+    
+    private lazy var activityView: UIActivityIndicatorView = {
+        let view = UIActivityIndicatorView(frame: .zero)
+        view.backgroundColor = .white
+        view.color = .black
+        view.startAnimating()
+        view.isHidden = true
+        return view
+    }()
     
     private lazy var tableView: UITableView = {
         let view = UITableView(frame: .zero)
@@ -27,6 +38,7 @@ class ConnectionsListController: BaseViewController {
     
     private lazy var mainView: ConnectionsListView = {
         let view = ConnectionsListView(frame: .zero,
+                                       activityView: activityView,
                                        tableView: tableView)
         return view
     }()
@@ -52,6 +64,12 @@ class ConnectionsListController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.setNavigationBarHidden(true, animated: true)
+        interactor?.fetchUserDetails(ConnectionsList.Request.FetchUserDetails())
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        interactor?.fetchConnectionList(ConnectionsList.Request.FetchConnections())
     }
     
     override func loadView() {
@@ -73,7 +91,8 @@ class ConnectionsListController: BaseViewController {
 extension ConnectionsListController: ConnectionsListTableViewCellDelegate {
     
     func didTapRemoveButton(index: Int?) {
-        
+        guard let index = index else { return }
+        interactor?.fetchRemoveConnection(ConnectionsList.Request.FetchRemoveConnection(index: index))
     }
 }
 
@@ -119,5 +138,13 @@ extension ConnectionsListController: ConnectionsListDisplayLogic {
     
     func displayConnections(_ viewModel: ConnectionsList.Info.ViewModel.UpcomingConnections) {
         self.connectionsViewModel = viewModel
+    }
+    
+    func displayLoading(_ loading: Bool) {
+        activityView.isHidden = !loading
+    }
+    
+    func displayProfileDetails() {
+        
     }
 }
