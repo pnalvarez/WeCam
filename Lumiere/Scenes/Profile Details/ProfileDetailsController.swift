@@ -12,6 +12,7 @@ protocol ProfileDetailsDisplayLogic: class {
     func displayUserInfo(_ viewModel: ProfileDetails.Info.ViewModel.User)
     func displayError(_ viewModel: String)
     func displayNewConnectionType(_ viewModel: ProfileDetails.Info.ViewModel.NewConnectionType)
+    func displayAllConnections()
 }
 
 class ProfileDetailsController: BaseViewController {
@@ -118,5 +119,9 @@ extension ProfileDetailsController: ProfileDetailsDisplayLogic {
     
     func displayNewConnectionType(_ viewModel: ProfileDetails.Info.ViewModel.NewConnectionType) {
         addConnectionButton.setImage(viewModel.image, for: .normal)
+    }
+    
+    func displayAllConnections() {
+        router?.routeToAllConnections()
     }
 }

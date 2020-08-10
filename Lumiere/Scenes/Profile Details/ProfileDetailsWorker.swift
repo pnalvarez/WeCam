@@ -8,12 +8,6 @@
 import ObjectMapper
 
 protocol ProfileDetailsWorkerProtocol {
-    func fetchUserConnectNotifications(_ request: ProfileDetails.Request.FetchNotifications,
-                                                    completion: @escaping (BaseResponse<Array<ProfileDetails.Response.Notification>>) -> Void)
-    func fetchCurrentUserId(_ request: ProfileDetails.Request.FetchCurrentUserId,
-                            completion: @escaping (BaseResponse<ProfileDetails.Response.User>) -> Void)
-    func fetchCurrentUserData(_ request: ProfileDetails.Request.FetchCurrentUserData,
-                              completion: @escaping (BaseResponse<ProfileDetails.Response.User>) -> Void)
     func fetchProjectData(_ request: ProfileDetails.Request.ProjectInfo)
     func fetchAddConnection(_ request: ProfileDetails.Request.NewConnectNotification,
                             completion: @escaping (EmptyResponse) -> Void)
@@ -28,31 +22,13 @@ protocol ProfileDetailsWorkerProtocol {
 }
 
 class ProfileDetailsWorker: ProfileDetailsWorkerProtocol {
-    
-    
+
     private let builder: FirebaseAuthHelperProtocol
     
     init(builder: FirebaseAuthHelperProtocol = FirebaseAuthHelper()) {
         self.builder = builder
     }
-    
-    func fetchUserConnectNotifications(_ request: ProfileDetails.Request.FetchNotifications, completion: @escaping (BaseResponse<Array<ProfileDetails.Response.Notification>>) -> Void) {
-        let newRequest = GetConnectNotificationRequest(userId: request.userId)
-        builder.fetchUserConnectNotifications(request: newRequest, completion: completion)
-    }
-    
-    func fetchCurrentUserId(_ request: ProfileDetails.Request.FetchCurrentUserId,
-                            completion: @escaping (BaseResponse<ProfileDetails.Response.User>) -> Void) {
-        let newRequest = FetchCurrentUserIdRequest()
-        builder.fetchCurrentUser(request: newRequest, completion: completion)
-    }
-    
-    func fetchCurrentUserData(_ request: ProfileDetails.Request.FetchCurrentUserData,
-                              completion: @escaping (BaseResponse<ProfileDetails.Response.User>) -> Void) {
-        let newRequest = FetchUserDataRequest(userId: request.userId)
-        builder.fetchUserData(request: newRequest, completion: completion)
-    }
-    
+
     func fetchProjectData(_ request: ProfileDetails.Request.ProjectInfo) {
         //TO DO
     }

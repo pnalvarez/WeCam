@@ -53,7 +53,7 @@ struct ProfileDetails {
         
         struct Received {
             
-            class User {
+            struct User {
                 
                 init(connectionType: ConnectionType,
                      id: String,

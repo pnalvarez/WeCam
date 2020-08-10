@@ -15,8 +15,6 @@ protocol ProfileDetailsBusinessLogic {
 
 protocol ProfileDetailsDataStore {
     var userData: ProfileDetails.Info.Received.User? { get set }
-    var currentUserId: String? { get set }
-    var currentUser: ProfileDetails.Info.Model.CurrentUser? { get set }
 }
 
 class ProfileDetailsInteractor: ProfileDetailsDataStore {
@@ -168,7 +166,7 @@ extension ProfileDetailsInteractor: ProfileDetailsBusinessLogic {
     }
     
     func fetchAllConnections(_ reques: ProfileDetails.Request.AllConnections) {
-        //TO DO
+        
     }
 }
 

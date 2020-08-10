@@ -11,6 +11,7 @@ protocol ProfileDetailsPresentationLogic {
     func presentUserInfo(_ response: ProfileDetails.Info.Model.User)
     func presentError(_ response: ProfileDetails.Errors.ProfileDetailsError)
     func presentNewInteractionIcon(_ response: ProfileDetails.Info.Model.NewConnectionType)
+    func presentAllConnections()
 }
 
 class ProfileDetailsPresenter: ProfileDetailsPresentationLogic {
@@ -101,6 +102,10 @@ class ProfileDetailsPresenter: ProfileDetailsPresentationLogic {
         }
         let viewModel = ProfileDetails.Info.ViewModel.NewConnectionType(image: image)
         viewController.displayNewConnectionType(viewModel)
+    }
+    
+    func presentAllConnections() {
+        viewController.displayAllConnections()
     }
 }
 
