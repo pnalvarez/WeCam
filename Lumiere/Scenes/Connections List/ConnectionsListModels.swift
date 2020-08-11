@@ -33,6 +33,17 @@ struct ConnectionsList {
         struct Texts {
             static let removeButton = "Remover"
         }
+        
+        struct Dimensions {
+            
+            struct Heights {
+                static let connectionTableCell: CGFloat = 104
+            }
+        }
+        
+        struct Images {
+            static let back = UIImage(named: "voltar 1")
+        }
     }
     
     struct Info {
@@ -40,6 +51,7 @@ struct ConnectionsList {
         struct Received {
             
             struct User {
+                let id: String
                 let name: String
             }
         }
@@ -61,6 +73,17 @@ struct ConnectionsList {
                 let ocupation: String
             }
             
+            struct UserProfileDetails {
+                let userId: String
+                let image: String?
+                let name: String
+                let ocupation: String
+                let email: String
+                let phoneNumber: String
+                let connectionsCount: Int
+                let progressingProjects: [String]
+                let finishedProjects: [String]
+            }
         }
         
         struct ViewModel {
@@ -98,6 +121,27 @@ struct ConnectionsList {
                     userId <- map["userId"]
                 }
             }
+            
+            final class ProfileDetails: Mappable {
+                
+                var name: String?
+                var email: String?
+                var ocupation: String?
+                var phoneNumber: String?
+                var image: String?
+                var connectionsCount: Int?
+                
+                init?(map: Map) {}
+                           
+                func mapping(map: Map) {
+                    name <- map["name"]
+                    email <- map["email"]
+                    ocupation <- map["professional_area"]
+                    phoneNumber <- map["phone_number"]
+                    image <- map["profile_image_url"]
+                    connectionsCount <- map["connections_count"]
+                }
+            }
         }
     }
     
@@ -112,7 +156,7 @@ struct ConnectionsList {
         }
         
         struct FetchProfileDetails {
-            
+            let index: Int
         }
         
         struct FetchRemoveConnection {
@@ -120,6 +164,14 @@ struct ConnectionsList {
         }
         
         struct FetchRemoveConnectionWithId {
+            let userId: String
+        }
+        
+        struct FetchProfileDetailsWithId {
+            let userId: String
+        }
+        
+        struct FetchConnectionsWithId {
             let userId: String
         }
     }

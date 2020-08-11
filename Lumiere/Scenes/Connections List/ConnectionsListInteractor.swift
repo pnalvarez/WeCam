@@ -16,6 +16,7 @@ protocol ConnectionsListBusinessLogic {
 protocol ConnectionsListDataStore {
     var userData: ConnectionsList.Info.Received.User? { get set }
     var connections: ConnectionsList.Info.Model.UserConnections? { get set }
+    var selectedUserData: ConnectionsList.Info.Model.UserProfileDetails? { get set }
 }
 
 class ConnectionsListInteractor: ConnectionsListDataStore {
@@ -25,6 +26,7 @@ class ConnectionsListInteractor: ConnectionsListDataStore {
     
     var userData: ConnectionsList.Info.Received.User?
     var connections: ConnectionsList.Info.Model.UserConnections?
+    var selectedUserData: ConnectionsList.Info.Model.UserProfileDetails?
     
     init(viewController: ConnectionsListDisplayLogic,
          worker: ConnectionsListWorkerProtocol = ConnectionsListWorker()) {
@@ -45,13 +47,26 @@ extension ConnectionsListInteractor {
         }
         self.connections = ConnectionsList.Info.Model.UserConnections(connections: connections)
     }
+    
+    private func buildUserProfileDetails(_ data: ConnectionsList.Info.Response.ProfileDetails, userId: String) {
+        selectedUserData = ConnectionsList.Info.Model.UserProfileDetails(userId: userId,
+                                                                         image: data.image,
+                                                                         name: data.name ?? .empty,
+                                                                         ocupation: data.ocupation ?? .empty,
+                                                                         email: data.email ?? .empty,
+                                                                         phoneNumber: data.phoneNumber ?? .empty,
+                                                                         connectionsCount: data.connectionsCount ?? 0,
+                                                                         progressingProjects: [],
+                                                                         finishedProjects: [])
+    }
 }
 
 extension ConnectionsListInteractor: ConnectionsListBusinessLogic {
     
     func fetchConnectionList(_ request: ConnectionsList.Request.FetchConnections) {
         presenter.presentLoading(true)
-        worker.fetchConnections(request) { response in
+        guard let userId = userData?.id else { return }
+        worker.fetchConnections(ConnectionsList.Request.FetchConnectionsWithId(userId: userId)) { response in
             switch response {
             case .success(let data):
                 self.presenter.presentLoading(false)
@@ -72,7 +87,22 @@ extension ConnectionsListInteractor: ConnectionsListBusinessLogic {
     }
     
     func fetchProfileDetails(_ request: ConnectionsList.Request.FetchProfileDetails) {
-        
+        presenter.presentLoading(true)
+        guard let userId = connections?.connections[request.index].userId else { return }
+        worker.fetchProfileDetails(ConnectionsList
+            .Request
+            .FetchProfileDetailsWithId(userId: userId)) { response in
+                switch response {
+                case .success(let data):
+                    self.presenter.presentLoading(false)
+                    self.buildUserProfileDetails(data, userId: userId)
+                    self.presenter.presentProfileDetails()
+                    break
+                case .error(let error):
+                    self.presenter.presentLoading(false)
+                    break
+                }
+        }
     }
     
     func fetchRemoveConnection(_ request: ConnectionsList.Request.FetchRemoveConnection) {

@@ -34,7 +34,7 @@ protocol FirebaseAuthHelperProtocol {
                     completion: @escaping (BaseResponse<T>) -> Void)
     func fetchCurrentUser<T: Mappable>(request: FetchCurrentUserIdRequest,
                                        completion: @escaping (BaseResponse<T>) -> Void)
-    func fetchUserData<T: Mappable>(request: FetchUserDataRequest,
+    func fetchUserData<T: Mappable>(request: [String : Any],
                        completion: @escaping (BaseResponse<T>) -> Void)
     func fetchConnectUsers(request: ConnectUsersRequest,
                            completion: @escaping (EmptyResponse) -> Void)
@@ -53,6 +53,7 @@ protocol FirebaseAuthHelperProtocol {
     func fetchAcceptConnection(request: [String : Any],
                                completion: @escaping (EmptyResponse) -> Void)
     func fetchCurrentUserConnections<T: Mappable>(completion: @escaping (BaseResponse<[T]>) -> Void)
+    func fetchUserConnections<T: Mappable>(request: [String : Any], completion: @escaping (BaseResponse<[T]>) -> Void)
 }
 
 class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
@@ -236,21 +237,23 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
         }
     }
     
-    func fetchUserData<T: Mappable>(request: FetchUserDataRequest,
+    func fetchUserData<T: Mappable>(request: [String : Any],
                        completion: @escaping (BaseResponse<T>) -> Void) {
-        realtimeDB
-            .child(Constants.usersPath)
-            .child(request.userId)
-            .observeSingleEvent(of: .value) { snapshot in
-                if let value = snapshot.value as? [String : Any] {
-                    guard let response = Mapper<T>().map(JSON: value) else {
-                        completion(.error(FirebaseErrors.parseError))
+        if let userId = request["userId"] as? String {
+            realtimeDB
+                .child(Constants.usersPath)
+                .child(userId)
+                .observeSingleEvent(of: .value) { snapshot in
+                    if let value = snapshot.value as? [String : Any] {
+                        guard let response = Mapper<T>().map(JSON: value) else {
+                            completion(.error(FirebaseErrors.parseError))
+                            return
+                        }
+                        completion(.success(response))
                         return
                     }
-                    completion(.success(response))
-                    return
-                }
-                completion(.error(FirebaseErrors.genericError))
+                    completion(.error(FirebaseErrors.genericError))
+            }
         }
     }
     
@@ -796,6 +799,52 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
         } else {
             completion(.error(FirebaseErrors.genericError))
         }
+    }
+    
+    func fetchUserConnections<T>(request: [String : Any],
+                                 completion: @escaping (BaseResponse<[T]>) -> Void) where T : Mappable {
+        var responseConnections = [[String : Any]]()
+               if let userId =  request["userId"] as? String {
+                   realtimeDB
+                       .child(Constants.usersPath)
+                       .child(userId)
+                       .child("connections")
+                       .observeSingleEvent(of: .value) { snapshot in
+                           guard let connections = snapshot.value as? Array<Any> else {
+                               let response = Mapper<T>().mapArray(JSONArray: [])
+                               completion(.success(response))
+                               return
+                           }
+                           for connection in connections {
+                               guard let connectionId = connection as? String else {
+                                   completion(.error(FirebaseErrors.parseError))
+                                   return
+                               }
+                               self.realtimeDB
+                                   .child(Constants.usersPath)
+                                   .child(connectionId)
+                                   .observeSingleEvent(of: .value) { snapshot in
+                                       guard let response = snapshot.value as? [String : Any] else {
+                                           completion(.error(FirebaseErrors.genericError))
+                                           return
+                                       }
+                                       if let name = response["name"] as? String,
+                                           let ocupation = response["professional_area"] as? String,
+                                           let image = response["profile_image_url"] as? String {
+                                           let newJson: [String : Any] = ["name": name,
+                                                                          "ocupation" : ocupation,
+                                                                          "image": image,
+                                                                          "userId": connectionId]
+                                           responseConnections.append(newJson)
+                                           let mappedResponse = Mapper<T>().mapArray(JSONArray: responseConnections)
+                                           completion(.success(mappedResponse))
+                                       }
+                               }
+                           }
+                   }
+               } else {
+                   completion(.error(FirebaseErrors.genericError))
+               }
     }
 }
 

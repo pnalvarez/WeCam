@@ -54,8 +54,8 @@ class ConnectionsListTableViewCell: UITableViewCell {
                 .removeButton,
                                         NSAttributedString.Key.foregroundColor: ConnectionsList
                                             .Constants
-                                            .Fonts
-                                            .removeButton]), for: .normal)
+                                            .Colors
+                                            .removeButtonText]), for: .normal)
         return view
     }()
     
@@ -115,6 +115,7 @@ extension ConnectionsListTableViewCell: ViewCodeProtocol {
     }
     
     func configureViews() {
+        selectionStyle = .none
         nameLbl.text = viewModel?.name
         ocupationLbl.text = viewModel?.ocupation
         photoImageView.sd_setImage(with: URL(string: viewModel?.image ?? .empty))

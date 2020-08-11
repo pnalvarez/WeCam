@@ -71,7 +71,8 @@ class ProfileDetailsPresenter: ProfileDetailsPresentationLogic {
                                                         .Constants
                                                         .Colors
                                                         .phoneNumberLbl]),
-                  connectionsCount: NSAttributedString(string: "\(response.connectionsCount) Conexões",
+                  connectionsCount: NSAttributedString(string: response.connectionsCount != "1" ?
+                    "\(response.connectionsCount) Conexões" : "\(response.connectionsCount) Conexão",
                     attributes: [NSAttributedString.Key.font: ProfileDetails
                         .Constants
                         .Fonts

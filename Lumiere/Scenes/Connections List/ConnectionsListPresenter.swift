@@ -10,6 +10,7 @@ protocol ConnectionsListPresentationLogic {
     func presentUserDetails(_ response: ConnectionsList.Info.Model.CurrentUser)
     func presentConnectionList(_ response: ConnectionsList.Info.Model.UserConnections)
     func presentLoading(_ loading: Bool)
+    func presentProfileDetails()
 }
 
 class ConnectionsListPresenter: ConnectionsListPresentationLogic {
@@ -32,6 +33,10 @@ class ConnectionsListPresenter: ConnectionsListPresentationLogic {
     
     func presentLoading(_ loading: Bool) {
         viewController.displayLoading(loading)
+    }
+    
+    func presentProfileDetails() {
+        viewController.displayProfileDetails()
     }
 }
 

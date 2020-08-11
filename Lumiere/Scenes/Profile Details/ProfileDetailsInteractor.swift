@@ -166,7 +166,7 @@ extension ProfileDetailsInteractor: ProfileDetailsBusinessLogic {
     }
     
     func fetchAllConnections(_ reques: ProfileDetails.Request.AllConnections) {
-        
+        presenter.presentAllConnections()
     }
 }
 

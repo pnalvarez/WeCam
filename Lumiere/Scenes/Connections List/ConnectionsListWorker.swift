@@ -7,10 +7,12 @@
 //
 
 protocol ConnectionsListWorkerProtocol {
-    func fetchConnections(_ request: ConnectionsList.Request.FetchConnections,
+    func fetchConnections(_ request: ConnectionsList.Request.FetchConnectionsWithId,
                           completion: @escaping (BaseResponse<[ConnectionsList.Info.Response.Connection]>) -> Void)
     func fetchRemoveConnection(_ request: ConnectionsList.Request.FetchRemoveConnectionWithId,
                                completion: @escaping (EmptyResponse) -> Void)
+    func fetchProfileDetails(_ request: ConnectionsList.Request.FetchProfileDetailsWithId,
+                             completion: @escaping (BaseResponse<ConnectionsList.Info.Response.ProfileDetails>) -> Void)
 }
 
 class ConnectionsListWorker: ConnectionsListWorkerProtocol {
@@ -21,13 +23,19 @@ class ConnectionsListWorker: ConnectionsListWorkerProtocol {
         self.builder = FirebaseAuthHelper()
     }
     
-    func fetchConnections(_ request: ConnectionsList.Request.FetchConnections,
+    func fetchConnections(_ request: ConnectionsList.Request.FetchConnectionsWithId,
                           completion: @escaping (BaseResponse<[ConnectionsList.Info.Response.Connection]>) -> Void) {
-        builder.fetchCurrentUserConnections(completion: completion)
+        let headers: [String : Any] = ["userId": request.userId]
+        builder.fetchUserConnections(request: headers, completion: completion)
     }
     
     func fetchRemoveConnection(_ request: ConnectionsList.Request.FetchRemoveConnectionWithId,
                                completion: @escaping (EmptyResponse) -> Void) {
         builder.fetchRemoveConnection(request: ["userId" : request.userId], completion: completion)
+    }
+    
+    func fetchProfileDetails(_ request: ConnectionsList.Request.FetchProfileDetailsWithId,
+                             completion: @escaping (BaseResponse<ConnectionsList.Info.Response.ProfileDetails>) -> Void) {
+        builder.fetchUserData(request: ["userId": request.userId], completion: completion)
     }
 }

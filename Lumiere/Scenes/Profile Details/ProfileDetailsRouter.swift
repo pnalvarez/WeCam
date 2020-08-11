@@ -22,12 +22,21 @@ class ProfileDetailsRouter: NSObject, ProfileDetailsDataTransfer {
     
     weak var viewController: UIViewController?
     var dataStore: ProfileDetailsDataStore?
+    
+    private func transferDataToConnectionsList(from source: ProfileDetailsDataStore,
+                                               to destination: inout ConnectionsListDataStore) {
+        guard let name = source.userData?.name,
+            let userId = source.userData?.id else { return }
+        let data = ConnectionsList.Info.Received.User(id: userId,
+                                                      name: name)
+        destination.userData = data
+    }
 }
 
 extension ProfileDetailsRouter: BaseRouterProtocol {
     
     func routeTo(nextVC: UIViewController) {
-        
+        viewController?.navigationController?.pushViewController(nextVC, animated: true)
     }
 }
 
@@ -38,6 +47,12 @@ extension ProfileDetailsRouter: ProfileDetailsRoutingLogic {
     }
     
     func routeToAllConnections() {
-        
+        let vc = ConnectionsListController()
+        guard let dataStore = dataStore,
+            var destination = vc.router?.dataStore else {
+                return
+        }
+        transferDataToConnectionsList(from: dataStore, to: &destination)
+        routeTo(nextVC: vc)
     }
 }

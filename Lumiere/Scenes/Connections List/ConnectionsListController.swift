@@ -16,6 +16,13 @@ protocol ConnectionsListDisplayLogic: class {
 
 class ConnectionsListController: BaseViewController {
     
+    private lazy var backButton: UIButton = {
+        let view = UIButton(frame: .zero)
+        view.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
+        view.setImage(ConnectionsList.Constants.Images.back, for: .normal)
+        return view
+    }()
+    
     private lazy var activityView: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView(frame: .zero)
         view.backgroundColor = .white
@@ -38,6 +45,7 @@ class ConnectionsListController: BaseViewController {
     
     private lazy var mainView: ConnectionsListView = {
         let view = ConnectionsListView(frame: .zero,
+                                       backButton: backButton,
                                        activityView: activityView,
                                        tableView: tableView)
         return view
@@ -96,6 +104,14 @@ extension ConnectionsListController: ConnectionsListTableViewCellDelegate {
     }
 }
 
+extension ConnectionsListController {
+    
+    @objc
+    private func didTapBackButton() {
+        router?.routeBack()
+    }
+}
+
 extension ConnectionsListController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -112,12 +128,16 @@ extension ConnectionsListController: UITableViewDataSource {
                    viewModel: viewModel)
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return ConnectionsList.Constants.Dimensions.Heights.connectionTableCell
+    }
 }
 
 extension ConnectionsListController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        interactor?.fetchProfileDetails(ConnectionsList.Request.FetchProfileDetails(index: indexPath.row))
     }
 }
 
@@ -145,6 +165,6 @@ extension ConnectionsListController: ConnectionsListDisplayLogic {
     }
     
     func displayProfileDetails() {
-        
+        router?.routeToProfileDetails()
     }
 }

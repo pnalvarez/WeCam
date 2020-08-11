@@ -33,8 +33,7 @@ class NotificationsWorker: NotificationsWorkerProtocol {
     
     func fetchUserData(_ request: Notifications.Request.FetchUserData,
                        completion: @escaping (BaseResponse<Notifications.Response.User>) -> Void) {
-        let newRequest = FetchUserDataRequest(userId: request.userId)
-        builder.fetchUserData(request: newRequest, completion: completion)
+        builder.fetchUserData(request: ["userId": request.userId], completion: completion)
     }
     
     func fetchConnectUsers(_ request: Notifications.Request.ConnectUsers,
