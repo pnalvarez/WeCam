@@ -37,8 +37,8 @@ struct Notifications {
             static let noButtonBackground = UIColor(rgb: 0xededed)
             static let yesButtonBackgroundClicked = UIColor(rgb: 0xc4c4c4)
             static let noButtonBackgroundClicked = UIColor(rgb: 0xc4c4c4)
-            static let activity = UIColor(rgb: 0x222222)
-            static let activityBackground = UIColor(rgb: 0xffffff)
+            static let activity = ThemeColors.mainRedColor.rawValue
+            static let activityBackground = UIColor.white.withAlphaComponent(0.5)
             static let notificationCellBackground = UIColor(rgb: 0xffffff)
             static let notificationCellLayer = UIColor(rgb: 0xe0e0e0).cgColor
         }
@@ -176,6 +176,10 @@ struct Notifications {
         struct UserRelation {
             let fromUserId: String
             let toUserId: String
+        }
+        
+        struct RemovePendingNotification {
+            let userId: String
         }
     }
     

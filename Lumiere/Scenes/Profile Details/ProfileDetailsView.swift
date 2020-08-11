@@ -87,7 +87,7 @@ extension ProfileDetailsView: ViewCodeProtocol {
     
     func setupConstraints() {
         backButton.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide.snp.top).inset(7)
+            make.top.equalTo(safeAreaLayoutGuide.snp.top).inset(28)
             make.left.equalToSuperview().inset(28)
             make.height.equalTo(30.44)
             make.width.equalTo(32)

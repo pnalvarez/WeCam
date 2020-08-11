@@ -9,7 +9,6 @@ import Foundation
 
 protocol NotificationsBusinessLogic {
     func fetchNotifications()
-    func updateNotifications()
     func didSelectProfile(_ request: Notifications.Request.SelectProfile)
     func didAcceptNotification(_ request: Notifications.Request.NotificationAnswer)
     func didRefuseNotification(_ request: Notifications.Request.NotificationAnswer)
@@ -74,6 +73,10 @@ extension NotificationsInteractor {
                                                      ocupation: data.ocupation ?? .empty,
                                                      connectionsCount: "\(data.connectionsCount ?? 0)")
     }
+    
+    private func updateNotifications(without userId: String) {
+        notifications?.notifications.removeAll(where: { $0.userId == userId })
+    }
 }
 
 extension NotificationsInteractor: NotificationsBusinessLogic {
@@ -95,10 +98,6 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
                 break
             }
         }
-    }
-    
-    func updateNotifications() {
-        
     }
     
     func didSelectProfile(_ request: Notifications.Request.SelectProfile) {
@@ -132,6 +131,7 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
                 break
             case .error:
                 self.presenter.presentLoading(false)
+                self.presenter.presentError("Erro ao tentar carregar o perfil")
                 break
             }
         }
@@ -143,12 +143,16 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
         guard let fromUserId = notification?.userId, let toUserId = currentUser?.userId else { return }
         let newRequest = Notifications.Request.ConnectUsers(fromUserId: fromUserId,
                                                             toUserId: toUserId)
+        self.presenter.presentLoading(true)
         worker.fetchConnectUsers(newRequest) { response in
             switch response {
             case .success:
+                self.presenter.presentLoading(false)
+                self.updateNotifications(without: fromUserId)
                 self.presenter.didAcceptUser()
                 break
             case .error(let error):
+                self.presenter.presentLoading(false)
                 self.presenter.presentError(error.localizedDescription)
                 break
             }
@@ -156,6 +160,24 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
     }
     
     func didRefuseNotification(_ request: Notifications.Request.NotificationAnswer) {
-        
+        let index = request.index
+        let notification = notifications?.notifications[index]
+        guard let userId = notification?.userId else { return }
+        let newRequest = Notifications.Request.RemovePendingNotification(userId: userId)
+        presenter.presentLoading(true)
+        worker.fetchRemovePendingNotification(newRequest) { response in
+            switch response {
+            case .success:
+                self.presenter.presentLoading(false)
+                self.updateNotifications(without: userId)
+                guard let notifications = self.notifications else { return }
+                self.presenter.presentNotifications(notifications)
+                break
+            case .error(let error):
+                self.presenter.presentLoading(false)
+                self.presenter.presentError(error.localizedDescription)
+                break
+            }
+        }
     }
 }

@@ -53,7 +53,10 @@ protocol FirebaseAuthHelperProtocol {
     func fetchAcceptConnection(request: [String : Any],
                                completion: @escaping (EmptyResponse) -> Void)
     func fetchCurrentUserConnections<T: Mappable>(completion: @escaping (BaseResponse<[T]>) -> Void)
-    func fetchUserConnections<T: Mappable>(request: [String : Any], completion: @escaping (BaseResponse<[T]>) -> Void)
+    func fetchUserConnections<T: Mappable>(request: [String : Any],
+                                           completion: @escaping (BaseResponse<[T]>) -> Void)
+    func fetchRefusePendingConnection(request: [String: Any],
+                                      completion: @escaping (EmptyResponse) -> Void)
 }
 
 class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
@@ -98,7 +101,6 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                     let dictionary: [String : Any] = ["profile_image_url": urlString,
                                                       "name": request.name,
                                                       "email" : request.email,
-                                                      "password" : request.password,
                                                       "phone_number": request.phoneNumber,
                                                       "professional_area": request.professionalArea,
                                                       "interest_cathegories": request.interestCathegories,
@@ -845,6 +847,66 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                } else {
                    completion(.error(FirebaseErrors.genericError))
                }
+    }
+    
+    func fetchRefusePendingConnection(request: [String : Any],
+                                      completion: @escaping (EmptyResponse) -> Void) {
+        if let userId = request["userId"] as? String,
+            let currentUserId = authReference.currentUser?.uid {
+            realtimeDB
+                .child(Constants.usersPath)
+                .child(userId)
+                .child("pending_connections")
+                .observeSingleEvent(of: .value) { snapshot in
+                    guard var pendingConnections = snapshot.value as? Array<Any> else {
+                        completion(.error(FirebaseErrors.genericError))
+                        return
+                    }
+                    pendingConnections.removeAll(where: { pendingConnection in
+                        if let id = pendingConnection as? String {
+                            return id == currentUserId
+                        }
+                        return false
+                    })
+                    self.realtimeDB
+                        .child(Constants.usersPath)
+                        .child(userId)
+                        .updateChildValues(["pending_connections": pendingConnections]) { error, ref in
+                            if let error = error {
+                                completion(.error(error))
+                                return
+                            }
+                            self.realtimeDB
+                                .child(Constants.usersPath)
+                                .child(currentUserId)
+                                .child("connect_notifications")
+                                .observeSingleEvent(of: .value) { snapshot in
+                                    guard var notifications = snapshot.value as? Array<Any> else {
+                                        completion(.error(FirebaseErrors.genericError))
+                                        return
+                                    }
+                                    notifications.removeAll(where: { notification in
+                                        if let notification = notification as? [String : Any] {
+                                            if let id = notification["userId"] as? String {
+                                                return id == userId
+                                            }
+                                        }
+                                        return false
+                                    })
+                                    self.realtimeDB
+                                        .child(Constants.usersPath)
+                                        .child(currentUserId)
+                                        .updateChildValues(["connect_notifications": notifications]) { error, ref in
+                                            if let error = error {
+                                                completion(.error(error))
+                                                return
+                                            }
+                                            completion(.success)
+                                    }
+                            }
+                    }
+            }
+        }
     }
 }
 
