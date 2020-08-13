@@ -12,6 +12,7 @@ protocol ProfileDetailsPresentationLogic {
     func presentError(_ response: ProfileDetails.Errors.ProfileDetailsError)
     func presentNewInteractionIcon(_ response: ProfileDetails.Info.Model.NewConnectionType)
     func presentAllConnections()
+    func didEndRequest()
 }
 
 class ProfileDetailsPresenter: ProfileDetailsPresentationLogic {
@@ -83,7 +84,8 @@ class ProfileDetailsPresenter: ProfileDetailsPresentationLogic {
     }
     
     func presentError(_ response: ProfileDetails.Errors.ProfileDetailsError) {
-        
+        // TO DO
+        viewController.displayEndRequest()
     }
     
     func presentNewInteractionIcon(_ response: ProfileDetails.Info.Model.NewConnectionType) {
@@ -107,6 +109,10 @@ class ProfileDetailsPresenter: ProfileDetailsPresentationLogic {
     
     func presentAllConnections() {
         viewController.displayAllConnections()
+    }
+    
+    func didEndRequest() {
+        viewController.displayEndRequest()
     }
 }
 

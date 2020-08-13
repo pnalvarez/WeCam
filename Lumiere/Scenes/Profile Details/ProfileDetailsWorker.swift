@@ -9,8 +9,6 @@ import ObjectMapper
 
 protocol ProfileDetailsWorkerProtocol {
     func fetchProjectData(_ request: ProfileDetails.Request.ProjectInfo)
-    func fetchAddConnection(_ request: ProfileDetails.Request.NewConnectNotification,
-                            completion: @escaping (EmptyResponse) -> Void)
     func fetchRemoveConnection(_ request: ProfileDetails.Request.RemoveConnection,
                                 completion: @escaping (EmptyResponse) -> Void)
     func fetchRemovePendingConnection(_ request: ProfileDetails.Request.RemovePendingConnection,
@@ -31,21 +29,6 @@ class ProfileDetailsWorker: ProfileDetailsWorkerProtocol {
 
     func fetchProjectData(_ request: ProfileDetails.Request.ProjectInfo) {
         //TO DO
-    }
-    
-    func fetchAddConnection(_ request: ProfileDetails.Request.NewConnectNotification,
-                            completion: @escaping (EmptyResponse) -> Void) {
-        let notificationDict: [String : Any] = ["image": request.image,
-                                                "email": request.email,
-                                                "name": request.name,
-                                                "ocupation": request.ocupation,
-                                                "userId": request.fromUserId]
-        var notifications = request.oldNotifications.toJSON()
-        notifications.append(notificationDict)
-        let newRequest = SaveNotificationsRequest(fromUserId: request.fromUserId,
-                                                  toUserId: request.toUserId,
-                                                  notifications: notifications)
-        builder.addConnectNotifications(request: newRequest, completion: completion)
     }
     
     func fetchRemoveConnection(_ request: ProfileDetails.Request.RemoveConnection,

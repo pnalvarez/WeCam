@@ -13,6 +13,7 @@ protocol ProfileDetailsDisplayLogic: class {
     func displayError(_ viewModel: String)
     func displayNewConnectionType(_ viewModel: ProfileDetails.Info.ViewModel.NewConnectionType)
     func displayAllConnections()
+    func displayEndRequest()
 }
 
 class ProfileDetailsController: BaseViewController {
@@ -123,5 +124,9 @@ extension ProfileDetailsController: ProfileDetailsDisplayLogic {
     
     func displayAllConnections() {
         router?.routeToAllConnections()
+    }
+    
+    func displayEndRequest() {
+
     }
 }
