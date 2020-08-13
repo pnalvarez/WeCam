@@ -99,7 +99,7 @@ extension ProfileDetailsView: ViewCodeProtocol {
         }
         nameLbl.snp.makeConstraints { make in
             make.left.equalTo(photoImageView.snp.right).offset(14)
-            make.top.equalTo(safeAreaLayoutGuide.snp.top).inset(48)
+            make.top.equalTo(photoImageView)
             make.width.equalTo(181)
         }
         occupationLbl.snp.makeConstraints { make in
@@ -115,7 +115,7 @@ extension ProfileDetailsView: ViewCodeProtocol {
             make.left.width.equalTo(emailLbl)
         }
         addConnectionButton.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide.snp.top).inset(40)
+            make.top.equalTo(nameLbl).offset(-2)
             make.left.equalTo(nameLbl.snp.right).offset(9)
             make.height.equalTo(30)
             make.width.equalTo(30)
