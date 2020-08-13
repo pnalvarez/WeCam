@@ -34,6 +34,7 @@ struct ProfileDetails {
             static let addConnection = UIImage(named: "fazer-conexao 1")
             static let isConnection = UIImage(named: "icone-conexao-feita 1")
             static let pending = UIImage(named: "pendente 1")
+            static let sent = UIImage(named: "icone-pendente 1")
         }
         
         struct Texts {

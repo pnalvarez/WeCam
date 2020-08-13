@@ -34,7 +34,10 @@ class ProfileDetailsPresenter: ProfileDetailsPresentationLogic {
         case .pending:
             connectionTypeImage = ProfileDetails.Constants.Images.pending
             break
-        case .nothing, .sent:
+        case .sent:
+            connectionTypeImage = ProfileDetails.Constants.Images.sent
+            break
+        case .nothing:
             connectionTypeImage = ProfileDetails.Constants.Images.addConnection
         }
         let viewModel = ProfileDetails
@@ -98,7 +101,7 @@ class ProfileDetailsPresenter: ProfileDetailsPresentationLogic {
             image = ProfileDetails.Constants.Images.pending
             break
         case .sent:
-            image = ProfileDetails.Constants.Images.addConnection
+            image = ProfileDetails.Constants.Images.sent
             break
         case .nothing:
             image = ProfileDetails.Constants.Images.addConnection
