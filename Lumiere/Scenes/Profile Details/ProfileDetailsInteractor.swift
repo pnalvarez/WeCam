@@ -23,8 +23,6 @@ class ProfileDetailsInteractor: ProfileDetailsDataStore {
     var worker: ProfileDetailsWorkerProtocol
     
     var userData: ProfileDetails.Info.Received.User?
-    var currentUserId: String?
-    var currentUser: ProfileDetails.Info.Model.CurrentUser?
     
     init(viewController: ProfileDetailsDisplayLogic,
          worker: ProfileDetailsWorkerProtocol = ProfileDetailsWorker()) {
@@ -111,6 +109,12 @@ extension ProfileDetailsInteractor {
             }
         }
     }
+    
+    private func checkUserTypeModifications() {
+        if let type = userData?.connectionType, type == .logged {
+            presenter.presentInterfaceForLogged()
+        }
+    }
 }
 
 extension ProfileDetailsInteractor: ProfileDetailsBusinessLogic {
@@ -120,13 +124,14 @@ extension ProfileDetailsInteractor: ProfileDetailsBusinessLogic {
                                                       id: userData?.id ?? .empty,
                                                       image: userData?.image,
                                                       name: userData?.name ?? .empty,
-                                                      occupation: userData?.occupation ?? .empty,
+                                                      occupation: userData?.ocupation ?? .empty,
                                                       email: userData?.email ?? .empty,
                                                       phoneNumber: userData?.phoneNumber ?? .empty,
                                                       connectionsCount: userData?.connectionsCount ?? .empty,
                                                       progressingProjects: [],
                                                       finishedProjects: [])
         presenter.presentUserInfo(response)
+        presenter.presentInterfaceForLogged()
     }
     
     func fetchInteract(_ request: ProfileDetails.Request.AddConnection) {
@@ -155,6 +160,11 @@ extension ProfileDetailsInteractor: ProfileDetailsBusinessLogic {
                 .NewConnectionType(connectionType: .contact))
             fetchAcceptConnection()
             break
+        case .logged:
+            presenter.presentNewInteractionIcon(ProfileDetails
+                .Info
+                .Model
+                .NewConnectionType(connectionType: .logged))
         case .nothing:
             presenter.presentNewInteractionIcon(ProfileDetails
                 .Info

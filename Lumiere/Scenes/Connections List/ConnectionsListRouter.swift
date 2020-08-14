@@ -29,7 +29,7 @@ class ConnectionsListRouter: NSObject, ConnectionsListDataTransfer {
                                                      id: source.selectedUserData?.userId ?? .empty,
                                                      image: source.selectedUserData?.image,
                                                      name: source.selectedUserData?.name ?? .empty,
-                                                     occupation: source.selectedUserData?.ocupation ?? .empty,
+                                                     ocupation: source.selectedUserData?.ocupation ?? .empty,
                                                      email: source.selectedUserData?.email ?? .empty,
                                                      phoneNumber: source.selectedUserData?.phoneNumber ?? .empty,
                                                      connectionsCount: "\(source.selectedUserData?.connectionsCount ?? 0)" ?? .empty,

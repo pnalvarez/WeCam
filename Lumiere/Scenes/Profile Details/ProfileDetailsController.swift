@@ -14,6 +14,7 @@ protocol ProfileDetailsDisplayLogic: class {
     func displayNewConnectionType(_ viewModel: ProfileDetails.Info.ViewModel.NewConnectionType)
     func displayAllConnections()
     func displayEndRequest()
+    func displayInterfaceForLogged()
 }
 
 class ProfileDetailsController: BaseViewController {
@@ -128,5 +129,9 @@ extension ProfileDetailsController: ProfileDetailsDisplayLogic {
     
     func displayEndRequest() {
 
+    }
+    
+    func displayInterfaceForLogged() {
+        backButton.isHidden = true
     }
 }

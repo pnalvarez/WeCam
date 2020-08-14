@@ -21,7 +21,7 @@ class SignInProvider: SignInProviderProtocol {
     
     func fetchSignIn(request: SignIn.Models.Request,
                      completion: @escaping (BaseResponse<SignIn.Response.LoggedUser>) -> Void) {
-        let newRequest = SignInRequest(email: request.email, password: request.password)
-        builder.signInUser(request: newRequest, completion: completion)
+        let headers: [String : Any] = ["email": request.email, "password": request.password]
+        builder.fetchSignInUser(request: headers, completion: completion)
     }
 }

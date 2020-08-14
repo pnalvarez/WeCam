@@ -59,7 +59,12 @@ extension SignInInteractor: SignInBusinessRules {
             switch response {
             case .success(let data):
                 self.presenter.presentLoading(false)
-                self.loggedUser = SignIn.Models.User(id: data.id ?? .empty)
+                self.loggedUser = SignIn.Models.User(id: data.id ?? .empty,
+                                                     name: data.name ?? .empty,
+                                                     email: data.email ?? .empty,
+                                                     phoneNumber: data.phoneNumber ?? .empty,
+                                                     image: data.image,
+                                                     ocupation: data.ocupation ?? .empty)
                 self.presenter.didFetchSuccessLogin()
                 break
             case .error(let error):

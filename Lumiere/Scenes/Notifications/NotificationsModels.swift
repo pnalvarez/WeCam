@@ -10,6 +10,8 @@ import ObjectMapper
 
 struct Notifications {
     
+    static let bundle = Bundle(for: NotificationsController.self)
+    
     struct Constants {
         
         struct Fonts {
@@ -58,6 +60,15 @@ struct Notifications {
                 static let notificationTableViewCell: CGFloat = 194
             }
         }
+        
+        struct Images {
+            static let tabBarDefaultImage = UIImage(named: "notificacao-antes-de-clicar 1-1",
+                                                    in: Notifications.bundle,
+                                                    compatibleWith: nil)
+            static let tabBarSelectedImage = UIImage(named: "notificacao-depois-de-clicar 1-1",
+                                                     in: Notifications.bundle,
+                                                     compatibleWith: nil)
+        }
     }
     
     struct Info {
@@ -81,6 +92,7 @@ struct Notifications {
                 case connected
                 case pending
                 case sent
+                case logged
                 case nothing
             }
             

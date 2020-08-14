@@ -30,9 +30,9 @@ protocol FirebaseAuthHelperProtocol {
                                        completion: @escaping (BaseResponse<[T]>) -> Void)
 //    func addConnectNotifications(request: SaveNotificationsRequest,
 //                                 completion: @escaping (EmptyResponse) -> Void)
-    func signInUser<T: Mappable>(request: SignInRequest,
+    func fetchSignInUser<T: Mappable>(request: [String : Any],
                     completion: @escaping (BaseResponse<T>) -> Void)
-    func fetchCurrentUser<T: Mappable>(request: FetchCurrentUserIdRequest,
+    func fetchCurrentUser<T: Mappable>(request: [String : Any],
                                        completion: @escaping (BaseResponse<T>) -> Void)
     func fetchUserData<T: Mappable>(request: [String : Any],
                        completion: @escaping (BaseResponse<T>) -> Void)
@@ -202,24 +202,39 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
 //        }
 //    }
     
-    func signInUser<T: Mappable>(request: SignInRequest,
+    func fetchSignInUser<T: Mappable>(request: [String : Any],
                     completion: @escaping (BaseResponse<T>) -> Void) {
-        authReference.signIn(withEmail: request.email, password: request.password) { (credentials, error) in
-            if let error = error {
-                completion(.error(error))
-                return
-            } else {
-                let response: [String : Any] = ["id": credentials?.user.uid ?? .empty]
-                guard let signInResponse = Mapper<T>().map(JSON: response) else {
-                    completion(.error(FirebaseErrors.parseError))
+        if let email = request["email"] as? String,
+            let password = request["password"] as? String {
+            authReference.signIn(withEmail: email, password: password) { (credentials, error) in
+                if let error = error {
+                    completion(.error(error))
                     return
+                } else {
+                    let userId = self.authReference.currentUser?.uid ?? .empty
+                    self.realtimeDB
+                        .child(Constants.usersPath)
+                        .child(userId)
+                        .observeSingleEvent(of: .value) { snapshot in
+                            guard var loggedUser = snapshot.value as? [String : Any] else {
+                                completion(.error(FirebaseErrors.genericError))
+                                return
+                            }
+                            loggedUser["id"] = userId
+                            guard let signInResponse = Mapper<T>().map(JSON: loggedUser) else {
+                                completion(.error(FirebaseErrors.genericError))
+                                return
+                            }
+                            completion(.success(signInResponse))
+                    }
                 }
-                completion(.success(signInResponse))
             }
+        } else {
+            completion(.error(FirebaseErrors.genericError))
         }
     }
     
-    func fetchCurrentUser<T: Mappable>(request: FetchCurrentUserIdRequest,
+    func fetchCurrentUser<T: Mappable>(request: [String : Any],
                           completion: @escaping (BaseResponse<T>) -> Void) {
         guard let id = Auth.auth().currentUser?.uid else {
             completion(.error(FirebaseErrors.genericError))

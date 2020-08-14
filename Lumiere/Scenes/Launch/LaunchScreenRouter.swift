@@ -46,7 +46,7 @@ extension LaunchScreenRouter: ScreenTestingProtocol {
                                                                id: "1234",
                                                                image: nil,
                                                                name: "User Test",
-                                                               occupation: "Artist",
+                                                               ocupation: "Artist",
                                                                email: "user@hotmail.com",
                                                                phoneNumber: "(20) 2294-5711",
                                                                connectionsCount: "1020",

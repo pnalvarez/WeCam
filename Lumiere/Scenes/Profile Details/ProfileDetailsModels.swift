@@ -10,6 +10,8 @@ import ObjectMapper
 
 struct ProfileDetails {
     
+    static let bundle = Bundle(for: ProfileDetailsController.self)
+    
     struct Constants {
         
         struct Colors {
@@ -35,6 +37,13 @@ struct ProfileDetails {
             static let isConnection = UIImage(named: "icone-conexao-feita 1")
             static let pending = UIImage(named: "pendente 1")
             static let sent = UIImage(named: "icone-pendente 1")
+            static let logout = UIImage(named: "ajustar 1", in: ProfileDetails.bundle, compatibleWith: nil)
+            static let tabBarDefaultImage = UIImage(named: "perfil-antes-de-clicar 1",
+                                                    in: ProfileDetails.bundle,
+                                                    compatibleWith: nil)
+            static let tabBarSelectedImage = UIImage(named: "perfil-depois-de-clicar 1",
+                                                     in: ProfileDetails.bundle,
+                                                     compatibleWith: nil)
         }
         
         struct Texts {
@@ -50,38 +59,17 @@ struct ProfileDetails {
             case sent
             case pending
             case nothing
+            case logged
         }
         
         struct Received {
             
             struct User {
-                
-                init(connectionType: ConnectionType,
-                     id: String,
-                     image: String?,
-                     name: String,
-                     occupation: String,
-                     email: String,
-                     phoneNumber: String,
-                     connectionsCount: String,
-                     progressingProjectsIds: [String],
-                     finishedProjectsIds: [String]) {
-                    self.connectionType = connectionType
-                    self.id = id
-                    self.image = image
-                    self.name = name
-                    self.occupation = occupation
-                    self.email = email
-                    self.phoneNumber = phoneNumber
-                    self.connectionsCount = connectionsCount
-                    self.progressingProjectsIds = progressingProjectsIds
-                    self.finishedProjectsIds = finishedProjectsIds
-                }
                 var connectionType: ConnectionType
                 let id: String
                 let image: String?
                 let name: String
-                let occupation: String
+                let ocupation: String
                 let email: String
                 let phoneNumber: String
                 let connectionsCount: String
@@ -91,6 +79,11 @@ struct ProfileDetails {
         }
         
         struct Model{
+            
+            enum UserType {
+                case logged
+                case other
+            }
             
             struct User {
                 let connectionType: ConnectionType

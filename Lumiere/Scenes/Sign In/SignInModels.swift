@@ -51,6 +51,11 @@ struct SignIn {
         
         struct User {
             let id: String
+            let name: String
+            let email: String
+            let phoneNumber: String
+            let image: String?
+            let ocupation: String
         }
     }
     
@@ -59,11 +64,21 @@ struct SignIn {
         final class LoggedUser: Mappable {
             
             var id: String?
+            var name: String?
+            var email: String?
+            var phoneNumber: String?
+            var image: String?
+            var ocupation: String?
             
             init?(map: Map) { }
             
             func mapping(map: Map) {
                 id <- map["id"]
+                name <- map["name"]
+                email <- map["email"]
+                phoneNumber <- map["phone_number"]
+                image <- map["profile_image_url"]
+                ocupation <- map["professional_area"]
             }
         }
         

@@ -13,6 +13,7 @@ protocol ProfileDetailsPresentationLogic {
     func presentNewInteractionIcon(_ response: ProfileDetails.Info.Model.NewConnectionType)
     func presentAllConnections()
     func didEndRequest()
+    func presentInterfaceForLogged()
 }
 
 class ProfileDetailsPresenter: ProfileDetailsPresentationLogic {
@@ -36,6 +37,9 @@ class ProfileDetailsPresenter: ProfileDetailsPresentationLogic {
             break
         case .sent:
             connectionTypeImage = ProfileDetails.Constants.Images.sent
+            break
+        case .logged:
+            connectionTypeImage = ProfileDetails.Constants.Images.logout
             break
         case .nothing:
             connectionTypeImage = ProfileDetails.Constants.Images.addConnection
@@ -103,6 +107,9 @@ class ProfileDetailsPresenter: ProfileDetailsPresentationLogic {
         case .sent:
             image = ProfileDetails.Constants.Images.sent
             break
+        case .logged:
+            image = ProfileDetails.Constants.Images.logout
+            break
         case .nothing:
             image = ProfileDetails.Constants.Images.addConnection
         }
@@ -116,6 +123,10 @@ class ProfileDetailsPresenter: ProfileDetailsPresentationLogic {
     
     func didEndRequest() {
         viewController.displayEndRequest()
+    }
+    
+    func presentInterfaceForLogged() {
+        viewController.displayInterfaceForLogged()
     }
 }
 
