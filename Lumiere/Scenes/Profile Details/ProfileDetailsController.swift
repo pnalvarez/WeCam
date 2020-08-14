@@ -15,9 +15,20 @@ protocol ProfileDetailsDisplayLogic: class {
     func displayAllConnections()
     func displayEndRequest()
     func displayInterfaceForLogged()
+    func displayLoading(_ loading: Bool)
+    func displaySignOut()
 }
 
 class ProfileDetailsController: BaseViewController {
+    
+    private lazy var activityView: UIActivityIndicatorView = {
+        let view = UIActivityIndicatorView(frame: .zero)
+        view.color = ProfileDetails.Constants.Colors.activity
+        view.backgroundColor = ProfileDetails.Constants.Colors.activityBackground
+        view.startAnimating()
+        view.isHidden = true
+        return view
+    }()
     
     private lazy var backButton: UIButton = {
         let view = UIButton(frame: .zero)
@@ -133,5 +144,13 @@ extension ProfileDetailsController: ProfileDetailsDisplayLogic {
     
     func displayInterfaceForLogged() {
         backButton.isHidden = true
+    }
+    
+    func displayLoading(_ loading: Bool) {
+        activityView.isHidden = !loading
+    }
+    
+    func displaySignOut() {
+        router?.routeToSignIn()
     }
 }

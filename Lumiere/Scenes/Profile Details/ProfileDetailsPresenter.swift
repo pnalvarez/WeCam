@@ -14,6 +14,8 @@ protocol ProfileDetailsPresentationLogic {
     func presentAllConnections()
     func didEndRequest()
     func presentInterfaceForLogged()
+    func presentLoading(_ loading: Bool)
+    func didSignOut()
 }
 
 class ProfileDetailsPresenter: ProfileDetailsPresentationLogic {
@@ -127,6 +129,14 @@ class ProfileDetailsPresenter: ProfileDetailsPresentationLogic {
     
     func presentInterfaceForLogged() {
         viewController.displayInterfaceForLogged()
+    }
+    
+    func presentLoading(_ loading: Bool) {
+        viewController.displayLoading(loading)
+    }
+    
+    func didSignOut() {
+        viewController.displaySignOut()
     }
 }
 

@@ -12,6 +12,7 @@ typealias ProfileDetailsRouterProtocol = NSObject & ProfileDetailsRoutingLogic &
 protocol ProfileDetailsRoutingLogic {
     func routeBack()
     func routeToAllConnections()
+    func routeToSignIn()
 }
 
 protocol ProfileDetailsDataTransfer {
@@ -54,5 +55,9 @@ extension ProfileDetailsRouter: ProfileDetailsRoutingLogic {
         }
         transferDataToConnectionsList(from: dataStore, to: &destination)
         routeTo(nextVC: vc)
+    }
+    
+    func routeToSignIn() {
+        viewController?.navigationController?.navigationController?.popToRootViewController(animated: true)
     }
 }

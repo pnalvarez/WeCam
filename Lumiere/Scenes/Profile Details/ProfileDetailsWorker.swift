@@ -17,6 +17,8 @@ protocol ProfileDetailsWorkerProtocol {
                                     completion: @escaping (EmptyResponse) -> Void)
     func fetchAcceptConnection(_ request: ProfileDetails.Request.AcceptConnectionRequest,
                                completion: @escaping (EmptyResponse) -> Void)
+    func fetchSignOut(_ request: ProfileDetails.Request.SignOut,
+                      completion: @escaping (EmptyResponse) -> Void)
 }
 
 class ProfileDetailsWorker: ProfileDetailsWorkerProtocol {
@@ -53,6 +55,12 @@ class ProfileDetailsWorker: ProfileDetailsWorkerProtocol {
                                completion: @escaping (EmptyResponse) -> Void) {
         let headers: [String: Any] = ["userId": request.id]
         builder.fetchAcceptConnection(request: headers, completion: completion)
+    }
+    
+    func fetchSignOut(_ request: ProfileDetails.Request.SignOut,
+                      completion: @escaping (EmptyResponse) -> Void) {
+        let headers: [String : Any] = .empty
+        builder.fetchSignOut(request: headers, completion: completion)
     }
 }
 

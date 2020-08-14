@@ -57,6 +57,8 @@ protocol FirebaseAuthHelperProtocol {
                                            completion: @escaping (BaseResponse<[T]>) -> Void)
     func fetchRefusePendingConnection(request: [String: Any],
                                       completion: @escaping (EmptyResponse) -> Void)
+    func fetchSignOut(request: [String : Any],
+                      completion: @escaping (EmptyResponse) -> Void)
 }
 
 class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
@@ -967,6 +969,16 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                             }
                     }
             }
+        }
+    }
+    
+    func fetchSignOut(request: [String : Any],
+                      completion: @escaping (EmptyResponse) -> Void) {
+        do {
+            try authReference.signOut()
+            completion(.success)
+        } catch {
+            completion(.error(error))
         }
     }
 }

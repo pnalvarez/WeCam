@@ -21,6 +21,8 @@ struct ProfileDetails {
             static let ocupationLbl = UIColor(rgb: 0x000000)
             static let phoneNumberLbl = UIColor(rgb: 0x000000)
             static let allConnectionsButtonText = UIColor(rgb: 0xffffff)
+            static let activity = ThemeColors.mainRedColor.rawValue
+            static let activityBackground = UIColor(rgb: 0xffffff).withAlphaComponent(0.5)
         }
         
         struct Fonts {
@@ -195,6 +197,10 @@ struct ProfileDetails {
         
         struct AcceptConnectionRequest {
             let id: String
+        }
+        
+        struct SignOut {
+            
         }
     }
     

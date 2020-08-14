@@ -110,6 +110,20 @@ extension ProfileDetailsInteractor {
         }
     }
     
+    private func fetchSignOut() {
+        presenter.presentLoading(true)
+        worker.fetchSignOut(ProfileDetails.Request.SignOut()) { response in
+            switch response {
+            case .success:
+                self.presenter.presentLoading(false)
+                self.presenter.didSignOut()
+                break
+            case .error(let error):
+                self.presenter.presentLoading(false)
+            }
+        }
+    }
+    
     private func checkUserTypeModifications() {
         if let type = userData?.connectionType, type == .logged {
             presenter.presentInterfaceForLogged()
@@ -167,6 +181,8 @@ extension ProfileDetailsInteractor: ProfileDetailsBusinessLogic {
                 .Info
                 .Model
                 .NewConnectionType(connectionType: .logged))
+            fetchSignOut()
+            
         case .nothing:
             presenter.presentNewInteractionIcon(ProfileDetails
                 .Info
