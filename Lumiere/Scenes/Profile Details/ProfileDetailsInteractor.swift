@@ -131,7 +131,9 @@ extension ProfileDetailsInteractor: ProfileDetailsBusinessLogic {
                                                       progressingProjects: [],
                                                       finishedProjects: [])
         presenter.presentUserInfo(response)
-        presenter.presentInterfaceForLogged()
+        if userData?.connectionType == .logged {
+            presenter.presentInterfaceForLogged()
+        }
     }
     
     func fetchInteract(_ request: ProfileDetails.Request.AddConnection) {

@@ -81,7 +81,8 @@ extension SignInRouter: SignInRoutingLogic {
         transferDataToProfileDetails(from: source, to: &profileDetailsDataStore)
         
         let tabController = UITabBarController()
-        tabController.viewControllers = [notificationsVc, profileDetailsVc]
+        tabController.viewControllers = [UINavigationController(rootViewController: notificationsVc),
+                                         UINavigationController(rootViewController: profileDetailsVc)]
 //        let vc = HomeController()
 //        vc.viewControllers = [NotificationsController(), ProfileDetailsController()]
         /*******/
