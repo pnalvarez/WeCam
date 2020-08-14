@@ -61,13 +61,16 @@ class ConnectionsListTableViewCell: UITableViewCell {
     
     private var index: Int?
     private var viewModel: ConnectionsList.Info.ViewModel.Connection?
+    private var removeOptionActive: Bool?
     private weak var delegate: ConnectionsListTableViewCellDelegate?
     
     func setup(index: Int,
                viewModel: ConnectionsList.Info.ViewModel.Connection,
+               removeOptionActive: Bool,
                delegate: ConnectionsListTableViewCellDelegate? = nil) {
         self.index = index
         self.viewModel = viewModel
+        self.removeOptionActive = removeOptionActive
         self.delegate = delegate
         applyViewCode()
     }
@@ -119,5 +122,6 @@ extension ConnectionsListTableViewCell: ViewCodeProtocol {
         nameLbl.text = viewModel?.name
         ocupationLbl.text = viewModel?.ocupation
         photoImageView.sd_setImage(with: URL(string: viewModel?.image ?? .empty))
+        removeButton.isHidden = !(removeOptionActive ?? true)
     }
 }

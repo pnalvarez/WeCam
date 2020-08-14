@@ -45,7 +45,8 @@ extension ConnectionsListInteractor {
                                                                      name: connection.name ?? .empty,
                                                                      ocupation: connection.ocupation ?? .empty))
         }
-        self.connections = ConnectionsList.Info.Model.UserConnections(connections: connections)
+        self.connections = ConnectionsList.Info.Model.UserConnections(userType: .logged,
+                                                                      connections: connections)
     }
     
     private func buildUserProfileDetails(_ data: ConnectionsList.Info.Response.ProfileDetails, userId: String) {

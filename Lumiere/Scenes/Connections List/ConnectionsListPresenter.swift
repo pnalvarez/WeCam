@@ -50,6 +50,7 @@ extension ConnectionsListPresenter {
                                                                       ocupation: connection.ocupation)
             connections.append(viewModel)
         }
-        return ConnectionsList.Info.ViewModel.UpcomingConnections(connections: connections)
+        return ConnectionsList.Info.ViewModel.UpcomingConnections(removeOptionActive: model.userType == .logged,
+                                                                  connections: connections)
     }
 }

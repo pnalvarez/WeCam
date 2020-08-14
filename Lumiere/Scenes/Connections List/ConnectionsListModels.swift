@@ -53,16 +53,23 @@ struct ConnectionsList {
             struct User {
                 let id: String
                 let name: String
+                let userType: Model.UserType
             }
         }
         
         struct Model {
+            
+            enum UserType {
+                case logged
+                case other
+            }
             
             struct CurrentUser {
                 let name: String
             }
             
             struct UserConnections {
+                var userType: UserType
                 var connections: [Connection]
             }
             
@@ -99,6 +106,7 @@ struct ConnectionsList {
             }
             
             struct UpcomingConnections {
+                let removeOptionActive: Bool
                 let connections: [Connection]
             }
         }

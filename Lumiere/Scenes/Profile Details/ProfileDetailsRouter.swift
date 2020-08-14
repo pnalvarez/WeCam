@@ -29,7 +29,8 @@ class ProfileDetailsRouter: NSObject, ProfileDetailsDataTransfer {
         guard let name = source.userData?.name,
             let userId = source.userData?.id else { return }
         let data = ConnectionsList.Info.Received.User(id: userId,
-                                                      name: name)
+                                                      name: name,
+                                                      userType: source.userData?.connectionType == .logged ? .logged : .other)
         destination.userData = data
     }
 }

@@ -125,7 +125,8 @@ extension ConnectionsListController: UITableViewDataSource {
             return UITableViewCell()
         }
         cell.setup(index: indexPath.row,
-                   viewModel: viewModel)
+                   viewModel: viewModel,
+                   removeOptionActive: self.connectionsViewModel?.removeOptionActive ?? true)
         return cell
     }
     
