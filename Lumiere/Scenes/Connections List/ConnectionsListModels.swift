@@ -18,7 +18,7 @@ struct ConnectionsList {
             static let ocupationLbl = UIColor(rgb: 0x000000)
             static let background = UIColor(rgb: 0xffffff)
             static let removeButtonBackground = UIColor(rgb: 0xc4c4c4)
-            static let removeButtonLayer = UIColor(rgb: 0xe5dfdf).cgColor
+            static let removeButtonLayer = UIColor(rgb: 0xe50c3c).cgColor
             static let removeButtonText = UIColor(rgb: 0x000000)
             static let nameHeaderLbl = UIColor(rgb: 0x000000)
         }

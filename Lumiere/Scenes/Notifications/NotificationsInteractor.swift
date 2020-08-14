@@ -149,6 +149,8 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
             case .success:
                 self.presenter.presentLoading(false)
                 self.updateNotifications(without: fromUserId)
+                guard let notifications = self.notifications else { return }
+                self.presenter.presentNotifications(notifications)
                 self.presenter.didAcceptUser()
                 break
             case .error(let error):
