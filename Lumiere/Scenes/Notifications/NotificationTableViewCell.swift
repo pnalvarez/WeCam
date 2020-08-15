@@ -54,13 +54,6 @@ class NotificationTableViewCell: UITableViewCell {
         return view
     }()
     
-    private lazy var phoneNumberLbl: UILabel = {
-        let view = UILabel(frame: .zero)
-        view.font = Notifications.Constants.Fonts.phoneNumberLbl
-        view.textColor = Notifications.Constants.Colors.phoneNumberLbl
-        return view
-    }()
-    
     private lazy var notificationLbl: UILabel = {
         let view = UILabel(frame: .zero)
         view.font = Notifications.Constants.Fonts.notificationLbl
@@ -115,6 +108,13 @@ class NotificationTableViewCell: UITableViewCell {
         self.delegate = delegate
         applyViewCode()
     }
+    
+    func displayAnswer(_ answer: String) {
+        containerView.backgroundColor = Notifications.Constants.Colors.notificationCellAnsweredBackground
+        notificationLbl.text = "\(answer) \(viewModel?.name.components(separatedBy: String.space)[0] ?? .empty)"
+        yesButton.removeFromSuperview()
+        noButton.removeFromSuperview()
+    }
 }
 
 extension NotificationTableViewCell {
@@ -137,7 +137,6 @@ extension NotificationTableViewCell: ViewCodeProtocol {
         containerView.addSubview(nameLbl)
         containerView.addSubview(emailLbl)
         containerView.addSubview(ocupationLbl)
-        containerView.addSubview(phoneNumberLbl)
         containerView.addSubview(notificationLbl)
         containerView.addSubview(yesButton)
         containerView.addSubview(noButton)
@@ -171,14 +170,9 @@ extension NotificationTableViewCell: ViewCodeProtocol {
             make.left.equalTo(ocupationLbl)
             make.right.equalToSuperview()
         }
-        phoneNumberLbl.snp.makeConstraints { make in
-            make.top.equalTo(emailLbl.snp.bottom)
-            make.left.equalTo(emailLbl)
-            make.right.equalToSuperview()
-        }
         notificationLbl.snp.makeConstraints { make in
-            make.top.equalTo(phoneNumberLbl.snp.bottom).offset(5)
-            make.left.equalTo(phoneNumberLbl)
+            make.top.equalTo(emailLbl.snp.bottom).offset(19)
+            make.left.equalTo(emailLbl)
             make.width.equalTo(223)
         }
         yesButton.snp.makeConstraints { make in
@@ -200,7 +194,6 @@ extension NotificationTableViewCell: ViewCodeProtocol {
         nameLbl.text = viewModel?.name
         ocupationLbl.text = viewModel?.ocupation
         emailLbl.attributedText = viewModel?.email
-        phoneNumberLbl.text = viewModel?.phoneNumber
         notificationLbl.text = Notifications.Constants.Texts.connectNotificationText
         selectionStyle = .none
         guard let imageStr = viewModel?.image else { return }

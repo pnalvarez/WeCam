@@ -42,6 +42,7 @@ class ConnectionsListTableViewCell: UITableViewCell {
         let view = UIButton(frame: .zero)
         view.layer.cornerRadius = 2
         view.clipsToBounds = true
+        view.addTarget(self, action: #selector(didTapRemoveButton), for: .touchUpInside)
         view.backgroundColor = ConnectionsList.Constants.Colors.removeButtonBackground
         view.layer.borderWidth = 1
         view.layer.borderColor = ConnectionsList.Constants.Colors.removeButtonLayer

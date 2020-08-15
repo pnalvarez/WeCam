@@ -148,10 +148,9 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
             switch response {
             case .success:
                 self.presenter.presentLoading(false)
+                guard let index = self.notifications?.notifications.firstIndex(where: { $0.userId == fromUserId }) else { return }
                 self.updateNotifications(without: fromUserId)
-                guard let notifications = self.notifications else { return }
-                self.presenter.presentNotifications(notifications)
-                self.presenter.didAcceptUser()
+                self.presenter.presentAnsweredNotification(index: index, answer: .accepted)
                 break
             case .error(let error):
                 self.presenter.presentLoading(false)
@@ -171,9 +170,9 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
             switch response {
             case .success:
                 self.presenter.presentLoading(false)
+                guard let index = self.notifications?.notifications.firstIndex(where: { $0.userId == userId }) else { return }
                 self.updateNotifications(without: userId)
-                guard let notifications = self.notifications else { return }
-                self.presenter.presentNotifications(notifications)
+                self.presenter.presentAnsweredNotification(index: index, answer: .refused)
                 break
             case .error(let error):
                 self.presenter.presentLoading(false)

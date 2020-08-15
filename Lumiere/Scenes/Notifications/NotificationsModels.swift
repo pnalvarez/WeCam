@@ -18,7 +18,6 @@ struct Notifications {
             static let nameLbl = ThemeFonts.RobotoBold(16).rawValue
             static let ocupationLbl = ThemeFonts.RobotoRegular(15).rawValue
             static let emailLbl = ThemeFonts.RobotoRegular(15).rawValue
-            static let phoneNumberLbl = ThemeFonts.RobotoRegular(15).rawValue
             static let notificationLbl = ThemeFonts.RobotoBold(16).rawValue
             static let yesButtonLbl = ThemeFonts.RobotoBold(16).rawValue
             static let noButtonLbl = ThemeFonts.RobotoBold(16).rawValue
@@ -28,7 +27,6 @@ struct Notifications {
             static let nameLbl = UIColor(rgb: 0x000000)
             static let ocupationLbl = UIColor(rgb: 0x000000)
             static let emailLbl = UIColor(rgb: 0x000000)
-            static let phoneNumberLbl = UIColor(rgb: 0x000000)
             static let notificationLbl = UIColor(rgb: 0x000000)
             static let yesButtonText = UIColor(rgb: 0x000000)
             static let noButtonText = UIColor(rgb: 0x000000)
@@ -43,6 +41,7 @@ struct Notifications {
             static let activityBackground = UIColor.white.withAlphaComponent(0.5)
             static let notificationCellBackground = UIColor(rgb: 0xffffff)
             static let notificationCellLayer = UIColor(rgb: 0xe0e0e0).cgColor
+            static let notificationCellAnsweredBackground = UIColor(rgb: 0xededed)
         }
         
         struct Texts {
@@ -52,6 +51,8 @@ struct Notifications {
             static let noButton = "Não"
             static let yesButton = "Sim"
             static let error = "Ocorreu um erro ao tentar apresentar as notificações"
+            static let acceptedConnection = "Você agora está conectado a"
+            static let refusedConnection = "Você recusou se conectar a"
         }
         
         struct Dimensions {
@@ -81,6 +82,11 @@ struct Notifications {
         }
         
         struct Model {
+            
+            enum NotificationAnswer {
+                case accepted
+                case refused
+            }
             
             enum NotificationType {
                 case connection
@@ -124,6 +130,11 @@ struct Notifications {
         
         struct ViewModel {
             
+            struct NotificationAnswer {
+                let index: Int
+                let text: String
+            }
+            
             struct UpcomingNotifications {
                 var notifications: [Notification]
             }
@@ -134,7 +145,6 @@ struct Notifications {
                 let name: String
                 let ocupation: String
                 let email: NSAttributedString
-                let phoneNumber: String
             }
             
             struct NotificationError {

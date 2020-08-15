@@ -13,6 +13,8 @@ protocol NotificationsPresentationLogic {
     func presentNotifications(_ response: Notifications.Info.Model.UpcomingNotifications)
     func didFetchUserData()
     func didAcceptUser()
+    func presentAnsweredNotification(index: Int,
+                                     answer: Notifications.Info.Model.NotificationAnswer)
 }
 
 class NotificationsPresenter: NotificationsPresentationLogic {
@@ -52,8 +54,7 @@ class NotificationsPresenter: NotificationsPresentationLogic {
                                                             .emailLbl,
                                                                      NSAttributedString.Key.foregroundColor:
                                                                         Notifications.Constants.Colors.emailLbl,
-                                                                     NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue]),
-                              phoneNumber: "(11) 1111-1111")
+                                                                     NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue]))
             viewModel.notifications.append(upcomingNotification)
         }
         viewController.displayNotificationns(viewModel)
@@ -65,6 +66,22 @@ class NotificationsPresenter: NotificationsPresentationLogic {
     
     func didAcceptUser() {
         
+    }
+    
+    func presentAnsweredNotification(index: Int,
+                                     answer: Notifications.Info.Model.NotificationAnswer) {
+        var viewModel: Notifications.Info.ViewModel.NotificationAnswer
+        switch answer {
+        case .accepted:
+            viewModel = Notifications.Info.ViewModel.NotificationAnswer(index: index,
+                                                                        text: Notifications.Constants.Texts.acceptedConnection)
+            break
+        case .refused:
+            viewModel = Notifications.Info.ViewModel.NotificationAnswer(index: index,
+                                                                        text: Notifications.Constants.Texts.refusedConnection)
+            break
+        }
+        viewController.displayNotificationAnswer(viewModel)
     }
 }
 

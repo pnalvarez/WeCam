@@ -13,6 +13,7 @@ protocol NotificationsDisplayLogic: class {
     func displayError(_ viewModel: Notifications.Info.ViewModel.NotificationError)
     func displayNotificationns(_ viewModel: Notifications.Info.ViewModel.UpcomingNotifications)
     func displaySelectedUser()
+    func displayNotificationAnswer(_ viewModel: Notifications.Info.ViewModel.NotificationAnswer)
 }
 
 class NotificationsController: BaseViewController {
@@ -155,5 +156,11 @@ extension  NotificationsController: NotificationsDisplayLogic {
     
     func displaySelectedUser() {
         router?.routeToProfileDetails()
+    }
+    
+    func displayNotificationAnswer(_ viewModel: Notifications.Info.ViewModel.NotificationAnswer) {
+        let cell = tableView.cellForRow(at: IndexPath(row: viewModel.index, section: 0),
+                                        type: NotificationTableViewCell.self)
+        cell.displayAnswer(viewModel.text)
     }
 }

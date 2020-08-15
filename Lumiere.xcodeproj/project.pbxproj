@@ -23,6 +23,7 @@
 		3F6EEA3D24E0A6B10075C500 /* ConnectionsListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6EEA3C24E0A6B10075C500 /* ConnectionsListTableViewCell.swift */; };
 		3F6EEA6F24E5D7550075C500 /* Dictionary+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6EEA6E24E5D7550075C500 /* Dictionary+.swift */; };
 		3F6EEA7124E5DEEC0075C500 /* UITabBar+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6EEA7024E5DEEC0075C500 /* UITabBar+.swift */; };
+		3F6EEA7324E870AD0075C500 /* InfopListReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6EEA7224E870AD0075C500 /* InfopListReader.swift */; };
 		3F8116DE24B6AB620083A3DA /* ReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8116DD24B6AB620083A3DA /* ReusableView.swift */; };
 		3F8116E024B6ABEE0083A3DA /* UICollectionView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8116DF24B6ABEE0083A3DA /* UICollectionView+.swift */; };
 		3F8D136724D0ED0D00AED7EB /* SignInInteractor+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D136624D0ED0D00AED7EB /* SignInInteractor+Tests.swift */; };
@@ -53,12 +54,8 @@
 		3F8D13A324D65FCD00AED7EB /* GetConnectNotificationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D13A224D65FCD00AED7EB /* GetConnectNotificationRequest.swift */; };
 		3F8D13A524D73C2600AED7EB /* Array+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D13A424D73C2600AED7EB /* Array+.swift */; };
 		3F8D13A724D73F5E00AED7EB /* FetchUserDataRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D13A624D73F5E00AED7EB /* FetchUserDataRequest.swift */; };
-		3F8D13AA24D73FA000AED7EB /* UserDataResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D13A924D73FA000AED7EB /* UserDataResponse.swift */; };
 		3F8D13AC24D7466A00AED7EB /* FetchCurrentUserIdRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D13AB24D7466A00AED7EB /* FetchCurrentUserIdRequest.swift */; };
-		3F8D13AE24D746B100AED7EB /* CurrentUserIdResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D13AD24D746B100AED7EB /* CurrentUserIdResponse.swift */; };
-		3F8D13B024D74E1600AED7EB /* GetUserConnectNotificationsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D13AF24D74E1600AED7EB /* GetUserConnectNotificationsResponse.swift */; };
 		3F8D13B224D750F900AED7EB /* SaveNotificationsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D13B124D750F900AED7EB /* SaveNotificationsRequest.swift */; };
-		3F8D13B424D753AD00AED7EB /* AddConnectNotificationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D13B324D753AD00AED7EB /* AddConnectNotificationResponse.swift */; };
 		3F8D13B724D75A2700AED7EB /* ProfileDetailsInteractor+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D13B624D75A2700AED7EB /* ProfileDetailsInteractor+Tests.swift */; };
 		3F8D13B924D75A3400AED7EB /* ProfileDetailsPresenter+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D13B824D75A3400AED7EB /* ProfileDetailsPresenter+Tests.swift */; };
 		3F8D13BC24D75A4F00AED7EB /* ProfileDetailsWorkerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D13BB24D75A4F00AED7EB /* ProfileDetailsWorkerMock.swift */; };
@@ -172,6 +169,7 @@
 		3F6EEA3C24E0A6B10075C500 /* ConnectionsListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsListTableViewCell.swift; sourceTree = "<group>"; };
 		3F6EEA6E24E5D7550075C500 /* Dictionary+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+.swift"; sourceTree = "<group>"; };
 		3F6EEA7024E5DEEC0075C500 /* UITabBar+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITabBar+.swift"; sourceTree = "<group>"; };
+		3F6EEA7224E870AD0075C500 /* InfopListReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfopListReader.swift; sourceTree = "<group>"; };
 		3F8116DD24B6AB620083A3DA /* ReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableView.swift; sourceTree = "<group>"; };
 		3F8116DF24B6ABEE0083A3DA /* UICollectionView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+.swift"; sourceTree = "<group>"; };
 		3F8D136624D0ED0D00AED7EB /* SignInInteractor+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SignInInteractor+Tests.swift"; sourceTree = "<group>"; };
@@ -202,12 +200,8 @@
 		3F8D13A224D65FCD00AED7EB /* GetConnectNotificationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetConnectNotificationRequest.swift; sourceTree = "<group>"; };
 		3F8D13A424D73C2600AED7EB /* Array+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+.swift"; sourceTree = "<group>"; };
 		3F8D13A624D73F5E00AED7EB /* FetchUserDataRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchUserDataRequest.swift; sourceTree = "<group>"; };
-		3F8D13A924D73FA000AED7EB /* UserDataResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataResponse.swift; sourceTree = "<group>"; };
 		3F8D13AB24D7466A00AED7EB /* FetchCurrentUserIdRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchCurrentUserIdRequest.swift; sourceTree = "<group>"; };
-		3F8D13AD24D746B100AED7EB /* CurrentUserIdResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserIdResponse.swift; sourceTree = "<group>"; };
-		3F8D13AF24D74E1600AED7EB /* GetUserConnectNotificationsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetUserConnectNotificationsResponse.swift; sourceTree = "<group>"; };
 		3F8D13B124D750F900AED7EB /* SaveNotificationsRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveNotificationsRequest.swift; sourceTree = "<group>"; };
-		3F8D13B324D753AD00AED7EB /* AddConnectNotificationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddConnectNotificationResponse.swift; sourceTree = "<group>"; };
 		3F8D13B624D75A2700AED7EB /* ProfileDetailsInteractor+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProfileDetailsInteractor+Tests.swift"; sourceTree = "<group>"; };
 		3F8D13B824D75A3400AED7EB /* ProfileDetailsPresenter+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProfileDetailsPresenter+Tests.swift"; sourceTree = "<group>"; };
 		3F8D13BB24D75A4F00AED7EB /* ProfileDetailsWorkerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailsWorkerMock.swift; sourceTree = "<group>"; };
@@ -505,10 +499,6 @@
 		3F8D13A824D73F8800AED7EB /* Backend Responses */ = {
 			isa = PBXGroup;
 			children = (
-				3F8D13A924D73FA000AED7EB /* UserDataResponse.swift */,
-				3F8D13AD24D746B100AED7EB /* CurrentUserIdResponse.swift */,
-				3F8D13AF24D74E1600AED7EB /* GetUserConnectNotificationsResponse.swift */,
-				3F8D13B324D753AD00AED7EB /* AddConnectNotificationResponse.swift */,
 				3F8D13C924DCCD2100AED7EB /* BaseResponse.swift */,
 			);
 			path = "Backend Responses";
@@ -637,6 +627,7 @@
 			isa = PBXGroup;
 			children = (
 				3FE8DF5724C7BEE2005DE30D /* Constants.swift */,
+				3F6EEA7224E870AD0075C500 /* InfopListReader.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -1106,6 +1097,7 @@
 				3FE8DF4824C529C7005DE30D /* InProgressDetailsProjectView.swift in Sources */,
 				3F8D139B24D53B5C00AED7EB /* NotificationsWorker.swift in Sources */,
 				3F8D139724D53AA300AED7EB /* NotificationsController.swift in Sources */,
+				3F6EEA7324E870AD0075C500 /* InfopListReader.swift in Sources */,
 				3F95786424AD77E200B79818 /* LaunchScreenRouter.swift in Sources */,
 				3F9578D724B01A0600B79818 /* MovieStyle.swift in Sources */,
 				3F9578CE24B0197F00B79818 /* SignUpProvider.swift in Sources */,
@@ -1115,7 +1107,6 @@
 				3F9578D924B01E8F00B79818 /* SignUpCollectionViewCell.swift in Sources */,
 				3F6EEA3924E0A3A50075C500 /* ConnectionsListRouter.swift in Sources */,
 				3F8D138E24D5364000AED7EB /* ProfileDetailsWorker.swift in Sources */,
-				3F8D13B424D753AD00AED7EB /* AddConnectNotificationResponse.swift in Sources */,
 				3F8D13A124D53C4400AED7EB /* NotificationsModels.swift in Sources */,
 				3F9578C824B0196300B79818 /* SignUpController.swift in Sources */,
 				3F95786A24AEA07100B79818 /* LaunchScreenInteractor.swift in Sources */,
@@ -1134,12 +1125,9 @@
 				3F6EEA3D24E0A6B10075C500 /* ConnectionsListTableViewCell.swift in Sources */,
 				3F8D13BE24D789EF00AED7EB /* UITableView+.swift in Sources */,
 				3F9578DB24B0240C00B79818 /* String+.swift in Sources */,
-				3F8D13AE24D746B100AED7EB /* CurrentUserIdResponse.swift in Sources */,
 				3F9578CA24B0196C00B79818 /* SignUpInteractor.swift in Sources */,
 				3F8D139224D5365700AED7EB /* ProfileDetailsModels.swift in Sources */,
-				3F8D13AA24D73FA000AED7EB /* UserDataResponse.swift in Sources */,
 				3F9578CC24B0197500B79818 /* SignUpPresenter.swift in Sources */,
-				3F8D13B024D74E1600AED7EB /* GetUserConnectNotificationsResponse.swift in Sources */,
 				3F6EEA3524E0A38E0075C500 /* ConnectionsListPresenter.swift in Sources */,
 				3F95787F24AEB09900B79818 /* UIColor+.swift in Sources */,
 			);

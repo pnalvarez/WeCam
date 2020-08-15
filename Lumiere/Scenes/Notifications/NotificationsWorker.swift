@@ -31,32 +31,34 @@ class NotificationsWorker: NotificationsWorkerProtocol {
     func fetchNotifications(_ request: Notifications.Request.FetchNotifications,
                             completion: @escaping (BaseResponse<Array<Notifications.Response.ConnectNotification>>) -> Void) {
         let newRequest = GetConnectNotificationRequest(userId: request.userId)
-        builder.fetchUserConnectNotifications(request: newRequest, completion: completion)
+        builder.fetchUserConnectNotifications(request: newRequest,
+                                              completion: completion)
     }
     
     func fetchUserData(_ request: Notifications.Request.FetchUserData,
                        completion: @escaping (BaseResponse<Notifications.Response.User>) -> Void) {
-        builder.fetchUserData(request: ["userId": request.userId], completion: completion)
+        builder.fetchUserData(request: ["userId": request.userId],
+                              completion: completion)
     }
 
     func fetchConnectUsers(_ request: Notifications.Request.ConnectUsers,
                            completion: @escaping (EmptyResponse) -> Void) {
-        let newRequest = ConnectUsersRequest(fromUserId: request.fromUserId,
-                                             toUserId: request.toUserId)
-        builder.fetchConnectUsers(request: newRequest,
-                                  completion: completion)
+        builder.fetchAcceptConnection(request: ["userId": request.fromUserId],
+                                      completion: completion)
     }
     
     func fetchUserRelation(_ request: Notifications.Request.UserRelation,
                            completion: @escaping (BaseResponse<Notifications.Response.Relation>) -> Void) {
         let newRequest = FetchUserRelationRequest(fromUserId: request.fromUserId,
                                                   toUserId: request.toUserId)
-        builder.fetchUserRelation(request: newRequest, completion: completion)
+        builder.fetchUserRelation(request: newRequest,
+                                  completion: completion)
     }
     
     func fetchRemovePendingNotification(_ request: Notifications.Request.RemovePendingNotification,
                                         completion: @escaping (EmptyResponse) -> Void) {
         let headers: [String : Any] = ["userId": request.userId]
-        builder.fetchRefusePendingConnection(request: headers, completion: completion)
+        builder.fetchRefusePendingConnection(request: headers,
+                                             completion: completion)
     }
 }

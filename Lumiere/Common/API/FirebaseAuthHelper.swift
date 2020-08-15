@@ -36,7 +36,7 @@ protocol FirebaseAuthHelperProtocol {
                                        completion: @escaping (BaseResponse<T>) -> Void)
     func fetchUserData<T: Mappable>(request: [String : Any],
                        completion: @escaping (BaseResponse<T>) -> Void)
-    func fetchConnectUsers(request: ConnectUsersRequest,
+    func fetchConnectUsers(request: [String : Any],
                            completion: @escaping (EmptyResponse) -> Void)
 //    func fetchDeleteNotification(request: ConnectUsersRequest,
 //                                 completion: @escaping (EmptyResponse) -> Void)
@@ -281,18 +281,20 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
     
     //MARK: **** Mehod name: fetchConnectUsers
     //This method takes to user ids and connect each other in the database
-    func fetchConnectUsers(request: ConnectUsersRequest,
+    func fetchConnectUsers(request: [String : Any],
                            completion: @escaping (EmptyResponse) -> Void) {
-        let fromUserConnections = realtimeDB
-                                    .child(Constants.usersPath)
-                                    .child(request.fromUserId)
-        let toUserConnections = realtimeDB
-                                .child(Constants.usersPath)
-                                .child(request.toUserId)
+        if let fromUserId = request["fromUserId"] as? String,
+            let toUserId = request["toUserId"] as? String {
+                let fromUserConnections = realtimeDB
+                                            .child(Constants.usersPath)
+                                            .child(fromUserId)
+                let toUserConnections = realtimeDB
+                                        .child(Constants.usersPath)
+                                        .child(toUserId)
         
-        fromUserConnections.child("connections").observeSingleEvent(of: .value) { snapshot in
-            if snapshot.value is NSNull {
-                fromUserConnections.updateChildValues(["connections": [request.toUserId],
+                fromUserConnections.child("connections").observeSingleEvent(of: .value) { snapshot in
+                        if snapshot.value is NSNull {
+                                fromUserConnections.updateChildValues(["connections": [toUserId],
                                                        "connections_count": 1]) { error, ref in
                     if let error = error {
                         completion(.error(error))
@@ -301,7 +303,7 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                 }
                 toUserConnections.child("connections").observeSingleEvent(of: .value) { snapshot in
                     if snapshot.value is NSNull {
-                        toUserConnections.updateChildValues(["connections" : [request.fromUserId],
+                        toUserConnections.updateChildValues(["connections" : [fromUserId],
                                                              "connections_count": 1]) { error, ref in
                             if let error = error {
                                 completion(.error(error))
@@ -312,8 +314,8 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                         }
                     }
                     else if var connections = snapshot.value as? Array<Any> {
-                        connections.append(request.fromUserId)
-                        toUserConnections.updateChildValues(["connections": [request.fromUserId],
+                        connections.append(fromUserId)
+                        toUserConnections.updateChildValues(["connections": [fromUserId],
                                                              "connections_count": 1]) { error, ref in
                             if let error = error {
                                 completion(.error(error))
@@ -326,7 +328,7 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                 }
             }
             else if var connections = snapshot.value as? Array<Any> {
-                connections.append(request.toUserId)
+                connections.append(toUserId)
                 fromUserConnections.updateChildValues(["connections": connections,
                                                        "connections_count": connections.count]) { error, ref in
                     if let error = error {
@@ -336,7 +338,7 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                 }
                 toUserConnections.child("connections").observeSingleEvent(of: .value) { snapshot in
                     if snapshot.value is NSNull {
-                        toUserConnections.updateChildValues(["connections" : [request.fromUserId],
+                        toUserConnections.updateChildValues(["connections" : [fromUserId],
                                                              "connections_count": 1 ]) { error, ref in
                             if let error = error {
                                 completion(.error(error))
@@ -347,7 +349,7 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                         }
                     }
                     else if var connections = snapshot.value as? Array<Any> {
-                        connections.append(request.fromUserId)
+                        connections.append(fromUserId)
                         toUserConnections.updateChildValues(["connections": connections,
                                                              "connections_count": connections.count]) { error, ref in
                             if let error = error {
@@ -364,7 +366,10 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                 completion(.error(FirebaseErrors.genericError))
             }
         }
-    }
+        } else {
+            completion(.error(FirebaseErrors.genericError))
+        }
+}
     
 //    func fetchDeleteNotification(request: ConnectUsersRequest,
 //                                 completion: @escaping (EmptyResponse) -> Void) {
@@ -799,9 +804,8 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                                                 self.mutex = true
                                                 return
                                             }
-                                            self.fetchConnectUsers(request: ConnectUsersRequest(
-                                                fromUserId: userId,
-                                                toUserId: currentUserId)) { response in
+                                            self.fetchConnectUsers(request: ["fromUserId": userId,
+                                                                             "toUserId": currentUserId]) { response in
                                                     switch response {
                                                     case .success:
                                                         completion(.success)

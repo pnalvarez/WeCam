@@ -71,5 +71,7 @@
 		<string>Roboto-Thin.ttf</string>
 		<string>Roboto.Black.ttf</string>
 	</array>
+	<key>Send Mocked Notification</key>
+	<true/>
 </dict>
 </plist>
