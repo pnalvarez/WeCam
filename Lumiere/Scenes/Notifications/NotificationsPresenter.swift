@@ -12,7 +12,6 @@ protocol NotificationsPresentationLogic {
     func presentError(_ response: String)
     func presentNotifications(_ response: Notifications.Info.Model.UpcomingNotifications)
     func didFetchUserData()
-    func didAcceptUser()
     func presentAnsweredNotification(index: Int,
                                      answer: Notifications.Info.Model.NotificationAnswer)
 }
@@ -62,10 +61,6 @@ class NotificationsPresenter: NotificationsPresentationLogic {
     
     func didFetchUserData() {
         viewController.displaySelectedUser()
-    }
-    
-    func didAcceptUser() {
-        
     }
     
     func presentAnsweredNotification(index: Int,

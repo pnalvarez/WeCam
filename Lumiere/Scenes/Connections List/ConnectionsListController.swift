@@ -99,7 +99,9 @@ class ConnectionsListController: BaseViewController {
 extension ConnectionsListController: ConnectionsListTableViewCellDelegate {
     
     func didTapRemoveButton(index: Int?) {
-        guard let index = index else { return }
+        guard let index = index else {
+            return
+        }
         interactor?.fetchRemoveConnection(ConnectionsList.Request.FetchRemoveConnection(index: index))
     }
 }
@@ -126,7 +128,8 @@ extension ConnectionsListController: UITableViewDataSource {
         }
         cell.setup(index: indexPath.row,
                    viewModel: viewModel,
-                   removeOptionActive: self.connectionsViewModel?.removeOptionActive ?? true)
+                   removeOptionActive: self.connectionsViewModel?.removeOptionActive ?? true,
+                   delegate: self)
         return cell
     }
     
