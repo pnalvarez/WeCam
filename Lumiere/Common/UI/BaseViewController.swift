@@ -17,7 +17,9 @@ class BaseViewController: UIViewController {
         super.viewDidLoad()
         navigationItem.backBarButtonItem = UIBarButtonItem(image: backButtonImage, style: .plain, target: nil, action: nil)
         navigationItem.titleView = UIImageView(image: titleViewImage)
-        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTap)))
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(didTap))
+        gesture.cancelsTouchesInView = false
+        view.addGestureRecognizer(gesture)
     }
 }
 
