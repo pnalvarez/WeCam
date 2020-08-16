@@ -10,6 +10,7 @@ import UIKit
 
 class SignInView: UIView {
     
+    private unowned var loadingView: LoadingView
     private unowned var emailTextField: UITextField
     private unowned var passwordTextField: UITextField
     private unowned var enterButton: UIButton
@@ -26,12 +27,14 @@ class SignInView: UIView {
     }()
     
     init(frame: CGRect,
+         loadingView: LoadingView,
          emailTextField: UITextField,
          passwordTextField: UITextField,
          enterButton: UIButton,
          forgetButton: UIButton,
          signUpButton: UIButton,
          activityView: UIActivityIndicatorView) {
+        self.loadingView = loadingView
         self.emailTextField = emailTextField
         self.passwordTextField = passwordTextField
         self.enterButton = enterButton
@@ -58,6 +61,7 @@ extension SignInView: ViewCodeProtocol {
         addSubview(topLogoImageView)
         addSubview(bottomLogoImageView)
         addSubview(activityView)
+        addSubview(loadingView)
     }
     
     func setupConstraints() {
@@ -100,6 +104,9 @@ extension SignInView: ViewCodeProtocol {
             make.centerX.equalToSuperview()
         }
         activityView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        loadingView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
     }

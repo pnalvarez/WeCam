@@ -18,6 +18,12 @@ protocol SignInDisplayLogic: class {
 
 class SignInController: BaseViewController {
     
+    private lazy var loadingView: LoadingView = {
+        let view = LoadingView(frame: .zero)
+        view.isHidden = true
+        return view
+    }()
+    
     private lazy var emailTextField: UITextField = {
         let view = UITextField(frame: .zero)
         view.delegate = self
@@ -57,6 +63,7 @@ class SignInController: BaseViewController {
 
     private lazy var mainView: SignInView = {
         return SignInView(frame: .zero,
+                          loadingView: loadingView,
                           emailTextField: emailTextField,
                           passwordTextField: passwordTextField,
                           enterButton: enterButton,
@@ -125,6 +132,8 @@ extension SignInController: SignInDisplayLogic {
     
     func displayLoading(_ loading: Bool) {
         activityView.isHidden = !loading
+        loadingView.isHidden = !loading
+        loadingView.animateRotate()
     }
     
     func displayServerError(_ viewModel: SignIn.ViewModel.SignInError) {

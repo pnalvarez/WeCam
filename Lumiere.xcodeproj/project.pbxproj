@@ -13,6 +13,7 @@
 		3F0CAA6624CCE41D005E2558 /* SignInRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0CAA6524CCE41D005E2558 /* SignInRequest.swift */; };
 		3F1158AD24C3F04200075C73 /* TeamMemberCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1158AC24C3F04200075C73 /* TeamMemberCollectionViewCell.swift */; };
 		3F1158AF24C3F0EC00075C73 /* TeamMemberViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1158AE24C3F0EC00075C73 /* TeamMemberViewModel.swift */; };
+		3F40A60B24E9CA4D00261161 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A60A24E9CA4D00261161 /* LoadingView.swift */; };
 		3F43311E24E8E8B90082825E /* ConfirmationAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F43311D24E8E8B90082825E /* ConfirmationAlertView.swift */; };
 		3F6EEA2F24E0A3680075C500 /* ConnectionsListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6EEA2E24E0A3680075C500 /* ConnectionsListController.swift */; };
 		3F6EEA3124E0A3720075C500 /* ConnectionsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6EEA3024E0A3720075C500 /* ConnectionsListView.swift */; };
@@ -162,6 +163,7 @@
 		3F0CAA6524CCE41D005E2558 /* SignInRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInRequest.swift; sourceTree = "<group>"; };
 		3F1158AC24C3F04200075C73 /* TeamMemberCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamMemberCollectionViewCell.swift; sourceTree = "<group>"; };
 		3F1158AE24C3F0EC00075C73 /* TeamMemberViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamMemberViewModel.swift; sourceTree = "<group>"; };
+		3F40A60A24E9CA4D00261161 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		3F43311D24E8E8B90082825E /* ConfirmationAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationAlertView.swift; sourceTree = "<group>"; };
 		3F6EEA2E24E0A3680075C500 /* ConnectionsListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsListController.swift; sourceTree = "<group>"; };
 		3F6EEA3024E0A3720075C500 /* ConnectionsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsListView.swift; sourceTree = "<group>"; };
@@ -643,6 +645,7 @@
 				3F9578DC24B0314D00B79818 /* BaseViewController.swift */,
 				3F6EEA7624E8D1CE0075C500 /* EmptyListView.swift */,
 				3F43311D24E8E8B90082825E /* ConfirmationAlertView.swift */,
+				3F40A60A24E9CA4D00261161 /* LoadingView.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -1095,6 +1098,7 @@
 				3F95786C24AEA0CF00B79818 /* LaunchScreenPresenter.swift in Sources */,
 				3F8D13C624D8F5A100AED7EB /* URL+.swift in Sources */,
 				3F0CAA6424CCE118005E2558 /* SaveUserInfoRequest.swift in Sources */,
+				3F40A60B24E9CA4D00261161 /* LoadingView.swift in Sources */,
 				3F8D13A324D65FCD00AED7EB /* GetConnectNotificationRequest.swift in Sources */,
 				3FE8DF4124C3F738005DE30D /* ThemeFonts.swift in Sources */,
 				3F9578D224B0198F00B79818 /* SignUpModels.swift in Sources */,
