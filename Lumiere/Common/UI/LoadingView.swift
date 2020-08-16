@@ -15,7 +15,7 @@ class LoadingView: UIView {
     
     private lazy var movieImageView: UIImageView = {
         let view = UIImageView(frame: .zero)
-        view.contentMode = .scaleToFill
+        view.contentMode = .scaleAspectFit
         view.image = movieLogo
         return view
     }()
@@ -35,6 +35,12 @@ class LoadingView: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        movieImageView.layer.cornerRadius = movieImageView.frame.height / 2
+        movieImageView.clipsToBounds = true
     }
 
     func animateRotate() {
