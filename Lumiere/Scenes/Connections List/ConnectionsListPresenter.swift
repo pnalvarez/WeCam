@@ -11,6 +11,7 @@ protocol ConnectionsListPresentationLogic {
     func presentConnectionList(_ response: ConnectionsList.Info.Model.UserConnections)
     func presentLoading(_ loading: Bool)
     func presentProfileDetails()
+    func presentError(_ response: ConnectionsList.Errors.Model)
 }
 
 class ConnectionsListPresenter: ConnectionsListPresentationLogic {
@@ -52,5 +53,9 @@ extension ConnectionsListPresenter {
         }
         return ConnectionsList.Info.ViewModel.UpcomingConnections(removeOptionActive: model.userType == .logged,
                                                                   connections: connections)
+    }
+    
+    func presentError(_ response: ConnectionsList.Errors.Model) {
+        viewController.displayError(ConnectionsList.Errors.ViewModel(description: response.error.localizedDescription))
     }
 }

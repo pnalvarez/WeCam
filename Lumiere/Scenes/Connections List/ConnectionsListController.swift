@@ -12,6 +12,7 @@ protocol ConnectionsListDisplayLogic: class {
     func displayConnections(_ viewModel: ConnectionsList.Info.ViewModel.UpcomingConnections)
     func displayLoading(_ loading: Bool)
     func displayProfileDetails()
+    func displayError(_ viewModel: ConnectionsList.Errors.ViewModel)
 }
 
 class ConnectionsListController: BaseViewController {
@@ -171,5 +172,11 @@ extension ConnectionsListController: ConnectionsListDisplayLogic {
     
     func displayProfileDetails() {
         router?.routeToProfileDetails()
+    }
+    
+    func displayError(_ viewModel: ConnectionsList.Errors.ViewModel) {
+        UIAlertController.displayAlert(in: self,
+                                       title: ConnectionsList.Constants.Texts.error,
+                                       message: viewModel.description)
     }
 }

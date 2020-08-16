@@ -77,6 +77,7 @@ extension ConnectionsListInteractor: ConnectionsListBusinessLogic {
                 break
             case .error(let error):
                 self.presenter.presentLoading(false)
+                self.presenter.presentError(ConnectionsList.Errors.Model(error: error))
                 break
             }
         }
@@ -101,6 +102,7 @@ extension ConnectionsListInteractor: ConnectionsListBusinessLogic {
                     break
                 case .error(let error):
                     self.presenter.presentLoading(false)
+                    self.presenter.presentError(ConnectionsList.Errors.Model(error: error))
                     break
                 }
         }
@@ -120,7 +122,8 @@ extension ConnectionsListInteractor: ConnectionsListBusinessLogic {
                     self.presenter.presentConnectionList(connections)
                     break
                 case .error(let error):
-                    self.presenter.presentLoading(false)
+                    self.presenter.presentLoading(false) 
+                    self.presenter.presentError(ConnectionsList.Errors.Model(error: error))
                     break
                 }
         }

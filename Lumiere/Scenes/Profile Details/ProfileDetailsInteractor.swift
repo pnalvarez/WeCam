@@ -120,6 +120,7 @@ extension ProfileDetailsInteractor {
                 break
             case .error(let error):
                 self.presenter.presentLoading(false)
+                self.presenter.presentError(ProfileDetails.Errors.ProfileDetailsError(description: error.localizedDescription))
             }
         }
     }

@@ -32,6 +32,7 @@ struct ConnectionsList {
         
         struct Texts {
             static let removeButton = "Remover"
+            static let error = "Erro"
         }
         
         struct Dimensions {
@@ -186,5 +187,12 @@ struct ConnectionsList {
     
     struct Errors {
         
+        struct Model {
+            let error: Error
+        }
+        
+        struct ViewModel {
+            let description: String
+        }
     }
 }
