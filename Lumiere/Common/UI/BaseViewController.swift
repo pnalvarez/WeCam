@@ -17,6 +17,15 @@ class BaseViewController: UIViewController {
         super.viewDidLoad()
         navigationItem.backBarButtonItem = UIBarButtonItem(image: backButtonImage, style: .plain, target: nil, action: nil)
         navigationItem.titleView = UIImageView(image: titleViewImage)
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTap)))
+    }
+}
+
+extension BaseViewController {
+    
+    @objc
+    private func didTap() {
+        view.endEditing(true)
     }
 }
 

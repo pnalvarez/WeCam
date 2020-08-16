@@ -143,11 +143,6 @@ class SignUpController: BaseViewController {
         viewController.interactor = interactor
         router.dataStore = interactor
     }
-    
-//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        super.touchesBegan(touches, with: event)
-//        view.endEditing(true)
-//    }
 }
 
 extension SignUpController {
