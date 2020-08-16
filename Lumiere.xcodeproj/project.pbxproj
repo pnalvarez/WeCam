@@ -25,6 +25,7 @@
 		3F6EEA7124E5DEEC0075C500 /* UITabBar+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6EEA7024E5DEEC0075C500 /* UITabBar+.swift */; };
 		3F6EEA7324E870AD0075C500 /* InfopListReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6EEA7224E870AD0075C500 /* InfopListReader.swift */; };
 		3F6EEA7524E87EE10075C500 /* UIAlertController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6EEA7424E87EE10075C500 /* UIAlertController+.swift */; };
+		3F6EEA7724E8D1CE0075C500 /* EmptyListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6EEA7624E8D1CE0075C500 /* EmptyListView.swift */; };
 		3F8116DE24B6AB620083A3DA /* ReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8116DD24B6AB620083A3DA /* ReusableView.swift */; };
 		3F8116E024B6ABEE0083A3DA /* UICollectionView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8116DF24B6ABEE0083A3DA /* UICollectionView+.swift */; };
 		3F8D136724D0ED0D00AED7EB /* SignInInteractor+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D136624D0ED0D00AED7EB /* SignInInteractor+Tests.swift */; };
@@ -172,6 +173,7 @@
 		3F6EEA7024E5DEEC0075C500 /* UITabBar+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITabBar+.swift"; sourceTree = "<group>"; };
 		3F6EEA7224E870AD0075C500 /* InfopListReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfopListReader.swift; sourceTree = "<group>"; };
 		3F6EEA7424E87EE10075C500 /* UIAlertController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+.swift"; sourceTree = "<group>"; };
+		3F6EEA7624E8D1CE0075C500 /* EmptyListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyListView.swift; sourceTree = "<group>"; };
 		3F8116DD24B6AB620083A3DA /* ReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableView.swift; sourceTree = "<group>"; };
 		3F8116DF24B6ABEE0083A3DA /* UICollectionView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+.swift"; sourceTree = "<group>"; };
 		3F8D136624D0ED0D00AED7EB /* SignInInteractor+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SignInInteractor+Tests.swift"; sourceTree = "<group>"; };
@@ -621,6 +623,7 @@
 				3F1158A824C3EFF300075C73 /* Cells */,
 				3F9578D324B019BE00B79818 /* MovieStyleButton.swift */,
 				3F9578DC24B0314D00B79818 /* BaseViewController.swift */,
+				3F6EEA7624E8D1CE0075C500 /* EmptyListView.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -1088,6 +1091,7 @@
 				3FE8DF5A24CBD271005DE30D /* UIView+.swift in Sources */,
 				3F95786124AD775D00B79818 /* LaunchScreenController.swift in Sources */,
 				3F95787B24AEA4EA00B79818 /* SignInModels.swift in Sources */,
+				3F6EEA7724E8D1CE0075C500 /* EmptyListView.swift in Sources */,
 				3F6EEA7524E87EE10075C500 /* UIAlertController+.swift in Sources */,
 				3F9578D024B0198700B79818 /* SignUpRouter.swift in Sources */,
 				3F8D139D24D53B7B00AED7EB /* NotificationsPresenter.swift in Sources */,

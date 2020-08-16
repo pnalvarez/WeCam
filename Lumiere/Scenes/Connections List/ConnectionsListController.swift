@@ -40,6 +40,7 @@ class ConnectionsListController: BaseViewController {
         view.separatorStyle = .none
         view.assignProtocols(to: self)
         view.registerCell(cellType: ConnectionsListTableViewCell.self)
+        view.backgroundView = EmptyListView(frame: .zero, text: "Você ainda não possui conexões!")
         return view
     }()
     
