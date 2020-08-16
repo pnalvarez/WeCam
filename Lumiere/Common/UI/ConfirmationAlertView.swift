@@ -76,12 +76,12 @@ class ConfirmationAlertView: UIView {
         applyViewCode()
     }
     
-    func setupText(_ text: String) {
-        self.text = text
-    }
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setupText(_ text: String) {
+        self.text = text
     }
 }
 

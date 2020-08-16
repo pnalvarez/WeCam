@@ -139,10 +139,12 @@ extension ProfileDetailsController: ConfirmationAlertViewDelegate {
     func didTapAccept() {
         interactor?.fetchConfirmInteraction(ProfileDetails.Request.ConfirmInteraction())
         mainView.hideConfirmationView()
+        tabBarController?.tabBar.isHidden = false
     }
     
     func didTapRefuse() {
         mainView.hideConfirmationView()
+        tabBarController?.tabBar.isHidden = false
     }
 }
 
@@ -184,6 +186,7 @@ extension ProfileDetailsController: ProfileDetailsDisplayLogic {
     }
     
     func displayConfirmation(_ viewModel: ProfileDetails.Info.ViewModel.InteractionConfirmation) {
+        tabBarController?.tabBar.isHidden = true
         mainView.displayConfirmationView(withText: viewModel.text)
     }
 }
