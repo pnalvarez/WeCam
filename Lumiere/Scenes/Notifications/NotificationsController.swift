@@ -143,11 +143,7 @@ extension  NotificationsController: NotificationsDisplayLogic {
     }
     
     func displayError(_ viewModel: Notifications.Info.ViewModel.NotificationError) {
-        let alertController = UIAlertController(title: "Erro",
-                                                message: viewModel.description,
-                                                preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-        present(alertController, animated: true, completion: nil)
+        UIAlertController.displayAlert(in: self, title: "Erro", message: viewModel.description)
     }
     
     func displayNotificationns(_ viewModel: Notifications.Info.ViewModel.UpcomingNotifications) {

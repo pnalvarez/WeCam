@@ -129,17 +129,12 @@ extension SignInController: SignInDisplayLogic {
     }
     
     func displayServerError(_ viewModel: SignIn.ViewModel.SignInError) {
-        let alertController = UIAlertController(title: "Erro de Login", message: viewModel.description, preferredStyle: .alert)
-        let defaultAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
-        alertController.addAction(defaultAction)
-        present(alertController, animated: true, completion: nil)
+        UIAlertController.displayAlert(in: self, title: "Erro de Login", message: viewModel.description)
     }
     
     func displayEmailError(_ viewModel: SignIn.ViewModel.SignInError) {
-        let alertController = UIAlertController(title: "Erro ao inserir dados", message: viewModel.description, preferredStyle: .alert)
-        let defaultAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
-        alertController.addAction(defaultAction)
-        present(alertController, animated: true, completion: nil)
+        UIAlertController.displayAlert(in: self, title: "Erro ao inserir dados",
+                                       message: viewModel.description)
         emailTextField.layer.borderWidth = 1
         emailTextField.layer.borderColor = UIColor.red.cgColor
         guard let text = passwordTextField.text, !text.isEmpty else {
@@ -152,10 +147,7 @@ extension SignInController: SignInDisplayLogic {
     }
     
     func displaypasswordError(_ viewModel: SignIn.ViewModel.SignInError) {
-        let alertController = UIAlertController(title: "Erro ao inserir dados", message: viewModel.description, preferredStyle: .alert)
-        let defaultAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
-        alertController.addAction(defaultAction)
-        present(alertController, animated: true, completion: nil)
+        UIAlertController.displayAlert(in: self, title: "Erro ao inserir dados", message: viewModel.description)
         passwordTextField.layer.borderWidth = 1
         passwordTextField.layer.borderColor = UIColor.red.cgColor
         emailTextField.layer.borderWidth = 0

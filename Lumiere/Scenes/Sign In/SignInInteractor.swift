@@ -64,7 +64,8 @@ extension SignInInteractor: SignInBusinessRules {
                                                      email: data.email ?? .empty,
                                                      phoneNumber: data.phoneNumber ?? .empty,
                                                      image: data.image,
-                                                     ocupation: data.ocupation ?? .empty)
+                                                     ocupation: data.ocupation ?? .empty,
+                                                     connectionsCount: data.connectionsCount ?? .empty)
                 self.presenter.didFetchSuccessLogin()
                 break
             case .error(let error):

@@ -56,6 +56,7 @@ struct SignIn {
             let phoneNumber: String
             let image: String?
             let ocupation: String
+            let connectionsCount: String
         }
     }
     
@@ -69,6 +70,7 @@ struct SignIn {
             var phoneNumber: String?
             var image: String?
             var ocupation: String?
+            var connectionsCount: String?
             
             init?(map: Map) { }
             
@@ -79,6 +81,7 @@ struct SignIn {
                 phoneNumber <- map["phone_number"]
                 image <- map["profile_image_url"]
                 ocupation <- map["professional_area"]
+                connectionsCount <- map["connections_count"]
             }
         }
         

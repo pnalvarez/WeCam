@@ -35,6 +35,10 @@ struct SignUp {
             static let cathegories = "Categorias de Interesse"
             static let signUpButton = "Cadastrar"
             static let genericError = "Ocorreu um erro genérico ao tentar cadastrar"
+            static let unmatchError = "Senha e Confirmação não conferem"
+            static let signUpError = "Erro no Cadastro"
+            static let signUpSuccess = "Cadastro Efetivado com Sucesso"
+            static let successMessage = "Usuário foi cadastrado com sucesso em nosso banco de dados"
         }
         
         struct Dimensions {

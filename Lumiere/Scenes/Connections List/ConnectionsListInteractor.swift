@@ -108,16 +108,19 @@ extension ConnectionsListInteractor: ConnectionsListBusinessLogic {
     
     func fetchRemoveConnection(_ request: ConnectionsList.Request.FetchRemoveConnection) {
         guard let userId = connections?.connections[request.index].userId else { return }
+        presenter.presentLoading(true)
         worker.fetchRemoveConnection(ConnectionsList
             .Request
             .FetchRemoveConnectionWithId(userId: userId)) { response in
                 switch response {
                 case .success:
+                    self.presenter.presentLoading(false)
                     self.connections?.connections.removeAll(where: { $0.userId == userId })
                     guard let connections = self.connections else { return }
                     self.presenter.presentConnectionList(connections)
                     break
                 case .error(let error):
+                    self.presenter.presentLoading(false)
                     break
                 }
         }

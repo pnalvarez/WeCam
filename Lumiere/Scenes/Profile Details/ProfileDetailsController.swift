@@ -120,14 +120,10 @@ extension ProfileDetailsController: ProfileDetailsDisplayLogic {
     }
     
     func displayError(_ viewModel: String) {
-        let alertController = UIAlertController(title: ProfileDetails
-            .Constants
-            .Texts
-            .addConnectionError,
-                                                message: viewModel,
-                                                preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-        present(alertController, animated: true, completion: nil)
+        UIAlertController.displayAlert(in: self, title: ProfileDetails
+        .Constants
+        .Texts
+        .addConnectionError, message: viewModel)
     }
     
     func displayNewConnectionType(_ viewModel: ProfileDetails.Info.ViewModel.NewConnectionType) {

@@ -109,7 +109,6 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                                                       "phone_number": request.phoneNumber,
                                                       "professional_area": request.professionalArea,
                                                       "interest_cathegories": request.interestCathegories,
-                                                      "connections_count": 0,
                                                       "connect_notifications": [],
                                                       "project_notifications": [],
                                                       "author_notifications": []]
@@ -222,6 +221,11 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                                 completion(.error(FirebaseErrors.genericError))
                                 return
                             }
+                            if let connections = loggedUser["connections"] as? Array<Any> {
+                                loggedUser["connections_count"] = "\(connections.count)"
+                            } else {
+                                loggedUser["connections_count"] = "0"
+                            }
                             loggedUser["id"] = userId
                             guard let signInResponse = Mapper<T>().map(JSON: loggedUser) else {
                                 completion(.error(FirebaseErrors.genericError))
@@ -294,8 +298,7 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
         
                 fromUserConnections.child("connections").observeSingleEvent(of: .value) { snapshot in
                         if snapshot.value is NSNull {
-                                fromUserConnections.updateChildValues(["connections": [toUserId],
-                                                       "connections_count": 1]) { error, ref in
+                                fromUserConnections.updateChildValues(["connections": [toUserId]]) { error, ref in
                     if let error = error {
                         completion(.error(error))
                         return
@@ -303,8 +306,7 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                 }
                 toUserConnections.child("connections").observeSingleEvent(of: .value) { snapshot in
                     if snapshot.value is NSNull {
-                        toUserConnections.updateChildValues(["connections" : [fromUserId],
-                                                             "connections_count": 1]) { error, ref in
+                        toUserConnections.updateChildValues(["connections" : [fromUserId]]) { error, ref in
                             if let error = error {
                                 completion(.error(error))
                                 return
@@ -315,8 +317,7 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                     }
                     else if var connections = snapshot.value as? Array<Any> {
                         connections.append(fromUserId)
-                        toUserConnections.updateChildValues(["connections": [fromUserId],
-                                                             "connections_count": 1]) { error, ref in
+                        toUserConnections.updateChildValues(["connections": [fromUserId]]) { error, ref in
                             if let error = error {
                                 completion(.error(error))
                                 return
@@ -329,8 +330,7 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
             }
             else if var connections = snapshot.value as? Array<Any> {
                 connections.append(toUserId)
-                fromUserConnections.updateChildValues(["connections": connections,
-                                                       "connections_count": connections.count]) { error, ref in
+                fromUserConnections.updateChildValues(["connections": connections]) { error, ref in
                     if let error = error {
                         completion(.error(error))
                         return
@@ -338,8 +338,7 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                 }
                 toUserConnections.child("connections").observeSingleEvent(of: .value) { snapshot in
                     if snapshot.value is NSNull {
-                        toUserConnections.updateChildValues(["connections" : [fromUserId],
-                                                             "connections_count": 1 ]) { error, ref in
+                        toUserConnections.updateChildValues(["connections" : [fromUserId]]) { error, ref in
                             if let error = error {
                                 completion(.error(error))
                                 return
@@ -350,8 +349,7 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                     }
                     else if var connections = snapshot.value as? Array<Any> {
                         connections.append(fromUserId)
-                        toUserConnections.updateChildValues(["connections": connections,
-                                                             "connections_count": connections.count]) { error, ref in
+                        toUserConnections.updateChildValues(["connections": connections]) { error, ref in
                             if let error = error {
                                 completion(.error(error))
                                 return
@@ -477,49 +475,33 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                                 self.mutex = true
                                 return
                             }
-                            self.realtimeDB
+                           self.realtimeDB
                                 .child(Constants.usersPath)
-                                .child(userId).updateChildValues(["connections_count": connections.count]) { error, ref in
+                                .child(currentUserId)
+                                .child("connections")
+                                .observeSingleEvent(of: .value) { snapshot in
+                                    guard var connections = snapshot.value as? Array<Any> else {
+                                        completion(.error(FirebaseErrors.genericError))
+                                        self.mutex = true
+                                        return
+                                    }
+                                    connections.removeAll(where: { connection in
+                                        if let id = connection as? String {
+                                            return id == userId
+                                        }
+                                        return false
+                                    })
                                     self.realtimeDB
                                         .child(Constants.usersPath)
                                         .child(currentUserId)
-                                        .child("connections")
-                                        .observeSingleEvent(of: .value) { snapshot in
-                                            guard var connections = snapshot.value as? Array<Any> else {
-                                                completion(.error(FirebaseErrors.genericError))
+                                        .updateChildValues(["connections": connections]) { error, ref in
+                                            if let error = error {
+                                                completion(.error(error))
                                                 self.mutex = true
                                                 return
                                             }
-                                            connections.removeAll(where: { connection in
-                                                if let id = connection as? String {
-                                                    return id == userId
-                                                }
-                                                return false
-                                            })
-                                            self.realtimeDB
-                                                .child(Constants.usersPath)
-                                                .child(currentUserId)
-                                                .updateChildValues(["connections": connections]) { error, ref in
-                                                    if let error = error {
-                                                        completion(.error(error))
-                                                        self.mutex = true
-                                                        return
-                                                    }
-                                                    self.realtimeDB
-                                                        .child(Constants.usersPath)
-                                                        .child(currentUserId).updateChildValues(["connections_count": connections.count]) { error, ref in
-                                                            if let error = error {
-                                                                completion(.error(error))
-                                                                self.mutex = true
-                                                                return
-                                                            }
-                                                            completion(.success)
-                                                            self.mutex = true
-                                                            return
-                                                    }
-                                            }
+                                            completion(.success)
                                     }
-                                    
                             }
                     }
             }

@@ -281,16 +281,14 @@ extension SignUpController: SignUpDisplayLogic {
     }
     
     func displayInformationError(_ viewModel: SignUp.Info.ViewModel.Error) {
-        let alertController = UIAlertController(title: "Erro no cadastro", message: viewModel.description, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-        present(alertController, animated: true, completion: nil)
+        UIAlertController.displayAlert(in: self, title: SignUp.Constants.Texts.signUpError,
+                                       message: viewModel.description)
         mainView.updateAllTextFields()
     }
     
     func displayConfirmationMatchError() {
-        let alertController = UIAlertController(title: "Erro no cadastro", message: "Senha e confirmação não conferem", preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-        present(alertController, animated: true, completion: nil)
+        UIAlertController.displayAlert(in: self, title: SignUp.Constants.Texts.signUpError,
+                                       message: SignUp.Constants.Texts.unmatchError)
         mainView.displayUnmatchedFields()
     }
     

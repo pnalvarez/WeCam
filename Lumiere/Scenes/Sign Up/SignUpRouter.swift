@@ -45,22 +45,17 @@ extension SignUpRouter: SignUpRoutingLogic {
     
     func routeBackSuccess() {
         guard let navigationController = viewController?.navigationController else { return }
-        let alertController = UIAlertController(title: "Cadastro efetivado", message: "Usuário foi cadastrado com sucesso em nosso banco de dados", preferredStyle: .alert)
-        let defaultAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
-//        viewController?.navigationController?.popViewController(animated: true)
-        alertController.addAction(defaultAction)
         navigationController.popViewController(animated: true)
-        navigationController.present(alertController, animated: true, completion: nil)
+        UIAlertController.displayAlert(in: navigationController,
+                                       title: SignUp.Constants.Texts.signUpSuccess,
+                                       message: SignUp.Constants.Texts.successMessage)
     }
     
     func routeBack(withError error: SignUp.Info.ViewModel.Error) {
         guard let navigationController = viewController?.navigationController else { return }
-        let alertController = UIAlertController(title: "Erro no Cadastro",
-                                                message: error.description,
-                                                preferredStyle: .alert)
-        let defaultAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
-        alertController.addAction(defaultAction)
         navigationController.popViewController(animated: true)
-        navigationController.present(alertController, animated: true, completion: nil)
+        UIAlertController.displayAlert(in: navigationController,
+                                       title: SignUp.Constants.Texts.signUpError,
+                                       message: error.description)
     }
 }

@@ -39,7 +39,7 @@ class SignInRouter: NSObject, SignInDataTransfer {
                                                                  ocupation: loggedUser.ocupation,
                                                                  email: loggedUser.email,
                                                                  phoneNumber: loggedUser.phoneNumber,
-                                                                 connectionsCount: "10",
+                                                                 connectionsCount: loggedUser.connectionsCount,
                                                                  progressingProjectsIds: [],
                                                                  finishedProjectsIds: [])
     }
