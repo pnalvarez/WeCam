@@ -165,6 +165,8 @@ extension  NotificationsController: NotificationsDisplayLogic {
     
     func displayNotificationns(_ viewModel: Notifications.Info.ViewModel.UpcomingNotifications) {
         refreshHeader.endRefreshing()
+        tableView.backgroundView = viewModel.notifications.isEmpty ? EmptyListView(frame: .zero,
+                                                                                   text: Notifications.Constants.Texts.emptyNotifications) : nil
         self.viewModel = viewModel
     }
     

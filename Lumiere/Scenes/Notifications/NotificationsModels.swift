@@ -53,6 +53,7 @@ struct Notifications {
             static let error = "Ocorreu um erro ao tentar apresentar as notificações"
             static let acceptedConnection = "Você agora está conectado a"
             static let refusedConnection = "Você recusou se conectar a"
+            static let emptyNotifications = "Você não possui notificações"
         }
         
         struct Dimensions {

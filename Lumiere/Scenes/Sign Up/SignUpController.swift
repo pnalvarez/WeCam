@@ -28,6 +28,7 @@ class SignUpController: BaseViewController {
     private lazy var imageButton: UIButton = {
         let view = UIButton(frame: .zero)
         view.addTarget(self, action: #selector(didTapImageButton), for: .touchUpInside)
+        view.setImage(SignUp.Constants.Images.camera, for: .normal)
         return view
     }()
     

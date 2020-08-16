@@ -11,6 +11,8 @@ import FirebaseAuth
 
 struct SignUp {
     
+    static let bundle = Bundle(for: SignUpController.self)
+    
     struct Constants {
         struct Colors {
             static let backgroundColor = UIColor(rgb: 0xffffff)
@@ -54,8 +56,15 @@ struct SignUp {
         }
         
         struct Images {
-            static let titleHeaderIcon = UIImage(named: "tipografia-projeto 2")
-            static let backButton = UIImage(named: "voltar 1")
+            static let titleHeaderIcon = UIImage(named: "tipografia-projeto 2",
+                                                 in: SignUp.bundle,
+                                                 compatibleWith: nil)
+            static let backButton = UIImage(named: "voltar 1",
+                                            in: SignUp.bundle,
+                                            compatibleWith: nil)
+            static let camera = UIImage(named: "photo 1",
+                                        in: SignUp.bundle,
+                                        compatibleWith: nil)
         }
     }
     
