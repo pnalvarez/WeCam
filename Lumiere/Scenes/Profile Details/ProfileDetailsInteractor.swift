@@ -10,7 +10,8 @@ import ObjectMapper
 protocol ProfileDetailsBusinessLogic {
     func fetchUserData(_ request: ProfileDetails.Request.UserData)
     func fetchInteract(_ request: ProfileDetails.Request.AddConnection)
-    func fetchAllConnections(_ reques: ProfileDetails.Request.AllConnections)
+    func fetchAllConnections(_ request: ProfileDetails.Request.AllConnections)
+    func fetchConfirmInteraction(_ request: ProfileDetails.Request.ConfirmInteraction)
 }
 
 protocol ProfileDetailsDataStore {
@@ -155,6 +156,25 @@ extension ProfileDetailsInteractor: ProfileDetailsBusinessLogic {
         guard let connectionType = userData?.connectionType else {
             return
         }
+        guard connectionType != .nothing else {
+            presenter.presentNewInteractionIcon(ProfileDetails
+                .Info
+                .Model
+                .NewConnectionType(connectionType: .pending))
+            fetchSendConnectionRequest()
+            return
+        }
+        presenter.presentConfirmationAlert(ProfileDetails.Info.Model.IneractionConfirmation(connectionType: connectionType))
+    }
+    
+    func fetchAllConnections(_ request: ProfileDetails.Request.AllConnections) {
+        presenter.presentAllConnections()
+    }
+    
+    func fetchConfirmInteraction(_ request: ProfileDetails.Request.ConfirmInteraction) {
+        guard let connectionType = userData?.connectionType else {
+            return
+        }
         switch connectionType {
         case .contact:
             presenter.presentNewInteractionIcon(ProfileDetails
@@ -183,19 +203,10 @@ extension ProfileDetailsInteractor: ProfileDetailsBusinessLogic {
                 .Model
                 .NewConnectionType(connectionType: .logged))
             fetchSignOut()
-            
+            break
         case .nothing:
-            presenter.presentNewInteractionIcon(ProfileDetails
-                .Info
-                .Model
-                .NewConnectionType(connectionType: .pending))
-            fetchSendConnectionRequest()
             break
         }
-    }
-    
-    func fetchAllConnections(_ reques: ProfileDetails.Request.AllConnections) {
-        presenter.presentAllConnections()
     }
 }
 

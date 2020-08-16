@@ -17,9 +17,16 @@ protocol ProfileDetailsDisplayLogic: class {
     func displayInterfaceForLogged()
     func displayLoading(_ loading: Bool)
     func displaySignOut()
+    func displayConfirmation(_ viewModel: ProfileDetails.Info.ViewModel.InteractionConfirmation)
 }
 
 class ProfileDetailsController: BaseViewController {
+    
+    private lazy var confirmationAlertView: ConfirmationAlertView = {
+        let view = ConfirmationAlertView(frame: .zero,
+                                         delegate: self)
+        return view
+    }()
     
     private lazy var translucentView: UIView = {
         let view = UIView(frame: .zero)
@@ -62,6 +69,7 @@ class ProfileDetailsController: BaseViewController {
     
     private lazy var mainView: ProfileDetailsView = {
         let view = ProfileDetailsView(frame: .zero,
+                                      confirmationAlertView: confirmationAlertView,
                                       translucentView: translucentView,
                                       backButton: backButton,
                                       addConnectionButton: addConnectionButton,
@@ -119,6 +127,23 @@ extension ProfileDetailsController {
     private func didTapAllConnectionsButton() {
         interactor?.fetchAllConnections(ProfileDetails.Request.AllConnections())
     }
+    
+    @objc
+    private func didSwipeConfirmationAlertView() {
+        mainView.hideConfirmationView()
+    }
+}
+
+extension ProfileDetailsController: ConfirmationAlertViewDelegate {
+    
+    func didTapAccept() {
+        interactor?.fetchConfirmInteraction(ProfileDetails.Request.ConfirmInteraction())
+        mainView.hideConfirmationView()
+    }
+    
+    func didTapRefuse() {
+        mainView.hideConfirmationView()
+    }
 }
 
 extension ProfileDetailsController: ProfileDetailsDisplayLogic {
@@ -156,5 +181,9 @@ extension ProfileDetailsController: ProfileDetailsDisplayLogic {
     
     func displaySignOut() {
         router?.routeToSignIn()
+    }
+    
+    func displayConfirmation(_ viewModel: ProfileDetails.Info.ViewModel.InteractionConfirmation) {
+        mainView.displayConfirmationView(withText: viewModel.text)
     }
 }

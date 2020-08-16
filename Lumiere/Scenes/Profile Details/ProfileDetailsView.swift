@@ -10,6 +10,7 @@ import UIKit
 
 class ProfileDetailsView: UIView {
     
+    private unowned var confirmationAlertView: ConfirmationAlertView
     private unowned var translucentView: UIView
     private unowned var backButton: UIButton
     private unowned var addConnectionButton: UIButton
@@ -54,10 +55,12 @@ class ProfileDetailsView: UIView {
     private var viewModel: ProfileDetails.Info.ViewModel.User?
     
     init(frame: CGRect,
+         confirmationAlertView: ConfirmationAlertView,
          translucentView: UIView,
          backButton: UIButton,
          addConnectionButton: UIButton,
          allConnectionsButton: UIButton) {
+        self.confirmationAlertView = confirmationAlertView
         self.translucentView = translucentView
         self.backButton = backButton
         self.addConnectionButton = addConnectionButton
@@ -73,6 +76,29 @@ class ProfileDetailsView: UIView {
         self.viewModel = viewModel
         applyViewCode()
     }
+    
+    func displayConfirmationView(withText text: String) {
+        UIView.animate(withDuration: 0.2, animations: {
+            self.confirmationAlertView.setupText(text)
+            self.translucentView.isHidden = false
+            self.confirmationAlertView.snp.remakeConstraints { make in
+                make.top.equalTo(self.translucentView.snp.centerY)
+                make.size.equalTo(self.translucentView)
+            }
+            self.layoutIfNeeded()
+        })
+    }
+    
+    func hideConfirmationView() {
+        UIView.animate(withDuration: 0.2, animations: {
+            self.translucentView.isHidden = true
+            self.confirmationAlertView.snp.remakeConstraints { make in
+                make.top.equalTo(self.translucentView.snp.bottom)
+                make.size.equalTo(self.translucentView)
+            }
+            self.layoutIfNeeded()
+        })
+    }
 }
 
 extension ProfileDetailsView: ViewCodeProtocol {
@@ -87,9 +113,14 @@ extension ProfileDetailsView: ViewCodeProtocol {
         addSubview(addConnectionButton)
         addSubview(allConnectionsButton)
         addSubview(translucentView)
+        addSubview(confirmationAlertView)
     }
     
     func setupConstraints() {
+        confirmationAlertView.snp.makeConstraints { make in
+            make.top.equalTo(translucentView.snp.bottom)
+            make.size.equalTo(translucentView)
+        }
         translucentView.snp.makeConstraints{ make in
             make.edges.equalToSuperview()
         }

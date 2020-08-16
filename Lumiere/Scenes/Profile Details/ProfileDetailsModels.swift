@@ -88,6 +88,10 @@ struct ProfileDetails {
                 case other
             }
             
+            struct IneractionConfirmation {
+                let connectionType: ConnectionType
+            }
+            
             struct User {
                 let connectionType: ConnectionType
                 let id: String
@@ -140,6 +144,10 @@ struct ProfileDetails {
             
             struct NewConnectionType {
                 let image: UIImage?
+            }
+            
+            struct InteractionConfirmation {
+                let text: String
             }
         }
     }
@@ -201,6 +209,10 @@ struct ProfileDetails {
         }
         
         struct SignOut {
+            
+        }
+        
+        struct ConfirmInteraction {
             
         }
     }

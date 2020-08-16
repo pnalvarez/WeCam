@@ -60,16 +60,24 @@ class ConfirmationAlertView: UIView {
     }()
     
     private weak var delegate: ConfirmationAlertViewDelegate?
-    private var text: String
+    
+    private var text: String {
+        didSet {
+            confirmationLbl.text = text
+        }
+    }
 
     init(frame: CGRect,
          delegate: ConfirmationAlertViewDelegate? = nil,
-         text: String) {
+         text: String = .empty) {
         self.delegate = delegate
         self.text = text
         super.init(frame: frame)
         applyViewCode()
-        
+    }
+    
+    func setupText(_ text: String) {
+        self.text = text
     }
     
     required init?(coder: NSCoder) {

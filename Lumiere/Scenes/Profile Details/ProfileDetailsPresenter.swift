@@ -16,6 +16,7 @@ protocol ProfileDetailsPresentationLogic {
     func presentInterfaceForLogged()
     func presentLoading(_ loading: Bool)
     func didSignOut()
+    func presentConfirmationAlert(_ response: ProfileDetails.Info.Model.IneractionConfirmation)
 }
 
 class ProfileDetailsPresenter: ProfileDetailsPresentationLogic {
@@ -137,6 +138,27 @@ class ProfileDetailsPresenter: ProfileDetailsPresentationLogic {
     
     func didSignOut() {
         viewController.displaySignOut()
+    }
+    
+    func presentConfirmationAlert(_ response: ProfileDetails.Info.Model.IneractionConfirmation) {
+        var viewModel: ProfileDetails.Info.ViewModel.InteractionConfirmation
+        switch response.connectionType {
+        case .contact:
+            viewModel = ProfileDetails.Info.ViewModel.InteractionConfirmation(text: "Tem certeza que deseja remover esta conexão?")
+            break
+        case .pending:
+            viewModel = ProfileDetails.Info.ViewModel.InteractionConfirmation(text: "Tem certeza que deseja remover esta solicitação")
+            break
+        case .nothing:
+             viewModel = ProfileDetails.Info.ViewModel.InteractionConfirmation(text: "Tem certeza que deseja recusar este usuário?")
+            break
+        case .sent:
+            viewModel = ProfileDetails.Info.ViewModel.InteractionConfirmation(text: "Tem certeza que deseja recusar este usuário?")
+            break
+        case .logged:
+            viewModel = ProfileDetails.Info.ViewModel.InteractionConfirmation(text: "Tem certeza que deseja sair?")
+        }
+        viewController.displayConfirmation(viewModel)
     }
 }
 
