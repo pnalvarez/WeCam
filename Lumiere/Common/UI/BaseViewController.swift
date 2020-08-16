@@ -19,3 +19,11 @@ class BaseViewController: UIViewController {
         navigationItem.titleView = UIImageView(image: titleViewImage)
     }
 }
+
+extension BaseViewController: UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+}

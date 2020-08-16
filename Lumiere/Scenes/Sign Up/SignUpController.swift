@@ -32,27 +32,40 @@ class SignUpController: BaseViewController {
     }()
     
     private lazy var nameTextField: UITextField = {
-        return UITextField(frame: .zero)
+        let view = UITextField(frame: .zero)
+        view.delegate = self
+        view.addTarget(self, action: #selector(didEndTextField(_:)), for: .primaryActionTriggered)
+        return view
     }()
     
     private lazy var cellphoneTextField: UITextField = {
-        return UITextField(frame: .zero)
+        let view = UITextField(frame: .zero)
+        view.delegate = self
+        return view
     }()
     
     private lazy var emailTextField: UITextField = {
-        return UITextField(frame: .zero)
+        let view = UITextField(frame: .zero)
+        view.delegate = self
+        return view
     }()
     
     private lazy var passwordTextField: UITextField = {
-        return UITextField(frame: .zero)
+        let view = UITextField(frame: .zero)
+        view.delegate = self
+        return view
     }()
     
     private lazy var confirmTextField: UITextField = {
-        return UITextField(frame: .zero)
+        let view = UITextField(frame: .zero)
+        view.delegate = self
+        return view
     }()
     
     private lazy var professionalTextField: UITextField = {
-        return UITextField(frame: .zero)
+       let view = UITextField(frame: .zero)
+        view.delegate = self
+        return view
     }()
 
     private lazy var collectionView: UICollectionView = {
@@ -76,11 +89,8 @@ class SignUpController: BaseViewController {
     }()
     
     private lazy var mainView: SignUpView = {
-        let frame = CGRect(x: 0,
-                           y: 0,
-                           width: view.frame.width,
-                           height: SignUp.Constants.Dimensions.mainViewHeight)
-        return SignUpView(frame: frame,
+
+        return SignUpView(frame: .zero,
                           backButton: backButton,
                           imageButton: imageButton,
                           nameTextField: nameTextField,
@@ -124,11 +134,6 @@ class SignUpController: BaseViewController {
         view = mainView
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesBegan(touches, with: event)
-        view.endEditing(true)
-    }
-    
     private func setup() {
         let viewController = self
         let interactor = SignUpInteractor(viewController: viewController)
@@ -138,9 +143,14 @@ class SignUpController: BaseViewController {
         viewController.interactor = interactor
         router.dataStore = interactor
     }
+    
+//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        super.touchesBegan(touches, with: event)
+//        view.endEditing(true)
+//    }
 }
 
-extension SignUpController: UITextFieldDelegate {
+extension SignUpController {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let  char = string.cString(using: String.Encoding.utf8)!
@@ -239,6 +249,11 @@ extension SignUpController: UICollectionViewDelegateFlowLayout {
 }
 
 extension SignUpController {
+    
+    @objc
+    private func didEndTextField(_ sender: UITextField) {
+        sender.resignFirstResponder()
+    }
     
     @objc
     func didTapImageButton() {

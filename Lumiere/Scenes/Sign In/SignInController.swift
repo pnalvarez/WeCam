@@ -19,11 +19,15 @@ protocol SignInDisplayLogic: class {
 class SignInController: BaseViewController {
     
     private lazy var emailTextField: UITextField = {
-        return UITextField(frame: .zero)
+        let view = UITextField(frame: .zero)
+        view.delegate = self
+        return view
     }()
     
     private lazy var passwordTextField: UITextField = {
-        return UITextField(frame: .zero)
+        let view = UITextField(frame: .zero)
+        view.delegate = self
+        return view
     }()
     
     private lazy var enterButton: UIButton = {
