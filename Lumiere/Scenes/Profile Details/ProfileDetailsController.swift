@@ -21,6 +21,13 @@ protocol ProfileDetailsDisplayLogic: class {
 
 class ProfileDetailsController: BaseViewController {
     
+    private lazy var translucentView: UIView = {
+        let view = UIView(frame: .zero)
+        view.backgroundColor = ProfileDetails.Constants.Colors.translucentView
+        view.isHidden = true
+        return view
+    }()
+    
     private lazy var activityView: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView(frame: .zero)
         view.color = ProfileDetails.Constants.Colors.activity
@@ -55,9 +62,10 @@ class ProfileDetailsController: BaseViewController {
     
     private lazy var mainView: ProfileDetailsView = {
         let view = ProfileDetailsView(frame: .zero,
-                                  backButton: backButton,
-                                  addConnectionButton: addConnectionButton,
-                                  allConnectionsButton: allConnectionsButton)
+                                      translucentView: translucentView,
+                                      backButton: backButton,
+                                      addConnectionButton: addConnectionButton,
+                                      allConnectionsButton: allConnectionsButton)
         return view
     }()
     

@@ -10,6 +10,7 @@ import UIKit
 
 class ProfileDetailsView: UIView {
     
+    private unowned var translucentView: UIView
     private unowned var backButton: UIButton
     private unowned var addConnectionButton: UIButton
     private unowned var allConnectionsButton: UIButton
@@ -53,9 +54,11 @@ class ProfileDetailsView: UIView {
     private var viewModel: ProfileDetails.Info.ViewModel.User?
     
     init(frame: CGRect,
+         translucentView: UIView,
          backButton: UIButton,
          addConnectionButton: UIButton,
          allConnectionsButton: UIButton) {
+        self.translucentView = translucentView
         self.backButton = backButton
         self.addConnectionButton = addConnectionButton
         self.allConnectionsButton = allConnectionsButton
@@ -83,9 +86,13 @@ extension ProfileDetailsView: ViewCodeProtocol {
         addSubview(phoneNumberLbl)
         addSubview(addConnectionButton)
         addSubview(allConnectionsButton)
+        addSubview(translucentView)
     }
     
     func setupConstraints() {
+        translucentView.snp.makeConstraints{ make in
+            make.edges.equalToSuperview()
+        }
         backButton.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide.snp.top).inset(28)
             make.left.equalToSuperview().inset(28)

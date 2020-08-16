@@ -23,6 +23,7 @@ struct ProfileDetails {
             static let allConnectionsButtonText = UIColor(rgb: 0xffffff)
             static let activity = ThemeColors.mainRedColor.rawValue
             static let activityBackground = UIColor(rgb: 0xffffff).withAlphaComponent(0.5)
+            static let translucentView = UIColor(rgb: 0xededed).withAlphaComponent(0.8)
         }
         
         struct Fonts {

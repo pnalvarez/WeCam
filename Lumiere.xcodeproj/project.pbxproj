@@ -13,6 +13,7 @@
 		3F0CAA6624CCE41D005E2558 /* SignInRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0CAA6524CCE41D005E2558 /* SignInRequest.swift */; };
 		3F1158AD24C3F04200075C73 /* TeamMemberCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1158AC24C3F04200075C73 /* TeamMemberCollectionViewCell.swift */; };
 		3F1158AF24C3F0EC00075C73 /* TeamMemberViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1158AE24C3F0EC00075C73 /* TeamMemberViewModel.swift */; };
+		3F43311E24E8E8B90082825E /* ConfirmationAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F43311D24E8E8B90082825E /* ConfirmationAlertView.swift */; };
 		3F6EEA2F24E0A3680075C500 /* ConnectionsListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6EEA2E24E0A3680075C500 /* ConnectionsListController.swift */; };
 		3F6EEA3124E0A3720075C500 /* ConnectionsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6EEA3024E0A3720075C500 /* ConnectionsListView.swift */; };
 		3F6EEA3324E0A37B0075C500 /* ConnectionsListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6EEA3224E0A37B0075C500 /* ConnectionsListInteractor.swift */; };
@@ -161,6 +162,7 @@
 		3F0CAA6524CCE41D005E2558 /* SignInRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInRequest.swift; sourceTree = "<group>"; };
 		3F1158AC24C3F04200075C73 /* TeamMemberCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamMemberCollectionViewCell.swift; sourceTree = "<group>"; };
 		3F1158AE24C3F0EC00075C73 /* TeamMemberViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamMemberViewModel.swift; sourceTree = "<group>"; };
+		3F43311D24E8E8B90082825E /* ConfirmationAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationAlertView.swift; sourceTree = "<group>"; };
 		3F6EEA2E24E0A3680075C500 /* ConnectionsListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsListController.swift; sourceTree = "<group>"; };
 		3F6EEA3024E0A3720075C500 /* ConnectionsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsListView.swift; sourceTree = "<group>"; };
 		3F6EEA3224E0A37B0075C500 /* ConnectionsListInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsListInteractor.swift; sourceTree = "<group>"; };
@@ -396,6 +398,20 @@
 			path = "Connections List";
 			sourceTree = "<group>";
 		};
+		3F6EEA7824E8DA2B0075C500 /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Notifications;
+			sourceTree = "<group>";
+		};
+		3F6EEA7924E8DA390075C500 /* Connections List */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Connections List";
+			sourceTree = "<group>";
+		};
 		3F8D136024D0EC5F00AED7EB /* Common */ = {
 			isa = PBXGroup;
 			children = (
@@ -406,6 +422,8 @@
 		3F8D136124D0EC6700AED7EB /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				3F6EEA7924E8DA390075C500 /* Connections List */,
+				3F6EEA7824E8DA2B0075C500 /* Notifications */,
 				3F8D13B524D75A0B00AED7EB /* Profile Details */,
 				3F8D136324D0EC7B00AED7EB /* Sign In */,
 				3F8D136224D0EC7500AED7EB /* Sign Up */,
@@ -624,6 +642,7 @@
 				3F9578D324B019BE00B79818 /* MovieStyleButton.swift */,
 				3F9578DC24B0314D00B79818 /* BaseViewController.swift */,
 				3F6EEA7624E8D1CE0075C500 /* EmptyListView.swift */,
+				3F43311D24E8E8B90082825E /* ConfirmationAlertView.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -1129,6 +1148,7 @@
 				3F1158AF24C3F0EC00075C73 /* TeamMemberViewModel.swift in Sources */,
 				3F95785724AD75E700B79818 /* LaunchScreenView.swift in Sources */,
 				3F6EEA3124E0A3720075C500 /* ConnectionsListView.swift in Sources */,
+				3F43311E24E8E8B90082825E /* ConfirmationAlertView.swift in Sources */,
 				3F6EEA6F24E5D7550075C500 /* Dictionary+.swift in Sources */,
 				3F6EEA3D24E0A6B10075C500 /* ConnectionsListTableViewCell.swift in Sources */,
 				3F8D13BE24D789EF00AED7EB /* UITableView+.swift in Sources */,
