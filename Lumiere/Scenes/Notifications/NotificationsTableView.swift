@@ -12,7 +12,7 @@ class NotificationsTableView: UITableView {
     
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
-        bounces = false
+        bounces = true
         alwaysBounceVertical = false
         backgroundColor = .white
         separatorStyle = .none

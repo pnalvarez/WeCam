@@ -203,6 +203,10 @@ struct Notifications {
         struct RemovePendingNotification {
             let userId: String
         }
+        
+        struct RefreshNotifications {
+            
+        }
     }
     
     struct Response {

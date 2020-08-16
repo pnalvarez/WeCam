@@ -18,6 +18,14 @@ protocol NotificationsDisplayLogic: class {
 
 class NotificationsController: BaseViewController {
     
+    private lazy var refreshHeader: UIRefreshControl = {
+        let view = UIRefreshControl(frame: .zero)
+        view.backgroundColor = .clear
+        view.tintColor = ThemeColors.mainRedColor.rawValue
+        view.addTarget(self, action: #selector(refreshNotifications), for: .valueChanged)
+        return view
+    }()
+    
     private lazy var activityView: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView(frame: .zero)
         view.backgroundColor = Notifications.Constants.Colors.activityBackground
@@ -29,6 +37,7 @@ class NotificationsController: BaseViewController {
     
     private lazy var tableView: NotificationsTableView = {
         let view = NotificationsTableView(frame: .zero)
+        view.refreshControl = refreshHeader
         return view
     }()
     
@@ -82,6 +91,14 @@ class NotificationsController: BaseViewController {
         viewController.router = router
         router.dataStore = interactor
         router.viewController = viewController
+    }
+}
+
+extension NotificationsController {
+    
+    @objc
+    private func refreshNotifications() {
+        interactor?.fetchRefreshNotifications(Notifications.Request.RefreshNotifications())
     }
 }
 
@@ -147,6 +164,7 @@ extension  NotificationsController: NotificationsDisplayLogic {
     }
     
     func displayNotificationns(_ viewModel: Notifications.Info.ViewModel.UpcomingNotifications) {
+        refreshHeader.endRefreshing()
         self.viewModel = viewModel
     }
     

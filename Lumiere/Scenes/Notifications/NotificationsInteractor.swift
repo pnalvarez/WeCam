@@ -12,6 +12,7 @@ protocol NotificationsBusinessLogic {
     func didSelectProfile(_ request: Notifications.Request.SelectProfile)
     func didAcceptNotification(_ request: Notifications.Request.NotificationAnswer)
     func didRefuseNotification(_ request: Notifications.Request.NotificationAnswer)
+    func fetchRefreshNotifications(_ request: Notifications.Request.RefreshNotifications)
 }
 
 protocol NotificationsDataStore {
@@ -180,5 +181,10 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
                 break
             }
         }
+    }
+    
+    func fetchRefreshNotifications(_ request: Notifications.Request.RefreshNotifications) {
+        guard let notifications = self.notifications else { return }
+        self.presenter.presentNotifications(notifications)
     }
 }
