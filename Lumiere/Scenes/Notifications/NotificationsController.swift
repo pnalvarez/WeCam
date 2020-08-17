@@ -157,6 +157,7 @@ extension  NotificationsController: NotificationsDisplayLogic {
     
     func displayLoading(_ loading: Bool) {
         activityView.isHidden = !loading
+        tableView.backgroundView = nil
     }
     
     func displayError(_ viewModel: Notifications.Info.ViewModel.NotificationError) {

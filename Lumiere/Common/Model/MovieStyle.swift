@@ -9,7 +9,7 @@
 enum MovieStyle: String, CaseIterable {
     case action = "Ação"
     case animation = "Animação"
-    case adventure = "Aventure"
+    case adventure = "Aventura"
     case comedy = "Comédia"
     case drama = "Drama"
     case dance = "Dança"

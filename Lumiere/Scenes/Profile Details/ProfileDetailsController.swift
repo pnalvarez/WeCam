@@ -31,6 +31,7 @@ class ProfileDetailsController: BaseViewController {
     private lazy var translucentView: UIView = {
         let view = UIView(frame: .zero)
         view.backgroundColor = ProfileDetails.Constants.Colors.translucentView
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(closeModal)))
         view.isHidden = true
         return view
     }()
@@ -112,6 +113,11 @@ class ProfileDetailsController: BaseViewController {
 }
 
 extension ProfileDetailsController {
+    
+    @objc
+    private func closeModal() {
+        mainView.hideConfirmationView()
+    }
     
     @objc
     private func didTapBackButton() {

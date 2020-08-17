@@ -15,7 +15,7 @@ protocol SignUpBusinessLogic {
 
 protocol SignUpDataStore {
     var userData: SignUp.Info.Model.UserData? { get set }
-    var interestCathegories: SignUp.Info.Model.InteretCathegories { get set }
+    var interestCathegories: SignUp.Info.Model.InterestCathegories { get set }
 }
 
 class SignUpInteractor: SignUpDataStore {
@@ -24,7 +24,7 @@ class SignUpInteractor: SignUpDataStore {
     var provider: SignUpProviderProtocol
     
     var userData: SignUp.Info.Model.UserData?
-    var interestCathegories: SignUp.Info.Model.InteretCathegories = SignUp.Info.Model.InteretCathegories(cathegories: [])
+    var interestCathegories: SignUp.Info.Model.InterestCathegories = SignUp.Info.Model.InterestCathegories(cathegories: [])
     
     init(viewController: SignUpDisplayLogic,
          provider: SignUpProviderProtocol = SignUpProvider()) {

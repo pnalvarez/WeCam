@@ -148,10 +148,10 @@ struct SignUp {
                 let email: String
                 let password: String
                 let professionalArea: String
-                let interestCathegories: InteretCathegories
+                let interestCathegories: InterestCathegories
             }
             
-            struct InteretCathegories {
+            struct InterestCathegories {
                 var cathegories: [MovieStyle]
             }
         }
