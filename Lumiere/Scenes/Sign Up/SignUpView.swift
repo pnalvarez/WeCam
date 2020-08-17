@@ -10,6 +10,7 @@ import UIKit
 
 class SignUpView: UIView {
     
+    private unowned var loadingView: LoadingView
     private unowned var backButton: UIButton
     private unowned var imageButton: UIButton
     private unowned var nameTextField: UITextField
@@ -28,6 +29,7 @@ class SignUpView: UIView {
     private lazy var titleHeaderIcon: UIImageView = { return UIImageView(frame: .zero) }()
     
     init(frame: CGRect,
+         loadingView: LoadingView,
          backButton: UIButton,
          imageButton: UIButton,
          nameTextField: UITextField,
@@ -39,6 +41,7 @@ class SignUpView: UIView {
          signUpButton: UIButton,
          collectionView: UICollectionView,
          activityView: UIActivityIndicatorView) {
+        self.loadingView = loadingView
         self.backButton = backButton
         self.imageButton = imageButton
         self.nameTextField = nameTextField
@@ -109,9 +112,13 @@ extension SignUpView: ViewCodeProtocol {
         scrollView.addSubview(containerView)
         addSubview(scrollView)
         addSubview(activityView)
+        addSubview(loadingView)
     }
     
     func setupConstraints() {
+        loadingView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
         scrollView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }

@@ -96,6 +96,7 @@ extension SignInController {
     
     @objc
     private func signUpButtonTapped() {
+        emailTextField.layer.borderWidth = 0
         router?.routeToSignUp()
     }
     

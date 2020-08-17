@@ -8,7 +8,14 @@
 
 import UIKit
 
+typealias UICollectionViewProtocol = NSObject & UICollectionViewDataSource & UICollectionViewDelegate & UICollectionViewDelegateFlowLayout
+
 extension UICollectionView{
+    
+    func assignProtocols(to output: UICollectionViewProtocol) {
+        dataSource = output
+        delegate = output
+    }
     
     func registerCell<T: UICollectionViewCell>(cellType: T.Type) {
         register(cellType, forCellWithReuseIdentifier: T.defaultReuseIdentifier)

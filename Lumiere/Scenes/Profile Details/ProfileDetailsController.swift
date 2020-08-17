@@ -117,6 +117,7 @@ extension ProfileDetailsController {
     @objc
     private func closeModal() {
         mainView.hideConfirmationView()
+        tabBarController?.tabBar.isHidden = false
     }
     
     @objc

@@ -19,6 +19,13 @@ protocol SignUpDisplayLogic: class {
 
 class SignUpController: BaseViewController {
     
+    private lazy var loadingView: LoadingView = {
+        let view = LoadingView(frame: .zero)
+        view.animateRotate()
+        view.isHidden = true
+        return view
+    }()
+    
     private lazy var backButton: UIButton = {
         let view = UIButton(frame: .zero)
         view.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
@@ -92,6 +99,7 @@ class SignUpController: BaseViewController {
     private lazy var mainView: SignUpView = {
 
         return SignUpView(frame: .zero,
+                          loadingView: loadingView,
                           backButton: backButton,
                           imageButton: imageButton,
                           nameTextField: nameTextField,
@@ -305,6 +313,7 @@ extension SignUpController: SignUpDisplayLogic {
     
     func displayLoading(_ loading: Bool) {
         activityView.isHidden = !loading
+        loadingView.isHidden = !loading
     }
     
     func displayServerError(_ viewModel: SignUp.Info.ViewModel.Error) {
