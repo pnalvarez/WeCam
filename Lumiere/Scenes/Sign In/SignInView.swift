@@ -66,7 +66,7 @@ extension SignInView: ViewCodeProtocol {
     
     func setupConstraints() {
         topLogoImageView.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(77)
+            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(120)
             make.height.equalTo(124)
             make.left.right.equalToSuperview().inset(136)
         }

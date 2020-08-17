@@ -24,8 +24,32 @@ class SignUpView: UIView {
     private unowned var activityView: UIActivityIndicatorView
     
     private lazy var cathegoriesLbl: UILabel = { return UILabel(frame: .zero) }()
-    private lazy var containerView: UIView = { return UIView(frame: .zero) }()
-    private lazy var scrollView: UIScrollView = { return UIScrollView(frame: .zero) }()
+    
+    private lazy var containerView: UIView = {
+        let view = UIView(frame: .zero)
+        view.backgroundColor = SignUp.Constants.Colors.backgroundColor
+        return view
+    }()
+    
+    private lazy var scrollView: UIScrollView = {
+        let view = UIScrollView(frame: .zero)
+        view.showsVerticalScrollIndicator = false
+        view.bounces = false
+        view.alwaysBounceVertical = false
+        view.backgroundColor = .white
+        view.contentSize = CGSize(width: frame.width, height: 1200)
+        return view
+    }()
+    
+    private lazy var chooseImageLbl: UILabel = {
+        let view = UILabel(frame: .zero)
+        view.textColor = SignUp.Constants.Colors.chooseImageLbl
+        view.text = SignUp.Constants.Texts.chooseImageLbl
+        view.font = SignUp.Constants.Fonts.chooseImageLbl
+        view.textAlignment = .center
+        return view
+    }()
+    
     private lazy var titleHeaderIcon: UIImageView = { return UIImageView(frame: .zero) }()
     
     init(frame: CGRect,
@@ -100,6 +124,7 @@ extension SignUpView: ViewCodeProtocol {
         containerView.addSubview(backButton)
         containerView.addSubview(titleHeaderIcon)
         containerView.addSubview(imageButton)
+        containerView.addSubview(chooseImageLbl)
         containerView.addSubview(nameTextField)
         containerView.addSubview(cellphoneTextField)
         containerView.addSubview(emailTextField)
@@ -146,6 +171,11 @@ extension SignUpView: ViewCodeProtocol {
             make.top.equalTo(titleHeaderIcon.snp.bottom).offset(30)
             make.centerX.equalToSuperview()
             make.height.width.equalTo(84)
+        }
+        chooseImageLbl.snp.makeConstraints { make in
+            make.top.equalTo(imageButton.snp.bottom).offset(5)
+            make.centerX.equalToSuperview()
+            make.width.equalTo(150)
         }
         nameTextField.snp.makeConstraints { make in
             make.top.equalTo(imageButton.snp.bottom).offset(62)
@@ -198,13 +228,6 @@ extension SignUpView: ViewCodeProtocol {
     }
     
     func configureViews() {
-        scrollView.showsVerticalScrollIndicator = false
-        scrollView.bounces = false
-        scrollView.alwaysBounceVertical = false
-        scrollView.backgroundColor = .white
-        scrollView.contentSize = CGSize(width: frame.width, height: 1200)
-        
-        containerView.backgroundColor = SignUp.Constants.Colors.backgroundColor
         
         titleHeaderIcon.image = SignUp.Constants.Images.titleHeaderIcon
         
@@ -216,7 +239,7 @@ extension SignUpView: ViewCodeProtocol {
         imageButton.layer.borderWidth = 1
         imageButton.layer.borderColor = SignUp.Constants.Colors.imageButtonLayerColor.cgColor
         imageButton.backgroundColor = .white
-        imageButton.imageView?.contentMode = .scaleAspectFit
+        imageButton.imageView?.contentMode = .scaleAspectFill
         
         nameTextField.backgroundColor = SignUp.Constants.Colors.textFieldBackgroundColor
         nameTextField.attributedPlaceholder = NSAttributedString(string: SignUp.Constants.Texts.namePlaceholder,

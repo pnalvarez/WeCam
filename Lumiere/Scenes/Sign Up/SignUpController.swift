@@ -49,6 +49,7 @@ class SignUpController: BaseViewController {
     private lazy var cellphoneTextField: UITextField = {
         let view = UITextField(frame: .zero)
         view.delegate = self
+        view.keyboardType = .numberPad
         return view
     }()
     
@@ -162,7 +163,7 @@ extension SignUpController {
 
         if (isBackSpace == -92) && (textField.text?.count)! > 0 {
             print("Backspace was pressed")
-            textField.text!.removeLast()
+            textField.text!.removeAll()
             return false
         }
 
