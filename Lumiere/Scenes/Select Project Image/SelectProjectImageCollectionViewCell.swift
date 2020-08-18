@@ -12,13 +12,13 @@ class SelectProjectImageCollectionViewCell: UICollectionViewCell {
     
     private lazy var imageView: UIImageView = {
         let view = UIImageView(frame: .zero)
-        view.contentMode = .scaleAspectFit
+        view.contentMode = .scaleToFill
         return view
     }()
     
-    private var viewModel: SelectProjectImage.Info.ViewModel.Image?
+    private var viewModel: UIImage?
 
-    func setup(viewModel: SelectProjectImage.Info.ViewModel.Image) {
+    func setup(viewModel: UIImage) {
         self.viewModel = viewModel
         applyViewCode()
     }
@@ -37,6 +37,6 @@ extension SelectProjectImageCollectionViewCell: ViewCodeProtocol {
     }
     
     func configureViews() {
-        imageView.image = viewModel?.image
+        imageView.image = viewModel
     }
 }

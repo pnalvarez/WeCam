@@ -78,7 +78,8 @@ class SignUpController: BaseViewController {
     }()
 
     private lazy var collectionView: UICollectionView = {
-        let view = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
+        let view = UICollectionView(frame: .zero,
+                                    collectionViewLayout: UICollectionViewFlowLayout.init())
         return view
     }()
 
@@ -86,15 +87,6 @@ class SignUpController: BaseViewController {
         let button = UIButton(frame: .zero)
         button.addTarget(self, action: #selector(didTapSignUpButton), for: .touchUpInside)
         return button
-    }()
-    
-    private lazy var activityView: UIActivityIndicatorView = {
-        let view = UIActivityIndicatorView(frame: .zero)
-        view.color = ThemeColors.mainRedColor.rawValue
-        view.backgroundColor = UIColor.white.withAlphaComponent(0.5)
-        view.startAnimating()
-        view.isHidden = true
-        return view
     }()
     
     private lazy var mainView: SignUpView = {
@@ -110,8 +102,7 @@ class SignUpController: BaseViewController {
                           confirmTextField: confirmTextField,
                           professionalTextField: professionalTextField,
                           signUpButton: signUpButton,
-                          collectionView: collectionView,
-                          activityView: activityView)
+                          collectionView: collectionView)
     }()
     
     private var movieStyles: [MovieStyle] = []
@@ -313,7 +304,6 @@ extension SignUpController: SignUpDisplayLogic {
     }
     
     func displayLoading(_ loading: Bool) {
-        activityView.isHidden = !loading
         loadingView.isHidden = !loading
     }
     

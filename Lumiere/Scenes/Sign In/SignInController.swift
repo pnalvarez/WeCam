@@ -51,15 +51,6 @@ class SignInController: BaseViewController {
         view.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
         return view
     }()
-    
-    private lazy var activityView: UIActivityIndicatorView = {
-        let view = UIActivityIndicatorView(frame: .zero)
-        view.backgroundColor = UIColor.white.withAlphaComponent(0.5)
-        view.color = ThemeColors.mainRedColor.rawValue
-        view.startAnimating()
-        view.isHidden = true
-        return view
-    }()
 
     private lazy var mainView: SignInView = {
         return SignInView(frame: .zero,
@@ -68,8 +59,7 @@ class SignInController: BaseViewController {
                           passwordTextField: passwordTextField,
                           enterButton: enterButton,
                           forgetButton: forgetButton,
-                          signUpButton: signUpButton,
-                          activityView: activityView)
+                          signUpButton: signUpButton)
     }()
     
     private var interactor: SignInBusinessRules?
@@ -96,7 +86,7 @@ extension SignInController {
     
     @objc
     private func signUpButtonTapped() {
-        emailTextField.layer.borderWidth = 0
+        clearErrors()
         router?.routeToSignUp()
     }
     
@@ -119,20 +109,23 @@ extension SignInController {
         viewController.interactor = interactor
         viewController.router = router
     }
+    
+    private func clearErrors() {
+        emailTextField.layer.borderWidth = 0
+        emailTextField.layer.borderColor = UIColor.clear.cgColor
+        passwordTextField.layer.borderWidth = 0
+        passwordTextField.layer.borderColor = UIColor.clear.cgColor
+    }
 }
 
 extension SignInController: SignInDisplayLogic {
     
     func displaySuccessfulLogin() {
-        emailTextField.layer.borderWidth = 0
-        emailTextField.layer.borderColor = UIColor.clear.cgColor
-        passwordTextField.layer.borderWidth = 0
-        passwordTextField.layer.borderColor = UIColor.clear.cgColor
+        clearErrors()
         router?.routeToHome()
     }
     
     func displayLoading(_ loading: Bool) {
-        activityView.isHidden = !loading
         loadingView.isHidden = !loading
         loadingView.animateRotate()
     }

@@ -22,7 +22,7 @@ struct SelectProjectImage {
         
         struct Fonts {
             static let advanceButton = ThemeFonts.RobotoBold(16).rawValue
-            static let titleLbl = ThemeFonts.RobotoBold(16).rawValue
+            static let titleLbl = ThemeFonts.RobotoBold(14).rawValue
         }
         
         struct Texts {
@@ -31,7 +31,15 @@ struct SelectProjectImage {
         }
         
         struct Images {
-            static let backButton = UIImage(named: "voltar 1", in: SelectProjectImage.bundle, compatibleWith: nil)
+            static let backButton = UIImage(named: "voltar 1",
+                                            in: SelectProjectImage.bundle,
+                                            compatibleWith: nil)
+            static let tabBarImage = UIImage(named: "publicacao-antes-de-clicar 1",
+                                             in: SelectProjectImage.bundle,
+                                             compatibleWith: nil)
+            static let tabBarSelectedImage = UIImage(named: "publicacao-depois-de-clicar 1",
+                                                     in: SelectProjectImage.bundle,
+                                                     compatibleWith: nil)
         }
     }
     
@@ -43,25 +51,42 @@ struct SelectProjectImage {
         
         struct Model {
             
+            struct Project {
+                let image: Data?
+            }
+            
+            struct Images {
+                let images: [UIImage]
+            }
         }
         
         struct ViewModel {
             
             struct AlbumImages {
-                let images: [Image]
+                let images: [UIImage]
             }
             
-            struct Image {
-                let image: UIImage
+            struct SelectedImage {
+                let image: UIImage?
             }
         }
         
         struct Response {
             
+            struct Images {
+                let images: [UIImage]
+            }
         }
     }
     
     struct Request {
         
+        struct AlbumImages {
+            
+        }
+        
+        struct SelectImage {
+            let image: UIImage
+        }
     }
 }

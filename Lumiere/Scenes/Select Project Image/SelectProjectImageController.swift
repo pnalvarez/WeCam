@@ -7,9 +7,11 @@
 //
 
 import UIKit
+import Photos
 
 protocol SelectProjectImageDisplayLogic: class {
-    
+    func displayImages(_ viewModel: SelectProjectImage.Info.ViewModel.AlbumImages)
+    func displaySelectedImage(_ viewModel: SelectProjectImage.Info.ViewModel.SelectedImage)
 }
 
 class SelectProjectImageController: BaseViewController, UINavigationControllerDelegate {
@@ -29,14 +31,25 @@ class SelectProjectImageController: BaseViewController, UINavigationControllerDe
         view.titleLabel?.font = SelectProjectImage.Constants.Fonts.advanceButton
         return view
     }()
+    
+    private lazy var selectedImageView: UIImageView = {
+        let view = UIImageView(frame: .zero)
+        view.contentMode = .scaleAspectFill
+        view.clipsToBounds = true
+        view.layer.borderWidth = 1
+        view.layer.borderColor = SelectProjectImage.Constants.Colors.selectedImageViewLayer
+        view.layer.cornerRadius = 42
+        return view
+    }()
 
     private lazy var imagesCollectionView: UICollectionView = {
-        let view = UICollectionView(frame: .zero)
+        let view = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         view.assignProtocols(to: self)
         view.bounces = false
         view.alwaysBounceVertical = false
         view.alwaysBounceHorizontal = false
         view.registerCell(cellType: SelectProjectImageCollectionViewCell.self)
+        view.backgroundColor = .white
         return view
     }()
     
@@ -45,27 +58,37 @@ class SelectProjectImageController: BaseViewController, UINavigationControllerDe
                                           backButton: backButton,
                                           advanceButton: advanceButton,
                                           imagesCollectionView: imagesCollectionView,
-                                          imagePickerView: imagePicker.view)
+                                          selectedImageView: selectedImageView)
         return view
     }()
     
-    private lazy var imagePicker: UIImagePickerController = {
-        let controller = UIImagePickerController()
-        controller.delegate = self
-        return controller
-    }()
-    
-    private var viewModel: SelectProjectImage.Info.ViewModel.AlbumImages?
+    private var viewModel: SelectProjectImage.Info.ViewModel.AlbumImages? {
+        didSet {
+            imagesCollectionView.reloadData()
+        }
+    }
     
     private var interactor: SelectProjectImageBusinessLogic?
     private var router: SelectProjectImageRouterProtocol?
     
+    init() {
+        super.init(nibName: nil, bundle: nil)
+        setup()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.isNavigationBarHidden = true
+        interactor?.fetchDeviceImages(SelectProjectImage.Request.AlbumImages())
     }
     
     override func loadView() {
         super.loadView()
+        self.view = mainView
     }
     
     private func setup() {
@@ -79,14 +102,12 @@ class SelectProjectImageController: BaseViewController, UINavigationControllerDe
     }
 }
 
-extension SelectProjectImageController: UIImagePickerControllerDelegate {
-    
-}
-
 extension SelectProjectImageController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
+        guard let image = viewModel?.images[indexPath.row] else { return }
+        let request = SelectProjectImage.Request.SelectImage(image: image)
+        interactor?.didSelectImage(request)
     }
     
 }
@@ -94,16 +115,40 @@ extension SelectProjectImageController: UICollectionViewDelegate {
 extension SelectProjectImageController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 0
+        return viewModel?.images.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        return UICollectionViewCell()
+        let cell = imagesCollectionView.dequeueReusableCell(indexPath: indexPath,
+                                                            type: SelectProjectImageCollectionViewCell.self)
+        guard let viewModel = self.viewModel else { return UICollectionViewCell( )}
+        cell.setup(viewModel: viewModel.images[indexPath.row])
+        return cell
     }
 }
 
 extension SelectProjectImageController: UICollectionViewDelegateFlowLayout {
     
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: view.frame.width / 3, height: 144)
+    }
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
+    }
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
+    }
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+    }
 }
 
 extension SelectProjectImageController {
@@ -117,8 +162,19 @@ extension SelectProjectImageController {
     private func didTapAdvance() {
         
     }
+    
+    private func clearSelectedImages() {
+        //TO DO
+    }
 }
 
 extension SelectProjectImageController: SelectProjectImageDisplayLogic {
     
+    func displayImages(_ viewModel: SelectProjectImage.Info.ViewModel.AlbumImages) {
+        self.viewModel = viewModel
+    }
+    
+    func displaySelectedImage(_ viewModel: SelectProjectImage.Info.ViewModel.SelectedImage) {
+        selectedImageView.image = viewModel.image
+    }
 }

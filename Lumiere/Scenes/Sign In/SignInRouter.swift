@@ -62,6 +62,11 @@ extension SignInRouter: SignInRoutingLogic {
     func routeToHome() {
         guard let source = dataStore else { return }
         
+        let selectProjectImageVc = SelectProjectImageController()
+        selectProjectImageVc.tabBarItem = UITabBarItem(title: nil,
+                                                       image: SelectProjectImage.Constants.Images.tabBarImage,
+                                                       selectedImage: SelectProjectImage.Constants.Images.tabBarSelectedImage)
+        
         let notificationsVc = NotificationsController()
         notificationsVc.tabBarItem = UITabBarItem(title: nil,
                                                   image: Notifications.Constants.Images.tabBarDefaultImage,
@@ -81,7 +86,8 @@ extension SignInRouter: SignInRoutingLogic {
         transferDataToProfileDetails(from: source, to: &profileDetailsDataStore)
         
         let tabController = UITabBarController()
-        tabController.viewControllers = [UINavigationController(rootViewController: notificationsVc),
+        tabController.viewControllers = [UINavigationController(rootViewController: selectProjectImageVc),
+                                         UINavigationController(rootViewController: notificationsVc),
                                          UINavigationController(rootViewController: profileDetailsVc)]
 
 //        FirebaseAuthHelper().fetchSendConnectionRequest(request: ["userId": "NHTOCGn3SLPyLq7Nsfj2Y4yqkMl2"]) {

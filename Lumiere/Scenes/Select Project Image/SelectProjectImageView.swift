@@ -13,16 +13,7 @@ class SelectProjectImageView: UIView {
     private unowned var backButton: UIButton
     private unowned var advanceButton: UIButton
     private unowned var imagesCollectionView: UICollectionView
-    private unowned var imagePickerView: UIView
-    
-    private lazy var selectedImageView: UIImageView = {
-        let view = UIImageView(frame: .zero)
-        view.contentMode = .scaleAspectFit
-        view.layer.borderWidth = 1
-        view.layer.borderColor = SelectProjectImage.Constants.Colors.selectedImageViewLayer
-        view.layer.cornerRadius = 42
-        return view
-    }()
+    private unowned var selectedImageView: UIImageView
     
     private lazy var titleLbl: UILabel = {
         let view = UILabel(frame: .zero)
@@ -37,11 +28,11 @@ class SelectProjectImageView: UIView {
          backButton: UIButton,
          advanceButton: UIButton,
          imagesCollectionView: UICollectionView,
-         imagePickerView: UIView) {
+         selectedImageView: UIImageView) {
         self.backButton = backButton
         self.advanceButton = advanceButton
         self.imagesCollectionView = imagesCollectionView
-        self.imagePickerView = imagePickerView
+        self.selectedImageView = selectedImageView
         super.init(frame: frame)
         applyViewCode()
     }
@@ -59,7 +50,6 @@ extension SelectProjectImageView: ViewCodeProtocol {
         addSubview(selectedImageView)
         addSubview(titleLbl)
         addSubview(imagesCollectionView)
-        addSubview(imagePickerView)
     }
     
     func setupConstraints() {
@@ -83,15 +73,15 @@ extension SelectProjectImageView: ViewCodeProtocol {
         titleLbl.snp.makeConstraints { make in
             make.top.equalTo(selectedImageView.snp.bottom).offset(25)
             make.centerX.equalToSuperview()
-            make.width.equalTo(210)
+            make.width.equalToSuperview()
         }
         imagesCollectionView.snp.makeConstraints { make in
             make.top.equalTo(titleLbl.snp.bottom).offset(100)
             make.left.right.bottom.equalToSuperview()
         }
-        imagePickerView.snp.makeConstraints { make in
-            make.top.equalTo(titleLbl.snp.bottom).offset(100)
-            make.left.right.bottom.equalToSuperview()
-        }
+    }
+    
+    func configureViews() {
+        backgroundColor = .white
     }
 }
