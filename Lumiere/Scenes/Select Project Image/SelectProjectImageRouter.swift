@@ -11,7 +11,7 @@ import UIKit
 typealias SelectProjectImageRouterProtocol = NSObject & SelectProjectImageRoutingLogic & SelectProjectImageDataTransfer
 
 protocol SelectProjectImageRoutingLogic {
-    
+    func routeToCategories()
 }
 
 protocol SelectProjectImageDataTransfer {
@@ -33,6 +33,9 @@ extension SelectProjectImageRouter: BaseRouterProtocol {
 
 extension SelectProjectImageRouter: SelectProjectImageRoutingLogic {
     
+    func routeToCategories() {
+        
+    }
 }
 
 

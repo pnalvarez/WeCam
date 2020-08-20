@@ -7,7 +7,6 @@
 //
 
 protocol SelectProjectImageBusinessLogic {
-    func fetchDeviceImages(_ request: SelectProjectImage.Request.AlbumImages)
     func didSelectImage(_ request: SelectProjectImage.Request.SelectImage)
 }
 
@@ -31,16 +30,8 @@ class SelectProjectImageInteractor: SelectProjectImageDataStore {
 
 extension SelectProjectImageInteractor: SelectProjectImageBusinessLogic {
     
-    func fetchDeviceImages(_ request: SelectProjectImage.Request.AlbumImages) {
-        worker.fetchAlbumImages(request) { response in
-            let data = SelectProjectImage.Info.Model.Images(images: response.images)
-            self.presenter.presentImages(data)
-        }
-    }
-    
     func didSelectImage(_ request: SelectProjectImage.Request.SelectImage) {
         projectModel = SelectProjectImage.Info.Model.Project(image: request.image.jpegData(compressionQuality: 0.5))
-        guard let project = projectModel else { return }
-        presenter.presentSelectedImage(project)
+        presenter.presentProjectCathegories()
     }
 }

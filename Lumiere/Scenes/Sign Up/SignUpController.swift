@@ -210,7 +210,7 @@ extension SignUpController: UICollectionViewDataSource, UICollectionViewDelegate
 extension SignUpController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage{
+        if let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage{
                     imageButton.setImage(image, for: .normal)
                 }
         self.dismiss(animated: true, completion: nil)

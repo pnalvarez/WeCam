@@ -8,8 +8,7 @@
 import UIKit
 
 protocol SelectProjectImagePresentationLogic {
-    func presentImages(_ response: SelectProjectImage.Info.Model.Images)
-    func presentSelectedImage(_ response: SelectProjectImage.Info.Model.Project)
+    func presentProjectCathegories()
 }
 
 class SelectProjectImagePresenter: SelectProjectImagePresentationLogic {
@@ -20,14 +19,7 @@ class SelectProjectImagePresenter: SelectProjectImagePresentationLogic {
         self.viewController = viewController
     }
     
-    func presentImages(_ response: SelectProjectImage.Info.Model.Images) {
-        let viewModel = SelectProjectImage.Info.ViewModel.AlbumImages(images: response.images)
-        viewController.displayImages(viewModel)
-    }
-    
-    func presentSelectedImage(_ response: SelectProjectImage.Info.Model.Project) {
-        guard let image = response.image else { return }
-        let viewModel = SelectProjectImage.Info.ViewModel.SelectedImage(image: UIImage(data: image))
-        viewController.displaySelectedImage(viewModel)
+    func presentProjectCathegories() {
+        viewController.displaySelectCathegory()
     }
 }

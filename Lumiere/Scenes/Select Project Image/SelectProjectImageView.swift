@@ -12,8 +12,7 @@ class SelectProjectImageView: UIView {
     
     private unowned var backButton: UIButton
     private unowned var advanceButton: UIButton
-    private unowned var imagesCollectionView: UICollectionView
-    private unowned var selectedImageView: UIImageView
+    private unowned var selectedImageButton: UIButton
     
     private lazy var titleLbl: UILabel = {
         let view = UILabel(frame: .zero)
@@ -27,12 +26,10 @@ class SelectProjectImageView: UIView {
     init(frame: CGRect,
          backButton: UIButton,
          advanceButton: UIButton,
-         imagesCollectionView: UICollectionView,
-         selectedImageView: UIImageView) {
+         selectedImageView: UIButton) {
         self.backButton = backButton
         self.advanceButton = advanceButton
-        self.imagesCollectionView = imagesCollectionView
-        self.selectedImageView = selectedImageView
+        self.selectedImageButton = selectedImageView
         super.init(frame: frame)
         applyViewCode()
     }
@@ -47,9 +44,8 @@ extension SelectProjectImageView: ViewCodeProtocol {
     func buildViewHierarchy() {
         addSubview(backButton)
         addSubview(advanceButton)
-        addSubview(selectedImageView)
+        addSubview(selectedImageButton)
         addSubview(titleLbl)
-        addSubview(imagesCollectionView)
     }
     
     func setupConstraints() {
@@ -65,19 +61,14 @@ extension SelectProjectImageView: ViewCodeProtocol {
             make.height.equalTo(19)
             make.width.equalTo(59)
         }
-        selectedImageView.snp.makeConstraints { make in
-            make.top.equalTo(advanceButton.snp.bottom).offset(25)
-            make.centerX.equalToSuperview()
-            make.height.width.equalTo(84)
+        selectedImageButton.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+            make.height.width.equalTo(184)
         }
         titleLbl.snp.makeConstraints { make in
-            make.top.equalTo(selectedImageView.snp.bottom).offset(25)
+            make.top.equalTo(selectedImageButton.snp.bottom).offset(25)
             make.centerX.equalToSuperview()
             make.width.equalToSuperview()
-        }
-        imagesCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(titleLbl.snp.bottom).offset(100)
-            make.left.right.bottom.equalToSuperview()
         }
     }
     
