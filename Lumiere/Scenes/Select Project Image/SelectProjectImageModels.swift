@@ -88,5 +88,9 @@ struct SelectProjectImage {
         struct SelectImage {
             let image: UIImage
         }
+        
+        struct Advance {
+            
+        }
     }
 }

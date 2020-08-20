@@ -22,6 +22,11 @@ class SelectProjectImageRouter: NSObject, SelectProjectImageDataTransfer {
     
     weak var viewController: UIViewController?
     var dataStore: SelectProjectImageDataStore?
+    
+    private func transferDataToCathegories(from source: SelectProjectImageDataStore,
+                                           to destination: inout SelectProjectCathegoryDataStore) {
+        destination.projectData = SelectProjectCathegory.Info.Received.Project(image: source.projectModel?.image)
+    }
 }
 
 extension SelectProjectImageRouter: BaseRouterProtocol {
@@ -34,7 +39,13 @@ extension SelectProjectImageRouter: BaseRouterProtocol {
 extension SelectProjectImageRouter: SelectProjectImageRoutingLogic {
     
     func routeToCategories() {
-        
+        let vc = SelectProjectCathegoryController()
+        guard let source = dataStore,
+            var destination = vc.router?.dataStore else {
+                return
+        }
+        transferDataToCathegories(from: source, to: &destination)
+        routeTo(nextVC: vc)
     }
 }
 

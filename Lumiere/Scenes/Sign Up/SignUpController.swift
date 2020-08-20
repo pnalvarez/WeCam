@@ -188,13 +188,13 @@ extension SignUpController: UICollectionViewDataSource, UICollectionViewDelegate
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(indexPath: indexPath, type: SignUpCollectionViewCell.self)
+        let cell = collectionView.dequeueReusableCell(indexPath: indexPath, type: CathegoryCollectionViewCell.self)
         cell.setup(movieStyle: movieStyles[indexPath.row])
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath) as! SignUpCollectionViewCell
+        let cell = collectionView.cellForItem(at: indexPath, type: CathegoryCollectionViewCell.self)
         let state = cell.state
         switch state {
         case .enable:
@@ -278,7 +278,7 @@ extension SignUpController {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.backgroundColor = .white
-        collectionView.registerCell(cellType: SignUpCollectionViewCell.self)
+        collectionView.registerCell(cellType: CathegoryCollectionViewCell.self)
     }
 }
 

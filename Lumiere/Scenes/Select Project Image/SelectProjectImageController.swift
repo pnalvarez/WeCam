@@ -111,7 +111,7 @@ extension SelectProjectImageController {
     
     @objc
     private func didTapAdvance() {
-        
+        interactor?.fetchAdvance(SelectProjectImage.Request.Advance())
     }
 
     @objc
@@ -121,7 +121,8 @@ extension SelectProjectImageController {
 }
 
 extension SelectProjectImageController: SelectProjectImageDisplayLogic {
+    
     func displaySelectCathegory() {
-        
+        router?.routeToCategories()
     }
 }

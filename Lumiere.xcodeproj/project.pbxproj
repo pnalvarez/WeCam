@@ -21,7 +21,14 @@
 		3F40A61624EA0EE700261161 /* SelectProjectImagePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A61524EA0EE700261161 /* SelectProjectImagePresenter.swift */; };
 		3F40A61824EA0F4000261161 /* SelectProjectImageWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A61724EA0F4000261161 /* SelectProjectImageWorker.swift */; };
 		3F40A61A24EA10C300261161 /* SelectProjectImageModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A61924EA10C300261161 /* SelectProjectImageModels.swift */; };
-		3F40A61C24EA174600261161 /* SelectProjectImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A61B24EA174600261161 /* SelectProjectImageCollectionViewCell.swift */; };
+		3F40A67F24EDF58400261161 /* SelectProjectCathegoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A67E24EDF58400261161 /* SelectProjectCathegoryView.swift */; };
+		3F40A68124EDF5A300261161 /* SelectProjectCathegoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A68024EDF5A300261161 /* SelectProjectCathegoryController.swift */; };
+		3F40A68324EDF61700261161 /* SelectProjectCathegoryInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A68224EDF61700261161 /* SelectProjectCathegoryInteractor.swift */; };
+		3F40A68524EDF68300261161 /* SelectProjectCathegoryPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A68424EDF68300261161 /* SelectProjectCathegoryPresenter.swift */; };
+		3F40A68724EDF6DD00261161 /* SelectProjectCathegoryWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A68624EDF6DD00261161 /* SelectProjectCathegoryWorker.swift */; };
+		3F40A68924EDF70700261161 /* SelectProjectCathegoryModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A68824EDF70700261161 /* SelectProjectCathegoryModels.swift */; };
+		3F40A68B24EDF76300261161 /* SelectProjectCathegoryRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A68A24EDF76300261161 /* SelectProjectCathegoryRouter.swift */; };
+		3F40A68D24EDFE1F00261161 /* CathegoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A68C24EDFE1F00261161 /* CathegoryCollectionViewCell.swift */; };
 		3F43311E24E8E8B90082825E /* ConfirmationAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F43311D24E8E8B90082825E /* ConfirmationAlertView.swift */; };
 		3F6EEA2F24E0A3680075C500 /* ConnectionsListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6EEA2E24E0A3680075C500 /* ConnectionsListController.swift */; };
 		3F6EEA3124E0A3720075C500 /* ConnectionsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6EEA3024E0A3720075C500 /* ConnectionsListView.swift */; };
@@ -127,7 +134,6 @@
 		3F9578D224B0198F00B79818 /* SignUpModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9578D124B0198F00B79818 /* SignUpModels.swift */; };
 		3F9578D424B019BE00B79818 /* MovieStyleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9578D324B019BE00B79818 /* MovieStyleButton.swift */; };
 		3F9578D724B01A0600B79818 /* MovieStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9578D624B01A0600B79818 /* MovieStyle.swift */; };
-		3F9578D924B01E8F00B79818 /* SignUpCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9578D824B01E8F00B79818 /* SignUpCollectionViewCell.swift */; };
 		3F9578DB24B0240C00B79818 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9578DA24B0240C00B79818 /* String+.swift */; };
 		3F9578DD24B0314D00B79818 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9578DC24B0314D00B79818 /* BaseViewController.swift */; };
 		3FE8DF4124C3F738005DE30D /* ThemeFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE8DF4024C3F738005DE30D /* ThemeFonts.swift */; };
@@ -172,7 +178,14 @@
 		3F40A61524EA0EE700261161 /* SelectProjectImagePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectProjectImagePresenter.swift; sourceTree = "<group>"; };
 		3F40A61724EA0F4000261161 /* SelectProjectImageWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectProjectImageWorker.swift; sourceTree = "<group>"; };
 		3F40A61924EA10C300261161 /* SelectProjectImageModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectProjectImageModels.swift; sourceTree = "<group>"; };
-		3F40A61B24EA174600261161 /* SelectProjectImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectProjectImageCollectionViewCell.swift; sourceTree = "<group>"; };
+		3F40A67E24EDF58400261161 /* SelectProjectCathegoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectProjectCathegoryView.swift; sourceTree = "<group>"; };
+		3F40A68024EDF5A300261161 /* SelectProjectCathegoryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectProjectCathegoryController.swift; sourceTree = "<group>"; };
+		3F40A68224EDF61700261161 /* SelectProjectCathegoryInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectProjectCathegoryInteractor.swift; sourceTree = "<group>"; };
+		3F40A68424EDF68300261161 /* SelectProjectCathegoryPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectProjectCathegoryPresenter.swift; sourceTree = "<group>"; };
+		3F40A68624EDF6DD00261161 /* SelectProjectCathegoryWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectProjectCathegoryWorker.swift; sourceTree = "<group>"; };
+		3F40A68824EDF70700261161 /* SelectProjectCathegoryModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectProjectCathegoryModels.swift; sourceTree = "<group>"; };
+		3F40A68A24EDF76300261161 /* SelectProjectCathegoryRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectProjectCathegoryRouter.swift; sourceTree = "<group>"; };
+		3F40A68C24EDFE1F00261161 /* CathegoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CathegoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		3F43311D24E8E8B90082825E /* ConfirmationAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationAlertView.swift; sourceTree = "<group>"; };
 		3F6EEA2E24E0A3680075C500 /* ConnectionsListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsListController.swift; sourceTree = "<group>"; };
 		3F6EEA3024E0A3720075C500 /* ConnectionsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsListView.swift; sourceTree = "<group>"; };
@@ -287,7 +300,6 @@
 		3F9578D124B0198F00B79818 /* SignUpModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpModels.swift; sourceTree = "<group>"; };
 		3F9578D324B019BE00B79818 /* MovieStyleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieStyleButton.swift; sourceTree = "<group>"; };
 		3F9578D624B01A0600B79818 /* MovieStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieStyle.swift; sourceTree = "<group>"; };
-		3F9578D824B01E8F00B79818 /* SignUpCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpCollectionViewCell.swift; sourceTree = "<group>"; };
 		3F9578DA24B0240C00B79818 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		3F9578DC24B0314D00B79818 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		3FE8DF4024C3F738005DE30D /* ThemeFonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeFonts.swift; sourceTree = "<group>"; };
@@ -383,6 +395,7 @@
 			isa = PBXGroup;
 			children = (
 				3F1158AC24C3F04200075C73 /* TeamMemberCollectionViewCell.swift */,
+				3F40A68C24EDFE1F00261161 /* CathegoryCollectionViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -397,9 +410,22 @@
 				3F40A61524EA0EE700261161 /* SelectProjectImagePresenter.swift */,
 				3F40A61724EA0F4000261161 /* SelectProjectImageWorker.swift */,
 				3F40A61924EA10C300261161 /* SelectProjectImageModels.swift */,
-				3F40A61B24EA174600261161 /* SelectProjectImageCollectionViewCell.swift */,
 			);
 			path = "Select Project Image";
+			sourceTree = "<group>";
+		};
+		3F40A67D24EDF56E00261161 /* Select Project Cathegory */ = {
+			isa = PBXGroup;
+			children = (
+				3F40A67E24EDF58400261161 /* SelectProjectCathegoryView.swift */,
+				3F40A68024EDF5A300261161 /* SelectProjectCathegoryController.swift */,
+				3F40A68224EDF61700261161 /* SelectProjectCathegoryInteractor.swift */,
+				3F40A68424EDF68300261161 /* SelectProjectCathegoryPresenter.swift */,
+				3F40A68624EDF6DD00261161 /* SelectProjectCathegoryWorker.swift */,
+				3F40A68824EDF70700261161 /* SelectProjectCathegoryModels.swift */,
+				3F40A68A24EDF76300261161 /* SelectProjectCathegoryRouter.swift */,
+			);
+			path = "Select Project Cathegory";
 			sourceTree = "<group>";
 		};
 		3F6EEA2D24E0A3550075C500 /* Connections List */ = {
@@ -706,6 +732,7 @@
 		3F95786724AD79C900B79818 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				3F40A67D24EDF56E00261161 /* Select Project Cathegory */,
 				3F40A60C24EA0D4100261161 /* Select Project Image */,
 				3F6EEA2D24E0A3550075C500 /* Connections List */,
 				3F95786824AD79D100B79818 /* Launch */,
@@ -773,7 +800,6 @@
 		3F9578C424B0194400B79818 /* Sign Up */ = {
 			isa = PBXGroup;
 			children = (
-				3F9578D824B01E8F00B79818 /* SignUpCollectionViewCell.swift */,
 				3F9578C724B0196300B79818 /* SignUpController.swift */,
 				3F9578C924B0196C00B79818 /* SignUpInteractor.swift */,
 				3F9578D124B0198F00B79818 /* SignUpModels.swift */,
@@ -1074,10 +1100,12 @@
 			files = (
 				3F95787124AEA4B800B79818 /* SignInController.swift in Sources */,
 				3F8D13A524D73C2600AED7EB /* Array+.swift in Sources */,
+				3F40A68124EDF5A300261161 /* SelectProjectCathegoryController.swift in Sources */,
 				3F95782024AD6FBC00B79818 /* AppDelegate.swift in Sources */,
 				3F8116E024B6ABEE0083A3DA /* UICollectionView+.swift in Sources */,
 				3F95786624AD785900B79818 /* BaseRouterProtocol.swift in Sources */,
 				3F8D138824D5362800AED7EB /* ProfileDetailsController.swift in Sources */,
+				3F40A68724EDF6DD00261161 /* SelectProjectCathegoryWorker.swift in Sources */,
 				3F40A61424EA0E9300261161 /* SelectProjectImageInteractor.swift in Sources */,
 				3F8D139024D5364C00AED7EB /* ProfileDetailsRouter.swift in Sources */,
 				3FE8DF5424C52F72005DE30D /* FirebaseAuthHelper.swift in Sources */,
@@ -1088,6 +1116,7 @@
 				3F40A61024EA0D9B00261161 /* SelectProjectImageRouter.swift in Sources */,
 				3FE8DF5C24CBD81C005DE30D /* ThemeColors.swift in Sources */,
 				3F40A61A24EA10C300261161 /* SelectProjectImageModels.swift in Sources */,
+				3F40A68924EDF70700261161 /* SelectProjectCathegoryModels.swift in Sources */,
 				3F9578DD24B0314D00B79818 /* BaseViewController.swift in Sources */,
 				3F8D138A24D5363200AED7EB /* ProfileDetailsInteractor.swift in Sources */,
 				3FE8DF5624C7BE0B005DE30D /* UserModel.swift in Sources */,
@@ -1120,10 +1149,12 @@
 				3F6EEA7724E8D1CE0075C500 /* EmptyListView.swift in Sources */,
 				3F6EEA7524E87EE10075C500 /* UIAlertController+.swift in Sources */,
 				3F9578D024B0198700B79818 /* SignUpRouter.swift in Sources */,
+				3F40A68D24EDFE1F00261161 /* CathegoryCollectionViewCell.swift in Sources */,
 				3F8D139D24D53B7B00AED7EB /* NotificationsPresenter.swift in Sources */,
 				3F95787324AEA4C000B79818 /* SignInView.swift in Sources */,
 				3F40A61824EA0F4000261161 /* SelectProjectImageWorker.swift in Sources */,
 				3F8D138C24D5363A00AED7EB /* ProfileDetailsPresenter.swift in Sources */,
+				3F40A67F24EDF58400261161 /* SelectProjectCathegoryView.swift in Sources */,
 				3F8D13C224D799A200AED7EB /* NotificationsView.swift in Sources */,
 				3F40A61624EA0EE700261161 /* SelectProjectImagePresenter.swift in Sources */,
 				3F6EEA3B24E0A3AE0075C500 /* ConnectionsListModels.swift in Sources */,
@@ -1138,13 +1169,11 @@
 				3F9578CE24B0197F00B79818 /* SignUpProvider.swift in Sources */,
 				3F8D13CA24DCCD2100AED7EB /* BaseResponse.swift in Sources */,
 				3F8D13C024D78CBF00AED7EB /* NotificationTableViewCell.swift in Sources */,
-				3F9578D924B01E8F00B79818 /* SignUpCollectionViewCell.swift in Sources */,
 				3F6EEA3924E0A3A50075C500 /* ConnectionsListRouter.swift in Sources */,
 				3F8D138E24D5364000AED7EB /* ProfileDetailsWorker.swift in Sources */,
 				3F8D13A124D53C4400AED7EB /* NotificationsModels.swift in Sources */,
 				3F9578C824B0196300B79818 /* SignUpController.swift in Sources */,
 				3F95786A24AEA07100B79818 /* LaunchScreenInteractor.swift in Sources */,
-				3F40A61C24EA174600261161 /* SelectProjectImageCollectionViewCell.swift in Sources */,
 				3FE8DF5824C7BEE2005DE30D /* Constants.swift in Sources */,
 				3F9578D424B019BE00B79818 /* MovieStyleButton.swift in Sources */,
 				3F8D13AC24D7466A00AED7EB /* FetchCurrentUserIdRequest.swift in Sources */,
@@ -1152,11 +1181,14 @@
 				3F8D13CC24DE59F700AED7EB /* ConnectUsersRequest.swift in Sources */,
 				3F95782224AD6FBC00B79818 /* SceneDelegate.swift in Sources */,
 				3F6EEA2F24E0A3680075C500 /* ConnectionsListController.swift in Sources */,
+				3F40A68B24EDF76300261161 /* SelectProjectCathegoryRouter.swift in Sources */,
 				3F95786E24AEA16000B79818 /* LaunchScreenModels.swift in Sources */,
 				3F1158AF24C3F0EC00075C73 /* TeamMemberViewModel.swift in Sources */,
 				3F95785724AD75E700B79818 /* LaunchScreenView.swift in Sources */,
 				3F6EEA3124E0A3720075C500 /* ConnectionsListView.swift in Sources */,
 				3F43311E24E8E8B90082825E /* ConfirmationAlertView.swift in Sources */,
+				3F40A68524EDF68300261161 /* SelectProjectCathegoryPresenter.swift in Sources */,
+				3F40A68324EDF61700261161 /* SelectProjectCathegoryInteractor.swift in Sources */,
 				3F6EEA6F24E5D7550075C500 /* Dictionary+.swift in Sources */,
 				3F6EEA3D24E0A6B10075C500 /* ConnectionsListTableViewCell.swift in Sources */,
 				3F8D13BE24D789EF00AED7EB /* UITableView+.swift in Sources */,

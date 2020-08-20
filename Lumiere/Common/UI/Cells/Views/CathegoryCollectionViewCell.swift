@@ -1,14 +1,13 @@
 //
-//  SignUpCollectionViewCell.swift
+//  CathegoryCollectionViewCell.swift
 //  Lumiere
 //
-//  Created by Pedro Alvarez on 03/07/20.
+//  Created by Pedro Alvarez on 19/08/20.
 //  Copyright © 2020 Pedro Alvarez. All rights reserved.
 //
-
 import UIKit
 
-class SignUpCollectionViewCell: UICollectionViewCell {
+class CathegoryCollectionViewCell: UICollectionViewCell {
     
     enum State {
         case enable
@@ -34,7 +33,7 @@ class SignUpCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         layer.cornerRadius = 4
-        backgroundColor = SignUp.Constants.Colors.signUpButtonDeactivatedColor
+        backgroundColor = UIColor(rgb: 0xe50c3c).withAlphaComponent(0.6)
     }
     
     required init?(coder: NSCoder) {
@@ -47,18 +46,18 @@ class SignUpCollectionViewCell: UICollectionViewCell {
     }
 }
 
-extension SignUpCollectionViewCell {
+extension CathegoryCollectionViewCell {
     
     private func enableButton() {
-        backgroundColor = SignUp.Constants.Colors.signUpButtonBackgroundColor
+        backgroundColor = UIColor(rgb: 0xe50c3c)
     }
     
     private func disableButton() {
-        backgroundColor = SignUp.Constants.Colors.signUpButtonDeactivatedColor
+        backgroundColor = UIColor(rgb: 0xe50c3c).withAlphaComponent(0.6)
     }
 }
 
-extension SignUpCollectionViewCell: ViewCodeProtocol {
+extension CathegoryCollectionViewCell: ViewCodeProtocol {
     
     func buildViewHierarchy() {
         addSubview(mainLbl)
@@ -77,8 +76,8 @@ extension SignUpCollectionViewCell: ViewCodeProtocol {
         mainLbl.text = movieStyle?.rawValue
         mainLbl.textAlignment = .center
         mainLbl.numberOfLines = 1
-        mainLbl.font = SignUp.Constants.Fonts.cathegoriesLblFont
-        mainLbl.textColor = SignUp.Constants.Colors.signUpCollectionViewCellText
+        mainLbl.font = ThemeFonts.RobotoBold(16).rawValue
+        mainLbl.textColor = UIColor(rgb: 0xffffff)
         mainLbl.adjustsFontSizeToFitWidth = true
         mainLbl.minimumScaleFactor = 0.5
     }
