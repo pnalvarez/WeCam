@@ -27,8 +27,9 @@ struct SelectProjectCathegory {
         struct Texts {
             static let advanceButton = "Avançar"
             static let titleLbl = "Categoria"
-            static let failureToSelectTitle = "Atenção"
+            static let defaultErrorTitle = "Atenção"
             static let failureToSelectMessage = "Selecione apenas duas categorias para o seu projeto"
+            static let noCathegorySelectedErrorMessage = "Selecione no mínimo uma categoria para o seu projeto"
         }
         
         struct Images {
@@ -70,6 +71,14 @@ struct SelectProjectCathegory {
         
         struct Response {
             
+        }
+        
+        struct Errors {
+            
+            struct SelectionError {
+                let title: String
+                let message: String
+            }
         }
     }
     

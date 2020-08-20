@@ -211,8 +211,8 @@ extension SignUpController: UIImagePickerControllerDelegate, UINavigationControl
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage{
-                    imageButton.setImage(image, for: .normal)
-                }
+            imageButton.setImage(image, for: .normal)
+        }
         self.dismiss(animated: true, completion: nil)
     }
 }

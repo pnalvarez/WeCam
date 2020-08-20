@@ -60,7 +60,11 @@ extension SelectProjectCathegoryInteractor: SelectProjectCathegoryBusinessLogic 
                 selectedCathegories?.secondCathegory = nil
             }
         } else if selectedCathegories?.firstCathegory != nil && selectedCathegories?.secondCathegory != nil {
-            presenter.presentFailureToSelect()
+            presenter.presentError(SelectProjectCathegory
+                .Info
+                .Errors
+                .SelectionError(title: SelectProjectCathegory.Constants.Texts.defaultErrorTitle,
+                                message: SelectProjectCathegory.Constants.Texts.failureToSelectMessage))
         } else {
             guard let index = allCathegories?.cathegories.firstIndex(where: { $0.cathegory == request.cathegory }) else {
                 return
@@ -77,6 +81,15 @@ extension SelectProjectCathegoryInteractor: SelectProjectCathegoryBusinessLogic 
     }
     
     func fetchAdvance(_ request: SelectProjectCathegory.Request.Advance) {
-        
+        guard selectedCathegories?.firstCathegory != nil,
+            selectedCathegories?.secondCathegory != nil else {
+                presenter.presentError(SelectProjectCathegory
+                    .Info
+                    .Errors
+                    .SelectionError(title: SelectProjectCathegory.Constants.Texts.defaultErrorTitle,
+                                    message: SelectProjectCathegory.Constants.Texts.noCathegorySelectedErrorMessage))
+                return 
+        }
+        presenter.presentProjectProgress()
     }
 }

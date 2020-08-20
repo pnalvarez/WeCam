@@ -9,7 +9,7 @@
 protocol SelectProjectCathegoryPresentationLogic {
     func presentAllCathegories(_ response: SelectProjectCathegory.Info.Model.InterestCathegories)
     func presentProjectProgress()
-    func presentFailureToSelect()
+    func presentError(_ response: SelectProjectCathegory.Info.Errors.SelectionError)
 }
 
 class SelectProjectCathegoryPresenter: SelectProjectCathegoryPresentationLogic {
@@ -25,10 +25,10 @@ class SelectProjectCathegoryPresenter: SelectProjectCathegoryPresentationLogic {
     }
     
     func presentProjectProgress() {
-        
+        viewController.displayProjectProgress()
     }
     
-    func presentFailureToSelect() {
-        viewController.displayFailureToSelect()
+    func presentError(_ response: SelectProjectCathegory.Info.Errors.SelectionError) {
+        viewController.displayError(response)
     }
 }

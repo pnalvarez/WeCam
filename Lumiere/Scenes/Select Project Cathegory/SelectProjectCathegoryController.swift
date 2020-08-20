@@ -11,7 +11,7 @@ import UIKit
 protocol SelectProjectCathegoryDisplayLogic: class {
     func displayAllCathegories(_ viewModel: SelectProjectCathegory.Info.Model.InterestCathegories)
     func displayProjectProgress()
-    func displayFailureToSelect()
+    func displayError(_ viewModel: SelectProjectCathegory.Info.Errors.SelectionError)
 }
 
 class SelectProjectCathegoryController: BaseViewController {
@@ -166,9 +166,9 @@ extension SelectProjectCathegoryController: SelectProjectCathegoryDisplayLogic {
         router?.routeToProjectProgress()
     }
     
-    func displayFailureToSelect() {
+    func displayError(_ viewModel: SelectProjectCathegory.Info.Errors.SelectionError) {
         UIAlertController.displayAlert(in: self,
-                                       title: SelectProjectCathegory.Constants.Texts.failureToSelectTitle,
-                                       message: SelectProjectCathegory.Constants.Texts.failureToSelectMessage)
+                                       title: viewModel.title,
+                                       message: viewModel.message)
     }
 }
