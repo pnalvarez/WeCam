@@ -24,6 +24,18 @@ class SelectProjectCathegoryRouter: NSObject, SelectProjectCathegoryDataTransfer
     weak var viewController: UIViewController?
     var dataStore: SelectProjectCathegoryDataStore?
 
+    private func transferDataToProjectProgress(from source: SelectProjectCathegoryDataStore,
+                                               to destination: inout ProjectProgressDataStore) {
+        var cathegories = [String]()
+        if let firstCathegory = source.selectedCathegories?.firstCathegory {
+            cathegories.append(firstCathegory.rawValue)
+        }
+        if let secondCathegory = source.selectedCathegories?.secondCathegory {
+            cathegories.append(secondCathegory.rawValue)
+        }
+        destination.projectData = ProjectProgress.Info.Received.Project(image: source.projectData?.image,
+                                                                        cathegories: cathegories)
+    }
 }
 
 extension SelectProjectCathegoryRouter: BaseRouterProtocol {
@@ -36,7 +48,12 @@ extension SelectProjectCathegoryRouter: BaseRouterProtocol {
 extension SelectProjectCathegoryRouter: SelectProjectCathegoryRoutingLogic {
     
     func routeToProjectProgress() {
-    
+        let vc = ProjectProgressController()
+        guard let source = dataStore,
+            var destination = vc.router?.dataStore else { return }
+        transferDataToProjectProgress(from: source,
+                                      to: &destination)
+        routeTo(nextVC: vc)
     }
     
     func routeBack() {

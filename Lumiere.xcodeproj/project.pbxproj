@@ -29,6 +29,13 @@
 		3F40A68924EDF70700261161 /* SelectProjectCathegoryModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A68824EDF70700261161 /* SelectProjectCathegoryModels.swift */; };
 		3F40A68B24EDF76300261161 /* SelectProjectCathegoryRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A68A24EDF76300261161 /* SelectProjectCathegoryRouter.swift */; };
 		3F40A68D24EDFE1F00261161 /* CathegoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A68C24EDFE1F00261161 /* CathegoryCollectionViewCell.swift */; };
+		3F40A69024EF41ED00261161 /* ProjectProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A68F24EF41ED00261161 /* ProjectProgressView.swift */; };
+		3F40A69224EF420800261161 /* ProjectProgressController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A69124EF420800261161 /* ProjectProgressController.swift */; };
+		3F40A69424EF426500261161 /* ProjectProgressInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A69324EF426500261161 /* ProjectProgressInteractor.swift */; };
+		3F40A69624EF429E00261161 /* ProjectProgressPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A69524EF429E00261161 /* ProjectProgressPresenter.swift */; };
+		3F40A69824EF42EA00261161 /* ProjectProgressWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A69724EF42EA00261161 /* ProjectProgressWorker.swift */; };
+		3F40A69A24EF430B00261161 /* ProjectProgressRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A69924EF430B00261161 /* ProjectProgressRouter.swift */; };
+		3F40A69C24EF439E00261161 /* ProjectProgressModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A69B24EF439E00261161 /* ProjectProgressModels.swift */; };
 		3F43311E24E8E8B90082825E /* ConfirmationAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F43311D24E8E8B90082825E /* ConfirmationAlertView.swift */; };
 		3F6EEA2F24E0A3680075C500 /* ConnectionsListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6EEA2E24E0A3680075C500 /* ConnectionsListController.swift */; };
 		3F6EEA3124E0A3720075C500 /* ConnectionsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6EEA3024E0A3720075C500 /* ConnectionsListView.swift */; };
@@ -186,6 +193,13 @@
 		3F40A68824EDF70700261161 /* SelectProjectCathegoryModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectProjectCathegoryModels.swift; sourceTree = "<group>"; };
 		3F40A68A24EDF76300261161 /* SelectProjectCathegoryRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectProjectCathegoryRouter.swift; sourceTree = "<group>"; };
 		3F40A68C24EDFE1F00261161 /* CathegoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CathegoryCollectionViewCell.swift; sourceTree = "<group>"; };
+		3F40A68F24EF41ED00261161 /* ProjectProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectProgressView.swift; sourceTree = "<group>"; };
+		3F40A69124EF420800261161 /* ProjectProgressController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectProgressController.swift; sourceTree = "<group>"; };
+		3F40A69324EF426500261161 /* ProjectProgressInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectProgressInteractor.swift; sourceTree = "<group>"; };
+		3F40A69524EF429E00261161 /* ProjectProgressPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectProgressPresenter.swift; sourceTree = "<group>"; };
+		3F40A69724EF42EA00261161 /* ProjectProgressWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectProgressWorker.swift; sourceTree = "<group>"; };
+		3F40A69924EF430B00261161 /* ProjectProgressRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectProgressRouter.swift; sourceTree = "<group>"; };
+		3F40A69B24EF439E00261161 /* ProjectProgressModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectProgressModels.swift; sourceTree = "<group>"; };
 		3F43311D24E8E8B90082825E /* ConfirmationAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationAlertView.swift; sourceTree = "<group>"; };
 		3F6EEA2E24E0A3680075C500 /* ConnectionsListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsListController.swift; sourceTree = "<group>"; };
 		3F6EEA3024E0A3720075C500 /* ConnectionsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsListView.swift; sourceTree = "<group>"; };
@@ -426,6 +440,20 @@
 				3F40A68A24EDF76300261161 /* SelectProjectCathegoryRouter.swift */,
 			);
 			path = "Select Project Cathegory";
+			sourceTree = "<group>";
+		};
+		3F40A68E24EF41D800261161 /* Project Progress */ = {
+			isa = PBXGroup;
+			children = (
+				3F40A68F24EF41ED00261161 /* ProjectProgressView.swift */,
+				3F40A69124EF420800261161 /* ProjectProgressController.swift */,
+				3F40A69324EF426500261161 /* ProjectProgressInteractor.swift */,
+				3F40A69524EF429E00261161 /* ProjectProgressPresenter.swift */,
+				3F40A69724EF42EA00261161 /* ProjectProgressWorker.swift */,
+				3F40A69924EF430B00261161 /* ProjectProgressRouter.swift */,
+				3F40A69B24EF439E00261161 /* ProjectProgressModels.swift */,
+			);
+			path = "Project Progress";
 			sourceTree = "<group>";
 		};
 		3F6EEA2D24E0A3550075C500 /* Connections List */ = {
@@ -732,6 +760,7 @@
 		3F95786724AD79C900B79818 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				3F40A68E24EF41D800261161 /* Project Progress */,
 				3F40A67D24EDF56E00261161 /* Select Project Cathegory */,
 				3F40A60C24EA0D4100261161 /* Select Project Image */,
 				3F6EEA2D24E0A3550075C500 /* Connections List */,
@@ -1107,6 +1136,7 @@
 				3F8D138824D5362800AED7EB /* ProfileDetailsController.swift in Sources */,
 				3F40A68724EDF6DD00261161 /* SelectProjectCathegoryWorker.swift in Sources */,
 				3F40A61424EA0E9300261161 /* SelectProjectImageInteractor.swift in Sources */,
+				3F40A69A24EF430B00261161 /* ProjectProgressRouter.swift in Sources */,
 				3F8D139024D5364C00AED7EB /* ProfileDetailsRouter.swift in Sources */,
 				3FE8DF5424C52F72005DE30D /* FirebaseAuthHelper.swift in Sources */,
 				3F95787524AEA4C900B79818 /* SignInInteractor.swift in Sources */,
@@ -1126,6 +1156,7 @@
 				3F8D13C824D8FC1400AED7EB /* UIImage+.swift in Sources */,
 				3F9578C624B0195600B79818 /* SignUpView.swift in Sources */,
 				3F8116DE24B6AB620083A3DA /* ReusableView.swift in Sources */,
+				3F40A69C24EF439E00261161 /* ProjectProgressModels.swift in Sources */,
 				3F8D139524D53A3600AED7EB /* NotificationsTableView.swift in Sources */,
 				3F0CAA6224CCE0E8005E2558 /* CreateUserRequest.swift in Sources */,
 				3F95787D24AEA4F000B79818 /* SignInProvider.swift in Sources */,
@@ -1143,8 +1174,10 @@
 				3F95785E24AD764700B79818 /* ViewCodeProtocol.swift in Sources */,
 				3F8D138624D5361A00AED7EB /* ProfileDetailsView.swift in Sources */,
 				3F8D13A724D73F5E00AED7EB /* FetchUserDataRequest.swift in Sources */,
+				3F40A69024EF41ED00261161 /* ProjectProgressView.swift in Sources */,
 				3FE8DF5A24CBD271005DE30D /* UIView+.swift in Sources */,
 				3F95786124AD775D00B79818 /* LaunchScreenController.swift in Sources */,
+				3F40A69424EF426500261161 /* ProjectProgressInteractor.swift in Sources */,
 				3F95787B24AEA4EA00B79818 /* SignInModels.swift in Sources */,
 				3F6EEA7724E8D1CE0075C500 /* EmptyListView.swift in Sources */,
 				3F6EEA7524E87EE10075C500 /* UIAlertController+.swift in Sources */,
@@ -1156,6 +1189,7 @@
 				3F8D138C24D5363A00AED7EB /* ProfileDetailsPresenter.swift in Sources */,
 				3F40A67F24EDF58400261161 /* SelectProjectCathegoryView.swift in Sources */,
 				3F8D13C224D799A200AED7EB /* NotificationsView.swift in Sources */,
+				3F40A69824EF42EA00261161 /* ProjectProgressWorker.swift in Sources */,
 				3F40A61624EA0EE700261161 /* SelectProjectImagePresenter.swift in Sources */,
 				3F6EEA3B24E0A3AE0075C500 /* ConnectionsListModels.swift in Sources */,
 				3F8D13CE24DF388700AED7EB /* FetchUserRelationRequest.swift in Sources */,
@@ -1189,10 +1223,12 @@
 				3F43311E24E8E8B90082825E /* ConfirmationAlertView.swift in Sources */,
 				3F40A68524EDF68300261161 /* SelectProjectCathegoryPresenter.swift in Sources */,
 				3F40A68324EDF61700261161 /* SelectProjectCathegoryInteractor.swift in Sources */,
+				3F40A69624EF429E00261161 /* ProjectProgressPresenter.swift in Sources */,
 				3F6EEA6F24E5D7550075C500 /* Dictionary+.swift in Sources */,
 				3F6EEA3D24E0A6B10075C500 /* ConnectionsListTableViewCell.swift in Sources */,
 				3F8D13BE24D789EF00AED7EB /* UITableView+.swift in Sources */,
 				3F9578DB24B0240C00B79818 /* String+.swift in Sources */,
+				3F40A69224EF420800261161 /* ProjectProgressController.swift in Sources */,
 				3F9578CA24B0196C00B79818 /* SignUpInteractor.swift in Sources */,
 				3F8D139224D5365700AED7EB /* ProfileDetailsModels.swift in Sources */,
 				3F9578CC24B0197500B79818 /* SignUpPresenter.swift in Sources */,

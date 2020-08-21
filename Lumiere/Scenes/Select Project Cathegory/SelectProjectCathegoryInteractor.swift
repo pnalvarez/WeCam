@@ -81,7 +81,7 @@ extension SelectProjectCathegoryInteractor: SelectProjectCathegoryBusinessLogic 
     }
     
     func fetchAdvance(_ request: SelectProjectCathegory.Request.Advance) {
-        guard selectedCathegories?.firstCathegory != nil,
+        guard selectedCathegories?.firstCathegory != nil ||
             selectedCathegories?.secondCathegory != nil else {
                 presenter.presentError(SelectProjectCathegory
                     .Info

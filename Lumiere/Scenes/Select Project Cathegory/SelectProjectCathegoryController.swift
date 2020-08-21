@@ -102,7 +102,7 @@ extension SelectProjectCathegoryController {
     
     @objc
     private func didTapAdvance() {
-        
+        interactor?.fetchAdvance(SelectProjectCathegory.Request.Advance())
     }
 }
 
