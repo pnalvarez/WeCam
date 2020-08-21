@@ -14,9 +14,8 @@ protocol ProjectProgressDisplayLogic: class {
 
 class ProjectProgressController: BaseViewController {
     
-    private lazy var backButton: UIButton = {
-        let view = UIButton(frame: .zero)
-        view.setImage(ProjectProgress.Constants.Images.back, for: .normal)
+    private lazy var backButton: DefaultBackButton = {
+        let view = DefaultBackButton(frame: .zero)
         view.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
         return view
     }()

@@ -36,6 +36,7 @@
 		3F40A69824EF42EA00261161 /* ProjectProgressWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A69724EF42EA00261161 /* ProjectProgressWorker.swift */; };
 		3F40A69A24EF430B00261161 /* ProjectProgressRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A69924EF430B00261161 /* ProjectProgressRouter.swift */; };
 		3F40A69C24EF439E00261161 /* ProjectProgressModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A69B24EF439E00261161 /* ProjectProgressModels.swift */; };
+		3F40A69E24F08F7C00261161 /* DefaultBackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A69D24F08F7C00261161 /* DefaultBackButton.swift */; };
 		3F43311E24E8E8B90082825E /* ConfirmationAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F43311D24E8E8B90082825E /* ConfirmationAlertView.swift */; };
 		3F6EEA2F24E0A3680075C500 /* ConnectionsListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6EEA2E24E0A3680075C500 /* ConnectionsListController.swift */; };
 		3F6EEA3124E0A3720075C500 /* ConnectionsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6EEA3024E0A3720075C500 /* ConnectionsListView.swift */; };
@@ -200,6 +201,7 @@
 		3F40A69724EF42EA00261161 /* ProjectProgressWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectProgressWorker.swift; sourceTree = "<group>"; };
 		3F40A69924EF430B00261161 /* ProjectProgressRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectProgressRouter.swift; sourceTree = "<group>"; };
 		3F40A69B24EF439E00261161 /* ProjectProgressModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectProgressModels.swift; sourceTree = "<group>"; };
+		3F40A69D24F08F7C00261161 /* DefaultBackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultBackButton.swift; sourceTree = "<group>"; };
 		3F43311D24E8E8B90082825E /* ConfirmationAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationAlertView.swift; sourceTree = "<group>"; };
 		3F6EEA2E24E0A3680075C500 /* ConnectionsListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsListController.swift; sourceTree = "<group>"; };
 		3F6EEA3024E0A3720075C500 /* ConnectionsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsListView.swift; sourceTree = "<group>"; };
@@ -717,6 +719,7 @@
 				3F6EEA7624E8D1CE0075C500 /* EmptyListView.swift */,
 				3F43311D24E8E8B90082825E /* ConfirmationAlertView.swift */,
 				3F40A60A24E9CA4D00261161 /* LoadingView.swift */,
+				3F40A69D24F08F7C00261161 /* DefaultBackButton.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -1199,6 +1202,7 @@
 				3F6EEA7324E870AD0075C500 /* InfopListReader.swift in Sources */,
 				3F95786424AD77E200B79818 /* LaunchScreenRouter.swift in Sources */,
 				3F9578D724B01A0600B79818 /* MovieStyle.swift in Sources */,
+				3F40A69E24F08F7C00261161 /* DefaultBackButton.swift in Sources */,
 				3F40A61224EA0E4B00261161 /* SelectProjectImageView.swift in Sources */,
 				3F9578CE24B0197F00B79818 /* SignUpProvider.swift in Sources */,
 				3F8D13CA24DCCD2100AED7EB /* BaseResponse.swift in Sources */,

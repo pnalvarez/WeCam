@@ -16,13 +16,13 @@ struct SelectProjectImage {
         
         struct Colors {
             static let advanceButton = UIColor(rgb: 0xc4c4c4)
-            static let selectedImageViewLayer = UIColor(rgb: 0xe0e0e0).cgColor
-            static let titleLbl = UIColor(rgb: 0x000000)
+            static let selectedImageViewLayer = UIColor(rgb: 0x707070).cgColor
+            static let titleLbl = UIColor(rgb: 0x707070)
         }
         
         struct Fonts {
             static let advanceButton = ThemeFonts.RobotoBold(16).rawValue
-            static let titleLbl = ThemeFonts.RobotoBold(14).rawValue
+            static let titleLbl = ThemeFonts.RobotoRegular(14).rawValue
         }
         
         struct Texts {
@@ -40,6 +40,9 @@ struct SelectProjectImage {
             static let tabBarSelectedImage = UIImage(named: "publicacao-depois-de-clicar 1",
                                                      in: SelectProjectImage.bundle,
                                                      compatibleWith: nil)
+            static let camera = UIImage(named: "photo 1",
+                                        in: SelectProjectImage.bundle,
+                                        compatibleWith: nil)
         }
     }
     

@@ -35,10 +35,11 @@ class SelectProjectImageController: BaseViewController, UINavigationControllerDe
         let view = UIButton(frame: .zero)
         view.contentMode = .scaleAspectFill
         view.addTarget(self, action: #selector(didTapSelectImageButton), for: .touchUpInside)
-        view.imageView?.contentMode = .scaleAspectFill
+        view.imageView?.contentMode = .scaleAspectFit
         view.clipsToBounds = true
         view.layer.borderWidth = 1
         view.layer.borderColor = SelectProjectImage.Constants.Colors.selectedImageViewLayer
+        view.setImage(SelectProjectImage.Constants.Images.camera, for: .normal)
         view.layer.cornerRadius = 92
         return view
     }()
