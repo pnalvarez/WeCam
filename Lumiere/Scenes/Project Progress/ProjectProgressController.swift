@@ -34,10 +34,8 @@ class ProjectProgressController: BaseViewController {
         let view = UISlider(frame: .zero)
         view.setThumbImage(ProjectProgress.Constants.Images.logo?.alpha(0.4), for: .normal)
         view.setThumbImage(ProjectProgress.Constants.Images.logo, for: .highlighted)
-        view.backgroundColor = .white
-        view.tintColor = .white
-        view.layer.borderWidth = 1
-        view.layer.borderColor = ProjectProgress.Constants.Colors.progressSliderLayer
+        view.backgroundColor = ProjectProgress.Constants.Colors.progressSliderBackground
+        view.tintColor = ProjectProgress.Constants.Colors.progressSliderBackground
         view.addTarget(self, action: #selector(didChangeSliderValue), for: .valueChanged)
         return view
     }()

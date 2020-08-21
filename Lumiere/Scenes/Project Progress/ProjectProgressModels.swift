@@ -19,7 +19,7 @@ struct ProjectProgress {
             static let zeroPercentLbl = UIColor(rgb: 0x000000)
             static let hundredPercentLbl = UIColor(rgb: 0x000000)
             static let advanceButton = UIColor(rgb: 0xc4c4c4)
-            static let progressSliderLayer = UIColor(rgb: 0xe0e0e0).cgColor
+            static let progressSliderBackground = UIColor(rgb: 0xe0e0e0)
         }
         
         struct Fonts {
