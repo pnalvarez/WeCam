@@ -1017,11 +1017,39 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                             completion(.error(error))
                             return
                         }
+                        self.realtimeDB
+                            .child(Constants.usersPath)
+                            .child(currentUser)
+                            .child("authoring_project_ids")
+                            .observeSingleEvent(of: .value) { snapshot in
+                                var newArray: Array<Any>
+                                if var projectIds = snapshot.value as? Array<Any> {
+                                    projectIds.append(projectId)
+                                    newArray = projectIds
+                                } else {
+                                    newArray = [projectId]
+                                }
+                                var newDict: [String : Any] = [:]
+                                for i in 0..<newArray.count {
+                                    newDict["\(i)"] = newArray[i]
+                                }
+                                self.realtimeDB
+                                    .child(Constants.usersPath)
+                                    .child(currentUser)
+                                    .child("authoring_project_ids")
+                                    .updateChildValues(newDict) { (error, ref) in
+                                        if let error = error {
+                                            completion(.error(error))
+                                            return
+                                        }
+                                        completion(.success)
+                                }
+                        }
 //                        guard let mappedResponse = Mapper<T>().map(JSON: projectDict) else {
 //                            completion(.error(FirebaseErrors.genericError))
 //                            return
 //                        }
-                        completion(.success)
+//                        completion(.success)
                     }
                 }
             }
