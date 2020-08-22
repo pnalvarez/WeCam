@@ -27,6 +27,10 @@ struct EditProjectDetails {
             static let needTextFieldBackground = UIColor(rgb: 0xffffff)
             static let needTextFieldLayer = UIColor(rgb: 0xe0e0e0).cgColor
             static let needTextFieldText = UIColor(rgb: 0x000000)
+            static let projectTitleFixedLbl = UIColor(rgb: 0x707070)
+            static let projectTitleTextFieldBackground = UIColor(rgb: 0xffffff)
+            static let projectTitleTextFieldLayer = UIColor(rgb: 0xe0e0e0).cgColor
+            static let projectTitleTextFieldText = UIColor(rgb: 0x000000)
         }
         
         struct Fonts {
@@ -37,6 +41,8 @@ struct EditProjectDetails {
             static let sinopsisTextField = ThemeFonts.RobotoRegular(16).rawValue
             static let needLbl = ThemeFonts.RobotoRegular(16).rawValue
             static let needTextField = ThemeFonts.RobotoRegular(16).rawValue
+            static let projectTitleLbl = ThemeFonts.RobotoRegular(16).rawValue
+            static let projectTitleTextField = ThemeFonts.RobotoRegular(16).rawValue
         }
         
         struct Texts {
@@ -45,6 +51,8 @@ struct EditProjectDetails {
             static let sinopsisFixedLbl = "Sinopse"
             static let needLbl = "Preciso de:"
             static let teamValueLblEmpty = "Nenhum amigo convidado"
+            static let projectTitleLbl = "Título do Projeto"
+            static let errorTitle = "Erro"
         }
         
         struct Images {
@@ -65,22 +73,65 @@ struct EditProjectDetails {
         
         struct Model {
             
+            struct Project {
+                let image: Data?
+                let cathegories: [String]
+                let progress: Float
+                let title: String
+                let invitedUserIds: [String]
+                let sinopsis: String
+                let needing: String
+            }
+            
+            struct InvitedUsers {
+                let users: [User]
+            }
+            
+            struct User {
+                let id: String
+                let name: String
+            }
+            
+            struct ServerError {
+                let error: Error
+            }
+            
+            struct LocalError {
+                let description: String
+            }
         }
         
         struct ViewModel {
             
+            struct InvitedUsers {
+                let text: String
+            }
+            
+            struct DisplayError {
+                let description: String
+            }
         }
         
         struct Response {
-            
-        }
-        
-        struct Errors {
             
         }
     }
     
     struct Request {
         
+        struct Invite {
+            
+        }
+        
+        struct Publish {
+            let title: String
+            let sinopsis: String
+            let invitedUserIds: [String]
+            let needing: String
+        }
+        
+        struct CompletePublish {
+            let project: Info.Model.Project
+        }
     }
 }

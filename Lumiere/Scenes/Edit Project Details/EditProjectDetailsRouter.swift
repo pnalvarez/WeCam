@@ -11,7 +11,9 @@ import UIKit
 typealias EditProjectDetailsRouterProtocol = NSObject & EditProjectDetailsRoutingLogic & EditProjectDetailsDataTransfer
 
 protocol EditProjectDetailsRoutingLogic {
-    
+    func routeBack()
+    func routeToInviteList()
+    func routeToPublishedProjectDetails()
 }
 
 protocol EditProjectDetailsDataTransfer {
@@ -33,4 +35,15 @@ extension EditProjectDetailsRouter: BaseRouterProtocol {
 
 extension EditProjectDetailsRouter: EditProjectDetailsRoutingLogic {
     
+    func routeBack() {
+        viewController?.navigationController?.popViewController(animated: true)
+    }
+    
+    func routeToInviteList() {
+        
+    }
+    
+    func routeToPublishedProjectDetails() {
+        
+    }
 }
