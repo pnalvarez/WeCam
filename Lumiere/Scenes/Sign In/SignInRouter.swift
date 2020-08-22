@@ -93,6 +93,16 @@ extension SignInRouter: SignInRoutingLogic {
 //        FirebaseAuthHelper().fetchSendConnectionRequest(request: ["userId": "NHTOCGn3SLPyLq7Nsfj2Y4yqkMl2"]) {
 //            response in
 //        }
+        let float: Float = 0.8
+        let headers: [String : Any] = ["payload": ["image": ProjectProgress.Constants.Images.logo?.jpegData(compressionQuality: 0.5),
+                                                   "cathegories": ["Animação"],
+                                                   "sinopsis": "Sinopse Teste",
+                                                   "needing": "Needing Teste",
+                                                   "percentage": float],
+                                       "participants": ["e81381", "e892648264"]]
+        FirebaseAuthHelper().fetchCreateProject(request: headers) { response in
+                
+        }
         routeTo(nextVC: tabController)
     }
 }

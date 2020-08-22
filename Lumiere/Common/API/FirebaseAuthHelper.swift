@@ -59,6 +59,8 @@ protocol FirebaseAuthHelperProtocol {
                                       completion: @escaping (EmptyResponse) -> Void)
     func fetchSignOut(request: [String : Any],
                       completion: @escaping (EmptyResponse) -> Void)
+    func fetchCreateProject(request: [String : Any],
+                            completion: @escaping (EmptyResponse) -> Void)
 }
 
 class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
@@ -965,6 +967,66 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
             completion(.success)
         } catch {
             completion(.error(error))
+        }
+    }
+    
+    func fetchCreateProject(request: [String : Any],
+                            completion: @escaping (EmptyResponse) -> Void) {
+        if let payload = request["payload"] as? [String : Any],
+            let image = payload["image"] as? Data?,
+            let cathegories = payload["cathegories"] as? Array<Any>,
+            let percentage = payload["percentage"] as? Float,
+            let sinopsis = payload["sinopsis"] as? String,
+            let needing = payload["needing"] as? String,
+            let invitedUsers = request["participants"] as? Array<Any>,
+            let currentUser = authReference.currentUser?.uid {
+            let projectReference = realtimeDB
+                .child(Constants.projectsPath)
+                .child(Constants.ongoingProjectsPath)
+                .childByAutoId()
+            guard let projectId = projectReference.key,
+                let image = image else {
+                    completion(.error(FirebaseErrors.genericError))
+                    return
+            }
+            let projectImageReference =  storage.child(Constants.projectsPath).child(projectId)
+            projectImageReference.putData(image, metadata: nil) { (metadata, error) in
+                    if let error = error {
+                        completion(.error(error))
+                        return
+                    }
+                projectImageReference.downloadURL { (url, error) in
+                    if let error = error {
+                        completion(.error(error))
+                        return
+                    }
+                    guard let url = url else {
+                        completion(.error(FirebaseErrors.genericError))
+                        return
+                    }
+                    let urlString = url.absoluteString
+                    let projectDict: [String : Any] = ["image": urlString,
+                                                       "cathegories": cathegories,
+                                                       "progress": percentage,
+                                                       "author_id": currentUser,
+                                                       "sinopsis": sinopsis,
+                                                       "pending_invites": invitedUsers,
+                                                       "needing": needing]
+                    projectReference.updateChildValues(projectDict) { (error, ref) in
+                        if let error = error {
+                            completion(.error(error))
+                            return
+                        }
+//                        guard let mappedResponse = Mapper<T>().map(JSON: projectDict) else {
+//                            completion(.error(FirebaseErrors.genericError))
+//                            return
+//                        }
+                        completion(.success)
+                    }
+                }
+            }
+        } else {
+            completion(.error(FirebaseErrors.genericError))
         }
     }
 }
