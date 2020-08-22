@@ -1042,7 +1042,74 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                                             completion(.error(error))
                                             return
                                         }
-                                        completion(.success)
+                                        self.realtimeDB
+                                            .child(Constants.usersPath)
+                                            .child(currentUser)
+                                            .child("participating_projects")
+                                            .observeSingleEvent(of: .value) { snapshot in
+                                                var newArray: Array<Any>
+                                                if var projectIds = snapshot.value as? Array<Any> {
+                                                    projectIds.append(projectId)
+                                                    newArray = projectIds
+                                                } else {
+                                                    newArray = [projectId]
+                                                }
+                                                var newDict: [String : Any] = [:]
+                                                for i in 0..<newArray.count {
+                                                    newDict["\(i)"] = newArray[i]
+                                                }
+                                                self.realtimeDB
+                                                    .child(Constants.usersPath)
+                                                    .child(currentUser)
+                                                    .child("participating_projects")
+                                                    .updateChildValues(newDict) { (error, ref) in
+                                                    if let error = error {
+                                                        completion(.error(error))
+                                                        return
+                                                    }
+                                                        for i in 0..<invitedUsers.count {
+                                                            if let userId = invitedUsers[i] as? String {
+                                                                self.realtimeDB
+                                                                    .child(Constants.usersPath)
+                                                                    .child(userId)
+                                                                    .child("project_invite_notifications")
+                                                                    .observeSingleEvent(of: .value) { snapshot in
+                                                                        var newArray: Array<Any>
+                                                                        let headers: [String : Any] = ["image": urlString,
+                                                                                                       "project_title": "default_title",
+                                                                                                       "projectId": projectId,
+                                                                                                       "author_id": currentUser]
+                                                                        if var notifications = snapshot.value as? Array<Any> {
+                                                                            notifications.append(headers)
+                                                                            newArray = notifications
+                                                                        } else {
+                                                                            newArray = [headers]
+                                                                        }
+                                                                        var newDict: [String : Any] = [:]
+                                                                        for i in 0..<newArray.count {
+                                                                            newDict["\(i)"] = newArray[i]
+                                                                        }
+                                                                        self.realtimeDB
+                                                                            .child(Constants.usersPath)
+                                                                            .child(userId)
+                                                                            .child("project_invite_notifications")
+                                                                            .updateChildValues(newDict) {
+                                                                                (error, ref) in
+                                                                                if let error = error {
+                                                                                    completion(.error(error))
+                                                                                    return
+                                                                                }
+                                                                                if i == invitedUsers.count - 1 {
+                                                                                    completion(.success)
+                                                                                }
+                                                                        }
+                                                                }
+                                                            } else {
+                                                                completion(.error(FirebaseErrors.genericError))
+                                                            }
+                                                        }
+                                                }
+                                        }
                                 }
                         }
 //                        guard let mappedResponse = Mapper<T>().map(JSON: projectDict) else {
