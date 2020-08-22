@@ -23,6 +23,13 @@ class ProjectProgressRouter: NSObject, ProjectProgressDataTransfer {
     
     weak var viewController: UIViewController?
     var dataStore: ProjectProgressDataStore?
+    
+    private func transferDataToEditProjectDetails(from source: ProjectProgressDataStore,
+                                                  to destination: inout EditProjectDetailsDataStore) {
+        destination.receivedData = EditProjectDetails.Info.Received.Project(image: source.progressingProject?.image,
+                                                                            cathegories: source.progressingProject?.cathegories ?? .empty,
+                                                                            progress: source.progressingProject?.progress ?? 0.0)
+    }
 }
 
 extension ProjectProgressRouter: BaseRouterProtocol {
@@ -39,7 +46,11 @@ extension ProjectProgressRouter: ProjectProgressRoutingLogic {
     }
     
     func routeToEditProjectDetails() {
-        
+        let vc = EditProjectDetailsController()
+        guard let source = dataStore,
+            var destination = vc.router?.dataStore else { return }
+        transferDataToEditProjectDetails(from: source, to: &destination)
+        routeTo(nextVC: vc)
     }
 }
 
