@@ -107,7 +107,7 @@ extension SelectProjectImageController {
     
     @objc
     private func didTapBackButton() {
-        
+        //TO DO
     }
     
     @objc
@@ -125,5 +125,6 @@ extension SelectProjectImageController: SelectProjectImageDisplayLogic {
     
     func displaySelectCathegory() {
         router?.routeToCategories()
+        navigationController?.tabBarController?.tabBar.isHidden = true
     }
 }

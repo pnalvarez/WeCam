@@ -77,6 +77,11 @@ class SelectProjectCathegoryController: BaseViewController {
         interactor?.fetchAllCathegories(SelectProjectCathegory.Request.AllCathegories())
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        navigationController?.tabBarController?.tabBar.isHidden = true
+    }
+    
     override func loadView() {
         super.loadView()
         self.view = mainView
@@ -97,6 +102,7 @@ extension SelectProjectCathegoryController {
     
     @objc
     private func didTapBackButton() {
+        navigationController?.tabBarController?.tabBar.isHidden = false
         router?.routeBack()
     }
     
