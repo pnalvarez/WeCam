@@ -9,7 +9,8 @@
 import UIKit
 
 protocol EditProfileDetailsPresentationLogic {
-    
+    func presentUserData(_ response: EditProfileDetails.Info.Model.User)
+    func presentLoading(_ loading: Bool)
 }
 
 class EditProfileDetailsPresenter: EditProfileDetailsPresentationLogic {
@@ -18,5 +19,19 @@ class EditProfileDetailsPresenter: EditProfileDetailsPresentationLogic {
     
     init(viewController: EditProfileDetailsDisplayLogic) {
         self.viewController = viewController
+    }
+    
+    func presentUserData(_ response: EditProfileDetails.Info.Model.User) {
+        let viewModel = EditProfileDetails.Info.ViewModel.User(image: response.image,
+                                                               name: response.name,
+                                                               cellphone: response.cellphone,
+                                                               ocupation: response.ocupation)
+        let cathegories = EditProfileDetails.Info.ViewModel.Cathegories(cathegories: response.interestCathegories)
+        viewController.displayUserData(viewModel, cathegories: cathegories)
+        
+    }
+    
+    func presentLoading(_ loading: Bool) {
+        viewController.displayLoading(loading)
     }
 }

@@ -13,6 +13,7 @@ protocol ProfileDetailsRoutingLogic {
     func routeBack()
     func routeToAllConnections()
     func routeToSignIn()
+    func routeToEditProfileDetails()
 }
 
 protocol ProfileDetailsDataTransfer {
@@ -60,5 +61,11 @@ extension ProfileDetailsRouter: ProfileDetailsRoutingLogic {
     
     func routeToSignIn() {
         viewController?.navigationController?.navigationController?.popToRootViewController(animated: true)
+    }
+    
+    func routeToEditProfileDetails() {
+        let vc = EditProfileDetailsController()
+        viewController?.navigationController?.tabBarController?.tabBar.isHidden = true
+        routeTo(nextVC: vc)
     }
 }

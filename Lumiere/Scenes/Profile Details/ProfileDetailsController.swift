@@ -109,6 +109,10 @@ class ProfileDetailsController: BaseViewController {
         interactor?.fetchUserData(ProfileDetails.Request.UserData())
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+    }
+    
     override func loadView() {
         super.loadView()
         self.view = mainView
@@ -155,7 +159,7 @@ extension ProfileDetailsController {
     
     @objc
     private func didTapEditProfile() {
-        
+        router?.routeToEditProfileDetails()
     }
 }
 

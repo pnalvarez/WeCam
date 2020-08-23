@@ -10,7 +10,8 @@ import UIKit
 typealias EditProfileDetailsRouterProtocol = NSObject & EditProfileDetailsRoutingLogic & EditProfileDetailsDataTransfer
 
 protocol EditProfileDetailsRoutingLogic {
-    
+    func routeBack()
+    func routeBackSuccess()
 }
 
 protocol EditProfileDetailsDataTransfer {
@@ -32,4 +33,11 @@ extension EditProfileDetailsRouter: BaseRouterProtocol {
 
 extension EditProfileDetailsRouter: EditProfileDetailsRoutingLogic {
     
+    func routeBack() {
+        viewController?.navigationController?.popViewController(animated: true)
+    }
+    
+    func routeBackSuccess() {
+        
+    }
 }

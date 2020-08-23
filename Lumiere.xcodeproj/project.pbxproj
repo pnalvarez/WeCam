@@ -58,7 +58,7 @@
 		3F40A6C924F2326700261161 /* EditProfileDetailsWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A6C824F2326700261161 /* EditProfileDetailsWorker.swift */; };
 		3F40A6CB24F232B600261161 /* EditProfileDetailsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A6CA24F232B600261161 /* EditProfileDetailsInteractor.swift */; };
 		3F40A6CD24F2337000261161 /* EditProfileDetailsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A6CC24F2337000261161 /* EditProfileDetailsRouter.swift */; };
-		3F40A6CF24F2344700261161 /* EditProfileDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A6CE24F2344700261161 /* EditProfileDetails.swift */; };
+		3F40A6CF24F2344700261161 /* EditProfileDetailsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A6CE24F2344700261161 /* EditProfileDetailsModels.swift */; };
 		3F43311E24E8E8B90082825E /* ConfirmationAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F43311D24E8E8B90082825E /* ConfirmationAlertView.swift */; };
 		3F6EEA2F24E0A3680075C500 /* ConnectionsListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6EEA2E24E0A3680075C500 /* ConnectionsListController.swift */; };
 		3F6EEA3124E0A3720075C500 /* ConnectionsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6EEA3024E0A3720075C500 /* ConnectionsListView.swift */; };
@@ -245,7 +245,7 @@
 		3F40A6C824F2326700261161 /* EditProfileDetailsWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileDetailsWorker.swift; sourceTree = "<group>"; };
 		3F40A6CA24F232B600261161 /* EditProfileDetailsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileDetailsInteractor.swift; sourceTree = "<group>"; };
 		3F40A6CC24F2337000261161 /* EditProfileDetailsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileDetailsRouter.swift; sourceTree = "<group>"; };
-		3F40A6CE24F2344700261161 /* EditProfileDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileDetails.swift; sourceTree = "<group>"; };
+		3F40A6CE24F2344700261161 /* EditProfileDetailsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileDetailsModels.swift; sourceTree = "<group>"; };
 		3F43311D24E8E8B90082825E /* ConfirmationAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationAlertView.swift; sourceTree = "<group>"; };
 		3F6EEA2E24E0A3680075C500 /* ConnectionsListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsListController.swift; sourceTree = "<group>"; };
 		3F6EEA3024E0A3720075C500 /* ConnectionsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsListView.swift; sourceTree = "<group>"; };
@@ -539,7 +539,7 @@
 				3F40A6C824F2326700261161 /* EditProfileDetailsWorker.swift */,
 				3F40A6CA24F232B600261161 /* EditProfileDetailsInteractor.swift */,
 				3F40A6CC24F2337000261161 /* EditProfileDetailsRouter.swift */,
-				3F40A6CE24F2344700261161 /* EditProfileDetails.swift */,
+				3F40A6CE24F2344700261161 /* EditProfileDetailsModels.swift */,
 			);
 			path = "Edit Profile Details";
 			sourceTree = "<group>";
@@ -1226,7 +1226,7 @@
 				3F95782024AD6FBC00B79818 /* AppDelegate.swift in Sources */,
 				3F40A6CD24F2337000261161 /* EditProfileDetailsRouter.swift in Sources */,
 				3F8116E024B6ABEE0083A3DA /* UICollectionView+.swift in Sources */,
-				3F40A6CF24F2344700261161 /* EditProfileDetails.swift in Sources */,
+				3F40A6CF24F2344700261161 /* EditProfileDetailsModels.swift in Sources */,
 				3F95786624AD785900B79818 /* BaseRouterProtocol.swift in Sources */,
 				3F40A6C024F1DF3900261161 /* TeamMemberCollectionViewCell.swift in Sources */,
 				3F8D138824D5362800AED7EB /* ProfileDetailsController.swift in Sources */,

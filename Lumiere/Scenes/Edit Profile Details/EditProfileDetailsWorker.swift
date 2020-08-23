@@ -7,7 +7,8 @@
 //
 
 protocol EditProfileDetailsWorkerProtocol {
-    
+    func fetchUserData(request: EditProfileDetails.Request.UserData,
+                       completion: @escaping (BaseResponse<EditProfileDetails.Info.Response.User>) -> Void)
 }
 
 class EditProfileDetailsWorker: EditProfileDetailsWorkerProtocol {
@@ -16,5 +17,10 @@ class EditProfileDetailsWorker: EditProfileDetailsWorkerProtocol {
     
     init(builder: FirebaseAuthHelperProtocol = FirebaseAuthHelper()) {
         self.builder = builder
+    }
+    
+    func fetchUserData(request: EditProfileDetails.Request.UserData,
+                       completion: @escaping (BaseResponse<EditProfileDetails.Info.Response.User>) -> Void) {
+        builder.fetchCurrentUser(request: [:], completion: completion)
     }
 }
