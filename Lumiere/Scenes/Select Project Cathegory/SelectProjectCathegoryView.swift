@@ -68,7 +68,7 @@ extension SelectProjectCathegoryView: ViewCodeProtocol {
             make.width.equalTo(87)
         }
         collectionView.snp.makeConstraints { make in
-            make.top.equalTo(titleLbl.snp.bottom).offset(10)
+            make.top.equalTo(titleLbl.snp.bottom).offset(58)
             make.bottom.left.right.equalToSuperview()
         }
     }
