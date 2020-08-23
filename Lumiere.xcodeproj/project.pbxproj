@@ -52,6 +52,13 @@
 		3F40A6BC24F1CD4400261161 /* OnGoingProjectDetailsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A6BB24F1CD4400261161 /* OnGoingProjectDetailsModels.swift */; };
 		3F40A6BE24F1CE5100261161 /* DefaultCloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A6BD24F1CE5100261161 /* DefaultCloseButton.swift */; };
 		3F40A6C024F1DF3900261161 /* TeamMemberCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A6BF24F1DF3900261161 /* TeamMemberCollectionViewCell.swift */; };
+		3F40A6C324F231A000261161 /* EditProfileDetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A6C224F231A000261161 /* EditProfileDetailsController.swift */; };
+		3F40A6C524F231DB00261161 /* EditProfileDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A6C424F231DB00261161 /* EditProfileDetailsView.swift */; };
+		3F40A6C724F2320700261161 /* EditProfileDetailsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A6C624F2320700261161 /* EditProfileDetailsPresenter.swift */; };
+		3F40A6C924F2326700261161 /* EditProfileDetailsWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A6C824F2326700261161 /* EditProfileDetailsWorker.swift */; };
+		3F40A6CB24F232B600261161 /* EditProfileDetailsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A6CA24F232B600261161 /* EditProfileDetailsInteractor.swift */; };
+		3F40A6CD24F2337000261161 /* EditProfileDetailsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A6CC24F2337000261161 /* EditProfileDetailsRouter.swift */; };
+		3F40A6CF24F2344700261161 /* EditProfileDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A6CE24F2344700261161 /* EditProfileDetails.swift */; };
 		3F43311E24E8E8B90082825E /* ConfirmationAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F43311D24E8E8B90082825E /* ConfirmationAlertView.swift */; };
 		3F6EEA2F24E0A3680075C500 /* ConnectionsListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6EEA2E24E0A3680075C500 /* ConnectionsListController.swift */; };
 		3F6EEA3124E0A3720075C500 /* ConnectionsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6EEA3024E0A3720075C500 /* ConnectionsListView.swift */; };
@@ -232,6 +239,13 @@
 		3F40A6BB24F1CD4400261161 /* OnGoingProjectDetailsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnGoingProjectDetailsModels.swift; sourceTree = "<group>"; };
 		3F40A6BD24F1CE5100261161 /* DefaultCloseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultCloseButton.swift; sourceTree = "<group>"; };
 		3F40A6BF24F1DF3900261161 /* TeamMemberCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamMemberCollectionViewCell.swift; sourceTree = "<group>"; };
+		3F40A6C224F231A000261161 /* EditProfileDetailsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileDetailsController.swift; sourceTree = "<group>"; };
+		3F40A6C424F231DB00261161 /* EditProfileDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileDetailsView.swift; sourceTree = "<group>"; };
+		3F40A6C624F2320700261161 /* EditProfileDetailsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileDetailsPresenter.swift; sourceTree = "<group>"; };
+		3F40A6C824F2326700261161 /* EditProfileDetailsWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileDetailsWorker.swift; sourceTree = "<group>"; };
+		3F40A6CA24F232B600261161 /* EditProfileDetailsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileDetailsInteractor.swift; sourceTree = "<group>"; };
+		3F40A6CC24F2337000261161 /* EditProfileDetailsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileDetailsRouter.swift; sourceTree = "<group>"; };
+		3F40A6CE24F2344700261161 /* EditProfileDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileDetails.swift; sourceTree = "<group>"; };
 		3F43311D24E8E8B90082825E /* ConfirmationAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationAlertView.swift; sourceTree = "<group>"; };
 		3F6EEA2E24E0A3680075C500 /* ConnectionsListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsListController.swift; sourceTree = "<group>"; };
 		3F6EEA3024E0A3720075C500 /* ConnectionsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsListView.swift; sourceTree = "<group>"; };
@@ -514,6 +528,20 @@
 				3F40A6B724F1CBF400261161 /* OnGoingProjectDetailsWorker.swift */,
 			);
 			path = "On Going Project Details";
+			sourceTree = "<group>";
+		};
+		3F40A6C124F2318700261161 /* Edit Profile Details */ = {
+			isa = PBXGroup;
+			children = (
+				3F40A6C224F231A000261161 /* EditProfileDetailsController.swift */,
+				3F40A6C424F231DB00261161 /* EditProfileDetailsView.swift */,
+				3F40A6C624F2320700261161 /* EditProfileDetailsPresenter.swift */,
+				3F40A6C824F2326700261161 /* EditProfileDetailsWorker.swift */,
+				3F40A6CA24F232B600261161 /* EditProfileDetailsInteractor.swift */,
+				3F40A6CC24F2337000261161 /* EditProfileDetailsRouter.swift */,
+				3F40A6CE24F2344700261161 /* EditProfileDetails.swift */,
+			);
+			path = "Edit Profile Details";
 			sourceTree = "<group>";
 		};
 		3F6EEA2D24E0A3550075C500 /* Connections List */ = {
@@ -822,6 +850,7 @@
 		3F95786724AD79C900B79818 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				3F40A6C124F2318700261161 /* Edit Profile Details */,
 				3F40A6AE24F1CABE00261161 /* On Going Project Details */,
 				3F40A69F24F0912D00261161 /* Edit Project Details */,
 				3F40A68E24EF41D800261161 /* Project Progress */,
@@ -1195,10 +1224,14 @@
 				3F8D13A524D73C2600AED7EB /* Array+.swift in Sources */,
 				3F40A68124EDF5A300261161 /* SelectProjectCathegoryController.swift in Sources */,
 				3F95782024AD6FBC00B79818 /* AppDelegate.swift in Sources */,
+				3F40A6CD24F2337000261161 /* EditProfileDetailsRouter.swift in Sources */,
 				3F8116E024B6ABEE0083A3DA /* UICollectionView+.swift in Sources */,
+				3F40A6CF24F2344700261161 /* EditProfileDetails.swift in Sources */,
 				3F95786624AD785900B79818 /* BaseRouterProtocol.swift in Sources */,
 				3F40A6C024F1DF3900261161 /* TeamMemberCollectionViewCell.swift in Sources */,
 				3F8D138824D5362800AED7EB /* ProfileDetailsController.swift in Sources */,
+				3F40A6C524F231DB00261161 /* EditProfileDetailsView.swift in Sources */,
+				3F40A6CB24F232B600261161 /* EditProfileDetailsInteractor.swift in Sources */,
 				3F40A68724EDF6DD00261161 /* SelectProjectCathegoryWorker.swift in Sources */,
 				3F40A61424EA0E9300261161 /* SelectProjectImageInteractor.swift in Sources */,
 				3F40A69A24EF430B00261161 /* ProjectProgressRouter.swift in Sources */,
@@ -1233,6 +1266,7 @@
 				3F40A6BA24F1CC9200261161 /* OnGoingProjectDetailsRouter.swift in Sources */,
 				3F40A6AD24F0932800261161 /* EditProjectDetailsRouter.swift in Sources */,
 				3F40A60B24E9CA4D00261161 /* LoadingView.swift in Sources */,
+				3F40A6C324F231A000261161 /* EditProfileDetailsController.swift in Sources */,
 				3F8D13A324D65FCD00AED7EB /* GetConnectNotificationRequest.swift in Sources */,
 				3F40A6A724F0923900261161 /* EditProjectDetailsWorker.swift in Sources */,
 				3FE8DF4124C3F738005DE30D /* ThemeFonts.swift in Sources */,
@@ -1309,11 +1343,13 @@
 				3F9578DB24B0240C00B79818 /* String+.swift in Sources */,
 				3F40A69224EF420800261161 /* ProjectProgressController.swift in Sources */,
 				3F9578CA24B0196C00B79818 /* SignUpInteractor.swift in Sources */,
+				3F40A6C924F2326700261161 /* EditProfileDetailsWorker.swift in Sources */,
 				3F8D139224D5365700AED7EB /* ProfileDetailsModels.swift in Sources */,
 				3F40A6B824F1CBF400261161 /* OnGoingProjectDetailsWorker.swift in Sources */,
 				3F9578CC24B0197500B79818 /* SignUpPresenter.swift in Sources */,
 				3F6EEA3524E0A38E0075C500 /* ConnectionsListPresenter.swift in Sources */,
 				3F95787F24AEB09900B79818 /* UIColor+.swift in Sources */,
+				3F40A6C724F2320700261161 /* EditProfileDetailsPresenter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
