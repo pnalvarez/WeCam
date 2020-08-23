@@ -24,6 +24,9 @@ struct ProfileDetails {
             static let activity = ThemeColors.mainRedColor.rawValue
             static let activityBackground = UIColor(rgb: 0xffffff).withAlphaComponent(0.5)
             static let translucentView = UIColor(rgb: 0xededed).withAlphaComponent(0.8)
+            static let editProfileButtonLayer = UIColor(rgb: 0x969494).cgColor
+            static let editProfileButtonBackgrounnd = UIColor(rgb: 0xffffff)
+            static let editProfileButtonText = UIColor(rgb: 0x969494)
         }
         
         struct Fonts {
@@ -32,6 +35,7 @@ struct ProfileDetails {
             static let emailLbl = ThemeFonts.RobotoRegular(15).rawValue
             static let phoneNumberLbl = ThemeFonts.RobotoRegular(15).rawValue
             static let allConnectionsButton = ThemeFonts.RobotoBold(16).rawValue
+            static let editProfileButton = ThemeFonts.RobotoBold(16).rawValue
         }
         
         struct Images {
@@ -52,6 +56,7 @@ struct ProfileDetails {
         struct Texts {
             static let addConnectionError = "Erro ao tentar adicionar conexão"
             static let genericError = "Ocorreu um erro genérico"
+            static let editProfileButton = "Editar Perfil"
         }
     }
     

@@ -68,13 +68,25 @@ class ProfileDetailsController: BaseViewController {
         return view
     }()
     
+    private lazy var editProfileButton: UIButton = {
+        let view = UIButton(frame: .zero)
+        view.addTarget(self, action: #selector(didTapEditProfile), for: .touchUpInside)
+        view.setTitle(ProfileDetails.Constants.Texts.editProfileButton, for: .normal)
+        view.setTitleColor(ProfileDetails.Constants.Colors.editProfileButtonText, for: .normal)
+        view.titleLabel?.font = ProfileDetails.Constants.Fonts.editProfileButton
+        view.layer.borderWidth = 1
+        view.layer.borderColor = ProfileDetails.Constants.Colors.editProfileButtonLayer
+        return view
+    }()
+    
     private lazy var mainView: ProfileDetailsView = {
         let view = ProfileDetailsView(frame: .zero,
                                       confirmationAlertView: confirmationAlertView,
                                       translucentView: translucentView,
                                       backButton: backButton,
                                       addConnectionButton: addConnectionButton,
-                                      allConnectionsButton: allConnectionsButton)
+                                      allConnectionsButton: allConnectionsButton,
+                                      editProfileButton: editProfileButton)
         return view
     }()
     
@@ -138,6 +150,11 @@ extension ProfileDetailsController {
     @objc
     private func didSwipeConfirmationAlertView() {
         mainView.hideConfirmationView()
+    }
+    
+    @objc
+    private func didTapEditProfile() {
+        
     }
 }
 

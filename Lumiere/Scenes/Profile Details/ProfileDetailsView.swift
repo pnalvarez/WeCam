@@ -15,6 +15,17 @@ class ProfileDetailsView: UIView {
     private unowned var backButton: UIButton
     private unowned var addConnectionButton: UIButton
     private unowned var allConnectionsButton: UIButton
+    private unowned var editProfileButton: UIButton
+    
+    private lazy var buttonStackView: UIStackView = {
+        let view = UIStackView(frame: .zero)
+        view.axis = .vertical
+        view.distribution = .fillEqually
+        view.alignment = .center
+        view.spacing = 35
+        view.backgroundColor = .white
+        return view
+    }()
     
     private lazy var photoImageView: UIImageView = {
         let view = UIImageView(frame: .zero)
@@ -59,12 +70,14 @@ class ProfileDetailsView: UIView {
          translucentView: UIView,
          backButton: UIButton,
          addConnectionButton: UIButton,
-         allConnectionsButton: UIButton) {
+         allConnectionsButton: UIButton,
+         editProfileButton: UIButton) {
         self.confirmationAlertView = confirmationAlertView
         self.translucentView = translucentView
         self.backButton = backButton
         self.addConnectionButton = addConnectionButton
         self.allConnectionsButton = allConnectionsButton
+        self.editProfileButton = editProfileButton
         super.init(frame: frame)
     }
     
@@ -111,7 +124,10 @@ extension ProfileDetailsView: ViewCodeProtocol {
         addSubview(emailLbl)
         addSubview(phoneNumberLbl)
         addSubview(addConnectionButton)
-        addSubview(allConnectionsButton)
+        buttonStackView.addArrangedSubview(editProfileButton)
+        buttonStackView.addArrangedSubview(allConnectionsButton)
+        addSubview(buttonStackView)
+//        addSubview(allConnectionsButton)
         addSubview(translucentView)
         addSubview(confirmationAlertView)
     }
@@ -158,8 +174,13 @@ extension ProfileDetailsView: ViewCodeProtocol {
             make.height.equalTo(30)
             make.width.equalTo(30)
         }
-        allConnectionsButton.snp.makeConstraints { make in
+        buttonStackView.snp.makeConstraints { make in
             make.top.equalTo(phoneNumberLbl.snp.bottom).offset(39)
+            make.centerX.equalToSuperview()
+        }
+        allConnectionsButton.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+//            make.top.equalTo(phoneNumberLbl.snp.bottom).offset(39)
             make.centerX.equalToSuperview()
             make.height.equalTo(32)
             make.width.equalTo(171)
