@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class OnGoingProjectDetailsView: UIView {
     
@@ -14,6 +15,7 @@ class OnGoingProjectDetailsView: UIView {
     private unowned var teamCollectionView: UICollectionView
     private unowned var moreInfoButton: UIButton
     private unowned var imageButton: UIButton
+    private unowned var activityView: UIActivityIndicatorView
     
     private lazy var infoContainer: UIView = {
         let view = UIView(frame: .zero)
@@ -76,21 +78,29 @@ class OnGoingProjectDetailsView: UIView {
         return view
     }()
     
+    private var viewModel: OnGoingProjectDetails.Info.ViewModel.Project?
+    
     init(frame: CGRect,
          closeButton: UIButton,
          teamCollectionView: UICollectionView,
          moreInfoButton: UIButton,
-         imageButton: UIButton) {
+         imageButton: UIButton,
+         activityView: UIActivityIndicatorView) {
         self.closeButton = closeButton
         self.teamCollectionView = teamCollectionView
         self.moreInfoButton = moreInfoButton
         self.imageButton = imageButton
+        self.activityView = activityView
         super.init(frame: frame)
-        applyViewCode()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setup(viewModel: OnGoingProjectDetails.Info.ViewModel.Project) {
+        self.viewModel = viewModel
+        applyViewCode()
     }
 }
 
@@ -108,6 +118,7 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
         addSubview(needFixedLbl)
         addSubview(dotView)
         addSubview(needValueLbl)
+        addSubview(activityView)
     }
     
     func setupConstraints() {
@@ -167,9 +178,17 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
             make.left.equalTo(dotView.snp.right).offset(12)
             make.width.equalTo(200)
         }
+        activityView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
     }
     
     func configureViews() {
         backgroundColor = .white
+        titleLbl.text = viewModel?.title
+        sinopsisLbl.text = viewModel?.sinopsis
+        needValueLbl.text = viewModel?.needing
+        guard let image = viewModel?.image else { return }
+        imageButton.sd_setImage(with: URL(string: image), for: .normal, completed: nil)
     }
 }

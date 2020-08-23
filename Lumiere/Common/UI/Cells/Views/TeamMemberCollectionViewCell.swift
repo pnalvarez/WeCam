@@ -2,65 +2,77 @@
 //  TeamMemberCollectionViewCell.swift
 //  Lumiere
 //
-//  Created by Pedro Alvarez on 19/07/20.
+//  Created by Pedro Alvarez on 22/08/20.
 //  Copyright © 2020 Pedro Alvarez. All rights reserved.
 //
+
 import UIKit
 
 class TeamMemberCollectionViewCell: UICollectionViewCell {
     
-    private lazy var pictureImageView: UIImageView = {
-        return UIImageView(frame: .zero)
+    private lazy var containerView: UIView = {
+        let view = UIView(frame: .zero)
+        view.backgroundColor = UIColor(rgb: 0xededed)
+        view.layer.cornerRadius = 2
+        view.layer.borderColor = UIColor(rgb: 0xe5dfdf).cgColor
+        view.layer.borderWidth = 1
+        return view
+    }()
+    
+    private lazy var imageView: UIImageView = {
+        let view = UIImageView(frame: .zero)
+        view.contentMode = .scaleAspectFit
+        view.layer.cornerRadius = 18
+        return view
     }()
     
     private lazy var nameLbl: UILabel = {
-        return UILabel(frame: .zero)
+        let view = UILabel(frame: .zero)
+        view.textAlignment = .center
+        view.textColor = .black
+        view.font = ThemeFonts.RobotoBold(10).rawValue
+        return view
     }()
     
-    private lazy var jobLbl: UILabel = {
-        return UILabel(frame: .zero)
+    private lazy var ocupationLbl: UILabel = {
+        let view = UILabel(frame: .zero)
+        view.textAlignment = .center
+        view.numberOfLines = 2
+        view.textColor = .black
+        view.font = ThemeFonts.RobotoRegular(10).rawValue
+        return view
     }()
     
     private var viewModel: TeamMemberViewModel?
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        layer.cornerRadius = 2
-        layer.borderWidth = 1
-        layer.borderColor = UIColor(rgb: 0xe5dfdf).cgColor
-        backgroundColor = .gray
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     func setup(viewModel: TeamMemberViewModel) {
         self.viewModel = viewModel
-        applyViewCode()
     }
 }
 
 extension TeamMemberCollectionViewCell: ViewCodeProtocol {
     
     func buildViewHierarchy() {
-        addSubview(pictureImageView)
-        addSubview(nameLbl)
-        addSubview(jobLbl)
+        containerView.addSubview(imageView)
+        containerView.addSubview(nameLbl)
+        containerView.addSubview(ocupationLbl)
+        addSubview(containerView)
     }
     
     func setupConstraints() {
-        pictureImageView.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.left.equalToSuperview().inset(8)
-            make.height.width.equalTo(28)
+        containerView.snp.makeConstraints { make in
+            make.edges.equalTo(UIEdgeInsets(top: 1, left: 1, bottom: 1, right: 1))
+        }
+        imageView.snp.makeConstraints { make in
+            make.top.left.equalToSuperview()
+            make.height.width.equalTo(36)
         }
         nameLbl.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(6)
-            make.left.equalTo(pictureImageView.snp.right).offset(7)
+            make.left.equalTo(imageView.snp.right)
             make.right.equalToSuperview()
         }
-        jobLbl.snp.makeConstraints { make in
+        ocupationLbl.snp.makeConstraints { make in
             make.top.equalTo(nameLbl.snp.bottom)
             make.left.equalTo(nameLbl)
             make.right.equalToSuperview()
@@ -68,17 +80,10 @@ extension TeamMemberCollectionViewCell: ViewCodeProtocol {
     }
     
     func configureViews() {
-        pictureImageView.contentMode = .scaleAspectFit
-        pictureImageView.image = viewModel?.image
-        pictureImageView.layer.cornerRadius = pictureImageView.frame.height / 2
-        pictureImageView.clipsToBounds = true
-        
-        nameLbl.attributedText = viewModel?.name
-        nameLbl.textAlignment = .center
-        nameLbl.numberOfLines = 0
-        
-        jobLbl.attributedText = viewModel?.jobDescription
-        jobLbl.textAlignment = .center
-        jobLbl.numberOfLines = 0
+        backgroundColor = .white
+        nameLbl.text = viewModel?.name
+        ocupationLbl.text = viewModel?.jobDescription
+        guard let image = viewModel?.image else { return }
+        imageView.sd_setImage(with: URL(string: image), completed: nil)
     }
 }

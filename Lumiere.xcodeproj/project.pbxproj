@@ -11,7 +11,6 @@
 		3F0CAA6224CCE0E8005E2558 /* CreateUserRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0CAA6124CCE0E8005E2558 /* CreateUserRequest.swift */; };
 		3F0CAA6424CCE118005E2558 /* SaveUserInfoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0CAA6324CCE118005E2558 /* SaveUserInfoRequest.swift */; };
 		3F0CAA6624CCE41D005E2558 /* SignInRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0CAA6524CCE41D005E2558 /* SignInRequest.swift */; };
-		3F1158AD24C3F04200075C73 /* TeamMemberCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1158AC24C3F04200075C73 /* TeamMemberCollectionViewCell.swift */; };
 		3F1158AF24C3F0EC00075C73 /* TeamMemberViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1158AE24C3F0EC00075C73 /* TeamMemberViewModel.swift */; };
 		3F40A60B24E9CA4D00261161 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A60A24E9CA4D00261161 /* LoadingView.swift */; };
 		3F40A60E24EA0D5700261161 /* SelectProjectImageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A60D24EA0D5700261161 /* SelectProjectImageController.swift */; };
@@ -52,6 +51,7 @@
 		3F40A6BA24F1CC9200261161 /* OnGoingProjectDetailsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A6B924F1CC9200261161 /* OnGoingProjectDetailsRouter.swift */; };
 		3F40A6BC24F1CD4400261161 /* OnGoingProjectDetailsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A6BB24F1CD4400261161 /* OnGoingProjectDetailsModels.swift */; };
 		3F40A6BE24F1CE5100261161 /* DefaultCloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A6BD24F1CE5100261161 /* DefaultCloseButton.swift */; };
+		3F40A6C024F1DF3900261161 /* TeamMemberCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A6BF24F1DF3900261161 /* TeamMemberCollectionViewCell.swift */; };
 		3F43311E24E8E8B90082825E /* ConfirmationAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F43311D24E8E8B90082825E /* ConfirmationAlertView.swift */; };
 		3F6EEA2F24E0A3680075C500 /* ConnectionsListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6EEA2E24E0A3680075C500 /* ConnectionsListController.swift */; };
 		3F6EEA3124E0A3720075C500 /* ConnectionsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6EEA3024E0A3720075C500 /* ConnectionsListView.swift */; };
@@ -191,7 +191,6 @@
 		3F0CAA6124CCE0E8005E2558 /* CreateUserRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserRequest.swift; sourceTree = "<group>"; };
 		3F0CAA6324CCE118005E2558 /* SaveUserInfoRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveUserInfoRequest.swift; sourceTree = "<group>"; };
 		3F0CAA6524CCE41D005E2558 /* SignInRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInRequest.swift; sourceTree = "<group>"; };
-		3F1158AC24C3F04200075C73 /* TeamMemberCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamMemberCollectionViewCell.swift; sourceTree = "<group>"; };
 		3F1158AE24C3F0EC00075C73 /* TeamMemberViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamMemberViewModel.swift; sourceTree = "<group>"; };
 		3F40A60A24E9CA4D00261161 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		3F40A60D24EA0D5700261161 /* SelectProjectImageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectProjectImageController.swift; sourceTree = "<group>"; };
@@ -232,6 +231,7 @@
 		3F40A6B924F1CC9200261161 /* OnGoingProjectDetailsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnGoingProjectDetailsRouter.swift; sourceTree = "<group>"; };
 		3F40A6BB24F1CD4400261161 /* OnGoingProjectDetailsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnGoingProjectDetailsModels.swift; sourceTree = "<group>"; };
 		3F40A6BD24F1CE5100261161 /* DefaultCloseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultCloseButton.swift; sourceTree = "<group>"; };
+		3F40A6BF24F1DF3900261161 /* TeamMemberCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamMemberCollectionViewCell.swift; sourceTree = "<group>"; };
 		3F43311D24E8E8B90082825E /* ConfirmationAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationAlertView.swift; sourceTree = "<group>"; };
 		3F6EEA2E24E0A3680075C500 /* ConnectionsListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsListController.swift; sourceTree = "<group>"; };
 		3F6EEA3024E0A3720075C500 /* ConnectionsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsListView.swift; sourceTree = "<group>"; };
@@ -440,8 +440,8 @@
 		3F1158AB24C3F01600075C73 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				3F1158AC24C3F04200075C73 /* TeamMemberCollectionViewCell.swift */,
 				3F40A68C24EDFE1F00261161 /* CathegoryCollectionViewCell.swift */,
+				3F40A6BF24F1DF3900261161 /* TeamMemberCollectionViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1197,6 +1197,7 @@
 				3F95782024AD6FBC00B79818 /* AppDelegate.swift in Sources */,
 				3F8116E024B6ABEE0083A3DA /* UICollectionView+.swift in Sources */,
 				3F95786624AD785900B79818 /* BaseRouterProtocol.swift in Sources */,
+				3F40A6C024F1DF3900261161 /* TeamMemberCollectionViewCell.swift in Sources */,
 				3F8D138824D5362800AED7EB /* ProfileDetailsController.swift in Sources */,
 				3F40A68724EDF6DD00261161 /* SelectProjectCathegoryWorker.swift in Sources */,
 				3F40A61424EA0E9300261161 /* SelectProjectImageInteractor.swift in Sources */,
@@ -1237,7 +1238,6 @@
 				3FE8DF4124C3F738005DE30D /* ThemeFonts.swift in Sources */,
 				3F9578D224B0198F00B79818 /* SignUpModels.swift in Sources */,
 				3F40A6B424F1CB5A00261161 /* OnGoingProjectDetailsInteractor.swift in Sources */,
-				3F1158AD24C3F04200075C73 /* TeamMemberCollectionViewCell.swift in Sources */,
 				3F95787924AEA4DE00B79818 /* SignInRouter.swift in Sources */,
 				3F40A6A524F091EC00261161 /* EditProjectDetailsInteractor.swift in Sources */,
 				3F8D139924D53B0900AED7EB /* NotificationsInteractor.swift in Sources */,

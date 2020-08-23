@@ -61,6 +61,8 @@ protocol FirebaseAuthHelperProtocol {
                       completion: @escaping (EmptyResponse) -> Void)
     func fetchCreateProject(request: [String : Any],
                             completion: @escaping (EmptyResponse) -> Void)
+    func fetchProjectWorking<T: Mappable>(request: [String : Any],
+                      completion: @escaping (BaseResponse<T>) -> Void)
 }
 
 class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
@@ -1119,6 +1121,29 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
 //                        completion(.success)
                     }
                 }
+            }
+        } else {
+            completion(.error(FirebaseErrors.genericError))
+        }
+    }
+    
+    func fetchProjectWorking<T: Mappable>(request: [String : Any],
+                                   completion: @escaping (BaseResponse<T>) -> Void) {
+        if let projectId = request["projectId"] as? String {
+            realtimeDB
+                .child(Constants.projectsPath)
+                .child(Constants.ongoingProjectsPath)
+                .child(projectId).observeSingleEvent(of: .value) { snapshot in
+                    guard var projectData = snapshot.value as? [String : Any] else {
+                        completion(.error(FirebaseErrors.genericError))
+                        return
+                    }
+                    projectData["project_id"] = projectId
+                    guard let mappedResponse = Mapper<T>().map(JSON: projectData) else {
+                        completion(.error(FirebaseErrors.parseError))
+                        return
+                    }
+                    completion(.success(mappedResponse))
             }
         } else {
             completion(.error(FirebaseErrors.genericError))

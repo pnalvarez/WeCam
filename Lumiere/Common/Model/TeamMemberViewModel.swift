@@ -8,7 +8,7 @@
 import UIKit
 
 struct TeamMemberViewModel {
-    let name: NSAttributedString
-    let jobDescription: NSAttributedString
-    let image: UIImage
+    let name: String
+    let jobDescription: String
+    let image: String?
 }

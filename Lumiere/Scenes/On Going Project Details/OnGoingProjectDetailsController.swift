@@ -9,7 +9,8 @@
 import UIKit
 
 protocol OnGoingProjectDetailsDisplayLogic: class {
-    
+    func displayProjectDetails(_ viewModel: OnGoingProjectDetails.Info.ViewModel.Project)
+    func displayLoading(_ loading: Bool)
 }
 
 class OnGoingProjectDetailsController: BaseViewController {
@@ -23,6 +24,7 @@ class OnGoingProjectDetailsController: BaseViewController {
     private lazy var teamCollectionView: UICollectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         view.assignProtocols(to: self)
+        view.registerCell(cellType: TeamMemberCollectionViewCell.self)
         view.backgroundColor = .white
         view.bounces = false
         view.alwaysBounceVertical = false
@@ -47,18 +49,32 @@ class OnGoingProjectDetailsController: BaseViewController {
         return view
     }()
     
+    private lazy var activityView: UIActivityIndicatorView = {
+        let view = UIActivityIndicatorView(frame: .zero)
+        view.color = OnGoingProjectDetails.Constants.Colors.activity
+        view.backgroundColor = OnGoingProjectDetails.Constants.Colors.activityBackground
+        view.startAnimating()
+        view.isHidden = true
+        return view
+    }()
+    
     private lazy var mainView: OnGoingProjectDetailsView = {
         let view = OnGoingProjectDetailsView(frame: .zero,
                                              closeButton: closeButton,
                                              teamCollectionView: teamCollectionView,
                                              moreInfoButton: moreInfoButton,
-                                             imageButton: imageButton)
+                                             imageButton: imageButton,
+                                             activityView: activityView)
         return view
     }()
     
     private let imagePicker = UIImagePickerController()
     
-    private var viewModel: OnGoingProjectDetails.Info.ViewModel.Project?
+    private var viewModel: OnGoingProjectDetails.Info.ViewModel.Project? {
+        didSet {
+            teamCollectionView.reloadData()
+        }
+    }
     
     private var interactor: OnGoingProjectDetailsBusinessLogic?
     var router: OnGoingProjectDetailsRouterProtocol?
@@ -74,6 +90,7 @@ class OnGoingProjectDetailsController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        interactor?.fetchProjectDetails(OnGoingProjectDetails.Request.FetchProject())
     }
     
     override func loadView() {
@@ -94,21 +111,56 @@ class OnGoingProjectDetailsController: BaseViewController {
 
 extension OnGoingProjectDetailsController: UICollectionViewDataSource {
     
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel?.teamMembers.count ?? 0
+        return viewModel?.teamMembers.count ?? 0 >= 4 ? 4 : viewModel?.teamMembers.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        return UICollectionViewCell()
+        let cell = teamCollectionView.dequeueReusableCell(indexPath: indexPath, type: TeamMemberCollectionViewCell.self)
+        guard let viewModel = viewModel?.teamMembers else { return UICollectionViewCell() }
+        cell.setup(viewModel: TeamMemberViewModel(name: viewModel[indexPath.row].name,
+                                                  jobDescription: viewModel[indexPath.row].ocupation,
+                                                  image: viewModel[indexPath.row].image))
+        return cell
     }
 }
 
 extension OnGoingProjectDetailsController: UICollectionViewDelegate {
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+    }
 }
 
 extension OnGoingProjectDetailsController: UICollectionViewDelegateFlowLayout {
     
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+
+        return CGSize(width: collectionView.frame.width / 2, height: 38)
+    }
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 12
+    }
+
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 6
+    }
+
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets.init(top: 0, left: 0, bottom: 0, right: 0)
+    }
 }
 
 extension OnGoingProjectDetailsController: UIImagePickerControllerDelegate {
@@ -135,4 +187,11 @@ extension OnGoingProjectDetailsController {
 
 extension OnGoingProjectDetailsController: OnGoingProjectDetailsDisplayLogic {
     
+    func displayProjectDetails(_ viewModel: OnGoingProjectDetails.Info.ViewModel.Project) {
+        self.viewModel = viewModel
+    }
+    
+    func displayLoading(_ loading: Bool) {
+        activityView.isHidden = !loading
+    }
 }

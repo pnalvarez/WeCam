@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ObjectMapper
 
 struct OnGoingProjectDetails {
     
@@ -24,6 +25,8 @@ struct OnGoingProjectDetails {
             static let needFixedLbl = UIColor(rgb: 0x707070)
             static let dotView = ThemeColors.mainRedColor.rawValue
             static let needValueLbl = UIColor(rgb: 0x000000)
+            static let activity = ThemeColors.mainRedColor.rawValue
+            static let activityBackground = UIColor(rgb: 0xffffff).withAlphaComponent(0.5)
         }
         
         struct Fonts {
@@ -49,17 +52,35 @@ struct OnGoingProjectDetails {
     struct Info {
         
         struct Received {
-            
+        
+            struct Project {
+                let projectId: String
+            }
         }
         
         struct Model {
             
+            struct Project {
+                let id: String
+                let image: String?
+                let title: String
+                let sinopsis: String
+                var teamMembers: [TeamMember]
+                let needing: String
+            }
+            
+            struct TeamMember {
+                let id: String
+                let name: String
+                let ocupation: String
+                let image: String?
+            }
         }
         
         struct ViewModel {
             
             struct Project {
-                let image: UIImage?
+                let image: String?
                 let title: String
                 let sinopsis: String
                 let teamMembers: [TeamMember]
@@ -67,6 +88,8 @@ struct OnGoingProjectDetails {
             }
             
             struct TeamMember {
+                let id: String
+                let image: String?
                 let name: String
                 let ocupation: String
             }
@@ -74,10 +97,68 @@ struct OnGoingProjectDetails {
         
         struct Response {
             
+            final class Project: Mappable {
+                
+                var authorId: String?
+                var cathegories: [String]?
+                var image: String?
+                var needing: String?
+                var progress: Float?
+                var title: String?
+                var sinopsis: String?
+                var participants: [String]?
+                
+                init?(map: Map) { }
+                
+                func mapping(map: Map) {
+                    authorId <- map["author_id"]
+                    cathegories <- map["cathegories"]
+                    image <- map["image"]
+                    needing <- map["needing"]
+                    progress <- map["progress"]
+                    title <- map["title"]
+                    sinopsis <- map["sinopsis"]
+                    participants <- map["participants"]
+                }
+            }
+            
+            final class TeamMember: Mappable {
+                
+                var name: String?
+                var ocupation: String?
+                var image: String?
+                
+                init?(map: Map) { }
+                
+                func mapping(map: Map) {
+                    name <- map["name"]
+                    ocupation <- map["professional_area"]
+                    image <- map["profile_image_url"]
+                }
+            }
         }
     }
     
     struct Request {
         
+        struct FetchProject {
+            
+        }
+        
+        struct FetchProjectWithId {
+            let id: String
+        }
+        
+        struct FetchUserWithId {
+            let id: String
+        }
+        
+        struct SelectedTeamMember {
+            let index: Int
+        }
+        
+        struct MoreInfo {
+            
+        }
     }
 }
