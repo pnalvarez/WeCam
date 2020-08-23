@@ -7,7 +7,8 @@
 //
 
 protocol EditProfileDetailsBusinessLogic {
-    func fetchUserData(request: EditProfileDetails.Request.UserData)
+    func fetchUserData(_ request: EditProfileDetails.Request.UserData)
+    func didSelectCathegory(_ request: EditProfileDetails.Request.SelectCathegory)
 }
 
 protocol EditProfileDetailsDataStore {
@@ -45,7 +46,7 @@ extension EditProfileDetailsInteractor {
 
 extension EditProfileDetailsInteractor: EditProfileDetailsBusinessLogic {
     
-    func fetchUserData(request: EditProfileDetails.Request.UserData) {
+    func fetchUserData(_ request: EditProfileDetails.Request.UserData) {
         presenter.presentLoading(true)
         worker.fetchUserData(request: request) { response in
             switch response {
@@ -64,5 +65,12 @@ extension EditProfileDetailsInteractor: EditProfileDetailsBusinessLogic {
                 break
             }
         }
+    }
+    
+    func didSelectCathegory(_ request: EditProfileDetails.Request.SelectCathegory) {
+        guard let cathegory = userData?.interestCathegories.cathegories[request.index] else { return }
+        userData?.interestCathegories.cathegories[request.index].selected = !cathegory.selected
+        guard let user = userData else { return }
+        presenter.presentUserData(user)
     }
 }

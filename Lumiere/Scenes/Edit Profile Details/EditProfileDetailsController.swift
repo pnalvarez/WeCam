@@ -140,7 +140,7 @@ class EditProfileDetailsController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        interactor?.fetchUserData(request: EditProfileDetails.Request.UserData())
+        interactor?.fetchUserData(EditProfileDetails.Request.UserData())
     }
     
     override func loadView() {
@@ -196,6 +196,10 @@ extension EditProfileDetailsController: UIImagePickerControllerDelegate, UINavig
 
 extension EditProfileDetailsController: UICollectionViewDelegate {
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let request = EditProfileDetails.Request.SelectCathegory(index: indexPath.row)
+        interactor?.didSelectCathegory(request)
+    }
 }
 
 extension EditProfileDetailsController: UICollectionViewDataSource {

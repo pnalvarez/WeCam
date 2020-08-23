@@ -65,7 +65,7 @@ struct EditProfileDetails {
                 let name: String
                 let cellphone: String
                 let ocupation: String
-                let interestCathegories: InterestCathegories
+                var interestCathegories: InterestCathegories
             }
             
             struct InterestCathegories {
@@ -121,6 +121,10 @@ struct EditProfileDetails {
         
         struct UserData {
             
+        }
+        
+        struct SelectCathegory {
+            let index: Int
         }
     }
 }

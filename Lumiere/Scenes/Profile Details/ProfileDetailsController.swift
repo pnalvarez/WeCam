@@ -111,6 +111,7 @@ class ProfileDetailsController: BaseViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        navigationController?.tabBarController?.tabBar.isHidden = false
     }
     
     override func loadView() {
