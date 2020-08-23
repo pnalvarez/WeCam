@@ -40,6 +40,7 @@ class SelectProjectCathegoryController: BaseViewController {
         view.bounces = false
         view.alwaysBounceVertical = false
         view.alwaysBounceHorizontal = false
+        view.isScrollEnabled = false
         return view
     }()
     

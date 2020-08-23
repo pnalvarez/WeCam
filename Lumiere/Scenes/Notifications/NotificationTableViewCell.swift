@@ -56,6 +56,7 @@ class NotificationTableViewCell: UITableViewCell {
     
     private lazy var notificationLbl: UILabel = {
         let view = UILabel(frame: .zero)
+        view.adjustsFontSizeToFitWidth = true
         view.font = Notifications.Constants.Fonts.notificationLbl
         view.textColor = Notifications.Constants.Colors.notificationLbl
         view.numberOfLines = 0
@@ -173,7 +174,7 @@ extension NotificationTableViewCell: ViewCodeProtocol {
         notificationLbl.snp.makeConstraints { make in
             make.top.equalTo(emailLbl.snp.bottom).offset(19)
             make.left.equalTo(emailLbl)
-            make.width.equalTo(223)
+            make.right.equalToSuperview()
         }
         yesButton.snp.makeConstraints { make in
             make.top.equalTo(notificationLbl.snp.bottom).offset(15)

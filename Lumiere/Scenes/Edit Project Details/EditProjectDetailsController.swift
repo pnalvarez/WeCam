@@ -43,6 +43,7 @@ class EditProjectDetailsController: BaseViewController {
         view.layer.borderColor = EditProjectDetails.Constants.Colors.teamValueLblFieldLayer
         view.layer.cornerRadius = 4
         view.text = EditProjectDetails.Constants.Texts.teamValueLblEmpty
+        view.adjustsFontSizeToFitWidth = true
         return view
     }()
     

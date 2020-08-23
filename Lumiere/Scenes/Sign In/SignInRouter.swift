@@ -92,7 +92,7 @@ extension SignInRouter: SignInRoutingLogic {
         projectDetailsVc.router?.dataStore?.receivedData = OnGoingProjectDetails.Info.Received.Project(projectId: "-MFItlhEHI3aram2mV-v")
         
         let tabController = UITabBarController()
-        tabController.viewControllers = [UINavigationController(rootViewController: projectDetailsVc),
+        tabController.viewControllers = [UINavigationController(rootViewController: selectProjectImageVc),
                                          UINavigationController(rootViewController: notificationsVc),
                                          UINavigationController(rootViewController: profileDetailsVc)]
 

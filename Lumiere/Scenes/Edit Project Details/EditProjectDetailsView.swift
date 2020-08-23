@@ -41,7 +41,7 @@ class EditProjectDetailsView: UIView {
         view.text = EditProjectDetails.Constants.Texts.sinopsisFixedLbl
         view.textColor = EditProjectDetails.Constants.Colors.sinopsisFixedLbl
         view.font = EditProjectDetails.Constants.Fonts.sinopsisFixedLbl
-        view.textAlignment = .center
+        view.textAlignment = .left
         return view
     }()
     
@@ -108,7 +108,7 @@ extension EditProjectDetailsView: ViewCodeProtocol {
         projectTitleTextField.snp.makeConstraints { make in
             make.top.equalTo(projectTitleFixedLbl.snp.bottom).offset(5)
             make.left.equalTo(projectTitleFixedLbl)
-            make.width.equalTo(250)
+            make.right.equalToSuperview().inset(66)
         }
         teamFixedLbl.snp.makeConstraints { make in
             make.top.equalTo(projectTitleTextField.snp.bottom).offset(20)
@@ -118,17 +118,17 @@ extension EditProjectDetailsView: ViewCodeProtocol {
         teamValueLbl.snp.makeConstraints { make in
             make.top.equalTo(teamFixedLbl.snp.bottom).offset(5)
             make.left.equalTo(teamFixedLbl)
-            make.width.equalTo(250)
+            make.right.equalToSuperview().inset(66)
         }
         sinopsisFixedLbl.snp.makeConstraints { make in
             make.top.equalTo(teamValueLbl.snp.bottom).offset(50)
             make.left.equalTo(teamFixedLbl)
-            make.width.equalTo(59)
+            make.right.equalToSuperview().inset(66)
         }
         sinopsisTextView.snp.makeConstraints { make in
             make.top.equalTo(sinopsisFixedLbl.snp.bottom).offset(5)
             make.left.equalTo(sinopsisFixedLbl)
-            make.width.equalTo(268)
+            make.right.equalToSuperview().inset(48)
             make.height.equalTo(150)
         }
         needLbl.snp.makeConstraints { make in
@@ -139,11 +139,11 @@ extension EditProjectDetailsView: ViewCodeProtocol {
         needTextView.snp.makeConstraints { make in
             make.top.equalTo(needLbl.snp.bottom)
             make.left.equalTo(needLbl)
-            make.width.equalTo(258)
+            make.right.equalToSuperview().inset(66)
             make.height.equalTo(59)
         }
         publishButton.snp.makeConstraints { make in
-            make.top.equalTo(needTextView.snp.bottom).offset(50)
+            make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).offset(-20)
             make.centerX.equalToSuperview()
             make.height.equalTo(30)
             make.width.equalTo(100)
