@@ -97,7 +97,7 @@ extension ConnectionsListTableViewCell: ViewCodeProtocol {
     func setupConstraints() {
         photoImageView.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.left.equalToSuperview().inset(40)
+            make.left.equalToSuperview().inset(20)
             make.height.width.equalTo(96)
         }
         nameLbl.snp.makeConstraints { make in
@@ -112,7 +112,7 @@ extension ConnectionsListTableViewCell: ViewCodeProtocol {
         }
         removeButton.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.right.equalToSuperview().inset(38)
+            make.right.equalToSuperview().inset(30)
             make.height.equalTo(28)
             make.width.equalTo(72)
         }

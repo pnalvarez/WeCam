@@ -27,6 +27,7 @@ class ConfirmationAlertView: UIView {
         view.textAlignment = .center
         view.font = ThemeFonts.RobotoBold(18).rawValue
         view.textColor = ThemeColors.alertGray.rawValue
+        view.numberOfLines = 0
         view.text = text
         return view
     }()

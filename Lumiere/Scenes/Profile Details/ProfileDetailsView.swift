@@ -154,7 +154,8 @@ extension ProfileDetailsView: ViewCodeProtocol {
         }
         addConnectionButton.snp.makeConstraints { make in
             make.top.equalTo(nameLbl).offset(-2)
-            make.left.equalTo(nameLbl.snp.right).offset(9)
+//            make.left.equalTo(nameLbl.snp.right).offset(9)
+            make.right.equalToSuperview().inset(26)
             make.height.equalTo(30)
             make.width.equalTo(30)
         }
