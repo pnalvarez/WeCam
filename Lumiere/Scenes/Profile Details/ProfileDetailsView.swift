@@ -20,7 +20,7 @@ class ProfileDetailsView: UIView {
     private lazy var buttonStackView: UIStackView = {
         let view = UIStackView(frame: .zero)
         view.axis = .vertical
-        view.distribution = .fillEqually
+        view.distribution = .fill
         view.alignment = .center
         view.spacing = 35
         view.backgroundColor = .white
@@ -127,7 +127,6 @@ extension ProfileDetailsView: ViewCodeProtocol {
         buttonStackView.addArrangedSubview(editProfileButton)
         buttonStackView.addArrangedSubview(allConnectionsButton)
         addSubview(buttonStackView)
-//        addSubview(allConnectionsButton)
         addSubview(translucentView)
         addSubview(confirmationAlertView)
     }
@@ -177,11 +176,13 @@ extension ProfileDetailsView: ViewCodeProtocol {
         buttonStackView.snp.makeConstraints { make in
             make.top.equalTo(phoneNumberLbl.snp.bottom).offset(39)
             make.centerX.equalToSuperview()
+            make.width.equalTo(359)
+        }
+        editProfileButton.snp.makeConstraints { make in
+            make.height.equalTo(29)
+            make.left.right.equalToSuperview().inset(37)
         }
         allConnectionsButton.snp.makeConstraints { make in
-            make.top.equalToSuperview()
-//            make.top.equalTo(phoneNumberLbl.snp.bottom).offset(39)
-            make.centerX.equalToSuperview()
             make.height.equalTo(32)
             make.width.equalTo(171)
         }

@@ -76,6 +76,7 @@ class ProfileDetailsController: BaseViewController {
         view.titleLabel?.font = ProfileDetails.Constants.Fonts.editProfileButton
         view.layer.borderWidth = 1
         view.layer.borderColor = ProfileDetails.Constants.Colors.editProfileButtonLayer
+        view.isHidden = true
         return view
     }()
     
@@ -199,6 +200,7 @@ extension ProfileDetailsController: ProfileDetailsDisplayLogic {
     
     func displayInterfaceForLogged() {
         backButton.isHidden = true
+        editProfileButton.isHidden = false
     }
     
     func displayLoading(_ loading: Bool) {
