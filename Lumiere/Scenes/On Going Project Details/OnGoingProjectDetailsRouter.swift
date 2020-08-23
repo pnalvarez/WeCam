@@ -15,7 +15,7 @@ protocol OnGoingProjectDetailsRoutingLogic {
 }
 
 protocol OnGoingProjectDetailsDataTransfer {
-    
+    var dataStore: OnGoingProjectDetailsDataStore? { get set }
 }
 
 class OnGoingProjectDetailsRouter: NSObject, OnGoingProjectDetailsDataTransfer {

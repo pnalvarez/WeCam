@@ -29,6 +29,7 @@ class OnGoingProjectDetailsController: BaseViewController {
         view.bounces = false
         view.alwaysBounceVertical = false
         view.alwaysBounceHorizontal = false
+        view.isScrollEnabled = false
         return view
     }()
     
@@ -42,17 +43,18 @@ class OnGoingProjectDetailsController: BaseViewController {
     
     private lazy var imageButton: UIButton = {
         let view = UIButton(frame: .zero)
+        view.imageView?.contentMode = .scaleAspectFit
         view.addTarget(self, action: #selector(didTapImageButton), for: .touchUpInside)
         view.layer.cornerRadius = 41
         view.layer.borderWidth = 1
-        view.layer.borderColor = UIColor.white.cgColor
+        view.layer.borderColor = UIColor.gray.cgColor
         return view
     }()
     
     private lazy var activityView: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView(frame: .zero)
-        view.color = OnGoingProjectDetails.Constants.Colors.activity
-        view.backgroundColor = OnGoingProjectDetails.Constants.Colors.activityBackground
+        view.color = .black
+        view.backgroundColor = .white
         view.startAnimating()
         view.isHidden = true
         return view
@@ -72,7 +74,9 @@ class OnGoingProjectDetailsController: BaseViewController {
     
     private var viewModel: OnGoingProjectDetails.Info.ViewModel.Project? {
         didSet {
-            teamCollectionView.reloadData()
+            DispatchQueue.main.async {
+                self.teamCollectionView.reloadData()
+            }
         }
     }
     
@@ -90,6 +94,7 @@ class OnGoingProjectDetailsController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.isNavigationBarHidden = true
         interactor?.fetchProjectDetails(OnGoingProjectDetails.Request.FetchProject())
     }
     
@@ -142,7 +147,7 @@ extension OnGoingProjectDetailsController: UICollectionViewDelegateFlowLayout {
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
 
-        return CGSize(width: collectionView.frame.width / 2, height: 38)
+        return CGSize(width: 125, height: 50)
     }
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
@@ -189,6 +194,7 @@ extension OnGoingProjectDetailsController: OnGoingProjectDetailsDisplayLogic {
     
     func displayProjectDetails(_ viewModel: OnGoingProjectDetails.Info.ViewModel.Project) {
         self.viewModel = viewModel
+        mainView.setup(viewModel: viewModel)
     }
     
     func displayLoading(_ loading: Bool) {

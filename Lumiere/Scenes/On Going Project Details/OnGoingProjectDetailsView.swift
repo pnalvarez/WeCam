@@ -92,6 +92,7 @@ class OnGoingProjectDetailsView: UIView {
         self.imageButton = imageButton
         self.activityView = activityView
         super.init(frame: frame)
+        applyViewCode()
     }
     
     required init?(coder: NSCoder) {
@@ -123,7 +124,7 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
     
     func setupConstraints() {
         closeButton.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(47)
+            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(28)
             make.right.equalToSuperview().inset(35)
             make.height.width.equalTo(31)
         }
@@ -152,10 +153,10 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
             make.width.equalTo(49)
         }
         teamCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(teamFixedLbl.snp.bottom)
+            make.top.equalTo(teamFixedLbl.snp.bottom).offset(17)
             make.left.equalTo(teamFixedLbl)
             make.right.equalToSuperview().inset(59)
-            make.height.equalTo(77)
+            make.height.equalTo(115)
         }
         moreInfoButton.snp.makeConstraints { make in
             make.top.equalTo(teamCollectionView.snp.bottom).offset(12)
@@ -169,7 +170,7 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
             make.width.equalTo(94)
         }
         dotView.snp.makeConstraints { make in
-            make.top.equalTo(needValueLbl.snp.bottom).offset(32)
+            make.top.equalTo(needFixedLbl.snp.bottom).offset(32)
             make.left.equalTo(needFixedLbl)
             make.height.width.equalTo(10)
         }
@@ -190,5 +191,6 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
         needValueLbl.text = viewModel?.needing
         guard let image = viewModel?.image else { return }
         imageButton.sd_setImage(with: URL(string: image), for: .normal, completed: nil)
+        imageButton.isUserInteractionEnabled = false
     }
 }

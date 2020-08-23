@@ -85,8 +85,14 @@ extension SignInRouter: SignInRoutingLogic {
         }
         transferDataToProfileDetails(from: source, to: &profileDetailsDataStore)
         
+        let projectDetailsVc = OnGoingProjectDetailsController()
+        profileDetailsVc.tabBarItem = UITabBarItem(title: nil,
+                                                   image: ProfileDetails.Constants.Images.tabBarDefaultImage,
+                                                   selectedImage: ProfileDetails.Constants.Images.tabBarSelectedImage)
+        projectDetailsVc.router?.dataStore?.receivedData = OnGoingProjectDetails.Info.Received.Project(projectId: "-MFItlhEHI3aram2mV-v")
+        
         let tabController = UITabBarController()
-        tabController.viewControllers = [UINavigationController(rootViewController: selectProjectImageVc),
+        tabController.viewControllers = [UINavigationController(rootViewController: projectDetailsVc),
                                          UINavigationController(rootViewController: notificationsVc),
                                          UINavigationController(rootViewController: profileDetailsVc)]
 

@@ -16,13 +16,15 @@ class TeamMemberCollectionViewCell: UICollectionViewCell {
         view.layer.cornerRadius = 2
         view.layer.borderColor = UIColor(rgb: 0xe5dfdf).cgColor
         view.layer.borderWidth = 1
+        view.clipsToBounds = true
         return view
     }()
     
     private lazy var imageView: UIImageView = {
         let view = UIImageView(frame: .zero)
-        view.contentMode = .scaleAspectFit
+        view.contentMode = .scaleAspectFill
         view.layer.cornerRadius = 18
+        view.clipsToBounds = true
         return view
     }()
     
@@ -47,6 +49,7 @@ class TeamMemberCollectionViewCell: UICollectionViewCell {
     
     func setup(viewModel: TeamMemberViewModel) {
         self.viewModel = viewModel
+        applyViewCode()
     }
 }
 
@@ -64,11 +67,12 @@ extension TeamMemberCollectionViewCell: ViewCodeProtocol {
             make.edges.equalTo(UIEdgeInsets(top: 1, left: 1, bottom: 1, right: 1))
         }
         imageView.snp.makeConstraints { make in
-            make.top.left.equalToSuperview()
+            make.left.equalToSuperview().inset(2)
+            make.centerY.equalToSuperview()
             make.height.width.equalTo(36)
         }
         nameLbl.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(6)
+            make.top.equalTo(imageView)
             make.left.equalTo(imageView.snp.right)
             make.right.equalToSuperview()
         }

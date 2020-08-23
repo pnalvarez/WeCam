@@ -64,12 +64,14 @@ extension SignInView: ViewCodeProtocol {
         topLogoImageView.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(120)
             make.height.equalTo(124)
-            make.left.right.equalToSuperview().inset(136)
+            make.centerX.equalToSuperview()
+            make.width.equalTo(104)
         }
         bottomLogoImageView.snp.makeConstraints { make in
             make.top.equalTo(topLogoImageView.snp.bottom)
             make.height.equalTo(38)
-            make.left.right.equalToSuperview().inset(136)
+            make.centerX.equalToSuperview()
+            make.width.equalTo(104)
         }
         emailTextField.snp.makeConstraints { make in
             make.top.equalTo(bottomLogoImageView.snp.bottom).offset(2)
@@ -128,6 +130,7 @@ extension SignInView: ViewCodeProtocol {
         passwordTextField.backgroundColor = SignIn.Constants.Colors.textFieldBackground
         passwordTextField.autocorrectionType = .no
         passwordTextField.isSecureTextEntry = true
+        passwordTextField.textContentType = .none
         
         forgetButton.setAttributedTitle(NSAttributedString(string: SignIn.Constants.Texts.forgetButton, attributes: [NSAttributedString.Key.foregroundColor : UIColor(rgb: 0x707070), NSAttributedString.Key.font: SignIn.Constants.Fonts.forgetButton, NSAttributedString.Key.underlineStyle : NSUnderlineStyle.single.rawValue]), for: .normal)
         
