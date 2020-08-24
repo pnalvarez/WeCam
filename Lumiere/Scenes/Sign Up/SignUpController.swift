@@ -153,8 +153,11 @@ extension SignUpController {
         let isBackSpace = strcmp(char, "\\b")
 
         if (isBackSpace == -92) && (textField.text?.count)! > 0 {
-            print("Backspace was pressed")
-            textField.text!.removeAll()
+            if textField == cellphoneTextField {
+                textField.text!.removeAll()
+            } else {
+                textField.text?.removeLast()
+            }
             return false
         }
 
