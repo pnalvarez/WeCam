@@ -11,10 +11,21 @@ import UIKit
 protocol EditProfileDetailsDisplayLogic: class {
     func displayUserData(_ viewModel: EditProfileDetails.Info.ViewModel.User,
                          cathegories: EditProfileDetails.Info.ViewModel.Cathegories)
+    func displayProfileDetails()
     func displayLoading(_ loading: Bool)
+    func displayError(_ viewModel: String)
 }
 
 class EditProfileDetailsController: BaseViewController {
+    
+    private lazy var activityView: UIActivityIndicatorView = {
+        let view = UIActivityIndicatorView(frame: .zero)
+        view.startAnimating()
+        view.color = .black
+        view.backgroundColor = .white
+        view.isHidden = true
+        return view
+    }()
     
     private lazy var loadingView: LoadingView = {
         let view = LoadingView(frame: .zero)
@@ -43,6 +54,7 @@ class EditProfileDetailsController: BaseViewController {
     
     private lazy var imageButton: UIButton = {
         let view = UIButton(frame: .zero)
+        view.addTarget(self, action: #selector(didTapImageButton), for: .touchUpInside)
         view.layer.borderWidth = 1
         view.layer.borderColor = EditProfileDetails.Constants.Colors.imageButtonLayer
         view.layer.cornerRadius = 41
@@ -100,6 +112,7 @@ class EditProfileDetailsController: BaseViewController {
     
     private lazy var mainView: EditProfileDetailsView = {
         let view = EditProfileDetailsView(frame: .zero,
+                                          activityView: activityView,
                                           loadingView: loadingView,
                                           cancelButton: cancelButton,
                                           finishButton: finishButton,
@@ -117,6 +130,8 @@ class EditProfileDetailsController: BaseViewController {
         controller.sourceType = .photoLibrary
         return controller
     }()
+    
+    private var indicatedActivityView: UIView?
     
     private var cathegories: EditProfileDetails.Info.ViewModel.Cathegories? {
         didSet {
@@ -140,6 +155,7 @@ class EditProfileDetailsController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        indicatedActivityView = activityView
         interactor?.fetchUserData(EditProfileDetails.Request.UserData())
     }
     
@@ -192,6 +208,13 @@ extension EditProfileDetailsController {
 
 extension EditProfileDetailsController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
+    func imagePickerController(_ picker: UIImagePickerController,
+                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage{
+            imageButton.setImage(image, for: .normal)
+        }
+        self.dismiss(animated: true, completion: nil)
+    }
 }
 
 extension EditProfileDetailsController: UICollectionViewDelegate {
@@ -258,12 +281,17 @@ extension EditProfileDetailsController {
     
     @objc
     private func didTapFinish() {
-        
+        let request = EditProfileDetails.Request.Finish(image: imageButton.imageView?.image?.jpegData(compressionQuality: 0.5),
+                                                        name: nameTextField.text ?? .empty,
+                                                        cellphone: cellphoneTextField.text ?? .empty,
+                                                        ocupation: ocupationTextField.text ?? .empty)
+        interactor?.fetchFinish(request)
     }
     
     @objc
     private func didTapImageButton() {
-        
+        imagePicker.allowsEditing = true
+        present(imagePicker, animated: true, completion: nil)
     }
 }
 
@@ -272,10 +300,20 @@ extension EditProfileDetailsController: EditProfileDetailsDisplayLogic {
     func displayUserData(_ viewModel: EditProfileDetails.Info.ViewModel.User,
                          cathegories: EditProfileDetails.Info.ViewModel.Cathegories) {
         self.cathegories = cathegories
+        indicatedActivityView = loadingView
         mainView.setup(viewModel: viewModel)
     }
     
+    func displayProfileDetails() {
+        router?.routeBackSuccess()
+    }
+    
     func displayLoading(_ loading: Bool) {
-        loadingView.isHidden = !loading
+        indicatedActivityView?.isHidden = !loading
+    }
+    
+    func displayError(_ viewModel: String) {
+        UIAlertController.displayAlert(in: self, title: "Erro", message: viewModel)
+        mainView.updateAllTextFields()
     }
 }

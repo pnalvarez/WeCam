@@ -44,6 +44,8 @@ struct EditProfileDetails {
             static let nameTextFieldPlaceHolder = "Nome"
             static let cellPhoneTextFieldPlaceHolder = "Celular"
             static let ocupationTextFieldPlaceHolder = "Area Profissional"
+            static let editDetailsSuccessTitle = "Usuário editado e salvo"
+            static let editDetailsSucessMessage = "O usuário foi atualizado no sistema segundo as novas informações"
         }
         
         struct Images {
@@ -117,6 +119,18 @@ struct EditProfileDetails {
         }
     }
     
+    struct Errors {
+        
+        enum InputErrors: String {
+            case emptyName = "Campo de nome vazio"
+            case singleWordName = "Usuário a ser salvo sem sobrenome"
+            case emptyCellphone = "Campo de celular vazio"
+            case emptyOcupation = "Campo de area profissional vazio"
+            case cellphoneInvalid = "Telefone inválido"
+            case emptyInterestCathegories = "Selecione pelo menos uma categoria de interesse"
+        }
+    }
+    
     struct Request {
         
         struct UserData {
@@ -125,6 +139,30 @@ struct EditProfileDetails {
         
         struct SelectCathegory {
             let index: Int
+        }
+        
+        struct EditProfile {
+            let id: String
+            let image: String?
+            let name: String
+            let cellphone: String
+            let ocupation: String
+            let interestCathegories: [String]
+        }
+        
+        struct Finish {
+            let image: Data?
+            let name: String
+            let cellphone: String
+            let ocupation: String
+        }
+        
+        struct UpdateUser {
+            let image: Data?
+            let name: String
+            let cellphone: String
+            let ocupation: String
+            let interestCathegories: [String]
         }
     }
 }

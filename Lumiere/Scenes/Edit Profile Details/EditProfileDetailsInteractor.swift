@@ -9,6 +9,7 @@
 protocol EditProfileDetailsBusinessLogic {
     func fetchUserData(_ request: EditProfileDetails.Request.UserData)
     func didSelectCathegory(_ request: EditProfileDetails.Request.SelectCathegory)
+    func fetchFinish(_ request: EditProfileDetails.Request.Finish)
 }
 
 protocol EditProfileDetailsDataStore {
@@ -42,6 +43,40 @@ extension EditProfileDetailsInteractor {
         }
         return interestCathegories
     }
+    
+    private func checkErrors(_ request: EditProfileDetails.Request.Finish) -> Bool {
+        guard !request.name.isEmpty else {
+            presenter.presentLoading(false)
+            presenter.presentInputError(EditProfileDetails.Errors.InputErrors.emptyName)
+            return true
+        }
+        guard request.name.split(separator: Character(.space)).count > 1 else {
+            presenter.presentLoading(false)
+            presenter.presentInputError(EditProfileDetails.Errors.InputErrors.singleWordName)
+            return true
+        }
+        guard !request.cellphone.isEmpty else {
+            presenter.presentLoading(false)
+            presenter.presentInputError(EditProfileDetails.Errors.InputErrors.emptyCellphone)
+            return true
+        }
+        guard request.cellphone.count == 15 else {
+            presenter.presentLoading(false)
+            presenter.presentInputError(EditProfileDetails.Errors.InputErrors.cellphoneInvalid)
+            return true
+        }
+        guard !request.ocupation.isEmpty else {
+            presenter.presentLoading(false)
+            presenter.presentInputError(EditProfileDetails.Errors.InputErrors.emptyOcupation)
+            return true
+        }
+        guard !(userData?.interestCathegories.cathegories.filter({$0.selected}).isEmpty ?? false) else {
+            presenter.presentLoading(false)
+            presenter.presentInputError(EditProfileDetails.Errors.InputErrors.emptyInterestCathegories)
+            return true
+        }
+        return false
+    }
 }
 
 extension EditProfileDetailsInteractor: EditProfileDetailsBusinessLogic {
@@ -62,6 +97,8 @@ extension EditProfileDetailsInteractor: EditProfileDetailsBusinessLogic {
                 self.presenter.presentUserData(user)
                 break
             case .error(let error):
+                self.presenter.presentLoading(false)
+                self.presenter.presentServerError(error)
                 break
             }
         }
@@ -72,5 +109,30 @@ extension EditProfileDetailsInteractor: EditProfileDetailsBusinessLogic {
         userData?.interestCathegories.cathegories[request.index].selected = !cathegory.selected
         guard let user = userData else { return }
         presenter.presentUserData(user)
+    }
+    
+    func fetchFinish(_ request: EditProfileDetails.Request.Finish) {
+        self.presenter.presentLoading(true)
+        guard !checkErrors(request) else {
+            return
+        }
+        guard let cathegories = userData?.interestCathegories.cathegories else { return }
+        let request = EditProfileDetails.Request.UpdateUser(image: request.image,
+                                                            name: request.name,
+                                                            cellphone: request.cellphone,
+                                                            ocupation: request.ocupation,
+                                                            interestCathegories: cathegories.filter({ $0.selected }).map({$0.style.rawValue}))
+        worker.fetchUpdateUserDetails(request: request) { response in
+            switch response {
+            case .success:
+                self.presenter.presentLoading(false)
+                self.presenter.didUpdateUser()
+                break
+            case .error(let error):
+                self.presenter.presentLoading(false)
+                self.presenter.presentServerError(error)
+                break
+            }
+        }
     }
 }

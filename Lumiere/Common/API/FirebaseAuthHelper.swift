@@ -63,6 +63,8 @@ protocol FirebaseAuthHelperProtocol {
                             completion: @escaping (EmptyResponse) -> Void)
     func fetchProjectWorking<T: Mappable>(request: [String : Any],
                       completion: @escaping (BaseResponse<T>) -> Void)
+    func updateUserData(request: [String : Any],
+                        completion: @escaping (EmptyResponse) -> Void)
 }
 
 class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
@@ -1147,6 +1149,48 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
             }
         } else {
             completion(.error(FirebaseErrors.genericError))
+        }
+    }
+    
+    func updateUserData(request: [String : Any],
+                        completion: @escaping (EmptyResponse) -> Void) {
+        guard var payload = request["payload"] as? [String : Any],
+            let image = request["image"] as? Data else {
+            completion(.error(FirebaseErrors.parseError))
+            return
+        }
+        guard let id = authReference.currentUser?.uid else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        let userImageReference =  storage.child(Constants.usersPath).child(id)
+        userImageReference.putData(image, metadata: nil) { (metadata, error) in
+                if let error = error {
+                    completion(.error(error))
+                    return
+                }
+        userImageReference.downloadURL { (url, error) in
+                if let error = error {
+                    completion(.error(error))
+                    return
+                }
+                guard let url = url else {
+                    completion(.error(FirebaseErrors.genericError))
+                    return
+                }
+            let urlString = url.absoluteString
+            payload["profile_image_url"] = urlString
+            self.realtimeDB
+                .child(Constants.usersPath)
+                .child(id)
+                .updateChildValues(payload) { (error, ref) in
+                    if let error = error {
+                        completion(.error(error))
+                        return
+                    }
+                    completion(.success)
+                }
+            }
         }
     }
 }

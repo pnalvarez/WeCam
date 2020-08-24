@@ -11,6 +11,7 @@ import SDWebImage
 
 class EditProfileDetailsView: UIView {
     
+    private unowned var activityView: UIActivityIndicatorView
     private unowned var loadingView: LoadingView
     private unowned var cancelButton: UIButton
     private unowned var finishButton: UIButton
@@ -69,6 +70,7 @@ class EditProfileDetailsView: UIView {
     private var viewModel: EditProfileDetails.Info.ViewModel.User?
     
     init(frame: CGRect,
+         activityView: UIActivityIndicatorView,
          loadingView: LoadingView,
          cancelButton: UIButton,
          finishButton: UIButton,
@@ -77,6 +79,7 @@ class EditProfileDetailsView: UIView {
          cellphoneTextField: UITextField,
          ocupationTextField: UITextField,
          collectionView: UICollectionView) {
+        self.activityView = activityView
         self.loadingView = loadingView
         self.cancelButton = cancelButton
         self.finishButton = finishButton
@@ -99,6 +102,25 @@ class EditProfileDetailsView: UIView {
     }
 }
 
+extension EditProfileDetailsView {
+    
+    func updateAllTextFields() {
+        for view in allSubviews {
+            if let textField = view as? UITextField {
+                if let isEmpty = textField.text?.isEmpty {
+                    if isEmpty {
+                        textField.layer.borderWidth = 1
+                        textField.layer.borderColor = UIColor.red.cgColor
+                    } else {
+                        textField.layer.borderWidth = 0
+                        textField.layer.borderColor = UIColor.clear.cgColor
+                    }
+                }
+            }
+        }
+    }
+}
+
 extension EditProfileDetailsView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
@@ -116,9 +138,13 @@ extension EditProfileDetailsView: ViewCodeProtocol {
         scrollView.addSubview(containerView)
         addSubview(scrollView)
         addSubview(loadingView)
+        addSubview(activityView)
     }
     
     func setupConstraints() {
+        activityView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
         loadingView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
@@ -181,16 +207,10 @@ extension EditProfileDetailsView: ViewCodeProtocol {
             make.width.equalTo(176)
         }
         collectionView.snp.makeConstraints { make in
-            make.top.equalTo(cathegoriesLbl.snp.bottom).offset(36)
-            make.height.equalTo(501)
+            make.top.equalTo(titleLbl.snp.bottom).offset(450)
+            make.height.equalTo(650)
             make.left.right.equalToSuperview()
-        }
-        bottomView.snp.makeConstraints { make in
-            make.top.equalTo(titleLbl.snp.bottom).offset(920)
-            make.width.equalToSuperview()
-            make.height.equalTo(10)
-            make.centerX.equalToSuperview()
-            make.bottom.equalToSuperview().inset(10)
+            make.bottom.equalToSuperview().inset(30)
         }
     }
     

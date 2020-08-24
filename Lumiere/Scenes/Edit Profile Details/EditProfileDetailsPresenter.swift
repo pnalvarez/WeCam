@@ -10,7 +10,10 @@ import UIKit
 
 protocol EditProfileDetailsPresentationLogic {
     func presentUserData(_ response: EditProfileDetails.Info.Model.User)
+    func didUpdateUser()
     func presentLoading(_ loading: Bool)
+    func presentServerError(_ response: Error)
+    func presentInputError(_ response: EditProfileDetails.Errors.InputErrors)
 }
 
 class EditProfileDetailsPresenter: EditProfileDetailsPresentationLogic {
@@ -31,7 +34,19 @@ class EditProfileDetailsPresenter: EditProfileDetailsPresentationLogic {
         
     }
     
+    func didUpdateUser() {
+        viewController.displayProfileDetails()
+    }
+    
     func presentLoading(_ loading: Bool) {
         viewController.displayLoading(loading)
+    }
+    
+    func presentServerError(_ response: Error) {
+        viewController.displayError(response.localizedDescription)
+    }
+    
+    func presentInputError(_ response: EditProfileDetails.Errors.InputErrors) {
+        viewController.displayError(response.rawValue)
     }
 }

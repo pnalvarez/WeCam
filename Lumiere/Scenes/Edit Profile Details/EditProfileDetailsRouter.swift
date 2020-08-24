@@ -38,6 +38,10 @@ extension EditProfileDetailsRouter: EditProfileDetailsRoutingLogic {
     }
     
     func routeBackSuccess() {
-        
+        guard let navigationController = viewController?.navigationController else { return }
+               navigationController.popViewController(animated: true)
+               UIAlertController.displayAlert(in: navigationController,
+                                              title: EditProfileDetails.Constants.Texts.editDetailsSuccessTitle,
+                                              message: EditProfileDetails.Constants.Texts.editDetailsSucessMessage)
     }
 }
