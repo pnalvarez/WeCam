@@ -18,17 +18,22 @@ protocol EditProjectDetailsRoutingLogic {
 
 protocol EditProjectDetailsDataTransfer {
     var dataStore: EditProjectDetailsDataStore? { get set }
+    var inviteListDelegate: InviteListDelegate? { get set }
 }
 
 class EditProjectDetailsRouter: NSObject, EditProjectDetailsDataTransfer {
     
     weak var viewController: UIViewController?
     var dataStore: EditProjectDetailsDataStore?
+    var inviteListDelegate: InviteListDelegate?
     
     private func transferDataToInviteList(from source: EditProjectDetailsDataStore,
                                           to destination: inout InviteListDataStore) {
-        guard let invitedUsers = source.invitedUsers?.users else { return }
+        guard let invitedUsers = source.invitedUsers?.users else {
+            return
+        }
         destination.receivedInvites = InviteList.Info.Received.InvitedUsers(users: invitedUsers.map({InviteList.Info.Received.User(id: $0.id)}))
+        destination.delegate = inviteListDelegate
     }
 }
 

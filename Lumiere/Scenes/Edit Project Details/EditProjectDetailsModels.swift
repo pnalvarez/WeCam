@@ -88,7 +88,7 @@ struct EditProjectDetails {
             }
             
             struct InvitedUsers {
-                let users: [User]
+                var users: [User]
             }
             
             struct User {

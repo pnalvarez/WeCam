@@ -13,7 +13,7 @@ protocol InviteListBusinessLogic {
 }
 
 protocol InviteListDelegate: class {
-    func didSelectUser(_ userId: String)
+    func didSelectUser(_ user: InviteList.Info.Model.User)
     func didUnselectUser(_ userId: String)
 }
 
@@ -53,6 +53,16 @@ extension InviteListInteractor {
         }
         return InviteList.Info.Model.Connections(users: connections)
     }
+    
+    private func updateUsersInvitations() {
+        guard let users = connections?.users,
+            let invites = receivedInvites else { return }
+        for i in 0..<users.count {
+            if invites.users.contains(where: {$0.id == users[i].id}) {
+                connections?.users[i].inviting = true
+            }
+        }
+    }
 }
 
 extension InviteListInteractor: InviteListBusinessLogic {
@@ -64,6 +74,7 @@ extension InviteListInteractor: InviteListBusinessLogic {
             case .success(let data):
                 self.presenter.presentLoading(false)
                 self.connections = self.buildUsers(data: data)
+                self.updateUsersInvitations()
                 guard let connections = self.connections else { return }
                 self.presenter.presentConnections(connections)
                 break
@@ -81,7 +92,7 @@ extension InviteListInteractor: InviteListBusinessLogic {
         if inviting {
             delegate?.didUnselectUser(userId)
         } else {
-            delegate?.didSelectUser(userId)
+            delegate?.didSelectUser(connectionUsers.users[request.index])
         }
         guard let connections = connections else { return }
         presenter.presentConnections(connections)

@@ -30,13 +30,32 @@ class EditProjectDetailsInteractor: EditProjectDetailsDataStore {
          viewController: EditProjectDetailsDisplayLogic) {
         self.worker = worker
         self.presenter = EditProjectDetailsPresenter(viewController: viewController)
+        invitedUsers = EditProjectDetails.Info.Model.InvitedUsers(users: .empty)
+    }
+}
+
+extension EditProjectDetailsInteractor: InviteListDelegate {
+    
+    func didSelectUser(_ user: InviteList.Info.Model.User) {
+        invitedUsers?.users.append(EditProjectDetails.Info.Model.User(id: user.id,
+                                                                      name: user.name,
+                                                                      image: user.image,
+                                                                      ocupation: user.ocupation))
+        guard let users = invitedUsers else { return }
+        presenter.presentInvitedUsers(users)
+    }
+    
+    func didUnselectUser(_ userId: String) {
+        invitedUsers?.users.removeAll(where: {$0.id == userId})
+        guard let users = invitedUsers else { return }
+        presenter.presentInvitedUsers(users)
     }
 }
 
 extension EditProjectDetailsInteractor: EditProjectDetailsBusinessLogic {
     
     func didTapInviteButton(_ request: EditProjectDetails.Request.Invite) {
-        presenter.presentInviteList()
+        presenter.presentInviteList(self)
     }
     
     func fetchPublish(_ request: EditProjectDetails.Request.Publish) {

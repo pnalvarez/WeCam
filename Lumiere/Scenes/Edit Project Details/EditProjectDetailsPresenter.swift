@@ -9,7 +9,7 @@
 import UIKit
 
 protocol EditProjectDetailsPresentationLogic {
-    func presentInviteList()
+    func presentInviteList(_ delegate: InviteListDelegate)
     func presentPublishedProjectDetails()
     func presentInvitedUsers(_ response: EditProjectDetails.Info.Model.InvitedUsers)
     func presentLoading(_ loading: Bool)
@@ -25,8 +25,8 @@ class EditProjectDetailsPresenter: EditProjectDetailsPresentationLogic {
         self.viewController = viewController
     }
     
-    func presentInviteList() {
-        viewController.displayInviteList()
+    func presentInviteList(_ delegate: InviteListDelegate) {
+        viewController.displayInviteList(delegate)
     }
     
     func presentPublishedProjectDetails() {
@@ -40,9 +40,9 @@ class EditProjectDetailsPresenter: EditProjectDetailsPresentationLogic {
         } else if response.users.count == 1 {
             text = "\(response.users[0].name)"
         } else if response.users.count == 2 {
-            text = "\(response.users[0]) e \(response.users[1])"
+            text = "\(response.users[0].name) e \(response.users[1].name)"
         } else {
-            text = "\(response.users[0]), \(response.users[1]) e outros"
+            text = "\(response.users[0].name), \(response.users[1].name) e outros"
         }
         let viewModel = EditProjectDetails.Info.ViewModel.InvitedUsers(text: text)
         viewController.displayInvitedUsers(viewModel)
