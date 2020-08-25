@@ -7,7 +7,6 @@
 //
 
 protocol EditProjectDetailsBusinessLogic {
-    func didTapInviteButton(_ request: EditProjectDetails.Request.Invite)
     func fetchPublish(_ request: EditProjectDetails.Request.Publish)
 }
 
@@ -53,10 +52,6 @@ extension EditProjectDetailsInteractor: InviteListDelegate {
 }
 
 extension EditProjectDetailsInteractor: EditProjectDetailsBusinessLogic {
-    
-    func didTapInviteButton(_ request: EditProjectDetails.Request.Invite) {
-        presenter.presentInviteList(self)
-    }
     
     func fetchPublish(_ request: EditProjectDetails.Request.Publish) {
         presenter.presentLoading(true)

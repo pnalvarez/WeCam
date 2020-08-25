@@ -33,7 +33,9 @@ class EditProjectDetailsRouter: NSObject, EditProjectDetailsDataTransfer {
             return
         }
         destination.receivedInvites = InviteList.Info.Received.InvitedUsers(users: invitedUsers.map({InviteList.Info.Received.User(id: $0.id)}))
-        destination.delegate = inviteListDelegate
+        if let delegate = dataStore as? InviteListDelegate{
+            destination.delegate = delegate
+        }
     }
 }
 

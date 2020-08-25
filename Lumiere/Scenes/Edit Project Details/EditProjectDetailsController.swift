@@ -9,7 +9,6 @@
 import UIKit
 
 protocol EditProjectDetailsDisplayLogic: class {
-    func displayInviteList(_ delegate: InviteListDelegate)
     func displayPublishedProjectDetails()
     func displayInvitedUsers(_ viewModel: EditProjectDetails.Info.ViewModel.InvitedUsers)
     func displayLoading(_ loading: Bool)
@@ -153,7 +152,7 @@ extension EditProjectDetailsController {
     
     @objc
     private func didTapInviteFriends() {
-        interactor?.didTapInviteButton(EditProjectDetails.Request.Invite())
+        router?.routeToInviteList()
     }
     
     @objc
@@ -163,11 +162,6 @@ extension EditProjectDetailsController {
 }
 
 extension EditProjectDetailsController: EditProjectDetailsDisplayLogic {
-    
-    func displayInviteList(_ delegate: InviteListDelegate) {
-        router?.inviteListDelegate = delegate
-        router?.routeToInviteList()
-    }
     
     func displayPublishedProjectDetails() {
         router?.routeToPublishedProjectDetails()

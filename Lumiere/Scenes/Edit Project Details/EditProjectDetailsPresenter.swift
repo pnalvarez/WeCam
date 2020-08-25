@@ -9,7 +9,6 @@
 import UIKit
 
 protocol EditProjectDetailsPresentationLogic {
-    func presentInviteList(_ delegate: InviteListDelegate)
     func presentPublishedProjectDetails()
     func presentInvitedUsers(_ response: EditProjectDetails.Info.Model.InvitedUsers)
     func presentLoading(_ loading: Bool)
@@ -23,10 +22,6 @@ class EditProjectDetailsPresenter: EditProjectDetailsPresentationLogic {
     
     init(viewController: EditProjectDetailsDisplayLogic) {
         self.viewController = viewController
-    }
-    
-    func presentInviteList(_ delegate: InviteListDelegate) {
-        viewController.displayInviteList(delegate)
     }
     
     func presentPublishedProjectDetails() {

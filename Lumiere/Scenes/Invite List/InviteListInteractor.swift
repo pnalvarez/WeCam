@@ -53,7 +53,7 @@ extension InviteListInteractor {
         }
         return InviteList.Info.Model.Connections(users: connections)
     }
-    
+
     private func updateUsersInvitations() {
         guard let users = connections?.users,
             let invites = receivedInvites else { return }
