@@ -41,14 +41,25 @@ struct InviteList {
             static let closeButton = UIImage(named: "fechar 1", in: InviteList.bundle, compatibleWith: nil)
             static let checkButtonSelected = UIImage(named: "icone-conexao-feita 1", in: InviteList.bundle, compatibleWith: nil)
         }
+        
+        struct Dimensions {
+            
+            struct Heights {
+                static let tableCell: CGFloat = 120
+            }
+        }
     }
     
     struct Info {
         
         struct Received {
             
-            struct LoggedUser {
-                let userId: String
+            struct InvitedUsers {
+                let users: [User]
+            }
+            
+            struct User {
+                let id: String
             }
         }
         

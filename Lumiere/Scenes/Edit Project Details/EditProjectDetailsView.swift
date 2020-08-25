@@ -10,6 +10,7 @@ import UIKit
 
 class EditProjectDetailsView: UIView {
     
+    private unowned var inviteFriendsButton: UIButton
     private unowned var backButton: DefaultBackButton
     private unowned var projectTitleTextField: UITextField
     private unowned var teamValueLbl: UILabel
@@ -55,6 +56,7 @@ class EditProjectDetailsView: UIView {
     }()
     
     init(frame: CGRect,
+         inviteFriendsButton: UIButton,
          backButton: DefaultBackButton,
          projectTitleTextField: UITextField,
          sinopsisTextView: UITextView,
@@ -62,6 +64,7 @@ class EditProjectDetailsView: UIView {
          teamValueLbl: UILabel,
          publishButton: UIButton,
          loadingView: LoadingView) {
+        self.inviteFriendsButton = inviteFriendsButton
         self.backButton = backButton
         self.projectTitleTextField = projectTitleTextField
         self.sinopsisTextView = sinopsisTextView
@@ -86,6 +89,7 @@ extension EditProjectDetailsView: ViewCodeProtocol {
         addSubview(projectTitleTextField)
         addSubview(teamFixedLbl)
         addSubview(teamValueLbl)
+        addSubview(inviteFriendsButton)
         addSubview(sinopsisFixedLbl)
         addSubview(sinopsisTextView)
         addSubview(needLbl)
@@ -119,6 +123,12 @@ extension EditProjectDetailsView: ViewCodeProtocol {
             make.top.equalTo(teamFixedLbl.snp.bottom).offset(5)
             make.left.equalTo(teamFixedLbl)
             make.right.equalToSuperview().inset(66)
+        }
+        inviteFriendsButton.snp.makeConstraints { make in
+            make.top.equalTo(teamValueLbl.snp.bottom).offset(45)
+            make.centerX.equalToSuperview()
+            make.height.equalTo(32)
+            make.width.equalTo(171)
         }
         sinopsisFixedLbl.snp.makeConstraints { make in
             make.top.equalTo(teamValueLbl.snp.bottom).offset(50)

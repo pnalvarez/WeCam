@@ -18,6 +18,7 @@ protocol InviteListDelegate: class {
 }
 
 protocol InviteListDataStore {
+    var receivedInvites: InviteList.Info.Received.InvitedUsers? { get set }
     var connections: InviteList.Info.Model.Connections? { get set }
     var delegate: InviteListDelegate? { get set }
 }
@@ -27,6 +28,7 @@ class InviteListInteractor: InviteListDataStore {
     private let worker: InviteListWorkerProtocol
     private let presenter: InviteListPresentationLogic
     
+    var receivedInvites: InviteList.Info.Received.InvitedUsers?
     var connections: InviteList.Info.Model.Connections?
     weak var delegate: InviteListDelegate?
     

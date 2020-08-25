@@ -33,7 +33,7 @@ class InviteListController: BaseViewController {
     
     private lazy var searchTextField: UITextField = {
         let view = UITextField(frame: .zero)
-        view.addTarget(self, action: #selector(didChangeSearchValue), for: .valueChanged)
+        view.addTarget(self, action: #selector(didChangeSearchValue), for: .editingChanged)
         view.layer.borderWidth = 1
         view.layer.borderColor = InviteList.Constants.Colors.searchTextFieldLayer
         view.backgroundColor = InviteList.Constants.Colors.searchTextFieldBackground
@@ -135,6 +135,10 @@ extension InviteListController: UITableViewDataSource {
                    delegate: self)
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return InviteList.Constants.Dimensions.Heights.tableCell
+    }
 }
 
 extension InviteListController: InviteListTableViewCellDelegate {
@@ -160,6 +164,7 @@ extension InviteListController: InviteListDisplayLogic {
     
     func displayConnections(_ viewModel: InviteList.Info.ViewModel.Connections) {
         self.connectionsViewModel = viewModel
+        indicatedView = loadingView
     }
     
     func displayLoading(_ loading: Bool) {

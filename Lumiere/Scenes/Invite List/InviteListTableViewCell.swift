@@ -19,6 +19,7 @@ class InviteListTableViewCell: UITableViewCell {
         let view = UIImageView(frame: .zero)
         view.contentMode = .scaleToFill
         view.layer.cornerRadius = 50
+        view.clipsToBounds = true
         return view
     }()
     
@@ -117,6 +118,7 @@ extension InviteListTableViewCell: ViewCodeProtocol {
     
     func configureViews() {
         backgroundColor = .white
+        selectionStyle = .none
         
         nameLbl.text = viewModel?.name
         ocupationLbl.text = viewModel?.ocupation
@@ -127,6 +129,8 @@ extension InviteListTableViewCell: ViewCodeProtocol {
         
         if inviting {
             checkButton.setImage(InviteList.Constants.Images.checkButtonSelected, for: .normal)
+        } else {
+            checkButton.setImage(nil, for: .normal)
         }
         photoImageView.sd_setImage(with: URL(string: image), completed: nil)
     }

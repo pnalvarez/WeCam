@@ -31,6 +31,8 @@ struct EditProjectDetails {
             static let projectTitleTextFieldBackground = UIColor(rgb: 0xffffff)
             static let projectTitleTextFieldLayer = UIColor(rgb: 0xe0e0e0).cgColor
             static let projectTitleTextFieldText = UIColor(rgb: 0x000000)
+            static let inviteFriendsButtonBackground = UIColor(rgb: 0xe3e0e0)
+            static let inviteFriendsButtonText = UIColor(rgb: 0x000000)
         }
         
         struct Fonts {
@@ -43,16 +45,18 @@ struct EditProjectDetails {
             static let needTextField = ThemeFonts.RobotoRegular(16).rawValue
             static let projectTitleLbl = ThemeFonts.RobotoRegular(16).rawValue
             static let projectTitleTextField = ThemeFonts.RobotoRegular(16).rawValue
+            static let inviteFriendsButton = ThemeFonts.RobotoRegular(16).rawValue
         }
-        
+
         struct Texts {
             static let publishButton = "Publicar"
-            static let teamFixedLbl = "Equipe"
+            static let teamFixedLbl = "Convites"
             static let sinopsisFixedLbl = "Sinopse"
             static let needLbl = "Preciso de:"
             static let teamValueLblEmpty = "Nenhum amigo convidado"
             static let projectTitleLbl = "Título do Projeto"
             static let errorTitle = "Erro"
+            static let inviteFriendsButton = "Convidar mais Amigos"
         }
         
         struct Images {
@@ -90,6 +94,8 @@ struct EditProjectDetails {
             struct User {
                 let id: String
                 let name: String
+                let image: String?
+                let ocupation: String
             }
             
             struct ServerError {

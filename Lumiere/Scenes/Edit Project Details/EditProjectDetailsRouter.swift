@@ -24,12 +24,18 @@ class EditProjectDetailsRouter: NSObject, EditProjectDetailsDataTransfer {
     
     weak var viewController: UIViewController?
     var dataStore: EditProjectDetailsDataStore?
+    
+    private func transferDataToInviteList(from source: EditProjectDetailsDataStore,
+                                          to destination: inout InviteListDataStore) {
+        guard let invitedUsers = source.invitedUsers?.users else { return }
+        destination.receivedInvites = InviteList.Info.Received.InvitedUsers(users: invitedUsers.map({InviteList.Info.Received.User(id: $0.id)}))
+    }
 }
 
 extension EditProjectDetailsRouter: BaseRouterProtocol {
     
     func routeTo(nextVC: UIViewController) {
-        
+        viewController?.navigationController?.pushViewController(nextVC, animated: true)
     }
 }
 
@@ -40,7 +46,11 @@ extension EditProjectDetailsRouter: EditProjectDetailsRoutingLogic {
     }
     
     func routeToInviteList() {
-        
+        let vc = InviteListController()
+        guard let source = dataStore,
+            var destination = vc.router?.dataStore else { return }
+        transferDataToInviteList(from: source, to: &destination)
+        routeTo(nextVC: vc)
     }
     
     func routeToPublishedProjectDetails() {

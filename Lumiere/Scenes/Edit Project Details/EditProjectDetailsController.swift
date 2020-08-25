@@ -34,6 +34,16 @@ class EditProjectDetailsController: BaseViewController {
         view.textAlignment = .left
         return view
     }()
+    
+    private lazy var inviteFriendsButton: UIButton = {
+        let view = UIButton(frame: .zero)
+        view.addTarget(self, action: #selector(didTapInviteFriends), for: .touchUpInside)
+        view.backgroundColor = EditProjectDetails.Constants.Colors.inviteFriendsButtonBackground
+        view.setTitle(EditProjectDetails.Constants.Texts.inviteFriendsButton, for: .normal)
+        view.setTitleColor(EditProjectDetails.Constants.Colors.inviteFriendsButtonText, for: .normal)
+        view.titleLabel?.font = EditProjectDetails.Constants.Fonts.inviteFriendsButton
+        return view
+    }()
 
     private lazy var teamValueLbl: UILabel = {
         let view = UILabel(frame: .zero)
@@ -91,6 +101,7 @@ class EditProjectDetailsController: BaseViewController {
     
     private lazy var mainView: EditProjectDetailsView = {
         let view = EditProjectDetailsView(frame: .zero,
+                                          inviteFriendsButton: inviteFriendsButton,
                                           backButton: backButton,
                                           projectTitleTextField: projectTitleTextField,
                                           sinopsisTextView: sinopsisTextView,
@@ -137,6 +148,16 @@ extension EditProjectDetailsController {
     
     @objc
     private func didTapPublish() {
+        router?.routeBack()
+    }
+    
+    @objc
+    private func didTapInviteFriends() {
+        router?.routeToInviteList()
+    }
+    
+    @objc
+    private func didTapBack() {
         router?.routeBack()
     }
 }
