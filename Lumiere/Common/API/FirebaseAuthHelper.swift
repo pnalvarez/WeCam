@@ -841,11 +841,13 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                                 }
                                 if let name = response["name"] as? String,
                                     let ocupation = response["professional_area"] as? String,
-                                    let image = response["profile_image_url"] as? String {
+                                    let image = response["profile_image_url"] as? String,
+                                    let email = response["email"] as? String {
                                     let newJson: [String : Any] = ["name": name,
                                                                    "ocupation" : ocupation,
                                                                    "image": image,
-                                                                   "userId": connectionId]
+                                                                   "userId": connectionId,
+                                                                   "email": email]
                                     responseConnections.append(newJson)
                                     let mappedResponse = Mapper<T>().mapArray(JSONArray: responseConnections)
                                     completion(.success(mappedResponse))

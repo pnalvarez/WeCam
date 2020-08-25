@@ -59,6 +59,14 @@
 		3F40A6CB24F232B600261161 /* EditProfileDetailsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A6CA24F232B600261161 /* EditProfileDetailsInteractor.swift */; };
 		3F40A6CD24F2337000261161 /* EditProfileDetailsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A6CC24F2337000261161 /* EditProfileDetailsRouter.swift */; };
 		3F40A6CF24F2344700261161 /* EditProfileDetailsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A6CE24F2344700261161 /* EditProfileDetailsModels.swift */; };
+		3F40A6D224F486C300261161 /* InviteListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A6D124F486C300261161 /* InviteListController.swift */; };
+		3F40A6D424F4870100261161 /* InviteListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A6D324F4870100261161 /* InviteListView.swift */; };
+		3F40A6D624F4873F00261161 /* InviteListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A6D524F4873F00261161 /* InviteListInteractor.swift */; };
+		3F40A6D824F4879D00261161 /* InviteListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A6D724F4879D00261161 /* InviteListPresenter.swift */; };
+		3F40A6DA24F487E800261161 /* InviteListWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A6D924F487E800261161 /* InviteListWorker.swift */; };
+		3F40A6DC24F4882200261161 /* InviteListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A6DB24F4882200261161 /* InviteListRouter.swift */; };
+		3F40A6DE24F4899500261161 /* InviteListModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A6DD24F4899500261161 /* InviteListModels.swift */; };
+		3F40A6E024F4992F00261161 /* InviteListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A6DF24F4992F00261161 /* InviteListTableViewCell.swift */; };
 		3F43311E24E8E8B90082825E /* ConfirmationAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F43311D24E8E8B90082825E /* ConfirmationAlertView.swift */; };
 		3F6EEA2F24E0A3680075C500 /* ConnectionsListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6EEA2E24E0A3680075C500 /* ConnectionsListController.swift */; };
 		3F6EEA3124E0A3720075C500 /* ConnectionsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6EEA3024E0A3720075C500 /* ConnectionsListView.swift */; };
@@ -246,6 +254,14 @@
 		3F40A6CA24F232B600261161 /* EditProfileDetailsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileDetailsInteractor.swift; sourceTree = "<group>"; };
 		3F40A6CC24F2337000261161 /* EditProfileDetailsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileDetailsRouter.swift; sourceTree = "<group>"; };
 		3F40A6CE24F2344700261161 /* EditProfileDetailsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileDetailsModels.swift; sourceTree = "<group>"; };
+		3F40A6D124F486C300261161 /* InviteListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteListController.swift; sourceTree = "<group>"; };
+		3F40A6D324F4870100261161 /* InviteListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteListView.swift; sourceTree = "<group>"; };
+		3F40A6D524F4873F00261161 /* InviteListInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteListInteractor.swift; sourceTree = "<group>"; };
+		3F40A6D724F4879D00261161 /* InviteListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteListPresenter.swift; sourceTree = "<group>"; };
+		3F40A6D924F487E800261161 /* InviteListWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteListWorker.swift; sourceTree = "<group>"; };
+		3F40A6DB24F4882200261161 /* InviteListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteListRouter.swift; sourceTree = "<group>"; };
+		3F40A6DD24F4899500261161 /* InviteListModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteListModels.swift; sourceTree = "<group>"; };
+		3F40A6DF24F4992F00261161 /* InviteListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteListTableViewCell.swift; sourceTree = "<group>"; };
 		3F43311D24E8E8B90082825E /* ConfirmationAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationAlertView.swift; sourceTree = "<group>"; };
 		3F6EEA2E24E0A3680075C500 /* ConnectionsListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsListController.swift; sourceTree = "<group>"; };
 		3F6EEA3024E0A3720075C500 /* ConnectionsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsListView.swift; sourceTree = "<group>"; };
@@ -542,6 +558,21 @@
 				3F40A6CE24F2344700261161 /* EditProfileDetailsModels.swift */,
 			);
 			path = "Edit Profile Details";
+			sourceTree = "<group>";
+		};
+		3F40A6D024F486AC00261161 /* Invite List */ = {
+			isa = PBXGroup;
+			children = (
+				3F40A6D124F486C300261161 /* InviteListController.swift */,
+				3F40A6D324F4870100261161 /* InviteListView.swift */,
+				3F40A6D524F4873F00261161 /* InviteListInteractor.swift */,
+				3F40A6D724F4879D00261161 /* InviteListPresenter.swift */,
+				3F40A6D924F487E800261161 /* InviteListWorker.swift */,
+				3F40A6DB24F4882200261161 /* InviteListRouter.swift */,
+				3F40A6DD24F4899500261161 /* InviteListModels.swift */,
+				3F40A6DF24F4992F00261161 /* InviteListTableViewCell.swift */,
+			);
+			path = "Invite List";
 			sourceTree = "<group>";
 		};
 		3F6EEA2D24E0A3550075C500 /* Connections List */ = {
@@ -850,6 +881,7 @@
 		3F95786724AD79C900B79818 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				3F40A6D024F486AC00261161 /* Invite List */,
 				3F40A6C124F2318700261161 /* Edit Profile Details */,
 				3F40A6AE24F1CABE00261161 /* On Going Project Details */,
 				3F40A69F24F0912D00261161 /* Edit Project Details */,
@@ -1246,9 +1278,11 @@
 				3FE8DF5C24CBD81C005DE30D /* ThemeColors.swift in Sources */,
 				3F40A61A24EA10C300261161 /* SelectProjectImageModels.swift in Sources */,
 				3F40A68924EDF70700261161 /* SelectProjectCathegoryModels.swift in Sources */,
+				3F40A6DA24F487E800261161 /* InviteListWorker.swift in Sources */,
 				3F9578DD24B0314D00B79818 /* BaseViewController.swift in Sources */,
 				3F8D138A24D5363200AED7EB /* ProfileDetailsInteractor.swift in Sources */,
 				3FE8DF5624C7BE0B005DE30D /* UserModel.swift in Sources */,
+				3F40A6E024F4992F00261161 /* InviteListTableViewCell.swift in Sources */,
 				3F6EEA3324E0A37B0075C500 /* ConnectionsListInteractor.swift in Sources */,
 				3F8D139F24D53BA600AED7EB /* NotificationsRouter.swift in Sources */,
 				3F8D13B224D750F900AED7EB /* SaveNotificationsRequest.swift in Sources */,
@@ -1256,6 +1290,7 @@
 				3F8D13C824D8FC1400AED7EB /* UIImage+.swift in Sources */,
 				3F9578C624B0195600B79818 /* SignUpView.swift in Sources */,
 				3F8116DE24B6AB620083A3DA /* ReusableView.swift in Sources */,
+				3F40A6DC24F4882200261161 /* InviteListRouter.swift in Sources */,
 				3F40A69C24EF439E00261161 /* ProjectProgressModels.swift in Sources */,
 				3F8D139524D53A3600AED7EB /* NotificationsTableView.swift in Sources */,
 				3F0CAA6224CCE0E8005E2558 /* CreateUserRequest.swift in Sources */,
@@ -1287,8 +1322,10 @@
 				3F95787B24AEA4EA00B79818 /* SignInModels.swift in Sources */,
 				3F6EEA7724E8D1CE0075C500 /* EmptyListView.swift in Sources */,
 				3F6EEA7524E87EE10075C500 /* UIAlertController+.swift in Sources */,
+				3F40A6DE24F4899500261161 /* InviteListModels.swift in Sources */,
 				3F9578D024B0198700B79818 /* SignUpRouter.swift in Sources */,
 				3F40A68D24EDFE1F00261161 /* CathegoryCollectionViewCell.swift in Sources */,
+				3F40A6D824F4879D00261161 /* InviteListPresenter.swift in Sources */,
 				3F8D139D24D53B7B00AED7EB /* NotificationsPresenter.swift in Sources */,
 				3F95787324AEA4C000B79818 /* SignInView.swift in Sources */,
 				3F40A6B624F1CBA500261161 /* OnGoingProjectDetailsPresenter.swift in Sources */,
@@ -1307,6 +1344,7 @@
 				3F8D139724D53AA300AED7EB /* NotificationsController.swift in Sources */,
 				3F6EEA7324E870AD0075C500 /* InfopListReader.swift in Sources */,
 				3F95786424AD77E200B79818 /* LaunchScreenRouter.swift in Sources */,
+				3F40A6D624F4873F00261161 /* InviteListInteractor.swift in Sources */,
 				3F9578D724B01A0600B79818 /* MovieStyle.swift in Sources */,
 				3F40A69E24F08F7C00261161 /* DefaultBackButton.swift in Sources */,
 				3F40A61224EA0E4B00261161 /* SelectProjectImageView.swift in Sources */,
@@ -1321,6 +1359,7 @@
 				3F95786A24AEA07100B79818 /* LaunchScreenInteractor.swift in Sources */,
 				3FE8DF5824C7BEE2005DE30D /* Constants.swift in Sources */,
 				3F9578D424B019BE00B79818 /* MovieStyleButton.swift in Sources */,
+				3F40A6D424F4870100261161 /* InviteListView.swift in Sources */,
 				3F8D13AC24D7466A00AED7EB /* FetchCurrentUserIdRequest.swift in Sources */,
 				3F6EEA7124E5DEEC0075C500 /* UITabBar+.swift in Sources */,
 				3F8D13CC24DE59F700AED7EB /* ConnectUsersRequest.swift in Sources */,
@@ -1328,6 +1367,7 @@
 				3F6EEA2F24E0A3680075C500 /* ConnectionsListController.swift in Sources */,
 				3F40A68B24EDF76300261161 /* SelectProjectCathegoryRouter.swift in Sources */,
 				3F95786E24AEA16000B79818 /* LaunchScreenModels.swift in Sources */,
+				3F40A6D224F486C300261161 /* InviteListController.swift in Sources */,
 				3F1158AF24C3F0EC00075C73 /* TeamMemberViewModel.swift in Sources */,
 				3F95785724AD75E700B79818 /* LaunchScreenView.swift in Sources */,
 				3F6EEA3124E0A3720075C500 /* ConnectionsListView.swift in Sources */,
