@@ -110,7 +110,13 @@ struct EditProjectDetails {
         struct ViewModel {
             
             struct InvitedUsers {
-                let text: String
+                let users: [User]
+            }
+            
+            struct User {
+                let name: String
+                let ocupation: String
+                let image: String?
             }
             
             struct DisplayError {
@@ -129,10 +135,13 @@ struct EditProjectDetails {
             
         }
         
+        struct Invitations {
+            
+        }
+        
         struct Publish {
             let title: String
             let sinopsis: String
-            let invitedUserIds: [String]
             let needing: String
         }
         

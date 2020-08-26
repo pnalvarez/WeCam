@@ -137,8 +137,8 @@ extension EditProfileDetailsView: ViewCodeProtocol {
         containerView.addSubview(bottomView)
         scrollView.addSubview(containerView)
         addSubview(scrollView)
-        addSubview(loadingView)
         addSubview(activityView)
+        addSubview(loadingView)
     }
     
     func setupConstraints() {

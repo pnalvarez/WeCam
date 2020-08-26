@@ -8,7 +8,6 @@
 import UIKit
 
 protocol SelectProjectImagePresentationLogic {
-    func presentProjectCathegories()
     func presentCathegories()
 }
 
@@ -19,11 +18,6 @@ class SelectProjectImagePresenter: SelectProjectImagePresentationLogic {
     init(viewController: SelectProjectImageDisplayLogic) {
         self.viewController = viewController
     }
-    
-    func presentProjectCathegories() {
-        viewController.displaySelectCathegory()
-    }
-    
     func presentCathegories() {
         viewController.displaySelectCathegory()
     }

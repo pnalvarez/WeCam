@@ -17,8 +17,17 @@ protocol EditProjectDetailsDisplayLogic: class {
 
 class EditProjectDetailsController: BaseViewController {
     
+    private lazy var activityView: UIActivityIndicatorView = {
+        let view = UIActivityIndicatorView(frame: .zero)
+        view.color = .black
+        view.backgroundColor = .white
+        view.startAnimating()
+        return view
+    }()
+    
     private lazy var backButton: DefaultBackButton = {
         let view = DefaultBackButton(frame: .zero)
+        view.addTarget(self, action: #selector(didTapBack), for: .touchUpInside)
         return view
     }()
     
@@ -41,18 +50,6 @@ class EditProjectDetailsController: BaseViewController {
         view.setTitle(EditProjectDetails.Constants.Texts.inviteFriendsButton, for: .normal)
         view.setTitleColor(EditProjectDetails.Constants.Colors.inviteFriendsButtonText, for: .normal)
         view.titleLabel?.font = EditProjectDetails.Constants.Fonts.inviteFriendsButton
-        return view
-    }()
-
-    private lazy var teamValueLbl: UILabel = {
-        let view = UILabel(frame: .zero)
-        view.backgroundColor = EditProjectDetails.Constants.Colors.teamValueLblBackground
-        view.textColor = EditProjectDetails.Constants.Colors.teamValueLblFieldText
-        view.layer.borderWidth = 1
-        view.layer.borderColor = EditProjectDetails.Constants.Colors.teamValueLblFieldLayer
-        view.layer.cornerRadius = 4
-        view.text = EditProjectDetails.Constants.Texts.teamValueLblEmpty
-        view.adjustsFontSizeToFitWidth = true
         return view
     }()
     
@@ -100,12 +97,12 @@ class EditProjectDetailsController: BaseViewController {
     
     private lazy var mainView: EditProjectDetailsView = {
         let view = EditProjectDetailsView(frame: .zero,
+                                          activityView: activityView,
                                           inviteFriendsButton: inviteFriendsButton,
                                           backButton: backButton,
                                           projectTitleTextField: projectTitleTextField,
                                           sinopsisTextView: sinopsisTextView,
                                           needTextView: needTextView,
-                                          teamValueLbl: teamValueLbl,
                                           publishButton: publishButton,
                                           loadingView: loadingView)
         return view
@@ -125,6 +122,16 @@ class EditProjectDetailsController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        interactor?.fetchInvitations(EditProjectDetails.Request.Invitations())
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        activityView.isHidden = false
     }
     
     override func loadView() {
@@ -147,11 +154,14 @@ extension EditProjectDetailsController {
     
     @objc
     private func didTapPublish() {
-        router?.routeBack()
+        interactor?.fetchPublish(EditProjectDetails.Request.Publish(title: projectTitleTextField.text ?? .empty,
+                                                                    sinopsis: sinopsisTextView.text,
+                                                                    needing: needTextView.text))
     }
     
     @objc
     private func didTapInviteFriends() {
+        mainView.flushCarrousel()
         router?.routeToInviteList()
     }
     
@@ -168,7 +178,8 @@ extension EditProjectDetailsController: EditProjectDetailsDisplayLogic {
     }
     
     func displayInvitedUsers(_ viewModel: EditProjectDetails.Info.ViewModel.InvitedUsers) {
-        teamValueLbl.text = viewModel.text
+        mainView.setup(viewModel: viewModel)
+        activityView.isHidden = true
     }
     
     func displayLoading(_ loading: Bool) {

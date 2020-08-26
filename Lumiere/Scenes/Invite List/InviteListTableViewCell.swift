@@ -25,8 +25,8 @@ class InviteListTableViewCell: UITableViewCell {
     
     private lazy var nameLbl: UILabel = {
         let view = UILabel(frame: .zero)
-        view.textColor = InviteList.Constants.Colors.emailLblCell
-        view.font = InviteList.Constants.Fonts.emailLblCell
+        view.textColor = InviteList.Constants.Colors.nameLblCell
+        view.font = InviteList.Constants.Fonts.nameLblCell
         view.numberOfLines = 0
         return view
     }()

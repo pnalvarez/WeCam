@@ -49,7 +49,7 @@ extension InviteListInteractor {
                                                           name: user.name ?? .empty,
                                                           email: user.email ?? .empty,
                                                           ocupation: user.ocupation ?? .empty,
-                                                          inviting: false))
+                                                          inviting: receivedInvites?.users.contains(where: {$0.id == user.id}) ?? false))
         }
         return InviteList.Info.Model.Connections(users: connections)
     }
@@ -60,6 +60,8 @@ extension InviteListInteractor {
         for i in 0..<users.count {
             if invites.users.contains(where: {$0.id == users[i].id}) {
                 connections?.users[i].inviting = true
+            } else {
+                 connections?.users[i].inviting = false
             }
         }
     }

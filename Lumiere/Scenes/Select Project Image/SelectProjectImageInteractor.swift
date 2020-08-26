@@ -33,7 +33,6 @@ extension SelectProjectImageInteractor: SelectProjectImageBusinessLogic {
     
     func didSelectImage(_ request: SelectProjectImage.Request.SelectImage) {
         projectModel = SelectProjectImage.Info.Model.Project(image: request.image.jpegData(compressionQuality: 0.5))
-        presenter.presentProjectCathegories()
     }
     
     func fetchAdvance(_ request: SelectProjectImage.Request.Advance) {

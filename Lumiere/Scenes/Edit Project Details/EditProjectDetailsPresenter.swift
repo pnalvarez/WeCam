@@ -29,17 +29,12 @@ class EditProjectDetailsPresenter: EditProjectDetailsPresentationLogic {
     }
     
     func presentInvitedUsers(_ response: EditProjectDetails.Info.Model.InvitedUsers) {
-        var text: String
-        if response.users.isEmpty {
-            text = "Nenhum usuário convidado"
-        } else if response.users.count == 1 {
-            text = "\(response.users[0].name)"
-        } else if response.users.count == 2 {
-            text = "\(response.users[0].name) e \(response.users[1].name)"
-        } else {
-            text = "\(response.users[0].name), \(response.users[1].name) e outros"
-        }
-        let viewModel = EditProjectDetails.Info.ViewModel.InvitedUsers(text: text)
+        let viewModel = EditProjectDetails
+            .Info
+            .ViewModel
+            .InvitedUsers(users: response.users.map({EditProjectDetails.Info.ViewModel.User(name: $0.name,
+                                                                                            ocupation: $0.ocupation,
+                                                                                            image: $0.image)}))
         viewController.displayInvitedUsers(viewModel)
     }
     

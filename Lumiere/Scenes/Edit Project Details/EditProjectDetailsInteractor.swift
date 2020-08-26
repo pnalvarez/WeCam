@@ -7,6 +7,7 @@
 //
 
 protocol EditProjectDetailsBusinessLogic {
+    func fetchInvitations(_ request: EditProjectDetails.Request.Invitations)
     func fetchPublish(_ request: EditProjectDetails.Request.Publish)
 }
 
@@ -40,25 +41,34 @@ extension EditProjectDetailsInteractor: InviteListDelegate {
                                                                       name: user.name,
                                                                       image: user.image,
                                                                       ocupation: user.ocupation))
-        guard let users = invitedUsers else { return }
-        presenter.presentInvitedUsers(users)
     }
     
     func didUnselectUser(_ userId: String) {
         invitedUsers?.users.removeAll(where: {$0.id == userId})
-        guard let users = invitedUsers else { return }
-        presenter.presentInvitedUsers(users)
     }
 }
 
 extension EditProjectDetailsInteractor: EditProjectDetailsBusinessLogic {
     
+    func fetchInvitations(_ request: EditProjectDetails.Request.Invitations) {
+        guard let users = invitedUsers else { return }
+        presenter.presentInvitedUsers(users)
+    }
+    
     func fetchPublish(_ request: EditProjectDetails.Request.Publish) {
         presenter.presentLoading(true)
+        publishingProject = EditProjectDetails.Info.Model.Project(image: receivedData?.image,
+                                                                  cathegories: receivedData?.cathegories ?? .empty,
+                                                                  progress: receivedData?.progress ?? 0,
+                                                                  title: request.title,
+                                                                  invitedUserIds: invitedUsers?.users.map({$0.id}) ?? .empty,
+                                                                  sinopsis: request.sinopsis,
+                                                                  needing: request.needing)
         guard let project = publishingProject else { return }
         worker.fetchPublish(request: EditProjectDetails.Request.CompletePublish(project: project)) { response in
             switch response {
             case .success:
+                self.presenter.presentLoading(false)
                 break
             case .error(let error):
                 break

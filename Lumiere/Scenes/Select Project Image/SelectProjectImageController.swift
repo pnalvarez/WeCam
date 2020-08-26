@@ -94,11 +94,12 @@ class SelectProjectImageController: BaseViewController, UINavigationControllerDe
 }
 
 extension SelectProjectImageController: UIImagePickerControllerDelegate {
-
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage{
-                    selectedImageButton.setImage(image, for: .normal)
-                }
+            interactor?.didSelectImage(SelectProjectImage.Request.SelectImage(image: image))
+            selectedImageButton.setImage(image, for: .normal)
+        }
         self.dismiss(animated: true, completion: nil)
     }
 }
@@ -114,7 +115,7 @@ extension SelectProjectImageController {
     private func didTapAdvance() {
         interactor?.fetchAdvance(SelectProjectImage.Request.Advance())
     }
-
+    
     @objc
     private func didTapSelectImageButton() {
         present(imagePicker, animated: true, completion: { })
