@@ -71,6 +71,7 @@ extension EditProjectDetailsInteractor: EditProjectDetailsBusinessLogic {
                 self.presenter.presentLoading(false)
                 break
             case .error(let error):
+                self.presenter.presentLoading(false)
                 break
             }
         }

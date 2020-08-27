@@ -23,11 +23,11 @@ class EditProjectDetailsWorker: EditProjectDetailsWorkerProtocol {
     func fetchPublish(request: EditProjectDetails.Request.CompletePublish,
                       completion: @escaping (EmptyResponse) -> Void) {
         let headers: [String : Any] = ["payload": ["image": request.project.image,
+                                                   "title": request.project.title,
                                                    "cathegories": request.project.cathegories,
                                                    "sinopsis": request.project.sinopsis,
                                                    "needing": request.project.needing,
-                                                   "percentage": request.project.progress],
-                                       "participants": request.project.invitedUserIds]
+                                                   "percentage": request.project.progress] ]
         builder.fetchCreateProject(request: headers, completion: completion)
     }
 }
