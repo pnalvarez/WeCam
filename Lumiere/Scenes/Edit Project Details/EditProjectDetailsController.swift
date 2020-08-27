@@ -183,6 +183,7 @@ extension EditProjectDetailsController: EditProjectDetailsDisplayLogic {
     }
     
     func displayLoading(_ loading: Bool) {
+        loadingView.animateRotate()
         loadingView.isHidden = !loading
     }
     
