@@ -10,6 +10,7 @@ import UIKit
 
 protocol OnGoingProjectDetailsDisplayLogic: class {
     func displayProjectDetails(_ viewModel: OnGoingProjectDetails.Info.ViewModel.Project)
+    func displayError(_ viewModel: String)
     func displayLoading(_ loading: Bool)
 }
 
@@ -196,6 +197,10 @@ extension OnGoingProjectDetailsController: OnGoingProjectDetailsDisplayLogic {
     func displayProjectDetails(_ viewModel: OnGoingProjectDetails.Info.ViewModel.Project) {
         self.viewModel = viewModel
         mainView.setup(viewModel: viewModel)
+    }
+    
+    func displayError(_ viewModel: String) {
+        UIAlertController.displayAlert(in: self, title: "Erro", message: viewModel)
     }
     
     func displayLoading(_ loading: Bool) {

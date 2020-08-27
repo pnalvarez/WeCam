@@ -83,6 +83,7 @@ struct EditProjectDetails {
                 let title: String
                 let authorId: String
                 let image: String
+                var userIdsNotInvited: [String]
             }
             
             struct PublishingProject {

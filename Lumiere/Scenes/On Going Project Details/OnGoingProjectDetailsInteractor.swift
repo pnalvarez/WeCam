@@ -56,7 +56,8 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
     
     func fetchProjectDetails(_ request: OnGoingProjectDetails.Request.FetchProject) {
         presenter.presentLoading(true)
-        guard let projedtId = receivedData?.projectId else { return }
+        guard let projedtId = receivedData?.projectId,
+            let uninvitedUsers = receivedData?.notInvitedUsers else { return }
         worker.fetchProjectDetails(request: OnGoingProjectDetails
             .Request
             .FetchProjectWithId(id: projedtId)) { response in
@@ -74,6 +75,9 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
                         self.presenter.presentLoading(false)
                         self.presenter.presentProjectDetails(projectData)
                         return
+                    }
+                    if uninvitedUsers.count > 0 {
+                        self.presenter.presentError(OnGoingProjectDetails.Constants.Texts.inviteError)
                     }
                     for id in teamMemberIds {
                         self.fetchUserDetails(OnGoingProjectDetails.Request.FetchUserWithId(id: id))

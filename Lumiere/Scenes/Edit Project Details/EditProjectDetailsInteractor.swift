@@ -43,7 +43,7 @@ extension EditProjectDetailsInteractor {
             presenter.presentPublishedProjectDetails()
             return
         }
-        for _ in users {
+        for user in users {
             let request = EditProjectDetails.Request.InviteUser(projectId: project.id,
                                                                 userId: project.authorId,
                                                                 title: project.title,
@@ -54,7 +54,8 @@ extension EditProjectDetailsInteractor {
                 case .success:
                     self.presenter.presentPublishedProjectDetails()
                     break
-                case .error(let error):
+                case .error(let _):
+                    self.publishedProject?.userIdsNotInvited.append(user.id)
                     self.presenter.presentPublishedProjectDetails()
                     break
                 }
@@ -100,7 +101,8 @@ extension EditProjectDetailsInteractor: EditProjectDetailsBusinessLogic {
                 self.publishedProject = EditProjectDetails.Info.Model.PublishedProject(id: data.id ?? .empty,
                                                                                        title: data.title ?? .empty,
                                                                                        authorId: data.authorId ?? .empty,
-                                                                                       image: data.image ?? .empty)
+                                                                                       image: data.image ?? .empty,
+                                                                                       userIdsNotInvited: .empty)
                 guard let project = self.publishedProject else { return }
                 self.fetchInviteUsers(withProjectDate: project)
                 break

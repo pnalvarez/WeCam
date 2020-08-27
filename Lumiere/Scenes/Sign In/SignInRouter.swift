@@ -89,7 +89,7 @@ extension SignInRouter: SignInRoutingLogic {
         profileDetailsVc.tabBarItem = UITabBarItem(title: nil,
                                                    image: ProfileDetails.Constants.Images.tabBarDefaultImage,
                                                    selectedImage: ProfileDetails.Constants.Images.tabBarSelectedImage)
-        projectDetailsVc.router?.dataStore?.receivedData = OnGoingProjectDetails.Info.Received.Project(projectId: "-MFItlhEHI3aram2mV-v")
+        projectDetailsVc.router?.dataStore?.receivedData = OnGoingProjectDetails.Info.Received.Project(projectId: "-MFItlhEHI3aram2mV-v", notInvitedUsers: .empty)
         
         let tabController = UITabBarController()
         tabController.viewControllers = [UINavigationController(rootViewController: selectProjectImageVc),

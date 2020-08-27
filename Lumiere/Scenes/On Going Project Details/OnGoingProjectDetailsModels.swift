@@ -42,6 +42,7 @@ struct OnGoingProjectDetails {
             static let moreInfoButton = "+ informações"
             static let teamFixedLbl = "Equipe"
             static let needFixedLbl = "Precisam de"
+            static let inviteError = "Não foi possível adicionar todos os usuários"
         }
         
         struct Images {
@@ -55,6 +56,7 @@ struct OnGoingProjectDetails {
         
             struct Project {
                 let projectId: String
+                let notInvitedUsers: [String]
             }
         }
         
