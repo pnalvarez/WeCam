@@ -43,7 +43,8 @@ class OnGoingProjectDetailsController: BaseViewController {
     
     private lazy var imageButton: UIButton = {
         let view = UIButton(frame: .zero)
-        view.imageView?.contentMode = .scaleAspectFit
+        view.imageView?.contentMode = .scaleToFill
+        view.clipsToBounds = true
         view.addTarget(self, action: #selector(didTapImageButton), for: .touchUpInside)
         view.layer.cornerRadius = 41
         view.layer.borderWidth = 1
@@ -176,7 +177,7 @@ extension OnGoingProjectDetailsController {
     
     @objc
     private func didTapClose() {
-        dismiss(animated: true, completion: nil)
+        router?.routeToEndOfFlow()
     }
     
     @objc

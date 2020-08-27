@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ObjectMapper
 
 struct EditProjectDetails {
     
@@ -77,7 +78,14 @@ struct EditProjectDetails {
         
         struct Model {
             
-            struct Project {
+            struct PublishedProject {
+                let id: String
+                let title: String
+                let authorId: String
+                let image: String
+            }
+            
+            struct PublishingProject {
                 let image: Data?
                 let cathegories: [String]
                 let progress: Float
@@ -126,13 +134,29 @@ struct EditProjectDetails {
         
         struct Response {
             
+            final class Project: Mappable {
+                
+                var id: String?
+                var title: String?
+                var image: String?
+                var authorId: String?
+                
+                init?(map: Map) { }
+                
+                func mapping(map: Map) {
+                    id <- map["id"]
+                    title <- map["title"]
+                    image <- map["image"]
+                    authorId <- map["author_id"]
+                }
+            }
         }
     }
     
     struct Request {
         
         struct Invite {
-            
+
         }
         
         struct Invitations {
@@ -146,7 +170,15 @@ struct EditProjectDetails {
         }
         
         struct CompletePublish {
-            let project: Info.Model.Project
+            let project: Info.Model.PublishingProject
+        }
+        
+        struct InviteUser {
+            let projectId: String
+            let userId: String
+            let title: String
+            let image: String
+            let authorId: String
         }
     }
 }

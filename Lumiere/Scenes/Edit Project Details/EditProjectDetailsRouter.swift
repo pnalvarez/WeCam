@@ -37,6 +37,12 @@ class EditProjectDetailsRouter: NSObject, EditProjectDetailsDataTransfer {
             destination.delegate = delegate
         }
     }
+    
+    private func transferDataToProjectDetails(from source: EditProjectDetailsDataStore,
+                                              to destination: inout OnGoingProjectDetailsDataStore) {
+        guard let project = source.publishedProject else { return }
+        destination.receivedData = OnGoingProjectDetails.Info.Received.Project(projectId: project.id)
+    }
 }
 
 extension EditProjectDetailsRouter: BaseRouterProtocol {
@@ -61,6 +67,10 @@ extension EditProjectDetailsRouter: EditProjectDetailsRoutingLogic {
     }
     
     func routeToPublishedProjectDetails() {
-        
+        let vc = OnGoingProjectDetailsController()
+        guard let source = dataStore,
+            var destination = vc.router?.dataStore else { return }
+        transferDataToProjectDetails(from: source, to: &destination)
+        routeTo(nextVC: vc)
     }
 }

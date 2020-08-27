@@ -11,7 +11,7 @@ import UIKit
 typealias OnGoingProjectDetailsRouterProtocol = NSObject & OnGoingProjectDetailsRoutingLogic & OnGoingProjectDetailsDataTransfer
 
 protocol OnGoingProjectDetailsRoutingLogic {
-    
+    func routeToEndOfFlow()
 }
 
 protocol OnGoingProjectDetailsDataTransfer {
@@ -33,4 +33,7 @@ extension OnGoingProjectDetailsRouter: BaseRouterProtocol {
 
 extension OnGoingProjectDetailsRouter: OnGoingProjectDetailsRoutingLogic {
     
+    func routeToEndOfFlow() {
+        viewController?.navigationController?.popToRootViewController(animated: true)
+    }
 }

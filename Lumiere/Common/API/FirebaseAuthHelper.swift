@@ -59,8 +59,8 @@ protocol FirebaseAuthHelperProtocol {
                                       completion: @escaping (EmptyResponse) -> Void)
     func fetchSignOut(request: [String : Any],
                       completion: @escaping (EmptyResponse) -> Void)
-    func fetchCreateProject(request: [String : Any],
-                            completion: @escaping (EmptyResponse) -> Void)
+    func fetchCreateProject<T: Mappable>(request: [String : Any],
+                            completion: @escaping (BaseResponse<T>) -> Void)
     func fetchProjectWorking<T: Mappable>(request: [String : Any],
                                           completion: @escaping (BaseResponse<T>) -> Void)
     func updateUserData(request: [String : Any],
@@ -978,8 +978,8 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
         }
     }
     
-    func fetchCreateProject(request: [String : Any],
-                            completion: @escaping (EmptyResponse) -> Void) {
+    func fetchCreateProject<T: Mappable>(request: [String : Any],
+                            completion: @escaping (BaseResponse<T>) -> Void) {
         if let payload = request["payload"] as? [String : Any],
             let image = payload["image"] as? Data?,
             let title = payload["title"] as? String,
@@ -1013,7 +1013,8 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                         return
                     }
                     let urlString = url.absoluteString
-                    let projectDict: [String : Any] = ["image": urlString,
+                    let projectDict: [String : Any] = ["id": projectId,
+                                                       "image": urlString,
                                                        "title": title,
                                                        "cathegories": cathegories,
                                                        "progress": percentage,
@@ -1075,16 +1076,15 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                                                             completion(.error(error))
                                                             return
                                                         }
-                                                        completion(.success)
+                                                        guard let mappedResponse = Mapper<T>().map(JSON: projectDict) else {
+                                                                                   completion(.error(FirebaseErrors.genericError))
+                                                                                   return
+                                                                               }
+                                                        completion(.success(mappedResponse))
                                                 }
                                         }
                                 }
                         }
-                        //                        guard let mappedResponse = Mapper<T>().map(JSON: projectDict) else {
-                        //                            completion(.error(FirebaseErrors.genericError))
-                        //                            return
-                        //                        }
-                        //                        completion(.success)
                     }
                 }
             }
@@ -1105,6 +1105,11 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                         return
                     }
                     projectData["project_id"] = projectId
+                    if let participants = projectData["participants"] as? Array<Any> {
+                        projectData["participants"] = participants
+                    } else {
+                        projectData["participants"] = []
+                    }
                     guard let mappedResponse = Mapper<T>().map(JSON: projectData) else {
                         completion(.error(FirebaseErrors.parseError))
                         return

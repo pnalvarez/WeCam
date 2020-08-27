@@ -50,7 +50,6 @@ class InviteListTableViewCell: UITableViewCell {
     private lazy var checkButton: UIButton = {
         let view = UIButton(frame: .zero)
         view.addTarget(self, action: #selector(didTapCheckButton), for: .touchUpInside)
-        view.backgroundColor = .gray
         view.layer.cornerRadius = 15
         return view
     }()
@@ -130,7 +129,7 @@ extension InviteListTableViewCell: ViewCodeProtocol {
         if inviting {
             checkButton.setImage(InviteList.Constants.Images.checkButtonSelected, for: .normal)
         } else {
-            checkButton.setImage(nil, for: .normal)
+            checkButton.setImage(InviteList.Constants.Images.checkButtonUnselected, for: .normal)
         }
         photoImageView.sd_setImage(with: URL(string: image), completed: nil)
     }

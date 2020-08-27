@@ -40,6 +40,7 @@ struct InviteList {
         struct Images {
             static let closeButton = UIImage(named: "fechar 1", in: InviteList.bundle, compatibleWith: nil)
             static let checkButtonSelected = UIImage(named: "icone-conexao-feita 1", in: InviteList.bundle, compatibleWith: nil)
+            static let checkButtonUnselected = UIImage(named: "icone-check 1", in: InviteList.bundle, compatibleWith: nil)
         }
         
         struct Dimensions {

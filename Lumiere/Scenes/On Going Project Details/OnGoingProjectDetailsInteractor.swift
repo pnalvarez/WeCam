@@ -68,7 +68,13 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
                                                                                 sinopsis: data.sinopsis ?? .empty,
                                                                                 teamMembers: .empty,
                                                                                 needing: data.needing ?? .empty)
-                    guard let teamMemberIds = data.participants else { return }
+                    guard let teamMemberIds = data.participants,
+                        let projectData = self.projectData else { return }
+                    guard teamMemberIds.count > 0 else {
+                        self.presenter.presentLoading(false)
+                        self.presenter.presentProjectDetails(projectData)
+                        return
+                    }
                     for id in teamMemberIds {
                         self.fetchUserDetails(OnGoingProjectDetails.Request.FetchUserWithId(id: id))
                     }
