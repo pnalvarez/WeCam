@@ -90,13 +90,13 @@ extension InviteListTableViewCell: ViewCodeProtocol {
     func setupConstraints() {
         photoImageView.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.left.equalToSuperview().inset(33)
-            make.height.width.equalTo(100)
+            make.left.equalToSuperview().inset(20)
+            make.height.width.equalTo(96)
         }
         nameLbl.snp.makeConstraints { make in
             make.top.equalTo(photoImageView)
-            make.left.equalTo(photoImageView.snp.right).offset(17)
-            make.width.equalTo(216)
+            make.left.equalTo(photoImageView.snp.right).offset(12)
+            make.width.equalTo(118)
         }
         ocupationLbl.snp.makeConstraints { make in
             make.top.equalTo(nameLbl.snp.bottom)
@@ -110,7 +110,7 @@ extension InviteListTableViewCell: ViewCodeProtocol {
         }
         checkButton.snp.makeConstraints { make in
             make.top.equalTo(nameLbl)
-            make.right.equalToSuperview().inset(33)
+            make.right.equalToSuperview().inset(30)
             make.height.width.equalTo(31)
         }
     }

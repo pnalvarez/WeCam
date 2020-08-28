@@ -71,7 +71,7 @@ extension UserDisplayView: ViewCodeProtocol {
         }
         nameLbl.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(9)
-            make.left.equalTo(photoImageView.snp.right).offset(2)
+            make.left.equalTo(photoImageView.snp.right).offset(10)
             make.right.equalToSuperview()
         }
         ocupationLbl.snp.makeConstraints { make in
@@ -82,6 +82,7 @@ extension UserDisplayView: ViewCodeProtocol {
     }
     
     func configureViews() {
+        clipsToBounds = true
         backgroundColor = UIColor(rgb: 0xededed)
         layer.borderWidth = 1
         layer.borderColor = UIColor(rgb: 0xe3eded).cgColor
