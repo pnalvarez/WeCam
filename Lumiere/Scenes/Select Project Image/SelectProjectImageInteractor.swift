@@ -36,6 +36,10 @@ extension SelectProjectImageInteractor: SelectProjectImageBusinessLogic {
     }
     
     func fetchAdvance(_ request: SelectProjectImage.Request.Advance) {
+        guard projectModel?.image != nil else{
+            presenter.presentError("Selecione uma imagem para o seu projeto")
+            return
+        }
         presenter.presentCathegories()
     }
 }

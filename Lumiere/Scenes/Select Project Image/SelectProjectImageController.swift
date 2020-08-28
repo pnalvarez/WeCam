@@ -11,6 +11,7 @@ import Photos
 
 protocol SelectProjectImageDisplayLogic: class {
     func displaySelectCathegory()
+    func displayError(_ viewModel: String)
 }
 
 class SelectProjectImageController: BaseViewController, UINavigationControllerDelegate {
@@ -98,6 +99,7 @@ extension SelectProjectImageController: UIImagePickerControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage{
             interactor?.didSelectImage(SelectProjectImage.Request.SelectImage(image: image))
+            selectedImageButton.layer.borderColor = SelectProjectImage.Constants.Colors.selectedImageViewLayer
             selectedImageButton.setImage(image, for: .normal)
         }
         self.dismiss(animated: true, completion: nil)
@@ -127,5 +129,10 @@ extension SelectProjectImageController: SelectProjectImageDisplayLogic {
     func displaySelectCathegory() {
         router?.routeToCategories()
         navigationController?.tabBarController?.tabBar.isHidden = true
+    }
+    
+    func displayError(_ viewModel: String) {
+        selectedImageButton.layer.borderColor = UIColor.red.cgColor
+        UIAlertController.displayAlert(in: self, title: "Erro", message: viewModel)
     }
 }

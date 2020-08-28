@@ -9,6 +9,7 @@ import UIKit
 
 protocol SelectProjectImagePresentationLogic {
     func presentCathegories()
+    func presentError(_ response: String)
 }
 
 class SelectProjectImagePresenter: SelectProjectImagePresentationLogic {
@@ -18,7 +19,12 @@ class SelectProjectImagePresenter: SelectProjectImagePresentationLogic {
     init(viewController: SelectProjectImageDisplayLogic) {
         self.viewController = viewController
     }
+    
     func presentCathegories() {
         viewController.displaySelectCathegory()
+    }
+    
+    func presentError(_ response: String) {
+        viewController.displayError(response)
     }
 }
