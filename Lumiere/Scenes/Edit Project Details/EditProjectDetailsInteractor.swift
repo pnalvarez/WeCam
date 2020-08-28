@@ -43,7 +43,7 @@ extension EditProjectDetailsInteractor {
             presenter.presentPublishedProjectDetails()
             return
         }
-        for user in users {
+        for i in 0..<users.count {
             let request = EditProjectDetails.Request.InviteUser(projectId: project.id,
                                                                 userId: project.authorId,
                                                                 title: project.title,
@@ -52,11 +52,15 @@ extension EditProjectDetailsInteractor {
             worker.fetchInviteUser(request: request) { response in
                 switch response {
                 case .success:
-                    self.presenter.presentPublishedProjectDetails()
+                    if i == users.count-1 {
+                        self.presenter.presentPublishedProjectDetails()
+                    }
                     break
-                case .error(let _):
-                    self.publishedProject?.userIdsNotInvited.append(user.id)
-                    self.presenter.presentPublishedProjectDetails()
+                case .error(_):
+                    self.publishedProject?.userIdsNotInvited.append(users[i].id)
+                    if i == users.count-1 {
+                        self.presenter.presentPublishedProjectDetails()
+                    }
                     break
                 }
             }
