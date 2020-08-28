@@ -184,6 +184,8 @@ extension EditProfileDetailsController {
         if (isBackSpace == -92) && (textField.text?.count)! > 0 {
             if textField == cellphoneTextField {
                 textField.text!.removeAll()
+            } else {
+                textField.text?.removeLast()
             }
             return false
         }
