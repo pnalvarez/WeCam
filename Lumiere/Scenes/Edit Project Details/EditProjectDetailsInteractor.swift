@@ -66,6 +66,18 @@ extension EditProjectDetailsInteractor {
             }
         }
     }
+    
+    private func checkErrors(_ request: EditProjectDetails.Request.Publish) -> Bool {
+        guard !request.title.isEmpty else {
+            presenter.presentLocalError(EditProjectDetails.Info.Model.LocalError(description: EditProjectDetails.Info.Model.InputErrors.titleEmpty.rawValue))
+            return true
+        }
+        guard !request.sinopsis.isEmpty else {
+            presenter.presentLocalError(EditProjectDetails.Info.Model.LocalError(description: EditProjectDetails.Info.Model.InputErrors.sinopsisEmpty.rawValue))
+            return true
+        }
+        return false
+    }
 }
 
 extension EditProjectDetailsInteractor: InviteListDelegate {
@@ -90,6 +102,7 @@ extension EditProjectDetailsInteractor: EditProjectDetailsBusinessLogic {
     }
     
     func fetchPublish(_ request: EditProjectDetails.Request.Publish) {
+        guard !checkErrors(request) else { return }
         presenter.presentLoading(true)
         publishingProject = EditProjectDetails.Info.Model.PublishingProject(image: receivedData?.image,
                                                                   cathegories: receivedData?.cathegories ?? .empty,

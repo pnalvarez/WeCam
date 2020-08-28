@@ -188,6 +188,7 @@ extension EditProjectDetailsController: EditProjectDetailsDisplayLogic {
     }
     
     func displayError(_ viewModel: EditProjectDetails.Info.ViewModel.DisplayError) {
+        mainView.updateAllTextFields()
         UIAlertController.displayAlert(in: self, title: EditProjectDetails.Constants.Texts.errorTitle, message: viewModel.description)
     }
 }

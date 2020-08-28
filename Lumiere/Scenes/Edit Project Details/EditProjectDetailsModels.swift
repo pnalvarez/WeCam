@@ -114,6 +114,11 @@ struct EditProjectDetails {
             struct LocalError {
                 let description: String
             }
+            
+            enum InputErrors: String {
+                case titleEmpty = "Insira um título para o seu projeto"
+                case sinopsisEmpty = "Insira alguma sinopse sobre o seu projecto"
+            }
         }
         
         struct ViewModel {

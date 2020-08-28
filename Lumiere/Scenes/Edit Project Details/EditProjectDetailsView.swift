@@ -167,6 +167,29 @@ extension EditProjectDetailsView {
             }
         }
     }
+    
+    func updateAllTextFields() {
+        for view in allSubviews {
+            if let textField = view as? UITextField {
+                if let isEmpty = textField.text?.isEmpty {
+                    if isEmpty {
+                        textField.layer.borderColor = UIColor.red.cgColor
+                    } else {
+                        textField.layer.borderColor = EditProjectDetails.Constants.Colors.sinopsisTextFieldLayer
+                    }
+                }
+            }
+            if let textView = view as? UITextView, view != needTextView {
+                if let isEmpty = textView.text?.isEmpty {
+                    if isEmpty {
+                        textView.layer.borderColor = UIColor.red.cgColor
+                    } else {
+                        textView.layer.borderColor = EditProjectDetails.Constants.Colors.sinopsisTextFieldLayer
+                    }
+                }
+            }
+        }
+    }
 }
 
 extension EditProjectDetailsView: ViewCodeProtocol {
