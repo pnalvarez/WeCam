@@ -32,7 +32,7 @@ class SignUpView: UIView {
     
     private lazy var scrollView: UIScrollView = {
         let view = UIScrollView(frame: .zero)
-        view.showsVerticalScrollIndicator = false
+        view.showsVerticalScrollIndicator = true
         view.bounces = false
         view.alwaysBounceVertical = false
         view.backgroundColor = .white

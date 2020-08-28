@@ -17,6 +17,22 @@ class OnGoingProjectDetailsView: UIView {
     private unowned var imageButton: UIButton
     private unowned var activityView: UIActivityIndicatorView
     
+    private lazy var mainScrollView: UIScrollView = {
+        let view = UIScrollView(frame: .zero)
+        view.bounces = false
+        view.alwaysBounceVertical = false
+        view.showsVerticalScrollIndicator = true
+        view.contentSize = CGSize(width: view.frame.width, height: 1000)
+        view.backgroundColor = .white
+        return view
+    }()
+    
+    private lazy var mainContainer: UIView = {
+        let view = UIView(frame: .zero)
+        view.backgroundColor = .white
+        return view
+    }()
+    
     private lazy var infoContainer: UIView = {
         let view = UIView(frame: .zero)
         view.backgroundColor = OnGoingProjectDetails.Constants.Colors.containerInfoBackground
@@ -78,6 +94,15 @@ class OnGoingProjectDetailsView: UIView {
         return view
     }()
     
+    private lazy var actionButton: UIButton = {
+        let button = UIButton(frame: .zero)
+        button.setTitle("Title", for: .normal)
+        button.backgroundColor = ThemeColors.mainRedColor.rawValue
+        button.setTitleColor(.white, for: .normal)
+        button.isHidden = true
+        return button
+    }()
+    
     private var viewModel: OnGoingProjectDetails.Info.ViewModel.Project?
     
     init(frame: CGRect,
@@ -108,23 +133,34 @@ class OnGoingProjectDetailsView: UIView {
 extension OnGoingProjectDetailsView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
-        addSubview(closeButton)
-        addSubview(imageButton)
+        mainContainer.addSubview(closeButton)
+        mainContainer.addSubview(imageButton)
         infoContainer.addSubview(titleLbl)
         infoContainer.addSubview(sinopsisLbl)
-        addSubview(infoContainer)
-        addSubview(teamFixedLbl)
-        addSubview(teamCollectionView)
-        addSubview(moreInfoButton)
-        addSubview(needFixedLbl)
-        addSubview(dotView)
-        addSubview(needValueLbl)
-        addSubview(activityView)
+        mainContainer.addSubview(infoContainer)
+        mainContainer.addSubview(teamFixedLbl)
+        mainContainer.addSubview(teamCollectionView)
+        mainContainer.addSubview(moreInfoButton)
+        mainContainer.addSubview(needFixedLbl)
+        mainContainer.addSubview(dotView)
+        mainContainer.addSubview(needValueLbl)
+        mainContainer.addSubview(activityView)
+        mainContainer.addSubview(actionButton)
+        mainScrollView.addSubview(mainContainer)
+        addSubview(mainScrollView)
     }
     
     func setupConstraints() {
+        mainScrollView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        mainContainer.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+            make.width.equalToSuperview()
+            make.height.equalToSuperview().priority(250)
+        }
         closeButton.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(28)
+            make.top.equalToSuperview().offset(28)
             make.right.equalToSuperview().inset(35)
             make.height.width.equalTo(31)
         }
@@ -181,6 +217,12 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
         }
         activityView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
+        }
+        actionButton.snp.makeConstraints { make in
+            make.top.equalTo(closeButton).offset(501)
+            make.centerX.equalToSuperview()
+            make.height.width.equalTo(40)
+            make.bottom.equalToSuperview().inset(69)
         }
     }
     

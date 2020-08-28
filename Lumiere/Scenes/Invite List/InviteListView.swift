@@ -70,7 +70,7 @@ extension InviteListView: ViewCodeProtocol {
         searchTextField.snp.makeConstraints { make in
             make.top.equalTo(inviteLbl.snp.bottom).offset(16)
             make.left.equalTo(inviteLbl)
-            make.width.equalTo(320)
+            make.right.equalToSuperview().inset(47)
             make.height.equalTo(24)
         }
         tableView.snp.makeConstraints { make in
