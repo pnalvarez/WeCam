@@ -67,6 +67,8 @@ protocol FirebaseAuthHelperProtocol {
                         completion: @escaping (EmptyResponse) -> Void)
     func inviteUserToProject(request: [String : Any],
                              completion: @escaping (EmptyResponse) -> Void)
+    func fetchProjectRelation<T: Mappable>(request: [String : Any],
+                                      completion: @escaping (BaseResponse<T>) -> Void)
 }
 
 class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
@@ -1228,6 +1230,98 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                                         completion(.success)
                                 }
                         }
+                }
+        }
+    }
+    
+    func fetchProjectRelation<T: Mappable>(request: [String : Any],
+                                 completion: @escaping (BaseResponse<T>) -> Void) {
+        guard let projectId = request["projectId"] as? String else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        guard let currentUser = authReference.currentUser?.uid else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        realtimeDB
+            .child(Constants.projectsPath)
+            .child(projectId)
+            .child("author_id")
+            .observeSingleEvent(of: .value) { snapshot in
+                guard let authorId = snapshot.value as? String else {
+                    completion(.error(FirebaseErrors.genericError))
+                    return
+                }
+                if authorId == currentUser {
+                    let response: [String : Any] = ["relation": "AUTHOR"]
+                    guard let mappedResponse = Mapper<T>().map(JSON: response) else {
+                        completion(.error(FirebaseErrors.parseError))
+                        return
+                    }
+                    completion(.success(mappedResponse))
+                } else {
+                    self.realtimeDB
+                        .child(Constants.projectsPath)
+                        .child("participants")
+                        .observeSingleEvent(of: .value) { snapshot in
+                            guard let participants = snapshot.value as? [String] else {
+                                completion(.error(FirebaseErrors.genericError))
+                                return
+                            }
+                            if participants.contains(currentUser) {
+                                let response: [String : Any] = ["relation": "PARTICIPATING"]
+                                guard let mappedResponse = Mapper<T>().map(JSON: response) else {
+                                    completion(.error(FirebaseErrors.parseError))
+                                    return
+                                }
+                                completion(.success(mappedResponse))
+                            } else {
+                                self.realtimeDB
+                                    .child(Constants.usersPath)
+                                    .child(currentUser)
+                                    .child("pending_projects")
+                                    .observeSingleEvent(of: .value) { snapshot in
+                                        guard let pendingProjects = snapshot.value as? [String] else {
+                                            completion(.error(FirebaseErrors.genericError))
+                                            return
+                                        }
+                                        if pendingProjects.contains(currentUser) {
+                                            let response: [String : Any] = ["relation": "PENDING"]
+                                            guard let mappedResponse = Mapper<T>().map(JSON: response) else {
+                                                completion(.error(FirebaseErrors.parseError))
+                                                return
+                                            }
+                                            completion(.success(mappedResponse))
+                                        }
+                                        self.realtimeDB
+                                            .child(Constants.projectsPath)
+                                            .child(projectId)
+                                            .child("pending_invites")
+                                            .observeSingleEvent(of: .value) { snapshot in
+                                                guard let pendingInvites = snapshot.value as? [String] else {
+                                                    completion(.error(FirebaseErrors.genericError))
+                                                    return
+                                                }
+                                                if pendingInvites.contains(currentUser) {
+                                                    let response: [String : Any] = ["relation": "INVITED"]
+                                                    guard let mappedResponse = Mapper<T>().map(JSON: response) else {
+                                                        completion(.error(FirebaseErrors.parseError))
+                                                        return
+                                                    }
+                                                    completion(.success(mappedResponse))
+                                                } else {
+                                                    let response: [String : Any] = ["relation": "NOTHING"]
+                                                    guard let mappedResponse = Mapper<T>().map(JSON: response) else {
+                                                        completion(.error(FirebaseErrors.parseError))
+                                                        return
+                                                    }
+                                                    completion(.success(mappedResponse))
+                                                }
+                                        }
+                                }
+                            }
+                    }
                 }
         }
     }
