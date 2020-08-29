@@ -18,4 +18,7 @@ struct Constants {
     static let usersInfoPath = "usersInfo"
     static let projectsInfoPath = "projectsInfo"
     static let userInterestCathegoriesPath = "interestCathegories"
+    static let usersAuthoringPath = "usersAuthoring"
+    static let usersParticipatingPath = "usersParticipating"
+    static let projectParticipantsPath = "projectsParticipants"
 }

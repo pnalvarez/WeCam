@@ -346,7 +346,85 @@ class FirebaseHelper: FirebaseHelperProtocol {
     }
     
     func createProject(request: [String : Any], completion: @escaping (EmptyResponse) -> Void) {
-        
+        guard let image = request["image"] as? Data,
+            let title = request["title"] as? String,
+            let sinopsis = request["sinopsis"] as? String,
+            let progress = request["progress"] as? Float,
+            let cathegories = request["cathegories"] as? [String],
+            let needing = request["needing"] as? String else {
+                completion(.error(FirebaseErrors.genericError))
+                return
+        }
+        guard let currentUser = authReference.currentUser?.uid else {
+            completion(.error(FirebaseErrors.userNotLogged))
+            return
+        }
+        let projectReference = realtimeDB
+            .child(Constants.projectsInfoPath)
+            .child(Constants.ongoingProjectsPath)
+            .childByAutoId()
+        guard let id = projectReference.key else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        let projectImageReference = storage.child(Constants.projectImagesPath).child(id)
+        projectImageReference.putData(image, metadata: nil) { (metadata, error) in
+            if let error = error {
+                completion(.error(error))
+                return
+            }
+            projectImageReference.downloadURL { (url, error) in
+                if let error = error {
+                    completion(.error(error))
+                    return
+                }
+                guard let urlString = url?.absoluteString else {
+                    completion(.error(FirebaseErrors.genericError))
+                    return
+                }
+                var dict: [String : Any] = ["id": id,
+                                            "title": title,
+                                            "sinopsis": sinopsis,
+                                            "project_image_url": urlString,
+                                            "progress": progress,
+                                            "first_cathegory": cathegories[0],
+                                            "needing": needing,
+                                            "author_id": currentUser]
+                if cathegories.count > 1 {
+                    dict["second_cathegory"] = cathegories[1]
+                }
+                self.realtimeDB
+                    .child(Constants.projectsInfoPath)
+                    .child(Constants.ongoingProjectsPath)
+                    .child(cathegories[0])
+                    .child(id)
+                    .updateChildValues(dict) { (error, ref) in
+                        if let error = error {
+                            completion(.error(error))
+                            return
+                        }
+                        self.realtimeDB
+                            .child(Constants.usersAuthoringPath)
+                            .child(currentUser)
+                            .updateChildValues([id : true]) { (error, ref) in
+                                if let error = error {
+                                    completion(.error(error))
+                                    return
+                                }
+                                self.realtimeDB
+                                    .child(Constants.usersParticipatingPath)
+                                    .child(currentUser)
+                                    .updateChildValues([id : true]) { (error, ref) in
+                                        if let error = error {
+                                            completion(.error(error))
+                                            return
+                                        }//CONTINUE
+//                                        self.realtimeDB.child(Constants.projectsInfoPath)
+                                }
+                        }
+                }
+            }
+        }
     }
     
     func sendProjectParticipationRequest(request: [String : Any], completion: @escaping (EmptyResponse) -> Void) {
