@@ -14,4 +14,8 @@ struct Constants {
     static let finishedProjectsPath = "finished"
     static let ongoingProjectsPath = "on_going"
     static let projectImagesPath = "project_images"
+    
+    static let usersInfoPath = "usersInfo"
+    static let projectsInfoPath = "projectsInfo"
+    static let userInterestCathegoriesPath = "interestCathegories"
 }

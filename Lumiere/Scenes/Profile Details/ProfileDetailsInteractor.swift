@@ -8,6 +8,7 @@
 import ObjectMapper
 
 protocol ProfileDetailsBusinessLogic {
+    func fetchUserInfo(request: ProfileDetails.Request.UserData)
     func fetchUserData(_ request: ProfileDetails.Request.UserData)
     func fetchInteract(_ request: ProfileDetails.Request.AddConnection)
     func fetchAllConnections(_ request: ProfileDetails.Request.AllConnections)
@@ -134,6 +135,14 @@ extension ProfileDetailsInteractor {
 }
 
 extension ProfileDetailsInteractor: ProfileDetailsBusinessLogic {
+    
+    func fetchUserInfo(request: ProfileDetails.Request.UserData) {
+        presenter.presentLoading(true)
+        guard let id = userData?.id else { return }
+        worker.fetchUserInfo(request: ProfileDetails.Request.FetchUserDataWithId(id: id)) { response in
+            
+        }
+    }
     
     func fetchUserData(_ request: ProfileDetails.Request.UserData) {
         let response = ProfileDetails.Info.Model.User(connectionType: userData?.connectionType ?? .nothing,

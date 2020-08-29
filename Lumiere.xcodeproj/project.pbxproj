@@ -82,6 +82,7 @@
 		3F6EEA7324E870AD0075C500 /* InfopListReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6EEA7224E870AD0075C500 /* InfopListReader.swift */; };
 		3F6EEA7524E87EE10075C500 /* UIAlertController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6EEA7424E87EE10075C500 /* UIAlertController+.swift */; };
 		3F6EEA7724E8D1CE0075C500 /* EmptyListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6EEA7624E8D1CE0075C500 /* EmptyListView.swift */; };
+		3F7184B524F9DB5D00E7EBE2 /* FirebaseHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7184B424F9DB5D00E7EBE2 /* FirebaseHelper.swift */; };
 		3F8116DE24B6AB620083A3DA /* ReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8116DD24B6AB620083A3DA /* ReusableView.swift */; };
 		3F8116E024B6ABEE0083A3DA /* UICollectionView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8116DF24B6ABEE0083A3DA /* UICollectionView+.swift */; };
 		3F8D136724D0ED0D00AED7EB /* SignInInteractor+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D136624D0ED0D00AED7EB /* SignInInteractor+Tests.swift */; };
@@ -278,6 +279,7 @@
 		3F6EEA7224E870AD0075C500 /* InfopListReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfopListReader.swift; sourceTree = "<group>"; };
 		3F6EEA7424E87EE10075C500 /* UIAlertController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+.swift"; sourceTree = "<group>"; };
 		3F6EEA7624E8D1CE0075C500 /* EmptyListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyListView.swift; sourceTree = "<group>"; };
+		3F7184B424F9DB5D00E7EBE2 /* FirebaseHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseHelper.swift; sourceTree = "<group>"; };
 		3F8116DD24B6AB620083A3DA /* ReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableView.swift; sourceTree = "<group>"; };
 		3F8116DF24B6ABEE0083A3DA /* UICollectionView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+.swift"; sourceTree = "<group>"; };
 		3F8D136624D0ED0D00AED7EB /* SignInInteractor+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SignInInteractor+Tests.swift"; sourceTree = "<group>"; };
@@ -858,6 +860,7 @@
 			isa = PBXGroup;
 			children = (
 				3FE8DF5324C52F72005DE30D /* FirebaseAuthHelper.swift */,
+				3F7184B424F9DB5D00E7EBE2 /* FirebaseHelper.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -1339,6 +1342,7 @@
 				3F8D13C224D799A200AED7EB /* NotificationsView.swift in Sources */,
 				3F40A69824EF42EA00261161 /* ProjectProgressWorker.swift in Sources */,
 				3F40A61624EA0EE700261161 /* SelectProjectImagePresenter.swift in Sources */,
+				3F7184B524F9DB5D00E7EBE2 /* FirebaseHelper.swift in Sources */,
 				3F6EEA3B24E0A3AE0075C500 /* ConnectionsListModels.swift in Sources */,
 				3F8D13CE24DF388700AED7EB /* FetchUserRelationRequest.swift in Sources */,
 				3F40A6B224F1CAE500261161 /* OnGoingProjectDetailsView.swift in Sources */,

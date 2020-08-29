@@ -185,6 +185,10 @@ struct ProfileDetails {
             
         }
         
+        struct FetchUserDataWithId {
+            let id: String
+        }
+        
         struct AddConnection {
             
         }

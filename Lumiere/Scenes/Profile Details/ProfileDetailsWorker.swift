@@ -8,6 +8,8 @@
 import ObjectMapper
 
 protocol ProfileDetailsWorkerProtocol {
+    func fetchUserInfo(request: ProfileDetails.Request.FetchUserDataWithId,
+                       completion: @escaping (BaseResponse<ProfileDetails.Response.User>) -> Void)
     func fetchProjectData(_ request: ProfileDetails.Request.ProjectInfo)
     func fetchRemoveConnection(_ request: ProfileDetails.Request.RemoveConnection,
                                 completion: @escaping (EmptyResponse) -> Void)
@@ -29,6 +31,11 @@ class ProfileDetailsWorker: ProfileDetailsWorkerProtocol {
         self.builder = builder
     }
 
+    func fetchUserInfo(request: ProfileDetails.Request.FetchUserDataWithId,
+                       completion: @escaping (BaseResponse<ProfileDetails.Response.User>) -> Void) {
+        builder.fetchUserData(request: ["userId": request.id], completion: completion)
+    }
+    
     func fetchProjectData(_ request: ProfileDetails.Request.ProjectInfo) {
         //TO DO
     }
