@@ -42,7 +42,7 @@ class EditProjectDetailsRouter: NSObject, EditProjectDetailsDataTransfer {
                                               to destination: inout OnGoingProjectDetailsDataStore) {
         guard let project = source.publishedProject else { return }
         destination.receivedData = OnGoingProjectDetails.Info.Received.Project(projectId: project.id,
-                                                                               notInvitedUsers: project.userIdsNotInvited)
+                                                                               notInvitedUsers: project.userIdsNotInvited, authoring: true)
     }
 }
 

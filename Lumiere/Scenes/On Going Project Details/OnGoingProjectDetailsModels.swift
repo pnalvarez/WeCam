@@ -57,10 +57,19 @@ struct OnGoingProjectDetails {
             struct Project {
                 let projectId: String
                 let notInvitedUsers: [String]
+                let authoring: Bool
             }
         }
         
         struct Model {
+            
+            enum ProjectRelation {
+                case author
+                case simpleParticipating
+                case sentRequest
+                case receivedRequest
+                case nothing
+            }
             
             struct Project {
                 let id: String
@@ -68,7 +77,7 @@ struct OnGoingProjectDetails {
                 let title: String
                 let sinopsis: String
                 var teamMembers: [TeamMember]
-                let needing: String
+                let needing: String  
             }
             
             struct TeamMember {
