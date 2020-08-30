@@ -10,6 +10,7 @@ import UIKit
 
 protocol OnGoingProjectDetailsPresentationLogic {
     func presentProjectDetails(_ response: OnGoingProjectDetails.Info.Model.Project)
+    func presentProjectRelationUI(_ response: OnGoingProjectDetails.Info.Model.RelationModel)
     func presentError(_ response: String)
     func presentLoading(_ loading: Bool)
 }
@@ -36,6 +37,11 @@ class OnGoingProjectDetailsPresenter: OnGoingProjectDetailsPresentationLogic {
                                                                      teamMembers: teamMembers,
                                                                      needing: response.needing)
         viewController.displayProjectDetails(viewModel)
+    }
+    
+    func presentProjectRelationUI(_ response: OnGoingProjectDetails.Info.Model.RelationModel) {
+        let viewModel = OnGoingProjectDetails.Info.ViewModel.RelationModel(relation: response.relation)
+        viewController.displayUIForRelation(viewModel)
     }
     
     func presentError(_ response: String) {

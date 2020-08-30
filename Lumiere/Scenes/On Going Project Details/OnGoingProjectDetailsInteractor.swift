@@ -9,11 +9,13 @@
 protocol OnGoingProjectDetailsBusinessLogic {
     func fetchProjectDetails(_ request: OnGoingProjectDetails.Request.FetchProject)
     func didSelectTeamMember(_ request: OnGoingProjectDetails.Request.SelectedTeamMember)
+    func fetchProjectRelation(_ request: OnGoingProjectDetails.Request.ProjectRelation)
 }
 
 protocol OnGoingProjectDetailsDataStore {
     var receivedData: OnGoingProjectDetails.Info.Received.Project? { get set }
     var projectData: OnGoingProjectDetails.Info.Model.Project? { get set }
+    var projectRelation: OnGoingProjectDetails.Info.Model.ProjectRelation? { get set }
 }
 
 class OnGoingProjectDetailsInteractor: OnGoingProjectDetailsDataStore {
@@ -23,6 +25,7 @@ class OnGoingProjectDetailsInteractor: OnGoingProjectDetailsDataStore {
     
     var receivedData: OnGoingProjectDetails.Info.Received.Project?
     var projectData: OnGoingProjectDetails.Info.Model.Project?
+    var projectRelation: OnGoingProjectDetails.Info.Model.ProjectRelation?
     
     init(worker: OnGoingProjectDetailsWorkerProtocol = OnGoingProjectDetailsWorker(),
          viewController: OnGoingProjectDetailsDisplayLogic) {
@@ -55,7 +58,6 @@ extension OnGoingProjectDetailsInteractor {
 extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
     
     func fetchProjectDetails(_ request: OnGoingProjectDetails.Request.FetchProject) {
-        presenter.presentLoading(true)
         guard let projedtId = receivedData?.projectId,
             let uninvitedUsers = receivedData?.notInvitedUsers else { return }
         worker.fetchProjectDetails(request: OnGoingProjectDetails
@@ -82,7 +84,6 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
                     for id in teamMemberIds {
                         self.fetchUserDetails(OnGoingProjectDetails.Request.FetchUserWithId(id: id))
                     }
-                    break
                 case .error(let error):
                     break
                 }
@@ -91,5 +92,35 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
     
     func didSelectTeamMember(_ request: OnGoingProjectDetails.Request.SelectedTeamMember) {
         
+    }
+    
+    func fetchProjectRelation(_ request: OnGoingProjectDetails.Request.ProjectRelation) {
+        presenter.presentLoading(true)
+        guard let id = receivedData?.projectId else { return }
+        worker.fetchProjectRelation(request: OnGoingProjectDetails.Request.ProjectRelationWithId(projectId: id)) { response in
+            switch response {
+            case .success(let data):
+                guard let relation = data.relation else {
+                    return
+                }
+                if relation == "AUTHOR" {
+                    self.projectRelation = .author
+                } else if relation == "PARTICIPATING" {
+                    self.projectRelation = .simpleParticipating
+                } else if relation == "PENDING" {
+                    self.projectRelation = .sentRequest
+                } else if relation == "INVITED" {
+                    self.projectRelation = .receivedRequest
+                } else {
+                    self.projectRelation = .nothing
+                }
+                self.presenter.presentProjectRelationUI(OnGoingProjectDetails
+                    .Info
+                    .Model
+                    .RelationModel(relation: self.projectRelation ?? .nothing))
+            case .error(_):
+                break
+            }
+        }
     }
 }

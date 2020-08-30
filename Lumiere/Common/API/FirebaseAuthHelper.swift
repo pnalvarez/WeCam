@@ -1246,6 +1246,7 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
         }
         realtimeDB
             .child(Constants.projectsPath)
+            .child(Constants.ongoingProjectsPath)
             .child(projectId)
             .child("author_id")
             .observeSingleEvent(of: .value) { snapshot in
@@ -1263,6 +1264,7 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                 } else {
                     self.realtimeDB
                         .child(Constants.projectsPath)
+                        .child(Constants.ongoingProjectsPath)
                         .child("participants")
                         .observeSingleEvent(of: .value) { snapshot in
                             guard let participants = snapshot.value as? [String] else {
@@ -1296,6 +1298,7 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                                         }
                                         self.realtimeDB
                                             .child(Constants.projectsPath)
+                                            .child(Constants.ongoingProjectsPath)
                                             .child(projectId)
                                             .child("pending_invites")
                                             .observeSingleEvent(of: .value) { snapshot in

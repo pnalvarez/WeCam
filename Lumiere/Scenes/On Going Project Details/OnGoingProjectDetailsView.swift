@@ -11,10 +11,16 @@ import SDWebImage
 
 class OnGoingProjectDetailsView: UIView {
     
+    private unowned var confirmationModalView: ConfirmationAlertView
+    private unowned var translucentView: UIView
     private unowned var closeButton: UIButton
     private unowned var teamCollectionView: UICollectionView
     private unowned var moreInfoButton: UIButton
     private unowned var imageButton: UIButton
+    private unowned var inviteContactsButton: UIButton
+    private unowned var editButton: UIButton
+    private unowned var interactionButton: UIButton
+    private unowned var editNeedingButton: UIButton
     private unowned var activityView: UIActivityIndicatorView
     
     private lazy var mainScrollView: UIScrollView = {
@@ -27,9 +33,27 @@ class OnGoingProjectDetailsView: UIView {
         return view
     }()
     
+    private lazy var changeImageLbl: UILabel = {
+        let view = UILabel(frame: .zero)
+        view.text = OnGoingProjectDetails.Constants.Texts.changeImageLbl
+        view.textAlignment = .center
+        view.textColor = OnGoingProjectDetails.Constants.Colors.changeImageLbl
+        view.font = OnGoingProjectDetails.Constants.Fonts.changeImageLbl
+        return view
+    }()
+    
     private lazy var mainContainer: UIView = {
         let view = UIView(frame: .zero)
         view.backgroundColor = .white
+        return view
+    }()
+    
+    private lazy var imageStackView: UIStackView = {
+        let view = UIStackView(frame: .zero)
+        view.alignment = .center
+        view.distribution = .fill
+        view.axis = .vertical
+        view.spacing = 17
         return view
     }()
     
@@ -94,27 +118,30 @@ class OnGoingProjectDetailsView: UIView {
         return view
     }()
     
-    private lazy var actionButton: UIButton = {
-        let button = UIButton(frame: .zero)
-        button.setTitle("Title", for: .normal)
-        button.backgroundColor = ThemeColors.mainRedColor.rawValue
-        button.setTitleColor(.white, for: .normal)
-        button.isHidden = true
-        return button
-    }()
-    
     private var viewModel: OnGoingProjectDetails.Info.ViewModel.Project?
     
     init(frame: CGRect,
+         confirmationModalView: ConfirmationAlertView,
+         translucentView: UIView,
          closeButton: UIButton,
          teamCollectionView: UICollectionView,
          moreInfoButton: UIButton,
          imageButton: UIButton,
+         inviteContactsButton: UIButton,
+         editButton: UIButton,
+         interactionButton: UIButton,
+         editNeedingButton: UIButton,
          activityView: UIActivityIndicatorView) {
+        self.confirmationModalView = confirmationModalView
+        self.translucentView = translucentView
         self.closeButton = closeButton
         self.teamCollectionView = teamCollectionView
         self.moreInfoButton = moreInfoButton
         self.imageButton = imageButton
+        self.inviteContactsButton = inviteContactsButton
+        self.editButton = editButton
+        self.interactionButton = interactionButton
+        self.editNeedingButton = editNeedingButton
         self.activityView = activityView
         super.init(frame: frame)
         applyViewCode()
@@ -128,14 +155,57 @@ class OnGoingProjectDetailsView: UIView {
         self.viewModel = viewModel
         applyViewCode()
     }
+    
+    func updateUI(forRelation relation: OnGoingProjectDetails.Info.ViewModel.RelationModel) {
+        switch  relation.relation {
+        case .author:
+            interactionButton.setTitle(OnGoingProjectDetails.Constants.Texts.interactionAuthor, for: .normal)
+            inviteContactsButton.isHidden = false
+            editButton.isHidden = false
+            changeImageLbl.isHidden = false
+            imageButton.isUserInteractionEnabled = true
+            editNeedingButton.isHidden = false
+        case .simpleParticipating:
+            interactionButton.setTitle(OnGoingProjectDetails.Constants.Texts.interactionSimpleParticipating, for: .normal)
+            inviteContactsButton.isHidden = true
+            editButton.isHidden = true
+            changeImageLbl.isHidden = true
+            imageButton.isUserInteractionEnabled = false
+            editNeedingButton.isHidden = true
+        case .sentRequest:
+            interactionButton.setTitle(OnGoingProjectDetails.Constants.Texts.interactionSentRequest, for: .normal)
+            inviteContactsButton.isHidden = true
+            editButton.isHidden = true
+            changeImageLbl.isHidden = true
+            imageButton.isUserInteractionEnabled = false
+            editNeedingButton.isHidden = true
+        case .receivedRequest:
+            interactionButton.setTitle(OnGoingProjectDetails.Constants.Texts.interactionReceivedRequest, for: .normal)
+            inviteContactsButton.isHidden = true
+            editButton.isHidden = true
+            changeImageLbl.isHidden = true
+            imageButton.isUserInteractionEnabled = false
+            editNeedingButton.isHidden = true
+        case .nothing:
+            interactionButton.setTitle(OnGoingProjectDetails.Constants.Texts.interactionNothing, for: .normal)
+            inviteContactsButton.isHidden = true
+            editButton.isHidden = true
+            changeImageLbl.isHidden = true
+            imageButton.isUserInteractionEnabled = false
+            editNeedingButton.isHidden = true
+        }
+    }
 }
 
 extension OnGoingProjectDetailsView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
         mainContainer.addSubview(closeButton)
-        mainContainer.addSubview(imageButton)
+        imageStackView.addArrangedSubview(imageButton)
+        imageStackView.addArrangedSubview(changeImageLbl)
+        mainContainer.addSubview(imageStackView)
         infoContainer.addSubview(titleLbl)
+        infoContainer.addSubview(editButton)
         infoContainer.addSubview(sinopsisLbl)
         mainContainer.addSubview(infoContainer)
         mainContainer.addSubview(teamFixedLbl)
@@ -144,13 +214,24 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
         mainContainer.addSubview(needFixedLbl)
         mainContainer.addSubview(dotView)
         mainContainer.addSubview(needValueLbl)
+        mainContainer.addSubview(editNeedingButton)
+        mainContainer.addSubview(inviteContactsButton)
         mainContainer.addSubview(activityView)
-        mainContainer.addSubview(actionButton)
+        mainContainer.addSubview(interactionButton)
         mainScrollView.addSubview(mainContainer)
         addSubview(mainScrollView)
+        addSubview(translucentView)
+        addSubview(confirmationModalView)
     }
     
     func setupConstraints() {
+        confirmationModalView.snp.makeConstraints { make in
+            make.top.equalTo(translucentView.snp.bottom)
+            make.size.equalTo(translucentView)
+        }
+        translucentView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
         mainScrollView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
@@ -164,16 +245,29 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
             make.right.equalToSuperview().inset(35)
             make.height.width.equalTo(31)
         }
-        imageButton.snp.makeConstraints { make in
+        imageStackView.snp.makeConstraints { make in
             make.top.equalTo(closeButton.snp.bottom)
+            make.centerX.equalToSuperview()
+        }
+        imageButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.height.width.equalTo(82)
         }
+        changeImageLbl.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.width.equalTo(160)
+        }
         infoContainer.snp.makeConstraints { make in
-            make.top.equalTo(imageButton.snp.bottom).offset(14)
+            make.top.equalTo(imageStackView.snp.bottom).offset(14)
             make.left.equalToSuperview().inset(56)
             make.right.equalToSuperview().inset(51)
             make.height.equalTo(88)
+        }
+        editButton.snp.makeConstraints { make in
+            make.top.equalToSuperview().inset(6)
+            make.right.equalToSuperview().inset(12)
+            make.height.equalTo(14)
+            make.width.equalTo(38)
         }
         titleLbl.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(9)
@@ -215,13 +309,26 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
             make.left.equalTo(dotView.snp.right).offset(12)
             make.width.equalTo(200)
         }
+        editNeedingButton.snp.makeConstraints { make in
+            make.centerY.equalTo(needValueLbl)
+            make.left.equalTo(needValueLbl.snp.right)
+            make.height.equalTo(14)
+            make.height.equalTo(38)
+        }
+        inviteContactsButton.snp.makeConstraints { make in
+            make.top.equalTo(needValueLbl.snp.bottom).offset(53)
+            make.left.equalToSuperview().inset(76)
+            make.height.equalTo(32)
+            make.width.equalTo(171)
+        }
         activityView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-        actionButton.snp.makeConstraints { make in
-            make.top.equalTo(closeButton).offset(501)
+        interactionButton.snp.makeConstraints { make in
+            make.top.equalTo(closeButton).offset(670)
             make.centerX.equalToSuperview()
-            make.height.width.equalTo(40)
+            make.height.equalTo(30)
+            make.width.equalTo(107)
             make.bottom.equalToSuperview().inset(69)
         }
     }

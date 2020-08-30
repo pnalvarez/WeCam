@@ -27,6 +27,14 @@ struct OnGoingProjectDetails {
             static let needValueLbl = UIColor(rgb: 0x000000)
             static let activity = ThemeColors.mainRedColor.rawValue
             static let activityBackground = UIColor(rgb: 0xffffff).withAlphaComponent(0.5)
+            static let inviteContactsButtonBackground = UIColor(rgb: 0xededed)
+            static let inviteContactsButtonText = UIColor(rgb: 0x000000)
+            static let changeImageLbl = ThemeColors.mainRedColor.rawValue
+            static let editButtonBackground = UIColor(rgb: 0xededed)
+            static let editButtonText = UIColor(rgb: 0x000000)
+            static let editButtonLayer = UIColor(rgb: 0xe0e0e0).cgColor
+            static let interactionButtonBackground = ThemeColors.mainRedColor.rawValue
+            static let interactionButtonText = ThemeColors.whiteThemeColor.rawValue
         }
         
         struct Fonts {
@@ -36,6 +44,10 @@ struct OnGoingProjectDetails {
             static let teamFixedLbl = ThemeFonts.RobotoRegular(16).rawValue
             static let needFixedLbl = ThemeFonts.RobotoRegular(16).rawValue
             static let needValueLbl = ThemeFonts.RobotoRegular(16).rawValue
+            static let inviteContactsButton = ThemeFonts.RobotoRegular(16).rawValue
+            static let changeImageLbl = ThemeFonts.RobotoBold(16).rawValue
+            static let editButton = ThemeFonts.RobotoRegular(10).rawValue
+            static let interactionButton = ThemeFonts.RobotoBold(16).rawValue
         }
         
         struct Texts {
@@ -43,6 +55,14 @@ struct OnGoingProjectDetails {
             static let teamFixedLbl = "Equipe"
             static let needFixedLbl = "Precisam de"
             static let inviteError = "Não foi possível adicionar todos os usuários"
+            static let inviteContactsButton = "Convidar mais amigos"
+            static let changeImageLbl = "Alterar foto de perfil"
+            static let editButton = "Editar"
+            static let interactionAuthor = "Publicar"
+            static let interactionSimpleParticipating = "Sair do projeto"
+            static let interactionSentRequest = "Remover Solicitação de participação"
+            static let interactionReceivedRequest = "Responder Convite de participação"
+            static let interactionNothing = "Participar"
         }
         
         struct Images {
@@ -71,13 +91,18 @@ struct OnGoingProjectDetails {
                 case nothing
             }
             
+            struct RelationModel {
+                var relation: ProjectRelation
+            }
+            
             struct Project {
                 let id: String
                 let image: String?
                 let title: String
                 let sinopsis: String
                 var teamMembers: [TeamMember]
-                let needing: String  
+                let needing: String
+                var relation: ProjectRelation?
             }
             
             struct TeamMember {
@@ -103,6 +128,10 @@ struct OnGoingProjectDetails {
                 let image: String?
                 let name: String
                 let ocupation: String
+            }
+            
+            struct RelationModel {
+                let relation: Model.ProjectRelation
             }
         }
         
@@ -147,6 +176,17 @@ struct OnGoingProjectDetails {
                     image <- map["profile_image_url"]
                 }
             }
+            
+            final class ProjectRelation: Mappable {
+                
+                var relation: String?
+                
+                init?(map: Map) { }
+                
+                func mapping(map: Map) {
+                    relation <- map["relation"]
+                }
+            }
         }
     }
     
@@ -170,6 +210,14 @@ struct OnGoingProjectDetails {
         
         struct MoreInfo {
             
+        }
+        
+        struct ProjectRelation {
+            
+        }
+        
+        struct ProjectRelationWithId {
+            let projectId: String
         }
     }
 }

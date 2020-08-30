@@ -22,6 +22,7 @@ class EditProfileDetailsInteractor: EditProfileDetailsDataStore {
     var presenter: EditProfileDetailsPresentationLogic
     
     var userData: EditProfileDetails.Info.Model.User?
+    var cathegoriesData: EditProfileDetails.Info.Model.InterestCathegories?
     
     init(worker: EditProfileDetailsWorkerProtocol = EditProfileDetailsWorker(),
          viewController: EditProfileDetailsDisplayLogic) {

@@ -12,9 +12,24 @@ protocol OnGoingProjectDetailsDisplayLogic: class {
     func displayProjectDetails(_ viewModel: OnGoingProjectDetails.Info.ViewModel.Project)
     func displayError(_ viewModel: String)
     func displayLoading(_ loading: Bool)
+    func displayUIForRelation(_ viewModel: OnGoingProjectDetails.Info.ViewModel.RelationModel)
 }
 
 class OnGoingProjectDetailsController: BaseViewController {
+    
+    private lazy var confirmationModalView: ConfirmationAlertView = {
+        let view = ConfirmationAlertView(frame: .zero,
+                                         delegate: self,
+                                         text: .empty)
+        return view
+    }()
+    
+    private lazy var translucentView: UIView = {
+        let view = UIView(frame: .zero)
+        view.backgroundColor = UIColor(rgb: 0xededed).withAlphaComponent(0.8)
+        view.isHidden = true
+        return view
+    }()
     
     private lazy var closeButton: DefaultCloseButton = {
         let view = DefaultCloseButton(frame: .zero)
@@ -42,6 +57,19 @@ class OnGoingProjectDetailsController: BaseViewController {
         return view
     }()
     
+    private lazy var editButton: UIButton = {
+        let view = UIButton(frame: .zero)
+        view.addTarget(self, action: #selector(didTapEditInfo), for: .touchUpInside)
+        view.setTitle(OnGoingProjectDetails.Constants.Texts.editButton, for: .normal)
+        view.setTitleColor(OnGoingProjectDetails.Constants.Colors.editButtonText, for: .normal)
+        view.titleLabel?.font = OnGoingProjectDetails.Constants.Fonts.editButton
+        view.backgroundColor = OnGoingProjectDetails.Constants.Colors.editButtonBackground
+        view.layer.borderWidth = 1
+        view.layer.borderColor = OnGoingProjectDetails.Constants.Colors.editButtonLayer
+        view.layer.cornerRadius = 4
+        return view
+    }()
+    
     private lazy var imageButton: UIButton = {
         let view = UIButton(frame: .zero)
         view.imageView?.contentMode = .scaleToFill
@@ -50,6 +78,40 @@ class OnGoingProjectDetailsController: BaseViewController {
         view.layer.cornerRadius = 41
         view.layer.borderWidth = 1
         view.layer.borderColor = UIColor.gray.cgColor
+        return view
+    }()
+    
+    private lazy var inviteContactsButton: UIButton = {
+        let view = UIButton(frame: .zero)
+        view.addTarget(self, action: #selector(didTapInvite), for: .touchUpInside)
+        view.setTitle(OnGoingProjectDetails.Constants.Texts.inviteContactsButton, for: .normal)
+        view.setTitleColor(OnGoingProjectDetails.Constants.Colors.inviteContactsButtonText, for: .normal)
+        view.titleLabel?.font = OnGoingProjectDetails.Constants.Fonts.inviteContactsButton
+        view.backgroundColor = OnGoingProjectDetails.Constants.Colors.inviteContactsButtonBackground
+        view.layer.cornerRadius = 4
+        return view
+    }()
+    
+    private lazy var editNeedingButton: UIButton = {
+        let view = UIButton(frame: .zero)
+        view.addTarget(self, action: #selector(didTapEditNeeding), for: .touchUpInside)
+        view.setTitle(OnGoingProjectDetails.Constants.Texts.editButton, for: .normal)
+        view.setTitleColor(OnGoingProjectDetails.Constants.Colors.editButtonText, for: .normal)
+        view.titleLabel?.font = OnGoingProjectDetails.Constants.Fonts.editButton
+        view.backgroundColor = OnGoingProjectDetails.Constants.Colors.editButtonBackground
+        view.layer.borderWidth = 1
+        view.layer.borderColor = OnGoingProjectDetails.Constants.Colors.editButtonLayer
+        view.layer.cornerRadius = 4
+        return view
+    }()
+    
+    private lazy var interactionButton: UIButton = {
+        let view = UIButton(frame: .zero)
+        view.addTarget(self, action: #selector(didTapInteraction), for: .touchUpInside)
+        view.setTitleColor(OnGoingProjectDetails.Constants.Colors.interactionButtonText, for: .normal)
+        view.titleLabel?.font = OnGoingProjectDetails.Constants.Fonts.interactionButton
+        view.layer.cornerRadius = 4
+        view.backgroundColor = OnGoingProjectDetails.Constants.Colors.interactionButtonBackground
         return view
     }()
     
@@ -64,10 +126,16 @@ class OnGoingProjectDetailsController: BaseViewController {
     
     private lazy var mainView: OnGoingProjectDetailsView = {
         let view = OnGoingProjectDetailsView(frame: .zero,
+                                             confirmationModalView: confirmationModalView,
+                                             translucentView: translucentView,
                                              closeButton: closeButton,
                                              teamCollectionView: teamCollectionView,
                                              moreInfoButton: moreInfoButton,
                                              imageButton: imageButton,
+                                             inviteContactsButton: inviteContactsButton,
+                                             editButton: editButton,
+                                             interactionButton: interactionButton,
+                                             editNeedingButton: editNeedingButton,
                                              activityView: activityView)
         return view
     }()
@@ -97,6 +165,11 @@ class OnGoingProjectDetailsController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.isNavigationBarHidden = true
+        interactor?.fetchProjectRelation(OnGoingProjectDetails.Request.ProjectRelation())
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         interactor?.fetchProjectDetails(OnGoingProjectDetails.Request.FetchProject())
     }
     
@@ -190,6 +263,37 @@ extension OnGoingProjectDetailsController {
     private func didTapImageButton() {
         
     }
+    
+    @objc
+    private func didTapInvite() {
+        
+    }
+    
+    @objc
+    private func didTapEditInfo() {
+        
+    }
+    
+    @objc
+    private func didTapEditNeeding() {
+        
+    }
+    
+    @objc
+    private func didTapInteraction() {
+        
+    }
+}
+
+extension OnGoingProjectDetailsController: ConfirmationAlertViewDelegate {
+    
+    func didTapAccept() {
+        
+    }
+    
+    func didTapRefuse() {
+        
+    }
 }
 
 extension OnGoingProjectDetailsController: OnGoingProjectDetailsDisplayLogic {
@@ -205,5 +309,9 @@ extension OnGoingProjectDetailsController: OnGoingProjectDetailsDisplayLogic {
     
     func displayLoading(_ loading: Bool) {
         activityView.isHidden = !loading
+    }
+    
+    func displayUIForRelation(_ viewModel: OnGoingProjectDetails.Info.ViewModel.RelationModel) {
+        mainView.updateUI(forRelation: viewModel)
     }
 }

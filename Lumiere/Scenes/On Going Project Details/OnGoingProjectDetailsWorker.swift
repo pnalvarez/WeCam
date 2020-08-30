@@ -10,7 +10,9 @@ protocol OnGoingProjectDetailsWorkerProtocol {
     func fetchProjectDetails(request: OnGoingProjectDetails.Request.FetchProjectWithId,
                              completion: @escaping (BaseResponse<OnGoingProjectDetails.Info.Response.Project>) -> Void)
     func fetchteamMemberData(request: OnGoingProjectDetails.Request.FetchUserWithId,
-                       completion: @escaping (BaseResponse<OnGoingProjectDetails.Info.Response.TeamMember>) -> Void)
+                             completion: @escaping (BaseResponse<OnGoingProjectDetails.Info.Response.TeamMember>) -> Void)
+    func fetchProjectRelation(request: OnGoingProjectDetails.Request.ProjectRelationWithId,
+                              completion: @escaping (BaseResponse<OnGoingProjectDetails.Info.Response.ProjectRelation>) -> Void)
 }
 
 class OnGoingProjectDetailsWorker: OnGoingProjectDetailsWorkerProtocol {
@@ -31,5 +33,11 @@ class OnGoingProjectDetailsWorker: OnGoingProjectDetailsWorkerProtocol {
                              completion: @escaping (BaseResponse<OnGoingProjectDetails.Info.Response.TeamMember>) -> Void) {
         let headers: [String : Any] = ["userId" : request.id]
         builder.fetchUserData(request: headers, completion: completion)
+    }
+    
+    func fetchProjectRelation(request: OnGoingProjectDetails.Request.ProjectRelationWithId,
+                              completion: @escaping (BaseResponse<OnGoingProjectDetails.Info.Response.ProjectRelation>) -> Void) {
+        let headers: [String : Any] = ["projectId" : request.projectId]
+        builder.fetchProjectRelation(request: headers, completion: completion)
     }
 }

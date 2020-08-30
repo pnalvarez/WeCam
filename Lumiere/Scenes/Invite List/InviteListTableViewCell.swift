@@ -96,17 +96,17 @@ extension InviteListTableViewCell: ViewCodeProtocol {
         nameLbl.snp.makeConstraints { make in
             make.top.equalTo(photoImageView)
             make.left.equalTo(photoImageView.snp.right).offset(12)
-            make.width.equalTo(118)
+            make.right.equalTo(checkButton.snp.left).offset(-2)
         }
         ocupationLbl.snp.makeConstraints { make in
             make.top.equalTo(nameLbl.snp.bottom)
             make.left.equalTo(nameLbl)
-            make.width.equalTo(nameLbl)
+            make.right.equalToSuperview()
         }
         emailLbl.snp.makeConstraints { make in
             make.top.equalTo(ocupationLbl.snp.bottom)
             make.left.equalTo(ocupationLbl)
-            make.width.equalTo(ocupationLbl)
+            make.right.equalToSuperview()
         }
         checkButton.snp.makeConstraints { make in
             make.top.equalTo(nameLbl)
