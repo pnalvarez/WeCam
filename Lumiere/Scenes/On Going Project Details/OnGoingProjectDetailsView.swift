@@ -313,7 +313,7 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
             make.centerY.equalTo(dotView)
             make.left.equalTo(needValueLbl.snp.right)
             make.height.equalTo(14)
-            make.height.equalTo(38)
+            make.width.equalTo(38)
         }
         inviteContactsButton.snp.makeConstraints { make in
             make.top.equalTo(moreInfoButton.snp.bottom).offset(10)
