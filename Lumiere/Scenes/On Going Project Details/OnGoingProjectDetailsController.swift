@@ -13,6 +13,7 @@ protocol OnGoingProjectDetailsDisplayLogic: class {
     func displayError(_ viewModel: String)
     func displayLoading(_ loading: Bool)
     func displayUIForRelation(_ viewModel: OnGoingProjectDetails.Info.ViewModel.RelationModel)
+    func displayFeedback(_ viewModel: OnGoingProjectDetails.Info.ViewModel.Feedback)
 }
 
 class OnGoingProjectDetailsController: BaseViewController, UINavigationControllerDelegate {
@@ -218,6 +219,13 @@ class OnGoingProjectDetailsController: BaseViewController, UINavigationControlle
         super.loadView()
         self.view = mainView
     }
+
+    override func didTap() {
+        super.didTap()
+        editingInfo = false
+        editingNeeding = false
+        interactor?.didCancelEditing(OnGoingProjectDetails.Request.CancelEditing())
+    }
     
     private func setup() {
         let viewController = self
@@ -369,5 +377,9 @@ extension OnGoingProjectDetailsController: OnGoingProjectDetailsDisplayLogic {
     
     func displayUIForRelation(_ viewModel: OnGoingProjectDetails.Info.ViewModel.RelationModel) {
         mainView.updateUI(forRelation: viewModel)
+    }
+    
+    func displayFeedback(_ viewModel: OnGoingProjectDetails.Info.ViewModel.Feedback) {
+        UIAlertController.displayAlert(in: self, title: viewModel.title, message: viewModel.message)
     }
 }

@@ -13,6 +13,7 @@ protocol OnGoingProjectDetailsBusinessLogic {
     func fetchUpdateProjectImage(_ request: OnGoingProjectDetails.Request.UpdateImage)
     func fetchUpdateProjectInfo(_ request: OnGoingProjectDetails.Request.UpdateInfo)
     func fetchUpdateProjectNeeding(_ request: OnGoingProjectDetails.Request.UpdateNeeding)
+    func didCancelEditing(_ request: OnGoingProjectDetails.Request.CancelEditing)
 }
 
 protocol OnGoingProjectDetailsDataStore {
@@ -138,6 +139,7 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
                     self.projectData?.image = data.imageURL
                     guard let project = self.projectData else { return }
                     self.presenter.presentProjectDetails(project)
+                    self.presenter.presentFeedback(OnGoingProjectDetails.Info.Model.Feedback(title: "Alteração realizada", message: "Imagem do projeto foi alterada com sucesso"))
                 case .error(let error):
                     self.presenter.presentLoading(false)
                     self.presenter.presentError(error.localizedDescription)
@@ -159,8 +161,10 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
                                     self.projectData?.sinopsis = request.sinopsis
                                     guard let project = self.projectData else { return }
                                     self.presenter.presentProjectDetails(project)
+                                    self.presenter.presentFeedback(OnGoingProjectDetails.Info.Model.Feedback(title: "Alteração realizada", message: "O título e a sinopse do projeto foram alterados com sucesso"))
                                 case .error(let error):
                                     self.presenter.presentLoading(false)
+                                    self.presenter.presentError(error.localizedDescription)
                                     guard let project = self.projectData else { return }
                                     self.presenter.presentProjectDetails(project)
                                 }
@@ -170,5 +174,10 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
     
     func fetchUpdateProjectNeeding(_ request: OnGoingProjectDetails.Request.UpdateNeeding) {
         
+    }
+    
+    func didCancelEditing(_ request: OnGoingProjectDetails.Request.CancelEditing) {
+        guard let project = self.projectData else { return }
+        presenter.presentProjectDetails(project)
     }
 }

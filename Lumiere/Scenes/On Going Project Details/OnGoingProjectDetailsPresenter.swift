@@ -13,6 +13,7 @@ protocol OnGoingProjectDetailsPresentationLogic {
     func presentProjectRelationUI(_ response: OnGoingProjectDetails.Info.Model.RelationModel)
     func presentError(_ response: String)
     func presentLoading(_ loading: Bool)
+    func presentFeedback(_ response: OnGoingProjectDetails.Info.Model.Feedback)
 }
 
 class OnGoingProjectDetailsPresenter: OnGoingProjectDetailsPresentationLogic {
@@ -50,5 +51,10 @@ class OnGoingProjectDetailsPresenter: OnGoingProjectDetailsPresentationLogic {
     
     func presentLoading(_ loading: Bool) {
         viewController.displayLoading(loading)
+    }
+    
+    func presentFeedback(_ response: OnGoingProjectDetails.Info.Model.Feedback) {
+        let viewModel = OnGoingProjectDetails.Info.ViewModel.Feedback(title: response.title, message: response.message)
+        viewController.displayFeedback(viewModel)
     }
 }

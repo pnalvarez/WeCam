@@ -114,6 +114,11 @@ struct OnGoingProjectDetails {
                 let ocupation: String
                 let image: String?
             }
+            
+            struct Feedback {
+                let title: String
+                let message: String
+            }
         }
         
         struct ViewModel {
@@ -135,6 +140,11 @@ struct OnGoingProjectDetails {
             
             struct RelationModel {
                 let relation: Model.ProjectRelation
+            }
+            
+            struct Feedback {
+                let title: String
+                let message: String
             }
         }
         
@@ -261,6 +271,10 @@ struct OnGoingProjectDetails {
         struct UpdateNeedingWithId {
             let projectId: String
             let needing: String
+        }
+        
+        struct CancelEditing {
+            
         }
     }
 }

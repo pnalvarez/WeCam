@@ -26,7 +26,7 @@ class BaseViewController: UIViewController {
 extension BaseViewController {
     
     @objc
-    private func didTap() {
+    func didTap() {
         view.endEditing(true)
     }
 }
