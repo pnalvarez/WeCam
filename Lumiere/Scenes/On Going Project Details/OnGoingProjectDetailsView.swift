@@ -295,7 +295,7 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
             make.width.equalTo(103)
         }
         needFixedLbl.snp.makeConstraints { make in
-            make.top.equalTo(moreInfoButton.snp.bottom).offset(50)
+            make.top.equalTo(inviteContactsButton.snp.bottom).offset(50)
             make.left.equalTo(teamCollectionView)
             make.width.equalTo(94)
         }
@@ -316,8 +316,8 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
             make.height.equalTo(38)
         }
         inviteContactsButton.snp.makeConstraints { make in
-            make.centerY.equalTo(moreInfoButton)
-            make.right.equalTo(moreInfoButton.snp.left).offset(-20)
+            make.top.equalTo(moreInfoButton.snp.bottom).offset(10)
+            make.centerX.equalToSuperview()
             make.height.equalTo(32)
             make.width.equalTo(171)
         }

@@ -69,6 +69,8 @@ protocol FirebaseAuthHelperProtocol {
                              completion: @escaping (EmptyResponse) -> Void)
     func fetchProjectRelation<T: Mappable>(request: [String : Any],
                                       completion: @escaping (BaseResponse<T>) -> Void)
+    func updateProjectInfo(request: [String : Any],
+                           completion: @escaping (EmptyResponse) -> Void)
 }
 
 class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
@@ -1330,6 +1332,50 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                             }
                     }
                 }
+        }
+    }
+    
+    func updateProjectInfo(request: [String : Any],
+                           completion: @escaping (EmptyResponse) -> Void) {
+        guard let projectId = request["projectId"] as? String,
+            let title = request["title"] as? String,
+            let sinopsis = request["sinopsis"] as? String,
+            let image = request["image"] as? Data,
+            let needing = request["needing"] as? String else {
+                completion(.error(FirebaseErrors.genericError))
+                return
+        }
+        let projectImageReference = storage.child(Constants.projectImagesPath).child(projectId)
+        projectImageReference.putData(image, metadata: nil) { (metadata, error) in
+            if let error = error {
+                completion(.error(error))
+                return
+            }
+            projectImageReference.downloadURL { (url, error) in
+                if let error = error {
+                    completion(.error(error))
+                    return
+                }
+                guard let urlString = url?.absoluteString else {
+                    completion(.error(FirebaseErrors.genericError))
+                    return
+                }
+                let dict: [String : Any] = ["title": title,
+                                            "sinopsis": sinopsis,
+                                            "image": urlString,
+                                            "needing": needing]
+                self.realtimeDB
+                    .child(Constants.projectsPath)
+                    .child(Constants.ongoingProjectsPath)
+                    .child(projectId)
+                    .updateChildValues(dict) { (error, ref) in
+                        if let error = error {
+                            completion(.error(error))
+                            return
+                        }
+                        completion(.success)
+                }
+            }
         }
     }
 }
