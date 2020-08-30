@@ -23,6 +23,7 @@ class OnGoingProjectDetailsView: UIView {
     private unowned var editButton: UIButton
     private unowned var interactionButton: UIButton
     private unowned var editNeedingButton: UIButton
+    private unowned var needValueTextfield: UITextField
     private unowned var activityView: UIActivityIndicatorView
     
     private lazy var mainScrollView: UIScrollView = {
@@ -93,15 +94,6 @@ class OnGoingProjectDetailsView: UIView {
         return view
     }()
     
-    private lazy var needValueLbl: UILabel = {
-        let view = UILabel(frame: .zero)
-        view.textColor = OnGoingProjectDetails.Constants.Colors.needValueLbl
-        view.font = OnGoingProjectDetails.Constants.Fonts.needValueLbl
-        view.numberOfLines = 0
-        view.textAlignment = .left
-        return view
-    }()
-    
     private var viewModel: OnGoingProjectDetails.Info.ViewModel.Project?
     
     init(frame: CGRect,
@@ -117,6 +109,7 @@ class OnGoingProjectDetailsView: UIView {
          editButton: UIButton,
          interactionButton: UIButton,
          editNeedingButton: UIButton,
+         needValueTextfield: UITextField,
          activityView: UIActivityIndicatorView) {
         self.confirmationModalView = confirmationModalView
         self.titleTextField = titleTextField
@@ -130,6 +123,7 @@ class OnGoingProjectDetailsView: UIView {
         self.editButton = editButton
         self.interactionButton = interactionButton
         self.editNeedingButton = editNeedingButton
+        self.needValueTextfield = needValueTextfield
         self.activityView = activityView
         super.init(frame: frame)
         applyViewCode()
@@ -201,7 +195,7 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
         mainContainer.addSubview(moreInfoButton)
         mainContainer.addSubview(needFixedLbl)
         mainContainer.addSubview(dotView)
-        mainContainer.addSubview(needValueLbl)
+        mainContainer.addSubview(needValueTextfield)
         mainContainer.addSubview(editNeedingButton)
         mainContainer.addSubview(inviteContactsButton)
         mainContainer.addSubview(interactionButton)
@@ -292,14 +286,14 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
             make.left.equalTo(needFixedLbl)
             make.height.width.equalTo(10)
         }
-        needValueLbl.snp.makeConstraints { make in
+        needValueTextfield.snp.makeConstraints { make in
             make.centerY.equalTo(dotView)
             make.left.equalTo(dotView.snp.right).offset(12)
             make.width.equalTo(200)
         }
         editNeedingButton.snp.makeConstraints { make in
             make.centerY.equalTo(dotView)
-            make.left.equalTo(needValueLbl.snp.right)
+            make.left.equalTo(needValueTextfield.snp.right)
             make.height.equalTo(14)
             make.width.equalTo(38)
         }
@@ -325,7 +319,7 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
         backgroundColor = .white
         titleTextField.text = viewModel?.title
         sinopsisTextView.text = viewModel?.sinopsis
-        needValueLbl.text = viewModel?.needing
+        needValueTextfield.text = viewModel?.needing
         guard let image = viewModel?.image else { return }
         imageButton.sd_setImage(with: URL(string: image), for: .normal, completed: nil)
     }

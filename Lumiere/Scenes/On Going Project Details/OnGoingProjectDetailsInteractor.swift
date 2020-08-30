@@ -173,7 +173,23 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
     }
     
     func fetchUpdateProjectNeeding(_ request: OnGoingProjectDetails.Request.UpdateNeeding) {
-        
+        presenter.presentLoading(true)
+        worker.fetchUpdateProjectNeeding(request: OnGoingProjectDetails
+            .Request
+            .UpdateNeedingWithId(projectId: projectData?.id ?? .empty,
+                                 needing: request.needing)) { response in
+                                    switch response {
+                                    case .success:
+                                        self.presenter.presentLoading(false)
+                                        self.projectData?.needing = request.needing
+                                        guard let project = self.projectData else { return }
+                                        self.presenter.presentProjectDetails(project)
+                                        self.presenter.presentFeedback(OnGoingProjectDetails.Info.Model.Feedback(title: "Alteração realizada", message: "Alteração do que o projeto precisa foi realizada com sucesso"))
+                                    case .error(let error):
+                                        self.presenter.presentLoading(false)
+                                        self.presenter.presentError(error.localizedDescription)
+                                    }
+        }
     }
     
     func didCancelEditing(_ request: OnGoingProjectDetails.Request.CancelEditing) {

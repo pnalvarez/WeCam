@@ -135,6 +135,15 @@ class OnGoingProjectDetailsController: BaseViewController, UINavigationControlle
         return view
     }()
     
+    private lazy var needValueTextfield: UITextField = {
+        let view = UITextField(frame: .zero)
+        view.textColor = OnGoingProjectDetails.Constants.Colors.needValueLbl
+        view.font = OnGoingProjectDetails.Constants.Fonts.needValueLbl
+        view.textAlignment = .left
+        view.isUserInteractionEnabled = false
+        return view
+    }()
+    
     private lazy var activityView: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView(frame: .zero)
         view.color = .black
@@ -158,6 +167,7 @@ class OnGoingProjectDetailsController: BaseViewController, UINavigationControlle
                                              editButton: editButton,
                                              interactionButton: interactionButton,
                                              editNeedingButton: editNeedingButton,
+                                             needValueTextfield: needValueTextfield,
                                              activityView: activityView)
         return view
     }()
@@ -189,7 +199,21 @@ class OnGoingProjectDetailsController: BaseViewController, UINavigationControlle
         }
     }
     
-    private var editingNeeding = false
+    private var editingNeeding = false {
+        didSet {
+            if editingNeeding {
+                editNeedingButton.setTitle(OnGoingProjectDetails.Constants.Texts.editConclude, for: .normal)
+                editNeedingButton.setTitleColor(OnGoingProjectDetails.Constants.Colors.editConcludeText, for: .normal)
+                editNeedingButton.backgroundColor = OnGoingProjectDetails.Constants.Colors.editConclude
+                editingInfo = false
+            } else {
+                editNeedingButton.setTitle(OnGoingProjectDetails.Constants.Texts.editButton, for: .normal)
+                editNeedingButton.setTitleColor(OnGoingProjectDetails.Constants.Colors.editButtonText, for: .normal)
+                editNeedingButton.backgroundColor = OnGoingProjectDetails.Constants.Colors.editButtonBackground
+            }
+            needValueTextfield.isUserInteractionEnabled = editingNeeding
+        }
+    }
     
     private var interactor: OnGoingProjectDetailsBusinessLogic?
     var router: OnGoingProjectDetailsRouterProtocol?
@@ -340,7 +364,10 @@ extension OnGoingProjectDetailsController {
     
     @objc
     private func didTapEditNeeding() {
-        
+        if editingNeeding {
+            interactor?.fetchUpdateProjectNeeding(OnGoingProjectDetails.Request.UpdateNeeding(needing: needValueTextfield.text ?? .empty))
+        }
+        editingNeeding = !editingNeeding
     }
     
     @objc

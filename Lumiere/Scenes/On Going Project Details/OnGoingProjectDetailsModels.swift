@@ -104,7 +104,7 @@ struct OnGoingProjectDetails {
                 var title: String
                 var sinopsis: String
                 var teamMembers: [TeamMember]
-                let needing: String
+                var needing: String
                 var relation: ProjectRelation?
             }
             
