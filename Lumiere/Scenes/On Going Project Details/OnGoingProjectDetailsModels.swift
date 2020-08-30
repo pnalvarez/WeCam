@@ -219,5 +219,21 @@ struct OnGoingProjectDetails {
         struct ProjectRelationWithId {
             let projectId: String
         }
+        
+        struct UpdateInfo {
+            let projectId: String
+            let title: String
+            let sinopsis: String
+        }
+        
+        struct UpdateImage {
+            let projectId: String
+            let image: Data
+        }
+        
+        struct UpdateNeeding {
+            let projectId: String
+            let needing: String
+        }
     }
 }

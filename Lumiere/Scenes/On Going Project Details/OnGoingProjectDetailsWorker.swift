@@ -13,6 +13,12 @@ protocol OnGoingProjectDetailsWorkerProtocol {
                              completion: @escaping (BaseResponse<OnGoingProjectDetails.Info.Response.TeamMember>) -> Void)
     func fetchProjectRelation(request: OnGoingProjectDetails.Request.ProjectRelationWithId,
                               completion: @escaping (BaseResponse<OnGoingProjectDetails.Info.Response.ProjectRelation>) -> Void)
+    func fetchUpdateProjectInfo(request: OnGoingProjectDetails.Request.UpdateInfo,
+                                completion: @escaping (EmptyResponse) -> Void)
+    func fetchUpdateProjectImage(request: OnGoingProjectDetails.Request.UpdateImage,
+                                 completion: @escaping (EmptyResponse) -> Void)
+    func fetchUpdateProjectNeeding(request: OnGoingProjectDetails.Request.UpdateNeeding,
+                                   completion: @escaping (EmptyResponse) -> Void)
 }
 
 class OnGoingProjectDetailsWorker: OnGoingProjectDetailsWorkerProtocol {
@@ -39,5 +45,20 @@ class OnGoingProjectDetailsWorker: OnGoingProjectDetailsWorkerProtocol {
                               completion: @escaping (BaseResponse<OnGoingProjectDetails.Info.Response.ProjectRelation>) -> Void) {
         let headers: [String : Any] = ["projectId" : request.projectId]
         builder.fetchProjectRelation(request: headers, completion: completion)
+    }
+    
+    func fetchUpdateProjectInfo(request: OnGoingProjectDetails.Request.UpdateInfo,
+                                completion: @escaping (EmptyResponse) -> Void) {
+        
+    }
+    
+    func fetchUpdateProjectImage(request: OnGoingProjectDetails.Request.UpdateImage,
+                                 completion: @escaping (EmptyResponse) -> Void) {
+        
+    }
+    
+    func fetchUpdateProjectNeeding(request: OnGoingProjectDetails.Request.UpdateNeeding,
+                                   completion: @escaping (EmptyResponse) -> Void) {
+        
     }
 }
