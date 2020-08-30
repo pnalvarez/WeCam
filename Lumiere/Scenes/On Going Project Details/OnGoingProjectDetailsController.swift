@@ -54,6 +54,9 @@ class OnGoingProjectDetailsController: BaseViewController, UINavigationControlle
         view.textColor = OnGoingProjectDetails.Constants.Colors.sinopsisLbl
         view.font = OnGoingProjectDetails.Constants.Fonts.sinopsisLbl
         view.isUserInteractionEnabled = false
+        view.translatesAutoresizingMaskIntoConstraints = true
+        view.sizeToFit()
+        view.isScrollEnabled = false
         return view
     }()
     
@@ -188,7 +191,6 @@ class OnGoingProjectDetailsController: BaseViewController, UINavigationControlle
                 editButton.setTitle(OnGoingProjectDetails.Constants.Texts.editConclude, for: .normal)
                 editButton.setTitleColor(OnGoingProjectDetails.Constants.Colors.editConcludeText, for: .normal)
                 editButton.backgroundColor = OnGoingProjectDetails.Constants.Colors.editConclude
-                editingNeeding = false
             } else {
                 editButton.setTitle(OnGoingProjectDetails.Constants.Texts.editButton, for: .normal)
                 editButton.setTitleColor(OnGoingProjectDetails.Constants.Colors.editButtonText, for: .normal)
@@ -205,7 +207,6 @@ class OnGoingProjectDetailsController: BaseViewController, UINavigationControlle
                 editNeedingButton.setTitle(OnGoingProjectDetails.Constants.Texts.editConclude, for: .normal)
                 editNeedingButton.setTitleColor(OnGoingProjectDetails.Constants.Colors.editConcludeText, for: .normal)
                 editNeedingButton.backgroundColor = OnGoingProjectDetails.Constants.Colors.editConclude
-                editingInfo = false
             } else {
                 editNeedingButton.setTitle(OnGoingProjectDetails.Constants.Texts.editButton, for: .normal)
                 editNeedingButton.setTitleColor(OnGoingProjectDetails.Constants.Colors.editButtonText, for: .normal)
@@ -358,6 +359,7 @@ extension OnGoingProjectDetailsController {
         if editingInfo {
             interactor?.fetchUpdateProjectInfo(OnGoingProjectDetails.Request.UpdateInfo(title: titleTextField.text ?? .empty,
                                                                                         sinopsis: sinopsisTextView.text ?? .empty))
+//            editingNeeding = false
         }
         editingInfo = !editingInfo
     }
@@ -366,6 +368,7 @@ extension OnGoingProjectDetailsController {
     private func didTapEditNeeding() {
         if editingNeeding {
             interactor?.fetchUpdateProjectNeeding(OnGoingProjectDetails.Request.UpdateNeeding(needing: needValueTextfield.text ?? .empty))
+//            editingInfo = false
         }
         editingNeeding = !editingNeeding
     }
@@ -392,6 +395,8 @@ extension OnGoingProjectDetailsController: OnGoingProjectDetailsDisplayLogic {
     func displayProjectDetails(_ viewModel: OnGoingProjectDetails.Info.ViewModel.Project) {
         self.viewModel = viewModel
         mainView.setup(viewModel: viewModel)
+        editingInfo = false
+        editingNeeding = false
     }
     
     func displayError(_ viewModel: String) {

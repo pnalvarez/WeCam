@@ -243,7 +243,7 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
             make.top.equalTo(imageStackView.snp.bottom).offset(14)
             make.left.equalToSuperview().inset(56)
             make.right.equalToSuperview().inset(51)
-            make.height.equalTo(88)
+            make.height.equalTo(188)
         }
         editButton.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(6)
@@ -257,10 +257,11 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
         }
         sinopsisTextView.snp.makeConstraints { make in
             make.top.equalTo(titleTextField.snp.bottom).offset(6)
-            make.left.right.bottom.equalToSuperview()
+            make.left.right.equalToSuperview().inset(20)
+            make.bottom.equalToSuperview()
         }
         teamFixedLbl.snp.makeConstraints { make in
-            make.top.equalTo(infoContainer.snp.bottom).offset(19)
+            make.top.equalTo(dotView.snp.bottom).offset(30)
             make.left.equalTo(infoContainer)
             make.width.equalTo(49)
         }
@@ -277,7 +278,7 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
             make.width.equalTo(103)
         }
         needFixedLbl.snp.makeConstraints { make in
-            make.top.equalTo(inviteContactsButton.snp.bottom).offset(50)
+            make.top.equalTo(infoContainer.snp.bottom).offset(30)
             make.left.equalTo(teamCollectionView)
             make.width.equalTo(94)
         }
@@ -307,11 +308,11 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
             make.edges.equalToSuperview()
         }
         interactionButton.snp.makeConstraints { make in
-            make.top.equalTo(closeButton).offset(670)
+            make.top.equalTo(closeButton).offset(740)
             make.centerX.equalToSuperview()
             make.height.equalTo(30)
             make.width.equalTo(107)
-            make.bottom.equalToSuperview().inset(69)
+            make.bottom.equalToSuperview().inset(30)
         }
     }
     
