@@ -141,6 +141,11 @@ class EditProjectDetailsView: UIView {
         }
         invitationViews = .empty
     }
+    
+    func cleanTextFields() {
+        sinopsisTextView.layer.borderColor = EditProjectDetails.Constants.Colors.sinopsisTextFieldLayer
+        projectTitleTextField.layer.borderColor = EditProjectDetails.Constants.Colors.projectTitleTextFieldLayer
+    }
 }
 
 extension EditProjectDetailsView {

@@ -129,6 +129,11 @@ class EditProjectDetailsController: BaseViewController {
         interactor?.fetchInvitations(EditProjectDetails.Request.Invitations())
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        mainView.cleanTextFields()
+    }
+    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         activityView.isHidden = false
