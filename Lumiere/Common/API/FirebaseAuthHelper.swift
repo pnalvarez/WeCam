@@ -79,6 +79,10 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
     
     private var mutex: Bool = true //Profile details mutex
     
+    init() {
+        realtimeDB.keepSynced(true)
+    }
+    
     func createUser(request: CreateUserRequest,
                     completion: @escaping (SignUp.Response.RegisterUser) -> Void) {
         

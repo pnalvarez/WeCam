@@ -216,8 +216,8 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
         mainContainer.addSubview(needValueLbl)
         mainContainer.addSubview(editNeedingButton)
         mainContainer.addSubview(inviteContactsButton)
-        mainContainer.addSubview(activityView)
         mainContainer.addSubview(interactionButton)
+        mainContainer.addSubview(activityView)
         mainScrollView.addSubview(mainContainer)
         addSubview(mainScrollView)
         addSubview(translucentView)
@@ -295,29 +295,29 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
             make.width.equalTo(103)
         }
         needFixedLbl.snp.makeConstraints { make in
-            make.top.equalTo(moreInfoButton.snp.bottom).offset(30)
+            make.top.equalTo(moreInfoButton.snp.bottom).offset(50)
             make.left.equalTo(teamCollectionView)
             make.width.equalTo(94)
         }
         dotView.snp.makeConstraints { make in
-            make.top.equalTo(needFixedLbl.snp.bottom).offset(32)
+            make.top.equalTo(needFixedLbl.snp.bottom).offset(18)
             make.left.equalTo(needFixedLbl)
             make.height.width.equalTo(10)
         }
         needValueLbl.snp.makeConstraints { make in
-            make.top.equalTo(needFixedLbl.snp.bottom).offset(28)
+            make.centerY.equalTo(dotView)
             make.left.equalTo(dotView.snp.right).offset(12)
             make.width.equalTo(200)
         }
         editNeedingButton.snp.makeConstraints { make in
-            make.centerY.equalTo(needValueLbl)
+            make.centerY.equalTo(dotView)
             make.left.equalTo(needValueLbl.snp.right)
             make.height.equalTo(14)
             make.height.equalTo(38)
         }
         inviteContactsButton.snp.makeConstraints { make in
-            make.top.equalTo(needValueLbl.snp.bottom).offset(53)
-            make.left.equalToSuperview().inset(76)
+            make.centerY.equalTo(moreInfoButton)
+            make.right.equalTo(moreInfoButton.snp.left).offset(-20)
             make.height.equalTo(32)
             make.width.equalTo(171)
         }

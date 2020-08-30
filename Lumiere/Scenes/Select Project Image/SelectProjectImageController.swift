@@ -83,6 +83,11 @@ class SelectProjectImageController: BaseViewController, UINavigationControllerDe
         self.view = mainView
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.tabBarController?.tabBar.isHidden = false
+    }
+    
     private func setup() {
         let viewController = self
         let interactor = SelectProjectImageInteractor(viewController: viewController)
