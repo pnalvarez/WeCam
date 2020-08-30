@@ -146,7 +146,26 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
     }
     
     func fetchUpdateProjectInfo(_ request: OnGoingProjectDetails.Request.UpdateInfo) {
-        
+        self.presenter.presentLoading(true)
+        worker.fetchUpdateProjectInfo(request: OnGoingProjectDetails
+            .Request
+            .UpdateInfoWithId(projectId: self.projectData?.id ?? .empty,
+                              title: request.title,
+                              sinopsis: request.sinopsis)) { response in
+                                switch response {
+                                case .success:
+                                    self.presenter.presentLoading(false)
+                                    self.projectData?.title = request.title
+                                    self.projectData?.sinopsis = request.sinopsis
+                                    guard let project = self.projectData else { return }
+                                    self.presenter.presentProjectDetails(project)
+                                case .error(let error):
+                                    self.presenter.presentLoading(false)
+                                    guard let project = self.projectData else { return }
+                                    self.presenter.presentProjectDetails(project)
+                                }
+                                                                                               
+        }
     }
     
     func fetchUpdateProjectNeeding(_ request: OnGoingProjectDetails.Request.UpdateNeeding) {

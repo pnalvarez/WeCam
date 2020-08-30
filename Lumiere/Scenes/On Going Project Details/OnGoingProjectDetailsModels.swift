@@ -35,6 +35,8 @@ struct OnGoingProjectDetails {
             static let editButtonLayer = UIColor(rgb: 0xe0e0e0).cgColor
             static let interactionButtonBackground = ThemeColors.mainRedColor.rawValue
             static let interactionButtonText = ThemeColors.whiteThemeColor.rawValue
+            static let editConclude = ThemeColors.mainRedColor.rawValue
+            static let editConcludeText = ThemeColors.whiteThemeColor.rawValue
         }
         
         struct Fonts {
@@ -63,6 +65,7 @@ struct OnGoingProjectDetails {
             static let interactionSentRequest = "Remover Solicitação de participação"
             static let interactionReceivedRequest = "Responder Convite de participação"
             static let interactionNothing = "Participar"
+            static let editConclude = "Concluir"
         }
         
         struct Images {
@@ -98,8 +101,8 @@ struct OnGoingProjectDetails {
             struct Project {
                 let id: String
                 var image: String?
-                let title: String
-                let sinopsis: String
+                var title: String
+                var sinopsis: String
                 var teamMembers: [TeamMember]
                 let needing: String
                 var relation: ProjectRelation?

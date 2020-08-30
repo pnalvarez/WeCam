@@ -171,6 +171,25 @@ class OnGoingProjectDetailsController: BaseViewController, UINavigationControlle
         }
     }
     
+    private var editingInfo = false {
+        didSet {
+            if editingInfo {
+                editButton.setTitle(OnGoingProjectDetails.Constants.Texts.editConclude, for: .normal)
+                editButton.setTitleColor(OnGoingProjectDetails.Constants.Colors.editConcludeText, for: .normal)
+                editButton.backgroundColor = OnGoingProjectDetails.Constants.Colors.editConclude
+                editingNeeding = false
+            } else {
+                editButton.setTitle(OnGoingProjectDetails.Constants.Texts.editButton, for: .normal)
+                editButton.setTitleColor(OnGoingProjectDetails.Constants.Colors.editButtonText, for: .normal)
+                editButton.backgroundColor = OnGoingProjectDetails.Constants.Colors.editButtonBackground
+            }
+            titleTextField.isUserInteractionEnabled = editingInfo
+            sinopsisTextView.isUserInteractionEnabled = editingInfo
+        }
+    }
+    
+    private var editingNeeding = false
+    
     private var interactor: OnGoingProjectDetailsBusinessLogic?
     var router: OnGoingProjectDetailsRouterProtocol?
     
@@ -304,8 +323,11 @@ extension OnGoingProjectDetailsController {
     
     @objc
     private func didTapEditInfo() {
-        titleTextField.isUserInteractionEnabled = true
-        sinopsisTextView.isUserInteractionEnabled = true
+        if editingInfo {
+            interactor?.fetchUpdateProjectInfo(OnGoingProjectDetails.Request.UpdateInfo(title: titleTextField.text ?? .empty,
+                                                                                        sinopsis: sinopsisTextView.text ?? .empty))
+        }
+        editingInfo = !editingInfo
     }
     
     @objc
