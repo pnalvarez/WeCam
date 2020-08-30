@@ -12,6 +12,8 @@ import SDWebImage
 class OnGoingProjectDetailsView: UIView {
     
     private unowned var confirmationModalView: ConfirmationAlertView
+    private unowned var titleTextField: UITextField
+    private unowned var sinopsisTextView: UITextView
     private unowned var translucentView: UIView
     private unowned var closeButton: UIButton
     private unowned var teamCollectionView: UICollectionView
@@ -66,24 +68,6 @@ class OnGoingProjectDetailsView: UIView {
         return view
     }()
     
-    private lazy var titleLbl: UILabel = {
-        let view = UILabel(frame: .zero)
-        view.textAlignment = .center
-        view.textColor = OnGoingProjectDetails.Constants.Colors.titleLbl
-        view.font = OnGoingProjectDetails.Constants.Fonts.titleLbl
-        view.numberOfLines = 0
-        return view
-    }()
-    
-    private lazy var sinopsisLbl: UILabel = {
-        let view = UILabel(frame: .zero)
-        view.textAlignment = .center
-        view.textColor = OnGoingProjectDetails.Constants.Colors.sinopsisLbl
-        view.font = OnGoingProjectDetails.Constants.Fonts.sinopsisLbl
-        view.numberOfLines = 0
-        return view
-    }()
-    
     private lazy var teamFixedLbl: UILabel = {
         let view = UILabel(frame: .zero)
         view.text = OnGoingProjectDetails.Constants.Texts.teamFixedLbl
@@ -121,6 +105,8 @@ class OnGoingProjectDetailsView: UIView {
     private var viewModel: OnGoingProjectDetails.Info.ViewModel.Project?
     
     init(frame: CGRect,
+         titleTextField: UITextField,
+         sinopsisTextView: UITextView,
          confirmationModalView: ConfirmationAlertView,
          translucentView: UIView,
          closeButton: UIButton,
@@ -133,6 +119,8 @@ class OnGoingProjectDetailsView: UIView {
          editNeedingButton: UIButton,
          activityView: UIActivityIndicatorView) {
         self.confirmationModalView = confirmationModalView
+        self.titleTextField = titleTextField
+        self.sinopsisTextView = sinopsisTextView
         self.translucentView = translucentView
         self.closeButton = closeButton
         self.teamCollectionView = teamCollectionView
@@ -204,9 +192,9 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
         imageStackView.addArrangedSubview(imageButton)
         imageStackView.addArrangedSubview(changeImageLbl)
         mainContainer.addSubview(imageStackView)
-        infoContainer.addSubview(titleLbl)
+        infoContainer.addSubview(titleTextField)
         infoContainer.addSubview(editButton)
-        infoContainer.addSubview(sinopsisLbl)
+        infoContainer.addSubview(sinopsisTextView)
         mainContainer.addSubview(infoContainer)
         mainContainer.addSubview(teamFixedLbl)
         mainContainer.addSubview(teamCollectionView)
@@ -269,13 +257,13 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
             make.height.equalTo(14)
             make.width.equalTo(38)
         }
-        titleLbl.snp.makeConstraints { make in
+        titleTextField.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(9)
             make.left.right.equalToSuperview()
         }
-        sinopsisLbl.snp.makeConstraints { make in
-            make.top.equalTo(titleLbl.snp.bottom).offset(6)
-            make.left.right.equalToSuperview()
+        sinopsisTextView.snp.makeConstraints { make in
+            make.top.equalTo(titleTextField.snp.bottom).offset(6)
+            make.left.right.bottom.equalToSuperview()
         }
         teamFixedLbl.snp.makeConstraints { make in
             make.top.equalTo(infoContainer.snp.bottom).offset(19)
@@ -335,8 +323,8 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
     
     func configureViews() {
         backgroundColor = .white
-        titleLbl.text = viewModel?.title
-        sinopsisLbl.text = viewModel?.sinopsis
+        titleTextField.text = viewModel?.title
+        sinopsisTextView.text = viewModel?.sinopsis
         needValueLbl.text = viewModel?.needing
         guard let image = viewModel?.image else { return }
         imageButton.sd_setImage(with: URL(string: image), for: .normal, completed: nil)

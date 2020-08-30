@@ -37,6 +37,25 @@ class OnGoingProjectDetailsController: BaseViewController {
         return view
     }()
     
+    private lazy var titleTextField: UITextField = {
+        let view = UITextField(frame: .zero)
+        view.textAlignment = .center
+        view.textColor = OnGoingProjectDetails.Constants.Colors.titleLbl
+        view.font = OnGoingProjectDetails.Constants.Fonts.titleLbl
+        view.layer.borderWidth = 0
+        view.isUserInteractionEnabled = false
+        return view
+    }()
+    
+    private lazy var sinopsisTextView: UITextView = {
+        let view = UITextView(frame: .zero)
+        view.textAlignment = .center
+        view.textColor = OnGoingProjectDetails.Constants.Colors.sinopsisLbl
+        view.font = OnGoingProjectDetails.Constants.Fonts.sinopsisLbl
+        view.isUserInteractionEnabled = false
+        return view
+    }()
+    
     private lazy var teamCollectionView: UICollectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         view.assignProtocols(to: self)
@@ -126,6 +145,8 @@ class OnGoingProjectDetailsController: BaseViewController {
     
     private lazy var mainView: OnGoingProjectDetailsView = {
         let view = OnGoingProjectDetailsView(frame: .zero,
+                                             titleTextField: titleTextField,
+                                             sinopsisTextView: sinopsisTextView,
                                              confirmationModalView: confirmationModalView,
                                              translucentView: translucentView,
                                              closeButton: closeButton,
@@ -271,7 +292,8 @@ extension OnGoingProjectDetailsController {
     
     @objc
     private func didTapEditInfo() {
-        
+        titleTextField.isUserInteractionEnabled = true
+        sinopsisTextView.isUserInteractionEnabled = true
     }
     
     @objc
