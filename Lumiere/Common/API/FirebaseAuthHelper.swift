@@ -71,8 +71,8 @@ protocol FirebaseAuthHelperProtocol {
                                       completion: @escaping (BaseResponse<T>) -> Void)
     func updateProjectInfo(request: [String : Any],
                            completion: @escaping (EmptyResponse) -> Void)
-    func updateProjectImage(request: [String : Any],
-                            completion: @escaping (EmptyResponse) -> Void)
+    func updateProjectImage<T: Mappable>(request: [String : Any],
+                            completion: @escaping (BaseResponse<T>) -> Void)
     func updateProjectNeedingField(request: [String : Any],
                                    completion: @escaping (EmptyResponse) -> Void)
 }
@@ -1382,8 +1382,8 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
         }
     }
     
-    func updateProjectImage(request: [String : Any],
-                            completion: @escaping (EmptyResponse) -> Void) {
+    func updateProjectImage<T: Mappable>(request: [String : Any],
+                            completion: @escaping (BaseResponse<T>) -> Void) {
         guard let projectId = request["projectId"] as? String,
             let image = request["image"] as? Data else {
                 completion(.error(FirebaseErrors.genericError))
@@ -1414,7 +1414,11 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                                 completion(.error(error))
                                 return
                             }
-                            completion(.success)
+                            guard let mappedResponse = Mapper<T>().map(JSON: dict) else {
+                                completion(.error(FirebaseErrors.parseError))
+                                return
+                            }
+                            completion(.success(mappedResponse))
                     }
                 }
         }

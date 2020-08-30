@@ -328,6 +328,5 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
         needValueLbl.text = viewModel?.needing
         guard let image = viewModel?.image else { return }
         imageButton.sd_setImage(with: URL(string: image), for: .normal, completed: nil)
-        imageButton.isUserInteractionEnabled = false
     }
 }

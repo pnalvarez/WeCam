@@ -75,7 +75,7 @@ struct ProfileDetails {
             struct User {
                 var connectionType: ConnectionType
                 let id: String
-                let image: String?
+                var image: String?
                 let name: String
                 let ocupation: String
                 let email: String

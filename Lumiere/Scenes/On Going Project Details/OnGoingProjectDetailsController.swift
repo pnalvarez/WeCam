@@ -15,7 +15,7 @@ protocol OnGoingProjectDetailsDisplayLogic: class {
     func displayUIForRelation(_ viewModel: OnGoingProjectDetails.Info.ViewModel.RelationModel)
 }
 
-class OnGoingProjectDetailsController: BaseViewController {
+class OnGoingProjectDetailsController: BaseViewController, UINavigationControllerDelegate {
     
     private lazy var confirmationModalView: ConfirmationAlertView = {
         let view = ConfirmationAlertView(frame: .zero,
@@ -176,6 +176,7 @@ class OnGoingProjectDetailsController: BaseViewController {
     
     init() {
         super.init(nibName: nil, bundle: nil)
+        imagePicker.delegate = self
         setup()
     }
     
@@ -266,6 +267,16 @@ extension OnGoingProjectDetailsController: UICollectionViewDelegateFlowLayout {
 
 extension OnGoingProjectDetailsController: UIImagePickerControllerDelegate {
     
+    func imagePickerController(_ picker: UIImagePickerController,
+                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
+            guard let imageData = image.jpegData(compressionQuality: 0.5) else {
+                return
+            }
+            interactor?.fetchUpdateProjectImage(OnGoingProjectDetails.Request.UpdateImage(image: imageData))
+        }
+        self.dismiss(animated: true, completion: nil)
+    }
 }
 
 extension OnGoingProjectDetailsController {
@@ -282,7 +293,8 @@ extension OnGoingProjectDetailsController {
     
     @objc
     private func didTapImageButton() {
-        
+        imagePicker.allowsEditing = true
+        present(imagePicker, animated: true, completion: nil)
     }
     
     @objc

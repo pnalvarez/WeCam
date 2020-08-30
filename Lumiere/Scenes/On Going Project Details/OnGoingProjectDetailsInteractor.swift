@@ -10,6 +10,9 @@ protocol OnGoingProjectDetailsBusinessLogic {
     func fetchProjectDetails(_ request: OnGoingProjectDetails.Request.FetchProject)
     func didSelectTeamMember(_ request: OnGoingProjectDetails.Request.SelectedTeamMember)
     func fetchProjectRelation(_ request: OnGoingProjectDetails.Request.ProjectRelation)
+    func fetchUpdateProjectImage(_ request: OnGoingProjectDetails.Request.UpdateImage)
+    func fetchUpdateProjectInfo(_ request: OnGoingProjectDetails.Request.UpdateInfo)
+    func fetchUpdateProjectNeeding(_ request: OnGoingProjectDetails.Request.UpdateNeeding)
 }
 
 protocol OnGoingProjectDetailsDataStore {
@@ -122,5 +125,31 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
                 break
             }
         }
+    }
+    
+    func fetchUpdateProjectImage(_ request: OnGoingProjectDetails.Request.UpdateImage) {
+        self.presenter.presentLoading(true)
+        worker.fetchUpdateProjectImage(request: OnGoingProjectDetails
+            .Request
+            .UpdateImageWithId(projectId: projectData?.id ?? .empty, image: request.image)) { response in
+                switch response {
+                case .success(let data):
+                    self.presenter.presentLoading(false)
+                    self.projectData?.image = data.imageURL
+                    guard let project = self.projectData else { return }
+                    self.presenter.presentProjectDetails(project)
+                case .error(let error):
+                    self.presenter.presentLoading(false)
+                    self.presenter.presentError(error.localizedDescription)
+                }
+        }
+    }
+    
+    func fetchUpdateProjectInfo(_ request: OnGoingProjectDetails.Request.UpdateInfo) {
+        
+    }
+    
+    func fetchUpdateProjectNeeding(_ request: OnGoingProjectDetails.Request.UpdateNeeding) {
+        
     }
 }

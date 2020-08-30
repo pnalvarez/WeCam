@@ -13,11 +13,11 @@ protocol OnGoingProjectDetailsWorkerProtocol {
                              completion: @escaping (BaseResponse<OnGoingProjectDetails.Info.Response.TeamMember>) -> Void)
     func fetchProjectRelation(request: OnGoingProjectDetails.Request.ProjectRelationWithId,
                               completion: @escaping (BaseResponse<OnGoingProjectDetails.Info.Response.ProjectRelation>) -> Void)
-    func fetchUpdateProjectInfo(request: OnGoingProjectDetails.Request.UpdateInfo,
+    func fetchUpdateProjectInfo(request: OnGoingProjectDetails.Request.UpdateInfoWithId,
                                 completion: @escaping (EmptyResponse) -> Void)
-    func fetchUpdateProjectImage(request: OnGoingProjectDetails.Request.UpdateImage,
-                                 completion: @escaping (EmptyResponse) -> Void)
-    func fetchUpdateProjectNeeding(request: OnGoingProjectDetails.Request.UpdateNeeding,
+    func fetchUpdateProjectImage(request: OnGoingProjectDetails.Request.UpdateImageWithId,
+                                 completion: @escaping (BaseResponse<OnGoingProjectDetails.Info.Response.ProjectImage>) -> Void)
+    func fetchUpdateProjectNeeding(request: OnGoingProjectDetails.Request.UpdateNeedingWithId,
                                    completion: @escaping (EmptyResponse) -> Void)
 }
 
@@ -47,18 +47,23 @@ class OnGoingProjectDetailsWorker: OnGoingProjectDetailsWorkerProtocol {
         builder.fetchProjectRelation(request: headers, completion: completion)
     }
     
-    func fetchUpdateProjectInfo(request: OnGoingProjectDetails.Request.UpdateInfo,
+    func fetchUpdateProjectInfo(request: OnGoingProjectDetails.Request.UpdateInfoWithId,
                                 completion: @escaping (EmptyResponse) -> Void) {
-        
+        let headers: [String : Any] = ["projectId": request.projectId,
+                                       "title": request.title,
+                                       "sinopsis": request.sinopsis]
+        builder.updateProjectInfo(request: headers, completion: completion)
     }
     
-    func fetchUpdateProjectImage(request: OnGoingProjectDetails.Request.UpdateImage,
-                                 completion: @escaping (EmptyResponse) -> Void) {
-        
+    func fetchUpdateProjectImage(request: OnGoingProjectDetails.Request.UpdateImageWithId,
+                                 completion: @escaping (BaseResponse<OnGoingProjectDetails.Info.Response.ProjectImage>) -> Void) {
+        let headers: [String : Any] = ["projectId": request.projectId, "image": request.image]
+        builder.updateProjectImage(request: headers, completion: completion)
     }
     
-    func fetchUpdateProjectNeeding(request: OnGoingProjectDetails.Request.UpdateNeeding,
+    func fetchUpdateProjectNeeding(request: OnGoingProjectDetails.Request.UpdateNeedingWithId,
                                    completion: @escaping (EmptyResponse) -> Void) {
-        
+        let headers: [String : Any] = ["projectId": request.projectId, "needing": request.needing]
+        builder.updateProjectNeedingField(request: headers, completion: completion)
     }
 }

@@ -97,7 +97,7 @@ struct OnGoingProjectDetails {
             
             struct Project {
                 let id: String
-                let image: String?
+                var image: String?
                 let title: String
                 let sinopsis: String
                 var teamMembers: [TeamMember]
@@ -187,6 +187,17 @@ struct OnGoingProjectDetails {
                     relation <- map["relation"]
                 }
             }
+            
+            final class ProjectImage: Mappable {
+                
+                var imageURL: String?
+                
+                init?(map: Map) { }
+                
+                func mapping(map: Map) {
+                    imageURL <- map["image"]
+                }
+            }
         }
     }
     
@@ -215,23 +226,36 @@ struct OnGoingProjectDetails {
         struct ProjectRelation {
             
         }
-        
+
         struct ProjectRelationWithId {
             let projectId: String
         }
         
         struct UpdateInfo {
-            let projectId: String
             let title: String
             let sinopsis: String
         }
         
         struct UpdateImage {
-            let projectId: String
             let image: Data
         }
         
         struct UpdateNeeding {
+            let needing: String
+        }
+        
+        struct UpdateInfoWithId {
+            let projectId: String
+            let title: String
+            let sinopsis: String
+        }
+        
+        struct UpdateImageWithId {
+            let projectId: String
+            let image: Data
+        }
+        
+        struct UpdateNeedingWithId {
             let projectId: String
             let needing: String
         }
