@@ -14,6 +14,7 @@ protocol EditProfileDetailsPresentationLogic {
     func presentLoading(_ loading: Bool)
     func presentServerError(_ response: Error)
     func presentInputError(_ response: EditProfileDetails.Errors.InputErrors)
+    func presentCathegories(_ response: EditProfileDetails.Info.Model.InterestCathegories)
 }
 
 class EditProfileDetailsPresenter: EditProfileDetailsPresentationLogic {
@@ -48,5 +49,10 @@ class EditProfileDetailsPresenter: EditProfileDetailsPresentationLogic {
     
     func presentInputError(_ response: EditProfileDetails.Errors.InputErrors) {
         viewController.displayError(response.rawValue)
+    }
+    
+    func presentCathegories(_ response: EditProfileDetails.Info.Model.InterestCathegories) {
+        let viewModel = EditProfileDetails.Info.ViewModel.Cathegories(cathegories: response)
+        viewController.displayInterestCathegories(viewModel)
     }
 }

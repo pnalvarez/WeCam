@@ -109,7 +109,7 @@ extension EditProfileDetailsInteractor: EditProfileDetailsBusinessLogic {
         guard let cathegory = userData?.interestCathegories.cathegories[request.index] else { return }
         userData?.interestCathegories.cathegories[request.index].selected = !cathegory.selected
         guard let user = userData else { return }
-        presenter.presentUserData(user)
+        presenter.presentCathegories(user.interestCathegories)
     }
     
     func fetchFinish(_ request: EditProfileDetails.Request.Finish) {

@@ -14,6 +14,7 @@ protocol EditProfileDetailsDisplayLogic: class {
     func displayProfileDetails()
     func displayLoading(_ loading: Bool)
     func displayError(_ viewModel: String)
+    func displayInterestCathegories(_ viewModel: EditProfileDetails.Info.ViewModel.Cathegories)
 }
 
 class EditProfileDetailsController: BaseViewController {
@@ -318,5 +319,9 @@ extension EditProfileDetailsController: EditProfileDetailsDisplayLogic {
     func displayError(_ viewModel: String) {
         UIAlertController.displayAlert(in: self, title: "Erro", message: viewModel)
         mainView.updateAllTextFields()
+    }
+    
+    func displayInterestCathegories(_ viewModel: EditProfileDetails.Info.ViewModel.Cathegories) {
+        self.cathegories = viewModel
     }
 }
