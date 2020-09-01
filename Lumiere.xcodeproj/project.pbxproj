@@ -182,6 +182,7 @@
 		3FE8DF5824C7BEE2005DE30D /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE8DF5724C7BEE2005DE30D /* Constants.swift */; };
 		3FE8DF5A24CBD271005DE30D /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE8DF5924CBD271005DE30D /* UIView+.swift */; };
 		3FE8DF5C24CBD81C005DE30D /* ThemeColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE8DF5B24CBD81C005DE30D /* ThemeColors.swift */; };
+		3FEBA85424FF145E0077183F /* OnGoingProjectDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FEBA85324FF145E0077183F /* OnGoingProjectDisplayView.swift */; };
 		489089FEB8140F8A2E1B993D /* Pods_Lumiere_LumiereUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B84867081F3814C0729E0A6F /* Pods_Lumiere_LumiereUITests.framework */; };
 		E48219FC3C20557A161CBC0F /* Pods_Lumiere.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 601738D471DE051660DE4EDE /* Pods_Lumiere.framework */; };
 /* End PBXBuildFile section */
@@ -387,6 +388,7 @@
 		3FE8DF5724C7BEE2005DE30D /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		3FE8DF5924CBD271005DE30D /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		3FE8DF5B24CBD81C005DE30D /* ThemeColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeColors.swift; sourceTree = "<group>"; };
+		3FEBA85324FF145E0077183F /* OnGoingProjectDisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnGoingProjectDisplayView.swift; sourceTree = "<group>"; };
 		5AC706A5F046CA56FB3C61F2 /* Pods_LumiereTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LumiereTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		601738D471DE051660DE4EDE /* Pods_Lumiere.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Lumiere.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		763D8EED12FD7F99BFEBD056 /* Pods-LumiereTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LumiereTests.release.xcconfig"; path = "Target Support Files/Pods-LumiereTests/Pods-LumiereTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -841,6 +843,7 @@
 				3F40A6E124F582EF00261161 /* UserDisplayView.swift */,
 				3F1158A824C3EFF300075C73 /* Cells */,
 				3FE8DF3F24C3F72A005DE30D /* Themes */,
+				3FEBA85324FF145E0077183F /* OnGoingProjectDisplayView.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -1334,6 +1337,7 @@
 				3F95787324AEA4C000B79818 /* SignInView.swift in Sources */,
 				3F40A6B624F1CBA500261161 /* OnGoingProjectDetailsPresenter.swift in Sources */,
 				3F40A61824EA0F4000261161 /* SelectProjectImageWorker.swift in Sources */,
+				3FEBA85424FF145E0077183F /* OnGoingProjectDisplayView.swift in Sources */,
 				3F8D138C24D5363A00AED7EB /* ProfileDetailsPresenter.swift in Sources */,
 				3F40A67F24EDF58400261161 /* SelectProjectCathegoryView.swift in Sources */,
 				3F8D13C224D799A200AED7EB /* NotificationsView.swift in Sources */,

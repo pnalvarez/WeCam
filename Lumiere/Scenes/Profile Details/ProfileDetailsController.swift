@@ -22,6 +22,15 @@ protocol ProfileDetailsDisplayLogic: class {
 
 class ProfileDetailsController: BaseViewController {
     
+    private lazy var onGoingProjectsCarrousel: UIScrollView = {
+        let view = UIScrollView(frame: .zero)
+        view.alwaysBounceVertical = false
+        view.alwaysBounceHorizontal = false
+        view.bounces = false
+        view.backgroundColor = ThemeColors.whiteThemeColor.rawValue
+        return view
+    }()
+    
     private lazy var confirmationAlertView: ConfirmationAlertView = {
         let view = ConfirmationAlertView(frame: .zero,
                                          delegate: self)
