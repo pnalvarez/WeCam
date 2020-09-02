@@ -25,17 +25,8 @@ class ConnectionsListRouter: NSObject, ConnectionsListDataTransfer {
     
     private func transferDataToProfileDetails(from source: ConnectionsListDataStore,
                                          to destination: inout ProfileDetailsDataStore) {
-        let data = ProfileDetails.Info.Received.User(connectionType: .contact,
-                                                     id: source.selectedUserData?.userId ?? .empty,
-                                                     image: source.selectedUserData?.image,
-                                                     name: source.selectedUserData?.name ?? .empty,
-                                                     ocupation: source.selectedUserData?.ocupation ?? .empty,
-                                                     email: source.selectedUserData?.email ?? .empty,
-                                                     phoneNumber: source.selectedUserData?.phoneNumber ?? .empty,
-                                                     connectionsCount: "\(source.selectedUserData?.connectionsCount ?? 0)" ?? .empty,
-                                                     progressingProjectsIds: [],
-                                                     finishedProjectsIds: [])
-        destination.userData = data
+        let data = ProfileDetails.Info.Received.UserData(userId: source.selectedUserData?.userId ?? .empty)
+        destination.receivedUserData = data
     }
 }
 

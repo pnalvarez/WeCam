@@ -40,7 +40,7 @@ protocol FirebaseAuthHelperProtocol {
                            completion: @escaping (EmptyResponse) -> Void)
     //    func fetchDeleteNotification(request: ConnectUsersRequest,
     //                                 completion: @escaping (EmptyResponse) -> Void)
-    func fetchUserRelation<T: Mappable>(request: FetchUserRelationRequest,
+    func fetchUserRelation<T: Mappable>(request: [String : Any],
                                         completion: @escaping (BaseResponse<T>) -> Void)
     func fetchRemoveConnection(request: [String : Any],
                                completion: @escaping (EmptyResponse) -> Void)
@@ -292,7 +292,8 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                 .child(Constants.usersPath)
                 .child(userId)
                 .observeSingleEvent(of: .value) { snapshot in
-                    if let value = snapshot.value as? [String : Any] {
+                    if var value = snapshot.value as? [String : Any] {
+                        value["userId"] = userId
                         guard let response = Mapper<T>().map(JSON: value) else {
                             completion(.error(FirebaseErrors.parseError))
                             return
@@ -421,8 +422,26 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
     //        }
     //    }
     
-    func fetchUserRelation<T>(request: FetchUserRelationRequest,
+    func fetchUserRelation<T>(request: [String : Any],
                               completion: @escaping (BaseResponse<T>) -> Void) where T : Mappable {
+        guard let currentUser = authReference.currentUser?.uid else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        guard let userId = request["userId"] as? String else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        if currentUser == userId {
+            let response: [String : Any] = ["relation" : "LOGGED"]
+            guard let mappedResponse = Mapper<T>().map(JSON: response) else {
+                completion(.error(FirebaseErrors.parseError))
+                return
+            }
+            completion(.success(mappedResponse))
+            return
+        }
+        let request = FetchUserRelationRequest(fromUserId: currentUser, toUserId: userId)
         checkConnected(request: request) { result in
             if result {
                 let response: [String : Any] = ["relation" : "CONNECTED"]
@@ -1439,7 +1458,7 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
             .child("participating_projects")
             .observeSingleEvent(of: .value) { snapshot in
                 guard let projectIds = snapshot.value as? Array<Any> else {
-                    completion(.error(FirebaseErrors.genericError))
+                    completion(.success(.empty))
                     return
                 }
     

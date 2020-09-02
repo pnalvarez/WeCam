@@ -8,7 +8,12 @@
 import ObjectMapper
 
 protocol ProfileDetailsWorkerProtocol {
-    func fetchProjectData(_ request: ProfileDetails.Request.ProjectInfo)
+    func fetchUserData(_ request: ProfileDetails.Request.FetchUserDataWithId,
+                       completion: @escaping (BaseResponse<ProfileDetails.Response.User>) -> Void)
+    func fetchUserRelation(_ request: ProfileDetails.Request.FetchUserRelation,
+                           completion: @escaping (BaseResponse<ProfileDetails.Response.UserRelation>) -> Void)
+    func fetchProjectsData(_ request: ProfileDetails.Request.FetchUserProjects,
+                          completion: @escaping (BaseResponse<[ProfileDetails.Response.Project]>) -> Void)
     func fetchRemoveConnection(_ request: ProfileDetails.Request.RemoveConnection,
                                 completion: @escaping (EmptyResponse) -> Void)
     func fetchRemovePendingConnection(_ request: ProfileDetails.Request.RemovePendingConnection,
@@ -28,9 +33,23 @@ class ProfileDetailsWorker: ProfileDetailsWorkerProtocol {
     init(builder: FirebaseAuthHelperProtocol = FirebaseAuthHelper()) {
         self.builder = builder
     }
+    
+    func fetchUserData(_ request: ProfileDetails.Request.FetchUserDataWithId,
+                       completion: @escaping (BaseResponse<ProfileDetails.Response.User>) -> Void) {
+        let headers: [String : Any] = ["userId": request.userId]
+        builder.fetchUserData(request: headers, completion: completion)
+    }
+    
+    func fetchUserRelation(_ request: ProfileDetails.Request.FetchUserRelation,
+                           completion: @escaping (BaseResponse<ProfileDetails.Response.UserRelation>) -> Void) {
+        let headers: [String : Any] = ["userId": request.userId]
+        builder.fetchUserRelation(request: headers, completion: completion)
+    }
 
-    func fetchProjectData(_ request: ProfileDetails.Request.ProjectInfo) {
-        //TO DO
+    func fetchProjectsData(_ request: ProfileDetails.Request.FetchUserProjects,
+                          completion: @escaping (BaseResponse<[ProfileDetails.Response.Project]>) -> Void) {
+        let headers: [String : Any] = ["userId": request.userId]
+        builder.fetchUserParticipatingProjects(request: headers, completion: completion)
     }
     
     func fetchRemoveConnection(_ request: ProfileDetails.Request.RemoveConnection,

@@ -32,16 +32,7 @@ class SignInRouter: NSObject, SignInDataTransfer {
     private func transferDataToProfileDetails(from source: SignInDataStore,
                                               to destination: inout ProfileDetailsDataStore) {
         guard let loggedUser = source.loggedUser else { return }
-        destination.userData = ProfileDetails.Info.Received.User(connectionType: .logged,
-                                                                 id: loggedUser.id,
-                                                                 image: loggedUser.image,
-                                                                 name: loggedUser.name,
-                                                                 ocupation: loggedUser.ocupation,
-                                                                 email: loggedUser.email,
-                                                                 phoneNumber: loggedUser.phoneNumber,
-                                                                 connectionsCount: loggedUser.connectionsCount,
-                                                                 progressingProjectsIds: [],
-                                                                 finishedProjectsIds: [])
+        destination.receivedUserData = ProfileDetails.Info.Received.UserData(userId: loggedUser.id)
     }
 }
 

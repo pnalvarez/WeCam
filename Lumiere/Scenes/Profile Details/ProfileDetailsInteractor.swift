@@ -8,14 +8,15 @@
 import ObjectMapper
 
 protocol ProfileDetailsBusinessLogic {
-    func fetchUserData(_ request: ProfileDetails.Request.UserData)
+    func fetchUserInfo(_ request: ProfileDetails.Request.UserData) //NEW
     func fetchInteract(_ request: ProfileDetails.Request.AddConnection)
     func fetchAllConnections(_ request: ProfileDetails.Request.AllConnections)
     func fetchConfirmInteraction(_ request: ProfileDetails.Request.ConfirmInteraction)
 }
 
 protocol ProfileDetailsDataStore {
-    var userData: ProfileDetails.Info.Received.User? { get set }
+    var receivedUserData: ProfileDetails.Info.Received.UserData? { get set }
+    var userDataModel: ProfileDetails.Info.Model.User? { get set }
 }
 
 class ProfileDetailsInteractor: ProfileDetailsDataStore {
@@ -23,7 +24,8 @@ class ProfileDetailsInteractor: ProfileDetailsDataStore {
     var presenter: ProfileDetailsPresentationLogic
     var worker: ProfileDetailsWorkerProtocol
     
-    var userData: ProfileDetails.Info.Received.User?
+    var receivedUserData: ProfileDetails.Info.Received.UserData?
+    var userDataModel: ProfileDetails.Info.Model.User?
     
     init(viewController: ProfileDetailsDisplayLogic,
          worker: ProfileDetailsWorkerProtocol = ProfileDetailsWorker()) {
@@ -35,11 +37,11 @@ class ProfileDetailsInteractor: ProfileDetailsDataStore {
 extension ProfileDetailsInteractor {
     
     private func fetchSendConnectionRequest() {
-        guard let id = userData?.id else { return }
+        guard let id = userDataModel?.id else { return }
         worker.fetchSendConnectionRequest(ProfileDetails.Request.SendConnectionRequest(id: id)) { response in
             switch response {
             case .success:
-                self.userData?.connectionType = .pending
+                self.userDataModel?.connectionType = .pending
                 break
             case .error(let error):
                 self.presenter.presentNewInteractionIcon(ProfileDetails
@@ -54,11 +56,11 @@ extension ProfileDetailsInteractor {
     }
     
     private func fetchAcceptConnection() {
-        guard let id = userData?.id else { return }
+        guard let id = userDataModel?.id else { return }
         worker.fetchAcceptConnection(ProfileDetails.Request.AcceptConnectionRequest(id: id)) { response in
             switch response {
             case .success:
-                self.userData?.connectionType = .contact
+                self.userDataModel?.connectionType = .contact
                 break
             case .error(let error):
                 self.presenter.presentNewInteractionIcon(ProfileDetails
@@ -73,11 +75,11 @@ extension ProfileDetailsInteractor {
     }
     
     private func fetchRemoveConnection() {
-        guard let id = userData?.id else { return }
+        guard let id = userDataModel?.id else { return }
         worker.fetchRemoveConnection(ProfileDetails.Request.RemoveConnection(id: id)) { response in
             switch response {
             case .success:
-                self.userData?.connectionType = .nothing
+                self.userDataModel?.connectionType = .nothing
                 break
             case .error(let error):
                 self.presenter.presentNewInteractionIcon(ProfileDetails
@@ -93,11 +95,11 @@ extension ProfileDetailsInteractor {
     }
     
     private func fetchRemovePendingConnection() {
-        guard let id = userData?.id else { return }
+        guard let id = userDataModel?.id else { return }
         worker.fetchRemovePendingConnection(ProfileDetails.Request.RemovePendingConnection(id: id)) { response in
             switch response {
             case .success:
-                self.userData?.connectionType = .nothing
+                self.userDataModel?.connectionType = .nothing
                 break
             case .error(let error):
                 self.presenter.presentNewInteractionIcon(ProfileDetails
@@ -127,33 +129,75 @@ extension ProfileDetailsInteractor {
     }
     
     private func checkUserTypeModifications() {
-        if let type = userData?.connectionType, type == .logged {
+        if let type = userDataModel?.connectionType, type == .logged {
             presenter.presentInterfaceForLogged()
+        }
+    }
+    
+    private func fetchUserRelation() {
+        worker.fetchUserRelation(ProfileDetails.Request.FetchUserRelation(userId: receivedUserData?.userId ?? .empty)) { response in
+            switch response {
+            case .success(let data):
+                guard let relation = data.relation else {
+                    return
+                }
+                if relation == "LOGGED" {
+                    self.userDataModel?.connectionType = .logged
+                } else if relation == "CONNECTED" {
+                    self.userDataModel?.connectionType = .contact
+                } else if relation == "PENDING" {
+                    self.userDataModel?.connectionType = .pending
+                } else if relation == "SENT" {
+                    self.userDataModel?.connectionType = .sent
+                } else {
+                    self.userDataModel?.connectionType = .nothing
+                }
+                self.fetchUserOnGoingProjects()
+            case .error(let error):
+                break
+            }
+        }
+    }
+    
+    private func fetchUserOnGoingProjects() {
+        worker.fetchProjectsData(ProfileDetails.Request.FetchUserProjects(userId: receivedUserData?.userId ?? .empty)) { response in
+            switch response {
+            case .success(let data):
+                self.userDataModel?.progressingProjects = data.map({ ProfileDetails.Info.Model.Project(id: $0.projectId ?? .empty, image: $0.image ?? .empty)})
+                self.presenter.presentLoading(false)
+                guard let userModel = self.userDataModel else { return }
+                self.presenter.presentUserInfo(userModel)
+                break
+            case .error(let error):
+                break
+            }
         }
     }
 }
 
 extension ProfileDetailsInteractor: ProfileDetailsBusinessLogic {
     
-    func fetchUserData(_ request: ProfileDetails.Request.UserData) {
-        let response = ProfileDetails.Info.Model.User(connectionType: userData?.connectionType ?? .nothing,
-                                                      id: userData?.id ?? .empty,
-                                                      image: userData?.image,
-                                                      name: userData?.name ?? .empty,
-                                                      occupation: userData?.ocupation ?? .empty,
-                                                      email: userData?.email ?? .empty,
-                                                      phoneNumber: userData?.phoneNumber ?? .empty,
-                                                      connectionsCount: userData?.connectionsCount ?? .empty,
-                                                      progressingProjects: [],
-                                                      finishedProjects: [])
-        presenter.presentUserInfo(response)
-        if userData?.connectionType == .logged {
-            presenter.presentInterfaceForLogged()
+    func fetchUserInfo(_ request: ProfileDetails.Request.UserData) {
+        presenter.presentLoading(true)
+        worker.fetchUserData(ProfileDetails.Request.FetchUserDataWithId(userId: receivedUserData?.userId ?? .empty)) { response in
+            switch response {
+            case .success(let data):
+                self.userDataModel = ProfileDetails.Info.Model.User(connectionType: nil,
+                                                                    id: data.id ?? .empty,
+                                                                    image: data.image,
+                                                                    name: data.name ?? .empty,
+                                                                    occupation: data.ocupation ?? .empty,
+                                                                    email: data.email ?? .empty,
+                                                                    phoneNumber: data.phoneNumber ?? .empty, connectionsCount: "0", progressingProjects: .empty, finishedProjects: .empty)
+                self.fetchUserRelation()
+            case .error(let error):
+                self.presenter.presentLoading(false)
+            }
         }
     }
     
     func fetchInteract(_ request: ProfileDetails.Request.AddConnection) {
-        guard let connectionType = userData?.connectionType else {
+        guard let connectionType = userDataModel?.connectionType else {
             return
         }
         guard connectionType != .nothing else {
@@ -172,7 +216,7 @@ extension ProfileDetailsInteractor: ProfileDetailsBusinessLogic {
     }
     
     func fetchConfirmInteraction(_ request: ProfileDetails.Request.ConfirmInteraction) {
-        guard let connectionType = userData?.connectionType else {
+        guard let connectionType = userDataModel?.connectionType else {
             return
         }
         switch connectionType {

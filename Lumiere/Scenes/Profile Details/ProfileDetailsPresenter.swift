@@ -46,6 +46,8 @@ class ProfileDetailsPresenter: ProfileDetailsPresentationLogic {
             break
         case .nothing:
             connectionTypeImage = ProfileDetails.Constants.Images.addConnection
+        case .none:
+            connectionTypeImage = ProfileDetails.Constants.Images.addConnection
         }
         let viewModel = ProfileDetails
             .Info
@@ -165,12 +167,6 @@ class ProfileDetailsPresenter: ProfileDetailsPresentationLogic {
 extension ProfileDetailsPresenter {
     
     private func buildProjectsViewModel(from projectsModels: [ProfileDetails.Info.Model.Project]) -> [ProfileDetails.Info.ViewModel.Project] {
-        var projects: [ProfileDetails.Info.ViewModel.Project] = []
-        for project in projectsModels {
-            let viewModel = ProfileDetails.Info.ViewModel.Project(id: project.id,
-                                                                  image: UIImage(data: project.image))
-            projects.append(viewModel)
-        }
-        return projects
+        return .empty
     }
 }

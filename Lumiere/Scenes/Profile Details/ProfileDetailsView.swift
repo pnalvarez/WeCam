@@ -10,6 +10,7 @@ import UIKit
 
 class ProfileDetailsView: UIView {
     
+    private unowned var activityView: UIActivityIndicatorView
     private unowned var projectsCarrousel: UIScrollView
     private unowned var projectsContainer: UIView
     private unowned var confirmationAlertView: ConfirmationAlertView
@@ -76,6 +77,7 @@ class ProfileDetailsView: UIView {
     private var viewModel: ProfileDetails.Info.ViewModel.User?
     
     init(frame: CGRect,
+         activityView: UIActivityIndicatorView,
          projectsCarrousel: UIScrollView,
          projectsContainer: UIView,
          confirmationAlertView: ConfirmationAlertView,
@@ -84,6 +86,7 @@ class ProfileDetailsView: UIView {
          addConnectionButton: UIButton,
          allConnectionsButton: UIButton,
          editProfileButton: UIButton) {
+        self.activityView = activityView
         self.projectsCarrousel = projectsCarrousel
         self.projectsContainer = projectsContainer
         self.confirmationAlertView = confirmationAlertView
@@ -144,11 +147,15 @@ extension ProfileDetailsView: ViewCodeProtocol {
         addSubview(onGoingProjectsLbl)
         projectsCarrousel.addSubview(projectsContainer)
         addSubview(projectsCarrousel)
+        addSubview(activityView)
         addSubview(translucentView)
         addSubview(confirmationAlertView)
     }
     
     func setupConstraints() {
+        activityView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
         confirmationAlertView.snp.makeConstraints { make in
             make.top.equalTo(translucentView.snp.bottom)
             make.size.equalTo(translucentView)

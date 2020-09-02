@@ -27,11 +27,11 @@ class ProfileDetailsRouter: NSObject, ProfileDetailsDataTransfer {
     
     private func transferDataToConnectionsList(from source: ProfileDetailsDataStore,
                                                to destination: inout ConnectionsListDataStore) {
-        guard let name = source.userData?.name,
-            let userId = source.userData?.id else { return }
+        guard let name = source.userDataModel?.name,
+            let userId = source.userDataModel?.id else { return }
         let data = ConnectionsList.Info.Received.User(id: userId,
                                                       name: name,
-                                                      userType: source.userData?.connectionType == .logged ? .logged : .other)
+                                                      userType: source.userDataModel?.connectionType == .logged ? .logged : .other)
         destination.userData = data
     }
 }

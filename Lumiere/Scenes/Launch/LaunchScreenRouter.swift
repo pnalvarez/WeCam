@@ -37,21 +37,3 @@ extension LaunchScreenRouter: LaunchScreenRouterProtocol {
     }
 }
 
-extension LaunchScreenRouter: ScreenTestingProtocol {
-    
-    func routeToProfileDetails() {
-        let vc = ProfileDetailsController()
-        guard var dataStore = vc.router?.dataStore else { return }
-        dataStore.userData = ProfileDetails.Info.Received.User(connectionType: .contact,
-                                                               id: "1234",
-                                                               image: nil,
-                                                               name: "User Test",
-                                                               ocupation: "Artist",
-                                                               email: "user@hotmail.com",
-                                                               phoneNumber: "(20) 2294-5711",
-                                                               connectionsCount: "1020",
-                                                               progressingProjectsIds: [],
-                                                               finishedProjectsIds: [])
-        routeTo(nextVC: vc)
-    }
-}

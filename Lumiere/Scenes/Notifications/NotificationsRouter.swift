@@ -42,16 +42,7 @@ class NotificationsRouter: NSObject, NotificationsDataTransfer {
         case .logged:
             relation = .logged
         }
-        destination.userData = ProfileDetails.Info.Received.User(connectionType: relation,
-                                                                 id: source.id,
-                                                                 image: source.image,
-                                                                 name: source.name,
-                                                                 ocupation: source.ocupation,
-                                                                 email: source.email,
-                                                                 phoneNumber: source.phoneNumber,
-                                                                 connectionsCount: "\(source.connectionsCount)",
-                                                                 progressingProjectsIds: .empty,
-                                                                 finishedProjectsIds: .empty)
+        destination.receivedUserData = ProfileDetails.Info.Received.UserData(userId: origin.selectedUser?.id ?? .empty)
     }
 }
 

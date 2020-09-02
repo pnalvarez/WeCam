@@ -22,7 +22,7 @@ struct ProfileDetails {
             static let phoneNumberLbl = UIColor(rgb: 0x000000)
             static let allConnectionsButtonText = UIColor(rgb: 0xffffff)
             static let activity = ThemeColors.mainRedColor.rawValue
-            static let activityBackground = UIColor(rgb: 0xffffff).withAlphaComponent(0.5)
+            static let activityBackground = UIColor(rgb: 0xffffff)
             static let translucentView = UIColor(rgb: 0xededed).withAlphaComponent(0.8)
             static let editProfileButtonLayer = UIColor(rgb: 0x969494).cgColor
             static let editProfileButtonBackgrounnd = UIColor(rgb: 0xffffff)
@@ -87,6 +87,10 @@ struct ProfileDetails {
                 let progressingProjectsIds: [String]
                 let finishedProjectsIds: [String]
             }
+            
+            struct UserData {
+                let userId: String
+            }
         }
         
         struct Model{
@@ -101,7 +105,7 @@ struct ProfileDetails {
             }
             
             struct User {
-                let connectionType: ConnectionType
+                var connectionType: ConnectionType?
                 let id: String
                 let image: String?
                 let name: String
@@ -109,7 +113,7 @@ struct ProfileDetails {
                 let email: String
                 let phoneNumber: String
                 let connectionsCount: String
-                let progressingProjects: [Project]
+                var progressingProjects: [Project]
                 let finishedProjects: [Project]
             }
             
@@ -123,7 +127,7 @@ struct ProfileDetails {
             
             struct Project {
                 let id: String
-                let image: Data
+                let image: String
             }
             
             struct NewConnectionType {
@@ -147,7 +151,7 @@ struct ProfileDetails {
             
             struct Project {
                 let id: String
-                let image: UIImage?
+                let image: String
             }
             
             struct NewConnectionType {
@@ -162,6 +166,10 @@ struct ProfileDetails {
     
     struct Request {
         
+        struct FetchUserRelation {
+            let userId: String
+        }
+        
         struct FetchNotifications {
             let userId: String
         }
@@ -174,6 +182,14 @@ struct ProfileDetails {
             let email: String
             let image: String
             var oldNotifications: Array<ProfileDetails.Response.Notification>
+        }
+        
+        struct FetchUserData {
+            
+        }
+        
+        struct FetchUserDataWithId {
+            let userId: String
         }
         
         struct FetchCurrentUserId {
@@ -194,6 +210,10 @@ struct ProfileDetails {
         
         struct AllConnections {
             
+        }
+        
+        struct FetchUserProjects {
+            let userId: String
         }
         
         struct ProjectInfo {
@@ -246,7 +266,7 @@ struct ProfileDetails {
             init?(map: Map) {}
                        
             func mapping(map: Map) {
-                id <- map["id"]
+                id <- map["userId"]
                 name <- map["name"]
                 email <- map["email"]
                 ocupation <- map["professional_area"]
@@ -271,6 +291,32 @@ struct ProfileDetails {
                 name <- map["name"]
                 ocupation <- map["ocupation"]
                 userId <- map["userId"]
+            }
+        }
+        
+        final class Project: Mappable {
+            
+            var projectId: String?
+            var image: String?
+            var title: String?
+            
+            init?(map: Map) { }
+            
+            func mapping(map: Map) {
+                projectId <- map["projectId"]
+                image <- map["image"]
+                title <- map["title"]
+            }
+        }
+        
+        final class UserRelation: Mappable {
+            
+            var relation: String?
+            
+            init?(map: Map) { }
+            
+            func mapping(map: Map) {
+                relation <- map["relation"]
             }
         }
         

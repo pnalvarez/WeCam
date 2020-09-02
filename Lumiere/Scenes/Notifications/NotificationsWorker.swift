@@ -49,9 +49,8 @@ class NotificationsWorker: NotificationsWorkerProtocol {
     
     func fetchUserRelation(_ request: Notifications.Request.UserRelation,
                            completion: @escaping (BaseResponse<Notifications.Response.Relation>) -> Void) {
-        let newRequest = FetchUserRelationRequest(fromUserId: request.fromUserId,
-                                                  toUserId: request.toUserId)
-        builder.fetchUserRelation(request: newRequest,
+        let headers: [String : Any] = ["userId" : request.toUserId]
+        builder.fetchUserRelation(request: headers,
                                   completion: completion)
     }
     

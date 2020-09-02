@@ -54,9 +54,8 @@ class ProfileDetailsController: BaseViewController {
     private lazy var activityView: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView(frame: .zero)
         view.color = ProfileDetails.Constants.Colors.activity
-        view.backgroundColor = ProfileDetails.Constants.Colors.activityBackground
+        view.backgroundColor = .red
         view.startAnimating()
-        view.isHidden = true
         return view
     }()
     
@@ -97,6 +96,7 @@ class ProfileDetailsController: BaseViewController {
     
     private lazy var mainView: ProfileDetailsView = {
         let view = ProfileDetailsView(frame: .zero,
+                                      activityView: activityView,
                                       projectsCarrousel: onGoingProjectsCarrousel,
                                       projectsContainer: projectsContainer,
                                       confirmationAlertView: confirmationAlertView,
@@ -126,7 +126,7 @@ class ProfileDetailsController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.setNavigationBarHidden(true, animated: true)
-        interactor?.fetchUserData(ProfileDetails.Request.UserData())
+        interactor?.fetchUserInfo(ProfileDetails.Request.UserData())
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -206,9 +206,9 @@ extension ProfileDetailsController: ProfileDetailsDisplayLogic {
     
     func displayError(_ viewModel: String) {
         UIAlertController.displayAlert(in: self, title: ProfileDetails
-        .Constants
-        .Texts
-        .addConnectionError, message: viewModel)
+            .Constants
+            .Texts
+            .addConnectionError, message: viewModel)
     }
     
     func displayNewConnectionType(_ viewModel: ProfileDetails.Info.ViewModel.NewConnectionType) {
@@ -220,7 +220,7 @@ extension ProfileDetailsController: ProfileDetailsDisplayLogic {
     }
     
     func displayEndRequest() {
-
+        
     }
     
     func displayInterfaceForLogged() {
