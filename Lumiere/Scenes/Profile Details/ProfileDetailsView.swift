@@ -10,6 +10,8 @@ import UIKit
 
 class ProfileDetailsView: UIView {
     
+    private unowned var projectsCarrousel: UIScrollView
+    private unowned var projectsContainer: UIView
     private unowned var confirmationAlertView: ConfirmationAlertView
     private unowned var translucentView: UIView
     private unowned var backButton: UIButton
@@ -63,15 +65,27 @@ class ProfileDetailsView: UIView {
         return view
     }()
     
+    private lazy var onGoingProjectsLbl: UILabel = {
+        let view = UILabel(frame: .zero)
+        view.text = ProfileDetails.Constants.Texts.onGoingProjectsLbl
+        view.font = ProfileDetails.Constants.Fonts.onGoingProjectsLbl
+        view.textColor = ProfileDetails.Constants.Colors.onGoingProjectsLbl
+        return view
+    }()
+    
     private var viewModel: ProfileDetails.Info.ViewModel.User?
     
     init(frame: CGRect,
+         projectsCarrousel: UIScrollView,
+         projectsContainer: UIView,
          confirmationAlertView: ConfirmationAlertView,
          translucentView: UIView,
          backButton: UIButton,
          addConnectionButton: UIButton,
          allConnectionsButton: UIButton,
          editProfileButton: UIButton) {
+        self.projectsCarrousel = projectsCarrousel
+        self.projectsContainer = projectsContainer
         self.confirmationAlertView = confirmationAlertView
         self.translucentView = translucentView
         self.backButton = backButton
@@ -127,6 +141,9 @@ extension ProfileDetailsView: ViewCodeProtocol {
         buttonStackView.addArrangedSubview(editProfileButton)
         buttonStackView.addArrangedSubview(allConnectionsButton)
         addSubview(buttonStackView)
+        addSubview(onGoingProjectsLbl)
+        projectsCarrousel.addSubview(projectsContainer)
+        addSubview(projectsCarrousel)
         addSubview(translucentView)
         addSubview(confirmationAlertView)
     }
@@ -185,6 +202,21 @@ extension ProfileDetailsView: ViewCodeProtocol {
         allConnectionsButton.snp.makeConstraints { make in
             make.height.equalTo(32)
             make.width.equalTo(171)
+        }
+        onGoingProjectsLbl.snp.makeConstraints { make in
+            make.top.equalTo(buttonStackView.snp.bottom).offset(40)
+            make.left.equalToSuperview().inset(26)
+            make.width.equalTo(208)
+        }
+        projectsCarrousel.snp.makeConstraints { make in
+            make.top.equalTo(buttonStackView.snp.bottom).offset(20)
+            make.left.right.equalToSuperview()
+            make.height.equalTo(106)
+        }
+        projectsContainer.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+            make.height.equalToSuperview()
+            make.width.equalToSuperview().priority(250)
         }
     }
     

@@ -31,6 +31,12 @@ class ProfileDetailsController: BaseViewController {
         return view
     }()
     
+    private lazy var projectsContainer: UIView = {
+        let view = UIView(frame: .zero)
+        view.backgroundColor = .white
+        return view
+    }()
+    
     private lazy var confirmationAlertView: ConfirmationAlertView = {
         let view = ConfirmationAlertView(frame: .zero,
                                          delegate: self)
@@ -91,6 +97,8 @@ class ProfileDetailsController: BaseViewController {
     
     private lazy var mainView: ProfileDetailsView = {
         let view = ProfileDetailsView(frame: .zero,
+                                      projectsCarrousel: onGoingProjectsCarrousel,
+                                      projectsContainer: projectsContainer,
                                       confirmationAlertView: confirmationAlertView,
                                       translucentView: translucentView,
                                       backButton: backButton,
@@ -99,6 +107,9 @@ class ProfileDetailsController: BaseViewController {
                                       editProfileButton: editProfileButton)
         return view
     }()
+    
+    
+    private(set) var projectViews: [OnGoingProjectDisplayView] = []
     
     private var interactor: ProfileDetailsBusinessLogic?
     var router: ProfileDetailsRouterProtocol?
