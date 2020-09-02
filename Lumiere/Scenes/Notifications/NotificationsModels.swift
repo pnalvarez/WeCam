@@ -117,15 +117,7 @@ struct Notifications {
             }
             
             struct User {
-                let relation: UserRelation
-                let id: String
-                let name: String
-                let email: String
-                let phoneNumber: String
-                let image: String?
-                let ocupation: String
-                let connectionsCount: String
-                //TO DO PROJECTS
+                let userId: String
             }
         }
         

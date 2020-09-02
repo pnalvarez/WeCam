@@ -52,29 +52,6 @@ extension NotificationsInteractor {
         self.notifications = Notifications.Info.Model.UpcomingNotifications(notifications: upcomingNotifications)
     }
     
-    private func buildSelectedUser(withData data: Notifications.Response.User,
-                                   relation: String,
-                                   userId: String) {
-        let userRelation: Notifications.Info.Model.UserRelation
-        if relation == "CONNECTED" {
-            userRelation = .connected
-        } else if relation == "PENDING" {
-            userRelation = .pending
-        } else if relation == "SENT" {
-            userRelation = .sent
-        } else {
-            userRelation = .nothing
-        }
-        selectedUser = Notifications.Info.Model.User(relation: userRelation,
-                                                     id: userId,
-                                                     name: data.name ?? .empty,
-                                                     email: data.email ?? .empty,
-                                                     phoneNumber: data.phoneNumber ?? .empty,
-                                                     image: data.image ?? .empty,
-                                                     ocupation: data.ocupation ?? .empty,
-                                                     connectionsCount: "\(data.connectionsCount ?? 0)")
-    }
-    
     private func updateNotifications(without userId: String) {
         notifications?.notifications.removeAll(where: { $0.userId == userId })
     }
@@ -106,36 +83,8 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
         guard let id = notifications?.notifications[request.index].userId else {
             return
         }
-        let request = Notifications.Request.FetchUserData(userId: id)
-        worker.fetchUserData(request) { response in
-            switch response {
-            case .success(let data):
-                let userData = data
-                guard let currentUserId = self.currentUser?.userId else { return }
-                self.worker.fetchUserRelation(Notifications.Request.UserRelation(fromUserId: currentUserId,
-                                                                                 toUserId: id)
-                ) { response in
-                    switch response {
-                    case .success(let data):
-                        self.buildSelectedUser(withData: userData,
-                                               relation: data.relation ?? .empty,
-                                               userId: id)
-                        self.presenter.presentLoading(false)
-                        self.presenter.didFetchUserData()
-                        break
-                    case .error(let error):
-                        self.presenter.presentLoading(false)
-                        self.presenter.presentError(error.localizedDescription)
-                        break
-                    }
-                }
-                break
-            case .error:
-                self.presenter.presentLoading(false)
-                self.presenter.presentError("Erro ao tentar carregar o perfil")
-                break
-            }
-        }
+        selectedUser = Notifications.Info.Model.User(userId: id)
+        presenter.didFetchUserData()
     }
     
     func didAcceptNotification(_ request: Notifications.Request.NotificationAnswer) {

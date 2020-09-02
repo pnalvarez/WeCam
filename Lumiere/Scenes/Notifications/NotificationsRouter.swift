@@ -24,25 +24,7 @@ class NotificationsRouter: NSObject, NotificationsDataTransfer {
     
     private func transferDataToProfileDetails(from origin: NotificationsDataStore,
                                               to destination: inout ProfileDetailsDataStore) {
-        guard let source = origin.selectedUser else { return }
-        var relation: ProfileDetails.Info.ConnectionType
-        switch source.relation {
-        case .connected:
-            relation = .contact
-            break
-        case .pending:
-            relation = .pending
-            break
-        case .sent:
-            relation = .sent
-            break
-        case .nothing:
-            relation = .nothing
-            break
-        case .logged:
-            relation = .logged
-        }
-        destination.receivedUserData = ProfileDetails.Info.Received.UserData(userId: origin.selectedUser?.id ?? .empty)
+        destination.receivedUserData = ProfileDetails.Info.Received.UserData(userId: origin.selectedUser?.userId ?? .empty)
     }
 }
 

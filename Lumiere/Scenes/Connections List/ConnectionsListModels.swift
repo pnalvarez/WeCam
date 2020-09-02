@@ -92,6 +92,10 @@ struct ConnectionsList {
                 let progressingProjects: [String]
                 let finishedProjects: [String]
             }
+            
+            struct SelectedUser {
+                let id: String
+            }
         }
         
         struct ViewModel {
