@@ -96,6 +96,7 @@ class ProfileDetailsView: UIView {
         self.allConnectionsButton = allConnectionsButton
         self.editProfileButton = editProfileButton
         super.init(frame: frame)
+        applyViewCode()
     }
     
     required init?(coder: NSCoder) {
@@ -147,9 +148,9 @@ extension ProfileDetailsView: ViewCodeProtocol {
         addSubview(onGoingProjectsLbl)
         projectsCarrousel.addSubview(projectsContainer)
         addSubview(projectsCarrousel)
-        addSubview(activityView)
         addSubview(translucentView)
         addSubview(confirmationAlertView)
+        addSubview(activityView)
     }
     
     func setupConstraints() {

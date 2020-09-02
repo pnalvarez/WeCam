@@ -54,7 +54,7 @@ class ProfileDetailsController: BaseViewController {
     private lazy var activityView: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView(frame: .zero)
         view.color = ProfileDetails.Constants.Colors.activity
-        view.backgroundColor = .red
+        view.backgroundColor = .white
         view.startAnimating()
         return view
     }()
@@ -126,12 +126,12 @@ class ProfileDetailsController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.setNavigationBarHidden(true, animated: true)
-        interactor?.fetchUserInfo(ProfileDetails.Request.UserData())
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         navigationController?.tabBarController?.tabBar.isHidden = false
+        interactor?.fetchUserInfo(ProfileDetails.Request.UserData())
     }
     
     override func loadView() {

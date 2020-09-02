@@ -135,7 +135,9 @@ extension ProfileDetailsInteractor {
     }
     
     private func fetchUserRelation() {
-        worker.fetchUserRelation(ProfileDetails.Request.FetchUserRelation(userId: receivedUserData?.userId ?? .empty)) { response in
+        worker.fetchUserRelation(ProfileDetails
+            .Request
+            .FetchUserRelation(userId: receivedUserData?.userId ?? .empty)) { response in
             switch response {
             case .success(let data):
                 guard let relation = data.relation else {
@@ -167,6 +169,7 @@ extension ProfileDetailsInteractor {
                 self.presenter.presentLoading(false)
                 guard let userModel = self.userDataModel else { return }
                 self.presenter.presentUserInfo(userModel)
+                self.checkUserTypeModifications()
                 break
             case .error(let error):
                 break
@@ -179,7 +182,9 @@ extension ProfileDetailsInteractor: ProfileDetailsBusinessLogic {
     
     func fetchUserInfo(_ request: ProfileDetails.Request.UserData) {
         presenter.presentLoading(true)
-        worker.fetchUserData(ProfileDetails.Request.FetchUserDataWithId(userId: receivedUserData?.userId ?? .empty)) { response in
+        worker.fetchUserData(ProfileDetails
+            .Request
+            .FetchUserDataWithId(userId: receivedUserData?.userId ?? .empty)) { response in
             switch response {
             case .success(let data):
                 self.userDataModel = ProfileDetails.Info.Model.User(connectionType: nil,
