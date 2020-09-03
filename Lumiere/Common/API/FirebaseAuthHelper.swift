@@ -77,6 +77,8 @@ protocol FirebaseAuthHelperProtocol {
                                    completion: @escaping (EmptyResponse) -> Void)
     func fetchUserParticipatingProjects<T: Mappable>(request: [String : Any],
                                         completion: @escaping (BaseResponse<[T]>) -> Void)
+    func fetchProjectInvites<T: Mappable>(request: [String : Any],
+                                          completion: @escaping (BaseResponse<[T]>) -> Void)
 }
 
 class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
@@ -1481,6 +1483,34 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                             let mappedResponse = Mapper<T>().mapArray(JSONArray: responseProjects)
                             completion(.success(mappedResponse))
                     }
+                }
+        }
+    }
+    
+    func fetchProjectInvites<T: Mappable>(request: [String : Any],
+                                          completion: @escaping (BaseResponse<[T]>) -> Void) {
+        var responseArray: [[String : Any]] = []
+        guard let currentUser = authReference.currentUser?.uid else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        realtimeDB
+            .child(Constants.usersPath)
+            .child(currentUser)
+            .child("project_invite_notifications")
+            .observeSingleEvent(of: .value) { snapshot in
+                guard let notifications = snapshot.value as? Array<Any> else {
+                    completion(.success(.empty))
+                    return
+                }
+                for notification in notifications {
+                    guard let notification = notification as? [String : Any] else {
+                        completion(.error(FirebaseErrors.genericError))
+                        return
+                    }
+                    responseArray.append(notification)
+                    let mappedResponse = Mapper<T>().mapArray(JSONArray: responseArray)
+                    completion(.success(mappedResponse))
                 }
         }
     }
