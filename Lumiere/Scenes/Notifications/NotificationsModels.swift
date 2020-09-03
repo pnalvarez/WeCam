@@ -101,6 +101,11 @@ struct Notifications {
                 var notifications: [ConnectionNotification]
             }
             
+            struct AllNotifications {
+                var connectionNotifications: UpcomingNotifications
+                var projectInviteNotifications: UpcomingProjectInvites
+            }
+            
             struct UpcomingProjectInvites {
                 var notifications: [ProjectInviteNotification]
             }

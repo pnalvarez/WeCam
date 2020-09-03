@@ -20,6 +20,7 @@ protocol NotificationsDataStore {
     var connectNotifications: Notifications.Info.Model.UpcomingNotifications? { get set }
     var projectInviteNotifications: Notifications.Info.Model.UpcomingProjectInvites? { get set }
     var selectedUser: Notifications.Info.Model.User? { get set }
+    var allNotifications: Notifications.Info.Model.AllNotifications? { get set }
 }
 
 class NotificationsInteractor: NotificationsDataStore {
@@ -31,6 +32,7 @@ class NotificationsInteractor: NotificationsDataStore {
     var connectNotifications: Notifications.Info.Model.UpcomingNotifications?
     var projectInviteNotifications: Notifications.Info.Model.UpcomingProjectInvites?
     var selectedUser: Notifications.Info.Model.User?
+    var allNotifications: Notifications.Info.Model.AllNotifications?
     
     init(viewController: NotificationsDisplayLogic,
          worker: NotificationsWorkerProtocol = NotificationsWorker()) {
@@ -60,6 +62,7 @@ extension NotificationsInteractor {
                     self.worker.fetchInvitingUserData(Notifications.Request.FetchInvitingUser(userId: invite.authorId ?? .empty)) { response in
                         switch response {
                         case .success(let newData):
+                            self.presenter.presentLoading(false)
                             self.projectInviteNotifications = Notifications
                                 .Info
                                 .Model
@@ -71,17 +74,20 @@ extension NotificationsInteractor {
                                                                image: invite.image ?? .empty,
                                                                projectId: invite.projectId ?? .empty,
                                                                projectName: invite.projectTitle ?? .empty)}))
+                            guard let connectNotifications = self.connectNotifications,
+                                let projectInviteNotifications = self.projectInviteNotifications else { return }
+                            self.allNotifications = Notifications
+                                .Info
+                                .Model
+                                .AllNotifications(connectionNotifications: connectNotifications,
+                                                  projectInviteNotifications: projectInviteNotifications)
                             break
                         case .error(let error):
+                            self.presenter.presentLoading(false)
                             break
                         }
                     }
                 }
-//                self.projectInviteNotifications = Notifications.Info.Model.UpcomingProjectInvites(notifications: data.map({ Notifications
-//                    .Info
-//                    .Model
-//                    .ProjectInviteNotification(userId: $0.authorId ?? .empty,
-//                                               userName: <#T##String#>, image: <#T##String#>, projectId: <#T##String#>, projectName: <#T##String#>) }))
                 break
             case .error(let error):
                 break
@@ -107,9 +113,10 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
             switch response {
             case .success(let data):
                 self.buildNotificationsModel(withData: data)
-                self.presenter.presentLoading(false)
-                guard let notifications = self.connectNotifications else { return }
-                self.presenter.presentNotifications(notifications)
+                self.fetchProjectInvites()
+//                self.presenter.presentLoading(false)
+//                guard let notifications = self.connectNotifications else { return }
+//                self.presenter.presentNotifications(notifications)
                 break
             case .error(let error):
                 self.presenter.presentLoading(false)
@@ -174,7 +181,7 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
     }
     
     func fetchRefreshNotifications(_ request: Notifications.Request.RefreshNotifications) {
-        guard let notifications = self.connectNotifications else { return }
-        self.presenter.presentNotifications(notifications)
+        guard let allNotifications = self.allNotifications else { return }
+        self.presenter.presentNotifications(allNotifications)
     }
 }

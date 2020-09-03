@@ -10,7 +10,7 @@ import UIKit
 protocol NotificationsPresentationLogic {
     func presentLoading(_ loading: Bool)
     func presentError(_ response: String)
-    func presentNotifications(_ response: Notifications.Info.Model.UpcomingNotifications)
+    func presentNotifications(_ response: Notifications.Info.Model.AllNotifications)
     func didFetchUserData()
     func presentAnsweredNotification(index: Int,
                                      answer: Notifications.Info.Model.NotificationAnswer)
@@ -36,9 +36,9 @@ class NotificationsPresenter: NotificationsPresentationLogic {
         viewController.displayError(viewModel)
     }
     
-    func presentNotifications(_ response: Notifications.Info.Model.UpcomingNotifications) {
+    func presentNotifications(_ response: Notifications.Info.Model.AllNotifications) {
         var viewModel = Notifications.Info.ViewModel.UpcomingNotifications(notifications: [])
-        for notification in response.notifications {
+        for notification in response.connectionNotifications.notifications {
             let upcomingNotification = Notifications
                 .Info
                 .ViewModel
@@ -56,7 +56,18 @@ class NotificationsPresenter: NotificationsPresentationLogic {
                                                                      NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue]))
             viewModel.notifications.append(upcomingNotification)
         }
-        viewController.displayNotificationns(viewModel)
+        for notification in response.projectInviteNotifications.notifications {
+            let upcomingNotification = Notifications
+            .Info
+            .ViewModel
+                .Notification(notificationText: "\(notification.userName) te convidou para este projeto, deseja participar?",
+                          image: notification.image,
+                          name: notification.projectName,
+                          ocupation: .empty,
+                          email: .empty)
+            viewModel.notifications.append(upcomingNotification)
+        }
+        viewController.displayNotifications(viewModel)
     }
     
     func didFetchUserData() {

@@ -195,7 +195,7 @@ extension NotificationTableViewCell: ViewCodeProtocol {
         nameLbl.text = viewModel?.name
         ocupationLbl.text = viewModel?.ocupation
         emailLbl.attributedText = viewModel?.email
-        notificationLbl.text = Notifications.Constants.Texts.connectNotificationText
+        notificationLbl.text = viewModel?.notificationText
         selectionStyle = .none
         guard let imageStr = viewModel?.image else { return }
         profileImageView.sd_setImage(with: URL(string: imageStr), completed: nil)

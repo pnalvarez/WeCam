@@ -11,7 +11,7 @@ import UIKit
 protocol NotificationsDisplayLogic: class {
     func displayLoading(_ loading: Bool)
     func displayError(_ viewModel: Notifications.Info.ViewModel.NotificationError)
-    func displayNotificationns(_ viewModel: Notifications.Info.ViewModel.UpcomingNotifications)
+    func displayNotifications(_ viewModel: Notifications.Info.ViewModel.UpcomingNotifications)
     func displaySelectedUser()
     func displayNotificationAnswer(_ viewModel: Notifications.Info.ViewModel.NotificationAnswer)
 }
@@ -164,7 +164,7 @@ extension  NotificationsController: NotificationsDisplayLogic {
         UIAlertController.displayAlert(in: self, title: "Erro", message: viewModel.description)
     }
     
-    func displayNotificationns(_ viewModel: Notifications.Info.ViewModel.UpcomingNotifications) {
+    func displayNotifications(_ viewModel: Notifications.Info.ViewModel.UpcomingNotifications) {
         refreshHeader.endRefreshing()
         tableView.backgroundView = viewModel.notifications.isEmpty ? EmptyListView(frame: .zero,
                                                                                    text: Notifications.Constants.Texts.emptyNotifications) : nil

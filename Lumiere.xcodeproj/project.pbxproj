@@ -69,6 +69,7 @@
 		3F40A6E024F4992F00261161 /* InviteListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A6DF24F4992F00261161 /* InviteListTableViewCell.swift */; };
 		3F40A6E224F582EF00261161 /* UserDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A6E124F582EF00261161 /* UserDisplayView.swift */; };
 		3F43311E24E8E8B90082825E /* ConfirmationAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F43311D24E8E8B90082825E /* ConfirmationAlertView.swift */; };
+		3F66CA0625017C14006F6DBD /* NSAttributedString+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F66CA0525017C14006F6DBD /* NSAttributedString+.swift */; };
 		3F6EEA2F24E0A3680075C500 /* ConnectionsListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6EEA2E24E0A3680075C500 /* ConnectionsListController.swift */; };
 		3F6EEA3124E0A3720075C500 /* ConnectionsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6EEA3024E0A3720075C500 /* ConnectionsListView.swift */; };
 		3F6EEA3324E0A37B0075C500 /* ConnectionsListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6EEA3224E0A37B0075C500 /* ConnectionsListInteractor.swift */; };
@@ -266,6 +267,7 @@
 		3F40A6DF24F4992F00261161 /* InviteListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteListTableViewCell.swift; sourceTree = "<group>"; };
 		3F40A6E124F582EF00261161 /* UserDisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDisplayView.swift; sourceTree = "<group>"; };
 		3F43311D24E8E8B90082825E /* ConfirmationAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationAlertView.swift; sourceTree = "<group>"; };
+		3F66CA0525017C14006F6DBD /* NSAttributedString+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+.swift"; sourceTree = "<group>"; };
 		3F6EEA2E24E0A3680075C500 /* ConnectionsListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsListController.swift; sourceTree = "<group>"; };
 		3F6EEA3024E0A3720075C500 /* ConnectionsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsListView.swift; sourceTree = "<group>"; };
 		3F6EEA3224E0A37B0075C500 /* ConnectionsListInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsListInteractor.swift; sourceTree = "<group>"; };
@@ -880,6 +882,7 @@
 				3F8D13C524D8F5A100AED7EB /* URL+.swift */,
 				3F6EEA7024E5DEEC0075C500 /* UITabBar+.swift */,
 				3F6EEA7424E87EE10075C500 /* UIAlertController+.swift */,
+				3F66CA0525017C14006F6DBD /* NSAttributedString+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1280,6 +1283,7 @@
 				3F40A6BE24F1CE5100261161 /* DefaultCloseButton.swift in Sources */,
 				3F40A60E24EA0D5700261161 /* SelectProjectImageController.swift in Sources */,
 				3F95787724AEA4D100B79818 /* SignInPresenter.swift in Sources */,
+				3F66CA0625017C14006F6DBD /* NSAttributedString+.swift in Sources */,
 				3F8D13C424D79FE100AED7EB /* GetAllNotificationsRequest.swift in Sources */,
 				3F40A61024EA0D9B00261161 /* SelectProjectImageRouter.swift in Sources */,
 				3FE8DF5C24CBD81C005DE30D /* ThemeColors.swift in Sources */,
