@@ -39,7 +39,7 @@ class EditProjectDetailsWorker: EditProjectDetailsWorkerProtocol {
         let headers: [String : Any] = ["image": request.image,
                                        "project_title": request.title,
                                        "projectId": request.projectId,
-                                       "author_id": request.userId,
+                                       "author_id": request.authorId,
                                        "userId": request.userId]
         builder.inviteUserToProject(request: headers, completion: completion)
     }

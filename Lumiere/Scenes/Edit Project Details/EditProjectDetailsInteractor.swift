@@ -45,7 +45,7 @@ extension EditProjectDetailsInteractor {
         }
         for i in 0..<users.count {
             let request = EditProjectDetails.Request.InviteUser(projectId: project.id,
-                                                                userId: project.authorId,
+                                                                userId: users[i].id,
                                                                 title: project.title,
                                                                 image: project.image,
                                                                 authorId: project.authorId)
