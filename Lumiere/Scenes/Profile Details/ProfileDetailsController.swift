@@ -160,7 +160,7 @@ extension ProfileDetailsController {
                 make.top.bottom.equalToSuperview()
                 make.width.equalTo(105)
                 if i == 0 {
-                    make.left.equalToSuperview()
+                    make.left.equalToSuperview().inset(26)
                 } else {
                     make.left.equalTo(projectViews[i-1].snp.right).offset(5)
                 }

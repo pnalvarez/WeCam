@@ -212,12 +212,12 @@ extension ProfileDetailsView: ViewCodeProtocol {
             make.width.equalTo(171)
         }
         onGoingProjectsLbl.snp.makeConstraints { make in
-            make.top.equalTo(buttonStackView.snp.bottom).offset(40)
+            make.top.equalTo(buttonStackView.snp.bottom).offset(46)
             make.left.equalToSuperview().inset(26)
             make.width.equalTo(208)
         }
         projectsCarrousel.snp.makeConstraints { make in
-            make.top.equalTo(buttonStackView.snp.bottom).offset(20)
+            make.top.equalTo(onGoingProjectsLbl.snp.bottom).offset(25)
             make.left.right.equalToSuperview()
             make.height.equalTo(106)
         }
