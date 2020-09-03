@@ -16,6 +16,8 @@ class OnGoingProjectDisplayView: UIView {
         view.layer.cornerRadius = 52
         view.clipsToBounds = true
         view.addTarget(self, action: #selector(didTap), for: .touchUpInside)
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.black.cgColor
         view.sd_setImage(with: URL(string: projectImage), for: .normal, completed: nil)
         return view
     }()

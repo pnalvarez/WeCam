@@ -152,6 +152,28 @@ class ProfileDetailsController: BaseViewController {
 
 extension ProfileDetailsController {
     
+    private func buildOnGoingProjectsCarrousel() {
+        onGoingProjectsCarrousel.contentSize = CGSize(width: 105 * projectViews.count + 50, height: 105)
+        for i in 0..<projectViews.count {
+            projectsContainer.addSubview(projectViews[i])
+            projectViews[i].snp.makeConstraints { make in
+                make.top.bottom.equalToSuperview()
+                make.width.equalTo(105)
+                if i == 0 {
+                    make.left.equalToSuperview()
+                } else {
+                    make.left.equalTo(projectViews[i-1].snp.right).offset(5)
+                }
+                if i == projectViews.count {
+                    make.right.equalToSuperview()
+                }
+            }
+        }
+    }
+}
+
+extension ProfileDetailsController {
+    
     @objc
     private func closeModal() {
         mainView.hideConfirmationView()
@@ -201,6 +223,10 @@ extension ProfileDetailsController: ConfirmationAlertViewDelegate {
 extension ProfileDetailsController: ProfileDetailsDisplayLogic {
     
     func displayUserInfo(_ viewModel: ProfileDetails.Info.ViewModel.User) {
+        projectViews = viewModel.progressingProjects.map({ OnGoingProjectDisplayView(frame: .zero,
+                                                                                     projectImage: $0.image,
+                                                                                     callback: { })})
+        buildOnGoingProjectsCarrousel()
         mainView.setup(viewModel: viewModel)
     }
     

@@ -28,7 +28,8 @@ class ProfileDetailsPresenter: ProfileDetailsPresentationLogic {
     }
     
     func presentUserInfo(_ response: ProfileDetails.Info.Model.User) {
-        let progressingProjects = buildProjectsViewModel(from: response.progressingProjects)
+        let progressingProjects = response.progressingProjects.map({ ProfileDetails.Info.ViewModel.Project(id: $0.id,
+                                                                                                           image: $0.image)})
         let finishedProjects = buildProjectsViewModel(from: response.finishedProjects)
         var connectionTypeImage: UIImage?
         switch response.connectionType {
