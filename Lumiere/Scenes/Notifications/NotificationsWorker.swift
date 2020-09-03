@@ -8,8 +8,10 @@
 import ObjectMapper
 
 protocol NotificationsWorkerProtocol {
-    func fetchNotifications(_ request: Notifications.Request.FetchNotifications,
+    func fetchConnectionNotifications(_ request: Notifications.Request.FetchConnectionNotifications,
                             completion: @escaping (BaseResponse<Array<Notifications.Response.ConnectNotification>>) -> Void)
+    func fetchProjectInviteNotifications(_ request: Notifications.Request.ProjectInviteNotifications,
+                                         completion: @escaping (BaseResponse<[Notifications.Response.ProjectInvite]>) -> Void)
     func fetchUserData(_ request: Notifications.Request.FetchUserData,
                        completion: @escaping (BaseResponse<Notifications.Response.User>) -> Void)
     func fetchConnectUsers(_ request: Notifications.Request.ConnectUsers,
@@ -18,6 +20,8 @@ protocol NotificationsWorkerProtocol {
                            completion: @escaping (BaseResponse<Notifications.Response.Relation>) -> Void)
     func fetchRemovePendingNotification(_ request: Notifications.Request.RemovePendingNotification,
                                         completion: @escaping (EmptyResponse) -> Void)
+    func fetchInvitingUserData(_ request: Notifications.Request.FetchInvitingUser,
+                               completion: @escaping (BaseResponse<Notifications.Response.InvitingUser>) -> Void)
 }
 
 class NotificationsWorker: NotificationsWorkerProtocol {
@@ -28,11 +32,18 @@ class NotificationsWorker: NotificationsWorkerProtocol {
         self.builder = builder
     }
     
-    func fetchNotifications(_ request: Notifications.Request.FetchNotifications,
+    func fetchConnectionNotifications(_ request: Notifications.Request.FetchConnectionNotifications,
                             completion: @escaping (BaseResponse<Array<Notifications.Response.ConnectNotification>>) -> Void) {
         let newRequest = GetConnectNotificationRequest(userId: request.userId)
         builder.fetchUserConnectNotifications(request: newRequest,
                                               completion: completion)
+    }
+    
+    func fetchProjectInviteNotifications(_ request: Notifications.Request.ProjectInviteNotifications,
+                                         completion: @escaping (BaseResponse<[Notifications.Response.ProjectInvite]>) -> Void) {
+        let headers: [String : Any] = [:]
+        builder.fetchProjectInvites(request: headers,
+                                    completion: completion)
     }
     
     func fetchUserData(_ request: Notifications.Request.FetchUserData,
@@ -59,5 +70,12 @@ class NotificationsWorker: NotificationsWorkerProtocol {
         let headers: [String : Any] = ["userId": request.userId]
         builder.fetchRefusePendingConnection(request: headers,
                                              completion: completion)
+    }
+    
+    func fetchInvitingUserData(_ request: Notifications.Request.FetchInvitingUser,
+                               completion: @escaping (BaseResponse<Notifications.Response.InvitingUser>) -> Void) {
+        let headers: [String : Any] = ["userId": request.userId]
+        builder.fetchUserData(request: headers,
+                              completion: completion)
     }
 }

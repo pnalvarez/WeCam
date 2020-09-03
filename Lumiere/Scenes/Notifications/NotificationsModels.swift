@@ -89,12 +89,6 @@ struct Notifications {
                 case refused
             }
             
-            enum NotificationType {
-                case connection
-                case projectParticipation
-                case projectAuthorizing
-            }
-            
             enum UserRelation {
                 case connected
                 case pending
@@ -104,11 +98,74 @@ struct Notifications {
             }
             
             struct UpcomingNotifications {
-                var notifications: [Notification]
+                var notifications: [ConnectionNotification]
             }
             
-            struct Notification {
-                let type: NotificationType
+            struct UpcomingProjectInvites {
+                var notifications: [ProjectInviteNotification]
+            }
+            
+            class NotificationType {
+                let userId: String
+                let userName: String
+                let image: String
+                
+                init(userId: String,
+                     userName: String,
+                     image: String) {
+                    self.userId = userId
+                    self.userName = userName
+                    self.image = image
+                }
+            }
+            
+            class ConnectNotification: NotificationType {
+                let ocupation: String
+                let email: String
+                
+                init(userId: String,
+                     userName: String,
+                     image: String,
+                     ocupation: String,
+                     email: String) {
+                    self.ocupation = ocupation
+                    self.email = email
+                    super.init(userId: userId, userName: userName, image: image)
+                }
+            }
+            
+            class ProjectInviteNotification: NotificationType {
+                let projectId: String
+                let projectName: String
+                
+                init(userId: String,
+                              userName: String,
+                              image: String,
+                              projectId: String,
+                              projectName: String) {
+                    self.projectId = projectId
+                    self.projectName = projectName
+                    super.init(userId: userId, userName: userName, image: image)
+                }
+            }
+            
+            class ProjectParticipationRequestNotification: NotificationType {
+                let projectId: String
+                let projectName: String
+                
+                init(userId: String,
+                              userName: String,
+                              image: String,
+                              projectId: String,
+                              projectName: String) {
+                    self.projectId = projectId
+                    self.projectName = projectName
+                    super.init(userId: userId, userName: userName, image: image)
+                }
+            }
+            
+            //IT WILL BE ERASED
+            struct ConnectionNotification {
                 let userId: String
                 let image: String?
                 let name: String
@@ -159,8 +216,16 @@ struct Notifications {
     
     struct Request {
         
-        struct FetchNotifications {
+        struct FetchInvitingUser {
             let userId: String
+        }
+        
+        struct FetchConnectionNotifications {
+            let userId: String
+        }
+        
+        struct ProjectInviteNotifications {
+            
         }
         
         struct UpdateNotifications {
@@ -252,6 +317,34 @@ struct Notifications {
             
             func mapping(map: Map) {
                 relation <- map["relation"]
+            }
+        }
+        
+        final class ProjectInvite: Mappable {
+            
+            var projectId: String?
+            var authorId: String?
+            var projectTitle: String?
+            var image: String?
+            
+            init?(map: Map) { }
+            
+            func mapping(map: Map) {
+                projectId <- map["projectId"]
+                authorId <- map["author_id"]
+                projectTitle <- map["project_title"]
+                image <- map["image"]
+            }
+        }
+        
+        final class InvitingUser: Mappable {
+            
+            var name: String?
+            
+            init?(map: Map) { }
+            
+            func mapping(map: Map) {
+                name <- map["name"]
             }
         }
     }
