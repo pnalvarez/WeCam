@@ -23,13 +23,11 @@ class OnGoingProjectDisplayView: UIView {
     }()
     
     private var projectImage: String
-    private var callback: () -> Void
+    var callback: (() -> Void)?
     
     init(frame: CGRect,
-         projectImage: String,
-         callback: @escaping () -> Void) {
+         projectImage: String) {
         self.projectImage = projectImage
-        self.callback = callback
         super.init(frame: frame)
         applyViewCode()
     }
@@ -43,6 +41,7 @@ extension OnGoingProjectDisplayView {
     
     @objc
     private func didTap() {
+        guard let callback = callback else { return }
         callback()
     }
 }

@@ -1472,10 +1472,11 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                         .child(Constants.ongoingProjectsPath)
                         .child(projectId)
                         .observeSingleEvent(of: .value) { snapshot in
-                            guard let projectData = snapshot.value as? [String : Any] else {
+                            guard var projectData = snapshot.value as? [String : Any] else {
                                 completion(.error(FirebaseErrors.parseError))
                                 return
                             }
+                            projectData["projectId"] = projectId
                             responseProjects.append(projectData)
                             let mappedResponse = Mapper<T>().mapArray(JSONArray: responseProjects)
                             completion(.success(mappedResponse))

@@ -840,10 +840,10 @@
 				3F6EEA7624E8D1CE0075C500 /* EmptyListView.swift */,
 				3F40A60A24E9CA4D00261161 /* LoadingView.swift */,
 				3F9578D324B019BE00B79818 /* MovieStyleButton.swift */,
+				3FEBA85324FF145E0077183F /* OnGoingProjectDisplayView.swift */,
 				3F40A6E124F582EF00261161 /* UserDisplayView.swift */,
 				3F1158A824C3EFF300075C73 /* Cells */,
 				3FE8DF3F24C3F72A005DE30D /* Themes */,
-				3FEBA85324FF145E0077183F /* OnGoingProjectDisplayView.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";

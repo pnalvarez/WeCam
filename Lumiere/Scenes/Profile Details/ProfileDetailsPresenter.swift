@@ -17,6 +17,7 @@ protocol ProfileDetailsPresentationLogic {
     func presentLoading(_ loading: Bool)
     func didSignOut()
     func presentConfirmationAlert(_ response: ProfileDetails.Info.Model.IneractionConfirmation)
+    func presentProjectDetails()
 }
 
 class ProfileDetailsPresenter: ProfileDetailsPresentationLogic {
@@ -28,8 +29,7 @@ class ProfileDetailsPresenter: ProfileDetailsPresentationLogic {
     }
     
     func presentUserInfo(_ response: ProfileDetails.Info.Model.User) {
-        let progressingProjects = response.progressingProjects.map({ ProfileDetails.Info.ViewModel.Project(id: $0.id,
-                                                                                                           image: $0.image)})
+        let progressingProjects = response.progressingProjects.map({ ProfileDetails.Info.ViewModel.Project(image: $0.image)})
         let finishedProjects = buildProjectsViewModel(from: response.finishedProjects)
         var connectionTypeImage: UIImage?
         switch response.connectionType {
@@ -162,6 +162,10 @@ class ProfileDetailsPresenter: ProfileDetailsPresentationLogic {
             viewModel = ProfileDetails.Info.ViewModel.InteractionConfirmation(text: "Tem certeza que deseja sair?")
         }
         viewController.displayConfirmation(viewModel)
+    }
+    
+    func presentProjectDetails() {
+        viewController.displayProjectDetails()
     }
 }
 

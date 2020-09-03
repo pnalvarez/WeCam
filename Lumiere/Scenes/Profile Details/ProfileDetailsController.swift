@@ -18,6 +18,7 @@ protocol ProfileDetailsDisplayLogic: class {
     func displayLoading(_ loading: Bool)
     func displaySignOut()
     func displayConfirmation(_ viewModel: ProfileDetails.Info.ViewModel.InteractionConfirmation)
+    func displayProjectDetails()
 }
 
 class ProfileDetailsController: BaseViewController {
@@ -224,8 +225,17 @@ extension ProfileDetailsController: ProfileDetailsDisplayLogic {
     
     func displayUserInfo(_ viewModel: ProfileDetails.Info.ViewModel.User) {
         projectViews = viewModel.progressingProjects.map({ OnGoingProjectDisplayView(frame: .zero,
-                                                                                     projectImage: $0.image,
-                                                                                     callback: { })})
+                                                                                     projectImage: $0.image)})
+        for i in 0..<projectViews.count {
+            projectViews[i].callback = { self.interactor?.didSelectOnGoingProject(ProfileDetails.Request.SelectProjectWithIndex(index: i))}
+        }
+//        for i in 0..<viewModel.progressingProjects.count {
+//            var views = [OnGoingProjectDisplayView]()
+//            views.append(OnGoingProjectDisplayView(frame: .zero,
+//                                                        projectImage: viewModel.progressingProjects[i].image,
+//                                                        callback: { self.interactor?.didSelectOnGoingProject(ProfileDetails.Request.SelectProjectWithIndex(index: i))}))
+//            projectViews = views
+//        }
         buildOnGoingProjectsCarrousel()
         mainView.setup(viewModel: viewModel)
     }
@@ -265,5 +275,9 @@ extension ProfileDetailsController: ProfileDetailsDisplayLogic {
     func displayConfirmation(_ viewModel: ProfileDetails.Info.ViewModel.InteractionConfirmation) {
         tabBarController?.tabBar.isHidden = true
         mainView.displayConfirmationView(withText: viewModel.text)
+    }
+    
+    func displayProjectDetails() {
+        router?.routeToProjectDetails()
     }
 }

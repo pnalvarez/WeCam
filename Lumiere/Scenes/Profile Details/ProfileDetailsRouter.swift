@@ -14,6 +14,7 @@ protocol ProfileDetailsRoutingLogic {
     func routeToAllConnections()
     func routeToSignIn()
     func routeToEditProfileDetails()
+    func routeToProjectDetails()
 }
 
 protocol ProfileDetailsDataTransfer {
@@ -33,6 +34,12 @@ class ProfileDetailsRouter: NSObject, ProfileDetailsDataTransfer {
                                                       name: name,
                                                       userType: source.userDataModel?.connectionType == .logged ? .logged : .other)
         destination.userData = data
+    }
+    
+    private func transferDataToProjectDetails(from source: ProfileDetailsDataStore,
+                                              to destination: inout OnGoingProjectDetailsDataStore) {
+        guard let projectId = source.selectedProject?.id else { return }
+        destination.receivedData = OnGoingProjectDetails.Info.Received.Project(projectId: projectId, notInvitedUsers: .empty)
     }
 }
 
@@ -66,6 +73,14 @@ extension ProfileDetailsRouter: ProfileDetailsRoutingLogic {
     func routeToEditProfileDetails() {
         let vc = EditProfileDetailsController()
         viewController?.navigationController?.tabBarController?.tabBar.isHidden = true
+        routeTo(nextVC: vc)
+    }
+    
+    func routeToProjectDetails() {
+        let vc = OnGoingProjectDetailsController()
+        guard let source = dataStore,
+            var destination = vc.router?.dataStore else { return }
+        transferDataToProjectDetails(from: source, to: &destination)
         routeTo(nextVC: vc)
     }
 }

@@ -24,7 +24,7 @@ class NotificationsRouter: NSObject, NotificationsDataTransfer {
     
     private func transferDataToProfileDetails(from origin: NotificationsDataStore,
                                               to destination: inout ProfileDetailsDataStore) {
-        destination.receivedUserData = ProfileDetails.Info.Received.UserData(userId: origin.selectedUser?.userId ?? .empty)
+        destination.receivedUserData = ProfileDetails.Info.Received.User(userId: origin.selectedUser?.userId ?? .empty)
     }
 }
 

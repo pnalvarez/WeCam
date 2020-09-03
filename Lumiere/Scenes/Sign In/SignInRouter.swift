@@ -32,7 +32,7 @@ class SignInRouter: NSObject, SignInDataTransfer {
     private func transferDataToProfileDetails(from source: SignInDataStore,
                                               to destination: inout ProfileDetailsDataStore) {
         guard let loggedUser = source.loggedUser else { return }
-        destination.receivedUserData = ProfileDetails.Info.Received.UserData(userId: loggedUser.id)
+        destination.receivedUserData = ProfileDetails.Info.Received.User(userId: loggedUser.id)
     }
 }
 
@@ -80,7 +80,7 @@ extension SignInRouter: SignInRoutingLogic {
         profileDetailsVc.tabBarItem = UITabBarItem(title: nil,
                                                    image: ProfileDetails.Constants.Images.tabBarDefaultImage,
                                                    selectedImage: ProfileDetails.Constants.Images.tabBarSelectedImage)
-        projectDetailsVc.router?.dataStore?.receivedData = OnGoingProjectDetails.Info.Received.Project(projectId: "-MFItlhEHI3aram2mV-v", notInvitedUsers: .empty, authoring: true)
+        projectDetailsVc.router?.dataStore?.receivedData = OnGoingProjectDetails.Info.Received.Project(projectId: "-MFItlhEHI3aram2mV-v", notInvitedUsers: .empty)
         
         let tabController = UITabBarController()
         tabController.viewControllers = [UINavigationController(rootViewController: selectProjectImageVc),

@@ -76,19 +76,6 @@ struct ProfileDetails {
         struct Received {
             
             struct User {
-                var connectionType: ConnectionType
-                let id: String
-                var image: String?
-                let name: String
-                let ocupation: String
-                let email: String
-                let phoneNumber: String
-                let connectionsCount: String
-                let progressingProjectsIds: [String]
-                let finishedProjectsIds: [String]
-            }
-            
-            struct UserData {
                 let userId: String
             }
         }
@@ -150,7 +137,6 @@ struct ProfileDetails {
             }
             
             struct Project {
-                let id: String
                 let image: String
             }
             
@@ -165,6 +151,14 @@ struct ProfileDetails {
     }
     
     struct Request {
+        
+        struct SelectProjectWithIndex {
+            let index: Int
+        }
+        
+        struct SelectProjectWithId {
+            let projectId: String
+        }
         
         struct FetchUserRelation {
             let userId: String

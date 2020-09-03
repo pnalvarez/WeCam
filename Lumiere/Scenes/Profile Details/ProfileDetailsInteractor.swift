@@ -12,11 +12,13 @@ protocol ProfileDetailsBusinessLogic {
     func fetchInteract(_ request: ProfileDetails.Request.AddConnection)
     func fetchAllConnections(_ request: ProfileDetails.Request.AllConnections)
     func fetchConfirmInteraction(_ request: ProfileDetails.Request.ConfirmInteraction)
+    func didSelectOnGoingProject(_ request: ProfileDetails.Request.SelectProjectWithIndex)
 }
 
 protocol ProfileDetailsDataStore {
-    var receivedUserData: ProfileDetails.Info.Received.UserData? { get set }
+    var receivedUserData: ProfileDetails.Info.Received.User? { get set }
     var userDataModel: ProfileDetails.Info.Model.User? { get set }
+    var selectedProject: ProfileDetails.Info.Model.Project? { get set }
 }
 
 class ProfileDetailsInteractor: ProfileDetailsDataStore {
@@ -24,8 +26,9 @@ class ProfileDetailsInteractor: ProfileDetailsDataStore {
     var presenter: ProfileDetailsPresentationLogic
     var worker: ProfileDetailsWorkerProtocol
     
-    var receivedUserData: ProfileDetails.Info.Received.UserData?
+    var receivedUserData: ProfileDetails.Info.Received.User?
     var userDataModel: ProfileDetails.Info.Model.User?
+    var selectedProject: ProfileDetails.Info.Model.Project?
     
     init(viewController: ProfileDetailsDisplayLogic,
          worker: ProfileDetailsWorkerProtocol = ProfileDetailsWorker()) {
@@ -256,6 +259,11 @@ extension ProfileDetailsInteractor: ProfileDetailsBusinessLogic {
         case .nothing:
             break
         }
+    }
+    
+    func didSelectOnGoingProject(_ request: ProfileDetails.Request.SelectProjectWithIndex) {
+        selectedProject = userDataModel?.progressingProjects[request.index]
+        presenter.presentProjectDetails()
     }
 }
 

@@ -80,7 +80,6 @@ struct OnGoingProjectDetails {
             struct Project {
                 let projectId: String
                 let notInvitedUsers: [String]
-                let authoring: Bool
             }
         }
         
