@@ -102,8 +102,11 @@ struct Notifications {
             }
             
             struct AllNotifications {
-                var connectionNotifications: UpcomingNotifications
-                var projectInviteNotifications: UpcomingProjectInvites
+                var notifications: [Notifications.Info.Model.NotificationType] 
+            }
+            
+            struct UpcomingConnectNotifications {
+                var notifications: [ConnectNotification]
             }
             
             struct UpcomingProjectInvites {
@@ -185,6 +188,8 @@ struct Notifications {
         
         struct ViewModel {
             
+            /////
+
             struct NotificationAnswer {
                 let index: Int
                 let text: String

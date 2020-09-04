@@ -87,7 +87,7 @@ extension SignInRouter: SignInRoutingLogic {
                                          UINavigationController(rootViewController: notificationsVc),
                                          UINavigationController(rootViewController: profileDetailsVc)]
 
-//        FirebaseAuthHelper().fetchSendConnectionRequest(request: ["userId": "NHTOCGn3SLPyLq7Nsfj2Y4yqkMl2"]) {
+//        FirebaseAuthHelper().fetchSendConnectionRequest(request: ["userId": "MNd2Xtwcd3hN5nUI5WxOWJgeBN33"]) {
 //            response in
 //        }
         /////*****

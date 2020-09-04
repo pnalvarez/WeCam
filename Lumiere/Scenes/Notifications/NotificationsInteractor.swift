@@ -21,6 +21,7 @@ protocol NotificationsDataStore {
     var projectInviteNotifications: Notifications.Info.Model.UpcomingProjectInvites? { get set }
     var selectedUser: Notifications.Info.Model.User? { get set }
     var allNotifications: Notifications.Info.Model.AllNotifications? { get set }
+    var upcomingConnectNotifications: Notifications.Info.Model.UpcomingConnectNotifications? { get set }
 }
 
 class NotificationsInteractor: NotificationsDataStore {
@@ -33,6 +34,7 @@ class NotificationsInteractor: NotificationsDataStore {
     var projectInviteNotifications: Notifications.Info.Model.UpcomingProjectInvites?
     var selectedUser: Notifications.Info.Model.User?
     var allNotifications: Notifications.Info.Model.AllNotifications?
+    var upcomingConnectNotifications: Notifications.Info.Model.UpcomingConnectNotifications?
     
     init(viewController: NotificationsDisplayLogic,
          worker: NotificationsWorkerProtocol = NotificationsWorker()) {
@@ -43,15 +45,17 @@ class NotificationsInteractor: NotificationsDataStore {
 
 extension NotificationsInteractor {
     
-    private func buildNotificationsModel(withData connections: [Notifications.Response.ConnectNotification]){
-        var upcomingNotifications = [Notifications.Info.Model.ConnectionNotification]()
+    private func buildConnectNotificationsModel(withData connections: [Notifications.Response.ConnectNotification]){
+        var upcomingNotifications = [Notifications.Info.Model.ConnectNotification]()
         for notification in connections {
-            upcomingNotifications.append(Notifications.Info.Model.ConnectionNotification(userId: notification.userId ?? .empty, image: notification.image ?? .empty,
-                                                                                         name: notification.name ?? .empty,
-                                                                                         ocupation: notification.ocupation ?? .empty,
-                                                                                         email: notification.email ?? .empty))
+            upcomingNotifications.append(Notifications.Info.Model.ConnectNotification(userId: notification.userId ?? .empty,
+                                                                                      userName: notification.name ?? .empty,
+                                                                                      image: notification.image ?? .empty,
+                                                                                      ocupation: notification.ocupation ?? .empty,
+                                                                                      email: notification.email ?? .empty))
         }
-        self.connectNotifications = Notifications.Info.Model.UpcomingNotifications(notifications: upcomingNotifications)
+        self.upcomingConnectNotifications = Notifications.Info.Model.UpcomingConnectNotifications(notifications: upcomingNotifications)
+        self.allNotifications = Notifications.Info.Model.AllNotifications(notifications: upcomingNotifications)
     }
     
     private func fetchProjectInvites() {
@@ -74,14 +78,14 @@ extension NotificationsInteractor {
                                                                image: invite.image ?? .empty,
                                                                projectId: invite.projectId ?? .empty,
                                                                projectName: invite.projectTitle ?? .empty)}))
-                            guard let connectNotifications = self.connectNotifications,
-                                let projectInviteNotifications = self.projectInviteNotifications else { return }
+//                            guard let projectInviteNotifications = self.projectInviteNotifications else { return }
                             self.allNotifications = Notifications
                                 .Info
                                 .Model
-                                .AllNotifications(connectionNotifications: connectNotifications,
-                                                  projectInviteNotifications: projectInviteNotifications)
-                            break
+                                .AllNotifications(notifications: self.upcomingConnectNotifications?.notifications ?? .empty)
+                            self.allNotifications?.notifications.append(contentsOf: self.projectInviteNotifications?.notifications ?? .empty)
+                            guard let allNotifications = self.allNotifications else { return }
+                            self.presenter.presentNotifications(allNotifications)
                         case .error(let error):
                             self.presenter.presentLoading(false)
                             break
@@ -93,10 +97,6 @@ extension NotificationsInteractor {
                 break
             }
         }
-    }
-    
-    private func fetchInvitingUser(withId id: String) {
-        
     }
     
     private func updateNotifications(without userId: String) {
@@ -112,7 +112,7 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
         worker.fetchConnectionNotifications(Notifications.Request.FetchConnectionNotifications(userId: currentUserId)) { response in
             switch response {
             case .success(let data):
-                self.buildNotificationsModel(withData: data)
+                self.buildConnectNotificationsModel(withData: data)
                 self.fetchProjectInvites()
 //                self.presenter.presentLoading(false)
 //                guard let notifications = self.connectNotifications else { return }
