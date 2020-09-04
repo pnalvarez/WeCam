@@ -11,6 +11,7 @@ typealias NotificationsRouterProtocol = NSObject & NotificationsRoutingLogic & N
 
 protocol NotificationsRoutingLogic {
     func routeToProfileDetails()
+    func routeToProjectDetails()
 }
 
 protocol NotificationsDataTransfer {
@@ -25,6 +26,11 @@ class NotificationsRouter: NSObject, NotificationsDataTransfer {
     private func transferDataToProfileDetails(from origin: NotificationsDataStore,
                                               to destination: inout ProfileDetailsDataStore) {
         destination.receivedUserData = ProfileDetails.Info.Received.User(userId: origin.selectedUser?.userId ?? .empty)
+    }
+    
+    private func transferDataToProjectDetails(from origin: NotificationsDataStore,
+                                              to destination: inout OnGoingProjectDetailsDataStore) {
+        destination.receivedData = OnGoingProjectDetails.Info.Received.Project(projectId: origin.selectedProject?.projectId ?? .empty, notInvitedUsers: .empty)
     }
 }
 
@@ -45,6 +51,14 @@ extension NotificationsRouter: NotificationsRoutingLogic {
             }
             transferDataToProfileDetails(from: dataStore, to: &destinationDataStore)
             routeTo(nextVC: newVc)
+    }
+    
+    func routeToProjectDetails() {
+        let vc = OnGoingProjectDetailsController()
+        guard let source = dataStore,
+            var destination = vc.router?.dataStore else { return }
+        transferDataToProjectDetails(from: source, to: &destination)
+        routeTo(nextVC: vc)
     }
 }
 

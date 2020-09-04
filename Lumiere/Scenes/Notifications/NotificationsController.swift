@@ -14,6 +14,7 @@ protocol NotificationsDisplayLogic: class {
     func displayNotifications(_ viewModel: Notifications.Info.ViewModel.UpcomingNotifications)
     func displaySelectedUser()
     func displayNotificationAnswer(_ viewModel: Notifications.Info.ViewModel.NotificationAnswer)
+    func displayProjectDetails()
 }
 
 class NotificationsController: BaseViewController {
@@ -149,7 +150,7 @@ extension NotificationsController: UITableViewDataSource {
 extension NotificationsController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        interactor?.didSelectProfile(Notifications.Request.SelectProfile(index: indexPath.row))
+        interactor?.didSelectNotification(Notifications.Request.SelectProfile(index: indexPath.row))
     }
 }
 
@@ -179,5 +180,9 @@ extension  NotificationsController: NotificationsDisplayLogic {
         let cell = tableView.cellForRow(at: IndexPath(row: viewModel.index, section: 0),
                                         type: NotificationTableViewCell.self)
         cell.displayAnswer(viewModel.text)
+    }
+    
+    func displayProjectDetails() {
+        router?.routeToProjectDetails()
     }
 }

@@ -9,7 +9,7 @@ import Foundation
 
 protocol NotificationsBusinessLogic {
     func fetchNotifications()
-    func didSelectProfile(_ request: Notifications.Request.SelectProfile)
+    func didSelectNotification(_ request: Notifications.Request.SelectProfile)
     func didAcceptNotification(_ request: Notifications.Request.NotificationAnswer)
     func didRefuseNotification(_ request: Notifications.Request.NotificationAnswer)
     func fetchRefreshNotifications(_ request: Notifications.Request.RefreshNotifications)
@@ -20,6 +20,7 @@ protocol NotificationsDataStore {
     var connectNotifications: Notifications.Info.Model.UpcomingNotifications? { get set }
     var projectInviteNotifications: Notifications.Info.Model.UpcomingProjectInvites? { get set }
     var selectedUser: Notifications.Info.Model.User? { get set }
+    var selectedProject: Notifications.Info.Model.Project? { get set }
     var allNotifications: Notifications.Info.Model.AllNotifications? { get set }
     var upcomingConnectNotifications: Notifications.Info.Model.UpcomingConnectNotifications? { get set }
 }
@@ -33,6 +34,7 @@ class NotificationsInteractor: NotificationsDataStore {
     var connectNotifications: Notifications.Info.Model.UpcomingNotifications?
     var projectInviteNotifications: Notifications.Info.Model.UpcomingProjectInvites?
     var selectedUser: Notifications.Info.Model.User?
+    var selectedProject: Notifications.Info.Model.Project?
     var allNotifications: Notifications.Info.Model.AllNotifications?
     var upcomingConnectNotifications: Notifications.Info.Model.UpcomingConnectNotifications?
     
@@ -127,15 +129,17 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
         }
     }
     
-    func didSelectProfile(_ request: Notifications.Request.SelectProfile) {
+    func didSelectNotification(_ request: Notifications.Request.SelectProfile) {
         self.presenter.presentLoading(true)
-        guard let notification = allNotifications?.notifications[request.index], notification is Notifications.Info.Model.ConnectNotification else { return }
-        let id = notification.userId
-//        guard let id = allNotifications?.notifications[request.index].userId else {
-//            return
-//        }
-        selectedUser = Notifications.Info.Model.User(userId: id)
-        presenter.didFetchUserData()
+        if let notification = allNotifications?.notifications[request.index] as? Notifications.Info.Model.ConnectNotification {
+            let id = notification.userId
+            selectedUser = Notifications.Info.Model.User(userId: id)
+            presenter.didFetchUserData()
+        } else if let notification = allNotifications?.notifications[request.index] as? Notifications.Info.Model.ProjectInviteNotification {
+            let id = notification.projectId
+            selectedProject = Notifications.Info.Model.Project(projectId: id)
+            presenter.didFetchProjectData()
+        }
     }
     
     func didAcceptNotification(_ request: Notifications.Request.NotificationAnswer) {

@@ -184,6 +184,10 @@ struct Notifications {
             struct User {
                 let userId: String
             }
+            
+            struct Project {
+                let projectId: String
+            }
         }
         
         struct ViewModel {

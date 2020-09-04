@@ -14,6 +14,7 @@ protocol NotificationsPresentationLogic {
     func didFetchUserData()
     func presentAnsweredNotification(index: Int,
                                      answer: Notifications.Info.Model.NotificationAnswer)
+    func didFetchProjectData()
 }
 
 class NotificationsPresenter: NotificationsPresentationLogic {
@@ -90,6 +91,10 @@ class NotificationsPresenter: NotificationsPresentationLogic {
             break
         }
         viewController.displayNotificationAnswer(viewModel)
+    }
+    
+    func didFetchProjectData() {
+        viewController.displayProjectDetails()
     }
 }
 
