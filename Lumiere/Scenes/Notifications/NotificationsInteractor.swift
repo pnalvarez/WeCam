@@ -78,7 +78,7 @@ extension NotificationsInteractor {
                                                                image: invite.image ?? .empty,
                                                                projectId: invite.projectId ?? .empty,
                                                                projectName: invite.projectTitle ?? .empty)}))
-//                            guard let projectInviteNotifications = self.projectInviteNotifications else { return }
+
                             self.allNotifications = Notifications
                                 .Info
                                 .Model
@@ -100,7 +100,8 @@ extension NotificationsInteractor {
     }
     
     private func updateNotifications(without userId: String) {
-        connectNotifications?.notifications.removeAll(where: { $0.userId == userId })
+        allNotifications?.notifications.removeAll(where:
+            { $0.userId == userId && $0 is Notifications.Info.Model.ConnectNotification})
     }
 }
 
@@ -128,54 +129,61 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
     
     func didSelectProfile(_ request: Notifications.Request.SelectProfile) {
         self.presenter.presentLoading(true)
-        guard let id = connectNotifications?.notifications[request.index].userId else {
-            return
-        }
+        guard let notification = allNotifications?.notifications[request.index], notification is Notifications.Info.Model.ConnectNotification else { return }
+        let id = notification.userId
+//        guard let id = allNotifications?.notifications[request.index].userId else {
+//            return
+//        }
         selectedUser = Notifications.Info.Model.User(userId: id)
         presenter.didFetchUserData()
     }
     
     func didAcceptNotification(_ request: Notifications.Request.NotificationAnswer) {
         let index = request.index
-        let notification = connectNotifications?.notifications[index]
-        guard let fromUserId = notification?.userId, let toUserId = currentUser?.userId else { return }
-        let newRequest = Notifications.Request.ConnectUsers(fromUserId: fromUserId,
-                                                            toUserId: toUserId)
-        self.presenter.presentLoading(true)
-        worker.fetchConnectUsers(newRequest) { response in
-            switch response {
-            case .success:
-                self.presenter.presentLoading(false)
-                guard let index = self.connectNotifications?.notifications.firstIndex(where: { $0.userId == fromUserId }) else { return }
-                self.updateNotifications(without: fromUserId)
-                self.presenter.presentAnsweredNotification(index: index, answer: .accepted)
-                break
-            case .error(let error):
-                self.presenter.presentLoading(false)
-                self.presenter.presentError(error.localizedDescription)
-                break
+        let notification = allNotifications?.notifications[index]
+        if let connectNotification = notification as? Notifications.Info.Model.ConnectNotification {
+            let fromUserId = connectNotification.userId
+            let toUserId = currentUser?.userId ?? .empty
+            let newRequest = Notifications.Request.ConnectUsers(fromUserId: fromUserId,
+                                                                toUserId: toUserId)
+            self.presenter.presentLoading(true)
+            worker.fetchConnectUsers(newRequest) { response in
+                switch response {
+                case .success:
+                    self.presenter.presentLoading(false)
+                    guard let index = self.allNotifications?.notifications.firstIndex(where: { $0.userId == fromUserId }) else { return }
+                    self.updateNotifications(without: fromUserId)
+                    self.presenter.presentAnsweredNotification(index: index, answer: .accepted)
+                    break
+                case .error(let error):
+                    self.presenter.presentLoading(false)
+                    self.presenter.presentError(error.localizedDescription)
+                    break
+                }
             }
         }
     }
     
     func didRefuseNotification(_ request: Notifications.Request.NotificationAnswer) {
         let index = request.index
-        let notification = connectNotifications?.notifications[index]
-        guard let userId = notification?.userId else { return }
-        let newRequest = Notifications.Request.RemovePendingNotification(userId: userId)
-        presenter.presentLoading(true)
-        worker.fetchRemovePendingNotification(newRequest) { response in
-            switch response {
-            case .success:
-                self.presenter.presentLoading(false)
-                guard let index = self.connectNotifications?.notifications.firstIndex(where: { $0.userId == userId }) else { return }
-                self.updateNotifications(without: userId)
-                self.presenter.presentAnsweredNotification(index: index, answer: .refused)
-                break
-            case .error(let error):
-                self.presenter.presentLoading(false)
-                self.presenter.presentError(error.localizedDescription)
-                break
+        let notification = allNotifications?.notifications[index]
+        if let connectNotification = notification as? Notifications.Info.Model.ConnectNotification {
+            let userId = connectNotification.userId
+            let newRequest = Notifications.Request.RemovePendingNotification(userId: userId)
+            presenter.presentLoading(true)
+            worker.fetchRemovePendingNotification(newRequest) { response in
+                switch response {
+                case .success:
+                    self.presenter.presentLoading(false)
+                    guard let index = self.allNotifications?.notifications.firstIndex(where: { $0.userId == userId }) else { return }
+                    self.updateNotifications(without: userId)
+                    self.presenter.presentAnsweredNotification(index: index, answer: .refused)
+                    break
+                case .error(let error):
+                    self.presenter.presentLoading(false)
+                    self.presenter.presentError(error.localizedDescription)
+                    break
+                }
             }
         }
     }
