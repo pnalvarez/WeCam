@@ -52,11 +52,7 @@ class NotificationsController: BaseViewController {
     private var interactor: NotificationsBusinessLogic?
     var router: NotificationsRouterProtocol?
     
-    private var viewModel: Notifications.Info.ViewModel.UpcomingNotifications? {
-        didSet {
-            refreshTableView()
-        }
-    }
+    private var viewModel: Notifications.Info.ViewModel.UpcomingNotifications?
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -150,6 +146,9 @@ extension NotificationsController: UITableViewDataSource {
 extension NotificationsController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let enabled = viewModel?.notifications[indexPath.row].selectable, enabled else {
+            return
+        }
         interactor?.didSelectNotification(Notifications.Request.SelectProfile(index: indexPath.row))
     }
 }
@@ -170,6 +169,7 @@ extension  NotificationsController: NotificationsDisplayLogic {
         tableView.backgroundView = viewModel.notifications.isEmpty ? EmptyListView(frame: .zero,
                                                                                    text: Notifications.Constants.Texts.emptyNotifications) : nil
         self.viewModel = viewModel
+        refreshTableView()
     }
     
     func displaySelectedUser() {
@@ -180,6 +180,7 @@ extension  NotificationsController: NotificationsDisplayLogic {
         let cell = tableView.cellForRow(at: IndexPath(row: viewModel.index, section: 0),
                                         type: NotificationTableViewCell.self)
         cell.displayAnswer(viewModel.text)
+        self.viewModel?.notifications[viewModel.index].selectable = false
     }
     
     func displayProjectDetails() {

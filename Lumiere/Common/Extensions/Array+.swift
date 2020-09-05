@@ -11,4 +11,8 @@ extension Array {
     static var empty: Array {
         return []
     }
+    
+    func outOfRange(withIndex index: Int) -> Bool {
+        return index >= count
+    }
 }

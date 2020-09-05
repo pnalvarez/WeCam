@@ -211,6 +211,7 @@ struct Notifications {
                 let name: String
                 let ocupation: String
                 let email: NSAttributedString
+                var selectable: Bool
             }
             
             struct NotificationError {

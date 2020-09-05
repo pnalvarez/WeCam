@@ -58,7 +58,7 @@ class NotificationsPresenter: NotificationsPresentationLogic {
                                                                             .emailLbl,
                                                                                      NSAttributedString.Key.foregroundColor:
                                                                                         Notifications.Constants.Colors.emailLbl,
-                                                                                     NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue]))
+                                                                                     NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue]), selectable: true)
                             viewModel.notifications.append(upcomingNotification)
             } else if let inviteProjectNotification = notification as? Notifications.Info.Model.ProjectInviteNotification {
                  upcomingNotification = Notifications
@@ -68,7 +68,8 @@ class NotificationsPresenter: NotificationsPresentationLogic {
                                           image: inviteProjectNotification.image,
                                           name: inviteProjectNotification.projectName,
                                           ocupation: .empty,
-                                          email: .empty)
+                                          email: .empty,
+                                          selectable: true)
                             viewModel.notifications.append(upcomingNotification)
                         }
             }
