@@ -63,7 +63,7 @@ extension ConnectionsListView: ViewCodeProtocol {
             make.top.equalTo(safeAreaLayoutGuide.snp.top).inset(44)
             make.centerX.equalToSuperview()
             make.height.equalTo(19)
-            make.width.equalTo(107)
+            make.width.equalTo(150)
         }
         tableView.snp.makeConstraints { make in
             make.top.equalTo(nameHeaderLbl.snp.bottom).offset(47)
