@@ -1543,90 +1543,105 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                     }
                     return id == projectId
                 })
+                var notificationsDict: [String : Any] = [:]
+                for i in 0..<notifications.count {
+                    if let notification = notifications[i] as? [String : Any] {
+                        notificationsDict["\(i)"] = notification
+                    }
+                }
                 self.realtimeDB
                     .child(Constants.usersPath)
                     .child(currentUser)
-                    .child("participating_projects")
-                    .observeSingleEvent(of: .value) { snapshot in
-                        var projectsArray: Array<Any>
-                        if let projects = snapshot.value as? Array<Any> {
-                            projectsArray = projects
-                            projectsArray.append(projectId)
-                        } else {
-                            projectsArray = [projectId]
-                        }
-                        var projectsDict: [String : Any] = [:]
-                        for i in 0..<projectsArray.count {
-                            projectsDict["\(i)"] = projectsArray[i]
+                    .updateChildValues(["project_invite_notifications" : notificationsDict]) { (error, ref) in
+                        if let error = error {
+                            completion(.error(error))
+                            return
                         }
                         self.realtimeDB
                             .child(Constants.usersPath)
                             .child(currentUser)
                             .child("participating_projects")
-                            .updateChildValues(projectsDict) { (error, ref) in
-                                if let error = error {
-                                    completion(.error(error))
-                                    return
+                            .observeSingleEvent(of: .value) { snapshot in
+                                var projectsArray: Array<Any>
+                                if let projects = snapshot.value as? Array<Any> {
+                                    projectsArray = projects
+                                    projectsArray.append(projectId)
+                                } else {
+                                    projectsArray = [projectId]
                                 }
-                                self.realtimeDB
-                                    .child(Constants.projectsPath)
-                                    .child(Constants.ongoingProjectsPath)
-                                    .child(projectId)
-                                    .child("pending_invites")
-                                    .observeSingleEvent(of: .value) { snapshot in
-                                        guard var pendingInvites = snapshot.value as? Array<Any> else {
-                                            completion(.error(FirebaseErrors.genericError))
-                                            return
-                                        }
-                                        pendingInvites.removeAll(where: {
-                                            guard let id = $0 as? String else {
-                                                return false
+                                var projectsDict: [String : Any] = [:]
+                                for i in 0..<projectsArray.count {
+                                    projectsDict["\(i)"] = projectsArray[i]
+                                }
+                            self.realtimeDB
+                                .child(Constants.usersPath)
+                                .child(currentUser)
+                                .child("participating_projects")
+                                .updateChildValues(projectsDict) { (error, ref) in
+                                    if let error = error {
+                                        completion(.error(error))
+                                        return
+                                    }
+                                    self.realtimeDB
+                                        .child(Constants.projectsPath)
+                                        .child(Constants.ongoingProjectsPath)
+                                        .child(projectId)
+                                        .child("pending_invites")
+                                        .observeSingleEvent(of: .value) { snapshot in
+                                            guard var pendingInvites = snapshot.value as? Array<Any> else {
+                                                completion(.error(FirebaseErrors.genericError))
+                                                return
                                             }
-                                            return id == currentUser
-                                        })
-                                        var invitesDict: [String : Any] = [:]
-                                        for i in 0..<pendingInvites.count {
-                                            invitesDict["\(i)"] = pendingInvites[i]
-                                        }
-                                        self.realtimeDB
-                                            .child(Constants.projectsPath)
-                                            .child(projectId)
-                                            .child("pending_invites")
-                                            .updateChildValues(invitesDict) { (error, ref) in
-                                                if let error = error {
-                                                    completion(.error(error))
-                                                    return
+                                            pendingInvites.removeAll(where: {
+                                                guard let id = $0 as? String else {
+                                                    return false
                                                 }
-                                                self.realtimeDB
-                                                    .child(Constants.projectsPath)
-                                                    .child(Constants.ongoingProjectsPath)
-                                                    .child(projectId)
-                                                    .child("participants")
-                                                    .observeSingleEvent(of: .value) { snapshot in
-                                                        guard var participants = snapshot.value as? Array<Any> else {
-                                                            completion(.error(FirebaseErrors.genericError))
-                                                            return
-                                                        }
-                                                        participants.append(currentUser)
-                                                        var participantsDict: [String : Any] = [:]
-                                                        for i in 0..<participants.count {
-                                                            participantsDict["\(i)"] = participants[i]
-                                                        }
-                                                        self.realtimeDB
-                                                            .child(Constants.projectsPath)
-                                                            .child(Constants.ongoingProjectsPath)
-                                                            .child(projectId)
-                                                            .child("participants")
-                                                            .updateChildValues(participantsDict) { (error, ref) in
-                                                                if let error = error {
-                                                                    completion(.error(error))
-                                                                    return
-                                                                }
-                                                                completion(.success)
-                                                        }
-                                                }
-                                        }
-                                }
+                                                return id == currentUser
+                                            })
+                                            var invitesDict: [String : Any] = [:]
+                                            for i in 0..<pendingInvites.count {
+                                                invitesDict["\(i)"] = pendingInvites[i]
+                                            }
+                                            self.realtimeDB
+                                                .child(Constants.projectsPath)
+                                                .child(projectId)
+                                                .child("pending_invites")
+                                                .updateChildValues(invitesDict) { (error, ref) in
+                                                    if let error = error {
+                                                        completion(.error(error))
+                                                        return
+                                                    }
+                                                    self.realtimeDB
+                                                        .child(Constants.projectsPath)
+                                                        .child(Constants.ongoingProjectsPath)
+                                                        .child(projectId)
+                                                        .child("participants")
+                                                        .observeSingleEvent(of: .value) { snapshot in
+                                                            guard var participants = snapshot.value as? Array<Any> else {
+                                                                completion(.error(FirebaseErrors.genericError))
+                                                                return
+                                                            }
+                                                            participants.append(currentUser)
+                                                            var participantsDict: [String : Any] = [:]
+                                                            for i in 0..<participants.count {
+                                                                participantsDict["\(i)"] = participants[i]
+                                                            }
+                                                            self.realtimeDB
+                                                                .child(Constants.projectsPath)
+                                                                .child(Constants.ongoingProjectsPath)
+                                                                .child(projectId)
+                                                                .child("participants")
+                                                                .updateChildValues(participantsDict) { (error, ref) in
+                                                                    if let error = error {
+                                                                        completion(.error(error))
+                                                                        return
+                                                                    }
+                                                                    completion(.success)
+                                                            }
+                                                    }
+                                            }
+                                    }
+                            }
                         }
                 }
         }

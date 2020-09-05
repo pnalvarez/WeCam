@@ -170,7 +170,6 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
                     guard let index = self.allNotifications?.notifications.firstIndex(where: { $0.userId == fromUserId }) else { return }
                     self.updateNotifications(without: fromUserId)
                     self.presenter.presentAnsweredConnectNotification(index: index, answer: .accepted)
-                    break
                 case .error(let error):
                     self.presenter.presentLoading(false)
                     self.presenter.presentError(error.localizedDescription)
@@ -191,7 +190,8 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
                         }
                         return false
                     })
-                    break
+                     self.presenter.presentAnsweredProjectInviteNotification(index: index,
+                                                                             answer: .accepted)
                 case .error(let error):
                     break
             }
