@@ -1301,13 +1301,16 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                     self.realtimeDB
                         .child(Constants.projectsPath)
                         .child(Constants.ongoingProjectsPath)
+                        .child(projectId)
                         .child("participants")
                         .observeSingleEvent(of: .value) { snapshot in
-                            guard let participants = snapshot.value as? [String] else {
+                            guard let participants = snapshot.value as? Array<Any> else {
                                 completion(.error(FirebaseErrors.genericError))
                                 return
                             }
-                            if participants.contains(currentUser) {
+                            let participantStringArray = participants.map({ "\($0)" })
+                            
+                            if participantStringArray.contains(currentUser) {
                                 let response: [String : Any] = ["relation": "PARTICIPATING"]
                                 guard let mappedResponse = Mapper<T>().map(JSON: response) else {
                                     completion(.error(FirebaseErrors.parseError))

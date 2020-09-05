@@ -28,6 +28,7 @@ class ProfileDetailsController: BaseViewController {
         view.alwaysBounceVertical = false
         view.alwaysBounceHorizontal = false
         view.bounces = false
+        view.delegate = self
         view.backgroundColor = ThemeColors.whiteThemeColor.rawValue
         return view
     }()
@@ -205,6 +206,11 @@ extension ProfileDetailsController {
     private func didTapEditProfile() {
         router?.routeToEditProfileDetails()
     }
+    
+    @objc
+    private func didTapCarrouselItem() {
+        print("Click")
+    }
 }
 
 extension ProfileDetailsController: ConfirmationAlertViewDelegate {
@@ -221,12 +227,30 @@ extension ProfileDetailsController: ConfirmationAlertViewDelegate {
     }
 }
 
+extension ProfileDetailsController: UIScrollViewDelegate {
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+//        for i in 0..<projectViews.count {
+//            projectViews[i].callback = { self.interactor?.didSelectOnGoingProject(ProfileDetails.Request.SelectProjectWithIndex(index: i))
+//            }
+//        }
+    }
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        scrollView.layoutIfNeeded()
+        for view in projectViews {
+            view.layoutIfNeeded()
+        }
+    }
+}
+
 extension ProfileDetailsController: ProfileDetailsDisplayLogic {
     
     func displayUserInfo(_ viewModel: ProfileDetails.Info.ViewModel.User) {
         projectViews = viewModel.progressingProjects.map({ OnGoingProjectDisplayView(frame: .zero,
                                                                                      projectImage: $0.image)})
         for i in 0..<projectViews.count {
+//            let gesture = UITapGestureRecognizer(target: self, action: #selector(didTapCarrouselItem))
+//            projectViews[i].addGestureRecognizer(gesture)
             projectViews[i].callback = { self.interactor?.didSelectOnGoingProject(ProfileDetails.Request.SelectProjectWithIndex(index: i))
             }
         }

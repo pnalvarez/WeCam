@@ -20,6 +20,7 @@ protocol OnGoingProjectDetailsDataStore {
     var receivedData: OnGoingProjectDetails.Info.Received.Project? { get set }
     var projectData: OnGoingProjectDetails.Info.Model.Project? { get set }
     var projectRelation: OnGoingProjectDetails.Info.Model.ProjectRelation? { get set }
+    var selectedTeamMeberId: String? { get set }
 }
 
 class OnGoingProjectDetailsInteractor: OnGoingProjectDetailsDataStore {
@@ -30,6 +31,7 @@ class OnGoingProjectDetailsInteractor: OnGoingProjectDetailsDataStore {
     var receivedData: OnGoingProjectDetails.Info.Received.Project?
     var projectData: OnGoingProjectDetails.Info.Model.Project?
     var projectRelation: OnGoingProjectDetails.Info.Model.ProjectRelation?
+    var selectedTeamMeberId: String?
     
     init(worker: OnGoingProjectDetailsWorkerProtocol = OnGoingProjectDetailsWorker(),
          viewController: OnGoingProjectDetailsDisplayLogic) {
@@ -95,7 +97,9 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
     }
     
     func didSelectTeamMember(_ request: OnGoingProjectDetails.Request.SelectedTeamMember) {
-        
+        guard let teamMemberId = projectData?.teamMembers[request.index].id else { return }
+        selectedTeamMeberId = teamMemberId
+        presenter.presentUserDetails()
     }
     
     func fetchProjectRelation(_ request: OnGoingProjectDetails.Request.ProjectRelation) {

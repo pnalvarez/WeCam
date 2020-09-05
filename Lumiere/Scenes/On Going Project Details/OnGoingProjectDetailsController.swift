@@ -14,6 +14,7 @@ protocol OnGoingProjectDetailsDisplayLogic: class {
     func displayLoading(_ loading: Bool)
     func displayUIForRelation(_ viewModel: OnGoingProjectDetails.Info.ViewModel.RelationModel)
     func displayFeedback(_ viewModel: OnGoingProjectDetails.Info.ViewModel.Feedback)
+    func displayUserDetails()
 }
 
 class OnGoingProjectDetailsController: BaseViewController, UINavigationControllerDelegate {
@@ -286,7 +287,7 @@ extension OnGoingProjectDetailsController: UICollectionViewDataSource {
 extension OnGoingProjectDetailsController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
+        interactor?.didSelectTeamMember(OnGoingProjectDetails.Request.SelectedTeamMember(index: indexPath.row))
     }
 }
 
@@ -413,5 +414,9 @@ extension OnGoingProjectDetailsController: OnGoingProjectDetailsDisplayLogic {
     
     func displayFeedback(_ viewModel: OnGoingProjectDetails.Info.ViewModel.Feedback) {
         UIAlertController.displayAlert(in: self, title: viewModel.title, message: viewModel.message)
+    }
+    
+    func displayUserDetails() {
+        router?.routeToUserDetails()
     }
 }

@@ -14,6 +14,7 @@ protocol OnGoingProjectDetailsPresentationLogic {
     func presentError(_ response: String)
     func presentLoading(_ loading: Bool)
     func presentFeedback(_ response: OnGoingProjectDetails.Info.Model.Feedback)
+    func presentUserDetails()
 }
 
 class OnGoingProjectDetailsPresenter: OnGoingProjectDetailsPresentationLogic {
@@ -56,5 +57,9 @@ class OnGoingProjectDetailsPresenter: OnGoingProjectDetailsPresentationLogic {
     func presentFeedback(_ response: OnGoingProjectDetails.Info.Model.Feedback) {
         let viewModel = OnGoingProjectDetails.Info.ViewModel.Feedback(title: response.title, message: response.message)
         viewController.displayFeedback(viewModel)
+    }
+    
+    func presentUserDetails() {
+        viewController.displayUserDetails()
     }
 }
