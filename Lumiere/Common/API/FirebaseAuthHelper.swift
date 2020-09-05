@@ -1057,7 +1057,8 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                                                        "progress": percentage,
                                                        "author_id": currentUser,
                                                        "sinopsis": sinopsis,
-                                                       "needing": needing]
+                                                       "needing": needing,
+                                                       "participants": [currentUser]]
                     projectReference.updateChildValues(projectDict) { (error, ref) in
                         if let error = error {
                             completion(.error(error))
@@ -1599,6 +1600,7 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                                                 self.realtimeDB
                                                     .child(Constants.projectsPath)
                                                     .child(Constants.ongoingProjectsPath)
+                                                    .child(projectId)
                                                     .child("participants")
                                                     .observeSingleEvent(of: .value) { snapshot in
                                                         guard var participants = snapshot.value as? Array<Any> else {
@@ -1613,6 +1615,7 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                                                         self.realtimeDB
                                                             .child(Constants.projectsPath)
                                                             .child(Constants.ongoingProjectsPath)
+                                                            .child(projectId)
                                                             .child("participants")
                                                             .updateChildValues(participantsDict) { (error, ref) in
                                                                 if let error = error {

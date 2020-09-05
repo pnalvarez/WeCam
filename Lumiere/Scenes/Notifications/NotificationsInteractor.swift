@@ -64,6 +64,17 @@ extension NotificationsInteractor {
         worker.fetchProjectInviteNotifications(Notifications.Request.ProjectInviteNotifications()) { response in
             switch response {
             case .success(let data):
+                if data.isEmpty {
+                    self.presenter.presentLoading(false)
+                    self.projectInviteNotifications?.notifications = .empty
+                    self.allNotifications = Notifications
+                        .Info
+                        .Model
+                        .AllNotifications(notifications: self.upcomingConnectNotifications?.notifications ?? .empty)
+                    self.allNotifications?.notifications.append(contentsOf: self.projectInviteNotifications?.notifications ?? .empty)
+                    guard let allNotifications = self.allNotifications else { return }
+                    self.presenter.presentNotifications(allNotifications)
+                }
                 for invite in data {
                     self.worker.fetchInvitingUserData(Notifications.Request.FetchInvitingUser(userId: invite.authorId ?? .empty)) { response in
                         switch response {
@@ -96,6 +107,7 @@ extension NotificationsInteractor {
                 }
                 break
             case .error(let error):
+                self.presenter.presentLoading(false)
                 break
             }
         }
@@ -157,7 +169,7 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
                     self.presenter.presentLoading(false)
                     guard let index = self.allNotifications?.notifications.firstIndex(where: { $0.userId == fromUserId }) else { return }
                     self.updateNotifications(without: fromUserId)
-                    self.presenter.presentAnsweredNotification(index: index, answer: .accepted)
+                    self.presenter.presentAnsweredConnectNotification(index: index, answer: .accepted)
                     break
                 case .error(let error):
                     self.presenter.presentLoading(false)
@@ -172,13 +184,20 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
             worker.fetchAcceptProjectInvite(newRequest) { response in
                 switch response {
                 case .success:
+                    self.presenter.presentLoading(false)
+                    self.allNotifications?.notifications.removeAll(where: {
+                        if let notification = $0 as? Notifications.Info.Model.ProjectInviteNotification {
+                            return notification.projectId == projectId
+                        }
+                        return false
+                    })
                     break
                 case .error(let error):
                     break
-                }
             }
         }
     }
+}
     
     func didRefuseNotification(_ request: Notifications.Request.NotificationAnswer) {
         let index = request.index
@@ -193,7 +212,7 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
                     self.presenter.presentLoading(false)
                     guard let index = self.allNotifications?.notifications.firstIndex(where: { $0.userId == userId }) else { return }
                     self.updateNotifications(without: userId)
-                    self.presenter.presentAnsweredNotification(index: index, answer: .refused)
+                    self.presenter.presentAnsweredConnectNotification(index: index, answer: .refused)
                     break
                 case .error(let error):
                     self.presenter.presentLoading(false)

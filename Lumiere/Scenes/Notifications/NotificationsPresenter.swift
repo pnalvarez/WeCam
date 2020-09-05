@@ -12,8 +12,10 @@ protocol NotificationsPresentationLogic {
     func presentError(_ response: String)
     func presentNotifications(_ response: Notifications.Info.Model.AllNotifications)
     func didFetchUserData()
-    func presentAnsweredNotification(index: Int,
+    func presentAnsweredConnectNotification(index: Int,
                                      answer: Notifications.Info.Model.NotificationAnswer)
+    func presentAnsweredProjectInviteNotification(index: Int,
+                                                  answer: Notifications.Info.Model.NotificationAnswer)
     func didFetchProjectData()
 }
 
@@ -77,18 +79,30 @@ class NotificationsPresenter: NotificationsPresentationLogic {
         viewController.displaySelectedUser()
     }
     
-    func presentAnsweredNotification(index: Int,
+    func presentAnsweredConnectNotification(index: Int,
                                      answer: Notifications.Info.Model.NotificationAnswer) {
         var viewModel: Notifications.Info.ViewModel.NotificationAnswer
         switch answer {
         case .accepted:
             viewModel = Notifications.Info.ViewModel.NotificationAnswer(index: index,
                                                                         text: Notifications.Constants.Texts.acceptedConnection)
-            break
         case .refused:
             viewModel = Notifications.Info.ViewModel.NotificationAnswer(index: index,
                                                                         text: Notifications.Constants.Texts.refusedConnection)
-            break
+        }
+        viewController.displayNotificationAnswer(viewModel)
+    }
+    
+    func presentAnsweredProjectInviteNotification(index: Int,
+                                                  answer: Notifications.Info.Model.NotificationAnswer) {
+        var viewModel: Notifications.Info.ViewModel.NotificationAnswer
+        switch answer {
+        case .accepted:
+            viewModel = Notifications.Info.ViewModel.NotificationAnswer(index: index,
+                                                                        text: Notifications.Constants.Texts.acceptedProjectInvite)
+        case .refused:
+            viewModel = Notifications.Info.ViewModel.NotificationAnswer(index: index,
+                                                                        text: Notifications.Constants.Texts.refusedProjectInvite)
         }
         viewController.displayNotificationAnswer(viewModel)
     }

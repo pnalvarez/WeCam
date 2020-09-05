@@ -54,6 +54,8 @@ struct Notifications {
             static let acceptedConnection = "Você agora está conectado a"
             static let refusedConnection = "Você recusou se conectar a"
             static let emptyNotifications = "Você não possui notificações"
+            static let acceptedProjectInvite = "Você agora faz parte deste projeto"
+            static let refusedProjectInvite = "Você recusou o convite para este projeto"
         }
         
         struct Dimensions {
