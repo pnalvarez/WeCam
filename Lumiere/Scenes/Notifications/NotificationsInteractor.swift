@@ -61,6 +61,7 @@ extension NotificationsInteractor {
     }
     
     private func fetchProjectInvites() {
+        projectInviteNotifications = Notifications.Info.Model.UpcomingProjectInvites(notifications: .empty)
         worker.fetchProjectInviteNotifications(Notifications.Request.ProjectInviteNotifications()) { response in
             switch response {
             case .success(let data):
@@ -75,30 +76,39 @@ extension NotificationsInteractor {
                     guard let allNotifications = self.allNotifications else { return }
                     self.presenter.presentNotifications(allNotifications)
                 }
-                for invite in data {
-                    self.worker.fetchInvitingUserData(Notifications.Request.FetchInvitingUser(userId: invite.authorId ?? .empty)) { response in
+                for i in 0..<data.count {
+                    self.worker.fetchInvitingUserData(Notifications.Request.FetchInvitingUser(userId: data[i].authorId ?? .empty)) { response in
                         switch response {
                         case .success(let newData):
-                            self.presenter.presentLoading(false)
-                            self.projectInviteNotifications = Notifications
-                                .Info
-                                .Model
-                                .UpcomingProjectInvites(notifications: data.map({ _ in Notifications
+                            self.projectInviteNotifications?.notifications.append(Notifications
+                            .Info
+                            .Model
+                            .ProjectInviteNotification(userId: data[i].authorId ?? .empty,
+                                                       userName: newData.name ?? .empty,
+                                                       image: data[i].image ?? .empty,
+                                                       projectId: data[i].projectId ?? .empty,
+                                                       projectName: data[i].projectTitle ?? .empty))
+//                            self.projectInviteNotifications = Notifications
+//                                .Info
+//                                .Model
+//                                .UpcomingProjectInvites(notifications: data.map({ _ in Notifications
+//                                    .Info
+//                                    .Model
+//                                    .ProjectInviteNotification(userId: data[i].authorId ?? .empty,
+//                                                               userName: newData.name ?? .empty,
+//                                                               image: data[i].image ?? .empty,
+//                                                               projectId: data[i].projectId ?? .empty,
+//                                                               projectName: data[i].projectTitle ?? .empty)}))
+                            if i == data.count-1 {
+                                self.presenter.presentLoading(false)
+                                self.allNotifications = Notifications
                                     .Info
                                     .Model
-                                    .ProjectInviteNotification(userId: invite.authorId ?? .empty,
-                                                               userName: newData.name ?? .empty,
-                                                               image: invite.image ?? .empty,
-                                                               projectId: invite.projectId ?? .empty,
-                                                               projectName: invite.projectTitle ?? .empty)}))
-
-                            self.allNotifications = Notifications
-                                .Info
-                                .Model
-                                .AllNotifications(notifications: self.upcomingConnectNotifications?.notifications ?? .empty)
-                            self.allNotifications?.notifications.append(contentsOf: self.projectInviteNotifications?.notifications ?? .empty)
-                            guard let allNotifications = self.allNotifications else { return }
-                            self.presenter.presentNotifications(allNotifications)
+                                    .AllNotifications(notifications: self.upcomingConnectNotifications?.notifications ?? .empty)
+                                self.allNotifications?.notifications.append(contentsOf: self.projectInviteNotifications?.notifications ?? .empty)
+                                guard let allNotifications = self.allNotifications else { return }
+                                self.presenter.presentNotifications(allNotifications)
+                            }
                         case .error(let error):
                             self.presenter.presentLoading(false)
                             break

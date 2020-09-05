@@ -41,7 +41,9 @@ extension OnGoingProjectDisplayView {
     
     @objc
     private func didTap() {
-        guard let callback = callback else { return }
+        guard let callback = callback else {
+            return
+        }
         callback()
     }
 }

@@ -1467,8 +1467,8 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                     return
                 }
     
-                for projectId in projectIds {
-                    guard let projectId = projectId as? String else {
+                for i in 0..<projectIds.count {
+                    guard let projectId = projectIds[i] as? String else {
                         completion(.error(FirebaseErrors.genericError))
                         return
                     }
@@ -1484,7 +1484,9 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                             projectData["projectId"] = projectId
                             responseProjects.append(projectData)
                             let mappedResponse = Mapper<T>().mapArray(JSONArray: responseProjects)
-                            completion(.success(mappedResponse))
+                            if i == projectIds.count-1 {
+                                completion(.success(mappedResponse))
+                            }
                     }
                 }
         }
@@ -1506,14 +1508,16 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                     completion(.success(.empty))
                     return
                 }
-                for notification in notifications {
-                    guard let notification = notification as? [String : Any] else {
+                for i in 0..<notifications.count {
+                    guard let notification = notifications[i] as? [String : Any] else {
                         completion(.error(FirebaseErrors.genericError))
                         return
                     }
                     responseArray.append(notification)
-                    let mappedResponse = Mapper<T>().mapArray(JSONArray: responseArray)
-                    completion(.success(mappedResponse))
+                    if i == notifications.count-1 {
+                        let mappedResponse = Mapper<T>().mapArray(JSONArray: responseArray)
+                        completion(.success(mappedResponse))
+                    }
                 }
         }
     }

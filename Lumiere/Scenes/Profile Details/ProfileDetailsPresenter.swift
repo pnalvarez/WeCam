@@ -28,6 +28,8 @@ class ProfileDetailsPresenter: ProfileDetailsPresentationLogic {
         self.viewController = viewController
     }
     
+    /// <#Description#>
+    /// - Parameter response: <#response description#>
     func presentUserInfo(_ response: ProfileDetails.Info.Model.User) {
         let progressingProjects = response.progressingProjects.map({ ProfileDetails.Info.ViewModel.Project(image: $0.image)})
         let finishedProjects = buildProjectsViewModel(from: response.finishedProjects)

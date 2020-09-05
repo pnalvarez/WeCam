@@ -227,7 +227,8 @@ extension ProfileDetailsController: ProfileDetailsDisplayLogic {
         projectViews = viewModel.progressingProjects.map({ OnGoingProjectDisplayView(frame: .zero,
                                                                                      projectImage: $0.image)})
         for i in 0..<projectViews.count {
-            projectViews[i].callback = { self.interactor?.didSelectOnGoingProject(ProfileDetails.Request.SelectProjectWithIndex(index: i))}
+            projectViews[i].callback = { self.interactor?.didSelectOnGoingProject(ProfileDetails.Request.SelectProjectWithIndex(index: i))
+            }
         }
 //        for i in 0..<viewModel.progressingProjects.count {
 //            var views = [OnGoingProjectDisplayView]()
