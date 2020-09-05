@@ -154,7 +154,7 @@ class ProfileDetailsController: BaseViewController {
 extension ProfileDetailsController {
     
     private func buildOnGoingProjectsCarrousel() {
-        onGoingProjectsCarrousel.contentSize = CGSize(width: 105 * projectViews.count + 50, height: 105)
+        onGoingProjectsCarrousel.contentSize = CGSize(width: 110 * projectViews.count + 50, height: 105)
         for i in 0..<projectViews.count {
             projectsContainer.addSubview(projectViews[i])
             projectViews[i].snp.makeConstraints { make in
