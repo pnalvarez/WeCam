@@ -165,6 +165,18 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
                     break
                 }
             }
+        } else if let projectInviteNotification = notification as? Notifications.Info.Model.ProjectInviteNotification {
+            let projectId = projectInviteNotification.projectId
+            let newRequest = Notifications.Request.AcceptProjectInvite(projectId: projectId)
+            self.presenter.presentLoading(true)
+            worker.fetchAcceptProjectInvite(newRequest) { response in
+                switch response {
+                case .success:
+                    break
+                case .error(let error):
+                    break
+                }
+            }
         }
     }
     
@@ -175,7 +187,7 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
             let userId = connectNotification.userId
             let newRequest = Notifications.Request.RemovePendingNotification(userId: userId)
             presenter.presentLoading(true)
-            worker.fetchRemovePendingNotification(newRequest) { response in
+            worker.fetchRemovePendingConnectNotification(newRequest) { response in
                 switch response {
                 case .success:
                     self.presenter.presentLoading(false)
@@ -189,6 +201,8 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
                     break
                 }
             }
+        } else if let projectInviteNotification = notification as? Notifications.Info.Model.ProjectInviteNotification {
+            
         }
     }
     

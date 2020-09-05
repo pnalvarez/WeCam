@@ -18,10 +18,12 @@ protocol NotificationsWorkerProtocol {
                            completion: @escaping (EmptyResponse) -> Void)
     func fetchUserRelation(_ request: Notifications.Request.UserRelation,
                            completion: @escaping (BaseResponse<Notifications.Response.Relation>) -> Void)
-    func fetchRemovePendingNotification(_ request: Notifications.Request.RemovePendingNotification,
+    func fetchRemovePendingConnectNotification(_ request: Notifications.Request.RemovePendingNotification,
                                         completion: @escaping (EmptyResponse) -> Void)
     func fetchInvitingUserData(_ request: Notifications.Request.FetchInvitingUser,
                                completion: @escaping (BaseResponse<Notifications.Response.InvitingUser>) -> Void)
+    func fetchAcceptProjectInvite(_ request: Notifications.Request.AcceptProjectInvite,
+                                  completion: @escaping (EmptyResponse) -> Void)
 }
 
 class NotificationsWorker: NotificationsWorkerProtocol {
@@ -65,7 +67,7 @@ class NotificationsWorker: NotificationsWorkerProtocol {
                                   completion: completion)
     }
     
-    func fetchRemovePendingNotification(_ request: Notifications.Request.RemovePendingNotification,
+    func fetchRemovePendingConnectNotification(_ request: Notifications.Request.RemovePendingNotification,
                                         completion: @escaping (EmptyResponse) -> Void) {
         let headers: [String : Any] = ["userId": request.userId]
         builder.fetchRefusePendingConnection(request: headers,
@@ -77,5 +79,11 @@ class NotificationsWorker: NotificationsWorkerProtocol {
         let headers: [String : Any] = ["userId": request.userId]
         builder.fetchUserData(request: headers,
                               completion: completion)
+    }
+    
+    func fetchAcceptProjectInvite(_ request: Notifications.Request.AcceptProjectInvite,
+                                  completion: @escaping (EmptyResponse) -> Void) {
+        let headers: [String : Any] = ["projectId": request.projectId]
+        builder.acceptProjectInvite(request: headers, completion: completion)
     }
 }

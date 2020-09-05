@@ -230,6 +230,14 @@ struct Notifications {
     
     struct Request {
         
+        struct AcceptProjectInvite {
+            let projectId: String
+        }
+        
+        struct RefuseProjectInvite {
+            let projectId: String
+        }
+        
         struct FetchInvitingUser {
             let userId: String
         }

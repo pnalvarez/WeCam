@@ -127,7 +127,7 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
             }
         }
     }
-    
+
     func fetchUpdateProjectImage(_ request: OnGoingProjectDetails.Request.UpdateImage) {
         self.presenter.presentLoading(true)
         worker.fetchUpdateProjectImage(request: OnGoingProjectDetails

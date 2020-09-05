@@ -79,6 +79,8 @@ protocol FirebaseAuthHelperProtocol {
                                         completion: @escaping (BaseResponse<[T]>) -> Void)
     func fetchProjectInvites<T: Mappable>(request: [String : Any],
                                           completion: @escaping (BaseResponse<[T]>) -> Void)
+    func acceptProjectInvite(request: [String : Any],
+                             completion: @escaping (EmptyResponse) -> Void)
 }
 
 class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
@@ -1511,6 +1513,118 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                     responseArray.append(notification)
                     let mappedResponse = Mapper<T>().mapArray(JSONArray: responseArray)
                     completion(.success(mappedResponse))
+                }
+        }
+    }
+    
+    func acceptProjectInvite(request: [String : Any],
+                             completion: @escaping (EmptyResponse) -> Void) {
+        guard let projectId = request["projectId"] as? String,
+            let currentUser = authReference.currentUser?.uid else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        realtimeDB
+            .child(Constants.usersPath)
+            .child(currentUser)
+            .child("project_invite_notifications")
+            .observeSingleEvent(of: .value) { snapshot in
+                guard var notifications = snapshot.value as? Array<Any> else {
+                    completion(.error(FirebaseErrors.genericError))
+                    return
+                }
+                notifications.removeAll(where: {
+                    guard let notification = $0 as? [String : Any] else {
+                        return false
+                    }
+                    guard let id = notification["projectId"] as? String else {
+                        return false
+                    }
+                    return id == projectId
+                })
+                self.realtimeDB
+                    .child(Constants.usersPath)
+                    .child(currentUser)
+                    .child("participating_projects")
+                    .observeSingleEvent(of: .value) { snapshot in
+                        var projectsArray: Array<Any>
+                        if let projects = snapshot.value as? Array<Any> {
+                            projectsArray = projects
+                            projectsArray.append(projectId)
+                        } else {
+                            projectsArray = [projectId]
+                        }
+                        var projectsDict: [String : Any] = [:]
+                        for i in 0..<projectsArray.count {
+                            projectsDict["\(i)"] = projectsArray[i]
+                        }
+                        self.realtimeDB
+                            .child(Constants.usersPath)
+                            .child(currentUser)
+                            .child("participating_projects")
+                            .updateChildValues(projectsDict) { (error, ref) in
+                                if let error = error {
+                                    completion(.error(error))
+                                    return
+                                }
+                                self.realtimeDB
+                                    .child(Constants.projectsPath)
+                                    .child(Constants.ongoingProjectsPath)
+                                    .child(projectId)
+                                    .child("pending_invites")
+                                    .observeSingleEvent(of: .value) { snapshot in
+                                        guard var pendingInvites = snapshot.value as? Array<Any> else {
+                                            completion(.error(FirebaseErrors.genericError))
+                                            return
+                                        }
+                                        pendingInvites.removeAll(where: {
+                                            guard let id = $0 as? String else {
+                                                return false
+                                            }
+                                            return id == currentUser
+                                        })
+                                        var invitesDict: [String : Any] = [:]
+                                        for i in 0..<pendingInvites.count {
+                                            invitesDict["\(i)"] = pendingInvites[i]
+                                        }
+                                        self.realtimeDB
+                                            .child(Constants.projectsPath)
+                                            .child(projectId)
+                                            .child("pending_invites")
+                                            .updateChildValues(invitesDict) { (error, ref) in
+                                                if let error = error {
+                                                    completion(.error(error))
+                                                    return
+                                                }
+                                                self.realtimeDB
+                                                    .child(Constants.projectsPath)
+                                                    .child(Constants.ongoingProjectsPath)
+                                                    .child("participants")
+                                                    .observeSingleEvent(of: .value) { snapshot in
+                                                        guard var participants = snapshot.value as? Array<Any> else {
+                                                            completion(.error(FirebaseErrors.genericError))
+                                                            return
+                                                        }
+                                                        participants.append(currentUser)
+                                                        var participantsDict: [String : Any] = [:]
+                                                        for i in 0..<participants.count {
+                                                            participantsDict["\(i)"] = participants[i]
+                                                        }
+                                                        self.realtimeDB
+                                                            .child(Constants.projectsPath)
+                                                            .child(Constants.ongoingProjectsPath)
+                                                            .child("participants")
+                                                            .updateChildValues(participantsDict) { (error, ref) in
+                                                                if let error = error {
+                                                                    completion(.error(error))
+                                                                    return
+                                                                }
+                                                                completion(.success)
+                                                        }
+                                                }
+                                        }
+                                }
+                        }
                 }
         }
     }
