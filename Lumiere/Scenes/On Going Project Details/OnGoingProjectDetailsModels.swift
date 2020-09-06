@@ -217,6 +217,10 @@ struct OnGoingProjectDetails {
     
     struct Request {
         
+        struct RefuseProjectInvite {
+            let projectId: String
+        }
+        
         struct AcceptProjectInvite {
             let projectId: String
         }

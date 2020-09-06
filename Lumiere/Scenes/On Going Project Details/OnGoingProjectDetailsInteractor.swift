@@ -90,6 +90,23 @@ extension OnGoingProjectDetailsInteractor {
             }
         }
     }
+    
+    private func fetchRefuseProjectInvite(_ request: OnGoingProjectDetails.Request.RefuseProjectInvite) {
+        worker.fetchRefuseProjectInvite(request) { response in
+            switch response {
+            case .success:
+                self.presenter.presentLoading(false)
+                self.presenter.presentInteractionEffectivated()
+            case .error(let error):
+                  self.presenter.presentLoading(false)
+                              self.presenter.presentFeedback(OnGoingProjectDetails
+                              .Info
+                              .Model
+                              .Feedback(title: "Erro",
+                                        message: error.localizedDescription))
+            }
+        }
+    }
 }
 
 extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
@@ -256,6 +273,21 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
     }
     
     func fetchRefuseInteraction(_ request: OnGoingProjectDetails.Request.RefuseInteraction) {
-        
+        presenter.presentLoading(true)
+        guard let relation = projectRelation else { return }
+        switch relation {
+        case .author:
+            break
+        case .simpleParticipating:
+            break
+        case .sentRequest:
+            break
+        case .receivedRequest:
+            fetchRefuseProjectInvite(OnGoingProjectDetails
+                .Request
+                .RefuseProjectInvite(projectId: projectData?.id ?? .empty))
+        case .nothing:
+            break
+        }
     }
 }

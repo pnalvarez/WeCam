@@ -439,6 +439,7 @@ extension OnGoingProjectDetailsController: OnGoingProjectDetailsDisplayLogic {
     }
     
     func displayInteractionEffectivated() {
+        mainView.hideConfirmationModal()
         interactor?.fetchProjectRelation(OnGoingProjectDetails.Request.ProjectRelation())
         interactor?.fetchProjectDetails(OnGoingProjectDetails.Request.FetchProject())
     }
