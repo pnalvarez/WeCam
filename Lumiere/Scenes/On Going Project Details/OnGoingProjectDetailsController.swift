@@ -17,6 +17,7 @@ protocol OnGoingProjectDetailsDisplayLogic: class {
     func displayUserDetails()
     func displayConfirmationModal(_ viewModel: OnGoingProjectDetails.Info.ViewModel.RelationModel)
     func hideConfirmationModal()
+    func displayInteractionEffectivated()
 }
 
 class OnGoingProjectDetailsController: BaseViewController, UINavigationControllerDelegate {
@@ -435,5 +436,10 @@ extension OnGoingProjectDetailsController: OnGoingProjectDetailsDisplayLogic {
     
     func hideConfirmationModal() {
         mainView.hideConfirmationModal()
+    }
+    
+    func displayInteractionEffectivated() {
+        interactor?.fetchProjectRelation(OnGoingProjectDetails.Request.ProjectRelation())
+        interactor?.fetchProjectDetails(OnGoingProjectDetails.Request.FetchProject())
     }
 }

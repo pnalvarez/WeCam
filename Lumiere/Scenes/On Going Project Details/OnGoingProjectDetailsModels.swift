@@ -66,6 +66,8 @@ struct OnGoingProjectDetails {
             static let interactionReceivedRequest = "Responder Convite"
             static let interactionNothing = "Participar"
             static let editConclude = "Concluir"
+            static let projectInviteAcceptedTitle = "Convite Aceito"
+            static let projectInviteAcceptedMessage = "Você agora faz parte deste projeto"
         }
         
         struct Images {
@@ -214,6 +216,10 @@ struct OnGoingProjectDetails {
     }
     
     struct Request {
+        
+        struct AcceptProjectInvite {
+            let projectId: String
+        }
         
         struct ConfirmInteraction {
             

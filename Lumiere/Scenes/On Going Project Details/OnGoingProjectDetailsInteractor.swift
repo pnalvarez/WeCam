@@ -62,6 +62,34 @@ extension OnGoingProjectDetailsInteractor {
             }
         }
     }
+    
+    private func fetchAcceptProjectInvite(_ request: OnGoingProjectDetails.Request.AcceptProjectInvite) {
+        worker.fetchAcceptProjectInvite(request) { response in
+            switch response {
+            case .success:
+                self.presenter.presentLoading(false)
+                self.presenter.presentInteractionEffectivated()
+                self.presenter.presentFeedback(OnGoingProjectDetails
+                    .Info
+                    .Model
+                    .Feedback(title: OnGoingProjectDetails
+                        .Constants
+                        .Texts
+                        .projectInviteAcceptedTitle,
+                              message: OnGoingProjectDetails
+                                .Constants
+                                .Texts
+                                .projectInviteAcceptedMessage))
+            case .error(let error):
+                self.presenter.presentLoading(false)
+                self.presenter.presentFeedback(OnGoingProjectDetails
+                .Info
+                .Model
+                .Feedback(title: "Erro",
+                          message: error.localizedDescription))
+            }
+        }
+    }
 }
 
 extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
@@ -209,7 +237,22 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
     }
     
     func fetchConfirmInteraction(_ request: OnGoingProjectDetails.Request.ConfirmInteraction) {
-        
+        presenter.presentLoading(true)
+        guard let relation = projectRelation else { return }
+        switch relation {
+        case .author:
+            break
+        case .simpleParticipating:
+            break
+        case .sentRequest:
+            break
+        case .receivedRequest:
+            fetchAcceptProjectInvite(OnGoingProjectDetails
+                .Request
+                .AcceptProjectInvite(projectId: projectData?.id ?? .empty))
+        case .nothing:
+            break
+        }
     }
     
     func fetchRefuseInteraction(_ request: OnGoingProjectDetails.Request.RefuseInteraction) {

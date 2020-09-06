@@ -16,6 +16,7 @@ protocol OnGoingProjectDetailsPresentationLogic {
     func presentFeedback(_ response: OnGoingProjectDetails.Info.Model.Feedback)
     func presentUserDetails()
     func presentConfirmationModal(forRelation relation: OnGoingProjectDetails.Info.Model.RelationModel)
+    func presentInteractionEffectivated()
 }
 
 class OnGoingProjectDetailsPresenter: OnGoingProjectDetailsPresentationLogic {
@@ -67,5 +68,9 @@ class OnGoingProjectDetailsPresenter: OnGoingProjectDetailsPresentationLogic {
     func presentConfirmationModal(forRelation relation: OnGoingProjectDetails.Info.Model.RelationModel) {
         let viewModel = OnGoingProjectDetails.Info.ViewModel.RelationModel(relation: relation.relation)
         viewController.displayConfirmationModal(viewModel)
+    }
+    
+    func presentInteractionEffectivated() {
+        viewController.displayInteractionEffectivated()
     }
 }

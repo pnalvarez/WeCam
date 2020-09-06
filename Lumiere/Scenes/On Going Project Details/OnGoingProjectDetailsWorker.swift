@@ -19,6 +19,8 @@ protocol OnGoingProjectDetailsWorkerProtocol {
                                  completion: @escaping (BaseResponse<OnGoingProjectDetails.Info.Response.ProjectImage>) -> Void)
     func fetchUpdateProjectNeeding(request: OnGoingProjectDetails.Request.UpdateNeedingWithId,
                                    completion: @escaping (EmptyResponse) -> Void)
+    func fetchAcceptProjectInvite(_ request: OnGoingProjectDetails.Request.AcceptProjectInvite,
+                                  completion: @escaping (EmptyResponse) -> Void)
 }
 
 class OnGoingProjectDetailsWorker: OnGoingProjectDetailsWorkerProtocol {
@@ -65,5 +67,10 @@ class OnGoingProjectDetailsWorker: OnGoingProjectDetailsWorkerProtocol {
                                    completion: @escaping (EmptyResponse) -> Void) {
         let headers: [String : Any] = ["projectId": request.projectId, "needing": request.needing]
         builder.updateProjectNeedingField(request: headers, completion: completion)
+    }
+    
+    func fetchAcceptProjectInvite(_ request: OnGoingProjectDetails.Request.AcceptProjectInvite, completion: @escaping (EmptyResponse) -> Void) {
+        let headers: [String : Any] = ["projectId": request.projectId]
+        builder.acceptProjectInvite(request: headers, completion: completion)
     }
 }
