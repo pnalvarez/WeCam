@@ -177,6 +177,40 @@ class OnGoingProjectDetailsView: UIView {
             editNeedingButton.isHidden = true
         }
     }
+    
+    func displayConfirmationModal(forRelation relation: OnGoingProjectDetails.Info.ViewModel.RelationModel) {
+        switch  relation.relation {
+        case .author:
+            confirmationModalView.setupText(OnGoingProjectDetails.Constants.Texts.interactionAuthor)
+        case .simpleParticipating:
+            confirmationModalView.setupText(OnGoingProjectDetails.Constants.Texts.interactionSimpleParticipating)
+        case .receivedRequest:
+            confirmationModalView.setupText(OnGoingProjectDetails.Constants.Texts.interactionReceivedRequest)
+        case .sentRequest:
+            confirmationModalView.setupText(OnGoingProjectDetails.Constants.Texts.interactionSentRequest)
+        case .nothing:
+            confirmationModalView.setupText(OnGoingProjectDetails.Constants.Texts.interactionNothing)
+        }
+        UIView.animate(withDuration: 0.2, animations: {
+            self.translucentView.isHidden = false
+            self.confirmationModalView.snp.remakeConstraints { make in
+                make.top.equalTo(self.translucentView.snp.centerY)
+                make.size.equalTo(self.translucentView)
+            }
+            self.layoutIfNeeded()
+        })
+    }
+    
+    func hideConfirmationModal() {
+        UIView.animate(withDuration: 0.2, animations: {
+            self.translucentView.isHidden = true
+            self.confirmationModalView.snp.remakeConstraints { make in
+                make.top.equalTo(self.translucentView.snp.bottom)
+                make.size.equalTo(self.translucentView)
+            }
+            self.layoutIfNeeded()
+        })
+    }
 }
 
 extension OnGoingProjectDetailsView: ViewCodeProtocol {
@@ -311,7 +345,7 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
             make.top.equalTo(closeButton).offset(740)
             make.centerX.equalToSuperview()
             make.height.equalTo(30)
-            make.width.equalTo(107)
+            make.width.equalTo(120)
             make.bottom.equalToSuperview().inset(30)
         }
     }

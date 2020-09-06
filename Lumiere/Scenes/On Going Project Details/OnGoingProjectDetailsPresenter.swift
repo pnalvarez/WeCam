@@ -15,6 +15,7 @@ protocol OnGoingProjectDetailsPresentationLogic {
     func presentLoading(_ loading: Bool)
     func presentFeedback(_ response: OnGoingProjectDetails.Info.Model.Feedback)
     func presentUserDetails()
+    func presentConfirmationModal(forRelation relation: OnGoingProjectDetails.Info.Model.RelationModel)
 }
 
 class OnGoingProjectDetailsPresenter: OnGoingProjectDetailsPresentationLogic {
@@ -61,5 +62,10 @@ class OnGoingProjectDetailsPresenter: OnGoingProjectDetailsPresentationLogic {
     
     func presentUserDetails() {
         viewController.displayUserDetails()
+    }
+    
+    func presentConfirmationModal(forRelation relation: OnGoingProjectDetails.Info.Model.RelationModel) {
+        let viewModel = OnGoingProjectDetails.Info.ViewModel.RelationModel(relation: relation.relation)
+        viewController.displayConfirmationModal(viewModel)
     }
 }

@@ -63,7 +63,7 @@ struct OnGoingProjectDetails {
             static let interactionAuthor = "Publicar"
             static let interactionSimpleParticipating = "Sair do projeto"
             static let interactionSentRequest = "Remover Solicitação de participação"
-            static let interactionReceivedRequest = "Responder Convite de participação"
+            static let interactionReceivedRequest = "Responder Convite"
             static let interactionNothing = "Participar"
             static let editConclude = "Concluir"
         }
@@ -214,6 +214,18 @@ struct OnGoingProjectDetails {
     }
     
     struct Request {
+        
+        struct ConfirmInteraction {
+            
+        }
+        
+        struct RefuseInteraction {
+            
+        }
+        
+        struct FetchInteraction {
+            
+        }
         
         struct FetchProject {
             

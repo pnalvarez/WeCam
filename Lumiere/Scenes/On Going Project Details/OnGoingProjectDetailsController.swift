@@ -15,6 +15,8 @@ protocol OnGoingProjectDetailsDisplayLogic: class {
     func displayUIForRelation(_ viewModel: OnGoingProjectDetails.Info.ViewModel.RelationModel)
     func displayFeedback(_ viewModel: OnGoingProjectDetails.Info.ViewModel.Feedback)
     func displayUserDetails()
+    func displayConfirmationModal(_ viewModel: OnGoingProjectDetails.Info.ViewModel.RelationModel)
+    func hideConfirmationModal()
 }
 
 class OnGoingProjectDetailsController: BaseViewController, UINavigationControllerDelegate {
@@ -29,6 +31,7 @@ class OnGoingProjectDetailsController: BaseViewController, UINavigationControlle
     private lazy var translucentView: UIView = {
         let view = UIView(frame: .zero)
         view.backgroundColor = UIColor(rgb: 0xededed).withAlphaComponent(0.8)
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(closeModal)))
         view.isHidden = true
         return view
     }()
@@ -134,6 +137,7 @@ class OnGoingProjectDetailsController: BaseViewController, UINavigationControlle
         view.addTarget(self, action: #selector(didTapInteraction), for: .touchUpInside)
         view.setTitleColor(OnGoingProjectDetails.Constants.Colors.interactionButtonText, for: .normal)
         view.titleLabel?.font = OnGoingProjectDetails.Constants.Fonts.interactionButton
+        view.titleLabel?.adjustsFontSizeToFitWidth = true
         view.layer.cornerRadius = 4
         view.backgroundColor = OnGoingProjectDetails.Constants.Colors.interactionButtonBackground
         return view
@@ -335,6 +339,11 @@ extension OnGoingProjectDetailsController: UIImagePickerControllerDelegate {
 extension OnGoingProjectDetailsController {
     
     @objc
+    private func closeModal() {
+        mainView.hideConfirmationModal()
+    }
+    
+    @objc
     private func didTapClose() {
         router?.routeToEndOfFlow()
     }
@@ -376,18 +385,18 @@ extension OnGoingProjectDetailsController {
     
     @objc
     private func didTapInteraction() {
-        
+        interactor?.fetchInteract(OnGoingProjectDetails.Request.FetchInteraction())
     }
 }
 
 extension OnGoingProjectDetailsController: ConfirmationAlertViewDelegate {
     
     func didTapAccept() {
-        
+        interactor?.fetchConfirmInteraction(OnGoingProjectDetails.Request.ConfirmInteraction())
     }
     
     func didTapRefuse() {
-        
+        interactor?.fetchRefuseInteraction(OnGoingProjectDetails.Request.RefuseInteraction())
     }
 }
 
@@ -418,5 +427,13 @@ extension OnGoingProjectDetailsController: OnGoingProjectDetailsDisplayLogic {
     
     func displayUserDetails() {
         router?.routeToUserDetails()
+    }
+    
+    func displayConfirmationModal(_ viewModel: OnGoingProjectDetails.Info.ViewModel.RelationModel) {
+        mainView.displayConfirmationModal(forRelation: viewModel)
+    }
+    
+    func hideConfirmationModal() {
+        mainView.hideConfirmationModal()
     }
 }

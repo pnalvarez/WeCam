@@ -14,6 +14,9 @@ protocol OnGoingProjectDetailsBusinessLogic {
     func fetchUpdateProjectInfo(_ request: OnGoingProjectDetails.Request.UpdateInfo)
     func fetchUpdateProjectNeeding(_ request: OnGoingProjectDetails.Request.UpdateNeeding)
     func didCancelEditing(_ request: OnGoingProjectDetails.Request.CancelEditing)
+    func fetchInteract(_ request: OnGoingProjectDetails.Request.FetchInteraction)
+    func fetchConfirmInteraction(_ request: OnGoingProjectDetails.Request.ConfirmInteraction)
+    func fetchRefuseInteraction(_ request: OnGoingProjectDetails.Request.RefuseInteraction)
 }
 
 protocol OnGoingProjectDetailsDataStore {
@@ -26,7 +29,7 @@ protocol OnGoingProjectDetailsDataStore {
 class OnGoingProjectDetailsInteractor: OnGoingProjectDetailsDataStore {
     
     private let worker: OnGoingProjectDetailsWorkerProtocol
-    var presenter: OnGoingProjectDetailsPresentationLogic
+    private let presenter: OnGoingProjectDetailsPresentationLogic
     
     var receivedData: OnGoingProjectDetails.Info.Received.Project?
     var projectData: OnGoingProjectDetails.Info.Model.Project?
@@ -199,5 +202,17 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
     func didCancelEditing(_ request: OnGoingProjectDetails.Request.CancelEditing) {
         guard let project = self.projectData else { return }
         presenter.presentProjectDetails(project)
+    }
+    
+    func fetchInteract(_ request: OnGoingProjectDetails.Request.FetchInteraction) {
+        presenter.presentConfirmationModal(forRelation: OnGoingProjectDetails.Info.Model.RelationModel(relation: projectRelation ?? .nothing))
+    }
+    
+    func fetchConfirmInteraction(_ request: OnGoingProjectDetails.Request.ConfirmInteraction) {
+        
+    }
+    
+    func fetchRefuseInteraction(_ request: OnGoingProjectDetails.Request.RefuseInteraction) {
+        
     }
 }

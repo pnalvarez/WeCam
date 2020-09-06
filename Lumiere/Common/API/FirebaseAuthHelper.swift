@@ -1325,11 +1325,8 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                                     .child(currentUser)
                                     .child("pending_projects")
                                     .observeSingleEvent(of: .value) { snapshot in
-                                        guard let pendingProjects = snapshot.value as? [String] else {
-                                            completion(.error(FirebaseErrors.genericError))
-                                            return
-                                        }
-                                        if pendingProjects.contains(currentUser) {
+                                        if let pendingProjects = snapshot.value as? [String],
+                                            pendingProjects.contains(currentUser) {
                                             let response: [String : Any] = ["relation": "PENDING"]
                                             guard let mappedResponse = Mapper<T>().map(JSON: response) else {
                                                 completion(.error(FirebaseErrors.parseError))
@@ -1343,11 +1340,8 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                                             .child(projectId)
                                             .child("pending_invites")
                                             .observeSingleEvent(of: .value) { snapshot in
-                                                guard let pendingInvites = snapshot.value as? [String] else {
-                                                    completion(.error(FirebaseErrors.genericError))
-                                                    return
-                                                }
-                                                if pendingInvites.contains(currentUser) {
+                                                if let pendingInvites = snapshot.value as? [String],
+                                                    pendingInvites.contains(currentUser) {
                                                     let response: [String : Any] = ["relation": "INVITED"]
                                                     guard let mappedResponse = Mapper<T>().map(JSON: response) else {
                                                         completion(.error(FirebaseErrors.parseError))
