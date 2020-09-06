@@ -222,6 +222,10 @@ struct OnGoingProjectDetails {
     
     struct Request {
         
+        struct RemoveProjectParticipationRequest {
+            let projectId: String
+        }
+        
         struct ProjectParticipationRequest {
             let projectId: String
         }

@@ -87,6 +87,8 @@ protocol FirebaseAuthHelperProtocol {
                              completion: @escaping (EmptyResponse) -> Void)
     func sendProjectParticipationRequest(request: [String : Any],
                                          completion: @escaping (EmptyResponse) -> Void)
+    func removeProjectParticipationRequest(request: [String : Any],
+                                           completion: @escaping (EmptyResponse) -> Void)
 }
 
 class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
@@ -1834,6 +1836,94 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                                                     completion(.success)
                                             }
                                     }
+                                }
+                        }
+                }
+        }
+    }
+    
+    func removeProjectParticipationRequest(request: [String : Any],
+                                           completion: @escaping (EmptyResponse) -> Void) {
+        guard let projectId = request["projectId"] as? String,
+            let currentUser = authReference.currentUser?.uid else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        realtimeDB
+            .child(Constants.usersPath)
+            .child(currentUser)
+            .child("pending_projects")
+            .observeSingleEvent(of: .value) { snapshot in
+                guard var pendingProjects = snapshot.value as? [String] else {
+                    completion(.error(FirebaseErrors.genericError))
+                    return
+                }
+                pendingProjects.removeAll(where: { $0 == projectId })
+                self.realtimeDB
+                    .child(Constants.usersPath)
+                    .child(currentUser)
+                    .updateChildValues(["pending_projects": pendingProjects]) { (error, ref) in
+                        if let error = error {
+                            completion(.error(error))
+                            return
+                        }
+                        self.realtimeDB
+                            .child(Constants.projectsPath)
+                            .child(Constants.ongoingProjectsPath)
+                            .child(projectId)
+                            .child("pending_invites")
+                            .observeSingleEvent(of: .value) { snapshot in
+                                guard var pendingInvites = snapshot.value as? [String] else {
+                                    completion(.error(FirebaseErrors.genericError))
+                                    return
+                                }
+                                pendingInvites.removeAll(where: { $0 == currentUser})
+                                self.realtimeDB
+                                    .child(Constants.projectsPath)
+                                    .child(Constants.ongoingProjectsPath)
+                                    .child(projectId)
+                                    .updateChildValues(["pending_invites": pendingInvites]) { (error, ref) in
+                                        if let error = error {
+                                            completion(.error(error))
+                                            return
+                                        }
+                                        self.realtimeDB
+                                            .child(Constants.projectsPath)
+                                            .child(Constants.ongoingProjectsPath)
+                                            .child(projectId)
+                                            .child("author_id")
+                                            .observeSingleEvent(of: .value) { snapshot in
+                                                guard let authorId = snapshot.value as? String else {
+                                                    completion(.error(FirebaseErrors.genericError))
+                                                    return
+                                                }
+                                                self.realtimeDB
+                                                    .child(Constants.usersPath)
+                                                    .child(authorId)
+                                                    .child("project_participation_notifications")
+                                                    .observeSingleEvent(of: .value) { snapshot in
+                                                        guard var notifications = snapshot.value as? [[String : Any]] else {
+                                                            completion(.error(FirebaseErrors.genericError))
+                                                            return
+                                                        }
+                                                        notifications.removeAll(where: {
+                                                            guard let userId = $0["userId"] as? String else {
+                                                                return false
+                                                            }
+                                                            return userId == currentUser
+                                                        })
+                                                        self.realtimeDB
+                                                            .child(Constants.usersPath)
+                                                            .child(authorId)
+                                                            .updateChildValues(["project_participation_notifications": notifications]) { (error, ref) in
+                                                            if let error = error {
+                                                                completion(.error(error))
+                                                                return
+                                                            }
+                                                            completion(.success)
+                                                        }
+                                                }
+                                        }
                                 }
                         }
                 }

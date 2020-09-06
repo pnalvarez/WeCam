@@ -25,6 +25,8 @@ protocol OnGoingProjectDetailsWorkerProtocol {
                                   completion: @escaping (EmptyResponse) -> Void)
     func fetchSendProjectParticipationRequest(_ request:     OnGoingProjectDetails.Request.ProjectParticipationRequest,
                                               completion: @escaping (EmptyResponse) -> Void)
+    func fetchRemoveParticipantRequest(_ request: OnGoingProjectDetails.Request.RemoveProjectParticipationRequest,
+                                       completion: @escaping (EmptyResponse) -> Void)
 }
 
 class OnGoingProjectDetailsWorker: OnGoingProjectDetailsWorkerProtocol {
@@ -89,5 +91,11 @@ class OnGoingProjectDetailsWorker: OnGoingProjectDetailsWorkerProtocol {
                                               completion: @escaping (EmptyResponse) -> Void) {
         let headers: [String : Any] = ["projectId": request.projectId]
         builder.sendProjectParticipationRequest(request: headers, completion: completion)
+    }
+    
+    func fetchRemoveParticipantRequest(_ request: OnGoingProjectDetails.Request.RemoveProjectParticipationRequest,
+                                       completion: @escaping (EmptyResponse) -> Void) {
+        let headers: [String : Any] = ["projectId": request.projectId]
+        builder.removeProjectParticipationRequest(request: headers, completion: completion)
     }
 }
