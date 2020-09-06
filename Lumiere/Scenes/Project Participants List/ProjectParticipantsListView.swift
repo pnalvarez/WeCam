@@ -51,19 +51,19 @@ extension ProjectParticipantsListView: ViewCodeProtocol {
     
     func setupConstraints() {
         closeButton.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide.snp.top).inset(44)
+            make.top.equalTo(safeAreaLayoutGuide.snp.top).inset(30)
             make.right.equalToSuperview().inset(54)
             make.height.equalTo(31)
             make.width.equalTo(32)
         }
         participantsFixedLbl.snp.makeConstraints { make in
-            make.top.equalTo(closeButton.snp.bottom).offset(20)
+            make.top.equalTo(closeButton.snp.bottom).offset(40)
             make.left.equalToSuperview().inset(46)
             make.width.equalTo(191)
             make.height.equalTo(22)
         }
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(participantsFixedLbl.snp.bottom).offset(10)
+            make.top.equalTo(participantsFixedLbl.snp.bottom).offset(20)
             make.left.right.bottom.equalToSuperview()
         }
         activityView.snp.makeConstraints { make in

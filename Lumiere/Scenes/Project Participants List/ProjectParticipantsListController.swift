@@ -118,7 +118,7 @@ extension ProjectParticipantsListController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 115
+        return 125
     }
 }
 

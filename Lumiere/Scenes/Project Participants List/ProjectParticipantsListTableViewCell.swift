@@ -66,19 +66,19 @@ extension ProjectParticipantsListTableViewCell: ViewCodeProtocol {
             make.width.equalTo(100)
         }
         nameLbl.snp.makeConstraints { make in
-            make.top.equalTo(photoImageView)
             make.left.equalTo(photoImageView.snp.right).offset(17)
             make.width.equalTo(118)
         }
         ocupationLbl.snp.makeConstraints { make in
+            make.centerY.equalTo(photoImageView)
             make.top.equalTo(nameLbl.snp.bottom)
             make.left.equalTo(nameLbl)
-            make.width.equalTo(118)
+            make.right.equalToSuperview()
         }
         emailLbl.snp.makeConstraints { make in
             make.top.equalTo(ocupationLbl.snp.bottom)
             make.left.equalTo(ocupationLbl)
-            make.width.equalTo(118)
+            make.right.equalToSuperview()
         }
     }
     
