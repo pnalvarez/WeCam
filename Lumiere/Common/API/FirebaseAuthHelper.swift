@@ -81,6 +81,8 @@ protocol FirebaseAuthHelperProtocol {
                                           completion: @escaping (BaseResponse<[T]>) -> Void)
     func acceptProjectInvite(request: [String : Any],
                              completion: @escaping (EmptyResponse) -> Void)
+    func fetchProjectParticipants<T: Mappable>(request: [String : Any],
+                                  completion: @escaping (BaseResponse<[T]>) -> Void)
 }
 
 class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
@@ -1650,6 +1652,47 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                                     }
                             }
                         }
+                }
+        }
+    }
+    
+    func fetchProjectParticipants<T: Mappable>(request: [String : Any],
+                                               completion: @escaping (BaseResponse<[T]>) -> Void) {
+        var responseArray: [[String : Any]] = .empty
+        guard let projectId = request["projectId"] as? String else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        realtimeDB
+            .child(Constants.projectsPath)
+            .child(Constants.ongoingProjectsPath)
+            .child(projectId)
+            .child("participants")
+            .observeSingleEvent(of: .value) { snapshot in
+                guard let participants = snapshot.value as? Array<Any> else {
+                    completion(.success(.empty))
+                    return
+                }
+                for i in 0..<participants.count {
+                    guard let participant = participants[i] as? String else {
+                        completion(.error(FirebaseErrors.genericError))
+                        return
+                    }
+                    self.realtimeDB
+                        .child(Constants.usersPath)
+                        .child(participant)
+                        .observeSingleEvent(of: .value) { snapshot in
+                            guard var user = snapshot.value as? [String : Any] else {
+                                completion(.error(FirebaseErrors.genericError))
+                                return
+                            }
+                            user["id"] = participant
+                            responseArray.append(user)
+                            if i == participants.count-1 {
+                                let mappedResponse = Mapper<T>().mapArray(JSONArray: responseArray)
+                                completion(.success(mappedResponse))
+                            }
+                    }
                 }
         }
     }

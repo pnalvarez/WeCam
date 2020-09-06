@@ -124,13 +124,9 @@ class EditProjectDetailsController: BaseViewController {
         super.viewDidLoad()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        interactor?.fetchInvitations(EditProjectDetails.Request.Invitations())
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        interactor?.fetchInvitations(EditProjectDetails.Request.Invitations())
         mainView.cleanTextFields()
     }
     

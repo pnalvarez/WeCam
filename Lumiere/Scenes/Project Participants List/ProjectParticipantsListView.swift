@@ -10,6 +10,7 @@ import UIKit
 
 class ProjectParticipantsListView: UIView {
     
+    private unowned var activityView: UIActivityIndicatorView
     private unowned var closeButton: DefaultCloseButton
     private unowned var tableView: UITableView
     
@@ -19,12 +20,15 @@ class ProjectParticipantsListView: UIView {
         view.font = ProjectParticipantsList.Constants.Fonts.participantsFixedLbl
         view.textColor = ProjectParticipantsList.Constants.Colors.participantsFixedLbl
         view.textAlignment = .left
+        view.numberOfLines = 0
         return view
     }()
     
     init(frame: CGRect,
+         activityView: UIActivityIndicatorView,
          closeButton: DefaultCloseButton,
          tableView: UITableView) {
+        self.activityView = activityView
         self.closeButton = closeButton
         self.tableView = tableView
         super.init(frame: frame)
@@ -42,23 +46,28 @@ extension ProjectParticipantsListView: ViewCodeProtocol {
         addSubview(closeButton)
         addSubview(participantsFixedLbl)
         addSubview(tableView)
+        addSubview(activityView)
     }
     
     func setupConstraints() {
         closeButton.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(44)
+            make.top.equalTo(safeAreaLayoutGuide.snp.top).inset(44)
             make.right.equalToSuperview().inset(54)
             make.height.equalTo(31)
             make.width.equalTo(32)
         }
         participantsFixedLbl.snp.makeConstraints { make in
-            make.top.equalTo(closeButton.snp.bottom).offset(8)
+            make.top.equalTo(closeButton.snp.bottom).offset(20)
             make.left.equalToSuperview().inset(46)
             make.width.equalTo(191)
+            make.height.equalTo(22)
         }
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(participantsFixedLbl.snp.bottom)
+            make.top.equalTo(participantsFixedLbl.snp.bottom).offset(10)
             make.left.right.bottom.equalToSuperview()
+        }
+        activityView.snp.makeConstraints { make in
+            make.edges.equalTo(tableView)
         }
     }
 }

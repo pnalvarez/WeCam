@@ -236,8 +236,8 @@ class OnGoingProjectDetailsController: BaseViewController, UINavigationControlle
         interactor?.fetchProjectRelation(OnGoingProjectDetails.Request.ProjectRelation())
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         interactor?.fetchProjectDetails(OnGoingProjectDetails.Request.FetchProject())
     }
     
@@ -341,7 +341,7 @@ extension OnGoingProjectDetailsController {
     
     @objc
     private func didTapMoreInfo() {
-        
+        router?.routeToProjectParticipantsList()
     }
     
     @objc

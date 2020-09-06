@@ -13,6 +13,7 @@ typealias OnGoingProjectDetailsRouterProtocol = NSObject & OnGoingProjectDetails
 protocol OnGoingProjectDetailsRoutingLogic {
     func routeToEndOfFlow()
     func routeToUserDetails()
+    func routeToProjectParticipantsList()
 }
 
 protocol OnGoingProjectDetailsDataTransfer {
@@ -30,6 +31,14 @@ class OnGoingProjectDetailsRouter: NSObject, OnGoingProjectDetailsDataTransfer {
             .Info
             .Received
             .User(userId: source.selectedTeamMeberId ?? .empty)
+    }
+    
+    private func transferDataToProjectParticipantsList(from source: OnGoingProjectDetailsDataStore,
+                                                       to destination: inout ProjectParticipantsListDataStore) {
+        destination.project = ProjectParticipantsList
+            .Info
+            .Received
+            .Project(projectId: source.projectData?.id ?? .empty)
     }
 }
 
@@ -51,6 +60,14 @@ extension OnGoingProjectDetailsRouter: OnGoingProjectDetailsRoutingLogic {
         guard let source = dataStore,
             var destination = vc.router?.dataStore else { return }
         transferDataToProfileDetails(source: source, destination: &destination)
+        routeTo(nextVC: vc)
+    }
+    
+    func routeToProjectParticipantsList() {
+        let vc = ProjectParticipantsListController()
+        guard let source = dataStore,
+            var destination = vc.router?.dataStore else { return }
+        transferDataToProjectParticipantsList(from: source, to: &destination)
         routeTo(nextVC: vc)
     }
 }

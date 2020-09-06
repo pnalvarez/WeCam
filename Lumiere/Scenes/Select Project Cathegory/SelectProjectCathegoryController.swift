@@ -78,8 +78,8 @@ class SelectProjectCathegoryController: BaseViewController {
         interactor?.fetchAllCathegories(SelectProjectCathegory.Request.AllCathegories())
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         navigationController?.tabBarController?.tabBar.isHidden = true
     }
     

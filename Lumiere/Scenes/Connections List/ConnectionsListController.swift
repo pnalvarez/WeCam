@@ -76,8 +76,8 @@ class ConnectionsListController: BaseViewController {
         interactor?.fetchUserDetails(ConnectionsList.Request.FetchUserDetails())
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         interactor?.fetchConnectionList(ConnectionsList.Request.FetchConnections())
     }
     
