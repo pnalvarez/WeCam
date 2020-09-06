@@ -107,6 +107,20 @@ extension OnGoingProjectDetailsInteractor {
             }
         }
     }
+    
+    private func fetchSendProjectParticipationRequest(_ request: OnGoingProjectDetails.Request.ProjectParticipationRequest) {
+        worker.fetchSendProjectParticipationRequest(request) { response in
+            switch response {
+            case .success:
+                self.presenter.presentLoading(false)
+                self.presenter.presentInteractionEffectivated()
+            case .error(let error):
+                self.presenter.presentLoading(false)
+                self.presenter.presentFeedback(OnGoingProjectDetails.Info.Model.Feedback(title: "Erro",
+                                                                                         message: error.localizedDescription))
+            }
+        }
+    }
 }
 
 extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
@@ -268,7 +282,7 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
                 .Request
                 .AcceptProjectInvite(projectId: projectData?.id ?? .empty))
         case .nothing:
-            break
+            fetchSendProjectParticipationRequest(OnGoingProjectDetails.Request.ProjectParticipationRequest(projectId: projectData?.id ?? .empty))
         }
     }
     
