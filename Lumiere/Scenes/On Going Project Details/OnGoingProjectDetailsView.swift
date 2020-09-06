@@ -181,15 +181,15 @@ class OnGoingProjectDetailsView: UIView {
     func displayConfirmationModal(forRelation relation: OnGoingProjectDetails.Info.ViewModel.RelationModel) {
         switch  relation.relation {
         case .author:
-            confirmationModalView.setupText(OnGoingProjectDetails.Constants.Texts.interactionAuthor)
+            confirmationModalView.setupText(OnGoingProjectDetails.Constants.Texts.authorModalText)
         case .simpleParticipating:
-            confirmationModalView.setupText(OnGoingProjectDetails.Constants.Texts.interactionSimpleParticipating)
+            confirmationModalView.setupText(OnGoingProjectDetails.Constants.Texts.simpleParticipatingModalText)
         case .receivedRequest:
-            confirmationModalView.setupText(OnGoingProjectDetails.Constants.Texts.interactionReceivedRequest)
+            confirmationModalView.setupText(OnGoingProjectDetails.Constants.Texts.receivedRequestModalText)
         case .sentRequest:
-            confirmationModalView.setupText(OnGoingProjectDetails.Constants.Texts.interactionSentRequest)
+            confirmationModalView.setupText(OnGoingProjectDetails.Constants.Texts.sentRequestModalText)
         case .nothing:
-            confirmationModalView.setupText(OnGoingProjectDetails.Constants.Texts.interactionNothing)
+            confirmationModalView.setupText(OnGoingProjectDetails.Constants.Texts.nothingModalText)
         }
         UIView.animate(withDuration: 0.2, animations: {
             self.translucentView.isHidden = false

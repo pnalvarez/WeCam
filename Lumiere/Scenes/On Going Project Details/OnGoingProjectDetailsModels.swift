@@ -68,6 +68,11 @@ struct OnGoingProjectDetails {
             static let editConclude = "Concluir"
             static let projectInviteAcceptedTitle = "Convite Aceito"
             static let projectInviteAcceptedMessage = "Você agora faz parte deste projeto"
+            static let authorModalText = "Deseja publica este projeto?"
+            static let simpleParticipatingModalText = "Deseja sair deste projeto?"
+            static let sentRequestModalText = "Deseja remover sua solicitação de participação?"
+            static let receivedRequestModalText = "Deseja aceitar participar deste projeto?"
+            static let nothingModalText = "Deseja enviar uma solicitação para este projeto?"
         }
         
         struct Images {
