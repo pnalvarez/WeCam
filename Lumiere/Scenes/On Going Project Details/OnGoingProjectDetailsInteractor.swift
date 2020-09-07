@@ -135,6 +135,23 @@ extension OnGoingProjectDetailsInteractor {
             }
         }
     }
+    
+    private func fetchExitProject(_ request: OnGoingProjectDetails.Request.ExitProject) {
+        worker.fetchExitProject(request) { response in
+            switch response {
+            case .success:
+                self.presenter.presentLoading(false)
+                self.presenter.presentInteractionEffectivated()
+            case .error(let error):
+                self.presenter.presentLoading(false)
+                self.presenter.presentFeedback(OnGoingProjectDetails
+                    .Info
+                    .Model
+                    .Feedback(title: "Erro",
+                message: error.localizedDescription))
+            }
+        }
+    }
 }
 
 extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
@@ -288,9 +305,13 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
         case .author:
             break
         case .simpleParticipating:
-            break
+            fetchExitProject(OnGoingProjectDetails
+                .Request
+                .ExitProject(projectId: projectData?.id ?? .empty))
         case .sentRequest:
-            fetchRemoveProjectParticipationRequest(OnGoingProjectDetails.Request.RemoveProjectParticipationRequest(projectId: projectData?.id ?? .empty))
+            fetchRemoveProjectParticipationRequest(OnGoingProjectDetails
+                .Request
+                .RemoveProjectParticipationRequest(projectId: projectData?.id ?? .empty))
         case .receivedRequest:
             fetchAcceptProjectInvite(OnGoingProjectDetails
                 .Request

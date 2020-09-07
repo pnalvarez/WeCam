@@ -1603,25 +1603,16 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                                         .child(projectId)
                                         .child("pending_invites")
                                         .observeSingleEvent(of: .value) { snapshot in
-                                            guard var pendingInvites = snapshot.value as? Array<Any> else {
+                                            guard var pendingInvites = snapshot.value as? [String] else {
                                                 completion(.error(FirebaseErrors.genericError))
                                                 return
                                             }
-                                            pendingInvites.removeAll(where: {
-                                                guard let id = $0 as? String else {
-                                                    return false
-                                                }
-                                                return id == currentUser
-                                            })
-                                            var invitesDict: [String : Any] = [:]
-                                            for i in 0..<pendingInvites.count {
-                                                invitesDict["\(i)"] = pendingInvites[i]
-                                            }
+                                            pendingInvites.removeAll(where: { $0 == currentUser })
                                             self.realtimeDB
                                                 .child(Constants.projectsPath)
+                                                .child(Constants.ongoingProjectsPath)
                                                 .child(projectId)
-                                                .child("pending_invites")
-                                                .updateChildValues(invitesDict) { (error, ref) in
+                                                .updateChildValues(["pending_invites": pendingInvites]) { (error, ref) in
                                                     if let error = error {
                                                         completion(.error(error))
                                                         return
@@ -1632,21 +1623,16 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                                                         .child(projectId)
                                                         .child("participants")
                                                         .observeSingleEvent(of: .value) { snapshot in
-                                                            guard var participants = snapshot.value as? Array<Any> else {
+                                                            guard var participants = snapshot.value as? [String] else {
                                                                 completion(.error(FirebaseErrors.genericError))
                                                                 return
                                                             }
                                                             participants.append(currentUser)
-                                                            var participantsDict: [String : Any] = [:]
-                                                            for i in 0..<participants.count {
-                                                                participantsDict["\(i)"] = participants[i]
-                                                            }
                                                             self.realtimeDB
                                                                 .child(Constants.projectsPath)
                                                                 .child(Constants.ongoingProjectsPath)
                                                                 .child(projectId)
-                                                                .child("participants")
-                                                                .updateChildValues(participantsDict) { (error, ref) in
+                                                                .updateChildValues(["participants": participants]) { (error, ref) in
                                                                     if let error = error {
                                                                         completion(.error(error))
                                                                         return
