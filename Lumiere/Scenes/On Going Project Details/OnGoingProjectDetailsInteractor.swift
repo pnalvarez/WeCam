@@ -305,16 +305,20 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
         guard let relation = projectRelation else { return }
         switch relation {
         case .author:
+            presenter.presentLoading(false)
             presenter.presentRefusedInteraction()
         case .simpleParticipating:
+            presenter.presentLoading(false)
             presenter.presentRefusedInteraction()
         case .sentRequest:
+            presenter.presentLoading(false)
             presenter.presentRefusedInteraction()
         case .receivedRequest:
             fetchRefuseProjectInvite(OnGoingProjectDetails
                 .Request
                 .RefuseProjectInvite(projectId: projectData?.id ?? .empty))
         case .nothing:
+            presenter.presentLoading(false)
             presenter.presentRefusedInteraction()
         }
     }

@@ -1797,7 +1797,10 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                                     completion(.error(FirebaseErrors.genericError))
                                     return
                                 }
-                                self.realtimeDB.child(Constants.usersPath).child(currentUser).observeSingleEvent(of: .value) { snapshot in
+                                self.realtimeDB
+                                    .child(Constants.usersPath)
+                                    .child(currentUser)
+                                    .observeSingleEvent(of: .value) { snapshot in
                                     guard let userData = snapshot.value as? [String : Any],
                                         let username = userData["name"] as? String,
                                         let userEmail = userData["email"] as? String,
@@ -1833,7 +1836,25 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                                                         completion(.error(error))
                                                         return
                                                     }
-                                                    completion(.success)
+                                                    self.realtimeDB
+                                                        .child(Constants.projectsPath)
+                                                        .child(Constants.ongoingProjectsPath)
+                                                        .child(projectId).child("pending_invites")
+                                                        .observeSingleEvent(of: .value) { snapshot in
+                                                            var invitesArray: [String] = .empty
+                                                            if let pendingInvites = snapshot.value as? [String] {
+                                                                invitesArray.append(contentsOf: pendingInvites)
+                                                            } else {
+                                                                invitesArray = [currentUser]
+                                                            }
+                                                            self.realtimeDB.child(Constants.projectsPath).child(Constants.ongoingProjectsPath).child(projectId).updateChildValues(["pending_invites": invitesArray]) { (error, ref) in
+                                                                if let error = error {
+                                                                    completion(.error(error))
+                                                                    return
+                                                                }
+                                                                completion(.success)
+                                                            }
+                                                    }
                                             }
                                     }
                                 }
