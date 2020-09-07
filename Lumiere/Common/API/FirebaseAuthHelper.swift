@@ -89,6 +89,8 @@ protocol FirebaseAuthHelperProtocol {
                                          completion: @escaping (EmptyResponse) -> Void)
     func removeProjectParticipationRequest(request: [String : Any],
                                            completion: @escaping (EmptyResponse) -> Void)
+    func exitProject(request: [String : Any],
+                     completion: @escaping (EmptyResponse) -> Void)
 }
 
 class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
@@ -1945,6 +1947,58 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                                                         }
                                                 }
                                         }
+                                }
+                        }
+                }
+        }
+    }
+    
+    func exitProject(request: [String : Any],
+                     completion: @escaping (EmptyResponse) -> Void) {
+        guard let projectId = request["projectId"] as? String,
+            let currentUser = authReference.currentUser?.uid else {
+                completion(.error(FirebaseErrors.genericError))
+                return
+        }
+        realtimeDB
+            .child(Constants.usersPath)
+            .child(currentUser)
+            .child("participating_projects")
+            .observeSingleEvent(of: .value) { snapshot in
+                guard var projects = snapshot.value as? [String] else {
+                    completion(.error(FirebaseErrors.genericError))
+                    return
+                }
+                projects.removeAll(where: { $0 == projectId })
+                self.realtimeDB
+                    .child(Constants.usersPath)
+                    .child(currentUser)
+                    .updateChildValues(["participating_projects": projects]) { (error, ref) in
+                        if let error = error {
+                            completion(.error(error))
+                            return
+                        }
+                        self.realtimeDB
+                            .child(Constants.projectsPath)
+                            .child(Constants.ongoingProjectsPath)
+                            .child(projectId)
+                            .child("participants")
+                            .observeSingleEvent(of: .value) { snapshot in
+                                guard var participants = snapshot.value as? [String] else {
+                                    completion(.error(FirebaseErrors.genericError))
+                                    return
+                                }
+                                participants.removeAll(where: { $0 == currentUser })
+                                self.realtimeDB
+                                    .child(Constants.projectsPath)
+                                    .child(Constants.ongoingProjectsPath)
+                                    .child(projectId)
+                                    .updateChildValues(["participants": participants]) { (error, ref) in
+                                        if let error = error {
+                                            completion(.error(error))
+                                            return
+                                        }
+                                        completion(.success)
                                 }
                         }
                 }
