@@ -17,6 +17,7 @@ protocol OnGoingProjectDetailsPresentationLogic {
     func presentUserDetails()
     func presentConfirmationModal(forRelation relation: OnGoingProjectDetails.Info.Model.RelationModel)
     func presentInteractionEffectivated()
+    func presentRefusedInteraction()
 }
 
 class OnGoingProjectDetailsPresenter: OnGoingProjectDetailsPresentationLogic {
@@ -72,5 +73,9 @@ class OnGoingProjectDetailsPresenter: OnGoingProjectDetailsPresentationLogic {
     
     func presentInteractionEffectivated() {
         viewController.displayInteractionEffectivated()
+    }
+    
+    func presentRefusedInteraction() {
+        viewController.displayRefusedInteraction()
     }
 }

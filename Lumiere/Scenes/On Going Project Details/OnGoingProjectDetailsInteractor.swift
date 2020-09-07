@@ -98,8 +98,8 @@ extension OnGoingProjectDetailsInteractor {
                 self.presenter.presentLoading(false)
                 self.presenter.presentInteractionEffectivated()
             case .error(let error):
-                  self.presenter.presentLoading(false)
-                              self.presenter.presentFeedback(OnGoingProjectDetails
+                self.presenter.presentLoading(false)
+                self.presenter.presentFeedback(OnGoingProjectDetails
                               .Info
                               .Model
                               .Feedback(title: "Erro",
@@ -110,6 +110,20 @@ extension OnGoingProjectDetailsInteractor {
     
     private func fetchSendProjectParticipationRequest(_ request: OnGoingProjectDetails.Request.ProjectParticipationRequest) {
         worker.fetchSendProjectParticipationRequest(request) { response in
+            switch response {
+            case .success:
+                self.presenter.presentLoading(false)
+                self.presenter.presentInteractionEffectivated()
+            case .error(let error):
+                self.presenter.presentLoading(false)
+                self.presenter.presentFeedback(OnGoingProjectDetails.Info.Model.Feedback(title: "Erro",
+                                                                                         message: error.localizedDescription))
+            }
+        }
+    }
+    
+    private func fetchRemoveProjectParticipationRequest(_ request: OnGoingProjectDetails.Request.RemoveProjectParticipationRequest) {
+        worker.fetchRemoveParticipantRequest(request) { response in
             switch response {
             case .success:
                 self.presenter.presentLoading(false)
@@ -276,7 +290,7 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
         case .simpleParticipating:
             break
         case .sentRequest:
-            break
+            fetchRemoveProjectParticipationRequest(OnGoingProjectDetails.Request.RemoveProjectParticipationRequest(projectId: projectData?.id ?? .empty))
         case .receivedRequest:
             fetchAcceptProjectInvite(OnGoingProjectDetails
                 .Request
@@ -291,17 +305,17 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
         guard let relation = projectRelation else { return }
         switch relation {
         case .author:
-            break
+            presenter.presentRefusedInteraction()
         case .simpleParticipating:
-            break
+            presenter.presentRefusedInteraction()
         case .sentRequest:
-            break
+            presenter.presentRefusedInteraction()
         case .receivedRequest:
             fetchRefuseProjectInvite(OnGoingProjectDetails
                 .Request
                 .RefuseProjectInvite(projectId: projectData?.id ?? .empty))
         case .nothing:
-            break
+            presenter.presentRefusedInteraction()
         }
     }
 }
