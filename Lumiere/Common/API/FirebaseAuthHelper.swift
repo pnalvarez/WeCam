@@ -91,6 +91,8 @@ protocol FirebaseAuthHelperProtocol {
                                            completion: @escaping (EmptyResponse) -> Void)
     func exitProject(request: [String : Any],
                      completion: @escaping (EmptyResponse) -> Void)
+    func fetchProjectParticipationRequestNotifications<T: Mappable>(request: [String : Any],
+                                                                    completion: @escaping (BaseResponse<[T]>) -> Void)
 }
 
 class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
@@ -1987,6 +1989,48 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                                         completion(.success)
                                 }
                         }
+                }
+        }
+    }
+    
+    func fetchProjectParticipationRequestNotifications<T: Mappable>(request: [String : Any],
+                                                          completion: @escaping (BaseResponse<[T]>) -> Void)  {
+        var responseArray: [[String : Any]] = .empty
+        guard let currentUser = authReference.currentUser?.uid else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        realtimeDB
+            .child(Constants.usersPath)
+            .child(currentUser)
+            .child("project_participation_notifications")
+            .observeSingleEvent(of: .value) { snapshot in
+                guard var notifications = snapshot.value as? [[String : Any]] else {
+                    completion(.success(.empty))
+                    return
+                }
+                for i in 0..<notifications.count {
+                    guard let projectId = notifications[i]["projectId"] as? String else {
+                        completion(.error(FirebaseErrors.genericError))
+                        return
+                    }
+                    self.realtimeDB
+                        .child(Constants.projectsPath)
+                        .child(Constants.ongoingProjectsPath)
+                        .child(projectId)
+                        .child("title")
+                        .observeSingleEvent(of: .value) { snapshot in
+                            guard let title = snapshot.value as? String else {
+                                completion(.error(FirebaseErrors.genericError))
+                                return
+                            }
+                            notifications[i]["projectName"] = title
+                            if i == notifications.count-1 {
+                                responseArray = notifications
+                                let mappedResponse = Mapper<T>().mapArray(JSONArray: responseArray)
+                                completion(.success(mappedResponse))
+                            }
+                    }
                 }
         }
     }

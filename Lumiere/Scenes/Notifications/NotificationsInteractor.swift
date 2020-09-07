@@ -17,7 +17,6 @@ protocol NotificationsBusinessLogic {
 
 protocol NotificationsDataStore {
     var currentUser: Notifications.Info.Received.CurrentUser? { get set }
-    var connectNotifications: Notifications.Info.Model.UpcomingNotifications? { get set }
     var projectInviteNotifications: Notifications.Info.Model.UpcomingProjectInvites? { get set }
     var selectedUser: Notifications.Info.Model.User? { get set }
     var selectedProject: Notifications.Info.Model.Project? { get set }
@@ -31,7 +30,6 @@ class NotificationsInteractor: NotificationsDataStore {
     var worker: NotificationsWorkerProtocol
     
     var currentUser: Notifications.Info.Received.CurrentUser?
-    var connectNotifications: Notifications.Info.Model.UpcomingNotifications?
     var projectInviteNotifications: Notifications.Info.Model.UpcomingProjectInvites?
     var selectedUser: Notifications.Info.Model.User?
     var selectedProject: Notifications.Info.Model.Project?
@@ -88,17 +86,6 @@ extension NotificationsInteractor {
                                                        image: data[i].image ?? .empty,
                                                        projectId: data[i].projectId ?? .empty,
                                                        projectName: data[i].projectTitle ?? .empty))
-//                            self.projectInviteNotifications = Notifications
-//                                .Info
-//                                .Model
-//                                .UpcomingProjectInvites(notifications: data.map({ _ in Notifications
-//                                    .Info
-//                                    .Model
-//                                    .ProjectInviteNotification(userId: data[i].authorId ?? .empty,
-//                                                               userName: newData.name ?? .empty,
-//                                                               image: data[i].image ?? .empty,
-//                                                               projectId: data[i].projectId ?? .empty,
-//                                                               projectName: data[i].projectTitle ?? .empty)}))
                             if i == data.count-1 {
                                 self.presenter.presentLoading(false)
                                 self.allNotifications = Notifications
@@ -126,6 +113,10 @@ extension NotificationsInteractor {
     private func updateNotifications(without userId: String) {
         allNotifications?.notifications.removeAll(where:
             { $0.userId == userId && $0 is Notifications.Info.Model.ConnectNotification})
+    }
+    
+    private func fetchProjectParticipationRequests() {
+        
     }
 }
 

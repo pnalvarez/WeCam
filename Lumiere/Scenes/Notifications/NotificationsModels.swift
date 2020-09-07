@@ -99,10 +99,6 @@ struct Notifications {
                 case nothing
             }
             
-            struct UpcomingNotifications {
-                var notifications: [ConnectionNotification]
-            }
-            
             struct AllNotifications {
                 var notifications: [Notifications.Info.Model.NotificationType] 
             }
@@ -113,6 +109,10 @@ struct Notifications {
             
             struct UpcomingProjectInvites {
                 var notifications: [ProjectInviteNotification]
+            }
+            
+            struct UpcomingProjectParticipationRequests {
+                var notifications: [ProjectParticipationRequestNotification]
             }
             
             class NotificationType {
@@ -174,15 +174,6 @@ struct Notifications {
                 }
             }
             
-            //IT WILL BE ERASED
-            struct ConnectionNotification {
-                let userId: String
-                let image: String?
-                let name: String
-                let ocupation: String
-                let email: String
-            }
-            
             struct User {
                 let userId: String
             }
@@ -232,6 +223,10 @@ struct Notifications {
     }
     
     struct Request {
+        
+        struct FetchProjectParticipationRequestNotifications {
+            
+        }
         
         struct AcceptProjectInvite {
             let projectId: String
@@ -359,6 +354,28 @@ struct Notifications {
                 authorId <- map["author_id"]
                 projectTitle <- map["project_title"]
                 image <- map["image"]
+            }
+        }
+        
+        final class ProjectParticipationRequest: Mappable {
+            
+            var projectId: String?
+            var userId: String?
+            var userName: String?
+            var userEmail: String?
+            var ocupation: String?
+            var image: String?
+            var projectName: String?
+            
+            init?(map: Map) { }
+            
+            func mapping(map: Map) {
+                projectId <- map["projectId"]
+                userId <- map["userId"]
+                userName <- map["userName"]
+                userEmail <- map["userEmail"]
+                ocupation <- map["userOcupation"]
+                projectName <- map["projectName"]
             }
         }
         
