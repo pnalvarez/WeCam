@@ -2082,26 +2082,26 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                             completion(.error(error))
                             return
                         }
-                        self.realtimeDB
-                            .child(Constants.projectsPath)
-                            .child(Constants.ongoingProjectsPath)
-                            .child(projectId)
-                            .child("pending_invites")
-                            .observeSingleEvent(of: .value) { snapshot in
-                                guard var pendingInvites = snapshot.value as? [String] else {
-                                    completion(.error(FirebaseErrors.genericError))
-                                    return
-                                }
-                                pendingInvites.removeAll(where: { $0 == userId })
-                                self.realtimeDB
-                                    .child(Constants.projectsPath)
-                                    .child(Constants.ongoingProjectsPath)
-                                    .child(projectId)
-                                    .updateChildValues(["pending_invites": pendingInvites]) { (error, ref) in
-                                        if let error = error {
-                                            completion(.error(error))
-                                            return
-                                        }
+//                        self.realtimeDB
+//                            .child(Constants.projectsPath)
+//                            .child(Constants.ongoingProjectsPath)
+//                            .child(projectId)
+//                            .child("pending_invites")
+//                            .observeSingleEvent(of: .value) { snapshot in
+//                                guard var pendingInvites = snapshot.value as? [String] else {
+//                                    completion(.error(FirebaseErrors.genericError))
+//                                    return
+//                                }
+//                                pendingInvites.removeAll(where: { $0 == userId })
+//                                self.realtimeDB
+//                                    .child(Constants.projectsPath)
+//                                    .child(Constants.ongoingProjectsPath)
+//                                    .child(projectId)
+//                                    .updateChildValues(["pending_invites": pendingInvites]) { (error, ref) in
+//                                        if let error = error {
+//                                            completion(.error(error))
+//                                            return
+//                                        }
                                         self.realtimeDB
                                             .child(Constants.usersPath)
                                             .child(currentUser)
@@ -2151,8 +2151,6 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                                 }
                         }
                 }
-        }
-    }
 }
     
     //MARK: User Relationships

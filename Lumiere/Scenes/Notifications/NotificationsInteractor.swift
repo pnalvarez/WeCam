@@ -203,7 +203,7 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
             let toUserId = currentUser?.userId ?? .empty
             let newRequest = Notifications.Request.ConnectUsers(fromUserId: fromUserId,
                                                                 toUserId: toUserId)
-            self.presenter.presentLoading(true)
+            presenter.presentLoading(true)
             worker.fetchConnectUsers(newRequest) { response in
                 switch response {
                 case .success:
@@ -214,13 +214,12 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
                 case .error(let error):
                     self.presenter.presentLoading(false)
                     self.presenter.presentError(error.localizedDescription)
-                    break
                 }
             }
         } else if let projectInviteNotification = notification as? Notifications.Info.Model.ProjectInviteNotification {
             let projectId = projectInviteNotification.projectId
             let newRequest = Notifications.Request.AcceptProjectInvite(projectId: projectId)
-            self.presenter.presentLoading(true)
+            presenter.presentLoading(true)
             worker.fetchAcceptProjectInvite(newRequest) { response in
                 switch response {
                 case .success:
@@ -234,11 +233,33 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
                      self.presenter.presentAnsweredProjectInviteNotification(index: index,
                                                                              answer: .accepted)
                 case .error(let error):
-                    break
+                    self.presenter.presentLoading(false)
+                    self.presenter.presentError(error.localizedDescription)
                 }
             }
         } else if let projectParticipationRequest = notification as? Notifications.Info.Model.ProjectParticipationRequestNotification {
-            
+            let projectId = projectParticipationRequest.projectId
+            let userId = projectParticipationRequest.userId
+            let newRequest = Notifications.Request.FetchAcceptUserIntoProject(userId: userId,
+                                                                              projectId: projectId)
+            presenter.presentLoading(true)
+            worker.fetchAcceptUserIntoProject(newRequest) { response in
+                switch response {
+                case .success:
+                    self.presenter.presentLoading(false)
+                    self.allNotifications?.notifications.removeAll(where: {
+                        if let notification = $0 as? Notifications.Info.Model.ProjectParticipationRequestNotification {
+                            return notification.projectId == projectId && notification.userId == userId
+                        }
+                        return false
+                    })
+                    self.presenter.presentAnsweredProjectParticipationRequest(index: index,
+                                                                              answer: .accepted)
+                case .error(let error):
+                    self.presenter.presentLoading(false)
+                    self.presenter.presentError(error.localizedDescription)
+                }
+            }
         }
 }
     

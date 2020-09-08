@@ -56,6 +56,8 @@ struct Notifications {
             static let emptyNotifications = "Você não possui notificações"
             static let acceptedProjectInvite = "Você agora faz parte deste projeto"
             static let refusedProjectInvite = "Você recusou o convite para este projeto"
+            static let acceptedProjectParticipationRequest = "agora faz parte do seu projeto"
+            static let refusedProjectParticipationRequest = "foi recusado no seu projeto"
         }
         
         struct Dimensions {
@@ -229,6 +231,11 @@ struct Notifications {
     }
     
     struct Request {
+        
+        struct FetchAcceptUserIntoProject {
+            let userId: String
+            let projectId: String
+        }
         
         struct FetchProjectParticipationRequestNotifications {
             

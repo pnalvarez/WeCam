@@ -16,6 +16,8 @@ protocol NotificationsPresentationLogic {
                                      answer: Notifications.Info.Model.NotificationAnswer)
     func presentAnsweredProjectInviteNotification(index: Int,
                                                   answer: Notifications.Info.Model.NotificationAnswer)
+    func presentAnsweredProjectParticipationRequest(index: Int,
+                                                    answer: Notifications.Info.Model.NotificationAnswer)
     func didFetchProjectData()
 }
 
@@ -122,6 +124,20 @@ class NotificationsPresenter: NotificationsPresentationLogic {
         case .refused:
             viewModel = Notifications.Info.ViewModel.NotificationAnswer(index: index,
                                                                         text: Notifications.Constants.Texts.refusedProjectInvite)
+        }
+        viewController.displayNotificationAnswer(viewModel)
+    }
+    
+    func presentAnsweredProjectParticipationRequest(index: Int,
+                                                    answer: Notifications.Info.Model.NotificationAnswer) {
+        var viewModel: Notifications.Info.ViewModel.NotificationAnswer
+        switch answer {
+        case .accepted:
+            viewModel = Notifications.Info.ViewModel.NotificationAnswer(index: index,
+                                                                        text: Notifications.Constants.Texts.acceptedProjectParticipationRequest)
+        case .refused:
+            viewModel = Notifications.Info.ViewModel.NotificationAnswer(index: index,
+                                                                        text: Notifications.Constants.Texts.refusedProjectParticipationRequest)
         }
         viewController.displayNotificationAnswer(viewModel)
     }
