@@ -93,6 +93,8 @@ protocol FirebaseAuthHelperProtocol {
                      completion: @escaping (EmptyResponse) -> Void)
     func fetchProjectParticipationRequestNotifications<T: Mappable>(request: [String : Any],
                                                                     completion: @escaping (BaseResponse<[T]>) -> Void)
+    func acceptUserIntoProject(request: [String : Any],
+                               completion: @escaping (EmptyResponse) -> Void)
 }
 
 class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
@@ -2048,6 +2050,106 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                                     }
                             }
                     }
+                }
+        }
+    }
+    
+    func acceptUserIntoProject(request: [String : Any],
+                               completion: @escaping (EmptyResponse) -> Void) {
+        guard let userId = request["userId"] as? String,
+            let projectId = request["projectId"] as? String,
+            let currentUser = authReference.currentUser?.uid else {
+                completion(.error(FirebaseErrors.genericError))
+                return
+        }
+        realtimeDB
+            .child(Constants.projectsPath)
+            .child(Constants.ongoingProjectsPath)
+            .child(projectId)
+            .child("participants")
+            .observeSingleEvent(of: .value) { snapshot in
+                guard var participants = snapshot.value as? [String] else {
+                    completion(.error(FirebaseErrors.genericError))
+                    return
+                }
+                participants.append(userId)
+                self.realtimeDB
+                    .child(Constants.projectsPath)
+                    .child(Constants.ongoingProjectsPath)
+                    .child(projectId)
+                    .updateChildValues(["participants": participants]) { (error, ref) in
+                        if let error = error {
+                            completion(.error(error))
+                            return
+                        }
+                        self.realtimeDB
+                            .child(Constants.projectsPath)
+                            .child(Constants.ongoingProjectsPath)
+                            .child(projectId)
+                            .child("pending_invites")
+                            .observeSingleEvent(of: .value) { snapshot in
+                                guard var pendingInvites = snapshot.value as? [String] else {
+                                    completion(.error(FirebaseErrors.genericError))
+                                    return
+                                }
+                                pendingInvites.removeAll(where: { $0 == userId })
+                                self.realtimeDB
+                                    .child(Constants.projectsPath)
+                                    .child(Constants.ongoingProjectsPath)
+                                    .child(projectId)
+                                    .updateChildValues(["pending_invites": pendingInvites]) { (error, ref) in
+                                        if let error = error {
+                                            completion(.error(error))
+                                            return
+                                        }
+                                        self.realtimeDB
+                                            .child(Constants.usersPath)
+                                            .child(currentUser)
+                                            .child("project_participation_notifications")
+                                            .observeSingleEvent(of: .value) { snapshot in
+                                                guard var notifications = snapshot.value as? [[String : Any]] else {
+                                                    completion(.error(FirebaseErrors.genericError))
+                                                    return
+                                                }
+                                                notifications.removeAll(where: {
+                                                    guard let id = $0["userId"] as? String else {
+                                                        return false
+                                                    }
+                                                    return id == userId
+                                                })
+                                                self.realtimeDB
+                                                    .child(Constants.usersPath)
+                                                    .child(currentUser)
+                                                    .updateChildValues(["project_participation_notifications": notifications]) { (error, ref) in
+                                                    if let error = error {
+                                                        completion(.error(error))
+                                                        return
+                                                    }
+                                                        self.realtimeDB
+                                                            .child(Constants.usersPath)
+                                                            .child(currentUser)
+                                                            .child("pending_projects")
+                                                            .observeSingleEvent(of: .value) { snapshot in
+                                                                guard var pendingProjects = snapshot.value as? [String] else {
+                                                                    completion(.error(FirebaseErrors.genericError))
+                                                                    return
+                                                                }
+                                                                pendingProjects.removeAll(where: { $0 == projectId})
+                                                                self.realtimeDB
+                                                                    .child(Constants.usersPath)
+                                                                    .child(currentUser)
+                                                                    .updateChildValues( ["pending_projects": pendingProjects]) { (error, ref) in
+                                                                        if let error = error {
+                                                                            completion(.error(error))
+                                                                            return
+                                                                        }
+                                                                        completion(.success)
+                                                                }
+                                                        }
+                                                }
+                                        }
+                                }
+                        }
                 }
         }
     }

@@ -235,9 +235,11 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
                                                                              answer: .accepted)
                 case .error(let error):
                     break
+                }
             }
+        } else if let projectParticipationRequest = notification as? Notifications.Info.Model.ProjectParticipationRequestNotification {
+            
         }
-    }
 }
     
     func didRefuseNotification(_ request: Notifications.Request.NotificationAnswer) {
