@@ -143,7 +143,9 @@ extension NotificationsInteractor {
                                                                  userName: $0.userName ?? .empty,
                                                                  image: $0.image ?? .empty,
                                                                  projectId: $0.projectId ?? .empty,
-                                                                 projectName: $0.projectName ?? .empty) })
+                                                                 projectName: $0.projectName ?? .empty,
+                                                                 email: $0.userEmail ?? .empty,
+                                                                 ocupation: $0.ocupation ?? .empty) })
                     self.allNotifications = Notifications.Info.Model.AllNotifications(notifications: self.projectParticipationRequests?.notifications ?? .empty)
                     self.allNotifications?.notifications.append(contentsOf: self.projectInviteNotifications?.notifications ?? .empty)
                     self.allNotifications?.notifications.append(contentsOf: self.upcomingConnectNotifications?.notifications ?? .empty)

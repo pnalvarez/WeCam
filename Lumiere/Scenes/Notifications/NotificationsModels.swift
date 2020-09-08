@@ -162,14 +162,20 @@ struct Notifications {
             class ProjectParticipationRequestNotification: NotificationType {
                 let projectId: String
                 let projectName: String
+                let email: String
+                let ocupation: String
                 
                 init(userId: String,
-                              userName: String,
+                            userName: String,
                               image: String,
                               projectId: String,
-                              projectName: String) {
+                              projectName: String,
+                              email: String,
+                              ocupation: String) {
                     self.projectId = projectId
                     self.projectName = projectName
+                    self.email = email
+                    self.ocupation = ocupation
                     super.init(userId: userId, userName: userName, image: image)
                 }
             }

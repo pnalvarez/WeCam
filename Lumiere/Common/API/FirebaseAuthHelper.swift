@@ -2025,10 +2025,27 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                                 return
                             }
                             notifications[i]["projectName"] = title
-                            if i == notifications.count-1 {
-                                responseArray = notifications
-                                let mappedResponse = Mapper<T>().mapArray(JSONArray: responseArray)
-                                completion(.success(mappedResponse))
+                            guard let userId = notifications[i]["userId"] as? String else {
+                                completion(.error(FirebaseErrors.genericError))
+                                return
+                            }
+                            self.realtimeDB
+                                .child(Constants.usersPath)
+                                .child(userId)
+                                .observeSingleEvent(of: .value) { snapshot in
+                                    guard let user = snapshot.value as? [String : Any],
+                                        let email = user["email"] as? String,
+                                        let ocupation = user["professional_area"] as? String else {
+                                        completion(.error(FirebaseErrors.genericError))
+                                        return
+                                    }
+                                notifications[i]["userEmail"] = email
+                                notifications[i]["userOcupation"] = ocupation
+                                    if i == notifications.count-1 {
+                                        responseArray = notifications
+                                        let mappedResponse = Mapper<T>().mapArray(JSONArray: responseArray)
+                                        completion(.success(mappedResponse))
+                                    }
                             }
                     }
                 }

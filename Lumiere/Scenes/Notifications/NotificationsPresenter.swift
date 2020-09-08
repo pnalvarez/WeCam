@@ -78,8 +78,15 @@ class NotificationsPresenter: NotificationsPresentationLogic {
                     .Notification(notificationText: "Solicitou participar do projeto \(projectParticipationRequest.projectName), deseja aceitá-lo?",
                                   image: projectParticipationRequest.image,
                                   name: projectParticipationRequest.userName,
-                                  ocupation: .empty,
-                                  email: .empty,
+                                  ocupation: projectParticipationRequest.ocupation,
+                                  email: NSAttributedString(string: projectParticipationRequest.email,
+                                  attributes: [NSAttributedString.Key.font: Notifications
+                                      .Constants
+                                      .Fonts
+                                      .emailLbl,
+                                               NSAttributedString.Key.foregroundColor:
+                                                  Notifications.Constants.Colors.emailLbl,
+                                               NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue]),
                                   selectable: true)
                 viewModel.notifications.append(upcomingNotification)
             }
