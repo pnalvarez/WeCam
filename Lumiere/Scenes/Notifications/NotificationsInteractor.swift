@@ -188,6 +188,10 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
             let id = notification.projectId
             selectedProject = Notifications.Info.Model.Project(projectId: id)
             presenter.didFetchProjectData()
+        } else if let notification = allNotifications?.notifications[request.index] as? Notifications.Info.Model.ProjectParticipationRequestNotification {
+            let id = notification.userId
+            selectedUser = Notifications.Info.Model.User(userId: id)
+            presenter.didFetchUserData()
         }
     }
     
