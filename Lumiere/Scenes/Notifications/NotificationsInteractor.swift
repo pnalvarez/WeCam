@@ -274,7 +274,7 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
                 switch response {
                 case .success:
                     self.presenter.presentLoading(false)
-                    guard let index = self.allNotifications?.notifications.firstIndex(where: { $0.userId == userId }) else { return }
+                    guard let index = self.allNotifications?.notifications.firstIndex(where: { $0.userId == userId && $0 is Notifications.Info.Model.ConnectNotification }) else { return }
                     self.updateNotifications(without: userId)
                     self.presenter.presentAnsweredConnectNotification(index: index, answer: .refused)
                     break
@@ -285,7 +285,31 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
                 }
             }
         } else if let projectInviteNotification = notification as? Notifications.Info.Model.ProjectInviteNotification {
-            
+            let projectId = projectInviteNotification.projectId
+            let newRequest = Notifications.Request.RefuseProjectInvite(projectId: projectId)
+            presenter.presentLoading(true)
+            worker.fetchRefuseProjectInvite(newRequest) { response in
+                switch response {
+                case .success:
+                    self.presenter.presentLoading(false)
+                    guard let index = self.allNotifications?.notifications.firstIndex(where: {
+                        guard let notification = $0 as? Notifications.Info.Model.ProjectInviteNotification else {
+                            return false
+                        }
+                        return notification.projectId == projectId
+                    }) else { return }
+                    self.allNotifications?.notifications.removeAll(where: {
+                        guard let notification = $0 as? Notifications.Info.Model.ProjectInviteNotification else {
+                            return false
+                        }
+                        return notification.projectId == projectId
+                    })
+                    self.presenter.presentAnsweredProjectInviteNotification(index: index, answer: .refused)
+                case .error(let error):
+                    self.presenter.presentLoading(false)
+                    self.presenter.presentError(error.localizedDescription)
+                }
+            }
         }
     }
     

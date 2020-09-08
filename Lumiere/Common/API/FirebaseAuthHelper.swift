@@ -95,6 +95,8 @@ protocol FirebaseAuthHelperProtocol {
                                                                     completion: @escaping (BaseResponse<[T]>) -> Void)
     func acceptUserIntoProject(request: [String : Any],
                                completion: @escaping (EmptyResponse) -> Void)
+    func refuseUserIntoProject(request: [String : Any],
+                               completion: @escaping (EmptyResponse) -> Void)
 }
 
 class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
@@ -2151,6 +2153,11 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                                 }
                         }
                 }
+    
+    func refuseUserIntoProject(request: [String : Any],
+                               completion: @escaping (EmptyResponse) -> Void) {
+        //TO DO
+    }
 }
     
     //MARK: User Relationships
