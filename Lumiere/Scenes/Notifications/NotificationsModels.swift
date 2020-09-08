@@ -375,6 +375,7 @@ struct Notifications {
                 userName <- map["userName"]
                 userEmail <- map["userEmail"]
                 ocupation <- map["userOcupation"]
+                image <- map["image"]
                 projectName <- map["projectName"]
             }
         }

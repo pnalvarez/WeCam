@@ -64,15 +64,26 @@ class NotificationsPresenter: NotificationsPresentationLogic {
                  upcomingNotification = Notifications
                             .Info
                             .ViewModel
-                                .Notification(notificationText: "\(notification.userName) te convidou para este projeto, deseja participar?",
+                            .Notification(notificationText: "\(notification.userName) te convidou para este projeto, deseja participar?",
                                           image: inviteProjectNotification.image,
                                           name: inviteProjectNotification.projectName,
                                           ocupation: .empty,
                                           email: .empty,
                                           selectable: true)
                             viewModel.notifications.append(upcomingNotification)
-                        }
+            } else if let projectParticipationRequest = notification as? Notifications.Info.Model.ProjectParticipationRequestNotification {
+                upcomingNotification = Notifications
+                    .Info
+                    .ViewModel
+                    .Notification(notificationText: "Solicitou participar do projeto \(projectParticipationRequest.projectName), deseja aceitá-lo?",
+                                  image: projectParticipationRequest.image,
+                                  name: projectParticipationRequest.userName,
+                                  ocupation: .empty,
+                                  email: .empty,
+                                  selectable: true)
+                viewModel.notifications.append(upcomingNotification)
             }
+        }
         viewController.displayNotifications(viewModel)
     }
     
