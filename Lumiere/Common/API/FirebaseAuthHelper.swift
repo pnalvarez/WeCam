@@ -60,7 +60,7 @@ protocol FirebaseAuthHelperProtocol {
     func fetchSignOut(request: [String : Any],
                       completion: @escaping (EmptyResponse) -> Void)
     func fetchCreateProject<T: Mappable>(request: [String : Any],
-                            completion: @escaping (BaseResponse<T>) -> Void)
+                                         completion: @escaping (BaseResponse<T>) -> Void)
     func fetchProjectWorking<T: Mappable>(request: [String : Any],
                                           completion: @escaping (BaseResponse<T>) -> Void)
     func updateUserData(request: [String : Any],
@@ -68,21 +68,21 @@ protocol FirebaseAuthHelperProtocol {
     func inviteUserToProject(request: [String : Any],
                              completion: @escaping (EmptyResponse) -> Void)
     func fetchProjectRelation<T: Mappable>(request: [String : Any],
-                                      completion: @escaping (BaseResponse<T>) -> Void)
+                                           completion: @escaping (BaseResponse<T>) -> Void)
     func updateProjectInfo(request: [String : Any],
                            completion: @escaping (EmptyResponse) -> Void)
     func updateProjectImage<T: Mappable>(request: [String : Any],
-                            completion: @escaping (BaseResponse<T>) -> Void)
+                                         completion: @escaping (BaseResponse<T>) -> Void)
     func updateProjectNeedingField(request: [String : Any],
                                    completion: @escaping (EmptyResponse) -> Void)
     func fetchUserParticipatingProjects<T: Mappable>(request: [String : Any],
-                                        completion: @escaping (BaseResponse<[T]>) -> Void)
+                                                     completion: @escaping (BaseResponse<[T]>) -> Void)
     func fetchProjectInvites<T: Mappable>(request: [String : Any],
                                           completion: @escaping (BaseResponse<[T]>) -> Void)
     func acceptProjectInvite(request: [String : Any],
                              completion: @escaping (EmptyResponse) -> Void)
     func fetchProjectParticipants<T: Mappable>(request: [String : Any],
-                                  completion: @escaping (BaseResponse<[T]>) -> Void)
+                                               completion: @escaping (BaseResponse<[T]>) -> Void)
     func refuseProjectInvite(request: [String : Any],
                              completion: @escaping (EmptyResponse) -> Void)
     func sendProjectParticipationRequest(request: [String : Any],
@@ -1032,7 +1032,7 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
     }
     
     func fetchCreateProject<T: Mappable>(request: [String : Any],
-                            completion: @escaping (BaseResponse<T>) -> Void) {
+                                         completion: @escaping (BaseResponse<T>) -> Void) {
         if let payload = request["payload"] as? [String : Any],
             let image = payload["image"] as? Data?,
             let title = payload["title"] as? String,
@@ -1131,9 +1131,9 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                                                             return
                                                         }
                                                         guard let mappedResponse = Mapper<T>().map(JSON: projectDict) else {
-                                                                                   completion(.error(FirebaseErrors.genericError))
-                                                                                   return
-                                                                               }
+                                                            completion(.error(FirebaseErrors.genericError))
+                                                            return
+                                                        }
                                                         completion(.success(mappedResponse))
                                                 }
                                         }
@@ -1287,7 +1287,7 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
     }
     
     func fetchProjectRelation<T: Mappable>(request: [String : Any],
-                                 completion: @escaping (BaseResponse<T>) -> Void) {
+                                           completion: @escaping (BaseResponse<T>) -> Void) {
         guard let projectId = request["projectId"] as? String else {
             completion(.error(FirebaseErrors.genericError))
             return
@@ -1409,8 +1409,8 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                                    completion: @escaping (EmptyResponse) -> Void) {
         guard let needing = request["needing"] as? String,
             let projectId = request["projectId"] as? String else {
-            completion(.error(FirebaseErrors.genericError))
-            return
+                completion(.error(FirebaseErrors.genericError))
+                return
         }
         let dict: [String : Any] = ["needing": needing]
         realtimeDB
@@ -1426,49 +1426,49 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
     }
     
     func updateProjectImage<T: Mappable>(request: [String : Any],
-                            completion: @escaping (BaseResponse<T>) -> Void) {
+                                         completion: @escaping (BaseResponse<T>) -> Void) {
         guard let projectId = request["projectId"] as? String,
             let image = request["image"] as? Data else {
                 completion(.error(FirebaseErrors.genericError))
                 return
         }
         let projectImageReference = storage.child(Constants.projectImagesPath).child(projectId)
-              projectImageReference.putData(image, metadata: nil) { (metadata, error) in
-                  if let error = error {
-                      completion(.error(error))
-                      return
-                  }
-                  projectImageReference.downloadURL { (url, error) in
-                      if let error = error {
-                          completion(.error(error))
-                          return
-                      }
-                      guard let urlString = url?.absoluteString else {
-                          completion(.error(FirebaseErrors.genericError))
-                          return
-                      }
-                    let dict: [String : Any] = ["image": urlString]
-                    self.realtimeDB
-                        .child(Constants.projectsPath)
-                        .child(Constants.ongoingProjectsPath)
-                        .child(projectId)
-                        .updateChildValues(dict) { (error, ref) in
-                            if let error = error {
-                                completion(.error(error))
-                                return
-                            }
-                            guard let mappedResponse = Mapper<T>().map(JSON: dict) else {
-                                completion(.error(FirebaseErrors.parseError))
-                                return
-                            }
-                            completion(.success(mappedResponse))
-                    }
+        projectImageReference.putData(image, metadata: nil) { (metadata, error) in
+            if let error = error {
+                completion(.error(error))
+                return
+            }
+            projectImageReference.downloadURL { (url, error) in
+                if let error = error {
+                    completion(.error(error))
+                    return
                 }
+                guard let urlString = url?.absoluteString else {
+                    completion(.error(FirebaseErrors.genericError))
+                    return
+                }
+                let dict: [String : Any] = ["image": urlString]
+                self.realtimeDB
+                    .child(Constants.projectsPath)
+                    .child(Constants.ongoingProjectsPath)
+                    .child(projectId)
+                    .updateChildValues(dict) { (error, ref) in
+                        if let error = error {
+                            completion(.error(error))
+                            return
+                        }
+                        guard let mappedResponse = Mapper<T>().map(JSON: dict) else {
+                            completion(.error(FirebaseErrors.parseError))
+                            return
+                        }
+                        completion(.success(mappedResponse))
+                }
+            }
         }
     }
     
     func fetchUserParticipatingProjects<T: Mappable>(request: [String : Any],
-                                           completion: @escaping (BaseResponse<[T]>) -> Void) {
+                                                     completion: @escaping (BaseResponse<[T]>) -> Void) {
         var responseProjects = [[String : Any]]()
         guard let userId = request["userId"] as? String else {
             completion(.error(FirebaseErrors.genericError))
@@ -1483,7 +1483,7 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                     completion(.success(.empty))
                     return
                 }
-    
+                
                 for i in 0..<projectIds.count {
                     guard let projectId = projectIds[i] as? String else {
                         completion(.error(FirebaseErrors.genericError))
@@ -1543,8 +1543,8 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                              completion: @escaping (EmptyResponse) -> Void) {
         guard let projectId = request["projectId"] as? String,
             let currentUser = authReference.currentUser?.uid else {
-            completion(.error(FirebaseErrors.genericError))
-            return
+                completion(.error(FirebaseErrors.genericError))
+                return
         }
         realtimeDB
             .child(Constants.usersPath)
@@ -1594,61 +1594,61 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                                 for i in 0..<projectsArray.count {
                                     projectsDict["\(i)"] = projectsArray[i]
                                 }
-                            self.realtimeDB
-                                .child(Constants.usersPath)
-                                .child(currentUser)
-                                .child("participating_projects")
-                                .updateChildValues(projectsDict) { (error, ref) in
-                                    if let error = error {
-                                        completion(.error(error))
-                                        return
-                                    }
-                                    self.realtimeDB
-                                        .child(Constants.projectsPath)
-                                        .child(Constants.ongoingProjectsPath)
-                                        .child(projectId)
-                                        .child("pending_invites")
-                                        .observeSingleEvent(of: .value) { snapshot in
-                                            guard var pendingInvites = snapshot.value as? [String] else {
-                                                completion(.error(FirebaseErrors.genericError))
-                                                return
-                                            }
-                                            pendingInvites.removeAll(where: { $0 == currentUser })
-                                            self.realtimeDB
-                                                .child(Constants.projectsPath)
-                                                .child(Constants.ongoingProjectsPath)
-                                                .child(projectId)
-                                                .updateChildValues(["pending_invites": pendingInvites]) { (error, ref) in
-                                                    if let error = error {
-                                                        completion(.error(error))
-                                                        return
-                                                    }
-                                                    self.realtimeDB
-                                                        .child(Constants.projectsPath)
-                                                        .child(Constants.ongoingProjectsPath)
-                                                        .child(projectId)
-                                                        .child("participants")
-                                                        .observeSingleEvent(of: .value) { snapshot in
-                                                            guard var participants = snapshot.value as? [String] else {
-                                                                completion(.error(FirebaseErrors.genericError))
-                                                                return
-                                                            }
-                                                            participants.append(currentUser)
-                                                            self.realtimeDB
-                                                                .child(Constants.projectsPath)
-                                                                .child(Constants.ongoingProjectsPath)
-                                                                .child(projectId)
-                                                                .updateChildValues(["participants": participants]) { (error, ref) in
-                                                                    if let error = error {
-                                                                        completion(.error(error))
-                                                                        return
-                                                                    }
-                                                                    completion(.success)
-                                                            }
-                                                    }
-                                            }
-                                    }
-                            }
+                                self.realtimeDB
+                                    .child(Constants.usersPath)
+                                    .child(currentUser)
+                                    .child("participating_projects")
+                                    .updateChildValues(projectsDict) { (error, ref) in
+                                        if let error = error {
+                                            completion(.error(error))
+                                            return
+                                        }
+                                        self.realtimeDB
+                                            .child(Constants.projectsPath)
+                                            .child(Constants.ongoingProjectsPath)
+                                            .child(projectId)
+                                            .child("pending_invites")
+                                            .observeSingleEvent(of: .value) { snapshot in
+                                                guard var pendingInvites = snapshot.value as? [String] else {
+                                                    completion(.error(FirebaseErrors.genericError))
+                                                    return
+                                                }
+                                                pendingInvites.removeAll(where: { $0 == currentUser })
+                                                self.realtimeDB
+                                                    .child(Constants.projectsPath)
+                                                    .child(Constants.ongoingProjectsPath)
+                                                    .child(projectId)
+                                                    .updateChildValues(["pending_invites": pendingInvites]) { (error, ref) in
+                                                        if let error = error {
+                                                            completion(.error(error))
+                                                            return
+                                                        }
+                                                        self.realtimeDB
+                                                            .child(Constants.projectsPath)
+                                                            .child(Constants.ongoingProjectsPath)
+                                                            .child(projectId)
+                                                            .child("participants")
+                                                            .observeSingleEvent(of: .value) { snapshot in
+                                                                guard var participants = snapshot.value as? [String] else {
+                                                                    completion(.error(FirebaseErrors.genericError))
+                                                                    return
+                                                                }
+                                                                participants.append(currentUser)
+                                                                self.realtimeDB
+                                                                    .child(Constants.projectsPath)
+                                                                    .child(Constants.ongoingProjectsPath)
+                                                                    .child(projectId)
+                                                                    .updateChildValues(["participants": participants]) { (error, ref) in
+                                                                        if let error = error {
+                                                                            completion(.error(error))
+                                                                            return
+                                                                        }
+                                                                        completion(.success)
+                                                                }
+                                                        }
+                                                }
+                                        }
+                                }
                         }
                 }
         }
@@ -1699,8 +1699,8 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                              completion: @escaping (EmptyResponse) -> Void) {
         guard let projectId = request["projectId"] as? String,
             let currentUser = authReference.currentUser?.uid else {
-            completion(.error(FirebaseErrors.genericError))
-            return
+                completion(.error(FirebaseErrors.genericError))
+                return
         }
         realtimeDB
             .child(Constants.usersPath)
@@ -1795,62 +1795,62 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                                     .child(Constants.usersPath)
                                     .child(currentUser)
                                     .observeSingleEvent(of: .value) { snapshot in
-                                    guard let userData = snapshot.value as? [String : Any],
-                                        let username = userData["name"] as? String,
-                                        let userEmail = userData["email"] as? String,
-                                        let image = userData["profile_image_url"] as? String,
-                                        let ocupation = userData["professional_area"] as? String else {
-                                        completion(.error(FirebaseErrors.genericError))
-                                        return
-                                    }
-                                    self.realtimeDB
-                                        .child(Constants.usersPath)
-                                        .child(authorId)
-                                        .child("project_participation_notifications")
-                                        .observeSingleEvent(of: .value) { snapshot in
-                                            var notificationsArray: [[String : Any]] = .empty
-                                            let notificationDict: [String : Any] =
-                                                ["userId": currentUser,
-                                                 "userName": username,
-                                                 "userOcupation": ocupation,
-                                                 "image": image,
-                                                 "projectId": projectId,
-                                                 "userEmail": userEmail]
-                                            if var notifications = snapshot.value as? [[String : Any]] {
-                                                notificationsArray.append(contentsOf: notifications)
-                                                notifications.append(notificationDict)
-                                            } else {
-                                                notificationsArray = [notificationDict]
-                                            }
-                                            self.realtimeDB
-                                                .child(Constants.usersPath)
-                                                .child(authorId)
-                                                .updateChildValues(["project_participation_notifications" : notificationsArray]) { (error, ref) in
-                                                    if let error = error {
-                                                        completion(.error(error))
-                                                        return
-                                                    }
-                                                    self.realtimeDB
-                                                        .child(Constants.projectsPath)
-                                                        .child(Constants.ongoingProjectsPath)
-                                                        .child(projectId).child("pending_invites")
-                                                        .observeSingleEvent(of: .value) { snapshot in
-                                                            var invitesArray: [String] = .empty
-                                                            if let pendingInvites = snapshot.value as? [String] {
-                                                                invitesArray.append(contentsOf: pendingInvites)
-                                                            } else {
-                                                                invitesArray = [currentUser]
-                                                            }
-                                                            self.realtimeDB.child(Constants.projectsPath).child(Constants.ongoingProjectsPath).child(projectId).updateChildValues(["pending_invites": invitesArray]) { (error, ref) in
-                                                                if let error = error {
-                                                                    completion(.error(error))
-                                                                    return
+                                        guard let userData = snapshot.value as? [String : Any],
+                                            let username = userData["name"] as? String,
+                                            let userEmail = userData["email"] as? String,
+                                            let image = userData["profile_image_url"] as? String,
+                                            let ocupation = userData["professional_area"] as? String else {
+                                                completion(.error(FirebaseErrors.genericError))
+                                                return
+                                        }
+                                        self.realtimeDB
+                                            .child(Constants.usersPath)
+                                            .child(authorId)
+                                            .child("project_participation_notifications")
+                                            .observeSingleEvent(of: .value) { snapshot in
+                                                var notificationsArray: [[String : Any]] = .empty
+                                                let notificationDict: [String : Any] =
+                                                    ["userId": currentUser,
+                                                     "userName": username,
+                                                     "userOcupation": ocupation,
+                                                     "image": image,
+                                                     "projectId": projectId,
+                                                     "userEmail": userEmail]
+                                                if var notifications = snapshot.value as? [[String : Any]] {
+                                                    notificationsArray.append(contentsOf: notifications)
+                                                    notifications.append(notificationDict)
+                                                } else {
+                                                    notificationsArray = [notificationDict]
+                                                }
+                                                self.realtimeDB
+                                                    .child(Constants.usersPath)
+                                                    .child(authorId)
+                                                    .updateChildValues(["project_participation_notifications" : notificationsArray]) { (error, ref) in
+                                                        if let error = error {
+                                                            completion(.error(error))
+                                                            return
+                                                        }
+                                                        self.realtimeDB
+                                                            .child(Constants.projectsPath)
+                                                            .child(Constants.ongoingProjectsPath)
+                                                            .child(projectId).child("pending_invites")
+                                                            .observeSingleEvent(of: .value) { snapshot in
+                                                                var invitesArray: [String] = .empty
+                                                                if let pendingInvites = snapshot.value as? [String] {
+                                                                    invitesArray.append(contentsOf: pendingInvites)
+                                                                } else {
+                                                                    invitesArray = [currentUser]
                                                                 }
-                                                                completion(.success)
-                                                            }
-                                                    }
-                                            }
-                                    }
+                                                                self.realtimeDB.child(Constants.projectsPath).child(Constants.ongoingProjectsPath).child(projectId).updateChildValues(["pending_invites": invitesArray]) { (error, ref) in
+                                                                    if let error = error {
+                                                                        completion(.error(error))
+                                                                        return
+                                                                    }
+                                                                    completion(.success)
+                                                                }
+                                                        }
+                                                }
+                                        }
                                 }
                         }
                 }
@@ -1861,8 +1861,8 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                                            completion: @escaping (EmptyResponse) -> Void) {
         guard let projectId = request["projectId"] as? String,
             let currentUser = authReference.currentUser?.uid else {
-            completion(.error(FirebaseErrors.genericError))
-            return
+                completion(.error(FirebaseErrors.genericError))
+                return
         }
         realtimeDB
             .child(Constants.usersPath)
@@ -1931,11 +1931,11 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                                                             .child(Constants.usersPath)
                                                             .child(authorId)
                                                             .updateChildValues(["project_participation_notifications": notifications]) { (error, ref) in
-                                                            if let error = error {
-                                                                completion(.error(error))
-                                                                return
-                                                            }
-                                                            completion(.success)
+                                                                if let error = error {
+                                                                    completion(.error(error))
+                                                                    return
+                                                                }
+                                                                completion(.success)
                                                         }
                                                 }
                                         }
@@ -1998,7 +1998,7 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
     }
     
     func fetchProjectParticipationRequestNotifications<T: Mappable>(request: [String : Any],
-                                                          completion: @escaping (BaseResponse<[T]>) -> Void)  {
+                                                                    completion: @escaping (BaseResponse<[T]>) -> Void)  {
         var responseArray: [[String : Any]] = .empty
         guard let currentUser = authReference.currentUser?.uid else {
             completion(.error(FirebaseErrors.genericError))
@@ -2040,11 +2040,11 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                                     guard let user = snapshot.value as? [String : Any],
                                         let email = user["email"] as? String,
                                         let ocupation = user["professional_area"] as? String else {
-                                        completion(.error(FirebaseErrors.genericError))
-                                        return
+                                            completion(.error(FirebaseErrors.genericError))
+                                            return
                                     }
-                                notifications[i]["userEmail"] = email
-                                notifications[i]["userOcupation"] = ocupation
+                                    notifications[i]["userEmail"] = email
+                                    notifications[i]["userOcupation"] = ocupation
                                     if i == notifications.count-1 {
                                         responseArray = notifications
                                         let mappedResponse = Mapper<T>().mapArray(JSONArray: responseArray)
@@ -2084,152 +2084,181 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                             completion(.error(error))
                             return
                         }
-//                        self.realtimeDB
-//                            .child(Constants.projectsPath)
-//                            .child(Constants.ongoingProjectsPath)
-//                            .child(projectId)
-//                            .child("pending_invites")
-//                            .observeSingleEvent(of: .value) { snapshot in
-//                                guard var pendingInvites = snapshot.value as? [String] else {
-//                                    completion(.error(FirebaseErrors.genericError))
-//                                    return
-//                                }
-//                                pendingInvites.removeAll(where: { $0 == userId })
-//                                self.realtimeDB
-//                                    .child(Constants.projectsPath)
-//                                    .child(Constants.ongoingProjectsPath)
-//                                    .child(projectId)
-//                                    .updateChildValues(["pending_invites": pendingInvites]) { (error, ref) in
-//                                        if let error = error {
-//                                            completion(.error(error))
-//                                            return
-//                                        }
+                        self.realtimeDB
+                            .child(Constants.usersPath)
+                            .child(currentUser)
+                            .child("project_participation_notifications")
+                            .observeSingleEvent(of: .value) { snapshot in
+                                guard var notifications = snapshot.value as? [[String : Any]] else {
+                                    completion(.error(FirebaseErrors.genericError))
+                                    return
+                                }
+                                notifications.removeAll(where: {
+                                    guard let id = $0["userId"] as? String else {
+                                        return false
+                                    }
+                                    return id == userId
+                                })
+                                self.realtimeDB
+                                    .child(Constants.usersPath)
+                                    .child(currentUser)
+                                    .updateChildValues(["project_participation_notifications": notifications]) { (error, ref) in
+                                        if let error = error {
+                                            completion(.error(error))
+                                            return
+                                        }
                                         self.realtimeDB
                                             .child(Constants.usersPath)
                                             .child(currentUser)
-                                            .child("project_participation_notifications")
+                                            .child("pending_projects")
                                             .observeSingleEvent(of: .value) { snapshot in
-                                                guard var notifications = snapshot.value as? [[String : Any]] else {
+                                                guard var pendingProjects = snapshot.value as? [String] else {
                                                     completion(.error(FirebaseErrors.genericError))
                                                     return
                                                 }
-                                                notifications.removeAll(where: {
-                                                    guard let id = $0["userId"] as? String else {
-                                                        return false
-                                                    }
-                                                    return id == userId
-                                                })
+                                                pendingProjects.removeAll(where: { $0 == projectId})
                                                 self.realtimeDB
                                                     .child(Constants.usersPath)
                                                     .child(currentUser)
-                                                    .updateChildValues(["project_participation_notifications": notifications]) { (error, ref) in
-                                                    if let error = error {
-                                                        completion(.error(error))
-                                                        return
-                                                    }
-                                                        self.realtimeDB
-                                                            .child(Constants.usersPath)
-                                                            .child(currentUser)
-                                                            .child("pending_projects")
-                                                            .observeSingleEvent(of: .value) { snapshot in
-                                                                guard var pendingProjects = snapshot.value as? [String] else {
-                                                                    completion(.error(FirebaseErrors.genericError))
-                                                                    return
-                                                                }
-                                                                pendingProjects.removeAll(where: { $0 == projectId})
-                                                                self.realtimeDB
-                                                                    .child(Constants.usersPath)
-                                                                    .child(currentUser)
-                                                                    .updateChildValues( ["pending_projects": pendingProjects]) { (error, ref) in
-                                                                        if let error = error {
-                                                                            completion(.error(error))
-                                                                            return
-                                                                        }
-                                                                        completion(.success)
-                                                                }
+                                                    .updateChildValues( ["pending_projects": pendingProjects]) { (error, ref) in
+                                                        if let error = error {
+                                                            completion(.error(error))
+                                                            return
                                                         }
+                                                        completion(.success)
                                                 }
                                         }
                                 }
                         }
                 }
+        }
+    }
     
     func refuseUserIntoProject(request: [String : Any],
                                completion: @escaping (EmptyResponse) -> Void) {
-        //TO DO
+        guard let userId = request["userId"] as? String,
+            let projectId = request["projectId"] as? String,
+            let currentUser = authReference.currentUser?.uid else {
+                completion(.error(FirebaseErrors.genericError))
+                return
+        }
+        realtimeDB
+            .child(Constants.usersPath)
+            .child(userId)
+            .child("pending_projects")
+            .observeSingleEvent(of: .value) { snapshot in
+                guard var pendingProjects = snapshot.value as? [String] else {
+                    completion(.error(FirebaseErrors.genericError))
+                    return
+                }
+                pendingProjects.removeAll(where: { $0 == projectId })
+                self.realtimeDB
+                    .child(Constants.usersPath)
+                    .child(userId)
+                    .updateChildValues(["pending_projects": pendingProjects]) { (error, ref) in
+                        if let error = error {
+                            completion(.error(error))
+                            return
+                        }
+                        self.realtimeDB
+                            .child(Constants.usersPath)
+                            .child(currentUser)
+                            .child("project_participation_notifications")
+                            .observeSingleEvent(of: .value) { snapshot in
+                                guard var notifications = snapshot.value as? [[String : Any]] else {
+                                    completion(.error(FirebaseErrors.genericError))
+                                    return
+                                }
+                                notifications.removeAll(where: {
+                                    guard let project = $0["projectId"] as? String,
+                                        let user = $0["userId"] as? String else {
+                                        return false
+                                    }
+                                    return projectId == project && userId == user
+                                })
+                                self.realtimeDB.child(Constants.usersPath).child(currentUser).updateChildValues(["project_participation_notifications": notifications]) { (error, ref) in
+                                    if let error = error {
+                                        completion(.error(error))
+                                        return
+                                    }
+                                    completion(.success)
+                                }
+                        }
+                }
+        }
     }
 }
+
+//MARK: User Relationships
+extension FirebaseAuthHelper {
     
-    //MARK: User Relationships
-    extension FirebaseAuthHelper {
-        
-        private func checkConnected(request: FetchUserRelationRequest,
-                                    completion: @escaping (Bool) -> Void) {
-            realtimeDB
-                .child(Constants.usersPath)
-                .child(request.fromUserId)
-                .child("connections").observeSingleEvent(of: .value) { snapshot in
-                    guard let connections = snapshot.value as? Array<Any> else {
-                        completion(false)
-                        return
-                    }
-                    if connections.contains(where: { connection in
-                        if let userId = connection as? String {
-                            return userId == request.toUserId
-                        }
-                        return false
-                    }) {
-                        completion(true)
-                        return
-                    }
+    private func checkConnected(request: FetchUserRelationRequest,
+                                completion: @escaping (Bool) -> Void) {
+        realtimeDB
+            .child(Constants.usersPath)
+            .child(request.fromUserId)
+            .child("connections").observeSingleEvent(of: .value) { snapshot in
+                guard let connections = snapshot.value as? Array<Any> else {
                     completion(false)
-            }
+                    return
+                }
+                if connections.contains(where: { connection in
+                    if let userId = connection as? String {
+                        return userId == request.toUserId
+                    }
+                    return false
+                }) {
+                    completion(true)
+                    return
+                }
+                completion(false)
         }
-        
-        private func checkPending(request: FetchUserRelationRequest,
-                                  completion: @escaping (Bool) -> Void) {
-            realtimeDB
-                .child(Constants.usersPath)
-                .child(request.fromUserId)
-                .child("pending_connections").observeSingleEvent(of: .value) { snapshot in
-                    guard let pendingConnections = snapshot.value as? Array<Any> else {
-                        completion(false)
-                        return
-                    }
-                    if pendingConnections.contains(where: { connection in
-                        if let userId = connection as? String {
-                            return userId == request.toUserId
-                        }
-                        return false
-                    }) {
-                        completion(true)
-                        return
-                    }
+    }
+    
+    private func checkPending(request: FetchUserRelationRequest,
+                              completion: @escaping (Bool) -> Void) {
+        realtimeDB
+            .child(Constants.usersPath)
+            .child(request.fromUserId)
+            .child("pending_connections").observeSingleEvent(of: .value) { snapshot in
+                guard let pendingConnections = snapshot.value as? Array<Any> else {
                     completion(false)
-            }
+                    return
+                }
+                if pendingConnections.contains(where: { connection in
+                    if let userId = connection as? String {
+                        return userId == request.toUserId
+                    }
+                    return false
+                }) {
+                    completion(true)
+                    return
+                }
+                completion(false)
         }
-        
-        private func checkSent(request: FetchUserRelationRequest,
-                               completion: @escaping (Bool) -> Void) {
-            realtimeDB
-                .child(Constants.usersPath)
-                .child(request.toUserId)
-                .child("pending_connections").observeSingleEvent(of: .value) { snapshot in
-                    guard let pendingConnections = snapshot.value as? Array<Any> else {
-                        completion(false)
-                        return
-                    }
-                    if pendingConnections.contains(where: { connection in
-                        if let userId = connection as? String {
-                            return userId == request.fromUserId
-                        }
-                        return false
-                    }) {
-                        completion(true)
-                        return
-                    }
+    }
+    
+    private func checkSent(request: FetchUserRelationRequest,
+                           completion: @escaping (Bool) -> Void) {
+        realtimeDB
+            .child(Constants.usersPath)
+            .child(request.toUserId)
+            .child("pending_connections").observeSingleEvent(of: .value) { snapshot in
+                guard let pendingConnections = snapshot.value as? Array<Any> else {
                     completion(false)
-            }
+                    return
+                }
+                if pendingConnections.contains(where: { connection in
+                    if let userId = connection as? String {
+                        return userId == request.fromUserId
+                    }
+                    return false
+                }) {
+                    completion(true)
+                    return
+                }
+                completion(false)
         }
+    }
 }
 

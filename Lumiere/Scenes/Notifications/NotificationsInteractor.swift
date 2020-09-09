@@ -68,14 +68,7 @@ extension NotificationsInteractor {
                 if data.isEmpty {
                     self.presenter.presentLoading(false)
                     self.projectInviteNotifications?.notifications = .empty
-//                    self.allNotifications = Notifications
-//                        .Info
-//                        .Model
-//                        .AllNotifications(notifications: self.upcomingConnectNotifications?.notifications ?? .empty)
-//                    self.allNotifications?.notifications.append(contentsOf: self.projectInviteNotifications?.notifications ?? .empty)
                     self.fetchProjectParticipationRequests()
-//                    guard let allNotifications = self.allNotifications else { return }
-//                    self.presenter.presentNotifications(allNotifications)
                 }
                 for i in 0..<data.count {
                     self.worker.fetchInvitingUserData(Notifications.Request.FetchInvitingUser(userId: data[i].authorId ?? .empty)) { response in
@@ -91,25 +84,17 @@ extension NotificationsInteractor {
                                                        projectName: data[i].projectTitle ?? .empty))
                             if i == data.count-1 {
                                 self.fetchProjectParticipationRequests()
-//                                self.presenter.presentLoading(false)
-//                                self.allNotifications = Notifications
-//                                    .Info
-//                                    .Model
-//                                    .AllNotifications(notifications: self.upcomingConnectNotifications?.notifications ?? .empty)
-//                                self.allNotifications?.notifications.append(contentsOf: self.projectInviteNotifications?.notifications ?? .empty)
-//                                guard let allNotifications = self.allNotifications else { return }
-//                                self.presenter.presentNotifications(allNotifications)
                             }
                         case .error(let error):
                             self.presenter.presentLoading(false)
-                            break
+                            self.presenter.presentError(error.localizedDescription)
                         }
                     }
                 }
                 break
             case .error(let error):
                 self.presenter.presentLoading(false)
-                break
+                self.presenter.presentError(error.localizedDescription)
             }
         }
     }
@@ -153,7 +138,8 @@ extension NotificationsInteractor {
                     self.presenter.presentNotifications(allNotifications)
                 }
             case .error(let error):
-                break
+                self.presenter.presentLoading(false)
+                self.presenter.presentError(error.localizedDescription)
             }
         }
     }
@@ -305,6 +291,41 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
                         return notification.projectId == projectId
                     })
                     self.presenter.presentAnsweredProjectInviteNotification(index: index, answer: .refused)
+                case .error(let error):
+                    self.presenter.presentLoading(false)
+                    self.presenter.presentError(error.localizedDescription)
+                }
+            }
+        } else if let projectParticipationRequest = notification as? Notifications.Info.Model.ProjectParticipationRequestNotification {
+            let projectId = projectParticipationRequest.projectId
+            let userId = projectParticipationRequest.userId
+            let newRequest = Notifications.Request.RefuseParticipationRequest(projectId: projectId,
+                                                                              userId: userId)
+            presenter.presentLoading(true)
+            worker.fetchRefuseProjectParticipationRequest(newRequest) { response in
+                switch response {
+                case .success:
+                    self.presenter.presentLoading(false)
+                    guard let index = self.allNotifications?.notifications.firstIndex(where: {
+                                           guard let notification = $0 as? Notifications
+                                            .Info
+                                            .Model
+                                            .ProjectParticipationRequestNotification else {
+                                               return false
+                                           }
+                        return notification.projectId == projectId && notification.userId == userId
+                                       }) else { return }
+                    self.allNotifications?.notifications.removeAll(where: {
+                                       guard let notification = $0 as? Notifications
+                                        .Info
+                                        .Model
+                                        .ProjectParticipationRequestNotification else {
+                                           return false
+                                       }
+                    return notification.projectId == projectId && notification.userId == userId
+                                   })
+                    self.presenter.presentAnsweredProjectParticipationRequest(index: index,
+                                                                              answer: .refused)
                 case .error(let error):
                     self.presenter.presentLoading(false)
                     self.presenter.presentError(error.localizedDescription)

@@ -30,6 +30,8 @@ protocol NotificationsWorkerProtocol {
                                     completion: @escaping (EmptyResponse) -> Void)
     func fetchRefuseProjectInvite(_ request: Notifications.Request.RefuseProjectInvite,
                                   completion: @escaping (EmptyResponse) -> Void)
+    func fetchRefuseProjectParticipationRequest(_ request: Notifications.Request.RefuseParticipationRequest,
+                                                completion: @escaping (EmptyResponse) -> Void)
 }
 
 class NotificationsWorker: NotificationsWorkerProtocol {
@@ -110,5 +112,11 @@ class NotificationsWorker: NotificationsWorkerProtocol {
                                   completion: @escaping (EmptyResponse) -> Void) {
         let headers: [String : Any] = ["projectId": request.projectId]
         builder.refuseProjectInvite(request: headers, completion: completion)
+    }
+    
+    func fetchRefuseProjectParticipationRequest(_ request: Notifications.Request.RefuseParticipationRequest,
+                                                completion: @escaping (EmptyResponse) -> Void) {
+        let headers: [String : Any] = ["projectId": request.projectId, "userId": request.userId]
+        builder.refuseUserIntoProject(request: headers, completion: completion)
     }
 }

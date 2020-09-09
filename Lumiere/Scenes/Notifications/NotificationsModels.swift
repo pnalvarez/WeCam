@@ -232,6 +232,11 @@ struct Notifications {
     
     struct Request {
         
+        struct RefuseParticipationRequest {
+            let projectId: String
+            let userId: String
+        }
+        
         struct FetchAcceptUserIntoProject {
             let userId: String
             let projectId: String
