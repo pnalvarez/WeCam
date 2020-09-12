@@ -54,6 +54,9 @@ struct OnGoingProjectInvites {
         
         struct Received {
             
+            struct Project {
+                let projectId: String
+            }
         }
         
         struct Model {
@@ -113,10 +116,75 @@ struct OnGoingProjectInvites {
         
         struct Response {
             
+            final class User: Mappable {
+                
+                var image: String?
+                var name: String?
+                var ocupation: String?
+                var email: String?
+                
+                init?(map: Map) { }
+                
+                func mapping(map: Map) {
+                    image <- map["profile_image_url"]
+                    name <- map["name"]
+                    ocupation <- map["professional_area"]
+                    email <- map["email"]
+                }
+            }
+            
+            final class UserRelation: Mappable {
+                
+                var relation: String?
+                
+                init?(map: Map) { }
+                
+                func mapping(map: Map) {
+                    relation <- map["relation"]
+                }
+            }
+            
+            final class Project: Mappable {
+                
+                var title: String?
+                
+                init?(map: Map) { }
+                
+                func mapping(map: Map) {
+                    title <- map["title"]
+                }
+            }
         }
     }
     
     struct Request {
+         
+        struct FetchUsers {
+            
+        }
         
+        struct FetchProject {
+            
+        }
+        
+        struct Interaction {
+            let index: Int
+        }
+        
+        struct ConfirmInteraction {
+            
+        }
+        
+        struct RefuseInteraction {
+            
+        }
+        
+        struct Search {
+            let preffix: String
+        }
+        
+        struct SelectUser {
+            let index: Int
+        }
     }
 }

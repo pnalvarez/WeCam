@@ -14,6 +14,7 @@ protocol OnGoingProjectInvitesDisplayLogic: class {
     func displayConfirmationView(_ viewModel: OnGoingProjectInvites.Info.ViewModel.Alert)
     func hideConfirmationView()
     func displayLoading(_ loading: Bool)
+    func displayProfileDetails()
 }
 
 class OnGoingProjectInvitesController: BaseViewController {
@@ -101,6 +102,12 @@ class OnGoingProjectInvitesController: BaseViewController {
         super.viewDidLoad()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        interactor?.fetchUsers(OnGoingProjectInvites.Request.FetchUsers())
+        interactor?.fetchProject(OnGoingProjectInvites.Request.FetchProject())
+    }
+    
     override func loadView() {
         super.loadView()
         self.view = mainView
@@ -127,36 +134,34 @@ extension OnGoingProjectInvitesController {
     
     @objc
     private func didSearchTextFieldChange() {
-        
+        interactor?.fetchSearchUser(OnGoingProjectInvites
+            .Request
+            .Search(preffix: searchTextField.text ?? .empty))
     }
 }
 
 extension OnGoingProjectInvitesController: OnGoingProjectInvitesTableViewCellDelegate {
     
     func didTapInteraction(index: Int) {
-        
-    }
-    
-    func didSelectCell(index: Int) {
-        
+        interactor?.fetchInteract(OnGoingProjectInvites.Request.Interaction(index: index))
     }
 }
 
 extension OnGoingProjectInvitesController: ConfirmationAlertViewDelegate {
     
     func didTapAccept() {
-        
+        interactor?.fetchConfirmInteraction(OnGoingProjectInvites.Request.ConfirmInteraction())
     }
     
     func didTapRefuse() {
-        
+        interactor?.fetchRefuseInteraction(OnGoingProjectInvites.Request.RefuseInteraction())
     }
 }
 
 extension OnGoingProjectInvitesController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        interactor?.didSelectUser(OnGoingProjectInvites.Request.SelectUser(index: indexPath.row))
     }
 }
 
@@ -198,5 +203,9 @@ extension OnGoingProjectInvitesController: OnGoingProjectInvitesDisplayLogic {
     
     func displayLoading(_ loading: Bool) {
         activityView.isHidden = !loading
+    }
+    
+    func displayProfileDetails() {
+        router?.routeToProfileDetails()
     }
 }

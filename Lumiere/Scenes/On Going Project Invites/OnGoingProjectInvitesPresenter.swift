@@ -14,6 +14,7 @@ protocol OnGoingProjectInvitesPresentationLogic {
     func presentModalAlert(_ response: OnGoingProjectInvites.Info.Model.Alert)
     func hideModalAlert()
     func presentLoading(_ loading: Bool)
+    func presentProfileDetails()
 }
 
 class OnGoingProjectInvitesPresenter: OnGoingProjectInvitesPresentationLogic {
@@ -57,6 +58,10 @@ class OnGoingProjectInvitesPresenter: OnGoingProjectInvitesPresentationLogic {
     
     func presentLoading(_ loading: Bool) {
         viewController.displayLoading(loading)
+    }
+    
+    func presentProfileDetails() {
+        viewController.displayProfileDetails()
     }
 }
 

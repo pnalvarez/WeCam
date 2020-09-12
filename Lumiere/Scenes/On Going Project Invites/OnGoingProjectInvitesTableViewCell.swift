@@ -11,7 +11,6 @@ import SDWebImage
 
 protocol OnGoingProjectInvitesTableViewCellDelegate: class {
     func didTapInteraction(index: Int)
-    func didSelectCell(index: Int)
 }
 
 class OnGoingProjectInvitesTableViewCell: UITableViewCell {
@@ -74,11 +73,6 @@ extension OnGoingProjectInvitesTableViewCell {
     @objc
     private func didTapInteraction() {
         delegate?.didTapInteraction(index: index ?? 0)
-    }
-    
-    @objc
-    private func didSelectCell() {
-        delegate?.didSelectCell(index: index ?? 0)
     }
 }
 
