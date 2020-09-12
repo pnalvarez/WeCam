@@ -14,6 +14,26 @@ protocol OnGoingProjectInvitesDisplayLogic: class {
 
 class OnGoingProjectInvitesController: BaseViewController {
     
+    private lazy var closeButton: DefaultCloseButton = {
+        let view = DefaultCloseButton(frame: .zero)
+        view.addTarget(self, action: #selector(didTapClose), for: .touchUpInside)
+        return view
+    }()
+    
+    private lazy var searchTextField: UITextField = {
+        let view = UITextField(frame: .zero)
+        return view
+    }()
+    
+    private lazy var tableView: UITableView = {
+        let view = UITableView(frame: .zero)
+        view.assignProtocols(to: self)
+        view.bounces = false
+        view.alwaysBounceVertical = false
+ //
+        return view
+    }()
+    
     private var interactor: OnGoingProjectInvitesBusinessLogic?
     var router: OnGoingProjectInvitesRouterProtocol?
     
@@ -43,6 +63,14 @@ class OnGoingProjectInvitesController: BaseViewController {
         viewController.router = router
         router.dataStore = interactor
         router.viewController = viewController
+    }
+}
+
+extension OnGoingProjectInvitesController {
+    
+    @objc
+    private func didTapClose() {
+        
     }
 }
 

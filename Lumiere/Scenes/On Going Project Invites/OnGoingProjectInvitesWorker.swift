@@ -12,4 +12,9 @@ protocol OnGoingProjectInvitesWorkerProtocol {
 
 class OnGoingProjectInvitesWorker: OnGoingProjectInvitesWorkerProtocol {
     
+    private let builder: FirebaseAuthHelperProtocol
+    
+    init(builder: FirebaseAuthHelperProtocol = FirebaseAuthHelper()) {
+        self.builder = builder
+    }
 }

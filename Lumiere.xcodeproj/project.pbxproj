@@ -188,6 +188,7 @@
 		3FB8BD71250D602B001954FD /* OnGoingProjectInvitesWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB8BD70250D602B001954FD /* OnGoingProjectInvitesWorker.swift */; };
 		3FB8BD73250D6066001954FD /* OnGoingProjectInvitesPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB8BD72250D6066001954FD /* OnGoingProjectInvitesPresenter.swift */; };
 		3FB8BD75250D6087001954FD /* OnGoingProjectInvitesModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB8BD74250D6087001954FD /* OnGoingProjectInvitesModels.swift */; };
+		3FB8BD77250D65A6001954FD /* OnGoingProjectInvitesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB8BD76250D65A6001954FD /* OnGoingProjectInvitesTableViewCell.swift */; };
 		3FD0EDED250D599300E22029 /* OnGoingProjectInvitesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD0EDEC250D599300E22029 /* OnGoingProjectInvitesView.swift */; };
 		3FD0EDEF250D5AFD00E22029 /* OnGoingProjectInvitesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD0EDEE250D5AFD00E22029 /* OnGoingProjectInvitesController.swift */; };
 		3FD0EDF1250D5B8700E22029 /* OnGoingProjectInvitesRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD0EDF0250D5B8700E22029 /* OnGoingProjectInvitesRouter.swift */; };
@@ -410,6 +411,7 @@
 		3FB8BD70250D602B001954FD /* OnGoingProjectInvitesWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnGoingProjectInvitesWorker.swift; sourceTree = "<group>"; };
 		3FB8BD72250D6066001954FD /* OnGoingProjectInvitesPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnGoingProjectInvitesPresenter.swift; sourceTree = "<group>"; };
 		3FB8BD74250D6087001954FD /* OnGoingProjectInvitesModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnGoingProjectInvitesModels.swift; sourceTree = "<group>"; };
+		3FB8BD76250D65A6001954FD /* OnGoingProjectInvitesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnGoingProjectInvitesTableViewCell.swift; sourceTree = "<group>"; };
 		3FD0EDEC250D599300E22029 /* OnGoingProjectInvitesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnGoingProjectInvitesView.swift; sourceTree = "<group>"; };
 		3FD0EDEE250D5AFD00E22029 /* OnGoingProjectInvitesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnGoingProjectInvitesController.swift; sourceTree = "<group>"; };
 		3FD0EDF0250D5B8700E22029 /* OnGoingProjectInvitesRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnGoingProjectInvitesRouter.swift; sourceTree = "<group>"; };
@@ -1041,6 +1043,7 @@
 				3FB8BD70250D602B001954FD /* OnGoingProjectInvitesWorker.swift */,
 				3FB8BD72250D6066001954FD /* OnGoingProjectInvitesPresenter.swift */,
 				3FB8BD74250D6087001954FD /* OnGoingProjectInvitesModels.swift */,
+				3FB8BD76250D65A6001954FD /* OnGoingProjectInvitesTableViewCell.swift */,
 			);
 			path = "On Going Project Invites";
 			sourceTree = "<group>";
@@ -1382,6 +1385,7 @@
 				3F40A6AD24F0932800261161 /* EditProjectDetailsRouter.swift in Sources */,
 				3F40A60B24E9CA4D00261161 /* LoadingView.swift in Sources */,
 				3F40A6C324F231A000261161 /* EditProfileDetailsController.swift in Sources */,
+				3FB8BD77250D65A6001954FD /* OnGoingProjectInvitesTableViewCell.swift in Sources */,
 				3F8D13A324D65FCD00AED7EB /* GetConnectNotificationRequest.swift in Sources */,
 				3F40A6A724F0923900261161 /* EditProjectDetailsWorker.swift in Sources */,
 				3FE8DF4124C3F738005DE30D /* ThemeFonts.swift in Sources */,
