@@ -9,7 +9,11 @@
 import UIKit
 
 protocol OnGoingProjectInvitesPresentationLogic {
-    
+    func presentUsers(_ response: OnGoingProjectInvites.Info.Model.UpcomingUsers)
+    func presentProject(_ response: OnGoingProjectInvites.Info.Model.Project)
+    func presentModalAlert(_ response: OnGoingProjectInvites.Info.Model.Alert)
+    func hideModalAlert()
+    func presentLoading(_ loading: Bool)
 }
 
 class OnGoingProjectInvitesPresenter: OnGoingProjectInvitesPresentationLogic {
@@ -18,6 +22,41 @@ class OnGoingProjectInvitesPresenter: OnGoingProjectInvitesPresentationLogic {
     
     init(viewController: OnGoingProjectInvitesDisplayLogic) {
         self.viewController = viewController
+    }
+    
+    func presentUsers(_ response: OnGoingProjectInvites.Info.Model.UpcomingUsers) {
+        let viewModel = OnGoingProjectInvites.Info.ViewModel.UpcomingUsers(users: response.users.map({ OnGoingProjectInvites
+            .Info
+            .ViewModel
+            .User(image: $0.image,
+                  name: $0.name,
+                  ocupation: $0.ocupation,
+                  email: NSAttributedString(string: $0.email,
+                                            attributes: [NSAttributedString.Key.font: OnGoingProjectInvites.Constants.Fonts.emailLbl,
+                                                         NSAttributedString.Key.foregroundColor: OnGoingProjectInvites.Constants.Colors.emailLbl,
+                                                         NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue]),
+                  relation: $0.relation) }))
+        viewController.displayUsers(viewModel)
+    }
+    
+    func presentProject(_ response: OnGoingProjectInvites.Info.Model.Project) {
+        let viewModel = OnGoingProjectInvites.Info.ViewModel.Project(title: response.title)
+        viewController.displayProjectInfo(viewModel)
+    }
+    
+    func presentModalAlert(_ response: OnGoingProjectInvites.Info.Model.Alert) {
+        viewController.displayConfirmationView(OnGoingProjectInvites
+            .Info
+            .ViewModel
+            .Alert(text: response.text))
+    }
+    
+    func hideModalAlert() {
+        viewController.hideConfirmationView()
+    }
+    
+    func presentLoading(_ loading: Bool) {
+        viewController.displayLoading(loading)
     }
 }
 

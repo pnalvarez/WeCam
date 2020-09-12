@@ -56,11 +56,14 @@ class OnGoingProjectInvitesTableViewCell: UITableViewCell {
     }()
     
     weak var delegate: OnGoingProjectInvitesTableViewCellDelegate?
+    private var index: Int?
     private var viewModel: OnGoingProjectInvites.Info.ViewModel.User?
     
     func setup(delegate: OnGoingProjectInvitesTableViewCellDelegate? = nil,
+               index: Int,
                viewModel: OnGoingProjectInvites.Info.ViewModel.User) {
         self.delegate = delegate
+        self.index = index
         self.viewModel = viewModel
         applyViewCode()
     }
@@ -70,12 +73,12 @@ extension OnGoingProjectInvitesTableViewCell {
     
     @objc
     private func didTapInteraction() {
-        delegate?.didTapInteraction(index: viewModel?.index ?? 0)
+        delegate?.didTapInteraction(index: index ?? 0)
     }
     
     @objc
     private func didSelectCell() {
-        delegate?.didSelectCell(index: viewModel?.index ?? 0)
+        delegate?.didSelectCell(index: index ?? 0)
     }
 }
 
@@ -118,6 +121,7 @@ extension OnGoingProjectInvitesTableViewCell: ViewCodeProtocol {
     }
     
     func configureViews() {
+        backgroundColor = .white
         nameLbl.text = viewModel?.name
         ocupationLbl.text = viewModel?.ocupation
         emailLbl.attributedText = viewModel?.email

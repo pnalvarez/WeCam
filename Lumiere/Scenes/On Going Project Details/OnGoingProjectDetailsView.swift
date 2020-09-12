@@ -195,7 +195,8 @@ class OnGoingProjectDetailsView: UIView {
             self.translucentView.isHidden = false
             self.confirmationModalView.snp.remakeConstraints { make in
                 make.top.equalTo(self.translucentView.snp.centerY)
-                make.size.equalTo(self.translucentView)
+                make.left.right.equalToSuperview()
+                make.height.equalTo(self.translucentView)
             }
             self.layoutIfNeeded()
         })
@@ -206,7 +207,8 @@ class OnGoingProjectDetailsView: UIView {
             self.translucentView.isHidden = true
             self.confirmationModalView.snp.remakeConstraints { make in
                 make.top.equalTo(self.translucentView.snp.bottom)
-                make.size.equalTo(self.translucentView)
+                make.left.right.equalToSuperview()
+                make.height.equalTo(self.translucentView)
             }
             self.layoutIfNeeded()
         })

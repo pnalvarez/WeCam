@@ -11,7 +11,8 @@ import UIKit
 typealias OnGoingProjectInvitesRouterProtocol = NSObject & OnGoingProjectInvitesRoutingLogic & OnGoingProjectInvitesDataTransfer
 
 protocol OnGoingProjectInvitesRoutingLogic {
-    
+    func routeBack()
+    func routeToProfileDetails()
 }
 
 protocol OnGoingProjectInvitesDataTransfer {
@@ -33,4 +34,11 @@ extension OnGoingProjectInvitesRouter: BaseRouterProtocol {
 
 extension OnGoingProjectInvitesRouter: OnGoingProjectInvitesRoutingLogic {
     
+    func routeBack() {
+        
+    }
+    
+    func routeToProfileDetails() {
+        
+    }
 }
