@@ -363,7 +363,7 @@ extension OnGoingProjectDetailsController {
     
     @objc
     private func didTapInvite() {
-        
+        router?.routeToProjectInvites()
     }
     
     @objc

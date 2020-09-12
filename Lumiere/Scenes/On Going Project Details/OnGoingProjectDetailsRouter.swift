@@ -14,6 +14,7 @@ protocol OnGoingProjectDetailsRoutingLogic {
     func routeToEndOfFlow()
     func routeToUserDetails()
     func routeToProjectParticipantsList()
+    func routeToProjectInvites()
 }
 
 protocol OnGoingProjectDetailsDataTransfer {
@@ -39,6 +40,11 @@ class OnGoingProjectDetailsRouter: NSObject, OnGoingProjectDetailsDataTransfer {
             .Info
             .Received
             .Project(projectId: source.projectData?.id ?? .empty)
+    }
+    
+    private func transferDataToProjectInvites(from source: OnGoingProjectDetailsDataStore,
+                                              to destination: inout OnGoingProjectInvitesDataStore) {
+        destination.projectModel = OnGoingProjectInvites.Info.Received.Project(projectId: source.projectData?.id ?? .empty)
     }
 }
 
@@ -68,6 +74,14 @@ extension OnGoingProjectDetailsRouter: OnGoingProjectDetailsRoutingLogic {
         guard let source = dataStore,
             var destination = vc.router?.dataStore else { return }
         transferDataToProjectParticipantsList(from: source, to: &destination)
+        routeTo(nextVC: vc)
+    }
+    
+    func routeToProjectInvites() {
+        let vc = OnGoingProjectInvitesController()
+        guard let source = dataStore,
+            var destination = vc.router?.dataStore else { return }
+        transferDataToProjectInvites(from: source, to: &destination)
         routeTo(nextVC: vc)
     }
 }

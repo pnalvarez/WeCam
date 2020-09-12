@@ -7,7 +7,12 @@
 //
 
 protocol OnGoingProjectInvitesWorkerProtocol {
-    
+    func fetchConnections(_ request: OnGoingProjectInvites.Request.FetchUsers,
+                          completion: @escaping (BaseResponse<[OnGoingProjectInvites.Info.Response.User]>) -> Void)
+    func fetchUserRelationToProject(_ request: OnGoingProjectInvites.Request.FetchRelation,
+                                    completion: @escaping (BaseResponse<OnGoingProjectInvites.Info.Response.UserRelation>) -> Void)
+    func fetchProjectInfo(_ request: OnGoingProjectInvites.Request.FetchProjectWithId,
+                          completion: @escaping (BaseResponse<OnGoingProjectInvites.Info.Response.Project>) -> Void)
 }
 
 class OnGoingProjectInvitesWorker: OnGoingProjectInvitesWorkerProtocol {
@@ -16,5 +21,21 @@ class OnGoingProjectInvitesWorker: OnGoingProjectInvitesWorkerProtocol {
     
     init(builder: FirebaseAuthHelperProtocol = FirebaseAuthHelper()) {
         self.builder = builder
+    }
+    
+    func fetchConnections(_ request: OnGoingProjectInvites.Request.FetchUsers,
+                          completion: @escaping (BaseResponse<[OnGoingProjectInvites.Info.Response.User]>) -> Void) {
+        builder.fetchCurrentUserConnections(completion: completion)
+    }
+    
+    func fetchUserRelationToProject(_ request: OnGoingProjectInvites.Request.FetchRelation,
+                                    completion: @escaping (BaseResponse<OnGoingProjectInvites.Info.Response.UserRelation>) -> Void) {
+        
+    }
+    
+    func fetchProjectInfo(_ request: OnGoingProjectInvites.Request.FetchProjectWithId,
+                          completion: @escaping (BaseResponse<OnGoingProjectInvites.Info.Response.Project>) -> Void) {
+        let headers: [String : Any] = ["projectId": request.id]
+        builder.fetchProjectWorking(request: headers, completion: completion)
     }
 }

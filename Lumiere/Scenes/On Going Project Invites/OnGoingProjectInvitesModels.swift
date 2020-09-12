@@ -78,7 +78,7 @@ struct OnGoingProjectInvites {
                 let name: String
                 let ocupation: String
                 let email: String
-                let relation: Relation
+                var relation: Relation?
             }
             
             struct Project {
@@ -118,6 +118,7 @@ struct OnGoingProjectInvites {
             
             final class User: Mappable {
                 
+                var id: String?
                 var image: String?
                 var name: String?
                 var ocupation: String?
@@ -126,6 +127,7 @@ struct OnGoingProjectInvites {
                 init?(map: Map) { }
                 
                 func mapping(map: Map) {
+                    id <- map["id"]
                     image <- map["profile_image_url"]
                     name <- map["name"]
                     ocupation <- map["professional_area"]
@@ -165,6 +167,15 @@ struct OnGoingProjectInvites {
         
         struct FetchProject {
             
+        }
+        
+        struct FetchProjectWithId {
+            let id: String
+        }
+        
+        struct FetchRelation {
+            let userId: String
+            let projectId: String
         }
         
         struct Interaction {

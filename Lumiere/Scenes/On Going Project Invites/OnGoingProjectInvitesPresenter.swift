@@ -36,7 +36,7 @@ class OnGoingProjectInvitesPresenter: OnGoingProjectInvitesPresentationLogic {
                                             attributes: [NSAttributedString.Key.font: OnGoingProjectInvites.Constants.Fonts.emailLbl,
                                                          NSAttributedString.Key.foregroundColor: OnGoingProjectInvites.Constants.Colors.emailLbl,
                                                          NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue]),
-                  relation: $0.relation) }))
+                  relation: $0.relation ?? .nothing) }))
         viewController.displayUsers(viewModel)
     }
     
