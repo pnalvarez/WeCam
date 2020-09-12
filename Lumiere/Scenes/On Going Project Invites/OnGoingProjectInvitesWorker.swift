@@ -30,7 +30,9 @@ class OnGoingProjectInvitesWorker: OnGoingProjectInvitesWorkerProtocol {
     
     func fetchUserRelationToProject(_ request: OnGoingProjectInvites.Request.FetchRelation,
                                     completion: @escaping (BaseResponse<OnGoingProjectInvites.Info.Response.UserRelation>) -> Void) {
-        
+        let headers: [String : Any] = ["userId": request.userId, "projectId": request.projectId]
+        builder.fetchUserRelationToProject(request: headers,
+                                           completion: completion)
     }
     
     func fetchProjectInfo(_ request: OnGoingProjectInvites.Request.FetchProjectWithId,

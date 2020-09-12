@@ -97,6 +97,8 @@ protocol FirebaseAuthHelperProtocol {
                                completion: @escaping (EmptyResponse) -> Void)
     func refuseUserIntoProject(request: [String : Any],
                                completion: @escaping (EmptyResponse) -> Void)
+    func fetchUserRelationToProject<T: Mappable>(request: [String : Any],
+                                    completion: @escaping (BaseResponse<T>) -> Void)
 }
 
 class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
@@ -2188,6 +2190,15 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                                 }
                         }
                 }
+        }
+    }
+    
+    func fetchUserRelationToProject<T: Mappable>(request: [String : Any],
+                                                 completion: @escaping (BaseResponse<T>) -> Void) {
+        guard let userId = request["userId"] as? String,
+            let projectId = request["projectId"] as? String else {
+                completion(.error(FirebaseErrors.genericError))
+                return
         }
     }
 }
