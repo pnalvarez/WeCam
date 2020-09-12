@@ -2109,7 +2109,7 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                                         }
                                         self.realtimeDB
                                             .child(Constants.usersPath)
-                                            .child(currentUser)
+                                            .child(userId)
                                             .child("pending_projects")
                                             .observeSingleEvent(of: .value) { snapshot in
                                                 guard var pendingProjects = snapshot.value as? [String] else {
@@ -2119,7 +2119,7 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                                                 pendingProjects.removeAll(where: { $0 == projectId})
                                                 self.realtimeDB
                                                     .child(Constants.usersPath)
-                                                    .child(currentUser)
+                                                    .child(userId)
                                                     .updateChildValues( ["pending_projects": pendingProjects]) { (error, ref) in
                                                         if let error = error {
                                                             completion(.error(error))
@@ -2176,7 +2176,10 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                                     }
                                     return projectId == project && userId == user
                                 })
-                                self.realtimeDB.child(Constants.usersPath).child(currentUser).updateChildValues(["project_participation_notifications": notifications]) { (error, ref) in
+                                self.realtimeDB
+                                    .child(Constants.usersPath)
+                                    .child(currentUser)
+                                    .updateChildValues(["project_participation_notifications": notifications]) { (error, ref) in
                                     if let error = error {
                                         completion(.error(error))
                                         return
