@@ -185,6 +185,11 @@ struct OnGoingProjectInvites {
     
     struct Request {
         
+        struct RemoveInvite {
+            let userId: String
+            let projectId: String
+        }
+        
         struct InviteUser {
             let userId: String
             let projectId: String

@@ -90,6 +90,10 @@ extension OnGoingProjectInvitesInteractor {
         
     }
     
+    private func removeInvite(request: OnGoingProjectInvites.Request.RemoveInvite) {
+        
+    }
+    
     private func inviteUserToProject(request: OnGoingProjectInvites.Request.InviteUser) {
         
     }
@@ -180,7 +184,20 @@ extension OnGoingProjectInvitesInteractor: OnGoingProjectInvitesBusinessLogic {
     }
     
     func fetchConfirmInteraction(_ request: OnGoingProjectInvites.Request.ConfirmInteraction) {
-        
+        guard let index = users?.users.firstIndex(where: { $0.userId == interactingUser?.userId }) else { return }
+        switch interactingUser?.relation ?? .nothing {
+        case .simpleParticipant:
+            presenter.presentRelationUpdate(OnGoingProjectInvites.Info.Model.RelationUpdate(index: index, relation: .nothing))
+            removeUserFromProject(request: OnGoingProjectInvites.Request.RemoveUserFromProject(userId: interactingUser?.userId ?? .empty, projectId: projectModel?.projectId ?? .empty))
+        case .sentRequest:
+            presenter.presentRelationUpdate(OnGoingProjectInvites.Info.Model.RelationUpdate(index: index, relation: .simpleParticipant))
+            acceptUserIntoProject(request: OnGoingProjectInvites.Request.AcceptUser(userId: interactingUser?.userId ?? .empty, projectId: projectModel?.projectId ?? .empty))
+        case .receivedRequest:
+            presenter.presentRelationUpdate(OnGoingProjectInvites.Info.Model.RelationUpdate(index: index, relation: .nothing))
+            removeInvite(request: OnGoingProjectInvites.Request.RemoveInvite(userId: interactingUser?.userId ?? .empty, projectId: projectModel?.projectId ?? .empty))
+        case .nothing:
+            break
+        }
     }
     
     func fetchRefuseInteraction(_ request: OnGoingProjectInvites.Request.RefuseInteraction) {
