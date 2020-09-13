@@ -42,14 +42,15 @@ class OnGoingProjectInvitesInteractor: OnGoingProjectInvitesDataStore {
 
 extension OnGoingProjectInvitesInteractor {
     
-    private func fetchUserRelationToProject(request: OnGoingProjectInvites.Request.FetchRelation) {
+    private func fetchUserRelationToProject(request: OnGoingProjectInvites.Request.FetchRelation,
+                                            count: Int) {
         worker.fetchUserRelationToProject(request) { response in
             switch response {
             case .success(let data):
                 self.presenter.presentLoading(false)
                 guard let relation = data.relation else { return }
                 var newRelation: OnGoingProjectInvites.Info.Model.Relation
-                if relation == "PARTICIPANT" {
+                if relation == "SIMPLE PARTICIPANT" {
                     newRelation = .simpleParticipant
                 } else if relation == "SENT REQUEST" {
                     newRelation = .sentRequest
@@ -61,6 +62,10 @@ extension OnGoingProjectInvitesInteractor {
                 guard let index = self.users?.users.firstIndex(where:
                     { $0.userId == request.userId }) else { return }
                 self.users?.users[index].relation = newRelation
+                if request.index == count-1 {
+                    guard let usersResponse = self.users else { return }
+                    self.presenter.presentUsers(usersResponse)
+                }
             case .error(let error):
                 break
             }
@@ -86,11 +91,7 @@ extension OnGoingProjectInvitesInteractor: OnGoingProjectInvitesBusinessLogic {
                               ocupation: data[i].ocupation ?? .empty,
                               email: data[i].email ?? .empty,
                               relation: nil))
-                    self.fetchUserRelationToProject(request: OnGoingProjectInvites.Request.FetchRelation(userId: data[i].id ?? .empty, projectId: self.projectModel?.projectId ?? .empty))
-                    if i == data.count-1 {
-                        guard let usersResponse = self.users else { return }
-                        self.presenter.presentUsers(usersResponse)
-                    }
+                    self.fetchUserRelationToProject(request: OnGoingProjectInvites.Request.FetchRelation(userId: data[i].id ?? .empty, projectId: self.projectModel?.projectId ?? .empty, index: i), count: data.count)
                 }
             case .error(let error):
                 break

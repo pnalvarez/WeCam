@@ -931,8 +931,8 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                         completion(.success(response))
                         return
                     }
-                    for connection in connections {
-                        guard let connectionId = connection as? String else {
+                    for i in 0..<connections.count {
+                        guard let connectionId = connections[i] as? String else {
                             completion(.error(FirebaseErrors.parseError))
                             return
                         }
@@ -954,8 +954,10 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                                                                    "image": image,
                                                                    "userId": connectionId]
                                     responseConnections.append(newJson)
-                                    let mappedResponse = Mapper<T>().mapArray(JSONArray: responseConnections)
-                                    completion(.success(mappedResponse))
+                                    if i == connections.count-1 {
+                                        let mappedResponse = Mapper<T>().mapArray(JSONArray: responseConnections)
+                                        completion(.success(mappedResponse))
+                                    }
                                 }
                         }
                     }
@@ -2221,6 +2223,7 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                         return
                     }
                     completion(.success(mappedResponse))
+                    return
                 }
                 self.realtimeDB
                     .child(Constants.usersPath)
@@ -2234,6 +2237,7 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                                 return
                             }
                             completion(.success(mappedResponse))
+                            return
                         }
                         self.realtimeDB
                             .child(Constants.projectsPath)
@@ -2249,6 +2253,7 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                                         return
                                     }
                                     completion(.success(mappedResponse))
+                                    return
                                 }
                                 responseDict["relation"] = "NOTHING"
                                 guard let mappedResponse = Mapper<T>().map(JSON: responseDict) else {

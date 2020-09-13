@@ -35,7 +35,7 @@ extension OnGoingProjectInvitesRouter: BaseRouterProtocol {
 extension OnGoingProjectInvitesRouter: OnGoingProjectInvitesRoutingLogic {
     
     func routeBack() {
-        
+        viewController?.navigationController?.popViewController(animated: true)
     }
     
     func routeToProfileDetails() {

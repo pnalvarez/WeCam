@@ -26,7 +26,19 @@ class OnGoingProjectInvitesPresenter: OnGoingProjectInvitesPresentationLogic {
     }
     
     func presentUsers(_ response: OnGoingProjectInvites.Info.Model.UpcomingUsers) {
-        let viewModel = OnGoingProjectInvites.Info.ViewModel.UpcomingUsers(users: response.users.map({ OnGoingProjectInvites
+        let viewModel = OnGoingProjectInvites.Info.ViewModel.UpcomingUsers(users: response.users.map({
+            var image: UIImage?
+            switch $0.relation ?? .nothing {
+            case .simpleParticipant:
+                image = OnGoingProjectInvites.Constants.Images.member
+            case .sentRequest:
+                image = OnGoingProjectInvites.Constants.Images.sentRequest
+            case .receivedRequest:
+                image = OnGoingProjectInvites.Constants.Images.receivedRequest
+            case .nothing:
+                image = OnGoingProjectInvites.Constants.Images.invite
+            }
+            return OnGoingProjectInvites
             .Info
             .ViewModel
             .User(image: $0.image,
@@ -36,7 +48,7 @@ class OnGoingProjectInvitesPresenter: OnGoingProjectInvitesPresentationLogic {
                                             attributes: [NSAttributedString.Key.font: OnGoingProjectInvites.Constants.Fonts.emailLbl,
                                                          NSAttributedString.Key.foregroundColor: OnGoingProjectInvites.Constants.Colors.emailLbl,
                                                          NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue]),
-                  relation: $0.relation ?? .nothing) }))
+                  relation: image) }))
         viewController.displayUsers(viewModel)
     }
     

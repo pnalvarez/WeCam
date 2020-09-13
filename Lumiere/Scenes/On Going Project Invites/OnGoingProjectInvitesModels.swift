@@ -36,7 +36,7 @@ struct OnGoingProjectInvites {
         }
         
         struct Images {
-            static let invite = UIImage(named: "icone-usuario-sem-relacao-com-o-projeto 1", in: OnGoingProjectInvites.bundle, compatibleWith: nil)
+            static let invite = UIImage(named: "icone-usuario-sem-relação-com-o-projeto 1", in: OnGoingProjectInvites.bundle, compatibleWith: nil)
             static let member = UIImage(named: "icone-conexao-feita 1", in: OnGoingProjectInvites.bundle, compatibleWith: nil)
             static let receivedRequest = UIImage(named: "icone-pendente 1", in: OnGoingProjectInvites.bundle, compatibleWith: nil)
             static let sentRequest = UIImage(named: "pendente 1", in: OnGoingProjectInvites.bundle, compatibleWith: nil)
@@ -102,7 +102,7 @@ struct OnGoingProjectInvites {
                 let name: String
                 let ocupation: String
                 let email: NSAttributedString
-                let relation: Model.Relation
+                let relation: UIImage?
             }
             
             struct Project {
@@ -176,6 +176,7 @@ struct OnGoingProjectInvites {
         struct FetchRelation {
             let userId: String
             let projectId: String
+            let index: Int
         }
         
         struct Interaction {

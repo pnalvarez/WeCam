@@ -120,5 +120,6 @@ extension OnGoingProjectInvitesTableViewCell: ViewCodeProtocol {
         ocupationLbl.text = viewModel?.ocupation
         emailLbl.attributedText = viewModel?.email
         photoImageView.sd_setImage(with: URL(string: viewModel?.image ?? .empty), completed: nil)
+        interactButton.setImage(viewModel?.relation, for: .normal)
     }
 }
