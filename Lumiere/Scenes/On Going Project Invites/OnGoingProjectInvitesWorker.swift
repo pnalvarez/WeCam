@@ -21,6 +21,8 @@ protocol OnGoingProjectInvitesWorkerProtocol {
                                     completion: @escaping (EmptyResponse) -> Void)
     func fetchRemoveUserFromProject(_ request: OnGoingProjectInvites.Request.RemoveUserFromProject,
                                     completion: @escaping (EmptyResponse) -> Void)
+    func fetchRemoveInviteToUser(_ request: OnGoingProjectInvites.Request.RemoveInvite,
+                                 completion: @escaping (EmptyResponse) -> Void)
 }
 
 class OnGoingProjectInvitesWorker: OnGoingProjectInvitesWorkerProtocol {
@@ -74,6 +76,12 @@ class OnGoingProjectInvitesWorker: OnGoingProjectInvitesWorkerProtocol {
     func fetchRemoveUserFromProject(_ request: OnGoingProjectInvites.Request.RemoveUserFromProject,
                                     completion: @escaping (EmptyResponse) -> Void) {
         let headers: [String : Any] = ["userId": request.userId, "projectId": request.projectId]
-        //TO DO
+        builder.removeUserFromProject(request: headers, completion: completion)
+    }
+    
+    func fetchRemoveInviteToUser(_ request: OnGoingProjectInvites.Request.RemoveInvite,
+                                 completion: @escaping (EmptyResponse) -> Void) {
+        let headers: [String : Any] = ["userId" : request.userId, "projectId": request.projectId]
+        builder.removeProjectInviteToUser(request: headers, completion: completion)
     }
 }
