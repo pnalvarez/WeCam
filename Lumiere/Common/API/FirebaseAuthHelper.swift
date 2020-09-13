@@ -2298,7 +2298,59 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
     
     func removeProjectInviteToUser(request: [String : Any],
                                    completion: @escaping (EmptyResponse) -> Void) {
-        
+        guard let userId = request["userId"] as? String,
+            let projectId = request["projectId"] as? String else {
+                completion(.error(FirebaseErrors.genericError))
+                return
+        }
+        realtimeDB
+            .child(Constants.projectsPath)
+            .child(Constants.ongoingProjectsPath)
+            .child(projectId)
+            .child("pending_invites")
+            .observeSingleEvent(of: .value) { snapshot in
+                guard var invites = snapshot.value as? [String] else {
+                    completion(.error(FirebaseErrors.genericError))
+                    return
+                }
+                invites.removeAll(where: { $0 == userId })
+                self.realtimeDB
+                    .child(Constants.projectsPath)
+                    .child(Constants.ongoingProjectsPath)
+                    .child(projectId)
+                    .updateChildValues(["pending_invites": invites]) { (error, ref) in
+                    if let error = error {
+                        completion(.error(error))
+                        return
+                    }
+                        self.realtimeDB
+                            .child(Constants.usersPath)
+                            .child(userId)
+                            .child("project_invite_notifications")
+                            .observeSingleEvent(of: .value) { snapshot in
+                                guard var notifications = snapshot.value as? [[String : Any]] else {
+                                    completion(.error(FirebaseErrors.genericError))
+                                    return
+                                }
+                                notifications.removeAll(where: {
+                                    guard let project = $0["projectId"] as? String else {
+                                        return false
+                                    }
+                                    return project == projectId
+                                })
+                                self.realtimeDB
+                                    .child(Constants.usersPath)
+                                    .child(userId)
+                                    .updateChildValues(["project_invite_notifications": notifications]) { (error, ref) in
+                                        if let error = error {
+                                            completion(.error(error))
+                                            return
+                                        }
+                                        completion(.success)
+                                }
+                        }
+                }
+        }
     }
     
     func removeUserFromProject(request: [String : Any],
