@@ -946,9 +946,11 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                                 }
                                 if let name = response["name"] as? String,
                                     let ocupation = response["professional_area"] as? String,
+                                    let email = response["email"] as? String,
                                     let image = response["profile_image_url"] as? String {
                                     let newJson: [String : Any] = ["name": name,
                                                                    "ocupation" : ocupation,
+                                                                   "email": email,
                                                                    "image": image,
                                                                    "userId": connectionId]
                                     responseConnections.append(newJson)
@@ -1155,7 +1157,8 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
             realtimeDB
                 .child(Constants.projectsPath)
                 .child(Constants.ongoingProjectsPath)
-                .child(projectId).observeSingleEvent(of: .value) { snapshot in
+                .child(projectId)
+                .observeSingleEvent(of: .value) { snapshot in
                     guard var projectData = snapshot.value as? [String : Any] else {
                         completion(.error(FirebaseErrors.genericError))
                         return
@@ -2195,10 +2198,66 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
     
     func fetchUserRelationToProject<T: Mappable>(request: [String : Any],
                                                  completion: @escaping (BaseResponse<T>) -> Void) {
+        var responseDict: [String : Any] = .empty
         guard let userId = request["userId"] as? String,
             let projectId = request["projectId"] as? String else {
                 completion(.error(FirebaseErrors.genericError))
                 return
+        }
+        realtimeDB
+            .child(Constants.projectsPath)
+            .child(Constants.ongoingProjectsPath)
+            .child(projectId)
+            .child("participants")
+            .observeSingleEvent(of: .value) { snapshot in
+                guard let participants = snapshot.value as? [String] else {
+                    completion(.error(FirebaseErrors.genericError))
+                    return
+                }
+                if participants.contains(userId) {
+                    responseDict["relation"] = "SIMPLE PARTICIPANT"
+                    guard let mappedResponse = Mapper<T>().map(JSON: responseDict) else {
+                        completion(.error(FirebaseErrors.parseError))
+                        return
+                    }
+                    completion(.success(mappedResponse))
+                }
+                self.realtimeDB
+                    .child(Constants.usersPath)
+                    .child(userId)
+                    .child("pending_projects")
+                    .observeSingleEvent(of: .value) { snapshot in
+                        if let projects = snapshot.value as? [String], projects.contains(projectId) {
+                            responseDict["relation"] = "SENT REQUEST"
+                            guard let mappedResponse = Mapper<T>().map(JSON: responseDict) else {
+                                completion(.error(FirebaseErrors.parseError))
+                                return
+                            }
+                            completion(.success(mappedResponse))
+                        }
+                        self.realtimeDB
+                            .child(Constants.projectsPath)
+                            .child(Constants.ongoingProjectsPath)
+                            .child(projectId)
+                            .child("pending_invites")
+                            .observeSingleEvent(of: .value) { snapshot in
+                                if let invites = snapshot.value as? [String],
+                                    invites.contains(userId) {
+                                    responseDict["relation"] = "RECEIVED REQUEST"
+                                    guard let mappedResponse = Mapper<T>().map(JSON: responseDict) else {
+                                        completion(.error(FirebaseErrors.parseError))
+                                        return
+                                    }
+                                    completion(.success(mappedResponse))
+                                }
+                                responseDict["relation"] = "NOTHING"
+                                guard let mappedResponse = Mapper<T>().map(JSON: responseDict) else {
+                                    completion(.error(FirebaseErrors.parseError))
+                                    return
+                                }
+                                completion(.success(mappedResponse))
+                        }
+                }
         }
     }
 }

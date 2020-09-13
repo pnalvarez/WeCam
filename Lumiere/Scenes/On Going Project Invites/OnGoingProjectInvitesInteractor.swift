@@ -58,7 +58,8 @@ extension OnGoingProjectInvitesInteractor {
                 } else {
                     newRelation = .nothing
                 }
-                guard let index = self.users?.users.firstIndex(where: { $0.userId == request.userId }) else { return }
+                guard let index = self.users?.users.firstIndex(where:
+                    { $0.userId == request.userId }) else { return }
                 self.users?.users[index].relation = newRelation
             case .error(let error):
                 break
@@ -71,10 +72,20 @@ extension OnGoingProjectInvitesInteractor: OnGoingProjectInvitesBusinessLogic {
     
     func fetchUsers(_ request: OnGoingProjectInvites.Request.FetchUsers) {
         presenter.presentLoading(true)
+        users = OnGoingProjectInvites.Info.Model.UpcomingUsers(users: .empty)
         worker.fetchConnections(request) { response in
             switch response {
             case .success(let data):
                 for i in 0..<data.count {
+                    self.users?.users.append(OnGoingProjectInvites
+                        .Info
+                        .Model
+                        .User(userId: data[i].id ?? .empty,
+                              image: data[i].image ?? .empty,
+                              name: data[i].name ?? .empty,
+                              ocupation: data[i].ocupation ?? .empty,
+                              email: data[i].email ?? .empty,
+                              relation: nil))
                     self.fetchUserRelationToProject(request: OnGoingProjectInvites.Request.FetchRelation(userId: data[i].id ?? .empty, projectId: self.projectModel?.projectId ?? .empty))
                     if i == data.count-1 {
                         guard let usersResponse = self.users else { return }

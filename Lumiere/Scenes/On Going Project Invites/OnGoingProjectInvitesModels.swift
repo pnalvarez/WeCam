@@ -127,10 +127,10 @@ struct OnGoingProjectInvites {
                 init?(map: Map) { }
                 
                 func mapping(map: Map) {
-                    id <- map["id"]
-                    image <- map["profile_image_url"]
+                    id <- map["userId"]
+                    image <- map["image"]
                     name <- map["name"]
-                    ocupation <- map["professional_area"]
+                    ocupation <- map["ocupation"]
                     email <- map["email"]
                 }
             }
