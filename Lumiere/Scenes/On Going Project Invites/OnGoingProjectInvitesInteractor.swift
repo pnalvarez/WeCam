@@ -201,7 +201,18 @@ extension OnGoingProjectInvitesInteractor: OnGoingProjectInvitesBusinessLogic {
     }
     
     func fetchRefuseInteraction(_ request: OnGoingProjectInvites.Request.RefuseInteraction) {
-        
+        guard let index = users?.users.firstIndex(where: { $0.userId == interactingUser?.userId }) else { return }
+        switch interactingUser?.relation ?? .nothing {
+        case .simpleParticipant:
+            break
+        case .sentRequest:
+            presenter.presentRelationUpdate(OnGoingProjectInvites.Info.Model.RelationUpdate(index: index, relation: .nothing))
+            refuseUserIntoProject(request: OnGoingProjectInvites.Request.RefuseUser(userId: interactingUser?.userId ?? .empty, projectId: projectModel?.projectId ?? .empty))
+        case .receivedRequest:
+            break
+        case .nothing:
+            break
+        }
     }
     
     func fetchSearchUser(_ request: OnGoingProjectInvites.Request.Search) {
