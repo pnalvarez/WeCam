@@ -39,6 +39,7 @@ class OnGoingProjectInvitesController: BaseViewController {
     private lazy var translucentView: UIView = {
         let view = UIView(frame: .zero)
         view.backgroundColor = UIColor.white.withAlphaComponent(0.5)
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapTranslucentView)))
         view.isHidden = true
         return view
     }()
@@ -141,6 +142,11 @@ extension OnGoingProjectInvitesController {
         interactor?.fetchSearchUser(OnGoingProjectInvites
             .Request
             .Search(preffix: searchTextField.text ?? .empty))
+    }
+    
+    @objc
+    private func didTapTranslucentView() {
+        mainView.hideConfirmationView()
     }
 }
 

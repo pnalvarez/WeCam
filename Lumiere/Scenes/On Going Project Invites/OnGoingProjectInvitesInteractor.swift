@@ -66,7 +66,7 @@ extension OnGoingProjectInvitesInteractor {
                 guard let index = self.users?.users.firstIndex(where:
                     { $0.userId == request.userId }) else { return }
                 self.users?.users[index].relation = newRelation
-                if request.index == count-1 {
+                if self.allRelationsFetched() {
                     guard let usersResponse = self.users else { return }
                     self.filteredUsers = usersResponse
                     self.presenter.presentUsers(usersResponse)
@@ -92,6 +92,10 @@ extension OnGoingProjectInvitesInteractor {
     
     private func inviteUserToProject(request: OnGoingProjectInvites.Request.InviteUser) {
         
+    }
+    
+    private func allRelationsFetched() -> Bool {
+        return !(users?.users.contains(where: { $0.relation == nil }) ?? false)
     }
 }
 
