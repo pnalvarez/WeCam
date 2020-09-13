@@ -189,6 +189,14 @@
 		3FB8BD73250D6066001954FD /* OnGoingProjectInvitesPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB8BD72250D6066001954FD /* OnGoingProjectInvitesPresenter.swift */; };
 		3FB8BD75250D6087001954FD /* OnGoingProjectInvitesModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB8BD74250D6087001954FD /* OnGoingProjectInvitesModels.swift */; };
 		3FB8BD77250D65A6001954FD /* OnGoingProjectInvitesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB8BD76250D65A6001954FD /* OnGoingProjectInvitesTableViewCell.swift */; };
+		3FB8BD7B250ED3C2001954FD /* InviteProfileToProjectsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB8BD7A250ED3C2001954FD /* InviteProfileToProjectsController.swift */; };
+		3FB8BD7D250ED441001954FD /* InviteProfileToProjectsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB8BD7C250ED441001954FD /* InviteProfileToProjectsView.swift */; };
+		3FB8BD7F250ED47D001954FD /* InviteProfileToProjectsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB8BD7E250ED47D001954FD /* InviteProfileToProjectsTableViewCell.swift */; };
+		3FB8BD81250ED4A3001954FD /* InviteProfileToProjectsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB8BD80250ED4A3001954FD /* InviteProfileToProjectsInteractor.swift */; };
+		3FB8BD83250ED4FF001954FD /* InviteProfileToProjectsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB8BD82250ED4FF001954FD /* InviteProfileToProjectsPresenter.swift */; };
+		3FB8BD85250ED55E001954FD /* InviteProfileToProjectsWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB8BD84250ED55E001954FD /* InviteProfileToProjectsWorker.swift */; };
+		3FB8BD87250ED5AE001954FD /* InviteProfileToProjectsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB8BD86250ED5AE001954FD /* InviteProfileToProjectsRouter.swift */; };
+		3FB8BD89250ED673001954FD /* InviteProfileToProjectsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB8BD88250ED673001954FD /* InviteProfileToProjectsModels.swift */; };
 		3FD0EDED250D599300E22029 /* OnGoingProjectInvitesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD0EDEC250D599300E22029 /* OnGoingProjectInvitesView.swift */; };
 		3FD0EDEF250D5AFD00E22029 /* OnGoingProjectInvitesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD0EDEE250D5AFD00E22029 /* OnGoingProjectInvitesController.swift */; };
 		3FD0EDF1250D5B8700E22029 /* OnGoingProjectInvitesRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD0EDF0250D5B8700E22029 /* OnGoingProjectInvitesRouter.swift */; };
@@ -412,6 +420,14 @@
 		3FB8BD72250D6066001954FD /* OnGoingProjectInvitesPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnGoingProjectInvitesPresenter.swift; sourceTree = "<group>"; };
 		3FB8BD74250D6087001954FD /* OnGoingProjectInvitesModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnGoingProjectInvitesModels.swift; sourceTree = "<group>"; };
 		3FB8BD76250D65A6001954FD /* OnGoingProjectInvitesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnGoingProjectInvitesTableViewCell.swift; sourceTree = "<group>"; };
+		3FB8BD7A250ED3C2001954FD /* InviteProfileToProjectsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteProfileToProjectsController.swift; sourceTree = "<group>"; };
+		3FB8BD7C250ED441001954FD /* InviteProfileToProjectsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteProfileToProjectsView.swift; sourceTree = "<group>"; };
+		3FB8BD7E250ED47D001954FD /* InviteProfileToProjectsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteProfileToProjectsTableViewCell.swift; sourceTree = "<group>"; };
+		3FB8BD80250ED4A3001954FD /* InviteProfileToProjectsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteProfileToProjectsInteractor.swift; sourceTree = "<group>"; };
+		3FB8BD82250ED4FF001954FD /* InviteProfileToProjectsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteProfileToProjectsPresenter.swift; sourceTree = "<group>"; };
+		3FB8BD84250ED55E001954FD /* InviteProfileToProjectsWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteProfileToProjectsWorker.swift; sourceTree = "<group>"; };
+		3FB8BD86250ED5AE001954FD /* InviteProfileToProjectsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteProfileToProjectsRouter.swift; sourceTree = "<group>"; };
+		3FB8BD88250ED673001954FD /* InviteProfileToProjectsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteProfileToProjectsModels.swift; sourceTree = "<group>"; };
 		3FD0EDEC250D599300E22029 /* OnGoingProjectInvitesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnGoingProjectInvitesView.swift; sourceTree = "<group>"; };
 		3FD0EDEE250D5AFD00E22029 /* OnGoingProjectInvitesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnGoingProjectInvitesController.swift; sourceTree = "<group>"; };
 		3FD0EDF0250D5B8700E22029 /* OnGoingProjectInvitesRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnGoingProjectInvitesRouter.swift; sourceTree = "<group>"; };
@@ -937,6 +953,7 @@
 		3F95786724AD79C900B79818 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				3FB8BD79250ED3AA001954FD /* Invite Profile To Projects */,
 				3FD0EDEB250D597800E22029 /* On Going Project Invites */,
 				3F66CA072504500B006F6DBD /* Project Participants List */,
 				3F40A6D024F486AC00261161 /* Invite List */,
@@ -1031,6 +1048,21 @@
 				3FE8DF5524C7BE0B005DE30D /* UserModel.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		3FB8BD79250ED3AA001954FD /* Invite Profile To Projects */ = {
+			isa = PBXGroup;
+			children = (
+				3FB8BD7A250ED3C2001954FD /* InviteProfileToProjectsController.swift */,
+				3FB8BD7C250ED441001954FD /* InviteProfileToProjectsView.swift */,
+				3FB8BD7E250ED47D001954FD /* InviteProfileToProjectsTableViewCell.swift */,
+				3FB8BD80250ED4A3001954FD /* InviteProfileToProjectsInteractor.swift */,
+				3FB8BD82250ED4FF001954FD /* InviteProfileToProjectsPresenter.swift */,
+				3FB8BD84250ED55E001954FD /* InviteProfileToProjectsWorker.swift */,
+				3FB8BD86250ED5AE001954FD /* InviteProfileToProjectsRouter.swift */,
+				3FB8BD88250ED673001954FD /* InviteProfileToProjectsModels.swift */,
+			);
+			path = "Invite Profile To Projects";
 			sourceTree = "<group>";
 		};
 		3FD0EDEB250D597800E22029 /* On Going Project Invites */ = {
@@ -1325,6 +1357,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3FB8BD81250ED4A3001954FD /* InviteProfileToProjectsInteractor.swift in Sources */,
 				3F95787124AEA4B800B79818 /* SignInController.swift in Sources */,
 				3F66CA0F2504517A006F6DBD /* ProjectParticipantsListInteractor.swift in Sources */,
 				3F8D13A524D73C2600AED7EB /* Array+.swift in Sources */,
@@ -1364,6 +1397,7 @@
 				3FE8DF5624C7BE0B005DE30D /* UserModel.swift in Sources */,
 				3F40A6E024F4992F00261161 /* InviteListTableViewCell.swift in Sources */,
 				3F6EEA3324E0A37B0075C500 /* ConnectionsListInteractor.swift in Sources */,
+				3FB8BD83250ED4FF001954FD /* InviteProfileToProjectsPresenter.swift in Sources */,
 				3F8D139F24D53BA600AED7EB /* NotificationsRouter.swift in Sources */,
 				3F8D13B224D750F900AED7EB /* SaveNotificationsRequest.swift in Sources */,
 				3F66CA0D25045139006F6DBD /* ProjectParticipantsListView.swift in Sources */,
@@ -1383,6 +1417,7 @@
 				3F0CAA6424CCE118005E2558 /* SaveUserInfoRequest.swift in Sources */,
 				3F40A6BA24F1CC9200261161 /* OnGoingProjectDetailsRouter.swift in Sources */,
 				3F40A6AD24F0932800261161 /* EditProjectDetailsRouter.swift in Sources */,
+				3FB8BD87250ED5AE001954FD /* InviteProfileToProjectsRouter.swift in Sources */,
 				3F40A60B24E9CA4D00261161 /* LoadingView.swift in Sources */,
 				3F40A6C324F231A000261161 /* EditProfileDetailsController.swift in Sources */,
 				3FB8BD77250D65A6001954FD /* OnGoingProjectInvitesTableViewCell.swift in Sources */,
@@ -1416,12 +1451,14 @@
 				3F95787324AEA4C000B79818 /* SignInView.swift in Sources */,
 				3F40A6B624F1CBA500261161 /* OnGoingProjectDetailsPresenter.swift in Sources */,
 				3F40A61824EA0F4000261161 /* SelectProjectImageWorker.swift in Sources */,
+				3FB8BD85250ED55E001954FD /* InviteProfileToProjectsWorker.swift in Sources */,
 				3FEBA85424FF145E0077183F /* OnGoingProjectDisplayView.swift in Sources */,
 				3F8D138C24D5363A00AED7EB /* ProfileDetailsPresenter.swift in Sources */,
 				3F40A67F24EDF58400261161 /* SelectProjectCathegoryView.swift in Sources */,
 				3F8D13C224D799A200AED7EB /* NotificationsView.swift in Sources */,
 				3FB8BD75250D6087001954FD /* OnGoingProjectInvitesModels.swift in Sources */,
 				3F40A69824EF42EA00261161 /* ProjectProgressWorker.swift in Sources */,
+				3FB8BD7B250ED3C2001954FD /* InviteProfileToProjectsController.swift in Sources */,
 				3F40A61624EA0EE700261161 /* SelectProjectImagePresenter.swift in Sources */,
 				3F6EEA3B24E0A3AE0075C500 /* ConnectionsListModels.swift in Sources */,
 				3F8D13CE24DF388700AED7EB /* FetchUserRelationRequest.swift in Sources */,
@@ -1434,6 +1471,7 @@
 				3F95786424AD77E200B79818 /* LaunchScreenRouter.swift in Sources */,
 				3F40A6D624F4873F00261161 /* InviteListInteractor.swift in Sources */,
 				3F9578D724B01A0600B79818 /* MovieStyle.swift in Sources */,
+				3FB8BD7D250ED441001954FD /* InviteProfileToProjectsView.swift in Sources */,
 				3F40A69E24F08F7C00261161 /* DefaultBackButton.swift in Sources */,
 				3F40A61224EA0E4B00261161 /* SelectProjectImageView.swift in Sources */,
 				3F9578CE24B0197F00B79818 /* SignUpProvider.swift in Sources */,
@@ -1472,10 +1510,12 @@
 				3F9578DB24B0240C00B79818 /* String+.swift in Sources */,
 				3F40A69224EF420800261161 /* ProjectProgressController.swift in Sources */,
 				3F9578CA24B0196C00B79818 /* SignUpInteractor.swift in Sources */,
+				3FB8BD7F250ED47D001954FD /* InviteProfileToProjectsTableViewCell.swift in Sources */,
 				3F40A6C924F2326700261161 /* EditProfileDetailsWorker.swift in Sources */,
 				3F66CA17250452DC006F6DBD /* ProjectParticipantsListTableViewCell.swift in Sources */,
 				3F8D139224D5365700AED7EB /* ProfileDetailsModels.swift in Sources */,
 				3F40A6B824F1CBF400261161 /* OnGoingProjectDetailsWorker.swift in Sources */,
+				3FB8BD89250ED673001954FD /* InviteProfileToProjectsModels.swift in Sources */,
 				3F9578CC24B0197500B79818 /* SignUpPresenter.swift in Sources */,
 				3F66CA11250451CC006F6DBD /* ProjectParticipantsListPresenter.swift in Sources */,
 				3F6EEA3524E0A38E0075C500 /* ConnectionsListPresenter.swift in Sources */,

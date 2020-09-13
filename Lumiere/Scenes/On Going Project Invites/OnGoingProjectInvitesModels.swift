@@ -40,9 +40,9 @@ struct OnGoingProjectInvites {
         
         struct Images {
             static let invite = UIImage(named: "icone-usuario-sem-relação-com-o-projeto 1", in: OnGoingProjectInvites.bundle, compatibleWith: nil)
-            static let member = UIImage(named: "icone-conexao-feita 1", in: OnGoingProjectInvites.bundle, compatibleWith: nil)
-            static let receivedRequest = UIImage(named: "icone-pendente 1", in: OnGoingProjectInvites.bundle, compatibleWith: nil)
-            static let sentRequest = UIImage(named: "pendente 1", in: OnGoingProjectInvites.bundle, compatibleWith: nil)
+            static let member = UIImage(named: "icone-usuario-participante", in: OnGoingProjectInvites.bundle, compatibleWith: nil)
+            static let receivedRequest = UIImage(named: "icone-usuario-convidado-projeto", in: OnGoingProjectInvites.bundle, compatibleWith: nil)
+            static let sentRequest = UIImage(named: "icone-solicitou-projeto", in: OnGoingProjectInvites.bundle, compatibleWith: nil)
         }
         
         struct Dimensions {
