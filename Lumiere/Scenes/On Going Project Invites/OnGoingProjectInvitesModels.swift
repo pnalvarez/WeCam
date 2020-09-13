@@ -20,7 +20,8 @@ struct OnGoingProjectInvites {
             static let ocupationLbl = UIColor(rgb: 0x000000)
             static let emailLbl = UIColor(rgb: 0x000000)
             static let projectTitleLbl = UIColor(rgb: 0x707070)
-            static let searchTextField = UIColor(rgb: 0x000000)
+            static let searchTextFieldText = UIColor(rgb: 0x000000)
+            static let searchTextFieldLayer = UIColor(rgb: 0xe3e0e0e0).cgColor
         }
         
         struct Fonts {
@@ -45,7 +46,7 @@ struct OnGoingProjectInvites {
         struct Dimensions {
             
             struct Heights {
-                static let cellHeight: CGFloat = 112
+                static let cellHeight: CGFloat = 123
             }
         }
     }

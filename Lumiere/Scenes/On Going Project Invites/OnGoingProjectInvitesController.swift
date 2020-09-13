@@ -53,7 +53,9 @@ class OnGoingProjectInvitesController: BaseViewController {
         view.addTarget(self, action: #selector(didSearchTextFieldChange), for: .valueChanged)
         view.textAlignment = .left
         view.font = OnGoingProjectInvites.Constants.Fonts.searchTextField
-        view.textColor = OnGoingProjectInvites.Constants.Colors.searchTextField
+        view.textColor = OnGoingProjectInvites.Constants.Colors.searchTextFieldText
+        view.layer.borderWidth = 1
+        view.layer.borderColor = OnGoingProjectInvites.Constants.Colors.searchTextFieldLayer
         return view
     }()
     

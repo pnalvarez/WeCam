@@ -108,7 +108,7 @@ extension OnGoingProjectInvitesView: ViewCodeProtocol {
         searchTextField.snp.makeConstraints { make in
             make.top.equalTo(projectTitleLbl.snp.bottom).offset(14)
             make.left.equalTo(projectTitleLbl)
-            make.width.equalTo(projectTitleLbl)
+            make.right.equalTo(closeButton.snp.right)
             make.height.equalTo(24)
         }
         tableView.snp.makeConstraints { make in
