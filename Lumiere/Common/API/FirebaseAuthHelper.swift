@@ -2364,7 +2364,7 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
             .child(Constants.projectsPath)
             .child(Constants.ongoingProjectsPath)
             .child(projectId)
-            .child("participating_users")
+            .child("participants")
             .observeSingleEvent(of: .value) { snapshot in
                 guard var users = snapshot.value as? [String] else {
                     completion(.error(FirebaseErrors.genericError))
@@ -2375,7 +2375,7 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                     .child(Constants.projectsPath)
                     .child(Constants.ongoingProjectsPath)
                     .child(projectId)
-                    .updateChildValues(["participating_users": users]) { (error, ref) in
+                    .updateChildValues(["participants": users]) { (error, ref) in
                         if let error = error {
                             completion(.error(error))
                             return
@@ -2389,6 +2389,9 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                                     completion(.error(FirebaseErrors.genericError))
                                     return
                                 }
+                                projects.removeAll(where: {
+                                    $0 == projectId
+                                })
                                 self.realtimeDB
                                     .child(Constants.usersPath)
                                     .child(userId)
