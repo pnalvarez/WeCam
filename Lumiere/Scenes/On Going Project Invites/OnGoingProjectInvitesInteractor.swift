@@ -21,6 +21,7 @@ protocol OnGoingProjectInvitesDataStore {
     var users: OnGoingProjectInvites.Info.Model.UpcomingUsers? { get set }
     var selectedUser: OnGoingProjectInvites.Info.Model.User? { get set }
     var interactingUser: OnGoingProjectInvites.Info.Model.User? { get set }
+    var filteredUsers: OnGoingProjectInvites.Info.Model.UpcomingUsers? { get set }
 }
 
 class OnGoingProjectInvitesInteractor: OnGoingProjectInvitesDataStore {
@@ -32,6 +33,7 @@ class OnGoingProjectInvitesInteractor: OnGoingProjectInvitesDataStore {
     var users: OnGoingProjectInvites.Info.Model.UpcomingUsers?
     var selectedUser: OnGoingProjectInvites.Info.Model.User?
     var interactingUser: OnGoingProjectInvites.Info.Model.User?
+    var filteredUsers: OnGoingProjectInvites.Info.Model.UpcomingUsers?
     
     init(worker: OnGoingProjectInvitesWorkerProtocol = OnGoingProjectInvitesWorker(),
          presenter: OnGoingProjectInvitesPresenter) {
@@ -64,6 +66,7 @@ extension OnGoingProjectInvitesInteractor {
                 self.users?.users[index].relation = newRelation
                 if request.index == count-1 {
                     guard let usersResponse = self.users else { return }
+                    self.filteredUsers = usersResponse
                     self.presenter.presentUsers(usersResponse)
                 }
             case .error(let error):
@@ -129,7 +132,10 @@ extension OnGoingProjectInvitesInteractor: OnGoingProjectInvitesBusinessLogic {
     }
     
     func fetchSearchUser(_ request: OnGoingProjectInvites.Request.Search) {
-        
+        guard let filtered = filteredUsers?.users.filter({ $0.name.hasPrefix(request.preffix) }),
+            var filteredUsers = filteredUsers else { return }
+        filteredUsers.users = filtered
+        presenter.presentUsers(filteredUsers)
     }
     
     func didSelectUser(_ request: OnGoingProjectInvites.Request.SelectUser) {

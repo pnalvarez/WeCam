@@ -117,9 +117,7 @@ class InviteListController: BaseViewController {
     }
 }
 
-extension InviteListController: UITableViewDelegate {
-    
-}
+extension InviteListController: UITableViewDelegate { }
 
 extension InviteListController: UITableViewDataSource {
     

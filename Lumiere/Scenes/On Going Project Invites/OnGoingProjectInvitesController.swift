@@ -50,7 +50,7 @@ class OnGoingProjectInvitesController: BaseViewController {
     private lazy var searchTextField: UITextField = {
         let view = UITextField(frame: .zero)
         view.layer.cornerRadius = 4
-        view.addTarget(self, action: #selector(didSearchTextFieldChange), for: .valueChanged)
+        view.addTarget(self, action: #selector(didSearchTextFieldChange), for: .editingChanged)
         view.textAlignment = .left
         view.font = OnGoingProjectInvites.Constants.Fonts.searchTextField
         view.textColor = OnGoingProjectInvites.Constants.Colors.searchTextFieldText
