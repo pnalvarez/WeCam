@@ -16,6 +16,7 @@ class ProfileDetailsView: UIView {
     private unowned var confirmationAlertView: ConfirmationAlertView
     private unowned var translucentView: UIView
     private unowned var backButton: UIButton
+    private unowned var inviteToProjectButton: UIButton
     private unowned var addConnectionButton: UIButton
     private unowned var allConnectionsButton: UIButton
     private unowned var editProfileButton: UIButton
@@ -83,6 +84,7 @@ class ProfileDetailsView: UIView {
          confirmationAlertView: ConfirmationAlertView,
          translucentView: UIView,
          backButton: UIButton,
+         inviteToProjectButton: UIButton,
          addConnectionButton: UIButton,
          allConnectionsButton: UIButton,
          editProfileButton: UIButton) {
@@ -92,6 +94,7 @@ class ProfileDetailsView: UIView {
         self.confirmationAlertView = confirmationAlertView
         self.translucentView = translucentView
         self.backButton = backButton
+        self.inviteToProjectButton = inviteToProjectButton
         self.addConnectionButton = addConnectionButton
         self.allConnectionsButton = allConnectionsButton
         self.editProfileButton = editProfileButton
@@ -141,6 +144,7 @@ extension ProfileDetailsView: ViewCodeProtocol {
         addSubview(occupationLbl)
         addSubview(emailLbl)
         addSubview(phoneNumberLbl)
+        addSubview(inviteToProjectButton)
         addSubview(addConnectionButton)
         buttonStackView.addArrangedSubview(editProfileButton)
         buttonStackView.addArrangedSubview(allConnectionsButton)
@@ -192,6 +196,12 @@ extension ProfileDetailsView: ViewCodeProtocol {
             make.top.equalTo(emailLbl.snp.bottom)
             make.left.width.equalTo(emailLbl)
         }
+        inviteToProjectButton.snp.makeConstraints { make in
+            make.top.equalTo(phoneNumberLbl.snp.bottom).offset(10)
+            make.left.equalTo(phoneNumberLbl)
+            make.height.equalTo(32)
+            make.width.equalTo(171)
+        }
         addConnectionButton.snp.makeConstraints { make in
             make.top.equalTo(nameLbl).offset(-2)
             make.right.equalToSuperview().inset(26)
@@ -199,7 +209,7 @@ extension ProfileDetailsView: ViewCodeProtocol {
             make.width.equalTo(30)
         }
         buttonStackView.snp.makeConstraints { make in
-            make.top.equalTo(phoneNumberLbl.snp.bottom).offset(39)
+            make.top.equalTo(phoneNumberLbl.snp.bottom).offset(59)
             make.centerX.equalToSuperview()
             make.width.equalTo(359)
         }

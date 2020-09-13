@@ -84,6 +84,18 @@ class ProfileDetailsController: BaseViewController {
         return view
     }()
     
+    private lazy var inviteToProjectButton: UIButton = {
+        let view = UIButton(frame: .zero)
+        view.layer.cornerRadius = 4
+        view.clipsToBounds = true
+        view.addTarget(self, action: #selector(didTapInviteToProject), for: .touchUpInside)
+        view.setTitle(ProfileDetails.Constants.Texts.inviteToProjectButton, for: .normal)
+        view.setTitleColor(ProfileDetails.Constants.Colors.inviteToProjectButtonText, for: .normal)
+        view.backgroundColor = ProfileDetails.Constants.Colors.inviteToProjectButtonBackground
+        view.titleLabel?.font = ProfileDetails.Constants.Fonts.inviteToProjectButton
+        return view
+    }()
+    
     private lazy var editProfileButton: UIButton = {
         let view = UIButton(frame: .zero)
         view.addTarget(self, action: #selector(didTapEditProfile), for: .touchUpInside)
@@ -104,6 +116,7 @@ class ProfileDetailsController: BaseViewController {
                                       confirmationAlertView: confirmationAlertView,
                                       translucentView: translucentView,
                                       backButton: backButton,
+                                      inviteToProjectButton: inviteToProjectButton,
                                       addConnectionButton: addConnectionButton,
                                       allConnectionsButton: allConnectionsButton,
                                       editProfileButton: editProfileButton)
@@ -211,6 +224,11 @@ extension ProfileDetailsController {
     private func didTapCarrouselItem() {
         print("Click")
     }
+    
+    @objc
+    private func didTapInviteToProject() {
+        router?.routeToInviteToProjects()
+    }
 }
 
 extension ProfileDetailsController: ConfirmationAlertViewDelegate {
@@ -286,6 +304,7 @@ extension ProfileDetailsController: ProfileDetailsDisplayLogic {
     
     func displayInterfaceForLogged() {
         backButton.isHidden = true
+        inviteToProjectButton.isHidden = true
         editProfileButton.isHidden = false
     }
     

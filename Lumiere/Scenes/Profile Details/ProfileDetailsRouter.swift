@@ -15,6 +15,7 @@ protocol ProfileDetailsRoutingLogic {
     func routeToSignIn()
     func routeToEditProfileDetails()
     func routeToProjectDetails()
+    func routeToInviteToProjects()
 }
 
 protocol ProfileDetailsDataTransfer {
@@ -82,5 +83,9 @@ extension ProfileDetailsRouter: ProfileDetailsRoutingLogic {
             var destination = vc.router?.dataStore else { return }
         transferDataToProjectDetails(from: source, to: &destination)
         routeTo(nextVC: vc)
+    }
+    
+    func routeToInviteToProjects() {
+        
     }
 }

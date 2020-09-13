@@ -28,6 +28,8 @@ struct ProfileDetails {
             static let editProfileButtonBackgrounnd = UIColor(rgb: 0xffffff)
             static let editProfileButtonText = UIColor(rgb: 0x969494)
             static let onGoingProjectsLbl = UIColor(rgb: 0x969494)
+            static let inviteToProjectButtonBackground = UIColor(rgb: 0xededed)
+            static let inviteToProjectButtonText = UIColor(rgb: 0x000000)
         }
         
         struct Fonts {
@@ -38,6 +40,7 @@ struct ProfileDetails {
             static let allConnectionsButton = ThemeFonts.RobotoBold(16).rawValue
             static let editProfileButton = ThemeFonts.RobotoBold(16).rawValue
             static let onGoingProjectsLbl = ThemeFonts.RobotoBold(16).rawValue
+            static let inviteToProjectButton = ThemeFonts.RobotoRegular(16).rawValue
         }
         
         struct Images {
@@ -60,6 +63,7 @@ struct ProfileDetails {
             static let genericError = "Ocorreu um erro genérico"
             static let editProfileButton = "Editar Perfil"
             static let onGoingProjectsLbl = "Projetos em andamento"
+            static let inviteToProjectButton = "Convidar para projeto"
         }
     }
     
