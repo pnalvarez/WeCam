@@ -15,6 +15,7 @@ protocol OnGoingProjectInvitesPresentationLogic {
     func hideModalAlert()
     func presentLoading(_ loading: Bool)
     func presentProfileDetails()
+    func presentError(_ response: Error)
 }
 
 class OnGoingProjectInvitesPresenter: OnGoingProjectInvitesPresentationLogic {
@@ -74,6 +75,10 @@ class OnGoingProjectInvitesPresenter: OnGoingProjectInvitesPresentationLogic {
     
     func presentProfileDetails() {
         viewController.displayProfileDetails()
+    }
+    
+    func presentError(_ response: Error) {
+        viewController.displayError(OnGoingProjectInvites.Info.ViewModel.ErrorViewModel(title: "Erro", message: response.localizedDescription))
     }
 }
 

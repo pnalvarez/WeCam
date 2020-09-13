@@ -70,7 +70,8 @@ extension OnGoingProjectInvitesInteractor {
                     self.presenter.presentUsers(usersResponse)
                 }
             case .error(let error):
-                break
+                self.presenter.presentLoading(false)
+                self.presenter.presentError(error)
             }
         }
     }
@@ -97,7 +98,8 @@ extension OnGoingProjectInvitesInteractor: OnGoingProjectInvitesBusinessLogic {
                     self.fetchUserRelationToProject(request: OnGoingProjectInvites.Request.FetchRelation(userId: data[i].id ?? .empty, projectId: self.projectModel?.projectId ?? .empty, index: i), count: data.count)
                 }
             case .error(let error):
-                break
+                self.presenter.presentLoading(false)
+                self.presenter.presentError(error)
             }
         }
     }
@@ -114,7 +116,8 @@ extension OnGoingProjectInvitesInteractor: OnGoingProjectInvitesBusinessLogic {
                              title: data.title ?? .empty)
                 self.presenter.presentProject(project)
             case .error(let error):
-                break
+                self.presenter.presentLoading(false)
+                self.presenter.presentError(error)
             }
         }
     }
@@ -139,6 +142,7 @@ extension OnGoingProjectInvitesInteractor: OnGoingProjectInvitesBusinessLogic {
     }
     
     func didSelectUser(_ request: OnGoingProjectInvites.Request.SelectUser) {
-        
+        selectedUser = users?.users[request.index]
+        presenter.presentProfileDetails()
     }
 }

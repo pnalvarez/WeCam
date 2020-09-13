@@ -116,6 +116,7 @@ extension OnGoingProjectInvitesTableViewCell: ViewCodeProtocol {
     
     func configureViews() {
         backgroundColor = .white
+        selectionStyle = .none
         nameLbl.text = viewModel?.name
         ocupationLbl.text = viewModel?.ocupation
         emailLbl.attributedText = viewModel?.email

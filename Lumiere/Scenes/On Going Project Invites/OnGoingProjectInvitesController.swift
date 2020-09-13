@@ -15,6 +15,7 @@ protocol OnGoingProjectInvitesDisplayLogic: class {
     func hideConfirmationView()
     func displayLoading(_ loading: Bool)
     func displayProfileDetails()
+    func displayError(_ viewModel: OnGoingProjectInvites.Info.ViewModel.ErrorViewModel)
 }
 
 class OnGoingProjectInvitesController: BaseViewController {
@@ -209,5 +210,9 @@ extension OnGoingProjectInvitesController: OnGoingProjectInvitesDisplayLogic {
     
     func displayProfileDetails() {
         router?.routeToProfileDetails()
+    }
+    
+    func displayError(_ viewModel: OnGoingProjectInvites.Info.ViewModel.ErrorViewModel) {
+        UIAlertController.displayAlert(in: self, title: viewModel.title, message: viewModel.message)
     }
 }

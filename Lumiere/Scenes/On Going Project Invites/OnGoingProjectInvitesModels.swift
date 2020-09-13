@@ -113,6 +113,11 @@ struct OnGoingProjectInvites {
             struct Alert {
                 let text: String
             }
+            
+            struct ErrorViewModel {
+                let title: String
+                let message: String
+            }
         }
         
         struct Response {

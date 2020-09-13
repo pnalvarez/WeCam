@@ -23,12 +23,20 @@ class OnGoingProjectInvitesRouter: NSObject, OnGoingProjectInvitesDataTransfer {
     
     weak var viewController: UIViewController?
     var dataStore: OnGoingProjectInvitesDataStore?
+    
+    private func transferDataToProfileDetails(from source: OnGoingProjectInvitesDataStore,
+                                              to destination: inout ProfileDetailsDataStore) {
+        destination.receivedUserData = ProfileDetails
+            .Info
+            .Received
+            .User(userId: source.selectedUser?.userId ?? .empty)
+    }
 }
 
 extension OnGoingProjectInvitesRouter: BaseRouterProtocol {
     
     func routeTo(nextVC: UIViewController) {
-        
+        viewController?.navigationController?.pushViewController(nextVC, animated: true)
     }
 }
 
@@ -39,6 +47,10 @@ extension OnGoingProjectInvitesRouter: OnGoingProjectInvitesRoutingLogic {
     }
     
     func routeToProfileDetails() {
-        
+        let vc = ProfileDetailsController()
+        guard let source = dataStore,
+            var destination = vc.router?.dataStore else { return }
+        transferDataToProfileDetails(from: source, to: &destination)
+        routeTo(nextVC: vc)
     }
 }
