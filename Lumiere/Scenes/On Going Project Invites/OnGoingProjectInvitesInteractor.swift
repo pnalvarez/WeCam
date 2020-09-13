@@ -17,7 +17,8 @@ protocol OnGoingProjectInvitesBusinessLogic {
 }
 
 protocol OnGoingProjectInvitesDataStore {
-    var projectModel: OnGoingProjectInvites.Info.Received.Project? { get set }
+    var projectReceivedModel: OnGoingProjectInvites.Info.Received.Project? { get set }
+    var projectModel: OnGoingProjectInvites.Info.Model.Project? { get set }
     var users: OnGoingProjectInvites.Info.Model.UpcomingUsers? { get set }
     var selectedUser: OnGoingProjectInvites.Info.Model.User? { get set }
     var interactingUser: OnGoingProjectInvites.Info.Model.User? { get set }
@@ -29,7 +30,8 @@ class OnGoingProjectInvitesInteractor: OnGoingProjectInvitesDataStore {
     private let worker: OnGoingProjectInvitesWorkerProtocol
     private let presenter: OnGoingProjectInvitesPresentationLogic
     
-    var projectModel: OnGoingProjectInvites.Info.Received.Project?
+    var projectReceivedModel: OnGoingProjectInvites.Info.Received.Project?
+    var projectModel: OnGoingProjectInvites.Info.Model.Project?
     var users: OnGoingProjectInvites.Info.Model.UpcomingUsers?
     var selectedUser: OnGoingProjectInvites.Info.Model.User?
     var interactingUser: OnGoingProjectInvites.Info.Model.User?
@@ -75,6 +77,22 @@ extension OnGoingProjectInvitesInteractor {
             }
         }
     }
+    
+    private func acceptUserIntoProject(request: OnGoingProjectInvites.Request.AcceptUser) {
+        
+    }
+    
+    private func refuseUserIntoProject(request: OnGoingProjectInvites.Request.RefuseUser) {
+        
+    }
+    
+    private func removeUserFromProject(request: OnGoingProjectInvites.Request.RemoveUserFromProject) {
+        
+    }
+    
+    private func inviteUserToProject(request: OnGoingProjectInvites.Request.InviteUser) {
+        
+    }
 }
 
 extension OnGoingProjectInvitesInteractor: OnGoingProjectInvitesBusinessLogic {
@@ -95,7 +113,7 @@ extension OnGoingProjectInvitesInteractor: OnGoingProjectInvitesBusinessLogic {
                               ocupation: data[i].ocupation ?? .empty,
                               email: data[i].email ?? .empty,
                               relation: nil))
-                    self.fetchUserRelationToProject(request: OnGoingProjectInvites.Request.FetchRelation(userId: data[i].id ?? .empty, projectId: self.projectModel?.projectId ?? .empty, index: i), count: data.count)
+                    self.fetchUserRelationToProject(request: OnGoingProjectInvites.Request.FetchRelation(userId: data[i].id ?? .empty, projectId: self.projectReceivedModel?.projectId ?? .empty, index: i), count: data.count)
                 }
             case .error(let error):
                 self.presenter.presentLoading(false)
@@ -106,14 +124,17 @@ extension OnGoingProjectInvitesInteractor: OnGoingProjectInvitesBusinessLogic {
     
     func fetchProject(_ request: OnGoingProjectInvites.Request.FetchProject) {
         self.presenter.presentLoading(true)
-        worker.fetchProjectInfo(OnGoingProjectInvites.Request.FetchProjectWithId(id: projectModel?.projectId ?? .empty)) { response in
+        worker.fetchProjectInfo(OnGoingProjectInvites.Request.FetchProjectWithId(id: projectReceivedModel?.projectId ?? .empty)) { response in
             switch response {
             case .success(let data):
-                let project = OnGoingProjectInvites
+                self.projectModel = OnGoingProjectInvites
                     .Info
                     .Model
-                    .Project(projectId: self.projectModel?.projectId ?? .empty,
-                             title: data.title ?? .empty)
+                    .Project(projectId: self.projectReceivedModel?.projectId ?? .empty,
+                             title: data.title ?? .empty,
+                             image: data.image ?? .empty,
+                             authorId: data.authorId ?? .empty)
+                guard let project = self.projectModel else { return }
                 self.presenter.presentProject(project)
             case .error(let error):
                 self.presenter.presentLoading(false)
@@ -123,7 +144,35 @@ extension OnGoingProjectInvitesInteractor: OnGoingProjectInvitesBusinessLogic {
     }
     
     func fetchInteract(_ request: OnGoingProjectInvites.Request.Interaction) {
-        
+        let index = request.index
+        interactingUser = users?.users[index]
+        let relation = interactingUser?.relation ?? .nothing
+        switch relation {
+        case .simpleParticipant:
+            presenter.presentModalAlert(OnGoingProjectInvites.Info.Model.Alert(text: OnGoingProjectInvites.Constants.Texts.removeUserAlert))
+        case .sentRequest:
+            presenter.presentModalAlert(OnGoingProjectInvites.Info.Model.Alert(text: OnGoingProjectInvites.Constants.Texts.acceptUserAlert))
+        case .receivedRequest:
+            presenter.presentModalAlert(OnGoingProjectInvites.Info.Model.Alert(text: OnGoingProjectInvites.Constants.Texts.removeInvite))
+        case .nothing:
+            presenter.presentRelationUpdate(OnGoingProjectInvites.Info.Model.RelationUpdate(index: index, relation: .receivedRequest))
+            let request = OnGoingProjectInvites
+                .Request
+                .InviteUser(userId: interactingUser?.userId ?? .empty,
+                            projectId: projectModel?.projectId ?? .empty,
+                            projectImage: projectModel?.image ?? .empty,
+                            projectTitle: projectModel?.title ?? .empty,
+                            authorId: projectModel?.authorId ?? .empty)
+            worker.fetchInviteUser(request) { response in
+                switch response {
+                case .success:
+                    self.users?.users[index].relation = .receivedRequest
+                case .error(let error):
+                    self.presenter.presentError(error)
+                    self.presenter.presentRelationUpdate(OnGoingProjectInvites.Info.Model.RelationUpdate(index: index, relation: .nothing))
+                }
+            }
+        }
     }
     
     func fetchConfirmInteraction(_ request: OnGoingProjectInvites.Request.ConfirmInteraction) {

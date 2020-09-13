@@ -44,7 +44,7 @@ class OnGoingProjectDetailsRouter: NSObject, OnGoingProjectDetailsDataTransfer {
     
     private func transferDataToProjectInvites(from source: OnGoingProjectDetailsDataStore,
                                               to destination: inout OnGoingProjectInvitesDataStore) {
-        destination.projectModel = OnGoingProjectInvites.Info.Received.Project(projectId: source.projectData?.id ?? .empty)
+        destination.projectReceivedModel = OnGoingProjectInvites.Info.Received.Project(projectId: source.projectData?.id ?? .empty)
     }
 }
 

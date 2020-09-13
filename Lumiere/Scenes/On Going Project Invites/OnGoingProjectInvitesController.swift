@@ -16,6 +16,7 @@ protocol OnGoingProjectInvitesDisplayLogic: class {
     func displayLoading(_ loading: Bool)
     func displayProfileDetails()
     func displayError(_ viewModel: OnGoingProjectInvites.Info.ViewModel.ErrorViewModel)
+    func displayRelationUpdate(_ viewModel: OnGoingProjectInvites.Info.ViewModel.RelationUpdate)
 }
 
 class OnGoingProjectInvitesController: BaseViewController {
@@ -214,5 +215,10 @@ extension OnGoingProjectInvitesController: OnGoingProjectInvitesDisplayLogic {
     
     func displayError(_ viewModel: OnGoingProjectInvites.Info.ViewModel.ErrorViewModel) {
         UIAlertController.displayAlert(in: self, title: viewModel.title, message: viewModel.message)
+    }
+    
+    func displayRelationUpdate(_ viewModel: OnGoingProjectInvites.Info.ViewModel.RelationUpdate) {
+        let cell = tableView.cellForRow(at: IndexPath(row: viewModel.index, section: 0), type: OnGoingProjectInvitesTableViewCell.self)
+        cell.updateRelation(image: viewModel.relation)
     }
 }

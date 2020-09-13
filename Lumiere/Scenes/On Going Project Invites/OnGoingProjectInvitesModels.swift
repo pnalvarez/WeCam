@@ -33,7 +33,9 @@ struct OnGoingProjectInvites {
         }
         
         struct Texts {
-            
+            static let removeUserAlert = "Deseja remover este usuário do projeto?"
+            static let removeInvite = "Deseja desfazer o convite que fez a este usuário?"
+            static let acceptUserAlert = "Aceita este usuário como membro do projeto?"
         }
         
         struct Images {
@@ -85,10 +87,17 @@ struct OnGoingProjectInvites {
             struct Project {
                 let projectId: String
                 let title: String
+                let image: String
+                let authorId: String
             }
             
             struct Alert {
                 let text: String
+            }
+            
+            struct RelationUpdate {
+                let index: Int
+                let relation: Relation
             }
         }
         
@@ -117,6 +126,11 @@ struct OnGoingProjectInvites {
             struct ErrorViewModel {
                 let title: String
                 let message: String
+            }
+            
+            struct RelationUpdate {
+                let index: Int
+                let relation: UIImage?
             }
         }
         
@@ -155,17 +169,44 @@ struct OnGoingProjectInvites {
             final class Project: Mappable {
                 
                 var title: String?
+                var image: String?
+                var authorId: String?
                 
                 init?(map: Map) { }
                 
                 func mapping(map: Map) {
                     title <- map["title"]
+                    image <- map["image"]
+                    authorId <- map["author_id"]
                 }
             }
         }
     }
     
     struct Request {
+        
+        struct InviteUser {
+            let userId: String
+            let projectId: String
+            let projectImage: String
+            let projectTitle: String
+            let authorId: String
+        }
+        
+        struct AcceptUser {
+            let userId: String
+            let projectId: String
+        }
+        
+        struct RefuseUser {
+            let userId: String
+            let projectId: String
+        }
+        
+        struct RemoveUserFromProject {
+            let userId: String
+            let projectId: String
+        }
          
         struct FetchUsers {
             

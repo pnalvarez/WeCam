@@ -16,6 +16,7 @@ protocol OnGoingProjectInvitesPresentationLogic {
     func presentLoading(_ loading: Bool)
     func presentProfileDetails()
     func presentError(_ response: Error)
+    func presentRelationUpdate(_ response: OnGoingProjectInvites.Info.Model.RelationUpdate)
 }
 
 class OnGoingProjectInvitesPresenter: OnGoingProjectInvitesPresentationLogic {
@@ -79,6 +80,22 @@ class OnGoingProjectInvitesPresenter: OnGoingProjectInvitesPresentationLogic {
     
     func presentError(_ response: Error) {
         viewController.displayError(OnGoingProjectInvites.Info.ViewModel.ErrorViewModel(title: "Erro", message: response.localizedDescription))
+    }
+    
+    func presentRelationUpdate(_ response: OnGoingProjectInvites.Info.Model.RelationUpdate) {
+        var image: UIImage?
+        switch  response.relation {
+        case .simpleParticipant:
+            image = OnGoingProjectInvites.Constants.Images.member
+        case .sentRequest:
+            image = OnGoingProjectInvites.Constants.Images.sentRequest
+        case .receivedRequest:
+            image = OnGoingProjectInvites.Constants.Images.receivedRequest
+        case .nothing:
+            image = OnGoingProjectInvites.Constants.Images.invite
+        }
+        let viewModel = OnGoingProjectInvites.Info.ViewModel.RelationUpdate(index: response.index, relation: image)
+        viewController.displayRelationUpdate(viewModel)
     }
 }
 

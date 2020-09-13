@@ -13,6 +13,14 @@ protocol OnGoingProjectInvitesWorkerProtocol {
                                     completion: @escaping (BaseResponse<OnGoingProjectInvites.Info.Response.UserRelation>) -> Void)
     func fetchProjectInfo(_ request: OnGoingProjectInvites.Request.FetchProjectWithId,
                           completion: @escaping (BaseResponse<OnGoingProjectInvites.Info.Response.Project>) -> Void)
+    func fetchInviteUser(_ request: OnGoingProjectInvites.Request.InviteUser,
+                         completion: @escaping (EmptyResponse) -> Void)
+    func fetchAcceptUserIntoProject(_ request: OnGoingProjectInvites.Request.AcceptUser,
+                                    completion: @escaping (EmptyResponse) -> Void)
+    func fetchRefuseUserIntoProject(_ request: OnGoingProjectInvites.Request.RefuseUser,
+                                    completion: @escaping (EmptyResponse) -> Void)
+    func fetchRemoveUserFromProject(_ request: OnGoingProjectInvites.Request.RemoveUserFromProject,
+                                    completion: @escaping (EmptyResponse) -> Void)
 }
 
 class OnGoingProjectInvitesWorker: OnGoingProjectInvitesWorkerProtocol {
@@ -39,5 +47,33 @@ class OnGoingProjectInvitesWorker: OnGoingProjectInvitesWorkerProtocol {
                           completion: @escaping (BaseResponse<OnGoingProjectInvites.Info.Response.Project>) -> Void) {
         let headers: [String : Any] = ["projectId": request.id]
         builder.fetchProjectWorking(request: headers, completion: completion)
+    }
+    
+    func fetchInviteUser(_ request: OnGoingProjectInvites.Request.InviteUser,
+                         completion: @escaping (EmptyResponse) -> Void) {
+        let headers: [String : Any] = ["userId": request.userId,
+                                       "projectId": request.projectId,
+                                       "image": request.projectImage,
+                                       "project_title": request.projectTitle,
+                                       "author_id": request.authorId]
+        builder.inviteUserToProject(request: headers, completion: completion)
+    }
+    
+    func fetchAcceptUserIntoProject(_ request: OnGoingProjectInvites.Request.AcceptUser,
+                                    completion: @escaping (EmptyResponse) -> Void) {
+        let headers: [String : Any] = ["userId": request.userId, "projectId": request.projectId]
+        builder.acceptUserIntoProject(request: headers, completion: completion)
+    }
+    
+    func fetchRefuseUserIntoProject(_ request: OnGoingProjectInvites.Request.RefuseUser,
+                                    completion: @escaping (EmptyResponse) -> Void) {
+        let headers: [String : Any] = ["userId": request.userId, "projectId": request.projectId]
+        builder.refuseUserIntoProject(request: headers, completion: completion)
+    }
+    
+    func fetchRemoveUserFromProject(_ request: OnGoingProjectInvites.Request.RemoveUserFromProject,
+                                    completion: @escaping (EmptyResponse) -> Void) {
+        let headers: [String : Any] = ["userId": request.userId, "projectId": request.projectId]
+        //TO DO
     }
 }

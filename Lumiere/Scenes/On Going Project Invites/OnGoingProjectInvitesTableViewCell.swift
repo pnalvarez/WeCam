@@ -54,7 +54,7 @@ class OnGoingProjectInvitesTableViewCell: UITableViewCell {
         return view
     }()
     
-    weak var delegate: OnGoingProjectInvitesTableViewCellDelegate?
+    private weak var delegate: OnGoingProjectInvitesTableViewCellDelegate?
     private var index: Int?
     private var viewModel: OnGoingProjectInvites.Info.ViewModel.User?
     
@@ -65,6 +65,10 @@ class OnGoingProjectInvitesTableViewCell: UITableViewCell {
         self.index = index
         self.viewModel = viewModel
         applyViewCode()
+    }
+    
+    func updateRelation(image: UIImage?) {
+        interactButton.setImage(image, for: .normal)
     }
 }
 
