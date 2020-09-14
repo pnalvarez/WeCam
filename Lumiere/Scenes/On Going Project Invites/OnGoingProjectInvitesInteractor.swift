@@ -156,6 +156,12 @@ extension OnGoingProjectInvitesInteractor: OnGoingProjectInvitesBusinessLogic {
         worker.fetchConnections(request) { response in
             switch response {
             case .success(let data):
+                guard data.count > 0 else {
+                    self.presenter.presentLoading(false)
+                    guard let users = self.users else { return }
+                    self.presenter.presentUsers(users)
+                    return
+                }
                 for i in 0..<data.count {
                     self.users?.users.append(OnGoingProjectInvites
                         .Info

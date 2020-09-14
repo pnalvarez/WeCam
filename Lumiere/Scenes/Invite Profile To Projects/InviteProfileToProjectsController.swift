@@ -14,11 +14,47 @@ protocol InviteProfileToProjectsDisplayLogic: class {
 
 class InviteProfileToProjectsController: BaseViewController {
     
+    private lazy var backButton: DefaultBackButton = {
+        let view = DefaultBackButton(frame: .zero)
+        view.addTarget(self, action: #selector(didTapBack), for: .touchUpInside)
+        return view
+    }()
+    
+    private lazy var mainLbl: UILabel = {
+        let view = UILabel(frame: .zero)
+        view.text = InviteProfileToProjects.Constants.Texts.mainLbl
+        view.textColor = InviteProfileToProjects.Constants.Colors.mainLbl
+        view.font = InviteProfileToProjects.Constants.Fonts.mainLbl
+        view.textAlignment = .left
+        return view
+    }()
+    
+    private lazy var searchTextField: UITextField = {
+        let view = UITextField(frame: .zero)
+        view.addTarget(self, action: #selector(didSearchChange), for: .editingChanged)
+        view.layer.cornerRadius = 4
+        view.textColor = InviteProfileToProjects.Constants.Colors.searchTextFieldText
+        view.layer.borderWidth = 1
+        view.layer.borderColor = InviteProfileToProjects.Constants.Colors.searchTextFieldLayer
+        return view
+    }()
+    
+    private lazy var tableView: UITableView = {
+        let view = UITableView(frame: .zero)
+        view.separatorStyle = .none
+        view.bounces = false
+        view.alwaysBounceVertical = false
+        view.assignProtocols(to: self)
+        view.registerCell(cellType: InviteProfileToProjectsTableViewCell.self)
+        return view
+    }()
+    
     private var interactor: InviteProfileToProjectsBusinessLogic?
     var router: InviteProfileToProjectsRouterProtocol?
     
     init() {
         super.init(nibName: nil, bundle: nil)
+        setup()
     }
     
     required init?(coder: NSCoder) {
@@ -62,6 +98,15 @@ extension InviteProfileToProjectsController: UITableViewDelegate {
 
 extension InviteProfileToProjectsController {
     
+    @objc
+    private func didSearchChange() {
+        
+    }
+    
+    @objc
+    private func didTapBack() {
+        
+    }
 }
 
 extension InviteProfileToProjectsController: InviteProfileToProjectsDisplayLogic {
