@@ -40,7 +40,9 @@ class ProfileDetailsInteractor: ProfileDetailsDataStore {
 extension ProfileDetailsInteractor {
     
     private func fetchSendConnectionRequest() {
-        guard let id = userDataModel?.id else { return }
+        guard let id = userDataModel?.id else {
+            return
+        }
         worker.fetchSendConnectionRequest(ProfileDetails.Request.SendConnectionRequest(id: id)) { response in
             switch response {
             case .success:
@@ -64,7 +66,6 @@ extension ProfileDetailsInteractor {
             switch response {
             case .success:
                 self.userDataModel?.connectionType = .contact
-                break
             case .error(let error):
                 self.presenter.presentNewInteractionIcon(ProfileDetails
                 .Info
@@ -83,7 +84,6 @@ extension ProfileDetailsInteractor {
             switch response {
             case .success:
                 self.userDataModel?.connectionType = .nothing
-                break
             case .error(let error):
                 self.presenter.presentNewInteractionIcon(ProfileDetails
                 .Info
@@ -92,7 +92,6 @@ extension ProfileDetailsInteractor {
                 self.presenter.presentError(ProfileDetails
                     .Errors
                     .ProfileDetailsError(description: error.localizedDescription))
-                break
             }
         }
     }

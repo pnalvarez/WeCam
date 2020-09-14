@@ -152,13 +152,13 @@ class ProfileDetailsPresenter: ProfileDetailsPresentationLogic {
             viewModel = ProfileDetails.Info.ViewModel.InteractionConfirmation(text: "Tem certeza que deseja remover esta conexão?")
             break
         case .pending:
-            viewModel = ProfileDetails.Info.ViewModel.InteractionConfirmation(text: "Tem certeza que deseja remover esta solicitação")
+            viewModel = ProfileDetails.Info.ViewModel.InteractionConfirmation(text: "Tem certeza que deseja remover esta solicitação?")
             break
         case .nothing:
              viewModel = ProfileDetails.Info.ViewModel.InteractionConfirmation(text: "Tem certeza que deseja recusar este usuário?")
             break
         case .sent:
-            viewModel = ProfileDetails.Info.ViewModel.InteractionConfirmation(text: "Tem certeza que deseja recusar este usuário?")
+            viewModel = ProfileDetails.Info.ViewModel.InteractionConfirmation(text: "Tem certeza que deseja aceitar este usuário?")
             break
         case .logged:
             viewModel = ProfileDetails.Info.ViewModel.InteractionConfirmation(text: "Tem certeza que deseja sair?")

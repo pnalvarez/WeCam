@@ -40,7 +40,7 @@ struct SelectProjectImage {
             static let tabBarSelectedImage = UIImage(named: "publicacao-depois-de-clicar 1",
                                                      in: SelectProjectImage.bundle,
                                                      compatibleWith: nil)
-            static let camera = UIImage(named: "photo 1",
+            static let camera = UIImage(named: "photo 2",
                                         in: SelectProjectImage.bundle,
                                         compatibleWith: nil)
         }

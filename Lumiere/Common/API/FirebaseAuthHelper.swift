@@ -567,6 +567,7 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                                                 self.mutex = true
                                                 return
                                             }
+                                            self.mutex = true
                                             completion(.success)
                                     }
                             }

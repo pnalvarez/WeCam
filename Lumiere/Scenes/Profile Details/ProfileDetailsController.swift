@@ -247,12 +247,6 @@ extension ProfileDetailsController: ConfirmationAlertViewDelegate {
 
 extension ProfileDetailsController: UIScrollViewDelegate {
     
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-//        for i in 0..<projectViews.count {
-//            projectViews[i].callback = { self.interactor?.didSelectOnGoingProject(ProfileDetails.Request.SelectProjectWithIndex(index: i))
-//            }
-//        }
-    }
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         scrollView.layoutIfNeeded()
         for view in projectViews {

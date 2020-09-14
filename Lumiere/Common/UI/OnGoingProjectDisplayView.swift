@@ -58,7 +58,7 @@ extension OnGoingProjectDisplayView: ViewCodeProtocol {
         mainButton.snp.makeConstraints { make in
             make.center.equalToSuperview()
             make.height.equalTo(104)
-            make.width.equalTo(100)
+            make.width.equalTo(104)
         }
     }
     
