@@ -46,7 +46,11 @@ class InviteProfileToProjectsWorker: InviteProfileToProjectsWorkerProtocol {
     
     func fetchInviteUserToProject(request: InviteProfileToProjects.Request.InviteUser,
                                   completion: @escaping (EmptyResponse) -> Void) {
-        let headers: [String : Any] = ["userId": request.userId, "projectId": request.projectId]
+        let headers: [String : Any] = ["userId": request.userId,
+                                       "projectId": request.projectId,
+                                       "project_title": request.projectTitle,
+                                       "author_id": request.authorId,
+                                       "image": request.projectImage]
         builder.inviteUserToProject(request: headers, completion: completion)
     }
     

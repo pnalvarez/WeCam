@@ -33,6 +33,8 @@ struct InviteProfileToProjects {
         
         struct Texts {
             static let mainLbl = "Convidar para projeto"
+            static let participatingAlert = "Deseja remover este usuário do projeto?"
+            static let sentRequestAlert = "Deseja aceitar este usuário no projeto?"
         }
         
         struct Images {
@@ -85,6 +87,7 @@ struct InviteProfileToProjects {
                 let id: String
                 let name: String
                 let image: String
+                let authorId: String
                 let firstCathegory: String
                 let secondCathegory: String?
                 var relation: Relation?
@@ -112,6 +115,11 @@ struct InviteProfileToProjects {
                 let index: Int
                 let relation: UIImage?
             }
+            
+            struct ErrorViewModel {
+                let title: String
+                let message: String
+            }
         }
         
         struct Response {
@@ -122,6 +130,7 @@ struct InviteProfileToProjects {
                 var name: String?
                 var cathegories: [String]?
                 var image: String?
+                var authorId: String?
                 
                 init?(map: Map) { }
                 
@@ -130,6 +139,7 @@ struct InviteProfileToProjects {
                     name <- map["title"]
                     cathegories <- map["cathegories"]
                     image <- map["image"]
+                    authorId <- map["author_id"]
                 }
             }
             
@@ -157,6 +167,9 @@ struct InviteProfileToProjects {
         struct InviteUser {
             let userId: String
             let projectId: String
+            let projectTitle: String
+            let projectImage: String
+            let authorId: String
         }
         
         struct RemoveInvite {

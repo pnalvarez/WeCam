@@ -14,6 +14,7 @@ protocol InviteProfileToProjectsDisplayLogic: class {
     func displayConfirmationAlert(_ viewModel: InviteProfileToProjects.Info.ViewModel.Alert)
     func hideConfirmationAlert()
     func displayLoading(_ loading: Bool)
+    func displayError(_ viewModel: InviteProfileToProjects.Info.ViewModel.ErrorViewModel)
 }
 
 class InviteProfileToProjectsController: BaseViewController {
@@ -159,7 +160,7 @@ extension InviteProfileToProjectsController: UITableViewDelegate { }
 extension InviteProfileToProjectsController: InviteProfileToProjectsTableViewCellDelegate {
     
     func didTapInteraction(index: Int) {
-        
+        interactor?.fetchInteraction(InviteProfileToProjects.Request.Interaction(index: index))
     }
 }
 
@@ -210,5 +211,11 @@ extension InviteProfileToProjectsController: InviteProfileToProjectsDisplayLogic
     
     func displayLoading(_ loading: Bool) {
         activityView.isHidden = !loading
+    }
+    
+    func displayError(_ viewModel: InviteProfileToProjects.Info.ViewModel.ErrorViewModel) {
+        UIAlertController.displayAlert(in: self,
+                                       title: viewModel.title,
+                                       message: viewModel.message)
     }
 }

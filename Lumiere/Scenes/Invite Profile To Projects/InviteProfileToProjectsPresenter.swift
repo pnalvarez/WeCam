@@ -14,6 +14,7 @@ protocol InviteProfileToProjectsPresentationLogic {
     func presentConfirmationAlert(_ response: InviteProfileToProjects.Info.Model.Alert)
     func hideConfirmationAlert()
     func presentLoading(_ loading: Bool)
+    func presenterError(_ response: Error)
 }
 
 class InviteProfileToProjectsPresenter: InviteProfileToProjectsPresentationLogic {
@@ -75,5 +76,11 @@ class InviteProfileToProjectsPresenter: InviteProfileToProjectsPresentationLogic
     
     func presentLoading(_ loading: Bool) {
         viewController.displayLoading(loading)
+    }
+    
+    func presenterError(_ response: Error) {
+        let viewModel = InviteProfileToProjects.Info.ViewModel.ErrorViewModel(title: "Erro",
+                                                                              message: response.localizedDescription)
+        viewController.displayError(viewModel)
     }
 }
