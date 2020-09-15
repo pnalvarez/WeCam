@@ -13,6 +13,7 @@ protocol InviteProfileToProjectsPresentationLogic {
     func presentRelationUpdate(_ response: InviteProfileToProjects.Info.Model.RelationUpdate)
     func presentConfirmationAlert(_ response: InviteProfileToProjects.Info.Model.Alert)
     func hideConfirmationAlert()
+    func presentLoading(_ loading: Bool)
 }
 
 class InviteProfileToProjectsPresenter: InviteProfileToProjectsPresentationLogic {
@@ -29,7 +30,7 @@ class InviteProfileToProjectsPresenter: InviteProfileToProjectsPresentationLogic
             .ViewModel
             .UpcomingProjects(projects: response.projects.map({
                 var image: UIImage?
-                switch $0.relation {
+                switch $0.relation ?? .nothing {
                 case .participating:
                     image = InviteProfileToProjects.Constants.Images.participating
                 case .receivedRequest:
@@ -70,5 +71,9 @@ class InviteProfileToProjectsPresenter: InviteProfileToProjectsPresentationLogic
     
     func hideConfirmationAlert() {
         viewController.hideConfirmationAlert()
+    }
+    
+    func presentLoading(_ loading: Bool) {
+        viewController.displayLoading(loading)
     }
 }

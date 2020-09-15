@@ -13,9 +13,19 @@ protocol InviteProfileToProjectsDisplayLogic: class {
     func displayRelationUpdate(_ viewModel: InviteProfileToProjects.Info.ViewModel.RelationUpdate)
     func displayConfirmationAlert(_ viewModel: InviteProfileToProjects.Info.ViewModel.Alert)
     func hideConfirmationAlert()
+    func displayLoading(_ loading: Bool)
 }
 
 class InviteProfileToProjectsController: BaseViewController {
+    
+    private lazy var activityView: UIActivityIndicatorView = {
+        let view = UIActivityIndicatorView(frame: .zero)
+        view.startAnimating()
+        view.color = ThemeColors.mainRedColor.rawValue
+        view.backgroundColor = .white
+        view.isHidden = true
+        return view
+    }()
     
     private lazy var modalAlert: ConfirmationAlertView = {
         let view = ConfirmationAlertView(frame: .zero,
@@ -68,6 +78,7 @@ class InviteProfileToProjectsController: BaseViewController {
     
     private lazy var mainView: InviteProfileToProjectsView = {
         let view = InviteProfileToProjectsView(frame: .zero,
+                                               activityView: activityView,
                                                backButton: backButton,
                                                searchTextField: searchTextField,
                                                tableView: tableView,
@@ -98,6 +109,12 @@ class InviteProfileToProjectsController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.tabBarController?.tabBar.isHidden = true
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        interactor?.fetchProjects(InviteProfileToProjects.Request.FetchProjects())
     }
     
     override func loadView() {
@@ -130,6 +147,10 @@ extension InviteProfileToProjectsController: UITableViewDataSource {
                    index: indexPath.row,
                    viewModel: viewModel)
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return InviteProfileToProjects.Constants.Dimensions.Heights.cellHeight
     }
 }
 
@@ -183,5 +204,9 @@ extension InviteProfileToProjectsController: InviteProfileToProjectsDisplayLogic
     
     func hideConfirmationAlert() {
         mainView.hideConfirmationAlert()
+    }
+    
+    func displayLoading(_ loading: Bool) {
+        activityView.isHidden = !loading
     }
 }

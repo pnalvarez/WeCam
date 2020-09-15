@@ -45,7 +45,7 @@ struct InviteProfileToProjects {
         struct Dimensions {
             
             struct Heights {
-                
+                static let cellHeight: CGFloat = 132
             }
         }
     }
@@ -82,11 +82,12 @@ struct InviteProfileToProjects {
             }
             
             struct Project {
+                let id: String
                 let name: String
                 let image: String
                 let firstCathegory: String
                 let secondCathegory: String?
-                var relation: Relation
+                var relation: Relation?
             }
         }
         
@@ -146,6 +147,12 @@ struct InviteProfileToProjects {
     }
     
     struct Request {
+        
+        struct FetchRelation {
+            let userId: String
+            let projectId: String
+            let index: Int
+        }
         
         struct InviteUser {
             let userId: String

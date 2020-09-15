@@ -10,6 +10,7 @@ import UIKit
 
 class InviteProfileToProjectsView: UIView {
     
+    private unowned var activityView: UIActivityIndicatorView
     private unowned var backButton: UIButton
     private unowned var searchTextField: UITextField
     private unowned var tableView: UITableView
@@ -26,11 +27,13 @@ class InviteProfileToProjectsView: UIView {
     }()
     
     init(frame: CGRect,
+         activityView: UIActivityIndicatorView,
          backButton: UIButton,
          searchTextField: UITextField,
          tableView: UITableView,
          translucentView: UIView,
          modalAlert: ConfirmationAlertView) {
+        self.activityView = activityView
         self.backButton = backButton
         self.searchTextField = searchTextField
         self.tableView = tableView
@@ -77,6 +80,9 @@ extension InviteProfileToProjectsView: ViewCodeProtocol {
         addSubview(mainLbl)
         addSubview(searchTextField)
         addSubview(tableView)
+        addSubview(translucentView)
+        addSubview(modalAlert)
+        addSubview(activityView)
     }
     
     func setupConstraints() {
@@ -107,6 +113,9 @@ extension InviteProfileToProjectsView: ViewCodeProtocol {
             make.top.equalTo(translucentView.snp.bottom)
             make.left.right.equalToSuperview()
             make.height.equalTo(translucentView)
+        }
+        activityView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
     }
     

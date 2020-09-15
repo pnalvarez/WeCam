@@ -42,6 +42,11 @@ class ProfileDetailsRouter: NSObject, ProfileDetailsDataTransfer {
         guard let projectId = source.selectedProject?.id else { return }
         destination.receivedData = OnGoingProjectDetails.Info.Received.Project(projectId: projectId, notInvitedUsers: .empty)
     }
+    
+    private func transferDataToInviteProfileToProjects(from source: ProfileDetailsDataStore,
+                                                       to destination: inout InviteProfileToProjectsDataStore) {
+        destination.receivedUser = InviteProfileToProjects.Info.Received.User(userId: source.userDataModel?.id ?? .empty)
+    }
 }
 
 extension ProfileDetailsRouter: BaseRouterProtocol {
@@ -86,6 +91,10 @@ extension ProfileDetailsRouter: ProfileDetailsRoutingLogic {
     }
     
     func routeToInviteToProjects() {
-        
+        let vc = InviteProfileToProjectsController()
+        guard let source = dataStore,
+            var destination = vc.router?.dataStore else { return }
+        transferDataToInviteProfileToProjects(from: source, to: &destination)
+        routeTo(nextVC: vc)
     }
 }

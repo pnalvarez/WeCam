@@ -55,6 +55,7 @@ class InviteProfileToProjectsTableViewCell: UITableViewCell {
         self.delegate = delegate
         self.index = index
         self.viewModel = viewModel
+        applyViewCode()
     }
     
     func updateRelation(relation: UIImage?) {
@@ -87,16 +88,16 @@ extension InviteProfileToProjectsTableViewCell: ViewCodeProtocol {
         }
         interactionButton.snp.makeConstraints { make in
             make.top.equalTo(projectImageView)
-            make.right.equalToSuperview().inset(10)
+            make.right.equalToSuperview().inset(30)
             make.height.width.equalTo(30)
         }
         nameLbl.snp.makeConstraints { make in
             make.top.equalTo(projectImageView).offset(4)
-            make.left.equalTo(projectImageView.snp.right).offset(4)
+            make.left.equalTo(projectImageView.snp.right).offset(17)
             make.right.equalTo(interactionButton.snp.left).offset(5)
         }
         cathegoriesLbl.snp.makeConstraints { make in
-            make.top.equalTo(nameLbl.snp.bottom)
+            make.top.equalTo(nameLbl.snp.bottom).offset(5)
             make.left.equalTo(nameLbl)
             make.right.equalToSuperview()
         }

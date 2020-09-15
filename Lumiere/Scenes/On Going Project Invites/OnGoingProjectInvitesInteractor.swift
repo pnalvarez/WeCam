@@ -46,8 +46,7 @@ class OnGoingProjectInvitesInteractor: OnGoingProjectInvitesDataStore {
 
 extension OnGoingProjectInvitesInteractor {
     
-    private func fetchUserRelationToProject(request: OnGoingProjectInvites.Request.FetchRelation,
-                                            count: Int) {
+    private func fetchUserRelationToProject(request: OnGoingProjectInvites.Request.FetchRelation) {
         worker.fetchUserRelationToProject(request) { response in
             switch response {
             case .success(let data):
@@ -172,7 +171,7 @@ extension OnGoingProjectInvitesInteractor: OnGoingProjectInvitesBusinessLogic {
                               ocupation: data[i].ocupation ?? .empty,
                               email: data[i].email ?? .empty,
                               relation: nil))
-                    self.fetchUserRelationToProject(request: OnGoingProjectInvites.Request.FetchRelation(userId: data[i].id ?? .empty, projectId: self.projectReceivedModel?.projectId ?? .empty, index: i), count: data.count)
+                    self.fetchUserRelationToProject(request: OnGoingProjectInvites.Request.FetchRelation(userId: data[i].id ?? .empty, projectId: self.projectReceivedModel?.projectId ?? .empty, index: i))
                 }
             case .error(let error):
                 self.presenter.presentLoading(false)
