@@ -11,7 +11,7 @@ import UIKit
 typealias InviteProfileToProjectsRouterProtocol = NSObject & InviteProfileToProjectsRoutingLogic & InviteProfileToProjectsDataTransfer
 
 protocol InviteProfileToProjectsRoutingLogic {
-    
+    func routeBack()
 }
 
 protocol InviteProfileToProjectsDataTransfer {
@@ -33,4 +33,7 @@ extension InviteProfileToProjectsRouter: BaseRouterProtocol {
 
 extension InviteProfileToProjectsRouter: InviteProfileToProjectsRoutingLogic {
     
+    func routeBack() {
+        viewController?.navigationController?.popViewController(animated: true)
+    }
 }

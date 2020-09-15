@@ -9,10 +9,27 @@
 import UIKit
 
 protocol InviteProfileToProjectsDisplayLogic: class {
-    
+    func displayProjects(_ viewModel: InviteProfileToProjects.Info.ViewModel.UpcomingProjects)
+    func displayRelationUpdate(_ viewModel: InviteProfileToProjects.Info.ViewModel.RelationUpdate)
+    func displayConfirmationAlert(_ viewModel: InviteProfileToProjects.Info.ViewModel.Alert)
+    func hideConfirmationAlert()
 }
 
 class InviteProfileToProjectsController: BaseViewController {
+    
+    private lazy var modalAlert: ConfirmationAlertView = {
+        let view = ConfirmationAlertView(frame: .zero,
+                                         delegate: self,
+                                         text: .empty)
+        return view
+    }()
+    
+    private lazy var translucentView: UIView = {
+        let view = UIView(frame: .zero)
+        view.backgroundColor = InviteProfileToProjects.Constants.Colors.translucentView
+        view.isHidden = true
+        return view
+    }()
     
     private lazy var backButton: DefaultBackButton = {
         let view = DefaultBackButton(frame: .zero)
@@ -49,6 +66,24 @@ class InviteProfileToProjectsController: BaseViewController {
         return view
     }()
     
+    private lazy var mainView: InviteProfileToProjectsView = {
+        let view = InviteProfileToProjectsView(frame: .zero,
+                                               backButton: backButton,
+                                               searchTextField: searchTextField,
+                                               tableView: tableView,
+                                               translucentView: translucentView,
+                                               modalAlert: modalAlert)
+        return view
+    }()
+    
+    private var viewModel: InviteProfileToProjects.Info.ViewModel.UpcomingProjects? {
+        didSet {
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+    }
+    
     private var interactor: InviteProfileToProjectsBusinessLogic?
     var router: InviteProfileToProjectsRouterProtocol?
     
@@ -67,6 +102,7 @@ class InviteProfileToProjectsController: BaseViewController {
     
     override func loadView() {
         super.loadView()
+        self.view = mainView
     }
     
     private func setup() {
@@ -84,16 +120,37 @@ class InviteProfileToProjectsController: BaseViewController {
 extension InviteProfileToProjectsController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return viewModel?.projects.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        let cell = tableView.dequeueReusableCell(indexPath: indexPath, type: InviteProfileToProjectsTableViewCell.self)
+        guard let viewModel = viewModel?.projects[indexPath.row] else { return UITableViewCell() }
+        cell.setup(delegate: self,
+                   index: indexPath.row,
+                   viewModel: viewModel)
+        return cell
     }
 }
 
-extension InviteProfileToProjectsController: UITableViewDelegate {
+extension InviteProfileToProjectsController: UITableViewDelegate { }
+
+extension InviteProfileToProjectsController: InviteProfileToProjectsTableViewCellDelegate {
     
+    func didTapInteraction(index: Int) {
+        
+    }
+}
+
+extension InviteProfileToProjectsController: ConfirmationAlertViewDelegate {
+    
+    func didTapAccept() {
+        
+    }
+    
+    func didTapRefuse() {
+        
+    }
 }
 
 extension InviteProfileToProjectsController {
@@ -105,10 +162,26 @@ extension InviteProfileToProjectsController {
     
     @objc
     private func didTapBack() {
-        
+        router?.routeBack()
     }
 }
 
 extension InviteProfileToProjectsController: InviteProfileToProjectsDisplayLogic {
     
+    func displayProjects(_ viewModel: InviteProfileToProjects.Info.ViewModel.UpcomingProjects) {
+        self.viewModel = viewModel
+    }
+    
+    func displayRelationUpdate(_ viewModel: InviteProfileToProjects.Info.ViewModel.RelationUpdate) {
+        let cell = tableView.cellForRow(at: IndexPath(row: viewModel.index, section: 0), type: InviteProfileToProjectsTableViewCell.self)
+        cell.updateRelation(relation: viewModel.relation)
+    }
+    
+    func displayConfirmationAlert(_ viewModel: InviteProfileToProjects.Info.ViewModel.Alert) {
+        mainView.displayConfirmationAlert(withText: viewModel.text)
+    }
+    
+    func hideConfirmationAlert() {
+        mainView.hideConfirmationAlert()
+    }
 }

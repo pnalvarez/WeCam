@@ -7,17 +7,27 @@
 //
 
 protocol InviteProfileToProjectsBusinessLogic {
-    
+    func fetchProjects(_ request: InviteProfileToProjects.Request.FetchProjects)
+    func fetchInteraction(_ request: InviteProfileToProjects.Request.Interaction)
+    func fetchConfirmInteraction(_ request: InviteProfileToProjects.Request.ConfirmInteraction)
+    func fetchRefuseInteraction(_ request: InviteProfileToProjects.Request.RefuseInteraction)
+    func fetchSearchProject(_ request: InviteProfileToProjects.Request.SearchProject)
 }
 
 protocol InviteProfileToProjectsDataStore {
-    
+    var receivedUser: InviteProfileToProjects.Info.Received.User? { get set }
+    var interactingProject: InviteProfileToProjects.Info.Model.Project? { get set }
+    var projectsModel: InviteProfileToProjects.Info.Model.UpcomingProjects? { get set }
 }
 
 class InviteProfileToProjectsInteractor: InviteProfileToProjectsDataStore {
     
     private let worker: InviteProfileToProjectsWorkerProtocol
     private let presenter: InviteProfileToProjectsPresentationLogic
+    
+    var receivedUser: InviteProfileToProjects.Info.Received.User?
+    var interactingProject: InviteProfileToProjects.Info.Model.Project?
+    var projectsModel: InviteProfileToProjects.Info.Model.UpcomingProjects?
     
     init(worker: InviteProfileToProjectsWorkerProtocol = InviteProfileToProjectsWorker(),
          presenter: InviteProfileToProjectsPresentationLogic) {
@@ -28,4 +38,24 @@ class InviteProfileToProjectsInteractor: InviteProfileToProjectsDataStore {
 
 extension InviteProfileToProjectsInteractor: InviteProfileToProjectsBusinessLogic {
     
+    func fetchProjects(_ request: InviteProfileToProjects.Request.FetchProjects) {
+        
+    }
+    
+    func fetchInteraction(_ request: InviteProfileToProjects.Request.Interaction) {
+        
+    }
+    
+    func fetchConfirmInteraction(_ request: InviteProfileToProjects.Request.ConfirmInteraction) {
+        
+    }
+    
+    func fetchRefuseInteraction(_ request: InviteProfileToProjects.Request.RefuseInteraction) {
+        
+    }
+    
+    func fetchSearchProject(_ request: InviteProfileToProjects.Request.SearchProject) {
+        guard let filteredProjects = projectsModel?.projects.filter({ $0.name.hasPrefix(request.preffix) }) else { return }
+        presenter.presentProjects(InviteProfileToProjects.Info.Model.UpcomingProjects(projects: filteredProjects))
+    }
 }

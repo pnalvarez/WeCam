@@ -56,6 +56,10 @@ class InviteProfileToProjectsTableViewCell: UITableViewCell {
         self.index = index
         self.viewModel = viewModel
     }
+    
+    func updateRelation(relation: UIImage?) {
+        interactionButton.setImage(relation, for: .normal)
+    }
 }
 
 extension InviteProfileToProjectsTableViewCell {

@@ -103,6 +103,8 @@ protocol FirebaseAuthHelperProtocol {
                                    completion: @escaping (EmptyResponse) -> Void)
     func removeUserFromProject(request: [String : Any],
                                completion: @escaping (EmptyResponse) -> Void)
+    func fetchCurrentUserAuthoringProjects<T: Mappable>(request: [String : Any],
+                                           completion: @escaping (BaseResponse<[T]>) -> Void)
 }
 
 class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
@@ -2404,6 +2406,43 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                                         completion(.success)
                                 }
                         }
+                }
+        }
+    }
+    
+    func fetchCurrentUserAuthoringProjects<T: Mappable>(request: [String : Any],
+                                                        completion: @escaping (BaseResponse<[T]>) -> Void) {
+        var responseArray: [[String : Any]] = .empty
+        guard let currentUser = authReference.currentUser?.uid else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        realtimeDB
+            .child(Constants.usersPath)
+            .child(currentUser)
+            .child("authoring_project_ids")
+            .observeSingleEvent(of: .value) { snapshot in
+                var ids: [String] = .empty
+                if let projectIds = snapshot.value as? [String] {
+                    ids.append(contentsOf: projectIds)
+                }
+                for i in 0..<ids.count {
+                    self.realtimeDB
+                        .child(Constants.projectsPath)
+                        .child(Constants.ongoingProjectsPath)
+                        .child(ids[i])
+                        .observeSingleEvent(of: .value) { snapshot in
+                            guard var project = snapshot.value as? [String : Any] else {
+                                completion(.error(FirebaseErrors.genericError))
+                                return
+                            }
+                            project["id"] = ids[i]
+                            responseArray.append(project)
+                            if i == ids.count-1 {
+                                let mappedResponse = Mapper<T>().mapArray(JSONArray: responseArray)
+                                completion(.success(mappedResponse))
+                            }
+                    }
                 }
         }
     }
