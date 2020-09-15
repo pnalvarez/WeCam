@@ -178,7 +178,9 @@ extension InviteProfileToProjectsController {
     
     @objc
     private func didSearchChange() {
-        
+        interactor?.fetchSearchProject(InviteProfileToProjects
+            .Request
+            .SearchProject(preffix: searchTextField.text ?? .empty))
     }
     
     @objc
