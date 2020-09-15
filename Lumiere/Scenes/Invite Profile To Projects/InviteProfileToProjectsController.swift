@@ -38,6 +38,8 @@ class InviteProfileToProjectsController: BaseViewController {
     private lazy var translucentView: UIView = {
         let view = UIView(frame: .zero)
         view.backgroundColor = InviteProfileToProjects.Constants.Colors.translucentView
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self,
+                                                         action: #selector(didTapTranslucentView)))
         view.isHidden = true
         return view
     }()
@@ -167,11 +169,11 @@ extension InviteProfileToProjectsController: InviteProfileToProjectsTableViewCel
 extension InviteProfileToProjectsController: ConfirmationAlertViewDelegate {
     
     func didTapAccept() {
-        
+        interactor?.fetchConfirmInteraction(InviteProfileToProjects.Request.ConfirmInteraction())
     }
     
     func didTapRefuse() {
-        
+        interactor?.fetchRefuseInteraction(InviteProfileToProjects.Request.RefuseInteraction())
     }
 }
 
@@ -187,6 +189,11 @@ extension InviteProfileToProjectsController {
     @objc
     private func didTapBack() {
         router?.routeBack()
+    }
+    
+    @objc
+    private func didTapTranslucentView() {
+        mainView.hideConfirmationAlert()
     }
 }
 

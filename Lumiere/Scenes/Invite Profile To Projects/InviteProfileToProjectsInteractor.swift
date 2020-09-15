@@ -68,6 +68,60 @@ extension InviteProfileToProjectsInteractor {
         }
     }
     
+    private func fetchAcceptUserIntoProject(request: InviteProfileToProjects.Request.AcceptUser) {
+        guard let index = projectsModel?.projects.firstIndex(where: { $0.id == interactingProject?.id  }) else { return }
+        presenter.presentRelationUpdate(InviteProfileToProjects
+            .Info
+            .Model
+            .RelationUpdate(index: index,
+                            relation: .participating))
+        worker.fetchAcceptUserIntoProject(request: request) { response in
+            switch response {
+            case .success:
+                self.projectsModel?.projects[index].relation = .participating
+            case .error(let error):
+                self.presenter.presenterError(error)
+                self.presenter.presentRelationUpdate(InviteProfileToProjects.Info.Model.RelationUpdate(index: index, relation: .sentRequest))
+            }
+        }
+    }
+    
+    private func fetchRefuseUserIntoProject(request: InviteProfileToProjects.Request.RefuseUser) {
+        guard let index = projectsModel?.projects.firstIndex(where: { $0.id == interactingProject?.id }) else { return }
+        presenter.presentRelationUpdate(InviteProfileToProjects
+        .Info
+        .Model
+        .RelationUpdate(index: index,
+                        relation: .nothing))
+        worker.fetchRefuseUserIntoProject(request: request) { response in
+            switch response {
+            case .success:
+                self.projectsModel?.projects[index].relation = .nothing
+            case .error(let error):
+                self.presenter.presenterError(error)
+                self.presenter.presentRelationUpdate(InviteProfileToProjects.Info.Model.RelationUpdate(index: index, relation: .sentRequest))
+            }
+        }
+    }
+    
+    private func fetchRemoveUserFromProject(request: InviteProfileToProjects.Request.RemoveUser) {
+        guard let index = projectsModel?.projects.firstIndex(where: { $0.id == interactingProject?.id }) else { return }
+        presenter.presentRelationUpdate(InviteProfileToProjects
+        .Info
+        .Model
+        .RelationUpdate(index: index,
+                        relation: .nothing))
+        worker.fetchRemoveUserFromProject(request: request) { response in
+            switch response {
+            case .success:
+                self.projectsModel?.projects[index].relation = .nothing
+            case .error(let error):
+                self.presenter.presenterError(error)
+                self.presenter.presentRelationUpdate(InviteProfileToProjects.Info.Model.RelationUpdate(index: index, relation: .participating))
+            }
+        }
+    }
+    
     private func allRelationsFetched() -> Bool {
         return !(projectsModel?.projects.contains(where: { $0.relation == nil }) ?? false)
     }
@@ -151,11 +205,43 @@ extension InviteProfileToProjectsInteractor: InviteProfileToProjectsBusinessLogi
     }
     
     func fetchConfirmInteraction(_ request: InviteProfileToProjects.Request.ConfirmInteraction) {
-        
+        guard let relation = interactingProject?.relation else { return }
+        switch relation {
+        case .participating:
+            presenter.hideConfirmationAlert()
+            fetchRemoveUserFromProject(request: InviteProfileToProjects
+                .Request
+                .RemoveUser(userId: receivedUser?.userId ?? .empty,
+                            projectId: interactingProject?.id ?? .empty))
+        case .sentRequest:
+            presenter.hideConfirmationAlert()
+            fetchAcceptUserIntoProject(request: InviteProfileToProjects
+                .Request
+                .AcceptUser(userId: receivedUser?.userId ?? .empty,
+                            projectId: interactingProject?.id ?? .empty))
+        case .receivedRequest:
+            break
+        case .nothing:
+            break
+        }
     }
     
     func fetchRefuseInteraction(_ request: InviteProfileToProjects.Request.RefuseInteraction) {
-        
+        guard let relation = interactingProject?.relation else { return }
+        switch relation {
+        case .participating:
+            break
+        case .sentRequest:
+            presenter.hideConfirmationAlert()
+            fetchRefuseUserIntoProject(request: InviteProfileToProjects
+                .Request
+                .RefuseUser(userId: receivedUser?.userId ?? .empty,
+                            projectId: interactingProject?.id ?? .empty))
+        case .receivedRequest:
+            break
+        case .nothing:
+            break
+        }
     }
     
     func fetchSearchProject(_ request: InviteProfileToProjects.Request.SearchProject) {
