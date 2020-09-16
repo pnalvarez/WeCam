@@ -230,7 +230,7 @@ extension InviteProfileToProjectsInteractor: InviteProfileToProjectsBusinessLogi
         guard let relation = interactingProject?.relation else { return }
         switch relation {
         case .participating:
-            break
+            presenter.hideConfirmationAlert()
         case .sentRequest:
             presenter.hideConfirmationAlert()
             fetchRefuseUserIntoProject(request: InviteProfileToProjects

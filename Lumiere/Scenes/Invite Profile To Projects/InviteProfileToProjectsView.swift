@@ -87,7 +87,7 @@ extension InviteProfileToProjectsView: ViewCodeProtocol {
     
     func setupConstraints() {
         backButton.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(28)
+            make.top.equalTo(safeAreaLayoutGuide.snp.top).inset(28)
             make.left.equalToSuperview().inset(26)
             make.height.width.equalTo(31)
         }
