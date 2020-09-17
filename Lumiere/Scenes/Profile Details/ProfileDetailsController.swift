@@ -145,6 +145,7 @@ class ProfileDetailsController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        clearCarrousel()
         navigationController?.tabBarController?.tabBar.isHidden = false
         interactor?.fetchUserInfo(ProfileDetails.Request.UserData())
     }
@@ -169,6 +170,7 @@ extension ProfileDetailsController {
     
     private func buildOnGoingProjectsCarrousel() {
         onGoingProjectsCarrousel.contentSize = CGSize(width: 110 * projectViews.count + 50, height: 105)
+//        onGoingProjectsCarrousel.isHidden = projectViews.isEmpty
         for i in 0..<projectViews.count {
             projectsContainer.addSubview(projectViews[i])
             projectViews[i].snp.makeConstraints { make in
@@ -183,6 +185,12 @@ extension ProfileDetailsController {
                     make.right.equalToSuperview()
                 }
             }
+        }
+    }
+    
+    private func clearCarrousel() {
+        for view in projectsContainer.subviews {
+            view.removeFromSuperview()
         }
     }
 }
@@ -258,8 +266,7 @@ extension ProfileDetailsController: UIScrollViewDelegate {
 extension ProfileDetailsController: ProfileDetailsDisplayLogic {
     
     func displayUserInfo(_ viewModel: ProfileDetails.Info.ViewModel.User) {
-        projectViews = viewModel.progressingProjects.map({ OnGoingProjectDisplayView(frame: .zero,
-                                                                                     projectImage: $0.image)})
+        projectViews = viewModel.progressingProjects.map({ OnGoingProjectDisplayView(frame: .zero, projectImage: $0.image)})
         for i in 0..<projectViews.count {
 //            let gesture = UITapGestureRecognizer(target: self, action: #selector(didTapCarrouselItem))
 //            projectViews[i].addGestureRecognizer(gesture)
