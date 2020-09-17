@@ -9,6 +9,8 @@
 protocol ConnectionsListWorkerProtocol {
     func fetchConnections(_ request: ConnectionsList.Request.FetchConnectionsWithId,
                           completion: @escaping (BaseResponse<[ConnectionsList.Info.Response.Connection]>) -> Void)
+    func fetchCurrentUser(_ request: ConnectionsList.Request.FetchCurrentUser,
+                          completion: @escaping (BaseResponse<ConnectionsList.Info.Response.CurrentUser>) -> Void)
     func fetchRemoveConnection(_ request: ConnectionsList.Request.FetchRemoveConnectionWithId,
                                completion: @escaping (EmptyResponse) -> Void)
     func fetchProfileDetails(_ request: ConnectionsList.Request.FetchProfileDetailsWithId,
@@ -29,9 +31,16 @@ class ConnectionsListWorker: ConnectionsListWorkerProtocol {
         builder.fetchUserConnections(request: headers, completion: completion)
     }
     
+    func fetchCurrentUser(_ request: ConnectionsList.Request.FetchCurrentUser,
+                          completion: @escaping (BaseResponse<ConnectionsList.Info.Response.CurrentUser>) -> Void) {
+        let headers: [String : Any] = .empty
+        builder.fetchCurrentUser(request: headers, completion: completion)
+    }
+    
     func fetchRemoveConnection(_ request: ConnectionsList.Request.FetchRemoveConnectionWithId,
                                completion: @escaping (EmptyResponse) -> Void) {
-        builder.fetchRemoveConnection(request: ["userId" : request.userId], completion: completion)
+        builder.fetchRemoveConnection(request: ["userId" : request.userId],
+                                      completion: completion)
     }
     
     func fetchProfileDetails(_ request: ConnectionsList.Request.FetchProfileDetailsWithId,

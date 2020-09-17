@@ -60,12 +60,17 @@ struct ConnectionsList {
         
         struct Model {
             
+            struct User {
+                let id: String
+            }
+            
             enum UserType {
                 case logged
                 case other
             }
             
             struct CurrentUser {
+                let id: String
                 let name: String
             }
             
@@ -118,6 +123,17 @@ struct ConnectionsList {
         
         struct Response {
             
+            final class CurrentUser: Mappable {
+                
+                var id: String?
+                
+                init?(map: Map) { }
+                
+                func mapping(map: Map) {
+                    id <- map["id"]
+                }
+            }
+            
             final class Connection: Mappable {
                 
                 var name: String?
@@ -159,6 +175,10 @@ struct ConnectionsList {
     }
     
     struct Request {
+        
+        struct FetchCurrentUser {
+            
+        }
         
         struct FetchConnections {
             
