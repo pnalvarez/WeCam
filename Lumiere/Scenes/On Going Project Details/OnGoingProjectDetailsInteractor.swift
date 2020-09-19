@@ -164,12 +164,17 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
             .FetchProjectWithId(id: projedtId)) { response in
                 switch response {
                 case .success(let data):
-                    self.projectData = OnGoingProjectDetails.Info.Model.Project(id: projedtId,
-                                                                                image: data.image,
-                                                                                title: data.title ?? .empty,
-                                                                                sinopsis: data.sinopsis ?? .empty,
-                                                                                teamMembers: .empty,
-                                                                                needing: data.needing ?? .empty)
+                    self.projectData = OnGoingProjectDetails
+                        .Info
+                        .Model
+                        .Project(id: projedtId,
+                                 firstCathegory: data.cathegories?[0] ?? .empty,
+                                 secondCathegory: data.cathegories?.count ?? 0 > 1 ? (data.cathegories?[1] ?? .empty) : nil,
+                                 image: data.image,
+                                 title: data.title ?? .empty,
+                                 sinopsis: data.sinopsis ?? .empty,
+                                 teamMembers: .empty,
+                                 needing: data.needing ?? .empty)
                     guard let teamMemberIds = data.participants,
                         let projectData = self.projectData else { return }
                     guard teamMemberIds.count > 0 else {

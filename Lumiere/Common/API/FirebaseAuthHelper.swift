@@ -513,10 +513,6 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
     
     func fetchRemoveConnection(request: [String : Any],
                                completion: @escaping (EmptyResponse) -> Void) {
-        guard mutex else {
-            return
-        }
-        mutex = false
         if let userId = request["userId"] as? String,
             let currentUserId = authReference.currentUser?.uid {
             realtimeDB
@@ -575,8 +571,6 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                             }
                     }
             }
-        } else {
-            self.mutex = true
         }
     }
     

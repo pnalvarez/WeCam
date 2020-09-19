@@ -37,6 +37,7 @@ struct OnGoingProjectDetails {
             static let interactionButtonText = ThemeColors.whiteThemeColor.rawValue
             static let editConclude = ThemeColors.mainRedColor.rawValue
             static let editConcludeText = ThemeColors.whiteThemeColor.rawValue
+            static let cathegoryLbl = UIColor(rgb: 0x969494)
         }
         
         struct Fonts {
@@ -50,6 +51,7 @@ struct OnGoingProjectDetails {
             static let changeImageLbl = ThemeFonts.RobotoBold(16).rawValue
             static let editButton = ThemeFonts.RobotoRegular(10).rawValue
             static let interactionButton = ThemeFonts.RobotoBold(16).rawValue
+            static let cathegoryLbl = ThemeFonts.RobotoBold(16).rawValue
         }
         
         struct Texts {
@@ -106,6 +108,8 @@ struct OnGoingProjectDetails {
             
             struct Project {
                 let id: String
+                let firstCathegory: String
+                let secondCathegory: String?
                 var image: String?
                 var title: String
                 var sinopsis: String
@@ -131,6 +135,7 @@ struct OnGoingProjectDetails {
             
             struct Project {
                 let image: String?
+                let cathegories: NSAttributedString
                 let title: String
                 let sinopsis: String
                 let teamMembers: [TeamMember]

@@ -36,11 +36,21 @@ class OnGoingProjectDetailsPresenter: OnGoingProjectDetailsPresentationLogic {
                                                                                name: member.name,
                                                                                ocupation: member.ocupation))
         }
-        let viewModel = OnGoingProjectDetails.Info.ViewModel.Project(image: response.image,
-                                                                     title: response.title,
-                                                                     sinopsis: response.sinopsis,
-                                                                     teamMembers: teamMembers,
-                                                                     needing: response.needing)
+        var suffix: String
+        if let secondCathegory = response.secondCathegory {
+            suffix = " / " + secondCathegory
+        } else {
+            suffix = .empty
+        }
+        let viewModel = OnGoingProjectDetails
+            .Info
+            .ViewModel
+            .Project(image: response.image,
+                     cathegories: NSAttributedString(string: response.firstCathegory + suffix, attributes: [NSAttributedString.Key.font: OnGoingProjectDetails.Constants.Fonts.cathegoryLbl, NSAttributedString.Key.foregroundColor: OnGoingProjectDetails.Constants.Colors.cathegoryLbl, NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue]),
+                     title: response.title,
+                     sinopsis: response.sinopsis,
+                     teamMembers: teamMembers,
+                     needing: response.needing)
         viewController.displayProjectDetails(viewModel)
     }
     

@@ -36,6 +36,13 @@ class OnGoingProjectDetailsView: UIView {
         return view
     }()
     
+    private lazy var cathegoryLbl: UILabel = {
+        let view = UILabel(frame: .zero)
+        view.textAlignment = .center
+        view.numberOfLines = 0
+        return view
+    }()
+    
     private lazy var changeImageLbl: UILabel = {
         let view = UILabel(frame: .zero)
         view.text = OnGoingProjectDetails.Constants.Texts.changeImageLbl
@@ -219,6 +226,7 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
         mainContainer.addSubview(closeButton)
+        mainContainer.addSubview(cathegoryLbl)
         imageStackView.addArrangedSubview(imageButton)
         imageStackView.addArrangedSubview(changeImageLbl)
         mainContainer.addSubview(imageStackView)
@@ -263,8 +271,14 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
             make.right.equalToSuperview().inset(35)
             make.height.width.equalTo(31)
         }
+        cathegoryLbl.snp.makeConstraints { make in
+            make.top.equalToSuperview().inset(28)
+            make.centerX.equalToSuperview()
+            make.left.equalToSuperview()
+            make.width.equalTo(180)
+        }
         imageStackView.snp.makeConstraints { make in
-            make.top.equalTo(closeButton.snp.bottom)
+            make.top.equalTo(cathegoryLbl.snp.bottom).offset(28)
             make.centerX.equalToSuperview()
         }
         imageButton.snp.makeConstraints { make in
@@ -354,6 +368,7 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
     
     func configureViews() {
         backgroundColor = .white
+        cathegoryLbl.attributedText = viewModel?.cathegories
         titleTextField.text = viewModel?.title
         sinopsisTextView.text = viewModel?.sinopsis
         needValueTextfield.text = viewModel?.needing
