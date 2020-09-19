@@ -105,6 +105,24 @@ class OnGoingProjectDetailsController: BaseViewController, UINavigationControlle
         return view
     }()
     
+    private lazy var cancelEditingDetailsButton: DefaultCloseButton = {
+        let view = DefaultCloseButton(frame: .zero)
+        view.addTarget(self,
+                       action: #selector(didTapCancelEditing),
+                       for: .touchUpInside)
+        view.isHidden = true
+        return view
+    }()
+    
+    private lazy var cancelEditingNeedingButton: DefaultCloseButton = {
+        let view = DefaultCloseButton(frame: .zero)
+        view.addTarget(self,
+                       action: #selector(didTapCancelEditing),
+                       for: .touchUpInside)
+        view.isHidden = true
+        return view
+    }()
+    
     private lazy var imageButton: UIButton = {
         let view = UIButton(frame: .zero)
         view.imageView?.contentMode = .scaleToFill
@@ -182,8 +200,10 @@ class OnGoingProjectDetailsController: BaseViewController, UINavigationControlle
                                              imageButton: imageButton,
                                              inviteContactsButton: inviteContactsButton,
                                              editButton: editButton,
+                                             cancelEditingDetailsButton: cancelEditingDetailsButton,
                                              interactionButton: interactionButton,
                                              editNeedingButton: editNeedingButton,
+                                             cancelEditingNeedingButton: cancelEditingNeedingButton,
                                              needValueTextfield: needValueTextfield,
                                              activityView: activityView)
         return view
@@ -199,22 +219,25 @@ class OnGoingProjectDetailsController: BaseViewController, UINavigationControlle
         }
     }
     
-    private var editingInfo = false {
+    private var editingDetails = false {
         didSet {
-            if editingInfo {
-                editButton.setTitle(OnGoingProjectDetails.Constants.Texts.editConclude, for: .normal)
+            if editingDetails {
+                editButton.setTitle(OnGoingProjectDetails.Constants.Texts.editConclude,
+                                    for: .normal)
                 editButton.setTitleColor(OnGoingProjectDetails.Constants.Colors.editConcludeText, for: .normal)
                 editButton.backgroundColor = OnGoingProjectDetails.Constants.Colors.editConclude
             } else {
-                editButton.setTitle(OnGoingProjectDetails.Constants.Texts.editButton, for: .normal)
+                editButton.setTitle(OnGoingProjectDetails.Constants.Texts.editButton,
+                                    for: .normal)
                 editButton.setTitleColor(OnGoingProjectDetails.Constants.Colors.editButtonText, for: .normal)
                 editButton.backgroundColor = OnGoingProjectDetails.Constants.Colors.editButtonBackground
             }
-            titleTextField.isUserInteractionEnabled = editingInfo
-            sinopsisTextView.isUserInteractionEnabled = editingInfo
+            titleTextField.isUserInteractionEnabled = editingDetails
+            sinopsisTextView.isUserInteractionEnabled = editingDetails
+            editNeedingButton.isHidden = editingDetails
+            cancelEditingDetailsButton.isHidden = !editingDetails
         }
     }
-    
     private var editingNeeding = false {
         didSet {
             if editingNeeding {
@@ -222,11 +245,14 @@ class OnGoingProjectDetailsController: BaseViewController, UINavigationControlle
                 editNeedingButton.setTitleColor(OnGoingProjectDetails.Constants.Colors.editConcludeText, for: .normal)
                 editNeedingButton.backgroundColor = OnGoingProjectDetails.Constants.Colors.editConclude
             } else {
-                editNeedingButton.setTitle(OnGoingProjectDetails.Constants.Texts.editButton, for: .normal)
+                editNeedingButton.setTitle(OnGoingProjectDetails.Constants.Texts.editButton,
+                                    for: .normal)
                 editNeedingButton.setTitleColor(OnGoingProjectDetails.Constants.Colors.editButtonText, for: .normal)
                 editNeedingButton.backgroundColor = OnGoingProjectDetails.Constants.Colors.editButtonBackground
             }
             needValueTextfield.isUserInteractionEnabled = editingNeeding
+            editButton.isHidden = editingNeeding
+            cancelEditingNeedingButton.isHidden = !editingNeeding
         }
     }
     
@@ -257,13 +283,6 @@ class OnGoingProjectDetailsController: BaseViewController, UINavigationControlle
     override func loadView() {
         super.loadView()
         self.view = mainView
-    }
-
-    override func didTap() {
-        super.didTap()
-        editingInfo = false
-        editingNeeding = false
-        interactor?.didCancelEditing(OnGoingProjectDetails.Request.CancelEditing())
     }
     
     private func setup() {
@@ -375,21 +394,31 @@ extension OnGoingProjectDetailsController {
     
     @objc
     private func didTapEditInfo() {
-        if editingInfo {
-            interactor?.fetchUpdateProjectInfo(OnGoingProjectDetails.Request.UpdateInfo(title: titleTextField.text ?? .empty,
-                                                                                        sinopsis: sinopsisTextView.text ?? .empty))
-//            editingNeeding = false
+        if editingDetails {
+            interactor?.fetchUpdateProjectInfo(OnGoingProjectDetails.Request.UpdateInfo(title: titleTextField.text ?? .empty, sinopsis: sinopsisTextView.text ?? .empty))
+            editingDetails = false
+        } else {
+            editingDetails = true
         }
-        editingInfo = !editingInfo
+    }
+    
+    @objc
+    private func didTapCancelEditing(sender: UIButton) {
+        interactor?.didCancelEditing(OnGoingProjectDetails
+                                        .Request
+                                        .CancelEditing())
+        editingDetails = false
+        editingNeeding = false
     }
     
     @objc
     private func didTapEditNeeding() {
         if editingNeeding {
             interactor?.fetchUpdateProjectNeeding(OnGoingProjectDetails.Request.UpdateNeeding(needing: needValueTextfield.text ?? .empty))
-//            editingInfo = false
+            editingNeeding = false
+        } else {
+            editingNeeding = true
         }
-        editingNeeding = !editingNeeding
     }
     
     @objc
@@ -419,8 +448,6 @@ extension OnGoingProjectDetailsController: OnGoingProjectDetailsDisplayLogic {
     func displayProjectDetails(_ viewModel: OnGoingProjectDetails.Info.ViewModel.Project) {
         self.viewModel = viewModel
         mainView.setup(viewModel: viewModel)
-        editingInfo = false
-        editingNeeding = false
     }
     
     func displayError(_ viewModel: String) {

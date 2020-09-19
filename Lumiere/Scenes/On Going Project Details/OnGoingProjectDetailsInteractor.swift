@@ -44,7 +44,7 @@ class OnGoingProjectDetailsInteractor: OnGoingProjectDetailsDataStore {
 }
 
 extension OnGoingProjectDetailsInteractor {
-    
+     
     private func fetchUserDetails(_ request: OnGoingProjectDetails.Request.FetchUserWithId) {
         worker.fetchteamMemberData(request: request) { response in
             switch response {

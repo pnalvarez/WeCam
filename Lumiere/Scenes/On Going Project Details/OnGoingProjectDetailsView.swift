@@ -22,8 +22,10 @@ class OnGoingProjectDetailsView: UIView {
     private unowned var imageButton: UIButton
     private unowned var inviteContactsButton: UIButton
     private unowned var editButton: UIButton
+    private unowned var cancelEditingDetailsButton: DefaultCloseButton
     private unowned var interactionButton: UIButton
     private unowned var editNeedingButton: UIButton
+    private unowned var cancelEditingNeedingButton: DefaultCloseButton
     private unowned var needValueTextfield: UITextField
     private unowned var activityView: UIActivityIndicatorView
     
@@ -86,6 +88,15 @@ class OnGoingProjectDetailsView: UIView {
         return view
     }()
     
+    private lazy var editDetailsStackView: UIStackView = {
+        let view = UIStackView(frame: .zero)
+        view.alignment = .center
+        view.axis = .horizontal
+        view.distribution = .fill
+        view.spacing = 1
+        return view
+    }()
+    
     private lazy var teamFixedLbl: UILabel = {
         let view = UILabel(frame: .zero)
         view.text = OnGoingProjectDetails.Constants.Texts.teamFixedLbl
@@ -101,6 +112,15 @@ class OnGoingProjectDetailsView: UIView {
         view.font = OnGoingProjectDetails.Constants.Fonts.needFixedLbl
         view.textColor = OnGoingProjectDetails.Constants.Colors.needFixedLbl
         view.textAlignment = .left
+        return view
+    }()
+    
+    private lazy var needingStackView: UIStackView = {
+        let view = UIStackView(frame: .zero)
+        view.alignment = .center
+        view.axis = .horizontal
+        view.distribution = .fill
+        view.spacing = 1
         return view
     }()
     
@@ -125,8 +145,10 @@ class OnGoingProjectDetailsView: UIView {
          imageButton: UIButton,
          inviteContactsButton: UIButton,
          editButton: UIButton,
+         cancelEditingDetailsButton: DefaultCloseButton,
          interactionButton: UIButton,
          editNeedingButton: UIButton,
+         cancelEditingNeedingButton: DefaultCloseButton,
          needValueTextfield: UITextField,
          activityView: UIActivityIndicatorView) {
         self.confirmationModalView = confirmationModalView
@@ -140,8 +162,10 @@ class OnGoingProjectDetailsView: UIView {
         self.imageButton = imageButton
         self.inviteContactsButton = inviteContactsButton
         self.editButton = editButton
+        self.cancelEditingDetailsButton = cancelEditingDetailsButton
         self.interactionButton = interactionButton
         self.editNeedingButton = editNeedingButton
+        self.cancelEditingNeedingButton = cancelEditingNeedingButton
         self.needValueTextfield = needValueTextfield
         self.activityView = activityView
         super.init(frame: frame)
@@ -244,8 +268,10 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
         mainContainer.addSubview(progressButton)
         mainContainer.addSubview(progressFixedLbl)
         mainContainer.addSubview(imageStackView)
+        editDetailsStackView.addArrangedSubview(editButton)
+        editDetailsStackView.addArrangedSubview(cancelEditingDetailsButton)
         infoContainer.addSubview(titleTextField)
-        infoContainer.addSubview(editButton)
+        infoContainer.addSubview(editDetailsStackView)
         infoContainer.addSubview(sinopsisTextView)
         mainContainer.addSubview(infoContainer)
         mainContainer.addSubview(teamFixedLbl)
@@ -254,7 +280,9 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
         mainContainer.addSubview(needFixedLbl)
         mainContainer.addSubview(dotView)
         mainContainer.addSubview(needValueTextfield)
-        mainContainer.addSubview(editNeedingButton)
+        mainContainer.addSubview(needingStackView)
+        needingStackView.addArrangedSubview(editNeedingButton)
+        needingStackView.addArrangedSubview(cancelEditingNeedingButton)
         mainContainer.addSubview(inviteContactsButton)
         mainContainer.addSubview(interactionButton)
         mainContainer.addSubview(activityView)
@@ -319,11 +347,16 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
             make.right.equalToSuperview().inset(51)
             make.height.equalTo(188)
         }
-        editButton.snp.makeConstraints { make in
+        editDetailsStackView.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(6)
-            make.right.equalToSuperview().inset(12)
+            make.right.equalToSuperview().inset(2)
+        }
+        editButton.snp.makeConstraints { make in
             make.height.equalTo(14)
             make.width.equalTo(38)
+        }
+        cancelEditingDetailsButton.snp.makeConstraints { make in
+            make.height.width.equalTo(14)
         }
         titleTextField.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(9)
@@ -366,11 +399,16 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
             make.left.equalTo(dotView.snp.right).offset(12)
             make.width.equalTo(200)
         }
-        editNeedingButton.snp.makeConstraints { make in
+        needingStackView.snp.makeConstraints { make in
             make.centerY.equalTo(dotView)
             make.left.equalTo(needValueTextfield.snp.right)
+        }
+        editNeedingButton.snp.makeConstraints { make in
             make.height.equalTo(14)
             make.width.equalTo(38)
+        }
+        cancelEditingNeedingButton.snp.makeConstraints { make in
+            make.height.width.equalTo(14)
         }
         inviteContactsButton.snp.makeConstraints { make in
             make.top.equalTo(moreInfoButton.snp.bottom).offset(10)
