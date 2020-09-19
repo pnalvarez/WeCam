@@ -171,6 +171,7 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
                                  firstCathegory: data.cathegories?[0] ?? .empty,
                                  secondCathegory: data.cathegories?.count ?? 0 > 1 ? (data.cathegories?[1] ?? .empty) : nil,
                                  image: data.image,
+                                 progress: data.progress ?? 0,
                                  title: data.title ?? .empty,
                                  sinopsis: data.sinopsis ?? .empty,
                                  teamMembers: .empty,

@@ -39,6 +39,14 @@ class InviteProfileToProjectsTableViewCell: UITableViewCell {
         return view
     }()
     
+    private lazy var progressLbl: UILabel = {
+        let view = UILabel(frame: .zero)
+        view.textAlignment = .left
+        view.textColor = InviteProfileToProjects.Constants.Colors.progressLbl
+        view.font = InviteProfileToProjects.Constants.Fonts.progressLbl
+        return view
+    }()
+    
     private lazy var interactionButton: UIButton = {
         let view = UIButton(frame: .zero)
         view.addTarget(self, action: #selector(didTapInteraction), for: .touchUpInside)
@@ -77,6 +85,7 @@ extension InviteProfileToProjectsTableViewCell: ViewCodeProtocol {
         addSubview(projectImageView)
         addSubview(nameLbl)
         addSubview(cathegoriesLbl)
+        addSubview(progressLbl)
         addSubview(interactionButton)
     }
     
@@ -101,6 +110,11 @@ extension InviteProfileToProjectsTableViewCell: ViewCodeProtocol {
             make.left.equalTo(nameLbl)
             make.right.equalToSuperview()
         }
+        progressLbl.snp.makeConstraints { make in
+            make.top.equalTo(cathegoriesLbl.snp.bottom).offset(6)
+            make.left.equalTo(cathegoriesLbl)
+            make.width.equalTo(50)
+        }
     }
     
     func configureViews() {
@@ -109,6 +123,7 @@ extension InviteProfileToProjectsTableViewCell: ViewCodeProtocol {
         projectImageView.sd_setImage(with: URL(string: viewModel?.image ?? .empty), completed: nil)
         nameLbl.text = viewModel?.name
         cathegoriesLbl.attributedText = viewModel?.cathegories
+        progressLbl.text = viewModel?.progress
         interactionButton.setImage(viewModel?.relation, for: .normal)
     }
 }

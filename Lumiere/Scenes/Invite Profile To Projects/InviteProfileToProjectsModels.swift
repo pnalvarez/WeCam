@@ -22,6 +22,7 @@ struct InviteProfileToProjects {
             static let searchTextFieldText = UIColor(rgb: 0x000000)
             static let searchTextFieldLayer = UIColor(rgb: 0xe3e0e0).cgColor
             static let translucentView = UIColor.white.withAlphaComponent(0.5)
+            static let progressLbl = ThemeColors.mainRedColor.rawValue
         }
         
         struct Fonts {
@@ -29,6 +30,7 @@ struct InviteProfileToProjects {
             static let cathegoriesLbl = ThemeFonts.RobotoRegular(16).rawValue
             static let mainLbl = ThemeFonts.RobotoRegular(16).rawValue
             static let searchTextField = ThemeFonts.RobotoRegular(16).rawValue
+            static let progressLbl = ThemeFonts.RobotoBold(16).rawValue
         }
         
         struct Texts {
@@ -90,6 +92,7 @@ struct InviteProfileToProjects {
                 let authorId: String
                 let firstCathegory: String
                 let secondCathegory: String?
+                let progress: Int
                 var relation: Relation?
             }
         }
@@ -108,6 +111,7 @@ struct InviteProfileToProjects {
                 let name: String
                 let image: String
                 let cathegories: NSAttributedString
+                let progress: String
                 var relation: UIImage?
             }
             
@@ -129,6 +133,7 @@ struct InviteProfileToProjects {
                 var id: String?
                 var name: String?
                 var cathegories: [String]?
+                var progress: Int?
                 var image: String?
                 var authorId: String?
                 
@@ -138,6 +143,7 @@ struct InviteProfileToProjects {
                     id <- map["id"]
                     name <- map["title"]
                     cathegories <- map["cathegories"]
+                    progress <- map["progress"]
                     image <- map["image"]
                     authorId <- map["author_id"]
                 }

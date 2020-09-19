@@ -106,7 +106,7 @@ extension EditProjectDetailsInteractor: EditProjectDetailsBusinessLogic {
         presenter.presentLoading(true)
         publishingProject = EditProjectDetails.Info.Model.PublishingProject(image: receivedData?.image,
                                                                   cathegories: receivedData?.cathegories ?? .empty,
-                                                                  progress: receivedData?.progress ?? 0,
+                                                                  progress: Int((receivedData?.progress ?? 0) * 100),
                                                                   title: request.title,
                                                                   invitedUserIds: invitedUsers?.users.map({$0.id}) ?? .empty,
                                                                   sinopsis: request.sinopsis,

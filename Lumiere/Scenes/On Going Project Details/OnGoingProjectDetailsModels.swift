@@ -38,6 +38,8 @@ struct OnGoingProjectDetails {
             static let editConclude = ThemeColors.mainRedColor.rawValue
             static let editConcludeText = ThemeColors.whiteThemeColor.rawValue
             static let cathegoryLbl = UIColor(rgb: 0x969494)
+            static let progressButton = ThemeColors.mainRedColor.rawValue
+            static let progressFixedLbl = UIColor(rgb: 0x707070)
         }
         
         struct Fonts {
@@ -52,6 +54,8 @@ struct OnGoingProjectDetails {
             static let editButton = ThemeFonts.RobotoRegular(10).rawValue
             static let interactionButton = ThemeFonts.RobotoBold(16).rawValue
             static let cathegoryLbl = ThemeFonts.RobotoBold(16).rawValue
+            static let progressButton = ThemeFonts.RobotoBold(14).rawValue
+            static let progressFixedLbl = ThemeFonts.RobotoBold(14).rawValue
         }
         
         struct Texts {
@@ -75,6 +79,7 @@ struct OnGoingProjectDetails {
             static let sentRequestModalText = "Deseja remover sua solicitação de participação?"
             static let receivedRequestModalText = "Deseja aceitar participar deste projeto?"
             static let nothingModalText = "Deseja enviar uma solicitação para este projeto?"
+            static let progressFixedLbl = "Concluído"
         }
         
         struct Images {
@@ -111,6 +116,7 @@ struct OnGoingProjectDetails {
                 let firstCathegory: String
                 let secondCathegory: String?
                 var image: String?
+                let progress: Int
                 var title: String
                 var sinopsis: String
                 var teamMembers: [TeamMember]
@@ -137,6 +143,7 @@ struct OnGoingProjectDetails {
                 let image: String?
                 let cathegories: NSAttributedString
                 let title: String
+                let progress: NSAttributedString
                 let sinopsis: String
                 let teamMembers: [TeamMember]
                 let needing: String
@@ -167,7 +174,7 @@ struct OnGoingProjectDetails {
                 var cathegories: [String]?
                 var image: String?
                 var needing: String?
-                var progress: Float?
+                var progress: Int?
                 var title: String?
                 var sinopsis: String?
                 var participants: [String]?

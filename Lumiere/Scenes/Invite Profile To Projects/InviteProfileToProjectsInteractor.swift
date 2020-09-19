@@ -148,7 +148,9 @@ extension InviteProfileToProjectsInteractor: InviteProfileToProjectsBusinessLogi
                                                                image: $0.image ?? .empty,
                                                                authorId: $0.authorId ?? .empty,
                                                                firstCathegory: firstCathegory ?? .empty,
-                                                               secondCathegory: secondCathegory, relation: nil)
+                                                               secondCathegory: secondCathegory,
+                                                               progress: $0.progress ?? 0,
+                                                               relation: nil)
                 }))
                 for i in 0..<data.count {
                     self.fetchUserToProjectRelation(request: InviteProfileToProjects.Request.FetchRelation(userId: self.receivedUser?.userId ?? .empty, projectId: data[i].id ?? .empty, index: i))

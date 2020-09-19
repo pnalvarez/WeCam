@@ -44,6 +44,12 @@ class OnGoingProjectDetailsController: BaseViewController, UINavigationControlle
         return view
     }()
     
+    private lazy var progressButton: UIButton = {
+        let view = UIButton(frame: .zero)
+        view.addTarget(self, action: #selector(didTapProgress), for: .touchUpInside)
+        return view
+    }()
+    
     private lazy var titleTextField: UITextField = {
         let view = UITextField(frame: .zero)
         view.textAlignment = .center
@@ -172,6 +178,7 @@ class OnGoingProjectDetailsController: BaseViewController, UINavigationControlle
                                              closeButton: closeButton,
                                              teamCollectionView: teamCollectionView,
                                              moreInfoButton: moreInfoButton,
+                                             progressButton: progressButton,
                                              imageButton: imageButton,
                                              inviteContactsButton: inviteContactsButton,
                                              editButton: editButton,
@@ -388,6 +395,11 @@ extension OnGoingProjectDetailsController {
     @objc
     private func didTapInteraction() {
         interactor?.fetchInteract(OnGoingProjectDetails.Request.FetchInteraction())
+    }
+    
+    @objc
+    private func didTapProgress() {
+        
     }
 }
 

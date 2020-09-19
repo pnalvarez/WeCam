@@ -89,7 +89,7 @@ struct EditProjectDetails {
             struct PublishingProject {
                 let image: Data?
                 let cathegories: [String]
-                let progress: Float
+                let progress: Int
                 let title: String
                 let invitedUserIds: [String]
                 let sinopsis: String

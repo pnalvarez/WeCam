@@ -48,6 +48,7 @@ class OnGoingProjectDetailsPresenter: OnGoingProjectDetailsPresentationLogic {
             .Project(image: response.image,
                      cathegories: NSAttributedString(string: response.firstCathegory + suffix, attributes: [NSAttributedString.Key.font: OnGoingProjectDetails.Constants.Fonts.cathegoryLbl, NSAttributedString.Key.foregroundColor: OnGoingProjectDetails.Constants.Colors.cathegoryLbl, NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue]),
                      title: response.title,
+                     progress: NSAttributedString(string: "\(response.progress)%", attributes: [NSAttributedString.Key.font: OnGoingProjectDetails.Constants.Fonts.progressButton, NSAttributedString.Key.foregroundColor: OnGoingProjectDetails.Constants.Colors.progressButton, NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue]),
                      sinopsis: response.sinopsis,
                      teamMembers: teamMembers,
                      needing: response.needing)

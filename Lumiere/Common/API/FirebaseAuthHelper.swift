@@ -1046,7 +1046,7 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
             let image = payload["image"] as? Data?,
             let title = payload["title"] as? String,
             let cathegories = payload["cathegories"] as? Array<Any>,
-            let percentage = payload["percentage"] as? Float,
+            let percentage = payload["percentage"] as? Int,
             let sinopsis = payload["sinopsis"] as? String,
             let needing = payload["needing"] as? String,
             let currentUser = authReference.currentUser?.uid {

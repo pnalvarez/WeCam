@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		10A9BE69AE83BE34EE130E0A /* Pods_LumiereTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AC706A5F046CA56FB3C61F2 /* Pods_LumiereTests.framework */; };
+		3F05D19F2515BFF200932FFC /* Float+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F05D19E2515BFF200932FFC /* Float+.swift */; };
 		3F0CAA6224CCE0E8005E2558 /* CreateUserRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0CAA6124CCE0E8005E2558 /* CreateUserRequest.swift */; };
 		3F0CAA6424CCE118005E2558 /* SaveUserInfoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0CAA6324CCE118005E2558 /* SaveUserInfoRequest.swift */; };
 		3F0CAA6624CCE41D005E2558 /* SignInRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0CAA6524CCE41D005E2558 /* SignInRequest.swift */; };
@@ -230,6 +231,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3F05D19E2515BFF200932FFC /* Float+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Float+.swift"; sourceTree = "<group>"; };
 		3F0CAA6124CCE0E8005E2558 /* CreateUserRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserRequest.swift; sourceTree = "<group>"; };
 		3F0CAA6324CCE118005E2558 /* SaveUserInfoRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveUserInfoRequest.swift; sourceTree = "<group>"; };
 		3F0CAA6524CCE41D005E2558 /* SignInRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInRequest.swift; sourceTree = "<group>"; };
@@ -946,6 +948,7 @@
 				3F6EEA7024E5DEEC0075C500 /* UITabBar+.swift */,
 				3F6EEA7424E87EE10075C500 /* UIAlertController+.swift */,
 				3F66CA0525017C14006F6DBD /* NSAttributedString+.swift */,
+				3F05D19E2515BFF200932FFC /* Float+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1507,6 +1510,7 @@
 				3F40A6B024F1CADA00261161 /* OnGoingProjectDetailsController.swift in Sources */,
 				3F6EEA3D24E0A6B10075C500 /* ConnectionsListTableViewCell.swift in Sources */,
 				3F8D13BE24D789EF00AED7EB /* UITableView+.swift in Sources */,
+				3F05D19F2515BFF200932FFC /* Float+.swift in Sources */,
 				3F9578DB24B0240C00B79818 /* String+.swift in Sources */,
 				3F40A69224EF420800261161 /* ProjectProgressController.swift in Sources */,
 				3F9578CA24B0196C00B79818 /* SignUpInteractor.swift in Sources */,

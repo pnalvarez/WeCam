@@ -17,6 +17,7 @@ class OnGoingProjectDetailsView: UIView {
     private unowned var translucentView: UIView
     private unowned var closeButton: UIButton
     private unowned var teamCollectionView: UICollectionView
+    private unowned var progressButton: UIButton
     private unowned var moreInfoButton: UIButton
     private unowned var imageButton: UIButton
     private unowned var inviteContactsButton: UIButton
@@ -67,6 +68,15 @@ class OnGoingProjectDetailsView: UIView {
         return view
     }()
     
+    private lazy var progressFixedLbl: UILabel = {
+        let view = UILabel(frame: .zero)
+        view.text = OnGoingProjectDetails.Constants.Texts.progressFixedLbl
+        view.font = OnGoingProjectDetails.Constants.Fonts.progressFixedLbl
+        view.textColor = OnGoingProjectDetails.Constants.Colors.progressFixedLbl
+        view.textAlignment = .left
+        return view
+    }()
+    
     private lazy var infoContainer: UIView = {
         let view = UIView(frame: .zero)
         view.backgroundColor = OnGoingProjectDetails.Constants.Colors.containerInfoBackground
@@ -111,6 +121,7 @@ class OnGoingProjectDetailsView: UIView {
          closeButton: UIButton,
          teamCollectionView: UICollectionView,
          moreInfoButton: UIButton,
+         progressButton: UIButton,
          imageButton: UIButton,
          inviteContactsButton: UIButton,
          editButton: UIButton,
@@ -125,6 +136,7 @@ class OnGoingProjectDetailsView: UIView {
         self.closeButton = closeButton
         self.teamCollectionView = teamCollectionView
         self.moreInfoButton = moreInfoButton
+        self.progressButton = progressButton
         self.imageButton = imageButton
         self.inviteContactsButton = inviteContactsButton
         self.editButton = editButton
@@ -229,6 +241,8 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
         mainContainer.addSubview(cathegoryLbl)
         imageStackView.addArrangedSubview(imageButton)
         imageStackView.addArrangedSubview(changeImageLbl)
+        mainContainer.addSubview(progressButton)
+        mainContainer.addSubview(progressFixedLbl)
         mainContainer.addSubview(imageStackView)
         infoContainer.addSubview(titleTextField)
         infoContainer.addSubview(editButton)
@@ -274,8 +288,18 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
         cathegoryLbl.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(28)
             make.centerX.equalToSuperview()
-            make.left.equalToSuperview()
             make.width.equalTo(180)
+        }
+        progressButton.snp.makeConstraints { make in
+            make.top.equalTo(imageStackView.snp.bottom).offset(20)
+            make.centerX.equalTo(infoContainer).offset(-30)
+            make.width.equalTo(30)
+            make.height.equalTo(16)
+        }
+        progressFixedLbl.snp.makeConstraints { make in
+            make.centerY.equalTo(progressButton)
+            make.width.equalTo(70)
+            make.left.equalTo(progressButton.snp.right)
         }
         imageStackView.snp.makeConstraints { make in
             make.top.equalTo(cathegoryLbl.snp.bottom).offset(28)
@@ -290,7 +314,7 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
             make.width.equalTo(160)
         }
         infoContainer.snp.makeConstraints { make in
-            make.top.equalTo(imageStackView.snp.bottom).offset(14)
+            make.top.equalTo(progressButton.snp.bottom).offset(14)
             make.left.equalToSuperview().inset(56)
             make.right.equalToSuperview().inset(51)
             make.height.equalTo(188)
@@ -369,6 +393,7 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
     func configureViews() {
         backgroundColor = .white
         cathegoryLbl.attributedText = viewModel?.cathegories
+        progressButton.setAttributedTitle(viewModel?.progress, for: .normal)
         titleTextField.text = viewModel?.title
         sinopsisTextView.text = viewModel?.sinopsis
         needValueTextfield.text = viewModel?.needing

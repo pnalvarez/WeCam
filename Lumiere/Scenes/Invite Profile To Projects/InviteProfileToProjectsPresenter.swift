@@ -45,7 +45,9 @@ class InviteProfileToProjectsPresenter: InviteProfileToProjectsPresentationLogic
                     .Info
                     .ViewModel
                     .Project(name: $0.name,
-                             image: $0.image, cathegories: NSAttributedString(string: $0.firstCathegory + .space + ($0.secondCathegory ?? .empty), attributes: [NSAttributedString.Key.font: InviteProfileToProjects.Constants.Fonts.cathegoriesLbl, NSAttributedString.Key.foregroundColor: InviteProfileToProjects.Constants.Colors.cathegoriesLbl, NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue]), relation: image)
+                             image: $0.image, cathegories: NSAttributedString(string: $0.firstCathegory + .space + ($0.secondCathegory ?? .empty), attributes: [NSAttributedString.Key.font: InviteProfileToProjects.Constants.Fonts.cathegoriesLbl, NSAttributedString.Key.foregroundColor: InviteProfileToProjects.Constants.Colors.cathegoriesLbl, NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue]),
+                             progress: "\($0.progress)%",
+                                 relation: image)
             }))
         viewController.displayProjects(viewModel)
     }
