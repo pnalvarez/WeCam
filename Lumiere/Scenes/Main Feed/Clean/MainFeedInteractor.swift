@@ -11,13 +11,15 @@ protocol MainFeedBusinessLogic {
 }
 
 protocol MainFeedDataStore {
-    
+    var currentUserId: MainFeed.Info.Received.CurrentUser? { get set }
 }
 
 class MainFeedInteractor: MainFeedDataStore {
     
     private let worker: MainFeedWorkerProtocol
     private let presenter: MainFeedPresentationLogic
+    
+    var currentUserId: MainFeed.Info.Received.CurrentUser?
     
     init(worker: MainFeedWorkerProtocol = MainFeedWorker(),
          presenter: MainFeedPresentationLogic) {

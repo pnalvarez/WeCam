@@ -34,6 +34,11 @@ class SignInRouter: NSObject, SignInDataTransfer {
         guard let loggedUser = source.loggedUser else { return }
         destination.receivedUserData = ProfileDetails.Info.Received.User(userId: loggedUser.id)
     }
+    
+    private func transferDataToMainFeed(from source: SignInDataStore,
+                                        to destination: inout MainFeedDataStore) {
+        destination.currentUserId = MainFeed.Info.Received.CurrentUser(currentUserId: source.loggedUser?.id ?? .empty)
+    }
 }
 
 extension SignInRouter: BaseRouterProtocol {
@@ -52,6 +57,13 @@ extension SignInRouter: SignInRoutingLogic {
     
     func routeToHome() {
         guard let source = dataStore else { return }
+        
+        let mainFeedVc = MainFeedController()
+        mainFeedVc.tabBarItem = UITabBarItem(title: nil,
+                                             image: MainFeed.Constants.Images.tabBarImage,
+                                             selectedImage: MainFeed.Constants.Images.tabBarSelectedImage)
+        guard var destination = mainFeedVc.router?.dataStore else { return }
+        transferDataToMainFeed(from: source, to: &destination)
         
         let selectProjectImageVc = SelectProjectImageController()
         selectProjectImageVc.tabBarItem = UITabBarItem(title: nil,
@@ -83,7 +95,8 @@ extension SignInRouter: SignInRoutingLogic {
         projectDetailsVc.router?.dataStore?.receivedData = OnGoingProjectDetails.Info.Received.Project(projectId: "-MFItlhEHI3aram2mV-v", notInvitedUsers: .empty)
         
         let tabController = UITabBarController()
-        tabController.viewControllers = [UINavigationController(rootViewController: selectProjectImageVc),
+        tabController.viewControllers = [UINavigationController(rootViewController:                                            mainFeedVc),
+                                         UINavigationController(rootViewController: selectProjectImageVc),
                                          UINavigationController(rootViewController: notificationsVc),
                                          UINavigationController(rootViewController: profileDetailsVc)]
 

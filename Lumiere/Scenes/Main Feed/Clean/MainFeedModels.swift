@@ -32,12 +32,18 @@ struct MainFeed {
             static let lumiere = UIImage(named: "tipografia-projeto 2",
                                          in: MainFeed.bundle,
                                          compatibleWith: nil)
+            static let tabBarImage = UIImage(named: "home-antes-de-clicar 1",
+                                             in: MainFeed.bundle,
+                                             compatibleWith: nil)
+            static let tabBarSelectedImage = UIImage(named: "home-depois-de-clicar 1",
+                                                     in: MainFeed.bundle,
+                                                     compatibleWith: nil)
         }
         
         struct Dimensions {
             
             struct Heighs {
-                
+                static let headerCell: CGFloat = 60
             }
         }
     }
@@ -46,6 +52,9 @@ struct MainFeed {
         
         struct Received {
             
+            struct CurrentUser {
+                let currentUserId: String
+            }
         }
         
         struct Model {

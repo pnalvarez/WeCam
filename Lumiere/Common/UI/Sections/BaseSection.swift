@@ -12,8 +12,16 @@ class BaseSection: TableViewSectionProtocol {
     
     var builders: [TableViewCellBuilderProtocol]
     
-    init(builders: [TableViewCellBuilderProtocol]) {
+    init(builders: [TableViewCellBuilderProtocol],
+         tableView: UITableView) {
         self.builders = builders
+        registerCells(in: tableView)
+    }
+    
+    private func registerCells(in tableView: UITableView) {
+        for builder in builders {
+            builder.registerCell(in: tableView)
+        }
     }
     
     func heightForHeader() -> CGFloat {

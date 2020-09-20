@@ -9,5 +9,5 @@
 import UIKit
 
 protocol TableViewFactory {
-    func buildSections() -> TableViewSectionProtocol
+    func buildSections() -> [TableViewSectionProtocol]
 }

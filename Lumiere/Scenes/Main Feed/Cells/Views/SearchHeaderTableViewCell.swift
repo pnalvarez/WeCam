@@ -54,4 +54,8 @@ extension SearchHeaderTableViewCell: ViewCodeProtocol {
             make.height.equalTo(18)
         }
     }
+    
+    func configureViews() {
+        backgroundColor = .white
+    }
 }
