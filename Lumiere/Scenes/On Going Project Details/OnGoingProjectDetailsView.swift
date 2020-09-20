@@ -131,6 +131,12 @@ class OnGoingProjectDetailsView: UIView {
         return view
     }()
     
+//    private lazy var editProgressView: EditProgressView = {
+//        let view = EditProgressView(frame: .zero,
+//                                    delegate: self,
+//                                    progress: viewModel.pro)
+//    }()
+    
     private var viewModel: OnGoingProjectDetails.Info.ViewModel.Project?
     
     init(frame: CGRect,

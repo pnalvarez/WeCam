@@ -17,6 +17,7 @@ protocol OnGoingProjectDetailsBusinessLogic {
     func fetchInteract(_ request: OnGoingProjectDetails.Request.FetchInteraction)
     func fetchConfirmInteraction(_ request: OnGoingProjectDetails.Request.ConfirmInteraction)
     func fetchRefuseInteraction(_ request: OnGoingProjectDetails.Request.RefuseInteraction)
+    func fetchProgressPercentage(_ request: OnGoingProjectDetails.Request.FetchProgress)
 }
 
 protocol OnGoingProjectDetailsDataStore {
@@ -348,5 +349,11 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
             presenter.presentLoading(false)
             presenter.presentRefusedInteraction()
         }
+    }
+    
+    func fetchProgressPercentage(_ request: OnGoingProjectDetails.Request.FetchProgress) {
+        guard let percentage = projectData?.progress else { return }
+        let progressModel = OnGoingProjectDetails.Info.Model.Progress(percentage: percentage)
+        presenter.presentEditProgressModal(withProgress: progressModel)
     }
 }

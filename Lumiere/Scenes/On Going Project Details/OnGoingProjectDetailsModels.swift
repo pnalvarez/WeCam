@@ -99,6 +99,10 @@ struct OnGoingProjectDetails {
         
         struct Model {
             
+            struct Progress {
+                let percentage: Int
+            }
+            
             enum ProjectRelation {
                 case author
                 case simpleParticipating
@@ -138,6 +142,10 @@ struct OnGoingProjectDetails {
         }
         
         struct ViewModel {
+            
+            struct Progress {
+                let percentage: Float
+            }
             
             struct Project {
                 let image: String?
@@ -233,6 +241,10 @@ struct OnGoingProjectDetails {
     }
     
     struct Request {
+        
+        struct FetchProgress {
+            
+        }
         
         struct ExitProject {
             let projectId: String

@@ -19,6 +19,7 @@ protocol OnGoingProjectDetailsDisplayLogic: class {
     func hideConfirmationModal()
     func displayInteractionEffectivated()
     func displayRefusedInteraction()
+    func displayEditProgressModal(_ viewModel: OnGoingProjectDetails.Info.ViewModel.Progress)
 }
 
 class OnGoingProjectDetailsController: BaseViewController, UINavigationControllerDelegate {
@@ -428,7 +429,7 @@ extension OnGoingProjectDetailsController {
     
     @objc
     private func didTapProgress() {
-        
+        interactor?.fetchProgressPercentage(OnGoingProjectDetails.Request.FetchProgress())
     }
 }
 
@@ -486,5 +487,9 @@ extension OnGoingProjectDetailsController: OnGoingProjectDetailsDisplayLogic {
     
     func displayRefusedInteraction() {
         mainView.hideConfirmationModal()
+    }
+    
+    func displayEditProgressModal(_ viewModel: OnGoingProjectDetails.Info.ViewModel.Progress) {
+        
     }
 }

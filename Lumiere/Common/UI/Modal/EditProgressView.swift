@@ -10,6 +10,7 @@ import UIKit
 
 protocol EditProgressViewDelegate: class {
     func didConfirm(progress: Float)
+    func didClose()
 }
 
 class EditProgressView: UIView {
@@ -64,9 +65,12 @@ class EditProgressView: UIView {
         return view
     }()
     
+    private weak var delegate: EditProgressViewDelegate?
+    
     private var progress: Float
     
     init(frame: CGRect,
+         delegate: EditProgressViewDelegate? = nil,
          progress: Float) {
         self.progress = progress
         super.init(frame: frame)
@@ -81,12 +85,17 @@ extension EditProgressView {
     
     @objc
     private func didTapClose() {
-        
+        delegate?.didClose()
     }
     
     @objc
     private func didTapFinish() {
-        
+        delegate?.didConfirm(progress: progressSlider.value)
+    }
+    
+    @objc
+    private func progressDidChange() {
+        percentageLbl.text = "\(progress)%"
     }
 }
 
@@ -123,10 +132,15 @@ extension EditProgressView: ViewCodeProtocol {
             make.right.left.equalToSuperview().inset(130)
             make.height.equalTo(6)
         }
-        
+        percentageLbl.snp.makeConstraints { make in
+            make.top.equalTo(progressSlider.snp.bottom).offset(18)
+            make.centerX.equalTo(progressSlider)
+            make.width.equalTo(26)
+        }
     }
     
     func configureViews() {
-        
+        backgroundColor = .white
+        percentageLbl.text = "\(progress)%"
     }
 }
