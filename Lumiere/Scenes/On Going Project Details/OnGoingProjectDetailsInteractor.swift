@@ -363,7 +363,9 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
             switch response {
             case .success:
                 self.presenter.presentFeedback(OnGoingProjectDetails.Info.Model.Feedback(title: OnGoingProjectDetails.Constants.Texts.updatedProgressTitle, message: OnGoingProjectDetails.Constants.Texts.updateProgressMessage))
-                break
+                self.projectData?.progress = Int(request.newProgress * 100)
+                guard let project = self.projectData else { return }
+                self.presenter.presentProjectDetails(project)
             case .error(let error):
                 self.presenter.presentError(error.localizedDescription)
             }

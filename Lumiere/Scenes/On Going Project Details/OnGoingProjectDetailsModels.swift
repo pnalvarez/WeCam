@@ -122,7 +122,7 @@ struct OnGoingProjectDetails {
                 let firstCathegory: String
                 let secondCathegory: String?
                 var image: String?
-                let progress: Int
+                var progress: Int
                 var title: String
                 var sinopsis: String
                 var teamMembers: [TeamMember]
