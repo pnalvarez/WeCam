@@ -80,6 +80,8 @@ struct OnGoingProjectDetails {
             static let receivedRequestModalText = "Deseja aceitar participar deste projeto?"
             static let nothingModalText = "Deseja enviar uma solicitação para este projeto?"
             static let progressFixedLbl = "Concluído"
+            static let updatedProgressTitle = "Progresso atualizado"
+            static let updateProgressMessage = "O progresso do seu projeto foi atualizado"
         }
         
         struct Images {
@@ -241,6 +243,15 @@ struct OnGoingProjectDetails {
     }
     
     struct Request {
+        
+        struct UpdateProgress {
+            let newProgress: Float
+        }
+        
+        struct UpdateProgressToInteger {
+            let projectId: String
+            let progress: Int
+        }
         
         struct FetchProgress {
             

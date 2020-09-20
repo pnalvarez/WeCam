@@ -29,6 +29,8 @@ protocol OnGoingProjectDetailsWorkerProtocol {
                                        completion: @escaping (EmptyResponse) -> Void)
     func fetchExitProject(_ request: OnGoingProjectDetails.Request.ExitProject,
                           completion: @escaping (EmptyResponse) -> Void)
+    func fetchUpdateProgress(_ request: OnGoingProjectDetails.Request.UpdateProgressToInteger,
+                             completion: @escaping ((EmptyResponse) -> Void))
 }
 
 class OnGoingProjectDetailsWorker: OnGoingProjectDetailsWorkerProtocol {
@@ -105,5 +107,11 @@ class OnGoingProjectDetailsWorker: OnGoingProjectDetailsWorkerProtocol {
                           completion: @escaping (EmptyResponse) -> Void) {
         let headers: [String : Any] = ["projectId": request.projectId]
         builder.exitProject(request: headers, completion: completion)
+    }
+    
+    func fetchUpdateProgress(_ request: OnGoingProjectDetails.Request.UpdateProgressToInteger,
+                             completion: @escaping ((EmptyResponse) -> Void)) {
+        let headers: [String : Any] = ["projectId": request.projectId, "progress": request.progress]
+        builder.updateProjectProgress(request: headers, completion: completion)
     }
 }

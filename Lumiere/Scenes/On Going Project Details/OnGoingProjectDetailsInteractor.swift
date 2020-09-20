@@ -18,6 +18,7 @@ protocol OnGoingProjectDetailsBusinessLogic {
     func fetchConfirmInteraction(_ request: OnGoingProjectDetails.Request.ConfirmInteraction)
     func fetchRefuseInteraction(_ request: OnGoingProjectDetails.Request.RefuseInteraction)
     func fetchProgressPercentage(_ request: OnGoingProjectDetails.Request.FetchProgress)
+    func fetchUpdateProgress(_ request: OnGoingProjectDetails.Request.UpdateProgress)
 }
 
 protocol OnGoingProjectDetailsDataStore {
@@ -355,5 +356,17 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
         guard let percentage = projectData?.progress else { return }
         let progressModel = OnGoingProjectDetails.Info.Model.Progress(percentage: percentage)
         presenter.presentEditProgressModal(withProgress: progressModel)
+    }
+    
+    func fetchUpdateProgress(_ request: OnGoingProjectDetails.Request.UpdateProgress) {
+        worker.fetchUpdateProgress(OnGoingProjectDetails.Request.UpdateProgressToInteger(projectId: projectData?.id ?? .empty, progress: Int(request.newProgress * 100))) { response in
+            switch response {
+            case .success:
+                self.presenter.presentFeedback(OnGoingProjectDetails.Info.Model.Feedback(title: OnGoingProjectDetails.Constants.Texts.updatedProgressTitle, message: OnGoingProjectDetails.Constants.Texts.updateProgressMessage))
+                break
+            case .error(let error):
+                self.presenter.presentError(error.localizedDescription)
+            }
+        }
     }
 }

@@ -40,6 +40,7 @@ class EditProgressView: UIView {
     
     private lazy var progressSlider: UISlider = {
         let view = UISlider(frame: .zero)
+        view.addTarget(self, action: #selector(progressDidChange), for: .valueChanged)
         view.setThumbImage(UIImage.imageWithImage(image: UIImage(named: "logo-apenas") ?? UIImage(), scaledToSize: CGSize(width: 57, height: 67)), for: .normal)
         view.setThumbImage(UIImage.imageWithImage(image: UIImage(named: "logo-apenas") ?? UIImage(), scaledToSize: CGSize(width: 57, height: 67)), for: .highlighted)
         view.backgroundColor = UIColor(rgb: 0xe0e0e0)
@@ -70,8 +71,8 @@ class EditProgressView: UIView {
     
     var progress: Float {
         didSet {
-            progressSlider.setValue(progress, animated: false)
-            percentageLbl.text = "\(progressSlider.value)%"
+            progressSlider.setValue(progress/100, animated: false)
+            percentageLbl.text = String(format: "%.0f", progress) + "%"
         }
     }
     
@@ -103,7 +104,7 @@ extension EditProgressView {
     
     @objc
     private func progressDidChange() {
-        percentageLbl.text = "\(progress)%"
+        percentageLbl.text = String(format: "%.0f", progressSlider.value * 100) + "%"
     }
 }
 
@@ -143,7 +144,7 @@ extension EditProgressView: ViewCodeProtocol {
         percentageLbl.snp.makeConstraints { make in
             make.top.equalTo(progressSlider.snp.bottom).offset(38)
             make.centerX.equalTo(progressSlider)
-            make.width.equalTo(50)
+            make.width.equalTo(70)
         }
         finishButton.snp.makeConstraints { make in
             make.top.equalTo(percentageLbl.snp.bottom).offset(60)

@@ -34,7 +34,7 @@ class OnGoingProjectDetailsController: BaseViewController, UINavigationControlle
     
     private lazy var editProgressTranslucentView: UIView = {
         let view = UIView(frame: .zero)
-        view.backgroundColor = UIColor(rgb: 0x000000).withAlphaComponent(0.5)
+        view.backgroundColor = UIColor(rgb: 0xededed).withAlphaComponent(0.5)
         view.addGestureRecognizer(UITapGestureRecognizer(target: self,
                                                          action: #selector(cancelEditProgress)))
         view.isHidden = true
@@ -461,7 +461,8 @@ extension OnGoingProjectDetailsController {
 extension OnGoingProjectDetailsController: EditProgressViewDelegate {
     
     func didConfirm(progress: Float) {
-        
+        mainView.hideEditProgressView()
+        interactor?.fetchUpdateProgress(OnGoingProjectDetails.Request.UpdateProgress(newProgress: progress))
     }
     
     func didClose() {

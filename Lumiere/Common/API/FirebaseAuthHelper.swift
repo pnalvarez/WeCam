@@ -105,6 +105,8 @@ protocol FirebaseAuthHelperProtocol {
                                completion: @escaping (EmptyResponse) -> Void)
     func fetchCurrentUserAuthoringProjects<T: Mappable>(request: [String : Any],
                                            completion: @escaping (BaseResponse<[T]>) -> Void)
+    func updateProjectProgress(request: [String : Any],
+                               completion: @escaping (EmptyResponse) -> Void)
 }
 
 class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
@@ -2439,6 +2441,27 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                             }
                     }
                 }
+        }
+    }
+    
+    func updateProjectProgress(request: [String : Any],
+                               completion: @escaping (EmptyResponse) -> Void) {
+        guard let projectId = request["projectId"] as? String,
+              let progress = request["progress"] as? Int else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        let dict: [String : Any] = ["progress": progress]
+        realtimeDB
+            .child(Constants.projectsPath)
+            .child(Constants.ongoingProjectsPath)
+            .child(projectId)
+            .updateChildValues(dict) { (error, ref) in
+                if let error = error {
+                    completion(.error(error))
+                    return
+                }
+                completion(.success)
         }
     }
 }
