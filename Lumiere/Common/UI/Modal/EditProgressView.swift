@@ -34,13 +34,14 @@ class EditProgressView: UIView {
         view.textAlignment = .center
         view.font = ThemeFonts.RobotoBold(18).rawValue
         view.textColor = .black
+        view.numberOfLines = 0
         return view
     }()
     
     private lazy var progressSlider: UISlider = {
         let view = UISlider(frame: .zero)
-        view.setThumbImage(UIImage(named: "logo-apenas"), for: .normal)
-        view.setThumbImage(UIImage(named: "logo-apenas"), for: .highlighted)
+        view.setThumbImage(UIImage.imageWithImage(image: UIImage(named: "logo-apenas") ?? UIImage(), scaledToSize: CGSize(width: 57, height: 67)), for: .normal)
+        view.setThumbImage(UIImage.imageWithImage(image: UIImage(named: "logo-apenas") ?? UIImage(), scaledToSize: CGSize(width: 57, height: 67)), for: .highlighted)
         view.backgroundColor = UIColor(rgb: 0xe0e0e0)
         view.tintColor = UIColor(rgb: 0xe0e0e0)
         return view
@@ -67,13 +68,20 @@ class EditProgressView: UIView {
     
     private weak var delegate: EditProgressViewDelegate?
     
-    private var progress: Float
+    var progress: Float {
+        didSet {
+            progressSlider.setValue(progress, animated: false)
+            percentageLbl.text = "\(progressSlider.value)%"
+        }
+    }
     
     init(frame: CGRect,
          delegate: EditProgressViewDelegate? = nil,
          progress: Float) {
+        self.delegate = delegate
         self.progress = progress
         super.init(frame: frame)
+        applyViewCode()
     }
     
     required init?(coder: NSCoder) {
@@ -125,17 +133,23 @@ extension EditProgressView: ViewCodeProtocol {
         mainLbl.snp.makeConstraints { make in
             make.top.equalTo(closeButton.snp.bottom).offset(11)
             make.centerX.equalToSuperview()
-            make.width.equalTo(216)
+            make.width.equalTo(300)
         }
         progressSlider.snp.makeConstraints { make in
-            make.top.equalTo(mainLbl).offset(86)
+            make.top.equalTo(mainLbl).offset(120)
             make.right.left.equalToSuperview().inset(130)
             make.height.equalTo(6)
         }
         percentageLbl.snp.makeConstraints { make in
-            make.top.equalTo(progressSlider.snp.bottom).offset(18)
+            make.top.equalTo(progressSlider.snp.bottom).offset(38)
             make.centerX.equalTo(progressSlider)
-            make.width.equalTo(26)
+            make.width.equalTo(50)
+        }
+        finishButton.snp.makeConstraints { make in
+            make.top.equalTo(percentageLbl.snp.bottom).offset(60)
+            make.centerX.equalToSuperview()
+            make.height.equalTo(30)
+            make.width.equalTo(94)
         }
     }
     

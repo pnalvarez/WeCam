@@ -71,6 +71,7 @@
 		3F40A6E024F4992F00261161 /* InviteListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A6DF24F4992F00261161 /* InviteListTableViewCell.swift */; };
 		3F40A6E224F582EF00261161 /* UserDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A6E124F582EF00261161 /* UserDisplayView.swift */; };
 		3F43311E24E8E8B90082825E /* ConfirmationAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F43311D24E8E8B90082825E /* ConfirmationAlertView.swift */; };
+		3F5A422B2517F83600F10D63 /* SignInModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5A422A2517F83600F10D63 /* SignInModels.swift */; };
 		3F66CA0625017C14006F6DBD /* NSAttributedString+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F66CA0525017C14006F6DBD /* NSAttributedString+.swift */; };
 		3F66CA0925045025006F6DBD /* ProjectParticipantsListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F66CA0825045025006F6DBD /* ProjectParticipantsListController.swift */; };
 		3F66CA0B250450A1006F6DBD /* ProjectParticipantsListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F66CA0A250450A1006F6DBD /* ProjectParticipantsListRouter.swift */; };
@@ -157,7 +158,6 @@
 		3F95787524AEA4C900B79818 /* SignInInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F95787424AEA4C900B79818 /* SignInInteractor.swift */; };
 		3F95787724AEA4D100B79818 /* SignInPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F95787624AEA4D100B79818 /* SignInPresenter.swift */; };
 		3F95787924AEA4DE00B79818 /* SignInRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F95787824AEA4DE00B79818 /* SignInRouter.swift */; };
-		3F95787B24AEA4EA00B79818 /* SignInModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F95787A24AEA4EA00B79818 /* SignInModels.swift */; };
 		3F95787D24AEA4F000B79818 /* SignInProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F95787C24AEA4F000B79818 /* SignInProvider.swift */; };
 		3F95787F24AEB09900B79818 /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F95787E24AEB09900B79818 /* UIColor+.swift */; };
 		3F9578A124B0166500B79818 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F9578A024B0166500B79818 /* Roboto-Regular.ttf */; };
@@ -309,6 +309,7 @@
 		3F40A6DF24F4992F00261161 /* InviteListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteListTableViewCell.swift; sourceTree = "<group>"; };
 		3F40A6E124F582EF00261161 /* UserDisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDisplayView.swift; sourceTree = "<group>"; };
 		3F43311D24E8E8B90082825E /* ConfirmationAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationAlertView.swift; sourceTree = "<group>"; };
+		3F5A422A2517F83600F10D63 /* SignInModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInModels.swift; sourceTree = "<group>"; };
 		3F66CA0525017C14006F6DBD /* NSAttributedString+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+.swift"; sourceTree = "<group>"; };
 		3F66CA0825045025006F6DBD /* ProjectParticipantsListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectParticipantsListController.swift; sourceTree = "<group>"; };
 		3F66CA0A250450A1006F6DBD /* ProjectParticipantsListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectParticipantsListRouter.swift; sourceTree = "<group>"; };
@@ -401,7 +402,6 @@
 		3F95787424AEA4C900B79818 /* SignInInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInInteractor.swift; sourceTree = "<group>"; };
 		3F95787624AEA4D100B79818 /* SignInPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInPresenter.swift; sourceTree = "<group>"; };
 		3F95787824AEA4DE00B79818 /* SignInRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInRouter.swift; sourceTree = "<group>"; };
-		3F95787A24AEA4EA00B79818 /* SignInModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInModels.swift; sourceTree = "<group>"; };
 		3F95787C24AEA4F000B79818 /* SignInProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInProvider.swift; sourceTree = "<group>"; };
 		3F95787E24AEB09900B79818 /* UIColor+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+.swift"; sourceTree = "<group>"; };
 		3F9578A024B0166500B79818 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
@@ -1046,11 +1046,11 @@
 			children = (
 				3F95787024AEA4B800B79818 /* SignInController.swift */,
 				3F95787424AEA4C900B79818 /* SignInInteractor.swift */,
-				3F95787A24AEA4EA00B79818 /* SignInModels.swift */,
 				3F95787624AEA4D100B79818 /* SignInPresenter.swift */,
 				3F95787C24AEA4F000B79818 /* SignInProvider.swift */,
 				3F95787824AEA4DE00B79818 /* SignInRouter.swift */,
 				3F95787224AEA4C000B79818 /* SignInView.swift */,
+				3F5A422A2517F83600F10D63 /* SignInModels.swift */,
 			);
 			path = "Sign In";
 			sourceTree = "<group>";
@@ -1569,7 +1569,6 @@
 				3F95786124AD775D00B79818 /* LaunchScreenController.swift in Sources */,
 				3F40A69424EF426500261161 /* ProjectProgressInteractor.swift in Sources */,
 				3F40A6A324F091BB00261161 /* EditProjectDetailsView.swift in Sources */,
-				3F95787B24AEA4EA00B79818 /* SignInModels.swift in Sources */,
 				3F6EEA7724E8D1CE0075C500 /* EmptyListView.swift in Sources */,
 				3F6EEA7524E87EE10075C500 /* UIAlertController+.swift in Sources */,
 				3F40A6DE24F4899500261161 /* InviteListModels.swift in Sources */,
@@ -1595,6 +1594,7 @@
 				3F40A6A924F0927C00261161 /* EditProjectDetailsPresenter.swift in Sources */,
 				3F0CAA6624CCE41D005E2558 /* SignInRequest.swift in Sources */,
 				3F8D139B24D53B5C00AED7EB /* NotificationsWorker.swift in Sources */,
+				3F5A422B2517F83600F10D63 /* SignInModels.swift in Sources */,
 				3F8D139724D53AA300AED7EB /* NotificationsController.swift in Sources */,
 				3F6EEA7324E870AD0075C500 /* InfopListReader.swift in Sources */,
 				3F95786424AD77E200B79818 /* LaunchScreenRouter.swift in Sources */,

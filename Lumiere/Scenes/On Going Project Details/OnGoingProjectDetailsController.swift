@@ -20,9 +20,26 @@ protocol OnGoingProjectDetailsDisplayLogic: class {
     func displayInteractionEffectivated()
     func displayRefusedInteraction()
     func displayEditProgressModal(_ viewModel: OnGoingProjectDetails.Info.ViewModel.Progress)
+    func hideEditProgressModal()
 }
 
 class OnGoingProjectDetailsController: BaseViewController, UINavigationControllerDelegate {
+    
+    private lazy var editProgressView: EditProgressView = {
+        let view = EditProgressView(frame: .zero,
+                                    delegate: self,
+                                    progress: 0.0)
+        return view
+    }()
+    
+    private lazy var editProgressTranslucentView: UIView = {
+        let view = UIView(frame: .zero)
+        view.backgroundColor = UIColor(rgb: 0x000000).withAlphaComponent(0.5)
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self,
+                                                         action: #selector(cancelEditProgress)))
+        view.isHidden = true
+        return view
+    }()
     
     private lazy var confirmationModalView: ConfirmationAlertView = {
         let view = ConfirmationAlertView(frame: .zero,
@@ -190,6 +207,8 @@ class OnGoingProjectDetailsController: BaseViewController, UINavigationControlle
     
     private lazy var mainView: OnGoingProjectDetailsView = {
         let view = OnGoingProjectDetailsView(frame: .zero,
+                                             editProgressView: editProgressView,
+                                             editProgressTranslucentView: editProgressTranslucentView,
                                              titleTextField: titleTextField,
                                              sinopsisTextView: sinopsisTextView,
                                              confirmationModalView: confirmationModalView,
@@ -272,6 +291,7 @@ class OnGoingProjectDetailsController: BaseViewController, UINavigationControlle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.tabBarController?.tabBar.isHidden = true
         navigationController?.isNavigationBarHidden = true
         interactor?.fetchProjectRelation(OnGoingProjectDetails.Request.ProjectRelation())
     }
@@ -431,6 +451,22 @@ extension OnGoingProjectDetailsController {
     private func didTapProgress() {
         interactor?.fetchProgressPercentage(OnGoingProjectDetails.Request.FetchProgress())
     }
+    
+    @objc
+    private func cancelEditProgress() {
+        mainView.hideEditProgressView()
+    }
+}
+
+extension OnGoingProjectDetailsController: EditProgressViewDelegate {
+    
+    func didConfirm(progress: Float) {
+        
+    }
+    
+    func didClose() {
+        mainView.hideEditProgressView()
+    }
 }
 
 extension OnGoingProjectDetailsController: ConfirmationAlertViewDelegate {
@@ -490,6 +526,10 @@ extension OnGoingProjectDetailsController: OnGoingProjectDetailsDisplayLogic {
     }
     
     func displayEditProgressModal(_ viewModel: OnGoingProjectDetails.Info.ViewModel.Progress) {
-        
+        mainView.displayEditProgressView(withProgress: viewModel.percentage)
+    }
+    
+    func hideEditProgressModal() {
+        mainView.hideEditProgressView()
     }
 }

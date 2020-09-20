@@ -11,6 +11,8 @@ import SDWebImage
 
 class OnGoingProjectDetailsView: UIView {
     
+    private unowned var editProgressView: EditProgressView
+    private unowned var editProgressTranslucentView: UIView
     private unowned var confirmationModalView: ConfirmationAlertView
     private unowned var titleTextField: UITextField
     private unowned var sinopsisTextView: UITextView
@@ -140,6 +142,8 @@ class OnGoingProjectDetailsView: UIView {
     private var viewModel: OnGoingProjectDetails.Info.ViewModel.Project?
     
     init(frame: CGRect,
+         editProgressView: EditProgressView,
+         editProgressTranslucentView: UIView,
          titleTextField: UITextField,
          sinopsisTextView: UITextView,
          confirmationModalView: ConfirmationAlertView,
@@ -157,6 +161,8 @@ class OnGoingProjectDetailsView: UIView {
          cancelEditingNeedingButton: DefaultCloseButton,
          needValueTextfield: UITextField,
          activityView: UIActivityIndicatorView) {
+        self.editProgressView = editProgressView
+        self.editProgressTranslucentView = editProgressTranslucentView
         self.confirmationModalView = confirmationModalView
         self.titleTextField = titleTextField
         self.sinopsisTextView = sinopsisTextView
@@ -262,6 +268,31 @@ class OnGoingProjectDetailsView: UIView {
             self.layoutIfNeeded()
         })
     }
+    
+    func displayEditProgressView(withProgress progress: Float) {
+        editProgressView.progress = progress
+        UIView.animate(withDuration: 0.2, animations: {
+            self.editProgressTranslucentView.isHidden = false
+            self.editProgressView.snp.remakeConstraints { make in
+                make.top.equalTo(self.editProgressTranslucentView.snp.centerY)
+                make.left.right.equalToSuperview()
+                make.height.equalTo(self.editProgressTranslucentView)
+            }
+            self.layoutIfNeeded()
+        })
+    }
+    
+    func hideEditProgressView() {
+        UIView.animate(withDuration: 0.2, animations: {
+            self.editProgressTranslucentView.isHidden = true
+            self.editProgressView.snp.remakeConstraints { make in
+                make.top.equalTo(self.editProgressTranslucentView.snp.bottom)
+                make.left.right.equalToSuperview()
+                make.height.equalTo(self.editProgressTranslucentView)
+            }
+            self.layoutIfNeeded()
+        })
+    }
 }
 
 extension OnGoingProjectDetailsView: ViewCodeProtocol {
@@ -295,7 +326,9 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
         mainScrollView.addSubview(mainContainer)
         addSubview(mainScrollView)
         addSubview(translucentView)
+        addSubview(editProgressTranslucentView)
         addSubview(confirmationModalView)
+        addSubview(editProgressView)
     }
     
     func setupConstraints() {
@@ -431,6 +464,14 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
             make.height.equalTo(30)
             make.width.equalTo(120)
             make.bottom.equalToSuperview().inset(30)
+        }
+        editProgressTranslucentView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        editProgressView.snp.makeConstraints { make in
+            make.top.equalTo(editProgressTranslucentView.snp.bottom)
+            make.right.left.equalToSuperview()
+            make.height.equalTo(editProgressTranslucentView)
         }
     }
     
