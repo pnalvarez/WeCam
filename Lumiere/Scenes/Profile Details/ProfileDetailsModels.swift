@@ -91,11 +91,12 @@ struct ProfileDetails {
                 case other
             }
             
-            struct IneractionConfirmation {
+            struct IneractionConfirmation: Equatable {
                 let connectionType: ConnectionType
             }
             
-            struct User {
+            struct User: Equatable {
+                
                 var connectionType: ConnectionType?
                 let id: String
                 let image: String?
@@ -116,12 +117,12 @@ struct ProfileDetails {
                 let ocupation: String
             }
             
-            struct Project {
+            struct Project: Equatable {
                 let id: String
                 let image: String
             }
             
-            struct NewConnectionType {
+            struct NewConnectionType: Equatable {
                 let connectionType: ConnectionType
             }
         }
@@ -345,5 +346,88 @@ struct ProfileDetails {
         struct CurrentUserResponseData {
             let userData: [String : Any]
         }
+    }
+}
+
+extension ProfileDetails.Response.Project: Stubbable {
+    static var stub: ProfileDetails.Response.Project {
+        return ProfileDetails
+            .Response
+            .Project(JSONString:
+                                                """
+                    {
+                        "projectId": "idProj",
+                        "image": "image_url",
+                        "title": "Projeto Teste"
+                    }
+                    """)!
+    }
+}
+
+extension ProfileDetails.Response.User: Stubbable {
+    static var stub: ProfileDetails.Response.User {
+        return ProfileDetails
+            .Response
+            .User(JSONString:
+                                                """
+                    {
+                        "userId": "idUser",
+                        "name": "Usuario Teste",
+                        "email": "user_test1@hotmail.com",
+                        "professional_area": "Artist",
+                        "phone_number": "(20)9820-1189",
+                        "profile_image_url": "image_url"
+                    }
+                    """)!
+    }
+}
+
+extension ProfileDetails.Response.UserRelation: Stubbable {
+    static var stub: ProfileDetails.Response.UserRelation {
+        return ProfileDetails
+            .Response
+            .UserRelation(JSONString:
+                                                """
+                    {
+                        "relation": "CONNECTED"
+                    }
+                    """)!
+    }
+}
+
+extension ProfileDetails.Response.Project: MultipleStubbable {
+    static var stubArray: [ProfileDetails.Response.Project] {
+        return [
+            ProfileDetails
+                .Response
+                .Project(JSONString:
+                                                    """
+                        {
+                            "projectId": "idProj1",
+                            "image": "image_url1",
+                            "title": "Projeto Teste 1"
+                        }
+                        """)!,
+            ProfileDetails
+                .Response
+                .Project(JSONString:
+                                                    """
+                        {
+                            "projectId": "idProj2",
+                            "image": "image_url2",
+                            "title": "Projeto Teste 2"
+                        }
+                        """)!,
+            ProfileDetails
+                .Response
+                .Project(JSONString:
+                                                    """
+                        {
+                            "projectId": "idProj3",
+                            "image": "image_url3",
+                            "title": "Projeto Teste 3"
+                        }
+                        """)!
+                ]
     }
 }

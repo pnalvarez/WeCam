@@ -23,16 +23,16 @@ protocol ProfileDetailsDataStore {
 
 class ProfileDetailsInteractor: ProfileDetailsDataStore {
     
-    var presenter: ProfileDetailsPresentationLogic
-    var worker: ProfileDetailsWorkerProtocol
+    private let presenter: ProfileDetailsPresentationLogic
+    private let worker: ProfileDetailsWorkerProtocol
     
     var receivedUserData: ProfileDetails.Info.Received.User?
     var userDataModel: ProfileDetails.Info.Model.User?
     var selectedProject: ProfileDetails.Info.Model.Project?
     
-    init(viewController: ProfileDetailsDisplayLogic,
+    init(presenter: ProfileDetailsPresentationLogic,
          worker: ProfileDetailsWorkerProtocol = ProfileDetailsWorker()) {
-        self.presenter = ProfileDetailsPresenter(viewController: viewController)
+        self.presenter = presenter
         self.worker = worker
     }
 }
@@ -199,6 +199,7 @@ extension ProfileDetailsInteractor: ProfileDetailsBusinessLogic {
                 self.fetchUserRelation()
             case .error(let error):
                 self.presenter.presentLoading(false)
+                self.presenter.presentError(ProfileDetails.Errors.ProfileDetailsError(description: error.localizedDescription))
             }
         }
     }

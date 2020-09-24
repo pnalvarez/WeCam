@@ -9,29 +9,70 @@
 
 final class ProfileDetailsWorkerMock: ProfileDetailsWorkerProtocol {
     
-    func fetchUserConnectNotifications(_ request: ProfileDetails.Request.FetchNotifications,
-                                       completion: @escaping (ProfileDetails.Response.AllNotifications) -> Void) {
-//        completion(ProfileDetails
-//            .Response
-//            .AllNotifications
-//            .success(ProfileDetails
-//                .Response
-//                .CurrentUserResponseData(userData: [""])))
+    func fetchUserData(_ request: ProfileDetails.Request.FetchUserDataWithId,
+                       completion: @escaping (BaseResponse<ProfileDetails.Response.User>) -> Void) {
+        guard request.userId != "ERROR" else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        completion(.success(ProfileDetails.Response.User.stub))
     }
     
-    func fetchCurrentUserId(_ request: ProfileDetails.Request.FetchCurrentUserId, completion: @escaping (ProfileDetails.Response.CurrentUserId) -> Void) {
-        
+    func fetchUserRelation(_ request: ProfileDetails.Request.FetchUserRelation,
+                           completion: @escaping (BaseResponse<ProfileDetails.Response.UserRelation>) -> Void) {
+        guard request.userId != "ERROR" else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        completion(.success(ProfileDetails.Response.UserRelation.stub))
     }
     
-    func fetchCurrentUserData(_ request: ProfileDetails.Request.FetchCurrentUserData, completion: @escaping (ProfileDetails.Response.CurrentUser) -> Void) {
-        
+    func fetchProjectsData(_ request: ProfileDetails.Request.FetchUserProjects,
+                           completion: @escaping (BaseResponse<[ProfileDetails.Response.Project]>) -> Void) {
+        guard request.userId != "ERROR" else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        completion(.success(ProfileDetails.Response.Project.stubArray))
     }
     
-    func fetchProjectData(_ request: ProfileDetails.Request.ProjectInfo) {
-        
+    func fetchRemoveConnection(_ request: ProfileDetails.Request.RemoveConnection,
+                               completion: @escaping (EmptyResponse) -> Void) {
+        guard request.id != "ERROR" else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        completion(.success)
     }
     
-    func fetchAddConnection(_ request: ProfileDetails.Request.NewConnectNotification, completion: @escaping (ProfileDetails.Response.AddConnection) -> Void) {
-        
+    func fetchRemovePendingConnection(_ request: ProfileDetails.Request.RemovePendingConnection,
+                                      completion: @escaping (EmptyResponse) -> Void) {
+        guard request.id != "ERROR" else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        completion(.success)
+    }
+    
+    func fetchSendConnectionRequest(_ request: ProfileDetails.Request.SendConnectionRequest,
+                                    completion: @escaping (EmptyResponse) -> Void) {
+        guard request.id != "ERROR" else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        completion(.success)
+    }
+    
+    func fetchAcceptConnection(_ request: ProfileDetails.Request.AcceptConnectionRequest,
+                               completion: @escaping (EmptyResponse) -> Void) {
+        guard request.id != "ERROR" else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        completion(.success)
+    }
+    
+    func fetchSignOut(_ request: ProfileDetails.Request.SignOut, completion: @escaping (EmptyResponse) -> Void) {
+        completion(.success)
     }
 }

@@ -157,7 +157,8 @@ class ProfileDetailsController: BaseViewController {
     
     private func setup() {
         let viewController = self
-        let interactor = ProfileDetailsInteractor(viewController: viewController)
+        let presenter = ProfileDetailsPresenter(viewController: viewController)
+        let interactor = ProfileDetailsInteractor(presenter: presenter)
         let router = ProfileDetailsRouter()
         viewController.router = router
         router.dataStore = interactor

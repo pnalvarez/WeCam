@@ -9,6 +9,11 @@
 
 final class SignInProviderMock: SignInProviderProtocol {
     
+    func fetchSignIn(request: SignIn.Models.Request, completion: @escaping (BaseResponse<SignIn.Response.LoggedUser>) -> Void) {
+        
+    }
+    
+    
     enum ErrorMock: Error {
         case generic
     }

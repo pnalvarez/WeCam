@@ -2444,7 +2444,7 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
         }
     }
     
-    func updateProjectProgress(request: [String : Any],
+    func  updateProjectProgress(request: [String : Any],
                                completion: @escaping (EmptyResponse) -> Void) {
         guard let projectId = request["projectId"] as? String,
               let progress = request["progress"] as? Int else {

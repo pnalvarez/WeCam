@@ -72,6 +72,7 @@
 		3F40A6E224F582EF00261161 /* UserDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A6E124F582EF00261161 /* UserDisplayView.swift */; };
 		3F43311E24E8E8B90082825E /* ConfirmationAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F43311D24E8E8B90082825E /* ConfirmationAlertView.swift */; };
 		3F5A422B2517F83600F10D63 /* SignInModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5A422A2517F83600F10D63 /* SignInModels.swift */; };
+		3F5A4236251C145E00F10D63 /* Stubbable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5A4235251C145E00F10D63 /* Stubbable.swift */; };
 		3F66CA0625017C14006F6DBD /* NSAttributedString+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F66CA0525017C14006F6DBD /* NSAttributedString+.swift */; };
 		3F66CA0925045025006F6DBD /* ProjectParticipantsListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F66CA0825045025006F6DBD /* ProjectParticipantsListController.swift */; };
 		3F66CA0B250450A1006F6DBD /* ProjectParticipantsListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F66CA0A250450A1006F6DBD /* ProjectParticipantsListRouter.swift */; };
@@ -310,6 +311,7 @@
 		3F40A6E124F582EF00261161 /* UserDisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDisplayView.swift; sourceTree = "<group>"; };
 		3F43311D24E8E8B90082825E /* ConfirmationAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationAlertView.swift; sourceTree = "<group>"; };
 		3F5A422A2517F83600F10D63 /* SignInModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInModels.swift; sourceTree = "<group>"; };
+		3F5A4235251C145E00F10D63 /* Stubbable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stubbable.swift; sourceTree = "<group>"; };
 		3F66CA0525017C14006F6DBD /* NSAttributedString+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+.swift"; sourceTree = "<group>"; };
 		3F66CA0825045025006F6DBD /* ProjectParticipantsListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectParticipantsListController.swift; sourceTree = "<group>"; };
 		3F66CA0A250450A1006F6DBD /* ProjectParticipantsListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectParticipantsListRouter.swift; sourceTree = "<group>"; };
@@ -945,6 +947,7 @@
 				3FAD1A122516B55100ED4074 /* TableViewFactory.swift */,
 				3FAD1A1C2516B5DC00ED4074 /* TableViewSectionProtocol.swift */,
 				3FAD1A242516B5F500ED4074 /* TableViewCellBuilderProtocol.swift */,
+				3F5A4235251C145E00F10D63 /* Stubbable.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -1649,6 +1652,7 @@
 				3FB8BD7F250ED47D001954FD /* InviteProfileToProjectsTableViewCell.swift in Sources */,
 				3F40A6C924F2326700261161 /* EditProfileDetailsWorker.swift in Sources */,
 				3F66CA17250452DC006F6DBD /* ProjectParticipantsListTableViewCell.swift in Sources */,
+				3F5A4236251C145E00F10D63 /* Stubbable.swift in Sources */,
 				3F8D139224D5365700AED7EB /* ProfileDetailsModels.swift in Sources */,
 				3F40A6B824F1CBF400261161 /* OnGoingProjectDetailsWorker.swift in Sources */,
 				3FB8BD89250ED673001954FD /* InviteProfileToProjectsModels.swift in Sources */,
