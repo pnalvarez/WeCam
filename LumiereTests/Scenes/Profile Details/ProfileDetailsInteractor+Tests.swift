@@ -128,7 +128,33 @@ class ProfileDetailsInteractor_Tests: XCTestCase {
     }
     
     func testFetchConfirmInteraction_RemoveConnection_Success() {
-        
+        sut.userDataModel = ProfileDetails.Info.Model.User(connectionType: .contact, id: .empty, image: .empty, name: .empty, occupation: .empty, email: .empty, phoneNumber: .empty, connectionsCount: .empty, progressingProjects: .empty, finishedProjects: .empty)
+        XCTAssertNil(newConnectionType)
+        sut.fetchConfirmInteraction(ProfileDetails.Request.ConfirmInteraction())
+        let expectedResult = ProfileDetails.Info.Model.NewConnectionType(connectionType: .nothing)
+        XCTAssertEqual(expectedResult, newConnectionType)
+    }
+    
+    func testFetchConfirmInteraction_RemoveConnection_Error() {
+        sut.userDataModel = ProfileDetails.Info.Model.User(connectionType: .contact, id: "ERROR", image: .empty, name: .empty, occupation: .empty, email: .empty, phoneNumber: .empty, connectionsCount: .empty, progressingProjects: .empty, finishedProjects: .empty)
+        XCTAssertNil(error)
+        XCTAssertNil(newConnectionType)
+        sut.fetchConfirmInteraction(ProfileDetails.Request.ConfirmInteraction())
+        XCTAssertNotNil(error)
+    }
+    
+    func testFetchConfirmInteraction_SignOut() {
+        sut.userDataModel = ProfileDetails.Info.Model.User(connectionType: .logged, id: .empty, image: .empty, name: .empty, occupation: .empty, email: .empty, phoneNumber: .empty, connectionsCount: .empty, progressingProjects: .empty, finishedProjects: .empty)
+        XCTAssertFalse(signOutFlag)
+        sut.fetchConfirmInteraction(ProfileDetails.Request.ConfirmInteraction())
+        XCTAssertTrue(signOutFlag)
+    }
+    
+    func testDidSelectOnGoingProject() {
+        XCTAssertFalse(presentProjectDetailsFlag)
+        sut.userDataModel = ProfileDetails.Info.Model.User(connectionType: .logged, id: .empty, image: .empty, name: .empty, occupation: .empty, email: .empty, phoneNumber: .empty, connectionsCount: .empty, progressingProjects: [ProfileDetails.Info.Model.Project(id: "idUser", image: "image")], finishedProjects: .empty)
+        sut.didSelectOnGoingProject(ProfileDetails.Request.SelectProjectWithIndex(index: 0))
+        XCTAssertTrue(presentProjectDetailsFlag)
     }
 }
 
