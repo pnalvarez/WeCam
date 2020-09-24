@@ -129,7 +129,7 @@ struct ProfileDetails {
         
         struct ViewModel {
             
-            struct User {
+            struct User: Equatable {
                 let connectionTypeImage: UIImage?
                 let image: String?
                 let name: NSAttributedString
@@ -141,15 +141,15 @@ struct ProfileDetails {
                 let finishedProjects: [Project]
             }
             
-            struct Project {
+            struct Project: Equatable {
                 let image: String
             }
             
-            struct NewConnectionType {
+            struct NewConnectionType: Equatable {
                 let image: UIImage?
             }
             
-            struct InteractionConfirmation {
+            struct InteractionConfirmation: Equatable {
                 let text: String
             }
         }
@@ -429,5 +429,75 @@ extension ProfileDetails.Response.Project: MultipleStubbable {
                         }
                         """)!
                 ]
+    }
+}
+
+extension ProfileDetails.Info.Model.User: Stubbable {
+    static var stub: ProfileDetails.Info.Model.User {
+        return ProfileDetails.Info.Model.User(connectionType: .contact,
+                                              id: "idUser",
+                                              image: "image",
+                                              name: "Usuario Teste",
+                                              occupation: "Artista",
+                                              email: "user_test@hotmail.com",
+                                              phoneNumber: "(20)3938-3948",
+                                              connectionsCount: "0",
+                                              progressingProjects: ProfileDetails.Info.Model.Project.stubArray, finishedProjects: .empty)
+    }
+}
+
+extension ProfileDetails.Info.Model.Project: MultipleStubbable {
+    static var stubArray: [ProfileDetails.Info.Model.Project] {
+        return [ProfileDetails.Info.Model.Project(id: "idProj1",
+                                                  image: "image1"),
+                ProfileDetails.Info.Model.Project(id: "idProj2",
+                                                  image: "image2")]
+    }
+}
+
+extension ProfileDetails.Info.ViewModel.User: Stubbable {
+    static var stub: ProfileDetails.Info.ViewModel.User {
+        return ProfileDetails
+            .Info
+            .ViewModel
+            .User(connectionTypeImage: ProfileDetails.Constants.Images.isConnection,
+                  image: "image",
+                  name: NSAttributedString(string: "Usuario Teste",
+                                           attributes: [NSAttributedString
+                                            .Key
+                                            .font: ProfileDetails
+                                                .Constants
+                                                .Fonts
+                                                .nameLbl,
+                                                        NSAttributedString.Key.foregroundColor: ProfileDetails
+                                                            .Constants
+                                                            .Colors
+                                                            .nameLbl]), occupation: NSAttributedString(string: "Artista",
+                                                                                                       attributes: [NSAttributedString.Key.font: ProfileDetails
+                                                                                                          .Constants.Fonts.ocupationLbl, NSAttributedString.Key.foregroundColor: ProfileDetails
+                                                                                                              .Constants.Colors.ocupationLbl]), email: NSAttributedString(string: "user_test@hotmail.com", attributes: [NSAttributedString.Key.font: ProfileDetails
+                                                                                                                                                                                                                .Constants
+                                                                                                                                                                                                                .Fonts
+                                                                                                                                                                                                                .emailLbl, NSAttributedString.Key.foregroundColor: ProfileDetails
+                                                                                                                                                                                                                    .Constants
+                                                                                                                                                                                                                    .Colors
+                                                                                                                                                                                                                    .emailLbl, NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue]), phoneNumber: NSAttributedString(string:"(20)3938-3948",
+                                                                                                                                                                                                                                                                                                                                          attributes: [NSAttributedString.Key.font: ProfileDetails
+                                                                                                                                                                                                                                                                                                                                            .Constants
+                                                                                                                                                                                                                                                                                                                                            .Fonts
+                                                                                                                                                                                                                                                                                                                                            .phoneNumberLbl, NSAttributedString.Key.foregroundColor: ProfileDetails
+                                                                                                                                                                                                                                                                                                                                                .Constants
+                                                                                                                                                                                                                                                                                                                                                .Colors
+                                                                                                                                                                                                                                                                                                                                                .phoneNumberLbl]), connectionsCount: NSAttributedString(string: "0 Conexões",
+                                                                                                                                                                                                                                                                                                                                                                                                            attributes: [NSAttributedString.Key.font: ProfileDetails
+                                                                                                                                                                                                                                                                                                                                                                                                                .Constants
+                                                                                                                                                                                                                                                                                                                                                                                                                .Fonts
+                                                                                                                                                                                                                                                                                                                                                                                                                            .allConnectionsButton, NSAttributedString.Key.foregroundColor: ProfileDetails.Constants.Colors.allConnectionsButtonText]), progressingProjects: ProfileDetails.Info.ViewModel.Project.stubArray, finishedProjects: .empty)
+    }
+}
+
+extension ProfileDetails.Info.ViewModel.Project: MultipleStubbable {
+    static var stubArray: [ProfileDetails.Info.ViewModel.Project] {
+        return [ProfileDetails.Info.ViewModel.Project(image: "image1"), ProfileDetails.Info.ViewModel.Project(image: "image2")]
     }
 }

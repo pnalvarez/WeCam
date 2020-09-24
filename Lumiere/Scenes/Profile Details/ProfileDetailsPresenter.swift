@@ -100,7 +100,7 @@ class ProfileDetailsPresenter: ProfileDetailsPresentationLogic {
     
     func presentError(_ response: ProfileDetails.Errors.ProfileDetailsError) {
         // TO DO
-        viewController.displayEndRequest()
+        viewController.displayError(response.description)
     }
     
     func presentNewInteractionIcon(_ response: ProfileDetails.Info.Model.NewConnectionType) {
