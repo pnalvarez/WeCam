@@ -12,6 +12,7 @@
 		3F037F2625202A640060B928 /* SelectProjectImageInteractor+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F037F2525202A640060B928 /* SelectProjectImageInteractor+Tests.swift */; };
 		3F037F2E25202DB20060B928 /* SelectProjectImagePresenter+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F037F2D25202DB20060B928 /* SelectProjectImagePresenter+Tests.swift */; };
 		3F037F3425202F830060B928 /* SelectProjectCathegoryInteractor+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F037F3325202F830060B928 /* SelectProjectCathegoryInteractor+Tests.swift */; };
+		3F037F3C252110FE0060B928 /* SelectProjectCathegoryPresenter+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F037F3B252110FE0060B928 /* SelectProjectCathegoryPresenter+Tests.swift */; };
 		3F05D19F2515BFF200932FFC /* Float+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F05D19E2515BFF200932FFC /* Float+.swift */; };
 		3F05D1A72515D11300932FFC /* EditProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F05D1A62515D11300932FFC /* EditProgressView.swift */; };
 		3F0CAA6224CCE0E8005E2558 /* CreateUserRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0CAA6124CCE0E8005E2558 /* CreateUserRequest.swift */; };
@@ -258,6 +259,7 @@
 		3F037F2525202A640060B928 /* SelectProjectImageInteractor+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SelectProjectImageInteractor+Tests.swift"; sourceTree = "<group>"; };
 		3F037F2D25202DB20060B928 /* SelectProjectImagePresenter+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SelectProjectImagePresenter+Tests.swift"; sourceTree = "<group>"; };
 		3F037F3325202F830060B928 /* SelectProjectCathegoryInteractor+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SelectProjectCathegoryInteractor+Tests.swift"; sourceTree = "<group>"; };
+		3F037F3B252110FE0060B928 /* SelectProjectCathegoryPresenter+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SelectProjectCathegoryPresenter+Tests.swift"; sourceTree = "<group>"; };
 		3F05D19E2515BFF200932FFC /* Float+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Float+.swift"; sourceTree = "<group>"; };
 		3F05D1A62515D11300932FFC /* EditProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProgressView.swift; sourceTree = "<group>"; };
 		3F0CAA6124CCE0E8005E2558 /* CreateUserRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserRequest.swift; sourceTree = "<group>"; };
@@ -549,6 +551,7 @@
 			isa = PBXGroup;
 			children = (
 				3F037F3325202F830060B928 /* SelectProjectCathegoryInteractor+Tests.swift */,
+				3F037F3B252110FE0060B928 /* SelectProjectCathegoryPresenter+Tests.swift */,
 			);
 			path = "Select Project Cathegory";
 			sourceTree = "<group>";
@@ -1726,6 +1729,7 @@
 				3F8D136B24D0ED4800AED7EB /* SignInProvider+Tests.swift in Sources */,
 				3F8D136F24D0ED6800AED7EB /* SignUpPresenter+Tests.swift in Sources */,
 				3F8D137624D0EDA000AED7EB /* SignInProviderMock.swift in Sources */,
+				3F037F3C252110FE0060B928 /* SelectProjectCathegoryPresenter+Tests.swift in Sources */,
 				3F8D137824D0EDAD00AED7EB /* SignInInteractorMock.swift in Sources */,
 				3F95783724AD6FBE00B79818 /* LumiereTests.swift in Sources */,
 				3F8D137424D0ED9200AED7EB /* FirebaseHelperMock.swift in Sources */,
