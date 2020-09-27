@@ -38,9 +38,9 @@ class NotificationsInteractor: NotificationsDataStore {
     var allNotifications: Notifications.Info.Model.AllNotifications?
     var upcomingConnectNotifications: Notifications.Info.Model.UpcomingConnectNotifications?
     
-    init(viewController: NotificationsDisplayLogic,
+    init(presenter: NotificationsPresentationLogic,
          worker: NotificationsWorkerProtocol = NotificationsWorker()) {
-        self.presenter = NotificationsPresenter(viewController: viewController)
+        self.presenter = presenter
         self.worker = worker
     }
 }
@@ -263,7 +263,6 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
                     guard let index = self.allNotifications?.notifications.firstIndex(where: { $0.userId == userId && $0 is Notifications.Info.Model.ConnectNotification }) else { return }
                     self.updateNotifications(without: userId)
                     self.presenter.presentAnsweredConnectNotification(index: index, answer: .refused)
-                    break
                 case .error(let error):
                     self.presenter.presentLoading(false)
                     self.presenter.presentError(error.localizedDescription)

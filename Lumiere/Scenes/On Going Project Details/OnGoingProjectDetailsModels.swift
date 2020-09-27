@@ -35,7 +35,7 @@ struct OnGoingProjectDetails {
             static let editButtonLayer = UIColor(rgb: 0xe0e0e0).cgColor
             static let interactionButtonBackground = ThemeColors.mainRedColor.rawValue
             static let interactionButtonText = ThemeColors.whiteThemeColor.rawValue
-            static let editConclude = ThemeColors.mainRedColor.rawValue
+            static let editConclude = UIColor(rgb: 0x707070)
             static let editConcludeText = ThemeColors.whiteThemeColor.rawValue
             static let cathegoryLbl = UIColor(rgb: 0x969494)
             static let progressButton = ThemeColors.mainRedColor.rawValue

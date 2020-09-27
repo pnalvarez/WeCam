@@ -101,7 +101,7 @@ struct Notifications {
                 case nothing
             }
             
-            struct AllNotifications {
+            struct AllNotifications: Equatable {
                 var notifications: [Notifications.Info.Model.NotificationType] 
             }
             
@@ -117,7 +117,12 @@ struct Notifications {
                 var notifications: [ProjectParticipationRequestNotification]
             }
             
-            class NotificationType {
+            class NotificationType: Equatable {
+                
+                static func == (lhs: Notifications.Info.Model.NotificationType, rhs: Notifications.Info.Model.NotificationType) -> Bool {
+                    return lhs.userId == rhs.userId && lhs.userName == rhs.userName && lhs.image == rhs.image
+                }
+                
                 let userId: String
                 let userName: String
                 let image: String
@@ -195,7 +200,7 @@ struct Notifications {
             
             /////
 
-            struct NotificationAnswer {
+            struct NotificationAnswer: Equatable {
                 let index: Int
                 let text: String
             }
@@ -213,7 +218,7 @@ struct Notifications {
                 var selectable: Bool
             }
             
-            struct NotificationError {
+            struct NotificationError: Equatable {
                 let description: String
             }
         }
@@ -347,17 +352,6 @@ struct Notifications {
             }
         }
         
-        final class Relation: Mappable {
-            
-            var relation: String?
-            
-            init?(map: Map) { }
-            
-            func mapping(map: Map) {
-                relation <- map["relation"]
-            }
-        }
-        
         final class ProjectInvite: Mappable {
             
             var projectId: String?
@@ -410,3 +404,111 @@ struct Notifications {
         }
     }
 }
+
+extension Notifications.Response.ConnectNotification: MultipleStubbable {
+    static var stubArray: [Notifications.Response.ConnectNotification] {
+        return [Notifications
+            .Response
+            .ConnectNotification(JSONString: """
+                        {
+                            "email": "user_test1@hotmail.com",
+                            "image": "image",
+                            "name": "Usuario Teste 1",
+                            "ocupation": "Artista",
+                            "userId": "idUser1"
+                        }
+            """
+            )!,
+                Notifications
+                    .Response
+                    .ConnectNotification(JSONString: """
+                                {
+                                    "email": "user_test2@hotmail.com",
+                                    "image": "image",
+                                    "name": "Usuario Teste 2",
+                                    "ocupation": "Artista",
+                                    "userId": "idUser2"
+                                }
+                    """
+                    )!
+        ]
+    }
+}
+
+extension Notifications.Response.ProjectInvite: MultipleStubbable {
+    static var stubArray: [Notifications.Response.ProjectInvite] {
+        return [
+            Notifications.Response.ProjectInvite(JSONString: """
+                        {
+                            "projectId": "idProj1",
+                            "author_id": "idUser1",
+                            "project_title": "Projeto Teste 1",
+                            "image": "image"
+                        }
+                """)!,
+            Notifications.Response.ProjectInvite(JSONString: """
+                        {
+                            "projectId": "idProj2",
+                            "author_id": "idUser2",
+                            "project_title": "Projeto Teste 2",
+                            "image": "image"
+                        }
+                """)!
+        ]
+    }
+}
+
+extension Notifications.Response.User: Stubbable {
+    static var stub: Notifications.Response.User {
+        return Notifications.Response.User(JSONString: """
+                    {
+                        "name": "Usuario Teste",
+                        "email": "user_test@hotmail.com",
+                        "professional_area": "Artista",
+                        "phone_number": "(20)9999-9999",
+                        "profile_image_url": "image",
+                        "connections_count": "0"
+                    }
+            """)!
+    }
+}
+
+extension Notifications.Response.InvitingUser: Stubbable {
+    static var stub: Notifications.Response.InvitingUser {
+        return Notifications.Response.InvitingUser(JSONString: """
+                            {
+                                "name": "Usuario Teste"
+                            }
+                """)!
+    }
+}
+
+extension Notifications.Response.ProjectParticipationRequest: MultipleStubbable {
+    
+    static var stubArray: [Notifications.Response.ProjectParticipationRequest] {
+        return [Notifications.Response.ProjectParticipationRequest(JSONString: """
+                        {
+                            "projectId": "idProj1",
+                            "userId": "idUser1",
+                            "userName": "Usuario Teste 1",
+                            "userEmail": "user_test1@hotmail.com",
+                            "userOcupation": "Artista",
+                            "image": "image",
+                            "projectName": "Projeto Teste 1"
+                        }
+                """)!,
+                Notifications.Response.ProjectParticipationRequest(JSONString: """
+                                {
+                                    "projectId": "idProj2",
+                                    "userId": "idUser2",
+                                    "userName": "Usuario Teste 2",
+                                    "userEmail": "user_test2@hotmail.com",
+                                    "userOcupation": "Artista",
+                                    "image": "image",
+                                    "projectName": "Projeto Teste 2"
+                                }
+                        """)!
+        ]
+    }
+}
+

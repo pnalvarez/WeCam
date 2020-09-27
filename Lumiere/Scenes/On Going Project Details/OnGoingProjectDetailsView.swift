@@ -95,7 +95,7 @@ class OnGoingProjectDetailsView: UIView {
         view.alignment = .center
         view.axis = .horizontal
         view.distribution = .fill
-        view.spacing = 1
+        view.spacing = 3
         return view
     }()
     
@@ -132,12 +132,6 @@ class OnGoingProjectDetailsView: UIView {
         view.layer.cornerRadius = 5
         return view
     }()
-    
-//    private lazy var editProgressView: EditProgressView = {
-//        let view = EditProgressView(frame: .zero,
-//                                    delegate: self,
-//                                    progress: viewModel.pro)
-//    }()
     
     private var viewModel: OnGoingProjectDetails.Info.ViewModel.Project?
     
@@ -382,17 +376,17 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
         }
         infoContainer.snp.makeConstraints { make in
             make.top.equalTo(progressButton.snp.bottom).offset(14)
-            make.left.equalToSuperview().inset(56)
-            make.right.equalToSuperview().inset(51)
+            make.left.equalToSuperview().inset(20)
+            make.right.equalToSuperview().inset(20)
             make.height.equalTo(188)
         }
         editDetailsStackView.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(6)
+            make.top.equalToSuperview().inset(5)
             make.right.equalToSuperview().inset(2)
         }
         editButton.snp.makeConstraints { make in
             make.height.equalTo(14)
-            make.width.equalTo(38)
+            make.width.equalTo(46)
         }
         cancelEditingDetailsButton.snp.makeConstraints { make in
             make.height.width.equalTo(14)
@@ -408,7 +402,7 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
         }
         teamFixedLbl.snp.makeConstraints { make in
             make.top.equalTo(dotView.snp.bottom).offset(30)
-            make.left.equalTo(infoContainer)
+            make.left.equalTo(needFixedLbl)
             make.width.equalTo(49)
         }
         teamCollectionView.snp.makeConstraints { make in
@@ -425,7 +419,7 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
         }
         needFixedLbl.snp.makeConstraints { make in
             make.top.equalTo(infoContainer.snp.bottom).offset(30)
-            make.left.equalTo(teamCollectionView)
+            make.left.equalToSuperview().inset(56)
             make.width.equalTo(94)
         }
         dotView.snp.makeConstraints { make in
@@ -444,14 +438,14 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
         }
         editNeedingButton.snp.makeConstraints { make in
             make.height.equalTo(14)
-            make.width.equalTo(38)
+            make.width.equalTo(46)
         }
         cancelEditingNeedingButton.snp.makeConstraints { make in
             make.height.width.equalTo(14)
         }
         inviteContactsButton.snp.makeConstraints { make in
             make.top.equalTo(moreInfoButton.snp.bottom).offset(10)
-            make.centerX.equalToSuperview()
+            make.left.equalTo(teamFixedLbl)
             make.height.equalTo(32)
             make.width.equalTo(171)
         }
@@ -459,7 +453,7 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
             make.edges.equalToSuperview()
         }
         interactionButton.snp.makeConstraints { make in
-            make.top.equalTo(closeButton).offset(740)
+            make.top.equalTo(closeButton).offset(760)
             make.centerX.equalToSuperview()
             make.height.equalTo(30)
             make.width.equalTo(120)

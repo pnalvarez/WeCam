@@ -16,8 +16,6 @@ protocol NotificationsWorkerProtocol {
                        completion: @escaping (BaseResponse<Notifications.Response.User>) -> Void)
     func fetchConnectUsers(_ request: Notifications.Request.ConnectUsers,
                            completion: @escaping (EmptyResponse) -> Void)
-    func fetchUserRelation(_ request: Notifications.Request.UserRelation,
-                           completion: @escaping (BaseResponse<Notifications.Response.Relation>) -> Void)
     func fetchRemovePendingConnectNotification(_ request: Notifications.Request.RemovePendingNotification,
                                         completion: @escaping (EmptyResponse) -> Void)
     func fetchInvitingUserData(_ request: Notifications.Request.FetchInvitingUser,
@@ -66,13 +64,6 @@ class NotificationsWorker: NotificationsWorkerProtocol {
                            completion: @escaping (EmptyResponse) -> Void) {
         builder.fetchAcceptConnection(request: ["userId": request.fromUserId],
                                       completion: completion)
-    }
-    
-    func fetchUserRelation(_ request: Notifications.Request.UserRelation,
-                           completion: @escaping (BaseResponse<Notifications.Response.Relation>) -> Void) {
-        let headers: [String : Any] = ["userId" : request.toUserId]
-        builder.fetchUserRelation(request: headers,
-                                  completion: completion)
     }
     
     func fetchRemovePendingConnectNotification(_ request: Notifications.Request.RemovePendingNotification,

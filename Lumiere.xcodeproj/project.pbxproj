@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		10A9BE69AE83BE34EE130E0A /* Pods_LumiereTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AC706A5F046CA56FB3C61F2 /* Pods_LumiereTests.framework */; };
+		3F037F20251EF0DC0060B928 /* NotificationsPresenter+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F037F1F251EF0DC0060B928 /* NotificationsPresenter+Tests.swift */; };
 		3F05D19F2515BFF200932FFC /* Float+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F05D19E2515BFF200932FFC /* Float+.swift */; };
 		3F05D1A72515D11300932FFC /* EditProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F05D1A62515D11300932FFC /* EditProgressView.swift */; };
 		3F0CAA6224CCE0E8005E2558 /* CreateUserRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0CAA6124CCE0E8005E2558 /* CreateUserRequest.swift */; };
@@ -74,6 +75,8 @@
 		3F5A422B2517F83600F10D63 /* SignInModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5A422A2517F83600F10D63 /* SignInModels.swift */; };
 		3F5A4236251C145E00F10D63 /* Stubbable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5A4235251C145E00F10D63 /* Stubbable.swift */; };
 		3F5A423B251CE8A200F10D63 /* ProfileDetailsInteractorMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5A423A251CE8A200F10D63 /* ProfileDetailsInteractorMock.swift */; };
+		3F5A4240251D3C0300F10D63 /* NotificationsInteractor+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5A423F251D3C0300F10D63 /* NotificationsInteractor+Tests.swift */; };
+		3F5A4246251D3C4D00F10D63 /* NotificationsWorkerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5A4245251D3C4D00F10D63 /* NotificationsWorkerMock.swift */; };
 		3F66CA0625017C14006F6DBD /* NSAttributedString+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F66CA0525017C14006F6DBD /* NSAttributedString+.swift */; };
 		3F66CA0925045025006F6DBD /* ProjectParticipantsListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F66CA0825045025006F6DBD /* ProjectParticipantsListController.swift */; };
 		3F66CA0B250450A1006F6DBD /* ProjectParticipantsListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F66CA0A250450A1006F6DBD /* ProjectParticipantsListRouter.swift */; };
@@ -248,6 +251,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3F037F1F251EF0DC0060B928 /* NotificationsPresenter+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationsPresenter+Tests.swift"; sourceTree = "<group>"; };
 		3F05D19E2515BFF200932FFC /* Float+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Float+.swift"; sourceTree = "<group>"; };
 		3F05D1A62515D11300932FFC /* EditProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProgressView.swift; sourceTree = "<group>"; };
 		3F0CAA6124CCE0E8005E2558 /* CreateUserRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserRequest.swift; sourceTree = "<group>"; };
@@ -314,6 +318,8 @@
 		3F5A422A2517F83600F10D63 /* SignInModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInModels.swift; sourceTree = "<group>"; };
 		3F5A4235251C145E00F10D63 /* Stubbable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stubbable.swift; sourceTree = "<group>"; };
 		3F5A423A251CE8A200F10D63 /* ProfileDetailsInteractorMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailsInteractorMock.swift; sourceTree = "<group>"; };
+		3F5A423F251D3C0300F10D63 /* NotificationsInteractor+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationsInteractor+Tests.swift"; sourceTree = "<group>"; };
+		3F5A4245251D3C4D00F10D63 /* NotificationsWorkerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsWorkerMock.swift; sourceTree = "<group>"; };
 		3F66CA0525017C14006F6DBD /* NSAttributedString+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+.swift"; sourceTree = "<group>"; };
 		3F66CA0825045025006F6DBD /* ProjectParticipantsListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectParticipantsListController.swift; sourceTree = "<group>"; };
 		3F66CA0A250450A1006F6DBD /* ProjectParticipantsListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectParticipantsListRouter.swift; sourceTree = "<group>"; };
@@ -684,6 +690,14 @@
 			path = "Invite List";
 			sourceTree = "<group>";
 		};
+		3F5A4244251D3C3D00F10D63 /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				3F5A4245251D3C4D00F10D63 /* NotificationsWorkerMock.swift */,
+			);
+			path = Notifications;
+			sourceTree = "<group>";
+		};
 		3F66CA072504500B006F6DBD /* Project Participants List */ = {
 			isa = PBXGroup;
 			children = (
@@ -717,6 +731,8 @@
 		3F6EEA7824E8DA2B0075C500 /* Notifications */ = {
 			isa = PBXGroup;
 			children = (
+				3F5A423F251D3C0300F10D63 /* NotificationsInteractor+Tests.swift */,
+				3F037F1F251EF0DC0060B928 /* NotificationsPresenter+Tests.swift */,
 			);
 			path = Notifications;
 			sourceTree = "<group>";
@@ -770,6 +786,7 @@
 		3F8D137224D0ED7E00AED7EB /* Mocks */ = {
 			isa = PBXGroup;
 			children = (
+				3F5A4244251D3C3D00F10D63 /* Notifications */,
 				3F8D13BA24D75A3900AED7EB /* Profile Details */,
 				3F8D138124D0EDEC00AED7EB /* Sign In */,
 				3F8D138024D0EDE600AED7EB /* Sign Up */,
@@ -1672,6 +1689,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3F037F20251EF0DC0060B928 /* NotificationsPresenter+Tests.swift in Sources */,
+				3F5A4246251D3C4D00F10D63 /* NotificationsWorkerMock.swift in Sources */,
 				3F8D13B724D75A2700AED7EB /* ProfileDetailsInteractor+Tests.swift in Sources */,
 				3F8D136724D0ED0D00AED7EB /* SignInInteractor+Tests.swift in Sources */,
 				3F8D137C24D0EDCB00AED7EB /* SignUpProviderMock.swift in Sources */,
@@ -1687,6 +1706,7 @@
 				3F8D13BC24D75A4F00AED7EB /* ProfileDetailsWorkerMock.swift in Sources */,
 				3F5A423B251CE8A200F10D63 /* ProfileDetailsInteractorMock.swift in Sources */,
 				3F8D137124D0ED7500AED7EB /* SignUpProvider+Tests.swift in Sources */,
+				3F5A4240251D3C0300F10D63 /* NotificationsInteractor+Tests.swift in Sources */,
 				3F8D13B924D75A3400AED7EB /* ProfileDetailsPresenter+Tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

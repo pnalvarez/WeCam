@@ -82,7 +82,8 @@ class NotificationsController: BaseViewController {
     
     private func setup() {
         let viewController = self
-        let interactor = NotificationsInteractor(viewController: viewController)
+        let presenter = NotificationsPresenter(viewController: viewController)
+        let interactor = NotificationsInteractor(presenter: presenter)
         let router = NotificationsRouter()
         viewController.interactor = interactor
         viewController.router = router
