@@ -20,17 +20,17 @@ protocol SelectProjectCathegoryDataStore {
 
 class SelectProjectCathegoryInteractor: SelectProjectCathegoryDataStore {
     
-    private var worker: SelectProjectCathegoryWorkerProtocol
-    var presenter: SelectProjectCathegoryPresentationLogic
+    private let worker: SelectProjectCathegoryWorkerProtocol
+    private let presenter: SelectProjectCathegoryPresentationLogic
     
     var projectData: SelectProjectCathegory.Info.Received.Project?
     var selectedCathegories: SelectProjectCathegory.Info.Model.SelectedCathegories?
     var allCathegories: SelectProjectCathegory.Info.Model.InterestCathegories?
     
     init(worker: SelectProjectCathegoryWorkerProtocol = SelectProjectCathegoryWorker(),
-         viewController: SelectProjectCathegoryDisplayLogic) {
+         presenter: SelectProjectCathegoryPresentationLogic) {
         self.worker = worker
-        self.presenter = SelectProjectCathegoryPresenter(viewController: viewController)
+        self.presenter = presenter
         self.selectedCathegories = SelectProjectCathegory.Info.Model.SelectedCathegories(firstCathegory: nil,
                                                                                          secondCathegory: nil)
     }

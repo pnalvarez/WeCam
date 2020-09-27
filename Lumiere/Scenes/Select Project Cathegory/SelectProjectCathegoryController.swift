@@ -90,7 +90,8 @@ class SelectProjectCathegoryController: BaseViewController {
     
     private func setup() {
         let viewController = self
-        let interactor = SelectProjectCathegoryInteractor(viewController: viewController)
+        let presenter = SelectProjectCathegoryPresenter(viewController: viewController)
+        let interactor = SelectProjectCathegoryInteractor(presenter: presenter)
         let router = SelectProjectCathegoryRouter()
         viewController.interactor = interactor
         viewController.router = router

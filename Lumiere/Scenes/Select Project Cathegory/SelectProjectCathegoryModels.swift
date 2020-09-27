@@ -55,11 +55,11 @@ struct SelectProjectCathegory {
                 var secondCathegory: MovieStyle?
             }
             
-            struct InterestCathegories {
+            struct InterestCathegories: Equatable {
                 var cathegories: [Cathegory]
             }
             
-            struct Cathegory {
+            struct Cathegory: Equatable {
                 let cathegory: MovieStyle
                 var selected: Bool
             }
