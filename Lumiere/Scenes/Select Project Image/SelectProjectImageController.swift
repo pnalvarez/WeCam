@@ -90,7 +90,8 @@ class SelectProjectImageController: BaseViewController, UINavigationControllerDe
     
     private func setup() {
         let viewController = self
-        let interactor = SelectProjectImageInteractor(viewController: viewController)
+        let presenter = SelectProjectImagePresenter(viewController: viewController)
+        let interactor = SelectProjectImageInteractor(presenter: presenter)
         let router = SelectProjectImageRouter()
         viewController.interactor = interactor
         viewController.router = router

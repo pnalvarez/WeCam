@@ -12,19 +12,19 @@ protocol SelectProjectImageBusinessLogic {
 }
 
 protocol SelectProjectImageDataStore {
-    var projectModel: SelectProjectImage.Info.Model.Project? { get set }
+    var projectModel: SelectProjectImage.Info.Model.Project? { get }
 }
 
 class SelectProjectImageInteractor: SelectProjectImageDataStore {
     
-    var presenter: SelectProjectImagePresentationLogic
-    var worker: SelectProjectImageWorkerProtocol
+    private let presenter: SelectProjectImagePresentationLogic
+    private let worker: SelectProjectImageWorkerProtocol
     
     var projectModel: SelectProjectImage.Info.Model.Project?
     
-    init(viewController: SelectProjectImageDisplayLogic,
+    init(presenter: SelectProjectImagePresentationLogic,
          worker: SelectProjectImageWorkerProtocol = SelectProjectImageWorker()) {
-        self.presenter = SelectProjectImagePresenter(viewController: viewController)
+        self.presenter = presenter
         self.worker = worker
     }
 }

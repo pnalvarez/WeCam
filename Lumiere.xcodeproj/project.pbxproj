@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		10A9BE69AE83BE34EE130E0A /* Pods_LumiereTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AC706A5F046CA56FB3C61F2 /* Pods_LumiereTests.framework */; };
 		3F037F20251EF0DC0060B928 /* NotificationsPresenter+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F037F1F251EF0DC0060B928 /* NotificationsPresenter+Tests.swift */; };
+		3F037F2625202A640060B928 /* SelectProjectImageInteractor+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F037F2525202A640060B928 /* SelectProjectImageInteractor+Tests.swift */; };
 		3F05D19F2515BFF200932FFC /* Float+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F05D19E2515BFF200932FFC /* Float+.swift */; };
 		3F05D1A72515D11300932FFC /* EditProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F05D1A62515D11300932FFC /* EditProgressView.swift */; };
 		3F0CAA6224CCE0E8005E2558 /* CreateUserRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0CAA6124CCE0E8005E2558 /* CreateUserRequest.swift */; };
@@ -252,6 +253,7 @@
 
 /* Begin PBXFileReference section */
 		3F037F1F251EF0DC0060B928 /* NotificationsPresenter+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationsPresenter+Tests.swift"; sourceTree = "<group>"; };
+		3F037F2525202A640060B928 /* SelectProjectImageInteractor+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SelectProjectImageInteractor+Tests.swift"; sourceTree = "<group>"; };
 		3F05D19E2515BFF200932FFC /* Float+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Float+.swift"; sourceTree = "<group>"; };
 		3F05D1A62515D11300932FFC /* EditProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProgressView.swift; sourceTree = "<group>"; };
 		3F0CAA6124CCE0E8005E2558 /* CreateUserRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserRequest.swift; sourceTree = "<group>"; };
@@ -530,6 +532,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		3F037F2425202A490060B928 /* Select Project Image */ = {
+			isa = PBXGroup;
+			children = (
+				3F037F2525202A640060B928 /* SelectProjectImageInteractor+Tests.swift */,
+			);
+			path = "Select Project Image";
+			sourceTree = "<group>";
+		};
 		3F05D1AB2515D12000932FFC /* Modal */ = {
 			isa = PBXGroup;
 			children = (
@@ -754,6 +764,7 @@
 		3F8D136124D0EC6700AED7EB /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				3F037F2425202A490060B928 /* Select Project Image */,
 				3F6EEA7924E8DA390075C500 /* Connections List */,
 				3F6EEA7824E8DA2B0075C500 /* Notifications */,
 				3F8D13B524D75A0B00AED7EB /* Profile Details */,
@@ -1707,6 +1718,7 @@
 				3F5A423B251CE8A200F10D63 /* ProfileDetailsInteractorMock.swift in Sources */,
 				3F8D137124D0ED7500AED7EB /* SignUpProvider+Tests.swift in Sources */,
 				3F5A4240251D3C0300F10D63 /* NotificationsInteractor+Tests.swift in Sources */,
+				3F037F2625202A640060B928 /* SelectProjectImageInteractor+Tests.swift in Sources */,
 				3F8D13B924D75A3400AED7EB /* ProfileDetailsPresenter+Tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
