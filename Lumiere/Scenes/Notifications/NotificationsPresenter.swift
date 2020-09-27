@@ -147,6 +147,3 @@ class NotificationsPresenter: NotificationsPresentationLogic {
     }
 }
 
-extension NotificationsPresenter {
-
-}

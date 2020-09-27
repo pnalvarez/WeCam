@@ -50,7 +50,27 @@ class NotificationsPresenter_Tests: XCTestCase {
     }
     
     func testPresentNotifications() {
-        
+        XCTAssertNil(upcomingNotifications)
+        sut.presentNotifications(Notifications.Info.Model.AllNotifications.stub)
+        let expectedResult = Notifications.Info.ViewModel.UpcomingNotifications(notifications: [Notifications.Info.ViewModel.Notification(notificationText: "Deseja permitir conexão?", image: "image", name: "Usuario Teste 1", ocupation: "Artista", email: NSAttributedString(string: "user_test1@hotmail.com",
+                                                                                                                                                                                                                                                                                  attributes: [NSAttributedString.Key.font: Notifications
+                                                                                                                                                                                                                                                                                      .Constants
+                                                                                                                                                                                                                                                                                      .Fonts
+                                                                                                                                                                                                                                                                                      .emailLbl,
+                                                                                                                                                                                                                                                                                               NSAttributedString.Key.foregroundColor:
+                                                                                                                                                                                                                                                                                                  Notifications.Constants.Colors.emailLbl,
+                                                                                                                                                                                                                                                                                               NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue]), selectable: true),
+                                                                                                Notifications.Info.ViewModel.Notification(notificationText: "Usuario Teste 2 te convidou para este projeto, deseja participar?", image: "image", name: "Projeto Teste 2", ocupation: .empty, email: .empty, selectable: true),
+                                                                                                Notifications.Info.ViewModel.Notification(notificationText: "Solicitou participar do projeto Projeto Teste 3, deseja aceitá-lo?", image: "image", name: "Usuario Teste 3", ocupation: "Artista", email: NSAttributedString(string: "user_test3@hotmail.com",
+                                                                                                                                                                                                                                                                                                                            attributes: [NSAttributedString.Key.font: Notifications
+                                                                                                                                                                                                                                                                                                                                .Constants
+                                                                                                                                                                                                                                                                                                                                .Fonts
+                                                                                                                                                                                                                                                                                                                                .emailLbl,
+                                                                                                                                                                                                                                                                                                                                         NSAttributedString.Key.foregroundColor:
+                                                                                                                                                                                                                                                                                                                                            Notifications.Constants.Colors.emailLbl,
+                                                                                                                                                                                                                                                                                                                                         NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue]),
+                                                                                                                                                                                                                                                                                                                            selectable: true)])
+        XCTAssertEqual(expectedResult, upcomingNotifications)
     }
     
     func testDidFetchUserData() {
@@ -71,6 +91,40 @@ class NotificationsPresenter_Tests: XCTestCase {
         sut.presentAnsweredConnectNotification(index: 0, answer: .refused)
         let expectedResult = Notifications.Info.ViewModel.NotificationAnswer(index: 0, text: "Você recusou se conectar a")
         XCTAssertEqual(expectedResult, notificationAnswer)
+    }
+    
+    func testPresentAnsweredProjectInviteNotification_Accept() {
+        XCTAssertNil(notificationAnswer)
+        sut.presentAnsweredProjectInviteNotification(index: 0, answer: .accepted)
+        let expectedResult = Notifications.Info.ViewModel.NotificationAnswer(index: 0, text: "Você agora faz parte deste projeto")
+        XCTAssertEqual(expectedResult, notificationAnswer)
+    }
+    
+    func testPresentAnsweredProjectInviteNotifications_Refuse() {
+        XCTAssertNil(notificationAnswer)
+        sut.presentAnsweredProjectInviteNotification(index: 0, answer: .refused)
+        let expectedResult = Notifications.Info.ViewModel.NotificationAnswer(index: 0, text: "Você recusou o convite para este projeto")
+        XCTAssertEqual(expectedResult, notificationAnswer)
+    }
+    
+    func testPresentAnsweredProjectParticipationRequestNotification_Accepted() {
+        XCTAssertNil(notificationAnswer)
+        sut.presentAnsweredProjectParticipationRequest(index: 0, answer: .accepted)
+        let expectedResult = Notifications.Info.ViewModel.NotificationAnswer(index: 0, text: "agora faz parte do seu projeto")
+        XCTAssertEqual(expectedResult, notificationAnswer)
+    }
+    
+    func testPresentAnsweredProjectParticipationRequestNotification_Refused() {
+        XCTAssertNil(notificationAnswer)
+        sut.presentAnsweredProjectParticipationRequest(index: 0, answer: .refused)
+        let expectedResult = Notifications.Info.ViewModel.NotificationAnswer(index: 0, text: "foi recusado no seu projeto")
+        XCTAssertEqual(expectedResult, notificationAnswer)
+    }
+    
+    func testDidFetchProjectData() {
+        XCTAssertFalse(displayProjectDetailsFlag)
+        sut.didFetchProjectData()
+        XCTAssertTrue(displayProjectDetailsFlag)
     }
 }
 

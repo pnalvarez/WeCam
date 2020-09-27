@@ -205,11 +205,11 @@ struct Notifications {
                 let text: String
             }
             
-            struct UpcomingNotifications {
+            struct UpcomingNotifications: Equatable {
                 var notifications: [Notification]
             }
             
-            struct Notification {
+            struct Notification: Equatable {
                 let notificationText: String
                 let image: String?
                 let name: String
@@ -509,6 +509,12 @@ extension Notifications.Response.ProjectParticipationRequest: MultipleStubbable 
                                 }
                         """)!
         ]
+    }
+}
+
+extension Notifications.Info.Model.AllNotifications: Stubbable {
+    static var stub: Notifications.Info.Model.AllNotifications {
+        return Notifications.Info.Model.AllNotifications(notifications: [Notifications.Info.Model.ConnectNotification(userId: "idUser1", userName: "Usuario Teste 1", image: "image", ocupation: "Artista", email: "user_test1@hotmail.com"), Notifications.Info.Model.ProjectInviteNotification(userId: "idUser2", userName: "Usuario Teste 2", image: "image", projectId: "idProj2", projectName: "Projeto Teste 2"), Notifications.Info.Model.ProjectParticipationRequestNotification(userId: "idUser3", userName: "Usuario Teste 3", image: "image", projectId: "idProj3", projectName: "Projeto Teste 3", email: "user_test3@hotmail.com", ocupation: "Artista")])
     }
 }
 
