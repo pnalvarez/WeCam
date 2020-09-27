@@ -22,6 +22,8 @@ class SelectProjectImageInteractor_Tests: XCTestCase {
     
     override func tearDown() {
         sut = nil
+        error = nil
+        presentCathegoriesFlag = false
         super.tearDown()
     }
     
