@@ -69,7 +69,8 @@ class ProjectProgressController: BaseViewController {
     
     private func setup() {
         let viewController = self
-        let interactor = ProjectProgressInteractor(viewController: viewController)
+        let presenter = ProjectProgressPresenter(viewController: viewController)
+        let interactor = ProjectProgressInteractor(presenter: presenter)
         let router = ProjectProgressRouter()
         viewController.interactor = interactor
         viewController.router = router

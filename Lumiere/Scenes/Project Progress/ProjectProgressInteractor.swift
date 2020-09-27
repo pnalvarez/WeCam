@@ -24,9 +24,9 @@ class ProjectProgressInteractor: ProjectProgressDataStore {
     var progressingProject: ProjectProgress.Info.Model.Project?
     
     init(worker: ProjectProgressWorkerProtocol = ProjectProgressWorker(),
-         viewController: ProjectProgressDisplayLogic) {
+         presenter: ProjectProgressPresentationLogic) {
         self.worker = worker
-        self.presenter = ProjectProgressPresenter(viewController: viewController)
+        self.presenter = presenter
     }
 }
 
