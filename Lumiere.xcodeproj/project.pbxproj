@@ -15,6 +15,9 @@
 		3F037F3C252110FE0060B928 /* SelectProjectCathegoryPresenter+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F037F3B252110FE0060B928 /* SelectProjectCathegoryPresenter+Tests.swift */; };
 		3F037F42252113CC0060B928 /* ProjectProgressInteractor+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F037F41252113CC0060B928 /* ProjectProgressInteractor+Tests.swift */; };
 		3F037F502521158E0060B928 /* ProjectProgressPresenter+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F037F4F2521158E0060B928 /* ProjectProgressPresenter+Tests.swift */; };
+		3F037F592521170C0060B928 /* EditProjectDetailsWorkerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F037F582521170C0060B928 /* EditProjectDetailsWorkerMock.swift */; };
+		3F037F652521186B0060B928 /* EditProjectDetailsInteractor+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F037F642521186B0060B928 /* EditProjectDetailsInteractor+Tests.swift */; };
+		3F037F6D2522B9F60060B928 /* EditProjectDetailsPresenter+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F037F6C2522B9F60060B928 /* EditProjectDetailsPresenter+Tests.swift */; };
 		3F05D19F2515BFF200932FFC /* Float+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F05D19E2515BFF200932FFC /* Float+.swift */; };
 		3F05D1A72515D11300932FFC /* EditProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F05D1A62515D11300932FFC /* EditProgressView.swift */; };
 		3F0CAA6224CCE0E8005E2558 /* CreateUserRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0CAA6124CCE0E8005E2558 /* CreateUserRequest.swift */; };
@@ -264,6 +267,9 @@
 		3F037F3B252110FE0060B928 /* SelectProjectCathegoryPresenter+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SelectProjectCathegoryPresenter+Tests.swift"; sourceTree = "<group>"; };
 		3F037F41252113CC0060B928 /* ProjectProgressInteractor+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProjectProgressInteractor+Tests.swift"; sourceTree = "<group>"; };
 		3F037F4F2521158E0060B928 /* ProjectProgressPresenter+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProjectProgressPresenter+Tests.swift"; sourceTree = "<group>"; };
+		3F037F582521170C0060B928 /* EditProjectDetailsWorkerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProjectDetailsWorkerMock.swift; sourceTree = "<group>"; };
+		3F037F642521186B0060B928 /* EditProjectDetailsInteractor+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditProjectDetailsInteractor+Tests.swift"; sourceTree = "<group>"; };
+		3F037F6C2522B9F60060B928 /* EditProjectDetailsPresenter+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditProjectDetailsPresenter+Tests.swift"; sourceTree = "<group>"; };
 		3F05D19E2515BFF200932FFC /* Float+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Float+.swift"; sourceTree = "<group>"; };
 		3F05D1A62515D11300932FFC /* EditProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProgressView.swift; sourceTree = "<group>"; };
 		3F0CAA6124CCE0E8005E2558 /* CreateUserRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserRequest.swift; sourceTree = "<group>"; };
@@ -569,6 +575,23 @@
 			path = "Project Progress";
 			sourceTree = "<group>";
 		};
+		3F037F57252116F40060B928 /* Edit Project Details */ = {
+			isa = PBXGroup;
+			children = (
+				3F037F582521170C0060B928 /* EditProjectDetailsWorkerMock.swift */,
+			);
+			path = "Edit Project Details";
+			sourceTree = "<group>";
+		};
+		3F037F63252118550060B928 /* Edit Project Details */ = {
+			isa = PBXGroup;
+			children = (
+				3F037F642521186B0060B928 /* EditProjectDetailsInteractor+Tests.swift */,
+				3F037F6C2522B9F60060B928 /* EditProjectDetailsPresenter+Tests.swift */,
+			);
+			path = "Edit Project Details";
+			sourceTree = "<group>";
+		};
 		3F05D1AB2515D12000932FFC /* Modal */ = {
 			isa = PBXGroup;
 			children = (
@@ -793,6 +816,7 @@
 		3F8D136124D0EC6700AED7EB /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				3F037F63252118550060B928 /* Edit Project Details */,
 				3F037F40252113B30060B928 /* Project Progress */,
 				3F037F3225202F550060B928 /* Select Project Cathegory */,
 				3F037F2425202A490060B928 /* Select Project Image */,
@@ -828,6 +852,7 @@
 		3F8D137224D0ED7E00AED7EB /* Mocks */ = {
 			isa = PBXGroup;
 			children = (
+				3F037F57252116F40060B928 /* Edit Project Details */,
 				3F5A4244251D3C3D00F10D63 /* Notifications */,
 				3F8D13BA24D75A3900AED7EB /* Profile Details */,
 				3F8D138124D0EDEC00AED7EB /* Sign In */,
@@ -1734,17 +1759,20 @@
 				3F037F20251EF0DC0060B928 /* NotificationsPresenter+Tests.swift in Sources */,
 				3F037F3425202F830060B928 /* SelectProjectCathegoryInteractor+Tests.swift in Sources */,
 				3F037F2E25202DB20060B928 /* SelectProjectImagePresenter+Tests.swift in Sources */,
+				3F037F6D2522B9F60060B928 /* EditProjectDetailsPresenter+Tests.swift in Sources */,
 				3F5A4246251D3C4D00F10D63 /* NotificationsWorkerMock.swift in Sources */,
 				3F8D13B724D75A2700AED7EB /* ProfileDetailsInteractor+Tests.swift in Sources */,
 				3F8D136724D0ED0D00AED7EB /* SignInInteractor+Tests.swift in Sources */,
 				3F8D137C24D0EDCB00AED7EB /* SignUpProviderMock.swift in Sources */,
 				3F8D136D24D0ED5C00AED7EB /* SignUpInteractor+Tests.swift in Sources */,
 				3F8D136924D0ED3A00AED7EB /* SignInPresenter+Tests.swift in Sources */,
+				3F037F592521170C0060B928 /* EditProjectDetailsWorkerMock.swift in Sources */,
 				3F8D136B24D0ED4800AED7EB /* SignInProvider+Tests.swift in Sources */,
 				3F8D136F24D0ED6800AED7EB /* SignUpPresenter+Tests.swift in Sources */,
 				3F8D137624D0EDA000AED7EB /* SignInProviderMock.swift in Sources */,
 				3F037F3C252110FE0060B928 /* SelectProjectCathegoryPresenter+Tests.swift in Sources */,
 				3F037F502521158E0060B928 /* ProjectProgressPresenter+Tests.swift in Sources */,
+				3F037F652521186B0060B928 /* EditProjectDetailsInteractor+Tests.swift in Sources */,
 				3F8D137824D0EDAD00AED7EB /* SignInInteractorMock.swift in Sources */,
 				3F95783724AD6FBE00B79818 /* LumiereTests.swift in Sources */,
 				3F8D137424D0ED9200AED7EB /* FirebaseHelperMock.swift in Sources */,

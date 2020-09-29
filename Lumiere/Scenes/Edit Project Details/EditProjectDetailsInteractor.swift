@@ -29,9 +29,9 @@ class EditProjectDetailsInteractor: EditProjectDetailsDataStore {
     var publishedProject: EditProjectDetails.Info.Model.PublishedProject?
     
     init(worker: EditProjectDetailsWorkerProtocol = EditProjectDetailsWorker(),
-         viewController: EditProjectDetailsDisplayLogic) {
+         presenter: EditProjectDetailsPresentationLogic) {
         self.worker = worker
-        self.presenter = EditProjectDetailsPresenter(viewController: viewController)
+        self.presenter = presenter
         invitedUsers = EditProjectDetails.Info.Model.InvitedUsers(users: .empty)
     }
 }

@@ -96,11 +96,11 @@ struct EditProjectDetails {
                 let needing: String
             }
             
-            struct InvitedUsers {
+            struct InvitedUsers: Equatable {
                 var users: [User]
             }
             
-            struct User {
+            struct User: Equatable {
                 let id: String
                 let name: String
                 let image: String?
@@ -123,11 +123,11 @@ struct EditProjectDetails {
         
         struct ViewModel {
             
-            struct InvitedUsers {
+            struct InvitedUsers: Equatable {
                 let users: [User]
             }
             
-            struct User {
+            struct User: Equatable {
                 let name: String
                 let ocupation: String
                 let image: String?
@@ -188,3 +188,37 @@ struct EditProjectDetails {
         }
     }
 }
+
+extension EditProjectDetails.Info.Response.Project: Stubbable {
+    static var stub: EditProjectDetails.Info.Response.Project {
+        return EditProjectDetails.Info.Response.Project(JSONString: """
+                    {
+                        "id": "idProj",
+                        "title": "Projeto Teste",
+                        "image": "image",
+                        "author_id": "idUser"
+                    }
+                """)!
+    }
+}
+
+extension EditProjectDetails.Info.Model.InvitedUsers: Stubbable {
+    static var stub: EditProjectDetails.Info.Model.InvitedUsers {
+        return EditProjectDetails
+            .Info
+            .Model
+            .InvitedUsers(users: [EditProjectDetails.Info.Model.User(id: "idUser1",
+                                                                     name: "Usuario Teste 1",
+                                                                     image: "image",
+                                                                     ocupation: "Artista"),
+                                  EditProjectDetails.Info.Model.User(id: "idUser2",
+                                                                     name: "Usuario Teste 2",
+                                                                     image: "image",
+                                                                     ocupation: "Artista"),
+                                  EditProjectDetails.Info.Model.User(id: "idUser3",
+                                                                     name: "Usuario Teste 3",
+                                                                     image: "image",
+                                                                     ocupation: "Artista")])
+    }
+}
+

@@ -142,7 +142,8 @@ class EditProjectDetailsController: BaseViewController {
     
     private func setup() {
         let viewController = self
-        let interactor = EditProjectDetailsInteractor(viewController: viewController)
+        let presenter = EditProjectDetailsPresenter(viewController: viewController)
+        let interactor = EditProjectDetailsInteractor(presenter: presenter)
         let router = EditProjectDetailsRouter()
         viewController.interactor = interactor
         viewController.router = router
