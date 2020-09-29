@@ -82,11 +82,11 @@ struct InviteList {
         
         struct ViewModel {
             
-            struct Connections {
+            struct Connections: Equatable {
                 let users: [User]
             }
             
-            struct User {
+            struct User: Equatable {
                 let name: String
                 let image: String?
                 let email: String

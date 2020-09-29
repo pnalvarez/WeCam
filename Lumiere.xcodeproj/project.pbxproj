@@ -20,6 +20,7 @@
 		3F037F6D2522B9F60060B928 /* EditProjectDetailsPresenter+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F037F6C2522B9F60060B928 /* EditProjectDetailsPresenter+Tests.swift */; };
 		3F037F732522BD650060B928 /* InviteListWorkerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F037F722522BD650060B928 /* InviteListWorkerMock.swift */; };
 		3F037F7C2522BE630060B928 /* InviteListInteractor+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F037F7B2522BE630060B928 /* InviteListInteractor+Tests.swift */; };
+		3F037F842522C5220060B928 /* InviteListPresenter+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F037F832522C5220060B928 /* InviteListPresenter+Tests.swift */; };
 		3F05D19F2515BFF200932FFC /* Float+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F05D19E2515BFF200932FFC /* Float+.swift */; };
 		3F05D1A72515D11300932FFC /* EditProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F05D1A62515D11300932FFC /* EditProgressView.swift */; };
 		3F0CAA6224CCE0E8005E2558 /* CreateUserRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0CAA6124CCE0E8005E2558 /* CreateUserRequest.swift */; };
@@ -274,6 +275,7 @@
 		3F037F6C2522B9F60060B928 /* EditProjectDetailsPresenter+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditProjectDetailsPresenter+Tests.swift"; sourceTree = "<group>"; };
 		3F037F722522BD650060B928 /* InviteListWorkerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteListWorkerMock.swift; sourceTree = "<group>"; };
 		3F037F7B2522BE630060B928 /* InviteListInteractor+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "InviteListInteractor+Tests.swift"; sourceTree = "<group>"; };
+		3F037F832522C5220060B928 /* InviteListPresenter+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "InviteListPresenter+Tests.swift"; sourceTree = "<group>"; };
 		3F05D19E2515BFF200932FFC /* Float+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Float+.swift"; sourceTree = "<group>"; };
 		3F05D1A62515D11300932FFC /* EditProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProgressView.swift; sourceTree = "<group>"; };
 		3F0CAA6124CCE0E8005E2558 /* CreateUserRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserRequest.swift; sourceTree = "<group>"; };
@@ -608,6 +610,7 @@
 			isa = PBXGroup;
 			children = (
 				3F037F7B2522BE630060B928 /* InviteListInteractor+Tests.swift */,
+				3F037F832522C5220060B928 /* InviteListPresenter+Tests.swift */,
 			);
 			path = "Invite List";
 			sourceTree = "<group>";
@@ -1807,6 +1810,7 @@
 				3F8D137124D0ED7500AED7EB /* SignUpProvider+Tests.swift in Sources */,
 				3F5A4240251D3C0300F10D63 /* NotificationsInteractor+Tests.swift in Sources */,
 				3F037F2625202A640060B928 /* SelectProjectImageInteractor+Tests.swift in Sources */,
+				3F037F842522C5220060B928 /* InviteListPresenter+Tests.swift in Sources */,
 				3F8D13B924D75A3400AED7EB /* ProfileDetailsPresenter+Tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
