@@ -7,17 +7,25 @@
 //
 
 protocol SearchResultsBusinessLogic {
-    
+    func fetchSearch(_ request: SearchResults.Request.Search)
+    func fetchSelectProfile(_ request: SearchResults.Request.SelectProfile)
+    func fetchSelectProject(_ request: SearchResults.Request.SelectProject)
 }
 
 protocol SearchResultsDataStore {
-    
+    var searchKey: SearchResults.Info.Received.SearchKey? { get }
+    var results: SearchResults.Info.Model.Results? { get set }
+    var selectedItem: SearchResults.Info.Model.SelectedItem? { get set }
 }
 
 class SearchResultsInteractor: SearchResultsDataStore {
     
     private let worker: SearchResultsWorkerProtocol
     private let presenter: SearchResultsPresentationLogic
+    
+    var searchKey: SearchResults.Info.Received.SearchKey?
+    var results: SearchResults.Info.Model.Results?
+    var selectedItem: SearchResults.Info.Model.SelectedItem?
     
     init(worker: SearchResultsWorkerProtocol = SearchResultsWorker(),
          presenter: SearchResultsPresentationLogic) {
@@ -28,4 +36,17 @@ class SearchResultsInteractor: SearchResultsDataStore {
 
 extension SearchResultsInteractor: SearchResultsBusinessLogic {
     
+    func fetchSearch(_ request: SearchResults.Request.Search) {
+        //TO DO
+    }
+    
+    func fetchSelectProfile(_ request: SearchResults.Request.SelectProfile) {
+        guard let profile = results?.users[request.index] else { return }
+        selectedItem = .profile(profile)
+        presenter.presentProfileDetails()
+    }
+    
+    func fetchSelectProject(_ request: SearchResults.Request.SelectProject) {
+        
+    }
 }

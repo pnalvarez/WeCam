@@ -9,7 +9,10 @@
 import UIKit
 
 protocol SearchResultsPresentationLogic {
-    
+    func presentLoading(_ loading: Bool)
+    func presentResults(_ response: SearchResults.Info.Model.Results)
+    func presentProfileDetails()
+    func presentProjectDetails()
 }
 
 class SearchResultsPresenter: SearchResultsPresentationLogic {
@@ -18,5 +21,21 @@ class SearchResultsPresenter: SearchResultsPresentationLogic {
     
     init(viewController: SearchResultsDisplayLogic) {
         self.viewController = viewController
+    }
+    
+    func presentLoading(_ loading: Bool) {
+        
+    }
+    
+    func presentResults(_ response: SearchResults.Info.Model.Results) {
+        
+    }
+    
+    func presentProfileDetails() {
+        
+    }
+    
+    func presentProjectDetails() {
+        
     }
 }

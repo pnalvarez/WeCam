@@ -14,11 +14,14 @@ struct SearchResults {
     struct Constants {
         
         struct Colors {
-            
+            static let background = UIColor(rgb: 0xe0e0e0)
+            static let nameLbl = UIColor(rgb: 0x000000)
+            static let ocupationLbl = UIColor(rgb: 0x000000)
         }
         
         struct Fonts {
-            
+            static let nameLbl = ThemeFonts.RobotoBold(16).rawValue
+            static let ocupationLbl = ThemeFonts.RobotoRegular(16).rawValue
         }
         
         struct Texts {
@@ -41,22 +44,207 @@ struct SearchResults {
         
         struct Received {
             
+            struct SearchKey {
+                let key: String
+            }
         }
         
         struct Model {
             
+            enum SelectedItem: Equatable {
+                case profile(Profile)
+                case project(Project)
+            }
+            
+            struct Results: Equatable {
+                let users: [Profile]
+                let projects: [Project]
+            }
+            
+            struct Profile: Equatable {
+                let id: String
+                let name: String
+                let image: String
+                let ocupation: String
+            }
+            
+            struct Project: Equatable {
+                let id: String
+                let title: String
+                let progress: Int
+                let firstCathegory: String
+                let secondCathegory: String?
+                let image: String
+            }
         }
         
         struct ViewModel {
             
+            struct UpcomingResults {
+                let users: [Profile]
+                let projects: [Project]
+            }
+            
+            struct Project {
+                let offset: Int
+                let title: String
+                let cathegories: String
+                let progress: String
+                let image: String
+            }
+            
+            struct Profile {
+                let offset: Int
+                let name: String
+                let ocupation: String
+                let image: String
+            }
         }
         
         struct Response {
             
+            final class Profile: Mappable {
+                
+                var id: String?
+                var name: String?
+                var ocupation: String?
+                var image: String?
+                
+                init?(map: Map) { }
+                
+                func mapping(map: Map) {
+                    id <- map["id"]
+                    name <- map["name"]
+                    ocupation <- map["professional_area"]
+                    image <- map["profile_image_url"]
+                }
+            }
+            
+            final class Project: Mappable {
+                
+                var id: String?
+                var title: String?
+                var progress: Int?
+                var firstCathegory: String?
+                var secondCathegory: String?
+                var image: String?
+                
+                init?(map: Map) { }
+                
+                func mapping(map: Map) {
+                    id <- map["id"]
+                    title <- map["title"]
+                    progress <- map["progress"]
+                    firstCathegory <- map["firstCathegory"]
+                    secondCathegory <- map["secondCathegory"]
+                    image <- map["image"]
+                }
+            }
         }
     }
     
     struct Request {
         
+        struct Search {
+            let preffix: String
+        }
+        
+        struct SelectProfile {
+            let index: Int
+        }
+        
+        struct SelectProject {
+            let index: Int
+        }
+    }
+}
+
+extension SearchResults.Info.Response.Profile: MultipleStubbable {
+    static var stubArray: [SearchResults.Info.Response.Profile] {
+        return [SearchResults.Info.Response.Profile(JSONString: """
+                        {
+                            "id": "idUser1",
+                            "name": "Usuario Teste 1",
+                            "professional_area": "Artist",
+                            "profile_image_url": "image"
+                        }
+                """)!,
+                SearchResults.Info.Response.Profile(JSONString: """
+                                {
+                                    "id": "idUser2",
+                                    "name": "Usuario Teste 2",
+                                    "professional_area": "Artist",
+                                    "profile_image_url": "image"
+                                }
+                        """)!,
+                SearchResults.Info.Response.Profile(JSONString: """
+                                {
+                                    "id": "idUser3",
+                                    "name": "Usuario Teste 3",
+                                    "professional_area": "Artist",
+                                    "profile_image_url": "image"
+                                }
+                        """)!]
+    }
+}
+
+extension SearchResults.Info.Response.Project: MultipleStubbable {
+    static var stubArray: [SearchResults.Info.Response.Project] {
+        return [SearchResults.Info.Response.Project(JSONString: """
+                        {
+                            "id": "idProj1",
+                            "title": "Projeto Teste 1",
+                            "progress": 50,
+                            "firstCathegory": "Ação",
+                            "secondCathegory": "Animação",
+                            "image": "image"
+                        }
+                """)!,
+                SearchResults.Info.Response.Project(JSONString: """
+                                {
+                                    "id": "idProj2",
+                                    "title": "Projeto Teste 2",
+                                    "progress": 70,
+                                    "firstCathegory": "Ação",
+                                    "secondCathegory": "Animação",
+                                    "image": "image"
+                                }
+                        """)!,
+                SearchResults.Info.Response.Project(JSONString: """
+                                {
+                                    "id": "idProj3",
+                                    "title": "Projeto Teste 3",
+                                    "progress": 50,
+                                    "firstCathegory": "Ação",
+                                    "secondCathegory": "Animação",
+                                    "image": "image"
+                                }
+                        """)!]
+    }
+}
+
+extension SearchResults.Info.Model.Results: Stubbable {
+    static var stub: SearchResults.Info.Model.Results {
+        return SearchResults.Info.Model.Results(users: [SearchResults.Info.Model.Profile(id: "idUser1",
+                                                                                         name: "Usuario Teste 1",
+                                                                                         image: "image",
+                                                                                         ocupation: "Artist"),
+                                                        SearchResults.Info.Model.Profile(id: "idUser2",
+                                                                                         name: "Usuario Teste 2",
+                                                                                         image: "image",
+                                                                                         ocupation: "Artist")],
+                                                projects: [SearchResults.Info.Model.Project(id: "idProj1",
+                                                                                             title: "Projeto Teste 1",
+                                                                                             progress: 50,
+                                                                                             firstCathegory: "Ação",
+                                                                                             secondCathegory: nil,
+                                                                                             image: "image"),
+                                                           SearchResults.Info.Model.Project(id: "idProj2",
+                                                                                            title: "Projeto Teste 2",
+                                                                                            progress: 50,
+                                                                                            firstCathegory: "Ação",
+                                                                                            secondCathegory: nil,
+                                                                                            image: "image")
+                                                                                         ])
     }
 }

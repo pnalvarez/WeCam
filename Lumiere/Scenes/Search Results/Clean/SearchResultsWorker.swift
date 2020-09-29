@@ -7,7 +7,10 @@
 //
 
 protocol SearchResultsWorkerProtocol {
-    
+    func fetchProfiles(_ request: SearchResults.Request.SelectProfile,
+                       completion: @escaping (BaseResponse<[SearchResults.Info.Response.Profile]>) -> Void)
+    func fetchProjects(_ request: SearchResults.Request.SelectProject,
+                       completion: @escaping (BaseResponse<[SearchResults.Info.Response.Project]>) -> Void)
 }
 
 class SearchResultsWorker: SearchResultsWorkerProtocol {
@@ -16,5 +19,15 @@ class SearchResultsWorker: SearchResultsWorkerProtocol {
     
     init(builder: FirebaseAuthHelperProtocol = FirebaseAuthHelper()) {
         self.builder = builder
+    }
+    
+    func fetchProfiles(_ request: SearchResults.Request.SelectProfile,
+                       completion: @escaping (BaseResponse<[SearchResults.Info.Response.Profile]>) -> Void) {
+        
+    }
+    
+    func fetchProjects(_ request: SearchResults.Request.SelectProject,
+                       completion: @escaping (BaseResponse<[SearchResults.Info.Response.Project]>) -> Void) {
+        
     }
 }
