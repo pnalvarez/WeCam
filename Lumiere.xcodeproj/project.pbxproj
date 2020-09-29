@@ -21,6 +21,8 @@
 		3F037F732522BD650060B928 /* InviteListWorkerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F037F722522BD650060B928 /* InviteListWorkerMock.swift */; };
 		3F037F7C2522BE630060B928 /* InviteListInteractor+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F037F7B2522BE630060B928 /* InviteListInteractor+Tests.swift */; };
 		3F037F842522C5220060B928 /* InviteListPresenter+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F037F832522C5220060B928 /* InviteListPresenter+Tests.swift */; };
+		3F037F8A2522C71E0060B928 /* EditProfileDetailsWorkerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F037F892522C71E0060B928 /* EditProfileDetailsWorkerMock.swift */; };
+		3F037F932522C95C0060B928 /* EditProfileDetailsInteractor+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F037F922522C95C0060B928 /* EditProfileDetailsInteractor+Tests.swift */; };
 		3F05D19F2515BFF200932FFC /* Float+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F05D19E2515BFF200932FFC /* Float+.swift */; };
 		3F05D1A72515D11300932FFC /* EditProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F05D1A62515D11300932FFC /* EditProgressView.swift */; };
 		3F0CAA6224CCE0E8005E2558 /* CreateUserRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0CAA6124CCE0E8005E2558 /* CreateUserRequest.swift */; };
@@ -276,6 +278,8 @@
 		3F037F722522BD650060B928 /* InviteListWorkerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteListWorkerMock.swift; sourceTree = "<group>"; };
 		3F037F7B2522BE630060B928 /* InviteListInteractor+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "InviteListInteractor+Tests.swift"; sourceTree = "<group>"; };
 		3F037F832522C5220060B928 /* InviteListPresenter+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "InviteListPresenter+Tests.swift"; sourceTree = "<group>"; };
+		3F037F892522C71E0060B928 /* EditProfileDetailsWorkerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileDetailsWorkerMock.swift; sourceTree = "<group>"; };
+		3F037F922522C95C0060B928 /* EditProfileDetailsInteractor+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditProfileDetailsInteractor+Tests.swift"; sourceTree = "<group>"; };
 		3F05D19E2515BFF200932FFC /* Float+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Float+.swift"; sourceTree = "<group>"; };
 		3F05D1A62515D11300932FFC /* EditProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProgressView.swift; sourceTree = "<group>"; };
 		3F0CAA6124CCE0E8005E2558 /* CreateUserRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserRequest.swift; sourceTree = "<group>"; };
@@ -615,6 +619,22 @@
 			path = "Invite List";
 			sourceTree = "<group>";
 		};
+		3F037F882522C7020060B928 /* Edit Profile Details */ = {
+			isa = PBXGroup;
+			children = (
+				3F037F892522C71E0060B928 /* EditProfileDetailsWorkerMock.swift */,
+			);
+			path = "Edit Profile Details";
+			sourceTree = "<group>";
+		};
+		3F037F912522C9450060B928 /* Edit Profile Details */ = {
+			isa = PBXGroup;
+			children = (
+				3F037F922522C95C0060B928 /* EditProfileDetailsInteractor+Tests.swift */,
+			);
+			path = "Edit Profile Details";
+			sourceTree = "<group>";
+		};
 		3F05D1AB2515D12000932FFC /* Modal */ = {
 			isa = PBXGroup;
 			children = (
@@ -839,6 +859,7 @@
 		3F8D136124D0EC6700AED7EB /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				3F037F912522C9450060B928 /* Edit Profile Details */,
 				3F037F7A2522BE4C0060B928 /* Invite List */,
 				3F037F63252118550060B928 /* Edit Project Details */,
 				3F037F40252113B30060B928 /* Project Progress */,
@@ -876,6 +897,7 @@
 		3F8D137224D0ED7E00AED7EB /* Mocks */ = {
 			isa = PBXGroup;
 			children = (
+				3F037F882522C7020060B928 /* Edit Profile Details */,
 				3F037F712522BD460060B928 /* Invite List */,
 				3F037F57252116F40060B928 /* Edit Project Details */,
 				3F5A4244251D3C3D00F10D63 /* Notifications */,
@@ -1803,9 +1825,11 @@
 				3F8D137824D0EDAD00AED7EB /* SignInInteractorMock.swift in Sources */,
 				3F95783724AD6FBE00B79818 /* LumiereTests.swift in Sources */,
 				3F8D137424D0ED9200AED7EB /* FirebaseHelperMock.swift in Sources */,
+				3F037F8A2522C71E0060B928 /* EditProfileDetailsWorkerMock.swift in Sources */,
 				3F8D137E24D0EDD400AED7EB /* SignUpInteractorMock.swift in Sources */,
 				3F8D13BC24D75A4F00AED7EB /* ProfileDetailsWorkerMock.swift in Sources */,
 				3F5A423B251CE8A200F10D63 /* ProfileDetailsInteractorMock.swift in Sources */,
+				3F037F932522C95C0060B928 /* EditProfileDetailsInteractor+Tests.swift in Sources */,
 				3F037F42252113CC0060B928 /* ProjectProgressInteractor+Tests.swift in Sources */,
 				3F8D137124D0ED7500AED7EB /* SignUpProvider+Tests.swift in Sources */,
 				3F5A4240251D3C0300F10D63 /* NotificationsInteractor+Tests.swift in Sources */,

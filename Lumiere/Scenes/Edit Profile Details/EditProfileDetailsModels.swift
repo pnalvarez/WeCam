@@ -61,7 +61,7 @@ struct EditProfileDetails {
         
         struct Model {
             
-            struct User {
+            struct User: Equatable {
                 let id: String
                 let image: String?
                 let name: String
@@ -70,11 +70,11 @@ struct EditProfileDetails {
                 var interestCathegories: InterestCathegories
             }
             
-            struct InterestCathegories {
+            struct InterestCathegories: Equatable {
                 var cathegories: [Cathegory]
             }
             
-            struct Cathegory {
+            struct Cathegory: Equatable {
                 let style: MovieStyle
                 var selected: Bool
             }
@@ -164,5 +164,19 @@ struct EditProfileDetails {
             let ocupation: String
             let interestCathegories: [String]
         }
+    }
+}
+
+extension EditProfileDetails.Info.Response.User: Stubbable {
+    static var stub: EditProfileDetails.Info.Response.User {
+        return EditProfileDetails.Info.Response.User(JSONString: """
+                        {
+                            "id": "idUser",
+                            "name": "Usuario Teste",
+                            "phone_number": "(20)2827-2933",
+                            "profile_image_url": "image",
+                            "interest_cathegories": ["action"]
+                        }
+                """)!
     }
 }

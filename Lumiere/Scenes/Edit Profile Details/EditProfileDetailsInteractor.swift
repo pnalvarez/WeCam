@@ -25,9 +25,9 @@ class EditProfileDetailsInteractor: EditProfileDetailsDataStore {
     var cathegoriesData: EditProfileDetails.Info.Model.InterestCathegories?
     
     init(worker: EditProfileDetailsWorkerProtocol = EditProfileDetailsWorker(),
-         viewController: EditProfileDetailsDisplayLogic) {
+         presenter: EditProfileDetailsPresentationLogic) {
         self.worker = worker
-        self.presenter = EditProfileDetailsPresenter(viewController: viewController)
+        self.presenter = presenter
     }
 }
 
@@ -117,7 +117,9 @@ extension EditProfileDetailsInteractor: EditProfileDetailsBusinessLogic {
         guard !checkErrors(request) else {
             return
         }
-        guard let cathegories = userData?.interestCathegories.cathegories else { return }
+        guard let cathegories = userData?.interestCathegories.cathegories else {
+            return
+        }
         let request = EditProfileDetails.Request.UpdateUser(image: request.image,
                                                             name: request.name,
                                                             cellphone: request.cellphone,

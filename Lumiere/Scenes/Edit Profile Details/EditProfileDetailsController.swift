@@ -167,7 +167,8 @@ class EditProfileDetailsController: BaseViewController {
     
     private func setup() {
         let viewController = self
-        let interactor = EditProfileDetailsInteractor(viewController: viewController)
+        let presenter = EditProfileDetailsPresenter(viewController: viewController)
+        let interactor = EditProfileDetailsInteractor(presenter: presenter)
         let router = EditProfileDetailsRouter()
         viewController.interactor = interactor
         viewController.router = router
