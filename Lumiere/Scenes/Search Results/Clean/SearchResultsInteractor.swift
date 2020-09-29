@@ -47,6 +47,8 @@ extension SearchResultsInteractor: SearchResultsBusinessLogic {
     }
     
     func fetchSelectProject(_ request: SearchResults.Request.SelectProject) {
-        
+        guard let project = results?.projects[request.index] else { return }
+        selectedItem = .project(project)
+        presenter.presentProjectDetails()
     }
 }

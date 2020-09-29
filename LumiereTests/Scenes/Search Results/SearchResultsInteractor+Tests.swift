@@ -50,6 +50,18 @@ class SearchResultsInteractor_Tests: XCTestCase {
                                                                                ocupation: "Artist")))
         XCTAssertTrue(presentProfileDetailsFlag)
     }
+    
+    func testFetchSelectProject() {
+        sut.results = SearchResults.Info.Model.Results.stub
+        XCTAssertNil(sut.selectedItem)
+        XCTAssertFalse(presentProjectDetailsFlag)
+        sut.fetchSelectProject(SearchResults.Request.SelectProject(index: 0))
+        let expectedResult = SearchResults.Info.Model.SelectedItem.project(SearchResults.Info.Model.Project(id: "idProj1",
+                                                                                                            title: "Projeto Teste 1", progress: 50, firstCathegory: "Ação", secondCathegory: nil, image:
+                                                                                                            "image"))
+        XCTAssertEqual(expectedResult, sut.selectedItem)
+        XCTAssertTrue(presentProjectDetailsFlag)
+    }
 }
 
 extension SearchResultsInteractor_Tests: SearchResultsPresentationLogic {
