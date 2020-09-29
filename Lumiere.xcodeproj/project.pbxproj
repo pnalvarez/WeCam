@@ -92,6 +92,16 @@
 		3F5A423B251CE8A200F10D63 /* ProfileDetailsInteractorMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5A423A251CE8A200F10D63 /* ProfileDetailsInteractorMock.swift */; };
 		3F5A4240251D3C0300F10D63 /* NotificationsInteractor+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5A423F251D3C0300F10D63 /* NotificationsInteractor+Tests.swift */; };
 		3F5A4246251D3C4D00F10D63 /* NotificationsWorkerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5A4245251D3C4D00F10D63 /* NotificationsWorkerMock.swift */; };
+		3F655F542523C3BB004A1D54 /* SearchResultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F655F532523C3BB004A1D54 /* SearchResultsController.swift */; };
+		3F655F5C2523C424004A1D54 /* SearchResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F655F5B2523C424004A1D54 /* SearchResultsView.swift */; };
+		3F655F612523C462004A1D54 /* SearchResultsWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F655F602523C462004A1D54 /* SearchResultsWorker.swift */; };
+		3F655F662523C4AD004A1D54 /* SearchResultsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F655F652523C4AD004A1D54 /* SearchResultsPresenter.swift */; };
+		3F655F6B2523C4F5004A1D54 /* SearchResultsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F655F6A2523C4F5004A1D54 /* SearchResultsInteractor.swift */; };
+		3F655F702523C592004A1D54 /* SearchResultsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F655F6F2523C592004A1D54 /* SearchResultsRouter.swift */; };
+		3F655F752523C755004A1D54 /* SearchResultsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F655F742523C755004A1D54 /* SearchResultsModels.swift */; };
+		3F655F7A2523C7E0004A1D54 /* ProfileResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F655F792523C7E0004A1D54 /* ProfileResultTableViewCell.swift */; };
+		3F655F822523C8AD004A1D54 /* OnGoingProjectResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F655F812523C8AD004A1D54 /* OnGoingProjectResultTableViewCell.swift */; };
+		3F655F8B2523C91F004A1D54 /* SearchResultsFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F655F8A2523C91F004A1D54 /* SearchResultsFactory.swift */; };
 		3F66CA0625017C14006F6DBD /* NSAttributedString+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F66CA0525017C14006F6DBD /* NSAttributedString+.swift */; };
 		3F66CA0925045025006F6DBD /* ProjectParticipantsListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F66CA0825045025006F6DBD /* ProjectParticipantsListController.swift */; };
 		3F66CA0B250450A1006F6DBD /* ProjectParticipantsListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F66CA0A250450A1006F6DBD /* ProjectParticipantsListRouter.swift */; };
@@ -350,6 +360,16 @@
 		3F5A423A251CE8A200F10D63 /* ProfileDetailsInteractorMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailsInteractorMock.swift; sourceTree = "<group>"; };
 		3F5A423F251D3C0300F10D63 /* NotificationsInteractor+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationsInteractor+Tests.swift"; sourceTree = "<group>"; };
 		3F5A4245251D3C4D00F10D63 /* NotificationsWorkerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsWorkerMock.swift; sourceTree = "<group>"; };
+		3F655F532523C3BB004A1D54 /* SearchResultsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsController.swift; sourceTree = "<group>"; };
+		3F655F5B2523C424004A1D54 /* SearchResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsView.swift; sourceTree = "<group>"; };
+		3F655F602523C462004A1D54 /* SearchResultsWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsWorker.swift; sourceTree = "<group>"; };
+		3F655F652523C4AD004A1D54 /* SearchResultsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsPresenter.swift; sourceTree = "<group>"; };
+		3F655F6A2523C4F5004A1D54 /* SearchResultsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsInteractor.swift; sourceTree = "<group>"; };
+		3F655F6F2523C592004A1D54 /* SearchResultsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsRouter.swift; sourceTree = "<group>"; };
+		3F655F742523C755004A1D54 /* SearchResultsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsModels.swift; sourceTree = "<group>"; };
+		3F655F792523C7E0004A1D54 /* ProfileResultTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileResultTableViewCell.swift; sourceTree = "<group>"; };
+		3F655F812523C8AD004A1D54 /* OnGoingProjectResultTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnGoingProjectResultTableViewCell.swift; sourceTree = "<group>"; };
+		3F655F8A2523C91F004A1D54 /* SearchResultsFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsFactory.swift; sourceTree = "<group>"; };
 		3F66CA0525017C14006F6DBD /* NSAttributedString+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+.swift"; sourceTree = "<group>"; };
 		3F66CA0825045025006F6DBD /* ProjectParticipantsListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectParticipantsListController.swift; sourceTree = "<group>"; };
 		3F66CA0A250450A1006F6DBD /* ProjectParticipantsListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectParticipantsListRouter.swift; sourceTree = "<group>"; };
@@ -806,6 +826,63 @@
 			path = Notifications;
 			sourceTree = "<group>";
 		};
+		3F655F522523C3A7004A1D54 /* Search Results */ = {
+			isa = PBXGroup;
+			children = (
+				3F655F922523C942004A1D54 /* Clean */,
+				3F655F862523C8E9004A1D54 /* Table View */,
+			);
+			path = "Search Results";
+			sourceTree = "<group>";
+		};
+		3F655F862523C8E9004A1D54 /* Table View */ = {
+			isa = PBXGroup;
+			children = (
+				3F655F892523C90E004A1D54 /* Factory */,
+				3F655F882523C8F9004A1D54 /* Views */,
+				3F655F872523C8F2004A1D54 /* Builders */,
+			);
+			path = "Table View";
+			sourceTree = "<group>";
+		};
+		3F655F872523C8F2004A1D54 /* Builders */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Builders;
+			sourceTree = "<group>";
+		};
+		3F655F882523C8F9004A1D54 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				3F655F792523C7E0004A1D54 /* ProfileResultTableViewCell.swift */,
+				3F655F812523C8AD004A1D54 /* OnGoingProjectResultTableViewCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		3F655F892523C90E004A1D54 /* Factory */ = {
+			isa = PBXGroup;
+			children = (
+				3F655F8A2523C91F004A1D54 /* SearchResultsFactory.swift */,
+			);
+			path = Factory;
+			sourceTree = "<group>";
+		};
+		3F655F922523C942004A1D54 /* Clean */ = {
+			isa = PBXGroup;
+			children = (
+				3F655F532523C3BB004A1D54 /* SearchResultsController.swift */,
+				3F655F5B2523C424004A1D54 /* SearchResultsView.swift */,
+				3F655F602523C462004A1D54 /* SearchResultsWorker.swift */,
+				3F655F652523C4AD004A1D54 /* SearchResultsPresenter.swift */,
+				3F655F6A2523C4F5004A1D54 /* SearchResultsInteractor.swift */,
+				3F655F6F2523C592004A1D54 /* SearchResultsRouter.swift */,
+				3F655F742523C755004A1D54 /* SearchResultsModels.swift */,
+			);
+			path = Clean;
+			sourceTree = "<group>";
+		};
 		3F66CA072504500B006F6DBD /* Project Participants List */ = {
 			isa = PBXGroup;
 			children = (
@@ -1147,6 +1224,7 @@
 		3F95786724AD79C900B79818 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				3F655F522523C3A7004A1D54 /* Search Results */,
 				3FAD19FF2516B4BE00ED4074 /* Main Feed */,
 				3FB8BD79250ED3AA001954FD /* Invite Profile To Projects */,
 				3FD0EDEB250D597800E22029 /* On Going Project Invites */,
@@ -1630,6 +1708,7 @@
 				3F66CA152504526F006F6DBD /* ProjectParticipantsListModels.swift in Sources */,
 				3FD0EDED250D599300E22029 /* OnGoingProjectInvitesView.swift in Sources */,
 				3F40A6CF24F2344700261161 /* EditProfileDetailsModels.swift in Sources */,
+				3F655F5C2523C424004A1D54 /* SearchResultsView.swift in Sources */,
 				3F95786624AD785900B79818 /* BaseRouterProtocol.swift in Sources */,
 				3F40A6C024F1DF3900261161 /* TeamMemberCollectionViewCell.swift in Sources */,
 				3F8D138824D5362800AED7EB /* ProfileDetailsController.swift in Sources */,
@@ -1637,10 +1716,12 @@
 				3F40A6C524F231DB00261161 /* EditProfileDetailsView.swift in Sources */,
 				3F40A6CB24F232B600261161 /* EditProfileDetailsInteractor.swift in Sources */,
 				3FAD1A422516B99800ED4074 /* MainFeedModels.swift in Sources */,
+				3F655F702523C592004A1D54 /* SearchResultsRouter.swift in Sources */,
 				3F40A68724EDF6DD00261161 /* SelectProjectCathegoryWorker.swift in Sources */,
 				3FAD1A0E2516B53100ED4074 /* MainFeedTableViewFactory.swift in Sources */,
 				3F40A61424EA0E9300261161 /* SelectProjectImageInteractor.swift in Sources */,
 				3F40A69A24EF430B00261161 /* ProjectProgressRouter.swift in Sources */,
+				3F655F612523C462004A1D54 /* SearchResultsWorker.swift in Sources */,
 				3F66CA132504523D006F6DBD /* ProjectParticipantsListWorker.swift in Sources */,
 				3F8D139024D5364C00AED7EB /* ProfileDetailsRouter.swift in Sources */,
 				3FD0EDF1250D5B8700E22029 /* OnGoingProjectInvitesRouter.swift in Sources */,
@@ -1653,12 +1734,16 @@
 				3F8D13C424D79FE100AED7EB /* GetAllNotificationsRequest.swift in Sources */,
 				3FAD1A1D2516B5DC00ED4074 /* TableViewSectionProtocol.swift in Sources */,
 				3F40A61024EA0D9B00261161 /* SelectProjectImageRouter.swift in Sources */,
+				3F655F6B2523C4F5004A1D54 /* SearchResultsInteractor.swift in Sources */,
 				3FAD1A332516B81B00ED4074 /* MainFeedPresenter.swift in Sources */,
 				3FE8DF5C24CBD81C005DE30D /* ThemeColors.swift in Sources */,
 				3F40A61A24EA10C300261161 /* SelectProjectImageModels.swift in Sources */,
+				3F655F752523C755004A1D54 /* SearchResultsModels.swift in Sources */,
+				3F655F662523C4AD004A1D54 /* SearchResultsPresenter.swift in Sources */,
 				3F40A68924EDF70700261161 /* SelectProjectCathegoryModels.swift in Sources */,
 				3F40A6DA24F487E800261161 /* InviteListWorker.swift in Sources */,
 				3F9578DD24B0314D00B79818 /* BaseViewController.swift in Sources */,
+				3F655F822523C8AD004A1D54 /* OnGoingProjectResultTableViewCell.swift in Sources */,
 				3F8D138A24D5363200AED7EB /* ProfileDetailsInteractor.swift in Sources */,
 				3FAD1A132516B55100ED4074 /* TableViewFactory.swift in Sources */,
 				3FE8DF5624C7BE0B005DE30D /* UserModel.swift in Sources */,
@@ -1695,6 +1780,7 @@
 				3F9578D224B0198F00B79818 /* SignUpModels.swift in Sources */,
 				3F40A6B424F1CB5A00261161 /* OnGoingProjectDetailsInteractor.swift in Sources */,
 				3F66CA0B250450A1006F6DBD /* ProjectParticipantsListRouter.swift in Sources */,
+				3F655F8B2523C91F004A1D54 /* SearchResultsFactory.swift in Sources */,
 				3F95787924AEA4DE00B79818 /* SignInRouter.swift in Sources */,
 				3F40A6A524F091EC00261161 /* EditProjectDetailsInteractor.swift in Sources */,
 				3FB8BD6F250D5FBD001954FD /* OnGoingProjectInvitesInteractor.swift in Sources */,
@@ -1715,11 +1801,13 @@
 				3F9578D024B0198700B79818 /* SignUpRouter.swift in Sources */,
 				3F40A68D24EDFE1F00261161 /* CathegoryCollectionViewCell.swift in Sources */,
 				3F40A6D824F4879D00261161 /* InviteListPresenter.swift in Sources */,
+				3F655F7A2523C7E0004A1D54 /* ProfileResultTableViewCell.swift in Sources */,
 				3F8D139D24D53B7B00AED7EB /* NotificationsPresenter.swift in Sources */,
 				3F95787324AEA4C000B79818 /* SignInView.swift in Sources */,
 				3F40A6B624F1CBA500261161 /* OnGoingProjectDetailsPresenter.swift in Sources */,
 				3F40A61824EA0F4000261161 /* SelectProjectImageWorker.swift in Sources */,
 				3FB8BD85250ED55E001954FD /* InviteProfileToProjectsWorker.swift in Sources */,
+				3F655F542523C3BB004A1D54 /* SearchResultsController.swift in Sources */,
 				3FEBA85424FF145E0077183F /* OnGoingProjectDisplayView.swift in Sources */,
 				3F8D138C24D5363A00AED7EB /* ProfileDetailsPresenter.swift in Sources */,
 				3F40A67F24EDF58400261161 /* SelectProjectCathegoryView.swift in Sources */,
