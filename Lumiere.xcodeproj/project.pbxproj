@@ -18,6 +18,8 @@
 		3F037F592521170C0060B928 /* EditProjectDetailsWorkerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F037F582521170C0060B928 /* EditProjectDetailsWorkerMock.swift */; };
 		3F037F652521186B0060B928 /* EditProjectDetailsInteractor+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F037F642521186B0060B928 /* EditProjectDetailsInteractor+Tests.swift */; };
 		3F037F6D2522B9F60060B928 /* EditProjectDetailsPresenter+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F037F6C2522B9F60060B928 /* EditProjectDetailsPresenter+Tests.swift */; };
+		3F037F732522BD650060B928 /* InviteListWorkerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F037F722522BD650060B928 /* InviteListWorkerMock.swift */; };
+		3F037F7C2522BE630060B928 /* InviteListInteractor+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F037F7B2522BE630060B928 /* InviteListInteractor+Tests.swift */; };
 		3F05D19F2515BFF200932FFC /* Float+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F05D19E2515BFF200932FFC /* Float+.swift */; };
 		3F05D1A72515D11300932FFC /* EditProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F05D1A62515D11300932FFC /* EditProgressView.swift */; };
 		3F0CAA6224CCE0E8005E2558 /* CreateUserRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0CAA6124CCE0E8005E2558 /* CreateUserRequest.swift */; };
@@ -270,6 +272,8 @@
 		3F037F582521170C0060B928 /* EditProjectDetailsWorkerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProjectDetailsWorkerMock.swift; sourceTree = "<group>"; };
 		3F037F642521186B0060B928 /* EditProjectDetailsInteractor+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditProjectDetailsInteractor+Tests.swift"; sourceTree = "<group>"; };
 		3F037F6C2522B9F60060B928 /* EditProjectDetailsPresenter+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditProjectDetailsPresenter+Tests.swift"; sourceTree = "<group>"; };
+		3F037F722522BD650060B928 /* InviteListWorkerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteListWorkerMock.swift; sourceTree = "<group>"; };
+		3F037F7B2522BE630060B928 /* InviteListInteractor+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "InviteListInteractor+Tests.swift"; sourceTree = "<group>"; };
 		3F05D19E2515BFF200932FFC /* Float+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Float+.swift"; sourceTree = "<group>"; };
 		3F05D1A62515D11300932FFC /* EditProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProgressView.swift; sourceTree = "<group>"; };
 		3F0CAA6124CCE0E8005E2558 /* CreateUserRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserRequest.swift; sourceTree = "<group>"; };
@@ -592,6 +596,22 @@
 			path = "Edit Project Details";
 			sourceTree = "<group>";
 		};
+		3F037F712522BD460060B928 /* Invite List */ = {
+			isa = PBXGroup;
+			children = (
+				3F037F722522BD650060B928 /* InviteListWorkerMock.swift */,
+			);
+			path = "Invite List";
+			sourceTree = "<group>";
+		};
+		3F037F7A2522BE4C0060B928 /* Invite List */ = {
+			isa = PBXGroup;
+			children = (
+				3F037F7B2522BE630060B928 /* InviteListInteractor+Tests.swift */,
+			);
+			path = "Invite List";
+			sourceTree = "<group>";
+		};
 		3F05D1AB2515D12000932FFC /* Modal */ = {
 			isa = PBXGroup;
 			children = (
@@ -816,6 +836,7 @@
 		3F8D136124D0EC6700AED7EB /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				3F037F7A2522BE4C0060B928 /* Invite List */,
 				3F037F63252118550060B928 /* Edit Project Details */,
 				3F037F40252113B30060B928 /* Project Progress */,
 				3F037F3225202F550060B928 /* Select Project Cathegory */,
@@ -852,6 +873,7 @@
 		3F8D137224D0ED7E00AED7EB /* Mocks */ = {
 			isa = PBXGroup;
 			children = (
+				3F037F712522BD460060B928 /* Invite List */,
 				3F037F57252116F40060B928 /* Edit Project Details */,
 				3F5A4244251D3C3D00F10D63 /* Notifications */,
 				3F8D13BA24D75A3900AED7EB /* Profile Details */,
@@ -1759,8 +1781,10 @@
 				3F037F20251EF0DC0060B928 /* NotificationsPresenter+Tests.swift in Sources */,
 				3F037F3425202F830060B928 /* SelectProjectCathegoryInteractor+Tests.swift in Sources */,
 				3F037F2E25202DB20060B928 /* SelectProjectImagePresenter+Tests.swift in Sources */,
+				3F037F732522BD650060B928 /* InviteListWorkerMock.swift in Sources */,
 				3F037F6D2522B9F60060B928 /* EditProjectDetailsPresenter+Tests.swift in Sources */,
 				3F5A4246251D3C4D00F10D63 /* NotificationsWorkerMock.swift in Sources */,
+				3F037F7C2522BE630060B928 /* InviteListInteractor+Tests.swift in Sources */,
 				3F8D13B724D75A2700AED7EB /* ProfileDetailsInteractor+Tests.swift in Sources */,
 				3F8D136724D0ED0D00AED7EB /* SignInInteractor+Tests.swift in Sources */,
 				3F8D137C24D0EDCB00AED7EB /* SignUpProviderMock.swift in Sources */,

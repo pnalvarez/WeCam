@@ -66,11 +66,11 @@ struct InviteList {
         
         struct Model {
             
-            struct Connections {
+            struct Connections: Equatable {
                 var users: [User]
             }
         
-            struct User {
+            struct User: Equatable {
                 let id: String
                 let image: String?
                 let name: String
@@ -135,5 +135,34 @@ struct InviteList {
         struct SendInvites {
             let users: String
         }
+    }
+}
+
+extension InviteList.Info.Response.User: MultipleStubbable {
+    static var stubArray: [InviteList.Info.Response.User] {
+        return [InviteList.Info.Response.User(JSONString: """
+                    {
+                        "userId": "idUser1",
+                        "name": "Usuario Teste 1",
+                        "image": "image",
+                        "ocupation": "Artista",
+                        "email": "user_test1@hotmail.com"
+                    }
+                """)!,
+                InviteList.Info.Response.User(JSONString: """
+                            {
+                                "userId": "idUser2",
+                                "name": "Usuario Teste 2",
+                                "image": "image",
+                                "ocupation": "Artista",
+                                "email": "user_test2@hotmail.com"
+                            }
+                        """)!]
+    }
+}
+
+extension InviteList.Info.Model.Connections: Stubbable{
+    static var stub: InviteList.Info.Model.Connections {
+        return InviteList.Info.Model.Connections(users: [InviteList.Info.Model.User(id: "idUser1", image: "image", name: "Usuario Teste 1", email: "user_test1@hotmail.com", ocupation: "Artista", inviting: false), InviteList.Info.Model.User(id: "idUser2", image: "image", name: "Usuario Teste 2", email: "user_test2@hotmail.com", ocupation: "Artista", inviting: false)])
     }
 }
