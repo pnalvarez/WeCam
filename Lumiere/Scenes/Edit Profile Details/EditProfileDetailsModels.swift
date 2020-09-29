@@ -82,14 +82,14 @@ struct EditProfileDetails {
         
         struct ViewModel {
             
-            struct User {
+            struct User: Equatable {
                 let image: String?
                 let name: String
                 let cellphone: String
                 let ocupation: String
             }
             
-            struct Cathegories {
+            struct Cathegories: Equatable {
                 let cathegories: Model.InterestCathegories
             }
         }
