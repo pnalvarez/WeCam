@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		10A9BE69AE83BE34EE130E0A /* Pods_LumiereTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AC706A5F046CA56FB3C61F2 /* Pods_LumiereTests.framework */; };
 		3F037F20251EF0DC0060B928 /* NotificationsPresenter+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F037F1F251EF0DC0060B928 /* NotificationsPresenter+Tests.swift */; };
 		3F037F2625202A640060B928 /* SelectProjectImageInteractor+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F037F2525202A640060B928 /* SelectProjectImageInteractor+Tests.swift */; };
 		3F037F2E25202DB20060B928 /* SelectProjectImagePresenter+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F037F2D25202DB20060B928 /* SelectProjectImagePresenter+Tests.swift */; };
@@ -256,8 +255,6 @@
 		3FE8DF5A24CBD271005DE30D /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE8DF5924CBD271005DE30D /* UIView+.swift */; };
 		3FE8DF5C24CBD81C005DE30D /* ThemeColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE8DF5B24CBD81C005DE30D /* ThemeColors.swift */; };
 		3FEBA85424FF145E0077183F /* OnGoingProjectDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FEBA85324FF145E0077183F /* OnGoingProjectDisplayView.swift */; };
-		489089FEB8140F8A2E1B993D /* Pods_Lumiere_LumiereUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B84867081F3814C0729E0A6F /* Pods_Lumiere_LumiereUITests.framework */; };
-		E48219FC3C20557A161CBC0F /* Pods_Lumiere.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 601738D471DE051660DE4EDE /* Pods_Lumiere.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -535,12 +532,9 @@
 		3FE8DF5924CBD271005DE30D /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		3FE8DF5B24CBD81C005DE30D /* ThemeColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeColors.swift; sourceTree = "<group>"; };
 		3FEBA85324FF145E0077183F /* OnGoingProjectDisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnGoingProjectDisplayView.swift; sourceTree = "<group>"; };
-		5AC706A5F046CA56FB3C61F2 /* Pods_LumiereTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LumiereTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		601738D471DE051660DE4EDE /* Pods_Lumiere.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Lumiere.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		763D8EED12FD7F99BFEBD056 /* Pods-LumiereTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LumiereTests.release.xcconfig"; path = "Target Support Files/Pods-LumiereTests/Pods-LumiereTests.release.xcconfig"; sourceTree = "<group>"; };
 		7D75F420A0E3E4FB7D689F06 /* Pods-Lumiere.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Lumiere.release.xcconfig"; path = "Target Support Files/Pods-Lumiere/Pods-Lumiere.release.xcconfig"; sourceTree = "<group>"; };
 		B1D74338CB76645DAEBBBC56 /* Pods-Lumiere-LumiereUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Lumiere-LumiereUITests.debug.xcconfig"; path = "Target Support Files/Pods-Lumiere-LumiereUITests/Pods-Lumiere-LumiereUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		B84867081F3814C0729E0A6F /* Pods_Lumiere_LumiereUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Lumiere_LumiereUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBA9C3114372EDDEF0B63105 /* Pods-Lumiere-LumiereUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Lumiere-LumiereUITests.release.xcconfig"; path = "Target Support Files/Pods-Lumiere-LumiereUITests/Pods-Lumiere-LumiereUITests.release.xcconfig"; sourceTree = "<group>"; };
 		BEBF4F2DB6C3869DA19D98DF /* Pods-Lumiere.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Lumiere.debug.xcconfig"; path = "Target Support Files/Pods-Lumiere/Pods-Lumiere.debug.xcconfig"; sourceTree = "<group>"; };
 		E198AA51C8C9C684E15E22A1 /* Pods-LumiereTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LumiereTests.debug.xcconfig"; path = "Target Support Files/Pods-LumiereTests/Pods-LumiereTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -551,7 +545,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E48219FC3C20557A161CBC0F /* Pods_Lumiere.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -559,7 +552,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				10A9BE69AE83BE34EE130E0A /* Pods_LumiereTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -567,23 +559,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				489089FEB8140F8A2E1B993D /* Pods_Lumiere_LumiereUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		22BD1C32F3E6A29ED16C1D4A /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				601738D471DE051660DE4EDE /* Pods_Lumiere.framework */,
-				B84867081F3814C0729E0A6F /* Pods_Lumiere_LumiereUITests.framework */,
-				5AC706A5F046CA56FB3C61F2 /* Pods_LumiereTests.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		3F037F2425202A490060B928 /* Select Project Image */ = {
 			isa = PBXGroup;
 			children = (
@@ -1097,7 +1078,6 @@
 			isa = PBXGroup;
 			children = (
 				3F9578C324B0181C00B79818 /* Fonts */,
-				22BD1C32F3E6A29ED16C1D4A /* Frameworks */,
 				3F95781E24AD6FBC00B79818 /* Lumiere */,
 				3F95783524AD6FBE00B79818 /* LumiereTests */,
 				3F95784024AD6FBE00B79818 /* LumiereUITests */,

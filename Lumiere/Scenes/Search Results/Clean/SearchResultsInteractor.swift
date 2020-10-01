@@ -8,6 +8,7 @@
 
 protocol SearchResultsBusinessLogic {
     func fetchSearch(_ request: SearchResults.Request.Search)
+    func fetchSelectItem(_ request: SearchResults.Request)
     func fetchSelectProfile(_ request: SearchResults.Request.SelectProfile)
     func fetchSelectProject(_ request: SearchResults.Request.SelectProject)
 }
@@ -38,6 +39,10 @@ extension SearchResultsInteractor: SearchResultsBusinessLogic {
     
     func fetchSearch(_ request: SearchResults.Request.Search) {
         //TO DO
+    }
+    
+    func fetchSelectItem(_ request: SearchResults.Request) {
+        
     }
     
     func fetchSelectProfile(_ request: SearchResults.Request.SelectProfile) {

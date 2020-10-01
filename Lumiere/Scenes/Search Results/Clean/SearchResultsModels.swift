@@ -11,17 +11,23 @@ import ObjectMapper
 
 struct SearchResults {
     
+    static let bundle = Bundle(for: SearchResultsController.self)
+    
     struct Constants {
         
         struct Colors {
             static let background = UIColor(rgb: 0xe0e0e0)
             static let nameLbl = UIColor(rgb: 0x000000)
             static let ocupationLbl = UIColor(rgb: 0x000000)
+            static let searchTextFieldText = UIColor(rgb: 0x000000)
+            static let searchTextFieldLayer = UIColor(rgb: 0xe3e0e0).cgColor
+            static let dividerView = UIColor(rgb: 0xc4c4c4)
         }
         
         struct Fonts {
             static let nameLbl = ThemeFonts.RobotoBold(16).rawValue
             static let ocupationLbl = ThemeFonts.RobotoRegular(16).rawValue
+            static let searchTextField = ThemeFonts.RobotoRegular(16).rawValue
         }
         
         struct Texts {
@@ -29,7 +35,9 @@ struct SearchResults {
         }
         
         struct Images {
-            
+            static let headerImageView = UIImage(named: "tipografia-projeto 2",
+                                                 in: SearchResults.bundle,
+                                                 compatibleWith: nil)
         }
         
         struct Dimensions {
@@ -147,6 +155,10 @@ struct SearchResults {
         
         struct Search {
             let preffix: String
+        }
+        
+        struct SelectItem {
+            let index: Int
         }
         
         struct SelectProfile {

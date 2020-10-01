@@ -14,6 +14,37 @@ protocol SearchResultsDisplayLogic: class {
 
 class SearchResultsController: BaseViewController {
     
+    private lazy var backButton: DefaultBackButton = {
+        let view = DefaultBackButton(frame: .zero)
+        view.addTarget(self, action: #selector(didTapBack), for: .touchUpInside)
+        return view
+    }()
+    
+    private lazy var searchTextField: UITextField = {
+        let view = UITextField(frame: .zero)
+        view.textColor = SearchResults.Constants.Colors.searchTextFieldText
+        view.font = SearchResults.Constants.Fonts.searchTextField
+        view.layer.cornerRadius = 4
+        view.layer.borderWidth = 1
+        view.layer.borderColor = SearchResults.Constants.Colors.searchTextFieldLayer
+        return view
+    }()
+    
+    private lazy var searchButton: UIButton = {
+        let view = UIButton(frame: .zero)
+        view.addTarget(self, action: #selector(didTapSearch), for: .touchUpInside)
+        return view
+    }()
+    
+    private lazy var tableView: UITableView = {
+        let view = UITableView(frame: .zero)
+        view.assignProtocols(to: self)
+        view.bounces = false
+        view.alwaysBounceVertical = false
+        view.separatorStyle = .none
+        return view
+    }()
+    
     private var interactor: SearchResultsBusinessLogic?
     var router: SearchResultsRouterProtocol?
     
@@ -59,6 +90,21 @@ extension SearchResultsController: UITableViewDataSource {
 
 extension SearchResultsController: UITableViewDelegate {
     
+}
+
+extension SearchResultsController {
+    
+    @objc
+    private func didTapBack() {
+        router?.routeBack()
+    }
+    
+    @objc
+    private func didTapSearch() {
+        interactor?.fetchSearch(SearchResults
+                                    .Request
+                                    .Search(preffix: searchTextField.text ?? .empty))
+    }
 }
 
 extension SearchResultsController: SearchResultsDisplayLogic {
