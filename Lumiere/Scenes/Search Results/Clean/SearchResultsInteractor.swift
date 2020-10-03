@@ -7,8 +7,8 @@
 //
 
 protocol SearchResultsBusinessLogic {
-    func fetchSearch(_ request: SearchResults.Request.Search)
-    func fetchSelectItem(_ request: SearchResults.Request)
+    func fetchBeginSearch(_ request: SearchResults.Request.Search)
+    func fetchSearch(_ request: SearchResults.Request.SearchWithPreffix)
     func fetchSelectProfile(_ request: SearchResults.Request.SelectProfile)
     func fetchSelectProject(_ request: SearchResults.Request.SelectProject)
 }
@@ -37,12 +37,12 @@ class SearchResultsInteractor: SearchResultsDataStore {
 
 extension SearchResultsInteractor: SearchResultsBusinessLogic {
     
-    func fetchSearch(_ request: SearchResults.Request.Search) {
-        //TO DO
+    func fetchBeginSearch(_ request: SearchResults.Request.Search) {
+        
     }
     
-    func fetchSelectItem(_ request: SearchResults.Request) {
-        
+    func fetchSearch(_ request: SearchResults.Request.SearchWithPreffix) {
+        //TO DO
     }
     
     func fetchSelectProfile(_ request: SearchResults.Request.SelectProfile) {

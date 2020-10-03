@@ -9,7 +9,10 @@
 import UIKit
 
 protocol SearchResultsDisplayLogic: class {
-    
+    func displaySearchResults(_ viewModel: SearchResults.Info.ViewModel.UpcomingResults)
+    func displayProfileDetails()
+    func displayProjectDetails()
+    func displayLoading(_ loading: Bool)
 }
 
 class SearchResultsController: BaseViewController {
@@ -45,6 +48,16 @@ class SearchResultsController: BaseViewController {
         return view
     }()
     
+    private lazy var mainView: SearchResultsView = {
+        let view = SearchResultsView(frame: .zero,
+                                     backButton: backButton,
+                                     searchTextField: searchTextField,
+                                     searchButton: searchButton,
+                                     tableView: tableView)
+        view.backgroundColor = .white
+        return view
+    }()
+    
     private var interactor: SearchResultsBusinessLogic?
     var router: SearchResultsRouterProtocol?
     
@@ -59,10 +72,12 @@ class SearchResultsController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        interactor?.fetchBeginSearch(SearchResults.Request.Search())
     }
     
     override func loadView() {
         super.loadView()
+        self.view = mainView
     }
     
     private func setup() {
@@ -103,10 +118,25 @@ extension SearchResultsController {
     private func didTapSearch() {
         interactor?.fetchSearch(SearchResults
                                     .Request
-                                    .Search(preffix: searchTextField.text ?? .empty))
+                                    .SearchWithPreffix(preffix: searchTextField.text ?? .empty))
     }
 }
 
 extension SearchResultsController: SearchResultsDisplayLogic {
     
+    func displaySearchResults(_ viewModel: SearchResults.Info.ViewModel.UpcomingResults) {
+        
+    }
+    
+    func displayProfileDetails() {
+        
+    }
+    
+    func displayProjectDetails() {
+        
+    }
+    
+    func displayLoading(_ loading: Bool) {
+        
+    }
 }

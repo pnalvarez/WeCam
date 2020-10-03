@@ -154,6 +154,10 @@ struct SearchResults {
     struct Request {
         
         struct Search {
+            
+        }
+        
+        struct SearchWithPreffix {
             let preffix: String
         }
         
