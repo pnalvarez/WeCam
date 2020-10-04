@@ -13,6 +13,7 @@ protocol SearchResultsPresentationLogic {
     func presentResults(_ response: SearchResults.Info.Model.Results)
     func presentProfileDetails()
     func presentProjectDetails()
+    func presentError(_ response: SearchResults.Info.Model.ResultError)
 }
 
 class SearchResultsPresenter: SearchResultsPresentationLogic {
@@ -38,6 +39,11 @@ class SearchResultsPresenter: SearchResultsPresentationLogic {
     
     func presentProjectDetails() {
         viewController.displayProjectDetails()
+    }
+    
+    func presentError(_ response: SearchResults.Info.Model.ResultError) {
+        let viewModel = SearchResults.Info.ViewModel.ResultError(error: response.error.localizedDescription)
+        viewController.displayError(viewModel)
     }
 }
 

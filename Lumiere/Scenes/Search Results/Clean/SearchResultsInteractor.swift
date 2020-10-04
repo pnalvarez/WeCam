@@ -53,7 +53,8 @@ extension SearchResultsInteractor {
                 guard let results = self.results else { return }
                 self.presenter.presentResults(results)
             case .error(let error):
-                break
+                self.presenter.presentLoading(false)
+                self.presenter.presentError(SearchResults.Info.Model.ResultError(error: error))
             }
         }
     }
@@ -79,7 +80,8 @@ extension SearchResultsInteractor: SearchResultsBusinessLogic {
                                                          ocupation: $0.ocupation ?? .empty)}), projects: .empty)
                 self.fetchSearchProjects(request)
             case .error(let error):
-                break
+                self.presenter.presentLoading(false)
+                self.presenter.presentError(SearchResults.Info.Model.ResultError(error: error))
             }
         }
     }
@@ -101,7 +103,8 @@ extension SearchResultsInteractor: SearchResultsBusinessLogic {
                                                          ocupation: $0.ocupation ?? .empty)}), projects: .empty)
                 self.fetchSearchProjects(request)
             case .error(let error):
-                break
+                self.presenter.presentLoading(false)
+                self.presenter.presentError(SearchResults.Info.Model.ResultError(error: error))
             }
         }
     }

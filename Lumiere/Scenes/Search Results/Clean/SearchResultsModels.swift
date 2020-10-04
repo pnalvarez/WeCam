@@ -91,6 +91,10 @@ struct SearchResults {
                 let secondCathegory: String?
                 let image: String
             }
+            
+            struct ResultError {
+                let error: Error
+            }
         }
         
         struct ViewModel {
@@ -113,6 +117,10 @@ struct SearchResults {
                 let name: String
                 let ocupation: String
                 let image: String
+            }
+            
+            struct ResultError {
+                let error: String
             }
         }
         

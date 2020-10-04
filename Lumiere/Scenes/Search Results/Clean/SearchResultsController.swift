@@ -13,6 +13,7 @@ protocol SearchResultsDisplayLogic: class {
     func displayProfileDetails()
     func displayProjectDetails()
     func displayLoading(_ loading: Bool)
+    func displayError(_ viewModel: SearchResults.Info.ViewModel.ResultError)
 }
 
 class SearchResultsController: BaseViewController {
@@ -177,5 +178,9 @@ extension SearchResultsController: SearchResultsDisplayLogic {
     
     func displayLoading(_ loading: Bool) {
         activityView.isHidden = !loading
+    }
+    
+    func displayError(_ viewModel: SearchResults.Info.ViewModel.ResultError) {
+        UIAlertController.displayAlert(in: self, title: "Erro ao carregar resultados", message: viewModel.error)
     }
 }
