@@ -29,6 +29,7 @@ class SearchResultsWorker: SearchResultsWorkerProtocol {
     
     func fetchProjects(_ request: SearchResults.Request.SearchWithPreffix,
                        completion: @escaping (BaseResponse<[SearchResults.Info.Response.Project]>) -> Void) {
-        
+        let headers: [String : Any] = ["preffix": request.preffix]
+        builder.fetchSearchProjects(request: headers, completion: completion)
     }
 }

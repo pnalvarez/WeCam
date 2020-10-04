@@ -109,7 +109,7 @@ protocol FirebaseAuthHelperProtocol {
                                completion: @escaping (EmptyResponse) -> Void)
     func fetchSearchProfiles<T: Mappable>(request: [String : Any],
                                           completion: @escaping (BaseResponse<[T]>) -> Void)
-    func fetchAllProjects<T: Mappable>(request: [String : Any],
+    func fetchSearchProjects<T: Mappable>(request: [String : Any],
                                           completion: @escaping (BaseResponse<[T]>) -> Void)
 }
 
@@ -2540,7 +2540,7 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                         .child(Constants.usersPath)
                         .child(userIds[i])
                         .observeSingleEvent(of: .value) { snapshot in
-                            guard let user = snapshot.value as? [String : Any] else {
+                            guard var user = snapshot.value as? [String : Any] else {
                                 completion(.error(FirebaseErrors.genericError))
                                 return
                             }
@@ -2552,6 +2552,7 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                                userIds[i] != currentUser {
                                 usersResponse.append(user)
                             }
+                            user["id"] = userIds[i]
                             if i == userIds.count-1 {
                                 let mappedResponse = Mapper<T>().mapArray(JSONArray: usersResponse)
                                 completion(.success(mappedResponse))
@@ -2561,29 +2562,45 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
         }
     }
     
-    func fetchAllProjects<T: Mappable>(request: [String : Any],
+    func fetchSearchProjects<T: Mappable>(request: [String : Any],
                                 completion: @escaping (BaseResponse<[T]>) -> Void) {
+        var projectsResponse: [[String : Any]] = .empty
         guard let preffix = request["preffix"] as? String else {
             completion(.error(FirebaseErrors.genericError))
             return
         }
         realtimeDB
-            .child(Constants.projectsPath)
-            .child(Constants.ongoingProjectsPath)
+            .child(Constants.allProjectsCataloguePath)
             .observeSingleEvent(of: .value) { snapshot in
-                guard let users = snapshot.value as? [[String : Any]] else {
+                guard let projectIds = snapshot.value as? [String] else {
                     completion(.error(FirebaseErrors.genericError))
                     return
                 }
-                let filteredProjects = users.filter({
-                    guard let name = $0["title"] as? String else {
-                        return false
-                    }
-                    return name.contains(preffix)
-                })
-                let mappedResponse = Mapper<T>().mapArray(JSONArray: filteredProjects)
-                completion(.success(mappedResponse))
-            }
+                for i in 0..<projectIds.count {
+                    self.realtimeDB
+                        .child(Constants.projectsPath)
+                        .child(Constants.ongoingProjectsPath)
+                        .child(projectIds[i])
+                        .observeSingleEvent(of: .value) { snapshot in
+                            guard var project = snapshot.value as? [String : Any] else {
+                                completion(.error(FirebaseErrors.genericError))
+                                return
+                            }
+                            guard let title = project["title"] as? String else {
+                                completion(.error(FirebaseErrors.genericError))
+                                return
+                            }
+                            if title.contains(preffix) {
+                                projectsResponse.append(project)
+                            }
+                            project["id"] = projectIds[i]
+                            if i == projectIds.count-1 {
+                                let mappedResponse = Mapper<T>().mapArray(JSONArray: projectsResponse)
+                                completion(.success(mappedResponse))
+                            }
+                        }
+                }
+        }
     }
 }
 

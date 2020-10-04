@@ -118,28 +118,6 @@ struct SearchResults {
         
         struct Response {
             
-            final class ProfileResultsList: Mappable {
-                
-                var userIds: [String]?
-                
-                init?(map: Map) { }
-                
-                func mapping(map: Map) {
-                    userIds <- map["ids"]
-                }
-            }
-            
-            final class ProjectResultsList: Mappable {
-                
-                var projectIds: [String]?
-                
-                init?(map: Map) { }
-                
-                func mapping(map: Map) {
-                    projectIds <- map["ids"]
-                }
-            }
-            
             final class Profile: Mappable {
                 
                 var id: String?
