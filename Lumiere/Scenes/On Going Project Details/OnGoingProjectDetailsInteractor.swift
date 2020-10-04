@@ -25,7 +25,7 @@ protocol OnGoingProjectDetailsDataStore {
     var receivedData: OnGoingProjectDetails.Info.Received.Project? { get set }
     var projectData: OnGoingProjectDetails.Info.Model.Project? { get set }
     var projectRelation: OnGoingProjectDetails.Info.Model.ProjectRelation? { get set }
-    var selectedTeamMeberId: String? { get set }
+    var selectedTeamMemberId: String? { get set }
 }
 
 class OnGoingProjectDetailsInteractor: OnGoingProjectDetailsDataStore {
@@ -36,12 +36,12 @@ class OnGoingProjectDetailsInteractor: OnGoingProjectDetailsDataStore {
     var receivedData: OnGoingProjectDetails.Info.Received.Project?
     var projectData: OnGoingProjectDetails.Info.Model.Project?
     var projectRelation: OnGoingProjectDetails.Info.Model.ProjectRelation?
-    var selectedTeamMeberId: String?
+    var selectedTeamMemberId: String?
     
     init(worker: OnGoingProjectDetailsWorkerProtocol = OnGoingProjectDetailsWorker(),
-         viewController: OnGoingProjectDetailsDisplayLogic) {
+         presenter: OnGoingProjectDetailsPresentationLogic) {
         self.worker = worker
-        self.presenter = OnGoingProjectDetailsPresenter(viewController: viewController)
+        self.presenter = presenter
     }
 }
 
@@ -60,7 +60,8 @@ extension OnGoingProjectDetailsInteractor {
                 self.presenter.presentProjectDetails(project)
                 break
             case .error(let error):
-                break
+                self.presenter.presentLoading(false)
+                self.presenter.presentError(error.localizedDescription)
             }
         }
     }
@@ -192,14 +193,15 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
                         self.fetchUserDetails(OnGoingProjectDetails.Request.FetchUserWithId(id: id))
                     }
                 case .error(let error):
-                    break
+                    self.presenter.presentLoading(false)
+                    self.presenter.presentError(error.localizedDescription)
                 }
         }
     }
     
     func didSelectTeamMember(_ request: OnGoingProjectDetails.Request.SelectedTeamMember) {
         guard let teamMemberId = projectData?.teamMembers[request.index].id else { return }
-        selectedTeamMeberId = teamMemberId
+        selectedTeamMemberId = teamMemberId
         presenter.presentUserDetails()
     }
     
@@ -227,8 +229,9 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
                     .Info
                     .Model
                     .RelationModel(relation: self.projectRelation ?? .nothing))
-            case .error(_):
-                break
+            case .error(let error):
+                self.presenter.presentLoading(false)
+                self.presenter.presentError(error.localizedDescription)
             }
         }
     }

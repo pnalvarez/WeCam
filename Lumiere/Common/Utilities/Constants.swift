@@ -5,6 +5,7 @@
 //  Created by Pedro Alvarez on 21/07/20.
 //  Copyright © 2020 Pedro Alvarez. All rights reserved.
 //
+import UIKit
 
 struct Constants {
     
@@ -16,4 +17,9 @@ struct Constants {
     static let projectImagesPath = "project_images"
     static let allUsersCataloguePath = "all_users"
     static let allProjectsCataloguePath = "all_projects"
+}
+
+extension Constants {
+    
+    static let testImage = UIImage(named: "tipografia-projeto 1")
 }

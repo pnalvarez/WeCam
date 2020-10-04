@@ -101,7 +101,7 @@ struct OnGoingProjectDetails {
         
         struct Model {
             
-            struct Progress {
+            struct Progress: Equatable {
                 let percentage: Int
             }
             
@@ -113,11 +113,11 @@ struct OnGoingProjectDetails {
                 case nothing
             }
             
-            struct RelationModel {
+            struct RelationModel: Equatable {
                 var relation: ProjectRelation
             }
             
-            struct Project {
+            struct Project: Equatable {
                 let id: String
                 let firstCathegory: String
                 let secondCathegory: String?
@@ -127,17 +127,16 @@ struct OnGoingProjectDetails {
                 var sinopsis: String
                 var teamMembers: [TeamMember]
                 var needing: String
-                var relation: ProjectRelation?
             }
             
-            struct TeamMember {
+            struct TeamMember: Equatable {
                 let id: String
                 let name: String
                 let ocupation: String
                 let image: String?
             }
             
-            struct Feedback {
+            struct Feedback: Equatable {
                 let title: String
                 let message: String
             }
@@ -356,7 +355,7 @@ extension OnGoingProjectDetails.Info.Response.Project: Stubbable {
     static var stub: OnGoingProjectDetails.Info.Response.Project {
         return OnGoingProjectDetails.Info.Response.Project(JSONString: """
                         {
-                            "authot_id": "idUser1",
+                            "author_id": "idUser1",
                             "cathegories": ["Ação", "Aventura"],
                             "image": "image",
                             "needing": "Artistas",

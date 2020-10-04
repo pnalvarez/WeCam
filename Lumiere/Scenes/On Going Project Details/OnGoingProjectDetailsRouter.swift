@@ -31,7 +31,7 @@ class OnGoingProjectDetailsRouter: NSObject, OnGoingProjectDetailsDataTransfer {
         destination.receivedUserData = ProfileDetails
             .Info
             .Received
-            .User(userId: source.selectedTeamMeberId ?? .empty)
+            .User(userId: source.selectedTeamMemberId ?? .empty)
     }
     
     private func transferDataToProjectParticipantsList(from source: OnGoingProjectDetailsDataStore,

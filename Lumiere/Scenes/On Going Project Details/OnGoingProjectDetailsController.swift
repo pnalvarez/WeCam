@@ -308,7 +308,8 @@ class OnGoingProjectDetailsController: BaseViewController, UINavigationControlle
     
     private func setup() {
         let viewController = self
-        let interactor = OnGoingProjectDetailsInteractor(viewController: viewController)
+        let presenter = OnGoingProjectDetailsPresenter(viewController: viewController)
+        let interactor = OnGoingProjectDetailsInteractor(presenter: presenter)
         let router = OnGoingProjectDetailsRouter()
         viewController.interactor = interactor
         viewController.router = router
