@@ -10,6 +10,7 @@ import UIKit
 
 class SearchResultsView: UIView {
     
+    private unowned var activityView: UIActivityIndicatorView
     private unowned var backButton: DefaultBackButton
     private unowned var searchTextField: UITextField
     private unowned var searchButton: UIButton
@@ -29,10 +30,12 @@ class SearchResultsView: UIView {
     }()
     
     init(frame: CGRect,
+         activityView: UIActivityIndicatorView,
          backButton: DefaultBackButton,
          searchTextField: UITextField,
          searchButton: UIButton,
          tableView: UITableView) {
+        self.activityView = activityView
         self.backButton = backButton
         self.searchTextField = searchTextField
         self.searchButton = searchButton
@@ -55,6 +58,7 @@ extension SearchResultsView: ViewCodeProtocol {
         searchTextField.addSubview(searchButton)
         addSubview(searchTextField)
         addSubview(tableView)
+        addSubview(activityView)
     }
     
     func setupConstraints() {
@@ -88,6 +92,9 @@ extension SearchResultsView: ViewCodeProtocol {
         tableView.snp.makeConstraints { make in
             make.top.equalTo(searchTextField.snp.bottom).offset(12)
             make.left.right.bottom.equalToSuperview()
+        }
+        activityView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
     }
 }

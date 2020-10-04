@@ -103,6 +103,8 @@
 		3F655F8B2523C91F004A1D54 /* SearchResultsFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F655F8A2523C91F004A1D54 /* SearchResultsFactory.swift */; };
 		3F655FB92523EABE004A1D54 /* SearchResultsInteractor+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F655FB82523EABE004A1D54 /* SearchResultsInteractor+Tests.swift */; };
 		3F655FC22523EDB5004A1D54 /* SearchResultsWorkerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F655FC12523EDB5004A1D54 /* SearchResultsWorkerMock.swift */; };
+		3F655FCD25280656004A1D54 /* ProfileResultTableViewCellBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F655FCC25280656004A1D54 /* ProfileResultTableViewCellBuilder.swift */; };
+		3F655FD2252810F1004A1D54 /* OnGoingProjectResultTableViewCellBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F655FD1252810F1004A1D54 /* OnGoingProjectResultTableViewCellBuilder.swift */; };
 		3F66CA0625017C14006F6DBD /* NSAttributedString+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F66CA0525017C14006F6DBD /* NSAttributedString+.swift */; };
 		3F66CA0925045025006F6DBD /* ProjectParticipantsListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F66CA0825045025006F6DBD /* ProjectParticipantsListController.swift */; };
 		3F66CA0B250450A1006F6DBD /* ProjectParticipantsListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F66CA0A250450A1006F6DBD /* ProjectParticipantsListRouter.swift */; };
@@ -371,6 +373,8 @@
 		3F655F8A2523C91F004A1D54 /* SearchResultsFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsFactory.swift; sourceTree = "<group>"; };
 		3F655FB82523EABE004A1D54 /* SearchResultsInteractor+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SearchResultsInteractor+Tests.swift"; sourceTree = "<group>"; };
 		3F655FC12523EDB5004A1D54 /* SearchResultsWorkerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsWorkerMock.swift; sourceTree = "<group>"; };
+		3F655FCC25280656004A1D54 /* ProfileResultTableViewCellBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileResultTableViewCellBuilder.swift; sourceTree = "<group>"; };
+		3F655FD1252810F1004A1D54 /* OnGoingProjectResultTableViewCellBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnGoingProjectResultTableViewCellBuilder.swift; sourceTree = "<group>"; };
 		3F66CA0525017C14006F6DBD /* NSAttributedString+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+.swift"; sourceTree = "<group>"; };
 		3F66CA0825045025006F6DBD /* ProjectParticipantsListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectParticipantsListController.swift; sourceTree = "<group>"; };
 		3F66CA0A250450A1006F6DBD /* ProjectParticipantsListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectParticipantsListRouter.swift; sourceTree = "<group>"; };
@@ -833,6 +837,8 @@
 		3F655F872523C8F2004A1D54 /* Builders */ = {
 			isa = PBXGroup;
 			children = (
+				3F655FCC25280656004A1D54 /* ProfileResultTableViewCellBuilder.swift */,
+				3F655FD1252810F1004A1D54 /* OnGoingProjectResultTableViewCellBuilder.swift */,
 			);
 			path = Builders;
 			sourceTree = "<group>";
@@ -1779,6 +1785,7 @@
 				3F8D13A324D65FCD00AED7EB /* GetConnectNotificationRequest.swift in Sources */,
 				3F40A6A724F0923900261161 /* EditProjectDetailsWorker.swift in Sources */,
 				3FE8DF4124C3F738005DE30D /* ThemeFonts.swift in Sources */,
+				3F655FD2252810F1004A1D54 /* OnGoingProjectResultTableViewCellBuilder.swift in Sources */,
 				3F9578D224B0198F00B79818 /* SignUpModels.swift in Sources */,
 				3F40A6B424F1CB5A00261161 /* OnGoingProjectDetailsInteractor.swift in Sources */,
 				3F66CA0B250450A1006F6DBD /* ProjectParticipantsListRouter.swift in Sources */,
@@ -1885,6 +1892,7 @@
 				3FB8BD89250ED673001954FD /* InviteProfileToProjectsModels.swift in Sources */,
 				3F9578CC24B0197500B79818 /* SignUpPresenter.swift in Sources */,
 				3F66CA11250451CC006F6DBD /* ProjectParticipantsListPresenter.swift in Sources */,
+				3F655FCD25280656004A1D54 /* ProfileResultTableViewCellBuilder.swift in Sources */,
 				3F6EEA3524E0A38E0075C500 /* ConnectionsListPresenter.swift in Sources */,
 				3F95787F24AEB09900B79818 /* UIColor+.swift in Sources */,
 				3F40A6C724F2320700261161 /* EditProfileDetailsPresenter.swift in Sources */,

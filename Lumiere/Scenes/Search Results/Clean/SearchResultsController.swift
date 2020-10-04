@@ -17,6 +17,15 @@ protocol SearchResultsDisplayLogic: class {
 
 class SearchResultsController: BaseViewController {
     
+    private lazy var activityView: UIActivityIndicatorView = {
+        let view = UIActivityIndicatorView(frame: .zero)
+        view.backgroundColor = .white
+        view.color = .black
+        view.startAnimating()
+        view.isHidden = true
+        return view
+    }()
+    
     private lazy var backButton: DefaultBackButton = {
         let view = DefaultBackButton(frame: .zero)
         view.addTarget(self, action: #selector(didTapBack), for: .touchUpInside)
@@ -50,6 +59,7 @@ class SearchResultsController: BaseViewController {
     
     private lazy var mainView: SearchResultsView = {
         let view = SearchResultsView(frame: .zero,
+                                     activityView: activityView,
                                      backButton: backButton,
                                      searchTextField: searchTextField,
                                      searchButton: searchButton,
@@ -58,6 +68,15 @@ class SearchResultsController: BaseViewController {
         return view
     }()
     
+    private var viewModel: SearchResults.Info.ViewModel.UpcomingResults? {
+        didSet {
+            refreshList()
+        }
+    }
+    
+    private var sections: [TableViewSectionProtocol]?
+    
+    private var factory: TableViewFactory?
     private var interactor: SearchResultsBusinessLogic?
     var router: SearchResultsRouterProtocol?
     
@@ -72,6 +91,8 @@ class SearchResultsController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        factory = SearchResultsFactory(tableView: tableView)
+        refreshList()
         interactor?.fetchBeginSearch(SearchResults.Request.Search())
     }
     
@@ -94,17 +115,35 @@ class SearchResultsController: BaseViewController {
 
 extension SearchResultsController: UITableViewDataSource {
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return sections?.count ?? 0
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return sections?[section].numberOfRows() ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        return sections?[indexPath.row].cellAt(indexPath: indexPath, tableView: tableView) ?? UITableViewCell()
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return sections?[indexPath.row].cellHeightFor(indexPath: indexPath) ?? 0
     }
 }
 
 extension SearchResultsController: UITableViewDelegate {
     
+}
+
+extension SearchResultsController {
+    
+    private func refreshList() {
+        sections = factory?.buildSections()
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }
 }
 
 extension SearchResultsController {
@@ -125,18 +164,18 @@ extension SearchResultsController {
 extension SearchResultsController: SearchResultsDisplayLogic {
     
     func displaySearchResults(_ viewModel: SearchResults.Info.ViewModel.UpcomingResults) {
-        
+        self.viewModel = viewModel
     }
     
     func displayProfileDetails() {
-        
+        router?.routeToProfileDetails()
     }
     
     func displayProjectDetails() {
-        
+        router?.routeToProjectDetails()
     }
     
     func displayLoading(_ loading: Bool) {
-        
+        activityView.isHidden = !loading
     }
 }

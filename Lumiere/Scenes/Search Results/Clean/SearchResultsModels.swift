@@ -22,12 +22,19 @@ struct SearchResults {
             static let searchTextFieldText = UIColor(rgb: 0x000000)
             static let searchTextFieldLayer = UIColor(rgb: 0xe3e0e0).cgColor
             static let dividerView = UIColor(rgb: 0xc4c4c4)
+            static let titleLbl = UIColor(rgb: 0x000000)
+            static let cathegoriesLbl = UIColor(rgb: 0x000000)
+            static let progressLbl = ThemeColors.mainRedColor.rawValue
+            static let footerView = UIColor.white
         }
         
         struct Fonts {
             static let nameLbl = ThemeFonts.RobotoBold(16).rawValue
             static let ocupationLbl = ThemeFonts.RobotoRegular(16).rawValue
             static let searchTextField = ThemeFonts.RobotoRegular(16).rawValue
+            static let titleLbl = ThemeFonts.RobotoBold(16).rawValue
+            static let cathegoriesLbl = ThemeFonts.RobotoRegular(16).rawValue
+            static let progressLbl = ThemeFonts.RobotoRegular(16).rawValue
         }
         
         struct Texts {
@@ -43,7 +50,7 @@ struct SearchResults {
         struct Dimensions {
             
             struct Heights {
-                
+                static let defaultCellHeight: CGFloat = 63
             }
         }
     }
@@ -110,6 +117,28 @@ struct SearchResults {
         }
         
         struct Response {
+            
+            final class ProfileResultsList: Mappable {
+                
+                var userIds: [String]?
+                
+                init?(map: Map) { }
+                
+                func mapping(map: Map) {
+                    userIds <- map["ids"]
+                }
+            }
+            
+            final class ProjectResultsList: Mappable {
+                
+                var projectIds: [String]?
+                
+                init?(map: Map) { }
+                
+                func mapping(map: Map) {
+                    projectIds <- map["ids"]
+                }
+            }
             
             final class Profile: Mappable {
                 

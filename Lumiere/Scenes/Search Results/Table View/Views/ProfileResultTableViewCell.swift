@@ -35,6 +35,12 @@ class ProfileResultTableViewCell: UITableViewCell {
         return view
     }()
     
+    private lazy var dividerView: UIView = {
+        let view = UIView(frame: .zero)
+        view.backgroundColor = SearchResults.Constants.Colors.dividerView
+        return view
+    }()
+    
     private var viewModel: SearchResults.Info.ViewModel.Profile?
     
     func setup(viewModel: SearchResults.Info.ViewModel.Profile) {
@@ -49,11 +55,29 @@ extension ProfileResultTableViewCell: ViewCodeProtocol {
         addSubview(photoImageView)
         addSubview(nameLbl)
         addSubview(ocupationLbl)
+        addSubview(dividerView)
     }
     
     func setupConstraints() {
         photoImageView.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
+            make.height.width.equalTo(56)
+            make.left.equalToSuperview().inset(28)
+        }
+        nameLbl.snp.makeConstraints { make in
+            make.left.equalTo(photoImageView.snp.right)
+            make.width.equalTo(177)
+            make.top.equalTo(photoImageView)
+        }
+        ocupationLbl.snp.makeConstraints { make in
+            make.top.equalTo(nameLbl.snp.bottom)
+            make.width.equalTo(nameLbl)
+            make.left.equalTo(nameLbl)
+        }
+        dividerView.snp.makeConstraints { make in
+            make.bottom.equalToSuperview()
+            make.left.right.equalToSuperview()
+            make.height.equalTo(2)
         }
     }
     

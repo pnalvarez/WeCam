@@ -7,9 +7,9 @@
 //
 
 protocol SearchResultsWorkerProtocol {
-    func fetchProfiles(_ request: SearchResults.Request.SelectProfile,
+    func fetchProfiles(_ request: SearchResults.Request.SearchWithPreffix,
                        completion: @escaping (BaseResponse<[SearchResults.Info.Response.Profile]>) -> Void)
-    func fetchProjects(_ request: SearchResults.Request.SelectProject,
+    func fetchProjects(_ request: SearchResults.Request.SearchWithPreffix,
                        completion: @escaping (BaseResponse<[SearchResults.Info.Response.Project]>) -> Void)
 }
 
@@ -21,12 +21,13 @@ class SearchResultsWorker: SearchResultsWorkerProtocol {
         self.builder = builder
     }
     
-    func fetchProfiles(_ request: SearchResults.Request.SelectProfile,
+    func fetchProfiles(_ request: SearchResults.Request.SearchWithPreffix,
                        completion: @escaping (BaseResponse<[SearchResults.Info.Response.Profile]>) -> Void) {
-        
+        let headers: [String : Any] = ["preffix": request.preffix]
+        builder.fetchSearchProfiles(request: headers, completion: completion)
     }
     
-    func fetchProjects(_ request: SearchResults.Request.SelectProject,
+    func fetchProjects(_ request: SearchResults.Request.SearchWithPreffix,
                        completion: @escaping (BaseResponse<[SearchResults.Info.Response.Project]>) -> Void) {
         
     }
