@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3F0129C4252A510800FF4985 /* OnGoingProjectDetailsInteractor+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0129C3252A510800FF4985 /* OnGoingProjectDetailsInteractor+Tests.swift */; };
+		3F0129CD252A524100FF4985 /* OnGoingProjectDetailsWorkerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0129CC252A524100FF4985 /* OnGoingProjectDetailsWorkerMock.swift */; };
 		3F037F20251EF0DC0060B928 /* NotificationsPresenter+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F037F1F251EF0DC0060B928 /* NotificationsPresenter+Tests.swift */; };
 		3F037F2625202A640060B928 /* SelectProjectImageInteractor+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F037F2525202A640060B928 /* SelectProjectImageInteractor+Tests.swift */; };
 		3F037F2E25202DB20060B928 /* SelectProjectImagePresenter+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F037F2D25202DB20060B928 /* SelectProjectImagePresenter+Tests.swift */; };
@@ -278,6 +280,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3F0129C3252A510800FF4985 /* OnGoingProjectDetailsInteractor+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OnGoingProjectDetailsInteractor+Tests.swift"; sourceTree = "<group>"; };
+		3F0129CC252A524100FF4985 /* OnGoingProjectDetailsWorkerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnGoingProjectDetailsWorkerMock.swift; sourceTree = "<group>"; };
 		3F037F1F251EF0DC0060B928 /* NotificationsPresenter+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationsPresenter+Tests.swift"; sourceTree = "<group>"; };
 		3F037F2525202A640060B928 /* SelectProjectImageInteractor+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SelectProjectImageInteractor+Tests.swift"; sourceTree = "<group>"; };
 		3F037F2D25202DB20060B928 /* SelectProjectImagePresenter+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SelectProjectImagePresenter+Tests.swift"; sourceTree = "<group>"; };
@@ -571,6 +575,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3F0129C2252A50F100FF4985 /* OnGoing Project Details */ = {
+			isa = PBXGroup;
+			children = (
+				3F0129C3252A510800FF4985 /* OnGoingProjectDetailsInteractor+Tests.swift */,
+			);
+			path = "OnGoing Project Details";
+			sourceTree = "<group>";
+		};
+		3F0129CB252A522400FF4985 /* OnGoing Project Details */ = {
+			isa = PBXGroup;
+			children = (
+				3F0129CC252A524100FF4985 /* OnGoingProjectDetailsWorkerMock.swift */,
+			);
+			path = "OnGoing Project Details";
+			sourceTree = "<group>";
+		};
 		3F037F2425202A490060B928 /* Select Project Image */ = {
 			isa = PBXGroup;
 			children = (
@@ -949,6 +969,7 @@
 		3F8D136124D0EC6700AED7EB /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				3F0129C2252A50F100FF4985 /* OnGoing Project Details */,
 				3F655FB72523EAA8004A1D54 /* Search Results */,
 				3F037F912522C9450060B928 /* Edit Profile Details */,
 				3F037F7A2522BE4C0060B928 /* Invite List */,
@@ -988,6 +1009,7 @@
 		3F8D137224D0ED7E00AED7EB /* Mocks */ = {
 			isa = PBXGroup;
 			children = (
+				3F0129CB252A522400FF4985 /* OnGoing Project Details */,
 				3F655FC02523EDA2004A1D54 /* Search Results */,
 				3F037F882522C7020060B928 /* Edit Profile Details */,
 				3F037F712522BD460060B928 /* Invite List */,
@@ -1934,6 +1956,8 @@
 				3F037F8A2522C71E0060B928 /* EditProfileDetailsWorkerMock.swift in Sources */,
 				3F8D137E24D0EDD400AED7EB /* SignUpInteractorMock.swift in Sources */,
 				3F655FB92523EABE004A1D54 /* SearchResultsInteractor+Tests.swift in Sources */,
+				3F0129C4252A510800FF4985 /* OnGoingProjectDetailsInteractor+Tests.swift in Sources */,
+				3F0129CD252A524100FF4985 /* OnGoingProjectDetailsWorkerMock.swift in Sources */,
 				3F8D13BC24D75A4F00AED7EB /* ProfileDetailsWorkerMock.swift in Sources */,
 				3F5A423B251CE8A200F10D63 /* ProfileDetailsInteractorMock.swift in Sources */,
 				3F655FC22523EDB5004A1D54 /* SearchResultsWorkerMock.swift in Sources */,

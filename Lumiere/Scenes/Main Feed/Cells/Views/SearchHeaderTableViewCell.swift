@@ -28,6 +28,12 @@ class SearchHeaderTableViewCell: UITableViewCell {
         return view
     }()
     
+    private lazy var dividerView: UIView = {
+        let view = UIView(frame: .zero)
+        view.backgroundColor = MainFeed.Constants.Colors.dividerView
+        return view
+    }()
+    
     func setup() {
         applyViewCode()
     }
@@ -37,6 +43,7 @@ extension SearchHeaderTableViewCell: ViewCodeProtocol {
     
     func buildViewHierarchy() {
         addSubview(lumiereHeader)
+        searchTextField.addSubview(dividerView)
         addSubview(searchTextField)
     }
     
@@ -52,6 +59,11 @@ extension SearchHeaderTableViewCell: ViewCodeProtocol {
             make.centerX.equalToSuperview()
             make.width.equalTo(242)
             make.height.equalTo(18)
+        }
+        dividerView.snp.makeConstraints { make in
+            make.top.bottom.equalToSuperview()
+            make.right.equalToSuperview().inset(20)
+            make.width.equalTo(1)
         }
     }
     

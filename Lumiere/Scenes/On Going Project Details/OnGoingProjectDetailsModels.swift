@@ -351,3 +351,52 @@ struct OnGoingProjectDetails {
         }
     }
 }
+
+extension OnGoingProjectDetails.Info.Response.Project: Stubbable {
+    static var stub: OnGoingProjectDetails.Info.Response.Project {
+        return OnGoingProjectDetails.Info.Response.Project(JSONString: """
+                        {
+                            "authot_id": "idUser1",
+                            "cathegories": ["Ação", "Aventura"],
+                            "image": "image",
+                            "needing": "Artistas",
+                            "progress": 50,
+                            "title": "Projeto Teste 1",
+                            "sinopsis": "Sinopse do Projeto Teste 1",
+                            "participants": ["idUser1", "idUser2"]
+                        }
+                """)!
+    }
+}
+
+extension OnGoingProjectDetails.Info.Response.TeamMember: Stubbable {
+    static var stub: OnGoingProjectDetails.Info.Response.TeamMember {
+        return OnGoingProjectDetails.Info.Response.TeamMember(JSONString: """
+                        {
+                            "name": "Usuário Teste 1",
+                            "professional_area": "Artista",
+                            "profile_image_url": "image"
+                        }
+                """)!
+    }
+}
+
+extension OnGoingProjectDetails.Info.Response.ProjectRelation: Stubbable {
+    static var stub: OnGoingProjectDetails.Info.Response.ProjectRelation {
+        return OnGoingProjectDetails.Info.Response.ProjectRelation(JSONString: """
+                    {
+                        "relation": "AUTHOR"
+                    }
+                """)!
+    }
+}
+
+extension OnGoingProjectDetails.Info.Response.ProjectImage: Stubbable {
+    static var stub: OnGoingProjectDetails.Info.Response.ProjectImage {
+        return OnGoingProjectDetails.Info.Response.ProjectImage(JSONString: """
+                        {
+                            "image": "image"
+                        }
+                """)!
+    }
+}

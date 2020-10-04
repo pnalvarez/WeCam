@@ -18,6 +18,7 @@ struct MainFeed {
         struct Colors {
             static let searchTextFieldText = UIColor(rgb: 0x000000)
             static let searchTextFieldLayer = UIColor(rgb: 0xe3e0e0).cgColor
+            static let dividerView = UIColor(rgb: 0xc4c4c4)
         }
         
         struct Fonts {
