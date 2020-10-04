@@ -73,7 +73,7 @@ struct SearchResults {
             
             struct Results: Equatable {
                 let users: [Profile]
-                let projects: [Project]
+                var projects: [Project]
             }
             
             struct Profile: Equatable {

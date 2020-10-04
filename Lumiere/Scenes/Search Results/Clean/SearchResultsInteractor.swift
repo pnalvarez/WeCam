@@ -35,14 +35,75 @@ class SearchResultsInteractor: SearchResultsDataStore {
     }
 }
 
+extension SearchResultsInteractor {
+    
+    private func fetchSearchProjects(_ request: SearchResults.Request.SearchWithPreffix) {
+        worker.fetchProjects(request) { response in
+            switch response {
+            case .success(let data):
+                self.presenter.presentLoading(false)
+                self.results?.projects = data.map({
+                    SearchResults.Info.Model.Project(id: $0.id ?? .empty,
+                                                     title: $0.title ?? .empty,
+                                                     progress: $0.progress ?? 0,
+                                                     firstCathegory: $0.firstCathegory ?? .empty,
+                                                     secondCathegory: $0.secondCathegory,
+                                                     image: $0.image ?? .empty)
+                })
+                guard let results = self.results else { return }
+                self.presenter.presentResults(results)
+            case .error(let error):
+                break
+            }
+        }
+    }
+}
+
 extension SearchResultsInteractor: SearchResultsBusinessLogic {
     
     func fetchBeginSearch(_ request: SearchResults.Request.Search) {
-        
+        presenter.presentLoading(true)
+        let request = SearchResults.Request.SearchWithPreffix(preffix: searchKey?.key ?? .empty)
+        worker.fetchProfiles(request) { response in
+            switch response {
+            case .success(let data):
+                self.results = SearchResults
+                    .Info
+                    .Model
+                    .Results(users: data.map({ SearchResults
+                                                .Info
+                                                .Model
+                                                .Profile(id: $0.id ?? .empty,
+                                                         name: $0.name ?? .empty,
+                                                         image: $0.image ?? .empty,
+                                                         ocupation: $0.ocupation ?? .empty)}), projects: .empty)
+                self.fetchSearchProjects(request)
+            case .error(let error):
+                break
+            }
+        }
     }
     
     func fetchSearch(_ request: SearchResults.Request.SearchWithPreffix) {
-        //TO DO
+        presenter.presentLoading(true)
+        worker.fetchProfiles(request) { response in
+            switch response {
+            case .success(let data):
+                self.results = SearchResults
+                    .Info
+                    .Model
+                    .Results(users: data.map({ SearchResults
+                                                .Info
+                                                .Model
+                                                .Profile(id: $0.id ?? .empty,
+                                                         name: $0.name ?? .empty,
+                                                         image: $0.image ?? .empty,
+                                                         ocupation: $0.ocupation ?? .empty)}), projects: .empty)
+                self.fetchSearchProjects(request)
+            case .error(let error):
+                break
+            }
+        }
     }
     
     func fetchSelectProfile(_ request: SearchResults.Request.SelectProfile) {
