@@ -99,12 +99,12 @@ struct SearchResults {
         
         struct ViewModel {
             
-            struct UpcomingResults {
+            struct UpcomingResults: Equatable {
                 let users: [Profile]
                 let projects: [Project]
             }
             
-            struct Project {
+            struct Project: Equatable {
                 let offset: Int
                 let title: String
                 let cathegories: String
@@ -112,7 +112,7 @@ struct SearchResults {
                 let image: String
             }
             
-            struct Profile {
+            struct Profile: Equatable {
                 let offset: Int
                 let name: String
                 let ocupation: String
