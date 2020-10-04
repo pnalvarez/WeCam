@@ -13,6 +13,14 @@ enum ErrorMock: Error {
 }
 
 final class FirebaseHelperMock: FirebaseAuthHelperProtocol {
+    func fetchSearchProfiles<T>(request: [String : Any], completion: @escaping (BaseResponse<[T]>) -> Void) where T : Mappable {
+        
+    }
+    
+    func fetchSearchProjects<T>(request: [String : Any], completion: @escaping (BaseResponse<[T]>) -> Void) where T : Mappable {
+        
+    }
+    
     func fetchUserConnectNotifications<T>(request: GetConnectNotificationRequest, completion: @escaping (BaseResponse<[T]>) -> Void) where T : Mappable {
         
     }

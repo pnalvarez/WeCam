@@ -36,6 +36,16 @@ class SearchResultsInteractor_Tests: XCTestCase {
         super.tearDown()
     }
     
+    func testFetchBeginSearch() {
+        
+    }
+    
+    func testFetchSearch() {
+        sut.fetchSearch(SearchResults.Request.SearchWithPreffix(preffix: "Test"))
+        let expectedResult = SearchResults.Info.Model.Results(users: [SearchResults.Info.Model.Profile(id: "idUser1", name: "Usuario Teste 1", image: "image", ocupation: "Artist"), SearchResults.Info.Model.Profile(id: "idUser2", name: "Usuario Teste 2", image: "image", ocupation: "Artist"), SearchResults.Info.Model.Profile(id: "idUser3", name: "Usuario Teste 3", image: "image", ocupation: "Artist")], projects: [SearchResults.Info.Model.Project(id: "idProj1", title: "Projeto Teste 1", progress: 50, firstCathegory: "Ação", secondCathegory: "Animação", image: "image"), SearchResults.Info.Model.Project(id: "idProj2", title: "Projeto Teste 2", progress: 70, firstCathegory: "Ação", secondCathegory: "Animação", image: "image"), SearchResults.Info.Model.Project(id: "idProj3", title: "Projeto Teste 3", progress: 50, firstCathegory: "Ação", secondCathegory: "Animação", image: "image")])
+        XCTAssertEqual(expectedResult, results)
+    }
+    
     func testFetchSelectProfile() {
         sut.results = SearchResults.Info.Model.Results.stub
         XCTAssertNil(sut.selectedItem)

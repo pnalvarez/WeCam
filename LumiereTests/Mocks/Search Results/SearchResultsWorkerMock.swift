@@ -10,16 +10,16 @@
 
 final class SearchResultsWorkerMock: SearchResultsWorkerProtocol {
     
-    func fetchProfiles(_ request: SearchResults.Request.SelectProfile, completion: @escaping (BaseResponse<[SearchResults.Info.Response.Profile]>) -> Void) {
-        guard request.index != 0 else {
+    func fetchProfiles(_ request: SearchResults.Request.SearchWithPreffix, completion: @escaping (BaseResponse<[SearchResults.Info.Response.Profile]>) -> Void) {
+        guard request.preffix != "ERROR" else {
             completion(.error(FirebaseErrors.genericError))
             return
         }
         completion(.success(SearchResults.Info.Response.Profile.stubArray))
     }
     
-    func fetchProjects(_ request: SearchResults.Request.SelectProject, completion: @escaping (BaseResponse<[SearchResults.Info.Response.Project]>) -> Void) {
-        guard request.index != 0 else {
+    func fetchProjects(_ request: SearchResults.Request.SearchWithPreffix, completion: @escaping (BaseResponse<[SearchResults.Info.Response.Project]>) -> Void) {
+        guard request.preffix != "ERROR" else {
             completion(.error(FirebaseErrors.genericError))
             return
         }
