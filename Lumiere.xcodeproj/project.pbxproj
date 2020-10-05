@@ -10,6 +10,7 @@
 		3F0129C4252A510800FF4985 /* OnGoingProjectDetailsInteractor+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0129C3252A510800FF4985 /* OnGoingProjectDetailsInteractor+Tests.swift */; };
 		3F0129CD252A524100FF4985 /* OnGoingProjectDetailsWorkerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0129CC252A524100FF4985 /* OnGoingProjectDetailsWorkerMock.swift */; };
 		3F0129D5252A809100FF4985 /* OnGoingProjectDetailsPresenter+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0129D4252A809100FF4985 /* OnGoingProjectDetailsPresenter+Tests.swift */; };
+		3F0129DB252AB48C00FF4985 /* OnGoingProjectInvitesWorkerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0129DA252AB48C00FF4985 /* OnGoingProjectInvitesWorkerMock.swift */; };
 		3F037F20251EF0DC0060B928 /* NotificationsPresenter+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F037F1F251EF0DC0060B928 /* NotificationsPresenter+Tests.swift */; };
 		3F037F2625202A640060B928 /* SelectProjectImageInteractor+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F037F2525202A640060B928 /* SelectProjectImageInteractor+Tests.swift */; };
 		3F037F2E25202DB20060B928 /* SelectProjectImagePresenter+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F037F2D25202DB20060B928 /* SelectProjectImagePresenter+Tests.swift */; };
@@ -284,6 +285,7 @@
 		3F0129C3252A510800FF4985 /* OnGoingProjectDetailsInteractor+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OnGoingProjectDetailsInteractor+Tests.swift"; sourceTree = "<group>"; };
 		3F0129CC252A524100FF4985 /* OnGoingProjectDetailsWorkerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnGoingProjectDetailsWorkerMock.swift; sourceTree = "<group>"; };
 		3F0129D4252A809100FF4985 /* OnGoingProjectDetailsPresenter+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OnGoingProjectDetailsPresenter+Tests.swift"; sourceTree = "<group>"; };
+		3F0129DA252AB48C00FF4985 /* OnGoingProjectInvitesWorkerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnGoingProjectInvitesWorkerMock.swift; sourceTree = "<group>"; };
 		3F037F1F251EF0DC0060B928 /* NotificationsPresenter+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationsPresenter+Tests.swift"; sourceTree = "<group>"; };
 		3F037F2525202A640060B928 /* SelectProjectImageInteractor+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SelectProjectImageInteractor+Tests.swift"; sourceTree = "<group>"; };
 		3F037F2D25202DB20060B928 /* SelectProjectImagePresenter+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SelectProjectImagePresenter+Tests.swift"; sourceTree = "<group>"; };
@@ -592,6 +594,14 @@
 				3F0129CC252A524100FF4985 /* OnGoingProjectDetailsWorkerMock.swift */,
 			);
 			path = "OnGoing Project Details";
+			sourceTree = "<group>";
+		};
+		3F0129D9252AB46200FF4985 /* OnGoing Project Invites */ = {
+			isa = PBXGroup;
+			children = (
+				3F0129DA252AB48C00FF4985 /* OnGoingProjectInvitesWorkerMock.swift */,
+			);
+			path = "OnGoing Project Invites";
 			sourceTree = "<group>";
 		};
 		3F037F2425202A490060B928 /* Select Project Image */ = {
@@ -1012,6 +1022,7 @@
 		3F8D137224D0ED7E00AED7EB /* Mocks */ = {
 			isa = PBXGroup;
 			children = (
+				3F0129D9252AB46200FF4985 /* OnGoing Project Invites */,
 				3F0129CB252A522400FF4985 /* OnGoing Project Details */,
 				3F655FC02523EDA2004A1D54 /* Search Results */,
 				3F037F882522C7020060B928 /* Edit Profile Details */,
@@ -1937,6 +1948,7 @@
 				3F037F3425202F830060B928 /* SelectProjectCathegoryInteractor+Tests.swift in Sources */,
 				3F037F2E25202DB20060B928 /* SelectProjectImagePresenter+Tests.swift in Sources */,
 				3F037F732522BD650060B928 /* InviteListWorkerMock.swift in Sources */,
+				3F0129DB252AB48C00FF4985 /* OnGoingProjectInvitesWorkerMock.swift in Sources */,
 				3F037F6D2522B9F60060B928 /* EditProjectDetailsPresenter+Tests.swift in Sources */,
 				3F5A4246251D3C4D00F10D63 /* NotificationsWorkerMock.swift in Sources */,
 				3F655FD7252A4A52004A1D54 /* SearchResultsPresenter+Tests.swift in Sources */,

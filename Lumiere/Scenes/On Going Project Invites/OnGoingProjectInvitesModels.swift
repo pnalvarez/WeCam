@@ -252,3 +252,57 @@ struct OnGoingProjectInvites {
         }
     }
 }
+
+extension OnGoingProjectInvites.Info.Response.User: MultipleStubbable {
+    static var stubArray: [OnGoingProjectInvites.Info.Response.User] {
+        return [OnGoingProjectInvites.Info.Response.User(JSONString: """
+                        {
+                            "userId": "idUser1",
+                            "image": "image",
+                            "name": "Usuário Teste 1",
+                            "ocupation": "Artista",
+                            "email": "user_test1@hotmail.com"
+                        }
+                """)!,
+                OnGoingProjectInvites.Info.Response.User(JSONString: """
+                                {
+                                    "userId": "idUser2",
+                                    "image": "image",
+                                    "name": "Usuário Teste 2",
+                                    "ocupation": "Artista",
+                                    "email": "user_test2@hotmail.com"
+                                }
+                        """)!,
+                OnGoingProjectInvites.Info.Response.User(JSONString: """
+                                {
+                                    "userId": "idUser3",
+                                    "image": "image",
+                                    "name": "Usuário Teste 3",
+                                    "ocupation": "Artista",
+                                    "email": "user_test3@hotmail.com"
+                                }
+                        """)!]
+    }
+}
+
+extension OnGoingProjectInvites.Info.Response.UserRelation: Stubbable {
+    static var stub: OnGoingProjectInvites.Info.Response.UserRelation {
+        return OnGoingProjectInvites.Info.Response.UserRelation(JSONString: """
+                        {
+                            "relation": "CONNECTED"
+                        }
+                """)!
+    }
+}
+
+extension OnGoingProjectInvites.Info.Response.Project: Stubbable {
+    static var stub: OnGoingProjectInvites.Info.Response.Project {
+        return OnGoingProjectInvites.Info.Response.Project(JSONString: """
+                    {
+                        "title": "Projeto Teste 1",
+                        "image": "image",
+                        "author_id": "idUser1"
+                    }
+                """)!
+    }
+}
