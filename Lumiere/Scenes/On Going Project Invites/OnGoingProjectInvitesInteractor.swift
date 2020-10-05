@@ -129,19 +129,6 @@ extension OnGoingProjectInvitesInteractor {
         }
     }
     
-    private func inviteUserToProject(request: OnGoingProjectInvites.Request.InviteUser) {
-        guard let index = self.users?.users.firstIndex(where: { $0.userId == self.interactingUser?.userId }) else { return }
-        worker.fetchInviteUser(request) { response in
-            switch response {
-            case .success:
-                self.users?.users[index].relation = .receivedRequest
-            case .error(let error):
-                self.presenter.presentError(error)
-                self.presenter.presentRelationUpdate(OnGoingProjectInvites.Info.Model.RelationUpdate(index: index, relation: .nothing))
-            }
-        }
-    }
-    
     private func allRelationsFetched() -> Bool {
         return !(users?.users.contains(where: { $0.relation == nil }) ?? false)
     }

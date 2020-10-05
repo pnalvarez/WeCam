@@ -306,3 +306,35 @@ extension OnGoingProjectInvites.Info.Response.Project: Stubbable {
                 """)!
     }
 }
+
+extension OnGoingProjectInvites.Info.Model.UpcomingUsers: Stubbable {
+    static var stub: OnGoingProjectInvites.Info.Model.UpcomingUsers {
+        return OnGoingProjectInvites
+            .Info
+            .Model
+            .UpcomingUsers(users: [OnGoingProjectInvites.Info.Model.User(userId: "idUser1",
+                                                                         image: "image",
+                                                                         name: "Usuário Teste 1",
+                                                                         ocupation: "Artista",
+                                                                         email: "user_test1@hotmail.com",
+                                                                         relation: .simpleParticipant),
+                                   OnGoingProjectInvites.Info.Model.User(userId: "idUser2",
+                                                                         image: "image",
+                                                                         name: "Usuário Teste 2",
+                                                                         ocupation: "Artista",
+                                                                         email: "user_test2@hotmail.com",
+                                                                         relation: .sentRequest),
+                                   OnGoingProjectInvites.Info.Model.User(userId: "idUser3",
+                                                                         image: "image",
+                                                                         name: "Usuário Teste 3",
+                                                                         ocupation: "Artista",
+                                                                         email: "user_test3@hotmail.com",
+                                                                         relation: .nothing),
+                                   OnGoingProjectInvites.Info.Model.User(userId: "idUser4",
+                                                                         image: "image",
+                                                                         name: "Usuário Teste 4",
+                                                                         ocupation: "Artista",
+                                                                         email: "user_test4@hotmail.com",
+                                                                         relation: .receivedRequest)])
+    }
+}

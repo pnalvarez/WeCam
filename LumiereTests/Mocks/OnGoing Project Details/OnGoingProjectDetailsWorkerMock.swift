@@ -100,7 +100,7 @@ final class OnGoingProjectDetailsWorkerMock: OnGoingProjectDetailsWorkerProtocol
     }
     
     func fetchExitProject(_ request: OnGoingProjectDetails.Request.ExitProject,
-                          completion: @escaping (EmptyResponse) -> Void) {
+                           completion: @escaping (EmptyResponse) -> Void) {
         guard request.projectId != "ERROR" else {
             completion(.error(FirebaseErrors.genericError))
             return
