@@ -71,11 +71,11 @@ struct OnGoingProjectInvites {
                 case nothing
             }
             
-            struct UpcomingUsers {
+            struct UpcomingUsers: Equatable {
                 var users: [User]
             }
             
-            struct User {
+            struct User: Equatable {
                 let userId: String
                 let image: String
                 let name: String
@@ -84,18 +84,18 @@ struct OnGoingProjectInvites {
                 var relation: Relation?
             }
             
-            struct Project {
+            struct Project: Equatable {
                 let projectId: String
                 let title: String
                 let image: String
                 let authorId: String
             }
             
-            struct Alert {
+            struct Alert: Equatable {
                 let text: String
             }
             
-            struct RelationUpdate {
+            struct RelationUpdate: Equatable {
                 let index: Int
                 let relation: Relation
             }
@@ -289,7 +289,7 @@ extension OnGoingProjectInvites.Info.Response.UserRelation: Stubbable {
     static var stub: OnGoingProjectInvites.Info.Response.UserRelation {
         return OnGoingProjectInvites.Info.Response.UserRelation(JSONString: """
                         {
-                            "relation": "CONNECTED"
+                            "relation": "NOTHING"
                         }
                 """)!
     }

@@ -38,7 +38,7 @@ class OnGoingProjectInvitesInteractor: OnGoingProjectInvitesDataStore {
     var filteredUsers: OnGoingProjectInvites.Info.Model.UpcomingUsers?
     
     init(worker: OnGoingProjectInvitesWorkerProtocol = OnGoingProjectInvitesWorker(),
-         presenter: OnGoingProjectInvitesPresenter) {
+         presenter: OnGoingProjectInvitesPresentationLogic) {
         self.worker = worker
         self.presenter = presenter
     }
