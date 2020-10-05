@@ -144,11 +144,11 @@ struct OnGoingProjectDetails {
         
         struct ViewModel {
             
-            struct Progress {
+            struct Progress: Equatable {
                 let percentage: Float
             }
             
-            struct Project {
+            struct Project: Equatable {
                 let image: String?
                 let cathegories: NSAttributedString
                 let title: String
@@ -158,18 +158,18 @@ struct OnGoingProjectDetails {
                 let needing: String
             }
             
-            struct TeamMember {
+            struct TeamMember: Equatable {
                 let id: String
                 let image: String?
                 let name: String
                 let ocupation: String
             }
             
-            struct RelationModel {
+            struct RelationModel: Equatable {
                 let relation: Model.ProjectRelation
             }
             
-            struct Feedback {
+            struct Feedback: Equatable {
                 let title: String
                 let message: String
             }
@@ -397,5 +397,25 @@ extension OnGoingProjectDetails.Info.Response.ProjectImage: Stubbable {
                             "image": "image"
                         }
                 """)!
+    }
+}
+
+extension OnGoingProjectDetails.Info.Model.Project: Stubbable {
+    static var stub: OnGoingProjectDetails.Info.Model.Project {
+        return OnGoingProjectDetails.Info.Model.Project(id: "idProj",
+                                                        firstCathegory: "Ação",
+                                                        secondCathegory: "Aventura",
+                                                        image: "image",
+                                                        progress: 50,
+                                                        title: "Projeto Teste 1",
+                                                        sinopsis: "Sinopse do Projeto Teste 1",
+                                                        teamMembers: .empty,
+                                                        needing: "Artistas")
+    }
+}
+
+extension OnGoingProjectDetails.Info.Model.RelationModel: Stubbable {
+    static var stub: OnGoingProjectDetails.Info.Model.RelationModel {
+        return OnGoingProjectDetails.Info.Model.RelationModel(relation: .simpleParticipating)
     }
 }

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3F0129C4252A510800FF4985 /* OnGoingProjectDetailsInteractor+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0129C3252A510800FF4985 /* OnGoingProjectDetailsInteractor+Tests.swift */; };
 		3F0129CD252A524100FF4985 /* OnGoingProjectDetailsWorkerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0129CC252A524100FF4985 /* OnGoingProjectDetailsWorkerMock.swift */; };
+		3F0129D5252A809100FF4985 /* OnGoingProjectDetailsPresenter+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0129D4252A809100FF4985 /* OnGoingProjectDetailsPresenter+Tests.swift */; };
 		3F037F20251EF0DC0060B928 /* NotificationsPresenter+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F037F1F251EF0DC0060B928 /* NotificationsPresenter+Tests.swift */; };
 		3F037F2625202A640060B928 /* SelectProjectImageInteractor+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F037F2525202A640060B928 /* SelectProjectImageInteractor+Tests.swift */; };
 		3F037F2E25202DB20060B928 /* SelectProjectImagePresenter+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F037F2D25202DB20060B928 /* SelectProjectImagePresenter+Tests.swift */; };
@@ -282,6 +283,7 @@
 /* Begin PBXFileReference section */
 		3F0129C3252A510800FF4985 /* OnGoingProjectDetailsInteractor+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OnGoingProjectDetailsInteractor+Tests.swift"; sourceTree = "<group>"; };
 		3F0129CC252A524100FF4985 /* OnGoingProjectDetailsWorkerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnGoingProjectDetailsWorkerMock.swift; sourceTree = "<group>"; };
+		3F0129D4252A809100FF4985 /* OnGoingProjectDetailsPresenter+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OnGoingProjectDetailsPresenter+Tests.swift"; sourceTree = "<group>"; };
 		3F037F1F251EF0DC0060B928 /* NotificationsPresenter+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationsPresenter+Tests.swift"; sourceTree = "<group>"; };
 		3F037F2525202A640060B928 /* SelectProjectImageInteractor+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SelectProjectImageInteractor+Tests.swift"; sourceTree = "<group>"; };
 		3F037F2D25202DB20060B928 /* SelectProjectImagePresenter+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SelectProjectImagePresenter+Tests.swift"; sourceTree = "<group>"; };
@@ -579,6 +581,7 @@
 			isa = PBXGroup;
 			children = (
 				3F0129C3252A510800FF4985 /* OnGoingProjectDetailsInteractor+Tests.swift */,
+				3F0129D4252A809100FF4985 /* OnGoingProjectDetailsPresenter+Tests.swift */,
 			);
 			path = "OnGoing Project Details";
 			sourceTree = "<group>";
@@ -1930,6 +1933,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3F037F20251EF0DC0060B928 /* NotificationsPresenter+Tests.swift in Sources */,
+				3F0129D5252A809100FF4985 /* OnGoingProjectDetailsPresenter+Tests.swift in Sources */,
 				3F037F3425202F830060B928 /* SelectProjectCathegoryInteractor+Tests.swift in Sources */,
 				3F037F2E25202DB20060B928 /* SelectProjectImagePresenter+Tests.swift in Sources */,
 				3F037F732522BD650060B928 /* InviteListWorkerMock.swift in Sources */,

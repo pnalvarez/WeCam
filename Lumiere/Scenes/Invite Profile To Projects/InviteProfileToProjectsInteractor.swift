@@ -64,6 +64,7 @@ extension InviteProfileToProjectsInteractor {
                 }
             case .error(let error):
                 self.presenter.presentLoading(false)
+                self.presenter.presenterError(error)
             }
         }
     }
