@@ -139,6 +139,14 @@ extension SearchResultsController: UITableViewDataSource {
 
 extension SearchResultsController: UITableViewDelegate {
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let usersCount = viewModel?.users.count ?? 0
+        if indexPath.row >= usersCount {
+            interactor?.fetchSelectProject(SearchResults.Request.SelectProject(index: indexPath.row - usersCount))
+        } else {
+            interactor?.fetchSelectProfile(SearchResults.Request.SelectProfile(index: indexPath.row))
+        }
+    }
 }
 
 extension SearchResultsController {

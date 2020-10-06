@@ -72,6 +72,15 @@ struct SearchResults {
             enum SelectedItem: Equatable {
                 case profile(Profile)
                 case project(Project)
+                
+                func getRawValue() -> Any {
+                    switch self {
+                    case .profile(let profile):
+                        return profile
+                    case .project(let project):
+                        return project
+                    }
+                }
             }
             
             struct Results: Equatable {

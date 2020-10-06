@@ -13,6 +13,7 @@ class ProfileResultTableViewCell: UITableViewCell {
     private lazy var photoImageView: UIImageView = {
         let view = UIImageView(frame: .zero)
         view.layer.cornerRadius = 28
+        view.clipsToBounds = true
         view.contentMode = .scaleToFill
         return view
     }()
@@ -65,7 +66,7 @@ extension ProfileResultTableViewCell: ViewCodeProtocol {
             make.left.equalToSuperview().inset(28)
         }
         nameLbl.snp.makeConstraints { make in
-            make.left.equalTo(photoImageView.snp.right)
+            make.left.equalTo(photoImageView.snp.right).offset(12)
             make.width.equalTo(177)
             make.top.equalTo(photoImageView)
         }
@@ -83,5 +84,8 @@ extension ProfileResultTableViewCell: ViewCodeProtocol {
     
     func configureViews() {
         backgroundColor = SearchResults.Constants.Colors.background
+        photoImageView.sd_setImage(with: URL(string: viewModel?.image ?? .empty), completed: nil)
+        nameLbl.text = viewModel?.name
+        ocupationLbl.text = viewModel?.ocupation
     }
 }

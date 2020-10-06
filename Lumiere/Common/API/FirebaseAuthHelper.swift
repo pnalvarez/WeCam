@@ -2548,11 +2548,11 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                                 completion(.error(FirebaseErrors.genericError))
                                 return
                             }
+                            user["id"] = userIds[i]
                             if name.hasPrefix(preffix),
                                userIds[i] != currentUser {
                                 usersResponse.append(user)
                             }
-                            user["id"] = userIds[i]
                             if i == userIds.count-1 {
                                 let mappedResponse = Mapper<T>().mapArray(JSONArray: usersResponse)
                                 completion(.success(mappedResponse))
