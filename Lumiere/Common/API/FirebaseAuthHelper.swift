@@ -2548,7 +2548,7 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                                 completion(.error(FirebaseErrors.genericError))
                                 return
                             }
-                            if name.contains(preffix),
+                            if name.hasPrefix(preffix),
                                userIds[i] != currentUser {
                                 usersResponse.append(user)
                             }
@@ -2590,7 +2590,7 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                                 completion(.error(FirebaseErrors.genericError))
                                 return
                             }
-                            if title.contains(preffix) {
+                            if title.hasPrefix(preffix) {
                                 projectsResponse.append(project)
                             }
                             project["id"] = projectIds[i]

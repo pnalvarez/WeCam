@@ -21,7 +21,7 @@ struct SearchResults {
             static let ocupationLbl = UIColor(rgb: 0x000000)
             static let searchTextFieldText = UIColor(rgb: 0x000000)
             static let searchTextFieldLayer = UIColor(rgb: 0xe3e0e0).cgColor
-            static let dividerView = UIColor(rgb: 0xc4c4c4)
+            static let dividerView = UIColor.white
             static let titleLbl = UIColor(rgb: 0x000000)
             static let cathegoriesLbl = UIColor(rgb: 0x000000)
             static let progressLbl = ThemeColors.mainRedColor.rawValue
@@ -45,12 +45,15 @@ struct SearchResults {
             static let headerImageView = UIImage(named: "tipografia-projeto 2",
                                                  in: SearchResults.bundle,
                                                  compatibleWith: nil)
+            static let search = UIImage(named: "lupa",
+                                        in: SearchResults.bundle,
+                                        compatibleWith: nil)
         }
         
         struct Dimensions {
             
             struct Heights {
-                static let defaultCellHeight: CGFloat = 63
+                static let defaultCellHeight: CGFloat = 70
             }
         }
     }
@@ -148,8 +151,7 @@ struct SearchResults {
                 var id: String?
                 var title: String?
                 var progress: Int?
-                var firstCathegory: String?
-                var secondCathegory: String?
+                var cathegories: [String]?
                 var image: String?
                 
                 init?(map: Map) { }
@@ -158,8 +160,7 @@ struct SearchResults {
                     id <- map["id"]
                     title <- map["title"]
                     progress <- map["progress"]
-                    firstCathegory <- map["firstCathegory"]
-                    secondCathegory <- map["secondCathegory"]
+                    cathegories <- map["cathegories"]
                     image <- map["image"]
                 }
             }

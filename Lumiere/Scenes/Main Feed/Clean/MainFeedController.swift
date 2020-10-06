@@ -9,7 +9,7 @@
 import UIKit
 
 protocol MainFeedDisplayLogic: class {
-    
+    func displaySearchResults()
 }
 
 class MainFeedController: BaseViewController {
@@ -55,7 +55,7 @@ class MainFeedController: BaseViewController {
         let presenter = MainFeedPresenter(viewController: viewController)
         let interactor = MainFeedInteractor(presenter: presenter)
         let router = MainFeedRouter()
-        let factory = MainFeedTableViewFactory(tableView: tableView)
+        let factory = MainFeedTableViewFactory(tableView: tableView, searchDelegate: self)
         viewController.interactor = interactor
         viewController.router = router
         viewController.factory = factory
@@ -71,6 +71,13 @@ extension MainFeedController {
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
+    }
+}
+
+extension MainFeedController: SearchHeaderTableViewCellDelegate {
+    
+    func didTapSearch(withText text: String) {
+        interactor?.fetchSearch(MainFeed.Request.Search(key: text))
     }
 }
 
@@ -113,4 +120,7 @@ extension MainFeedController: UITableViewDelegate {
 
 extension MainFeedController: MainFeedDisplayLogic {
     
+    func displaySearchResults() {
+        router?.routeToSearchResults()
+    }
 }

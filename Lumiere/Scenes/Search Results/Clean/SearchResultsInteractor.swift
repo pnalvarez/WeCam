@@ -14,7 +14,7 @@ protocol SearchResultsBusinessLogic {
 }
 
 protocol SearchResultsDataStore {
-    var searchKey: SearchResults.Info.Received.SearchKey? { get }
+    var searchKey: SearchResults.Info.Received.SearchKey? { get set }
     var results: SearchResults.Info.Model.Results? { get set }
     var selectedItem: SearchResults.Info.Model.SelectedItem? { get set }
 }
@@ -43,11 +43,15 @@ extension SearchResultsInteractor {
             case .success(let data):
                 self.presenter.presentLoading(false)
                 self.results?.projects = data.map({
-                    SearchResults.Info.Model.Project(id: $0.id ?? .empty,
+                    var secondCathegory: String?
+                    if $0.cathegories?.count ?? 0 > 1 {
+                        secondCathegory = $0.cathegories?[1]
+                    }
+                    return SearchResults.Info.Model.Project(id: $0.id ?? .empty,
                                                      title: $0.title ?? .empty,
                                                      progress: $0.progress ?? 0,
-                                                     firstCathegory: $0.firstCathegory ?? .empty,
-                                                     secondCathegory: $0.secondCathegory,
+                                                     firstCathegory: $0.cathegories?[0] ?? .empty,
+                                                     secondCathegory: secondCathegory,
                                                      image: $0.image ?? .empty)
                 })
                 guard let results = self.results else { return }

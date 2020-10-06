@@ -39,6 +39,9 @@ struct MainFeed {
             static let tabBarSelectedImage = UIImage(named: "home-depois-de-clicar 1",
                                                      in: MainFeed.bundle,
                                                      compatibleWith: nil)
+            static let search = UIImage(named: "lupa",
+                                        in: MainFeed.bundle,
+                                        compatibleWith: nil)
         }
         
         struct Dimensions {
@@ -60,6 +63,9 @@ struct MainFeed {
         
         struct Model {
             
+            struct SearchKey {
+                let key: String
+            }
         }
         
         struct ViewModel {
@@ -73,5 +79,8 @@ struct MainFeed {
     
     struct Request {
         
+        struct Search {
+            let key: String
+        }
     }
 }

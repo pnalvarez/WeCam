@@ -10,6 +10,12 @@ import UIKit
 
 class SearchHeaderTableViewCellBuilder: TableViewCellBuilderProtocol {
     
+    private weak var delegate: SearchHeaderTableViewCellDelegate?
+    
+    init(delegate: SearchHeaderTableViewCellDelegate? = nil) {
+        self.delegate = delegate
+    }
+    
     func registerCell(in tableView: UITableView) {
         tableView.registerCell(cellType: SearchHeaderTableViewCell.self)
     }
@@ -21,7 +27,7 @@ class SearchHeaderTableViewCellBuilder: TableViewCellBuilderProtocol {
     func cellAt(indexPath: IndexPath, tableView: UITableView) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(indexPath: indexPath,
                                                  type: SearchHeaderTableViewCell.self)
-        cell.setup()
+        cell.setup(delegate: delegate)
         return cell
     }
 }

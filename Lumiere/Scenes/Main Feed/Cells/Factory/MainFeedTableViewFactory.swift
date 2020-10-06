@@ -11,9 +11,12 @@ import UIKit
 class MainFeedTableViewFactory: TableViewFactory {
     
     private let tableView: UITableView
+    private weak var searchDelegate: SearchHeaderTableViewCellDelegate?
     
-    init(tableView: UITableView) {
+    init(tableView: UITableView,
+         searchDelegate: SearchHeaderTableViewCellDelegate? = nil) {
         self.tableView = tableView
+        self.searchDelegate = searchDelegate
     }
     
     func buildSections() -> [TableViewSectionProtocol] {
@@ -21,7 +24,7 @@ class MainFeedTableViewFactory: TableViewFactory {
     }
     
     private var headerSection: TableViewSectionProtocol {
-        return BaseSection(builders: [SearchHeaderTableViewCellBuilder()],
+        return BaseSection(builders: [SearchHeaderTableViewCellBuilder(delegate: searchDelegate)],
                            tableView: tableView)
     }
 }

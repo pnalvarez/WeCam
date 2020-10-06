@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol SearchHeaderTableViewCellDelegate: class {
+    func didTapSearch(withText text: String)
+}
+
 class SearchHeaderTableViewCell: UITableViewCell {
     
     private lazy var lumiereHeader: UIImageView = {
@@ -34,8 +38,26 @@ class SearchHeaderTableViewCell: UITableViewCell {
         return view
     }()
     
-    func setup() {
+    private lazy var searchButton: UIButton = {
+        let view = UIButton(frame: .zero)
+        view.addTarget(self, action: #selector(didTapSearch), for: .touchUpInside)
+        view.setImage(MainFeed.Constants.Images.search, for: .normal)
+        return view
+    }()
+    
+    private weak var delegate: SearchHeaderTableViewCellDelegate?
+    
+    func setup(delegate: SearchHeaderTableViewCellDelegate? = nil) {
+        self.delegate = delegate
         applyViewCode()
+    }
+}
+
+extension SearchHeaderTableViewCell {
+    
+    @objc
+    private func didTapSearch() {
+        delegate?.didTapSearch(withText: searchTextField.text ?? .empty)
     }
 }
 
@@ -44,6 +66,7 @@ extension SearchHeaderTableViewCell: ViewCodeProtocol {
     func buildViewHierarchy() {
         addSubview(lumiereHeader)
         searchTextField.addSubview(dividerView)
+        searchTextField.addSubview(searchButton)
         addSubview(searchTextField)
     }
     
@@ -65,9 +88,15 @@ extension SearchHeaderTableViewCell: ViewCodeProtocol {
             make.right.equalToSuperview().inset(20)
             make.width.equalTo(1)
         }
+        searchButton.snp.makeConstraints { make in
+            make.right.equalToSuperview().inset(2)
+            make.width.height.equalTo(15)
+            make.centerY.equalToSuperview()
+        }
     }
     
     func configureViews() {
         backgroundColor = .white
+        selectionStyle = .none
     }
 }

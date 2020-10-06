@@ -36,7 +36,7 @@ extension SearchResultsRouter: BaseRouterProtocol {
 extension SearchResultsRouter: SearchResultsRoutingLogic {
     
     func routeBack() {
-        
+        viewController?.navigationController?.popViewController(animated: true)
     }
     
     func routeToProjectDetails() {

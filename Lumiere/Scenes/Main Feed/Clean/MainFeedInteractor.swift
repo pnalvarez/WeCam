@@ -7,11 +7,12 @@
 //
 
 protocol MainFeedBusinessLogic {
-    
+    func fetchSearch(_ request: MainFeed.Request.Search)
 }
 
 protocol MainFeedDataStore {
     var currentUserId: MainFeed.Info.Received.CurrentUser? { get set }
+    var searchKey: MainFeed.Info.Model.SearchKey? { get set }
 }
 
 class MainFeedInteractor: MainFeedDataStore {
@@ -20,6 +21,7 @@ class MainFeedInteractor: MainFeedDataStore {
     private let presenter: MainFeedPresentationLogic
     
     var currentUserId: MainFeed.Info.Received.CurrentUser?
+    var searchKey: MainFeed.Info.Model.SearchKey?
     
     init(worker: MainFeedWorkerProtocol = MainFeedWorker(),
          presenter: MainFeedPresentationLogic) {
@@ -30,4 +32,8 @@ class MainFeedInteractor: MainFeedDataStore {
 
 extension MainFeedInteractor: MainFeedBusinessLogic {
     
+    func fetchSearch(_ request: MainFeed.Request.Search) {
+        searchKey = MainFeed.Info.Model.SearchKey(key: request.key)
+        presenter.presentSearchResults()
+    }
 }

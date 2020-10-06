@@ -85,7 +85,7 @@ extension SearchResultsView: ViewCodeProtocol {
             make.width.equalTo(1)
         }
         searchButton.snp.makeConstraints { make in
-            make.right.equalToSuperview()
+            make.right.equalToSuperview().inset(2)
             make.centerY.equalToSuperview()
             make.width.height.equalTo(15)
         }

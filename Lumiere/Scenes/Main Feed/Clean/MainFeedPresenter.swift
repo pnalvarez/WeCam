@@ -9,7 +9,7 @@
 import UIKit
 
 protocol MainFeedPresentationLogic {
-    
+    func presentSearchResults()
 }
 
 class MainFeedPresenter: MainFeedPresentationLogic {
@@ -18,5 +18,9 @@ class MainFeedPresenter: MainFeedPresentationLogic {
     
     init(viewController: MainFeedDisplayLogic) {
         self.viewController = viewController
+    }
+    
+    func presentSearchResults() {
+        viewController.displaySearchResults()
     }
 }

@@ -23,7 +23,6 @@ class SearchResultsController: BaseViewController {
         view.backgroundColor = .white
         view.color = .black
         view.startAnimating()
-        view.isHidden = true
         return view
     }()
     
@@ -46,6 +45,7 @@ class SearchResultsController: BaseViewController {
     private lazy var searchButton: UIButton = {
         let view = UIButton(frame: .zero)
         view.addTarget(self, action: #selector(didTapSearch), for: .touchUpInside)
+        view.setImage(SearchResults.Constants.Images.search, for: .normal)
         return view
     }()
     
@@ -94,6 +94,10 @@ class SearchResultsController: BaseViewController {
         super.viewDidLoad()
         factory = SearchResultsFactory(tableView: tableView)
         refreshList()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         interactor?.fetchBeginSearch(SearchResults.Request.Search())
     }
     
@@ -125,11 +129,11 @@ extension SearchResultsController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return sections?[indexPath.row].cellAt(indexPath: indexPath, tableView: tableView) ?? UITableViewCell()
+        return sections?[indexPath.section].cellAt(indexPath: indexPath, tableView: tableView) ?? UITableViewCell()
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return sections?[indexPath.row].cellHeightFor(indexPath: indexPath) ?? 0
+        return sections?[indexPath.section].cellHeightFor(indexPath: indexPath) ?? 0
     }
 }
 
@@ -140,6 +144,8 @@ extension SearchResultsController: UITableViewDelegate {
 extension SearchResultsController {
     
     private func refreshList() {
+        guard let results = viewModel else { return }
+        factory = SearchResultsFactory(viewModel: results, tableView: tableView)
         sections = factory?.buildSections()
         DispatchQueue.main.async {
             self.tableView.reloadData()
