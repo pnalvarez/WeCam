@@ -13,6 +13,7 @@
 		3F0129DB252AB48C00FF4985 /* OnGoingProjectInvitesWorkerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0129DA252AB48C00FF4985 /* OnGoingProjectInvitesWorkerMock.swift */; };
 		3F0129E4252AB77500FF4985 /* OnGoingProjectInvitesInteractor+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0129E3252AB77500FF4985 /* OnGoingProjectInvitesInteractor+Tests.swift */; };
 		3F0129EC252B7A9000FF4985 /* OnGoingProjectInvitesPresenter+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0129EB252B7A9000FF4985 /* OnGoingProjectInvitesPresenter+Tests.swift */; };
+		3F0129F1252D290A00FF4985 /* RecentSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0129F0252D290A00FF4985 /* RecentSearchTableViewCell.swift */; };
 		3F037F20251EF0DC0060B928 /* NotificationsPresenter+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F037F1F251EF0DC0060B928 /* NotificationsPresenter+Tests.swift */; };
 		3F037F2625202A640060B928 /* SelectProjectImageInteractor+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F037F2525202A640060B928 /* SelectProjectImageInteractor+Tests.swift */; };
 		3F037F2E25202DB20060B928 /* SelectProjectImagePresenter+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F037F2D25202DB20060B928 /* SelectProjectImagePresenter+Tests.swift */; };
@@ -290,6 +291,7 @@
 		3F0129DA252AB48C00FF4985 /* OnGoingProjectInvitesWorkerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnGoingProjectInvitesWorkerMock.swift; sourceTree = "<group>"; };
 		3F0129E3252AB77500FF4985 /* OnGoingProjectInvitesInteractor+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OnGoingProjectInvitesInteractor+Tests.swift"; sourceTree = "<group>"; };
 		3F0129EB252B7A9000FF4985 /* OnGoingProjectInvitesPresenter+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OnGoingProjectInvitesPresenter+Tests.swift"; sourceTree = "<group>"; };
+		3F0129F0252D290A00FF4985 /* RecentSearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchTableViewCell.swift; sourceTree = "<group>"; };
 		3F037F1F251EF0DC0060B928 /* NotificationsPresenter+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationsPresenter+Tests.swift"; sourceTree = "<group>"; };
 		3F037F2525202A640060B928 /* SelectProjectImageInteractor+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SelectProjectImageInteractor+Tests.swift"; sourceTree = "<group>"; };
 		3F037F2D25202DB20060B928 /* SelectProjectImagePresenter+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SelectProjectImagePresenter+Tests.swift"; sourceTree = "<group>"; };
@@ -1445,6 +1447,7 @@
 			isa = PBXGroup;
 			children = (
 				3FAD1A4B2516BAFB00ED4074 /* SearchHeaderTableViewCell.swift */,
+				3F0129F0252D290A00FF4985 /* RecentSearchTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1917,6 +1920,7 @@
 				3FAD1A382516B86E00ED4074 /* MainFeedWorker.swift in Sources */,
 				3F1158AF24C3F0EC00075C73 /* TeamMemberViewModel.swift in Sources */,
 				3F95785724AD75E700B79818 /* LaunchScreenView.swift in Sources */,
+				3F0129F1252D290A00FF4985 /* RecentSearchTableViewCell.swift in Sources */,
 				3FAD1A182516B5BE00ED4074 /* BaseSection.swift in Sources */,
 				3F6EEA3124E0A3720075C500 /* ConnectionsListView.swift in Sources */,
 				3F43311E24E8E8B90082825E /* ConfirmationAlertView.swift in Sources */,

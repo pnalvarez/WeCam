@@ -19,10 +19,12 @@ struct MainFeed {
             static let searchTextFieldText = UIColor(rgb: 0x000000)
             static let searchTextFieldLayer = UIColor(rgb: 0xe3e0e0).cgColor
             static let dividerView = UIColor(rgb: 0xc4c4c4)
+            static let recentSearchTitle = UIColor(rgb: 0x000000)
         }
         
         struct Fonts {
             static let searchTextField = ThemeFonts.RobotoRegular(14).rawValue
+            static let recentSearchTitle = ThemeFonts.RobotoBold(16).rawValue
         }
         
         struct Texts {
@@ -63,13 +65,29 @@ struct MainFeed {
         
         struct Model {
             
+            enum ItemType {
+                case profile
+                case project
+            }
+            
             struct SearchKey {
                 let key: String
+            }
+            
+            struct RecentSearch {
+                let id: String
+                let image: String
+                let title: String
+                let type: ItemType
             }
         }
         
         struct ViewModel {
             
+            struct RecentSearch: Equatable {
+                let image: String
+                let title: String
+            }
         }
         
         struct Response {
