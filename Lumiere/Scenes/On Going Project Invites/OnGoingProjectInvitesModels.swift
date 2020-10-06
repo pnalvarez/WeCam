@@ -103,11 +103,11 @@ struct OnGoingProjectInvites {
         
         struct ViewModel {
             
-            struct UpcomingUsers {
+            struct UpcomingUsers: Equatable {
                 let users: [User]
             }
             
-            struct User {
+            struct User: Equatable {
                 let image: String
                 let name: String
                 let ocupation: String
@@ -115,20 +115,20 @@ struct OnGoingProjectInvites {
                 let relation: UIImage?
             }
             
-            struct Project {
+            struct Project: Equatable {
                 let title: String
             }
             
-            struct Alert {
+            struct Alert: Equatable {
                 let text: String
             }
             
-            struct ErrorViewModel {
+            struct ErrorViewModel: Equatable {
                 let title: String
                 let message: String
             }
             
-            struct RelationUpdate {
+            struct RelationUpdate: Equatable {
                 let index: Int
                 let relation: UIImage?
             }
@@ -336,5 +336,11 @@ extension OnGoingProjectInvites.Info.Model.UpcomingUsers: Stubbable {
                                                                          ocupation: "Artista",
                                                                          email: "user_test4@hotmail.com",
                                                                          relation: .receivedRequest)])
+    }
+}
+
+extension OnGoingProjectInvites.Info.Model.Project: Stubbable {
+    static var stub: OnGoingProjectInvites.Info.Model.Project {
+        return OnGoingProjectInvites.Info.Model.Project(projectId: "idProj1", title: "Projeto Teste 1", image: "image", authorId: "idUser1")
     }
 }
