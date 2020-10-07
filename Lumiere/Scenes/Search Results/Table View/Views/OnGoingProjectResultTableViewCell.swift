@@ -95,7 +95,7 @@ extension OnGoingProjectResultTableViewCell: ViewCodeProtocol {
     }
     
     func configureViews() {
-        backgroundColor = SearchResults.Constants.Colors.background
+        backgroundColor = SearchResults.Constants.Colors.resultBackground
         selectionStyle = .none
         photoImageView.sd_setImage(with: URL(string: viewModel?.image ?? .empty), completed: nil)
         titleLbl.text = viewModel?.title

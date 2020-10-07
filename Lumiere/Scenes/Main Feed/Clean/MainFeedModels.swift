@@ -92,6 +92,18 @@ struct MainFeed {
         
         struct Response {
             
+            final class RecentSearch: Mappable {
+
+                var image: String?
+                var title: String?
+                
+                init?(map: Map) { }
+                
+                func mapping(map: Map) {
+                    image <- map["image"]
+                    title <- map["title"]
+                }
+            }
         }
     }
     
@@ -99,6 +111,14 @@ struct MainFeed {
         
         struct Search {
             let key: String
+        }
+        
+        struct RecentSearches {
+            
+        }
+        
+        struct FetchData {
+            let id: String
         }
     }
 }

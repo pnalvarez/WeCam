@@ -83,7 +83,7 @@ extension ProfileResultTableViewCell: ViewCodeProtocol {
     }
     
     func configureViews() {
-        backgroundColor = SearchResults.Constants.Colors.background
+        backgroundColor = SearchResults.Constants.Colors.resultBackground
         photoImageView.sd_setImage(with: URL(string: viewModel?.image ?? .empty), completed: nil)
         nameLbl.text = viewModel?.name
         ocupationLbl.text = viewModel?.ocupation

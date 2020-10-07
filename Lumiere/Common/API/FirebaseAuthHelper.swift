@@ -111,6 +111,8 @@ protocol FirebaseAuthHelperProtocol {
                                           completion: @escaping (BaseResponse<[T]>) -> Void)
     func fetchSearchProjects<T: Mappable>(request: [String : Any],
                                           completion: @escaping (BaseResponse<[T]>) -> Void)
+    func fetchDataFromId<T: Mappable>(request: [String : Any],
+                                      completion: @escaping (BaseResponse<T>) -> Void)
 }
 
 class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
@@ -2599,6 +2601,54 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                                 completion(.success(mappedResponse))
                             }
                         }
+                }
+        }
+    }
+    
+    func fetchDataFromId<T: Mappable>(request: [String : Any],
+                                      completion: @escaping (BaseResponse<T>) -> Void) {
+        guard let id = request["id"] as? String else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        realtimeDB
+            .child(Constants.usersPath)
+            .child(id)
+            .observeSingleEvent(of: .value) { snapshot in
+                if let user = snapshot.value as? [String : Any] {
+                    guard let title = user["name"] as? String,
+                          let image = user["profile_image_url"] as? String else {
+                        completion(.error(FirebaseErrors.genericError))
+                        return
+                    }
+                    let response: [String : Any] = ["image": image, "name": title]
+                    guard let mappedResponse = Mapper<T>().map(JSON: response) else {
+                        completion(.error(FirebaseErrors.parseError))
+                        return
+                    }
+                    completion(.success(mappedResponse))
+                } else {
+                    self.realtimeDB
+                        .child(Constants.projectsPath)
+                        .child(Constants.ongoingProjectsPath)
+                        .child(id)
+                        .observeSingleEvent(of: .value) { snpashot in
+                            guard let project = snapshot.value as? [String : Any] else {
+                                completion(.error(FirebaseErrors.genericError))
+                                return
+                            }
+                            guard let title = project["title"] as? String,
+                                let image = project["image"] as? String else {
+                                completion(.error(FirebaseErrors.genericError))
+                                return
+                            }
+                            let response: [String : Any] = ["image": image, "title": title]
+                            guard let mappedResponse = Mapper<T>().map(JSON: response) else {
+                                completion(.error(FirebaseErrors.parseError))
+                                return
+                            }
+                            completion(.success(mappedResponse))
+                    }
                 }
         }
     }

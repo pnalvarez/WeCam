@@ -14,6 +14,7 @@
 		3F0129E4252AB77500FF4985 /* OnGoingProjectInvitesInteractor+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0129E3252AB77500FF4985 /* OnGoingProjectInvitesInteractor+Tests.swift */; };
 		3F0129EC252B7A9000FF4985 /* OnGoingProjectInvitesPresenter+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0129EB252B7A9000FF4985 /* OnGoingProjectInvitesPresenter+Tests.swift */; };
 		3F0129F1252D290A00FF4985 /* RecentSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0129F0252D290A00FF4985 /* RecentSearchTableViewCell.swift */; };
+		3F0129F6252D2AF500FF4985 /* LocalSaveManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0129F5252D2AF500FF4985 /* LocalSaveManager.swift */; };
 		3F037F20251EF0DC0060B928 /* NotificationsPresenter+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F037F1F251EF0DC0060B928 /* NotificationsPresenter+Tests.swift */; };
 		3F037F2625202A640060B928 /* SelectProjectImageInteractor+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F037F2525202A640060B928 /* SelectProjectImageInteractor+Tests.swift */; };
 		3F037F2E25202DB20060B928 /* SelectProjectImagePresenter+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F037F2D25202DB20060B928 /* SelectProjectImagePresenter+Tests.swift */; };
@@ -292,6 +293,7 @@
 		3F0129E3252AB77500FF4985 /* OnGoingProjectInvitesInteractor+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OnGoingProjectInvitesInteractor+Tests.swift"; sourceTree = "<group>"; };
 		3F0129EB252B7A9000FF4985 /* OnGoingProjectInvitesPresenter+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OnGoingProjectInvitesPresenter+Tests.swift"; sourceTree = "<group>"; };
 		3F0129F0252D290A00FF4985 /* RecentSearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchTableViewCell.swift; sourceTree = "<group>"; };
+		3F0129F5252D2AF500FF4985 /* LocalSaveManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalSaveManager.swift; sourceTree = "<group>"; };
 		3F037F1F251EF0DC0060B928 /* NotificationsPresenter+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationsPresenter+Tests.swift"; sourceTree = "<group>"; };
 		3F037F2525202A640060B928 /* SelectProjectImageInteractor+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SelectProjectImageInteractor+Tests.swift"; sourceTree = "<group>"; };
 		3F037F2D25202DB20060B928 /* SelectProjectImagePresenter+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SelectProjectImagePresenter+Tests.swift"; sourceTree = "<group>"; };
@@ -1251,6 +1253,7 @@
 			children = (
 				3FE8DF5724C7BEE2005DE30D /* Constants.swift */,
 				3F6EEA7224E870AD0075C500 /* InfopListReader.swift */,
+				3F0129F5252D2AF500FF4985 /* LocalSaveManager.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -1917,6 +1920,7 @@
 				3F40A68B24EDF76300261161 /* SelectProjectCathegoryRouter.swift in Sources */,
 				3F95786E24AEA16000B79818 /* LaunchScreenModels.swift in Sources */,
 				3F40A6D224F486C300261161 /* InviteListController.swift in Sources */,
+				3F0129F6252D2AF500FF4985 /* LocalSaveManager.swift in Sources */,
 				3FAD1A382516B86E00ED4074 /* MainFeedWorker.swift in Sources */,
 				3F1158AF24C3F0EC00075C73 /* TeamMemberViewModel.swift in Sources */,
 				3F95785724AD75E700B79818 /* LaunchScreenView.swift in Sources */,

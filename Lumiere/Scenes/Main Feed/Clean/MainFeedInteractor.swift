@@ -8,6 +8,7 @@
 
 protocol MainFeedBusinessLogic {
     func fetchSearch(_ request: MainFeed.Request.Search)
+    func fetchRecentSearches(_ request: MainFeed.Request.RecentSearches)
 }
 
 protocol MainFeedDataStore {
@@ -30,10 +31,21 @@ class MainFeedInteractor: MainFeedDataStore {
     }
 }
 
+extension MainFeedInteractor {
+    
+    private func fetchData(_ request: MainFeed.Request.FetchData) {
+        
+    }
+}
+
 extension MainFeedInteractor: MainFeedBusinessLogic {
     
     func fetchSearch(_ request: MainFeed.Request.Search) {
         searchKey = MainFeed.Info.Model.SearchKey(key: request.key)
         presenter.presentSearchResults()
+    }
+    
+    func fetchRecentSearches(_ request: MainFeed.Request.RecentSearches) {
+        let searchIds = LocalSaveManager.instance.fetchRecentSearches()
     }
 }

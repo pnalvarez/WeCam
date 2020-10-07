@@ -26,6 +26,7 @@ struct SearchResults {
             static let cathegoriesLbl = UIColor(rgb: 0x000000)
             static let progressLbl = ThemeColors.mainRedColor.rawValue
             static let footerView = UIColor.white
+            static let resultBackground = UIColor(rgb: 0xededed).withAlphaComponent(0.4)
         }
         
         struct Fonts {
