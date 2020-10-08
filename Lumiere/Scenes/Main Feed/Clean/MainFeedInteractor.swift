@@ -9,6 +9,9 @@
 protocol MainFeedBusinessLogic {
     func fetchSearch(_ request: MainFeed.Request.Search)
     func fetchRecentSearches(_ request: MainFeed.Request.RecentSearches)
+    func fetchSuggestedProfiles(_ request: MainFeed.Request.FetchSuggestedProfiles)
+    func didSelectSuggestedProfile(_ request: MainFeed.Request.SelectSuggestedProfile)
+    func didTapSeeAllProfileSuggestions(_ request: MainFeed.Request.SeeAllProfileSuggestions)
 }
 
 protocol MainFeedDataStore {
@@ -47,5 +50,17 @@ extension MainFeedInteractor: MainFeedBusinessLogic {
     
     func fetchRecentSearches(_ request: MainFeed.Request.RecentSearches) {
         let searchIds = LocalSaveManager.instance.fetchRecentSearches()
+    }
+    
+    func fetchSuggestedProfiles(_ request: MainFeed.Request.FetchSuggestedProfiles) {
+        
+    }
+    
+    func didSelectSuggestedProfile(_ request: MainFeed.Request.SelectSuggestedProfile) {
+        
+    }
+    
+    func didTapSeeAllProfileSuggestions(_ request: MainFeed.Request.SeeAllProfileSuggestions) {
+        
     }
 }

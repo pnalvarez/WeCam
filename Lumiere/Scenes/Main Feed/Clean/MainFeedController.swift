@@ -10,6 +10,9 @@ import UIKit
 
 protocol MainFeedDisplayLogic: class {
     func displaySearchResults()
+    func displayProfileSuggestions(_ viewModel: MainFeed.Info.ViewModel.UpcomingProfiles)
+    func displayProfileDetails()
+    func displayAllProfileSuggestions()
 }
 
 class MainFeedController: BaseViewController {
@@ -22,9 +25,17 @@ class MainFeedController: BaseViewController {
     
     private var sections: [TableViewSectionProtocol]?
     
-    private var factory: TableViewFactory?
+    private var factory: MainFeedTableViewFactory?
     private var interactor: MainFeedBusinessLogic?
     var router: MainFeedRouterProtocol?
+    
+    private var profileSuggestionsViewModel: MainFeed.Info.ViewModel.UpcomingProfiles? {
+        didSet {
+            factory?.profileSuggestionsViewModel = profileSuggestionsViewModel
+            sections = factory?.buildSections()
+            refreshTableView()
+        }
+    }
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -55,7 +66,10 @@ class MainFeedController: BaseViewController {
         let presenter = MainFeedPresenter(viewController: viewController)
         let interactor = MainFeedInteractor(presenter: presenter)
         let router = MainFeedRouter()
-        let factory = MainFeedTableViewFactory(tableView: tableView, searchDelegate: self)
+        let factory = MainFeedTableViewFactory(tableView: tableView,
+                                               profileSuggestionsViewModel: profileSuggestionsViewModel,
+                                               searchDelegate: self,
+                                               profileSuggestionsDelegate: self)
         viewController.interactor = interactor
         viewController.router = router
         viewController.factory = factory
@@ -78,6 +92,17 @@ extension MainFeedController: SearchHeaderTableViewCellDelegate {
     
     func didTapSearch(withText text: String) {
         interactor?.fetchSearch(MainFeed.Request.Search(key: text))
+    }
+}
+
+extension MainFeedController: ProfileSuggestionsFeedTableViewCellDelegate {
+    
+    func didTapProfileSuggestion(index: Int) {
+        interactor?.didSelectSuggestedProfile(MainFeed.Request.SelectSuggestedProfile(index: index))
+    }
+    
+    func didTapSeeAll() {
+        interactor?.didTapSeeAllProfileSuggestions(MainFeed.Request.SeeAllProfileSuggestions())
     }
 }
 
@@ -111,16 +136,23 @@ extension MainFeedController: UITableViewDataSource {
     }
 }
 
-extension MainFeedController: UITableViewDelegate {
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-    }
-}
+extension MainFeedController: UITableViewDelegate { }
 
 extension MainFeedController: MainFeedDisplayLogic {
     
     func displaySearchResults() {
         router?.routeToSearchResults()
+    }
+    
+    func displayProfileSuggestions(_ viewModel: MainFeed.Info.ViewModel.UpcomingProfiles) {
+        self.profileSuggestionsViewModel = viewModel
+    }
+    
+    func displayProfileDetails() {
+        
+    }
+    
+    func displayAllProfileSuggestions() {
+        
     }
 }

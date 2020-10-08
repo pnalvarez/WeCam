@@ -18,6 +18,7 @@
 		3F012A01252E8B3100FF4985 /* RecentSearchTableViewCellBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F012A00252E8B3100FF4985 /* RecentSearchTableViewCellBuilder.swift */; };
 		3F012A06252E8C4100FF4985 /* ProfileSuggestionsFeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F012A05252E8C4100FF4985 /* ProfileSuggestionsFeedTableViewCell.swift */; };
 		3F012A12252E8EFB00FF4985 /* ProfileResumeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F012A11252E8EFB00FF4985 /* ProfileResumeButton.swift */; };
+		3F012A17252E9A8F00FF4985 /* ProfileSuggestionsFeedTableViewCellBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F012A16252E9A8F00FF4985 /* ProfileSuggestionsFeedTableViewCellBuilder.swift */; };
 		3F037F20251EF0DC0060B928 /* NotificationsPresenter+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F037F1F251EF0DC0060B928 /* NotificationsPresenter+Tests.swift */; };
 		3F037F2625202A640060B928 /* SelectProjectImageInteractor+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F037F2525202A640060B928 /* SelectProjectImageInteractor+Tests.swift */; };
 		3F037F2E25202DB20060B928 /* SelectProjectImagePresenter+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F037F2D25202DB20060B928 /* SelectProjectImagePresenter+Tests.swift */; };
@@ -300,6 +301,7 @@
 		3F012A00252E8B3100FF4985 /* RecentSearchTableViewCellBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchTableViewCellBuilder.swift; sourceTree = "<group>"; };
 		3F012A05252E8C4100FF4985 /* ProfileSuggestionsFeedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSuggestionsFeedTableViewCell.swift; sourceTree = "<group>"; };
 		3F012A11252E8EFB00FF4985 /* ProfileResumeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileResumeButton.swift; sourceTree = "<group>"; };
+		3F012A16252E9A8F00FF4985 /* ProfileSuggestionsFeedTableViewCellBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSuggestionsFeedTableViewCellBuilder.swift; sourceTree = "<group>"; };
 		3F037F1F251EF0DC0060B928 /* NotificationsPresenter+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationsPresenter+Tests.swift"; sourceTree = "<group>"; };
 		3F037F2525202A640060B928 /* SelectProjectImageInteractor+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SelectProjectImageInteractor+Tests.swift"; sourceTree = "<group>"; };
 		3F037F2D25202DB20060B928 /* SelectProjectImagePresenter+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SelectProjectImagePresenter+Tests.swift"; sourceTree = "<group>"; };
@@ -1458,6 +1460,7 @@
 			children = (
 				3F8AB7902516DB6100E949F6 /* SearchHeaderTableViewCellBuilder.swift */,
 				3F012A00252E8B3100FF4985 /* RecentSearchTableViewCellBuilder.swift */,
+				3F012A16252E9A8F00FF4985 /* ProfileSuggestionsFeedTableViewCellBuilder.swift */,
 			);
 			path = Builders;
 			sourceTree = "<group>";
@@ -1876,6 +1879,7 @@
 				3F8AB7912516DB6100E949F6 /* SearchHeaderTableViewCellBuilder.swift in Sources */,
 				3F8D138624D5361A00AED7EB /* ProfileDetailsView.swift in Sources */,
 				3F8D13A724D73F5E00AED7EB /* FetchUserDataRequest.swift in Sources */,
+				3F012A17252E9A8F00FF4985 /* ProfileSuggestionsFeedTableViewCellBuilder.swift in Sources */,
 				3F40A69024EF41ED00261161 /* ProjectProgressView.swift in Sources */,
 				3FE8DF5A24CBD271005DE30D /* UIView+.swift in Sources */,
 				3F95786124AD775D00B79818 /* LaunchScreenController.swift in Sources */,

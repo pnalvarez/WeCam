@@ -37,8 +37,8 @@ class ProfileResumeButton: UIButton {
     }()
     
     private let image: String
-    private let name: String
-    private let ocupation: String
+    private let name: String?
+    private let ocupation: String?
     
     init(frame: CGRect,
          image: String,
@@ -87,5 +87,9 @@ extension ProfileResumeButton: ViewCodeProtocol {
         layer.borderWidth = 1
         layer.borderColor = UIColor(rgb: 0xe5dfdf).cgColor
         clipsToBounds = true
+        
+        photoImageView.sd_setImage(with: URL(string: image), completed: nil)
+        nameLbl.text = name
+        ocupationLbl.text = ocupation
     }
 }

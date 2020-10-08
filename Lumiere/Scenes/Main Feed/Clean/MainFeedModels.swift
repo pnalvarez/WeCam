@@ -21,16 +21,19 @@ struct MainFeed {
             static let dividerView = UIColor(rgb: 0xc4c4c4)
             static let recentSearchTitle = UIColor(rgb: 0x000000)
             static let profileSuggestionsHeaderLbl = UIColor(rgb: 0x969494)
+            static let profileSuggestionsSeeAllButton = ThemeColors.mainRedColor.rawValue
         }
         
         struct Fonts {
             static let searchTextField = ThemeFonts.RobotoRegular(14).rawValue
             static let recentSearchTitle = ThemeFonts.RobotoBold(16).rawValue
-            static let profileSuggestionsHeaderLbl = ThemeFonts.RobotoRegular(16).rawValue
+            static let profileSuggestionsHeaderLbl = ThemeFonts.RobotoBold(16).rawValue
+            static let profileSuggestionsSeeAllButton = ThemeFonts.RobotoBold(16).rawValue
         }
         
         struct Texts {
-            static let profileSuggestionsHeaderLbl = "Sugestões de perfil"
+            static let profileSuggestionsHeaderLbl = "Sugestões de Perfil"
+            static let profileSuggestionsSeeAllButton = "Ver Tudo"
         }
         
         struct Images {
@@ -51,8 +54,9 @@ struct MainFeed {
         struct Dimensions {
             
             struct Heighs {
-                static let headerCell: CGFloat = 60
+                static let headerCell: CGFloat = 85
                 static let recentSearchCell: CGFloat = 34
+                static let profileSuggestionsCell: CGFloat = 147
             }
         }
     }
@@ -84,6 +88,10 @@ struct MainFeed {
                 let type: ItemType
             }
             
+            struct UpcomingProfiles: Equatable {
+                let suggestions: [ProfileSuggestion]
+            }
+            
             struct ProfileSuggestion: Equatable{
                 let userId: String
                 let image: String
@@ -97,6 +105,10 @@ struct MainFeed {
             struct RecentSearch: Equatable {
                 let image: String
                 let title: String
+            }
+            
+            struct UpcomingProfiles: Equatable {
+                let suggestions: [ProfileSuggestion]
             }
             
             struct ProfileSuggestion: Equatable {
@@ -152,6 +164,18 @@ struct MainFeed {
         
         struct FetchData {
             let id: String
+        }
+        
+        struct SelectSuggestedProfile {
+            let index: Int
+        }
+        
+        struct FetchSuggestedProfiles {
+            
+        }
+        
+        struct SeeAllProfileSuggestions {
+            
         }
     }
 }

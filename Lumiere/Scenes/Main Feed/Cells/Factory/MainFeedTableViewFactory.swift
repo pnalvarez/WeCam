@@ -11,12 +11,19 @@ import UIKit
 class MainFeedTableViewFactory: TableViewFactory {
     
     private let tableView: UITableView
+    var profileSuggestionsViewModel: MainFeed.Info.ViewModel.UpcomingProfiles?
+    
     private weak var searchDelegate: SearchHeaderTableViewCellDelegate?
+    private weak var profileSuggestionsDelegate: ProfileSuggestionsFeedTableViewCellDelegate?
     
     init(tableView: UITableView,
-         searchDelegate: SearchHeaderTableViewCellDelegate? = nil) {
+         profileSuggestionsViewModel: MainFeed.Info.ViewModel.UpcomingProfiles? = nil,
+         searchDelegate: SearchHeaderTableViewCellDelegate? = nil,
+         profileSuggestionsDelegate: ProfileSuggestionsFeedTableViewCellDelegate? = nil) {
         self.tableView = tableView
+        self.profileSuggestionsViewModel = profileSuggestionsViewModel
         self.searchDelegate = searchDelegate
+        self.profileSuggestionsDelegate = profileSuggestionsDelegate
     }
     
     func buildSections() -> [TableViewSectionProtocol] {
@@ -24,7 +31,8 @@ class MainFeedTableViewFactory: TableViewFactory {
     }
     
     private var headerSection: TableViewSectionProtocol {
-        return BaseSection(builders: [SearchHeaderTableViewCellBuilder(delegate: searchDelegate)],
+        return BaseSection(builders: [SearchHeaderTableViewCellBuilder(delegate: searchDelegate),
+                                      ProfileSuggestionsFeedTableViewCellBuilder(delegate: profileSuggestionsDelegate, viewModel: profileSuggestionsViewModel)],
                            tableView: tableView)
     }
 }
