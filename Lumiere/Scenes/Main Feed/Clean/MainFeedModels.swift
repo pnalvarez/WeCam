@@ -20,15 +20,17 @@ struct MainFeed {
             static let searchTextFieldLayer = UIColor(rgb: 0xe3e0e0).cgColor
             static let dividerView = UIColor(rgb: 0xc4c4c4)
             static let recentSearchTitle = UIColor(rgb: 0x000000)
+            static let profileSuggestionsHeaderLbl = UIColor(rgb: 0x969494)
         }
         
         struct Fonts {
             static let searchTextField = ThemeFonts.RobotoRegular(14).rawValue
             static let recentSearchTitle = ThemeFonts.RobotoBold(16).rawValue
+            static let profileSuggestionsHeaderLbl = ThemeFonts.RobotoRegular(16).rawValue
         }
         
         struct Texts {
-            
+            static let profileSuggestionsHeaderLbl = "Sugestões de perfil"
         }
         
         struct Images {
@@ -50,6 +52,7 @@ struct MainFeed {
             
             struct Heighs {
                 static let headerCell: CGFloat = 60
+                static let recentSearchCell: CGFloat = 34
             }
         }
     }
@@ -80,6 +83,13 @@ struct MainFeed {
                 let title: String
                 let type: ItemType
             }
+            
+            struct ProfileSuggestion: Equatable{
+                let userId: String
+                let image: String
+                let name: String
+                let ocupation: String
+            }
         }
         
         struct ViewModel {
@@ -87,6 +97,12 @@ struct MainFeed {
             struct RecentSearch: Equatable {
                 let image: String
                 let title: String
+            }
+            
+            struct ProfileSuggestion: Equatable {
+                let image: String
+                let name: String
+                let ocupation: String
             }
         }
         
@@ -102,6 +118,23 @@ struct MainFeed {
                 func mapping(map: Map) {
                     image <- map["image"]
                     title <- map["title"]
+                }
+            }
+            
+            final class ProfileSuggestion: Mappable {
+                
+                var userId: String?
+                var image: String?
+                var name: String?
+                var ocupation: String?
+                
+                init?(map: Map) { }
+                
+                func mapping(map: Map) {
+                    userId <- map["id"]
+                    image <- map["profile_image_url"]
+                    name <- map["ocupation"]
+                    ocupation <- map["professional_area"]
                 }
             }
         }

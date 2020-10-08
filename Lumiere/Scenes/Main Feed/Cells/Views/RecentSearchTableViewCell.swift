@@ -43,10 +43,22 @@ extension RecentSearchTableViewCell: ViewCodeProtocol {
     }
     
     func setupConstraints() {
-        
+        photoImageView.snp.makeConstraints { make in
+            make.left.equalToSuperview().inset(10)
+            make.height.width.equalTo(28)
+            make.centerY.equalToSuperview()
+        }
+        titleLbl.snp.makeConstraints { make in
+            make.left.equalTo(photoImageView.snp.right).offset(10)
+            make.width.equalTo(100)
+            make.centerY.equalTo(photoImageView)
+        }
     }
     
     func configureViews() {
-        
+        backgroundColor = .white
+        selectionStyle = .gray
+        photoImageView.sd_setImage(with: URL(string: viewModel?.image ?? .empty), completed: nil)
+        titleLbl.text = viewModel?.title
     }
 }
