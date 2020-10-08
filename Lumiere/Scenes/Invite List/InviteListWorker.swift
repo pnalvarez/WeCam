@@ -13,9 +13,9 @@ protocol InviteListWorkerProtocol {
 
 class InviteListWorker: InviteListWorkerProtocol {
     
-    private let builder: FirebaseAuthHelperProtocol
+    private let builder: FirebaseManagerProtocol
     
-    init(builder: FirebaseAuthHelperProtocol = FirebaseAuthHelper()) {
+    init(builder: FirebaseManagerProtocol = FirebaseManager()) {
         self.builder = builder
     }
     

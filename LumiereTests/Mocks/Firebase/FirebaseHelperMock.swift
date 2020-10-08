@@ -12,7 +12,7 @@ enum ErrorMock: Error {
     case generic
 }
 
-final class FirebaseHelperMock: FirebaseAuthHelperProtocol {
+final class FirebaseHelperMock: FirebaseManagerProtocol {
     func fetchSearchProfiles<T>(request: [String : Any], completion: @escaping (BaseResponse<[T]>) -> Void) where T : Mappable {
         
     }

@@ -11,7 +11,7 @@ import XCTest
 class SignInProvider_Tests: XCTestCase {
 
     var sut: SignInProvider!
-    var mock: FirebaseAuthHelperProtocol!
+    var mock: FirebaseManagerProtocol!
     
     var successFlag = false
     var failureFlag = false

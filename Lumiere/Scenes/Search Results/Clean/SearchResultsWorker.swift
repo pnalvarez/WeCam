@@ -15,9 +15,9 @@ protocol SearchResultsWorkerProtocol {
 
 class SearchResultsWorker: SearchResultsWorkerProtocol {
     
-    private let builder: FirebaseAuthHelperProtocol
+    private let builder: FirebaseManagerProtocol
     
-    init(builder: FirebaseAuthHelperProtocol = FirebaseAuthHelper()) {
+    init(builder: FirebaseManagerProtocol = FirebaseManager()) {
         self.builder = builder
     }
     

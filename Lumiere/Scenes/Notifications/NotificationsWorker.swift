@@ -34,9 +34,9 @@ protocol NotificationsWorkerProtocol {
 
 class NotificationsWorker: NotificationsWorkerProtocol {
     
-    private let builder: FirebaseAuthHelperProtocol
+    private let builder: FirebaseManagerProtocol
     
-    init(builder: FirebaseAuthHelperProtocol = FirebaseAuthHelper()) {
+    init(builder: FirebaseManagerProtocol = FirebaseManager()) {
         self.builder = builder
     }
     

@@ -11,7 +11,7 @@ import XCTest
 class SignUpProvider_Tests: XCTestCase {
     
     var sut: SignUpProvider!
-    private var mock: FirebaseAuthHelperProtocol! = FirebaseHelperMock()
+    private var mock: FirebaseManagerProtocol! = FirebaseHelperMock()
     
     override func setUp() {
         super.setUp()
