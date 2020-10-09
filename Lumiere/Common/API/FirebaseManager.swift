@@ -114,7 +114,7 @@ protocol FirebaseManagerProtocol {
     func fetchDataFromId<T: Mappable>(request: [String : Any],
                                       completion: @escaping (BaseResponse<T>) -> Void)
     func fetchProfileSuggestions<T: Mappable>(request: [String : Any],
-                                              completion: @escaping (BaseResponse<T> -> Void))
+                                              completion: @escaping (BaseResponse<[T]>) -> Void)
 }
 
 class FirebaseManager: FirebaseManagerProtocol {
@@ -122,6 +122,10 @@ class FirebaseManager: FirebaseManagerProtocol {
     private let realtimeDB = Database.database().reference()
     private let authReference = Auth.auth()
     private let storage = Storage.storage().reference()
+    
+    private let commonConnectionsScore: Int = 3
+    private let commonProjectsScore: Int = 4
+    private let commonCathegoriesScore: Int = 1
     
     private var mutex: Bool = true //Profile details mutex
     
@@ -2656,9 +2660,130 @@ class FirebaseManager: FirebaseManagerProtocol {
     }
     
     func fetchProfileSuggestions<T: Mappable>(request: [String : Any],
-                                              completion: @escaping ((BaseResponse<T>) -> Void)) {
-        //TO DO
-    }
+                                              completion: @escaping ((BaseResponse<[T]>) -> Void)) {
+        var userSuggestions = [String]()
+        var queriedUsers = [[String : Any]]()
+        var currentUserConnections = [String]()
+        var currentUserProjects = [String]()
+        var currentUserCathegories = [String]()
+        
+        guard let limit = request["limit"] as? Int else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        guard let currentUser = authReference.currentUser?.uid else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        realtimeDB
+            .child(Constants.usersPath)
+            .child(currentUser)
+            .child("interest_cathegories")
+            .observeSingleEvent(of: .value) { snapshot in
+                if let cathegories = snapshot.value as? [String] {
+                    currentUserCathegories = cathegories
+                }
+                self.realtimeDB
+                    .child(Constants.usersPath)
+                    .child(currentUser)
+                    .child("participating_projects")
+                    .observeSingleEvent(of: .value) { snapshot in
+                        if let projects = snapshot.value as? [String] {
+                            currentUserProjects = projects
+                        }
+                        self.realtimeDB
+                            .child(currentUser)
+                            .child("connections")
+                            .observeSingleEvent(of: .value) { snapshot in
+                                if let connections = snapshot.value as? [String] {
+                                    currentUserConnections = connections
+                                }
+                                self.realtimeDB
+                                    .child(Constants.allUsersCataloguePath)
+                                    .observeSingleEvent(of: .value) { snapshot in
+                                        guard let allUsers = snapshot.value as? [String] else {
+                                            completion(.error(FirebaseErrors.genericError))
+                                            return
+                                        }
+                                        let noRelationUsersDispatchGroup = DispatchGroup()
+                                        for user in allUsers {
+                                            noRelationUsersDispatchGroup.enter()
+                                            if user != currentUser {
+                                                self.checkConnected(request: FetchUserRelationRequest(fromUserId: currentUser, toUserId: user)) { response in
+                                                    guard !response else {
+                                                        noRelationUsersDispatchGroup.leave()
+                                                        return
+                                                    }
+                                                    self.checkPending(request: FetchUserRelationRequest(fromUserId: currentUser, toUserId: user)) { response in
+                                                        guard !response else {
+                                                            noRelationUsersDispatchGroup.leave()
+                                                            return
+                                                        }
+                                                        self.checkSent(request: FetchUserRelationRequest(fromUserId: currentUser, toUserId: user)) { response in
+                                                            if !response {
+                                                                userSuggestions.append(user)
+                                                            }
+                                                            noRelationUsersDispatchGroup.leave()
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        //PHASE 2: FETCH ALL FILTERED USERS DATA
+                                        noRelationUsersDispatchGroup.notify(queue: .main) {
+                                            let usersDataQueryDispatchGroup = DispatchGroup()
+                                            for user in userSuggestions {
+                                                usersDataQueryDispatchGroup.enter()
+                                                self.realtimeDB
+                                                    .child(Constants.usersPath)
+                                                    .child(user)
+                                                    .observeSingleEvent(of: .value) { snapshot in
+                                                        guard var userData = snapshot.value as? [String : Any] else {
+                                                            completion(.error(FirebaseErrors.genericError))
+                                                            return
+                                                        }
+                                                        userData["id"] = user
+                                                        queriedUsers.append(userData)
+                                                        usersDataQueryDispatchGroup.leave()
+                                                    }
+                                            }
+                                            usersDataQueryDispatchGroup.notify(queue: .main) {
+                                                for index in 0..<queriedUsers.count {
+                                                    var userConnections = [String]()
+                                                    if let connections = queriedUsers[index]["connections"] as? [String] {
+                                                        userConnections = connections
+                                                    }
+                                                    let commonConnectionsCount = userConnections.filter({ currentUserConnections.contains($0) }).count
+                                                    var userProjects = [String]()
+                                                    if let projects = queriedUsers[index]["participating_projects"] as? [String] {
+                                                        userProjects = projects
+                                                    }
+                                                    let commonProjectsCount = userProjects.filter({ currentUserProjects.contains($0) }).count
+                                                    var userCathegories = [String]()
+                                                    if let cathegories = queriedUsers[index]["interest_cathegories"] as? [String] {
+                                                        userCathegories = cathegories
+                                                    }
+                                                    let commonInterestCathegoriesCount = userCathegories.filter({ currentUserCathegories.contains($0) }).count
+                                                    let totalScore = commonConnectionsCount * self.commonConnectionsScore + commonProjectsCount * self.commonProjectsScore + commonInterestCathegoriesCount * self.commonCathegoriesScore
+                                                    queriedUsers[index]["score"] = totalScore
+                                                }
+                                                queriedUsers.sort(by: {
+                                                    guard let score0 = $0["score"] as? Int,
+                                                          let score1 = $1["score"] as? Int else {
+                                                        return true
+                                                    }
+                                                    return score0 > score1
+                                                })
+                                                let responseSuggestions = queriedUsers.prefix(limit)
+                                                let mappedResponse = Mapper<T>().mapArray(JSONArray: Array(responseSuggestions))
+                                                completion(.success(mappedResponse))
+                                            }
+                                        }
+                                }
+                            }
+                        }
+                }
+        }
 }
 
 //MARK: User Relationships

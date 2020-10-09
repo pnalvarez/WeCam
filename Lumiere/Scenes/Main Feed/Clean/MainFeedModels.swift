@@ -145,7 +145,7 @@ struct MainFeed {
                 func mapping(map: Map) {
                     userId <- map["id"]
                     image <- map["profile_image_url"]
-                    name <- map["ocupation"]
+                    name <- map["name"]
                     ocupation <- map["professional_area"]
                 }
             }
