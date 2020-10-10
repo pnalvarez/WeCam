@@ -113,8 +113,10 @@ protocol FirebaseManagerProtocol {
                                           completion: @escaping (BaseResponse<[T]>) -> Void)
     func fetchDataFromId<T: Mappable>(request: [String : Any],
                                       completion: @escaping (BaseResponse<T>) -> Void)
-    func fetchProfileSuggestions<T: Mappable>(request: [String : Any],
+    func fetchGeneralProfileSuggestions<T: Mappable>(request: [String : Any],
                                               completion: @escaping (BaseResponse<[T]>) -> Void)
+    func fetchCommonConnectionsProfileSuggestions<T: Mappable>(request: [String : Any],
+                                                               completion: @escaping (BaseResponse<[T]>) -> Void)
 }
 
 class FirebaseManager: FirebaseManagerProtocol {
@@ -2659,7 +2661,7 @@ class FirebaseManager: FirebaseManagerProtocol {
         }
     }
     
-    func fetchProfileSuggestions<T: Mappable>(request: [String : Any],
+    func fetchGeneralProfileSuggestions<T: Mappable>(request: [String : Any],
                                               completion: @escaping ((BaseResponse<[T]>) -> Void)) {
         var userSuggestions = [String]()
         var queriedUsers = [[String : Any]]()
@@ -2786,6 +2788,103 @@ class FirebaseManager: FirebaseManagerProtocol {
                         }
                 }
         }
+    
+    func fetchCommonConnectionsProfileSuggestions<T: Mappable>(request: [String : Any],
+                                                     completion: @escaping (BaseResponse<[T]>) -> Void) {
+        var currentUserConnections = [String]()
+        var noRelationUsers = [String]()
+        var userScores = [String : Int]()
+        var usersDataResults = [[String : Any]]()
+        
+        guard let limit = request["limit"] as? Int else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        guard let currentUser = authReference.currentUser?.uid else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        realtimeDB
+            .child(Constants.usersPath)
+            .child(currentUser)
+            .child("connections")
+            .observeSingleEvent(of: .value) { snapshot in
+                if let connections = snapshot.value as? [String] {
+                    currentUserConnections = connections
+                } else {
+                    currentUserConnections = .empty
+                }
+                self.realtimeDB
+                    .child(Constants.allUsersCataloguePath)
+                    .observeSingleEvent(of: .value) { snapshot in
+                        guard let allUsers = snapshot.value as? [String] else {
+                            completion(.error(FirebaseErrors.genericError))
+                            return
+                        }
+                        let dispatchGroup = DispatchGroup()
+                        for user in allUsers {
+                            dispatchGroup.enter()
+                            if user != currentUser {
+                                self.checkConnected(request: FetchUserRelationRequest(fromUserId: currentUser, toUserId: user)) { result in
+                                    guard !result else {
+                                        dispatchGroup.leave()
+                                        return
+                                    }
+                                    self.checkSent(request: FetchUserRelationRequest(fromUserId: currentUser, toUserId: user)) { result in
+                                        guard !result else {
+                                            dispatchGroup.leave()
+                                            return
+                                        }
+                                        self.checkPending(request: FetchUserRelationRequest(fromUserId: currentUser, toUserId: user)) { result in
+                                            guard !result else {
+                                                dispatchGroup.leave()
+                                                return
+                                            }
+                                            noRelationUsers.append(user)
+                                            dispatchGroup.leave()
+                                        }
+                                    }
+                                }
+                            } else {
+                                dispatchGroup.leave()
+                            }
+                        }
+                        dispatchGroup.notify(queue: .main) {
+                            let userDataDispatchGroup = DispatchGroup()
+                            for user in noRelationUsers {
+                                userDataDispatchGroup.enter()
+                                self.realtimeDB
+                                    .child(Constants.usersPath)
+                                    .child(user)
+                                    .observeSingleEvent(of: .value) { snapshot in
+                                        guard var userData = snapshot.value as? [String
+                                        : Any] else {
+                                            completion(.error(FirebaseErrors.genericError))
+                                            return
+                                        }
+                                        usersDataResults.append(userData)
+                                        guard let connections = userData["connections"] as? [String] else { return }
+                                        let score = connections.filter({ currentUserConnections.contains($0) }).count
+                                        userData["score"] = score
+                                        usersDataResults.append(userData)
+                                        userDataDispatchGroup.leave()
+                                }
+                            }
+                            userDataDispatchGroup.notify(queue: .main) {
+                                let orderedScores = Array(usersDataResults.sorted(by: {
+                                    guard let score0 = $0["score"] as? Int,
+                                          let score1 = $1["score"] as? Int else {
+                                        return true
+                                    }
+                                    return score0 > score1
+                                }).prefix(limit))
+                                let mappedResponse = Mapper<T>().mapArray(JSONArray: orderedScores)
+                                completion(.success(mappedResponse))
+                            }
+                        }
+                }
+        }
+    }
 }
 
 //MARK: User Relationships

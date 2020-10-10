@@ -149,5 +149,9 @@ struct ProfileSuggestions {
         struct SelectProfile {
             let index: Int
         }
+        
+        struct ChangeCriteria {
+            let criteria: String
+        }
     }
 }

@@ -22,7 +22,7 @@ class MainFeedWorker: MainFeedWorkerProtocol {
     func fetchProfileSuggestions(_ request: MainFeed.Request.FetchSuggestedProfiles,
                                  completion: @escaping (BaseResponse<[MainFeed.Info.Response.ProfileSuggestion]>) -> Void) {
         let headers: [String : Any] = ["limit": MainFeed.Constants.BusinessLogic.suggestionsLimit]
-        builder.fetchProfileSuggestions(request: headers,
+        builder.fetchGeneralProfileSuggestions(request: headers,
                                         completion: completion)
     }
 }
