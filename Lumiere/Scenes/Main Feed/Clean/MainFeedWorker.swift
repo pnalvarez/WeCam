@@ -7,7 +7,8 @@
 //
 
 protocol MainFeedWorkerProtocol {
-    
+    func fetchProfileSuggestions(_ request: MainFeed.Request.FetchSuggestedProfiles,
+                                 completion: @escaping (BaseResponse<[MainFeed.Info.Response.ProfileSuggestion]>) -> Void)
 }
 
 class MainFeedWorker: MainFeedWorkerProtocol {
@@ -16,5 +17,12 @@ class MainFeedWorker: MainFeedWorkerProtocol {
     
     init(builder: FirebaseManagerProtocol = FirebaseManager()) {
         self.builder = builder
+    }
+    
+    func fetchProfileSuggestions(_ request: MainFeed.Request.FetchSuggestedProfiles,
+                                 completion: @escaping (BaseResponse<[MainFeed.Info.Response.ProfileSuggestion]>) -> Void) {
+        let headers: [String : Any] = ["limit": MainFeed.Constants.BusinessLogic.suggestionsLimit]
+        builder.fetchProfileSuggestions(request: headers,
+                                        completion: completion)
     }
 }

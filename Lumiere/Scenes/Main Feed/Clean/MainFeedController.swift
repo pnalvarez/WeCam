@@ -59,6 +59,7 @@ class MainFeedController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         refreshTableView()
+        interactor?.fetchSuggestedProfiles(MainFeed.Request.FetchSuggestedProfiles())
     }
     
     private func setup() {
@@ -102,7 +103,7 @@ extension MainFeedController: ProfileSuggestionsFeedTableViewCellDelegate {
     }
     
     func didTapSeeAll() {
-        interactor?.didTapSeeAllProfileSuggestions(MainFeed.Request.SeeAllProfileSuggestions())
+        router?.routeToProfileSuggestions()
     }
 }
 
@@ -149,7 +150,7 @@ extension MainFeedController: MainFeedDisplayLogic {
     }
     
     func displayProfileDetails() {
-        
+        router?.routeToProfileDetails()
     }
     
     func displayAllProfileSuggestions() {

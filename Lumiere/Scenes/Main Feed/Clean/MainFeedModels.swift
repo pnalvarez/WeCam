@@ -59,6 +59,10 @@ struct MainFeed {
                 static let profileSuggestionsCell: CGFloat = 147
             }
         }
+        
+        struct BusinessLogic {
+            static let suggestionsLimit: Int = 10
+        }
     }
     
     struct Info {
@@ -171,10 +175,6 @@ struct MainFeed {
         }
         
         struct FetchSuggestedProfiles {
-            
-        }
-        
-        struct SeeAllProfileSuggestions {
             
         }
     }

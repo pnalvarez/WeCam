@@ -35,7 +35,7 @@ class ProfileSuggestionsFeedTableViewCell: UITableViewCell {
     
     private lazy var mainContainer: UIView = {
         let view = UIView(frame: .zero)
-        view.backgroundColor = .white
+        view.backgroundColor = ThemeColors.whiteThemeColor.rawValue
         return view
     }()
     
@@ -69,6 +69,8 @@ extension ProfileSuggestionsFeedTableViewCell {
     private func buildProfileSuggestionsButtons() {
         var buttons: [ProfileResumeButton] = .empty
         guard let suggestions = viewModel?.suggestions else { return }
+        let scrollWidth: CGFloat = CGFloat(22 + (141 * suggestions.count) / 2)
+        scrollView.contentSize = CGSize(width: scrollWidth, height: scrollView.frame.height)
         for index in 0..<suggestions.count {
             let button = ProfileResumeButton(frame: .zero,
                                              image: suggestions[index].image,
@@ -79,16 +81,19 @@ extension ProfileSuggestionsFeedTableViewCell {
             buttons.append(button)
             mainContainer.addSubview(button)
             button.snp.makeConstraints { make in
-                if index < 2 {
+                if index == 0 {
                     make.top.equalToSuperview().inset(10)
+                    make.left.equalToSuperview().inset(22)
+                } else if index == 1 {
+                    make.top.equalTo(buttons[0].snp.bottom).offset(11)
                     make.left.equalToSuperview().inset(22)
                 } else {
                     if index % 2 == 0 {
                         make.top.equalToSuperview().inset(10)
-                        make.left.equalTo(buttons[index-1]).offset(14)
+                        make.left.equalTo(buttons[index-1].snp.right).offset(14)
                     } else {
-                        make.top.equalTo(buttons[index-1]).offset(11)
-                        make.left.equalTo(buttons[index-2]).offset(14)
+                        make.top.equalTo(buttons[index-1].snp.bottom).offset(11)
+                        make.left.equalTo(buttons[index-2].snp.right).offset(14)
                     }
                 }
                 make.height.equalTo(37)
@@ -129,7 +134,7 @@ extension ProfileSuggestionsFeedTableViewCell: ViewCodeProtocol {
         scrollView.snp.makeConstraints { make in
             make.top.equalTo(headerLbl.snp.bottom).offset(12)
             make.left.right.equalToSuperview()
-            make.bottom.equalToSuperview().inset(20)
+            make.bottom.equalToSuperview().inset(15)
         }
         mainContainer.snp.makeConstraints { make in
             make.edges.height.equalToSuperview()

@@ -11,12 +11,13 @@ protocol MainFeedBusinessLogic {
     func fetchRecentSearches(_ request: MainFeed.Request.RecentSearches)
     func fetchSuggestedProfiles(_ request: MainFeed.Request.FetchSuggestedProfiles)
     func didSelectSuggestedProfile(_ request: MainFeed.Request.SelectSuggestedProfile)
-    func didTapSeeAllProfileSuggestions(_ request: MainFeed.Request.SeeAllProfileSuggestions)
 }
 
 protocol MainFeedDataStore {
     var currentUserId: MainFeed.Info.Received.CurrentUser? { get set }
     var searchKey: MainFeed.Info.Model.SearchKey? { get set }
+    var profileSuggestions: MainFeed.Info.Model.UpcomingProfiles? { get set }
+    var selectedProfile: String? { get set }
 }
 
 class MainFeedInteractor: MainFeedDataStore {
@@ -26,6 +27,8 @@ class MainFeedInteractor: MainFeedDataStore {
     
     var currentUserId: MainFeed.Info.Received.CurrentUser?
     var searchKey: MainFeed.Info.Model.SearchKey?
+    var profileSuggestions: MainFeed.Info.Model.UpcomingProfiles?
+    var selectedProfile: String?
     
     init(worker: MainFeedWorkerProtocol = MainFeedWorker(),
          presenter: MainFeedPresentationLogic) {
@@ -53,14 +56,29 @@ extension MainFeedInteractor: MainFeedBusinessLogic {
     }
     
     func fetchSuggestedProfiles(_ request: MainFeed.Request.FetchSuggestedProfiles) {
-        
+        worker.fetchProfileSuggestions(MainFeed.Request.FetchSuggestedProfiles()) { response in
+            switch response {
+            case .success(let data):
+                self.profileSuggestions = MainFeed
+                    .Info
+                    .Model
+                    .UpcomingProfiles(suggestions: data.map({ MainFeed
+                                                                .Info
+                                                                .Model
+                                                                .ProfileSuggestion(userId: $0.userId ?? .empty,
+                                                                                   image: $0.image ?? .empty,
+                                                                                   name: $0.name ?? .empty,
+                                                                                   ocupation: $0.ocupation ?? .empty)}))
+                guard let suggestions = self.profileSuggestions else { return }
+                self.presenter.presentProfileSuggestions(suggestions)
+            case .error(let error):
+                break
+            }
+        }
     }
     
     func didSelectSuggestedProfile(_ request: MainFeed.Request.SelectSuggestedProfile) {
-        
-    }
-    
-    func didTapSeeAllProfileSuggestions(_ request: MainFeed.Request.SeeAllProfileSuggestions) {
-        
+        selectedProfile = profileSuggestions?.suggestions[request.index].userId
+        presenter.presentProfileDetails()
     }
 }

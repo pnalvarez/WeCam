@@ -11,6 +11,8 @@ typealias MainFeedRouterProtocol = NSObject & MainFeedRoutingLogic & MainFeedDat
 
 protocol MainFeedRoutingLogic {
     func routeToSearchResults()
+    func routeToProfileDetails()
+    func routeToProfileSuggestions()
 }
 
 protocol MainFeedDataTransfer {
@@ -25,6 +27,11 @@ class MainFeedRouter: NSObject, MainFeedDataTransfer {
     private func transferDataToSearchResults(from source: MainFeedDataStore,
                                              to destination: inout SearchResultsDataStore) {
         destination.searchKey = SearchResults.Info.Received.SearchKey(key: source.searchKey?.key ?? .empty)
+    }
+    
+    private func transferDataToProfileDetails(from source: MainFeedDataStore,
+                                              to destination: inout ProfileDetailsDataStore) {
+        destination.receivedUserData = ProfileDetails.Info.Received.User(userId: source.selectedProfile ?? .empty)
     }
 }
 
@@ -43,5 +50,17 @@ extension MainFeedRouter: MainFeedRoutingLogic {
               var destination = vc.router?.dataStore else { return }
         transferDataToSearchResults(from: source, to: &destination)
         routeTo(nextVC: vc)
+    }
+    
+    func routeToProfileDetails() {
+        let vc = ProfileDetailsController()
+        guard let source = dataStore,
+              var destination = vc.router?.dataStore else { return }
+        transferDataToProfileDetails(from: source, to: &destination)
+        routeTo(nextVC: vc)
+    }
+    
+    func routeToProfileSuggestions() {
+        
     }
 }

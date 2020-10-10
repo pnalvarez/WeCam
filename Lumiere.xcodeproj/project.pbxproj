@@ -103,6 +103,14 @@
 		3F5A423B251CE8A200F10D63 /* ProfileDetailsInteractorMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5A423A251CE8A200F10D63 /* ProfileDetailsInteractorMock.swift */; };
 		3F5A4240251D3C0300F10D63 /* NotificationsInteractor+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5A423F251D3C0300F10D63 /* NotificationsInteractor+Tests.swift */; };
 		3F5A4246251D3C4D00F10D63 /* NotificationsWorkerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5A4245251D3C4D00F10D63 /* NotificationsWorkerMock.swift */; };
+		3F5B3232253161B6004DFBFD /* ProfileSuggestionsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5B3231253161B6004DFBFD /* ProfileSuggestionsController.swift */; };
+		3F5B323A253161EC004DFBFD /* ProfileSuggestionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5B3239253161EC004DFBFD /* ProfileSuggestionsView.swift */; };
+		3F5B323F2531622B004DFBFD /* ProfileSuggestionsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5B323E2531622B004DFBFD /* ProfileSuggestionsTableViewCell.swift */; };
+		3F5B32442531627C004DFBFD /* ProfileSuggestionsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5B32432531627C004DFBFD /* ProfileSuggestionsModels.swift */; };
+		3F5B324925316325004DFBFD /* ProfileSuggestionsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5B324825316325004DFBFD /* ProfileSuggestionsInteractor.swift */; };
+		3F5B324E253163C8004DFBFD /* ProfileSuggestionsWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5B324D253163C8004DFBFD /* ProfileSuggestionsWorker.swift */; };
+		3F5B32562531642D004DFBFD /* ProfileSuggestionsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5B32552531642D004DFBFD /* ProfileSuggestionsPresenter.swift */; };
+		3F5B325B253164E3004DFBFD /* ProfileSuggestionsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5B325A253164E3004DFBFD /* ProfileSuggestionsRouter.swift */; };
 		3F655F542523C3BB004A1D54 /* SearchResultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F655F532523C3BB004A1D54 /* SearchResultsController.swift */; };
 		3F655F5C2523C424004A1D54 /* SearchResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F655F5B2523C424004A1D54 /* SearchResultsView.swift */; };
 		3F655F612523C462004A1D54 /* SearchResultsWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F655F602523C462004A1D54 /* SearchResultsWorker.swift */; };
@@ -386,6 +394,14 @@
 		3F5A423A251CE8A200F10D63 /* ProfileDetailsInteractorMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailsInteractorMock.swift; sourceTree = "<group>"; };
 		3F5A423F251D3C0300F10D63 /* NotificationsInteractor+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationsInteractor+Tests.swift"; sourceTree = "<group>"; };
 		3F5A4245251D3C4D00F10D63 /* NotificationsWorkerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsWorkerMock.swift; sourceTree = "<group>"; };
+		3F5B3231253161B6004DFBFD /* ProfileSuggestionsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSuggestionsController.swift; sourceTree = "<group>"; };
+		3F5B3239253161EC004DFBFD /* ProfileSuggestionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSuggestionsView.swift; sourceTree = "<group>"; };
+		3F5B323E2531622B004DFBFD /* ProfileSuggestionsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSuggestionsTableViewCell.swift; sourceTree = "<group>"; };
+		3F5B32432531627C004DFBFD /* ProfileSuggestionsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSuggestionsModels.swift; sourceTree = "<group>"; };
+		3F5B324825316325004DFBFD /* ProfileSuggestionsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSuggestionsInteractor.swift; sourceTree = "<group>"; };
+		3F5B324D253163C8004DFBFD /* ProfileSuggestionsWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSuggestionsWorker.swift; sourceTree = "<group>"; };
+		3F5B32552531642D004DFBFD /* ProfileSuggestionsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSuggestionsPresenter.swift; sourceTree = "<group>"; };
+		3F5B325A253164E3004DFBFD /* ProfileSuggestionsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSuggestionsRouter.swift; sourceTree = "<group>"; };
 		3F655F532523C3BB004A1D54 /* SearchResultsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsController.swift; sourceTree = "<group>"; };
 		3F655F5B2523C424004A1D54 /* SearchResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsView.swift; sourceTree = "<group>"; };
 		3F655F602523C462004A1D54 /* SearchResultsWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsWorker.swift; sourceTree = "<group>"; };
@@ -888,6 +904,21 @@
 			path = Notifications;
 			sourceTree = "<group>";
 		};
+		3F5B3230253161A0004DFBFD /* Profile Suggestions */ = {
+			isa = PBXGroup;
+			children = (
+				3F5B3231253161B6004DFBFD /* ProfileSuggestionsController.swift */,
+				3F5B3239253161EC004DFBFD /* ProfileSuggestionsView.swift */,
+				3F5B323E2531622B004DFBFD /* ProfileSuggestionsTableViewCell.swift */,
+				3F5B32432531627C004DFBFD /* ProfileSuggestionsModels.swift */,
+				3F5B324825316325004DFBFD /* ProfileSuggestionsInteractor.swift */,
+				3F5B324D253163C8004DFBFD /* ProfileSuggestionsWorker.swift */,
+				3F5B32552531642D004DFBFD /* ProfileSuggestionsPresenter.swift */,
+				3F5B325A253164E3004DFBFD /* ProfileSuggestionsRouter.swift */,
+			);
+			path = "Profile Suggestions";
+			sourceTree = "<group>";
+		};
 		3F655F522523C3A7004A1D54 /* Search Results */ = {
 			isa = PBXGroup;
 			children = (
@@ -1307,6 +1338,7 @@
 		3F95786724AD79C900B79818 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				3F5B3230253161A0004DFBFD /* Profile Suggestions */,
 				3F6EEA2D24E0A3550075C500 /* Connections List */,
 				3F40A6C124F2318700261161 /* Edit Profile Details */,
 				3F40A69F24F0912D00261161 /* Edit Project Details */,
@@ -1788,6 +1820,7 @@
 				3F8D13A524D73C2600AED7EB /* Array+.swift in Sources */,
 				3FAD1A092516B50D00ED4074 /* MainFeedTableView.swift in Sources */,
 				3F40A68124EDF5A300261161 /* SelectProjectCathegoryController.swift in Sources */,
+				3F5B325B253164E3004DFBFD /* ProfileSuggestionsRouter.swift in Sources */,
 				3F95782024AD6FBC00B79818 /* AppDelegate.swift in Sources */,
 				3F40A6CD24F2337000261161 /* EditProfileDetailsRouter.swift in Sources */,
 				3F8116E024B6ABEE0083A3DA /* UICollectionView+.swift in Sources */,
@@ -1861,6 +1894,7 @@
 				3FB8BD87250ED5AE001954FD /* InviteProfileToProjectsRouter.swift in Sources */,
 				3F40A60B24E9CA4D00261161 /* LoadingView.swift in Sources */,
 				3F40A6C324F231A000261161 /* EditProfileDetailsController.swift in Sources */,
+				3F5B324E253163C8004DFBFD /* ProfileSuggestionsWorker.swift in Sources */,
 				3FB8BD77250D65A6001954FD /* OnGoingProjectInvitesTableViewCell.swift in Sources */,
 				3F8D13A324D65FCD00AED7EB /* GetConnectNotificationRequest.swift in Sources */,
 				3F40A6A724F0923900261161 /* EditProjectDetailsWorker.swift in Sources */,
@@ -1883,6 +1917,7 @@
 				3F40A69024EF41ED00261161 /* ProjectProgressView.swift in Sources */,
 				3FE8DF5A24CBD271005DE30D /* UIView+.swift in Sources */,
 				3F95786124AD775D00B79818 /* LaunchScreenController.swift in Sources */,
+				3F5B324925316325004DFBFD /* ProfileSuggestionsInteractor.swift in Sources */,
 				3F40A69424EF426500261161 /* ProjectProgressInteractor.swift in Sources */,
 				3F40A6A324F091BB00261161 /* EditProjectDetailsView.swift in Sources */,
 				3F6EEA7724E8D1CE0075C500 /* EmptyListView.swift in Sources */,
@@ -1920,6 +1955,7 @@
 				3F9578D724B01A0600B79818 /* MovieStyle.swift in Sources */,
 				3FB8BD7D250ED441001954FD /* InviteProfileToProjectsView.swift in Sources */,
 				3F40A69E24F08F7C00261161 /* DefaultBackButton.swift in Sources */,
+				3F5B3232253161B6004DFBFD /* ProfileSuggestionsController.swift in Sources */,
 				3F40A61224EA0E4B00261161 /* SelectProjectImageView.swift in Sources */,
 				3F9578CE24B0197F00B79818 /* SignUpProvider.swift in Sources */,
 				3F40A6A124F0914400261161 /* EditProjectDetailsController.swift in Sources */,
@@ -1927,6 +1963,7 @@
 				3F8D13C024D78CBF00AED7EB /* NotificationTableViewCell.swift in Sources */,
 				3F6EEA3924E0A3A50075C500 /* ConnectionsListRouter.swift in Sources */,
 				3F8D138E24D5364000AED7EB /* ProfileDetailsWorker.swift in Sources */,
+				3F5B323A253161EC004DFBFD /* ProfileSuggestionsView.swift in Sources */,
 				3F8D13A124D53C4400AED7EB /* NotificationsModels.swift in Sources */,
 				3F9578C824B0196300B79818 /* SignUpController.swift in Sources */,
 				3F95786A24AEA07100B79818 /* LaunchScreenInteractor.swift in Sources */,
@@ -1957,10 +1994,12 @@
 				3FD0EDEF250D5AFD00E22029 /* OnGoingProjectInvitesController.swift in Sources */,
 				3FAD1A4C2516BAFB00ED4074 /* SearchHeaderTableViewCell.swift in Sources */,
 				3F40A69624EF429E00261161 /* ProjectProgressPresenter.swift in Sources */,
+				3F5B32442531627C004DFBFD /* ProfileSuggestionsModels.swift in Sources */,
 				3F6EEA6F24E5D7550075C500 /* Dictionary+.swift in Sources */,
 				3F40A6BC24F1CD4400261161 /* OnGoingProjectDetailsModels.swift in Sources */,
 				3F40A6B024F1CADA00261161 /* OnGoingProjectDetailsController.swift in Sources */,
 				3F6EEA3D24E0A6B10075C500 /* ConnectionsListTableViewCell.swift in Sources */,
+				3F5B32562531642D004DFBFD /* ProfileSuggestionsPresenter.swift in Sources */,
 				3F8D13BE24D789EF00AED7EB /* UITableView+.swift in Sources */,
 				3F05D19F2515BFF200932FFC /* Float+.swift in Sources */,
 				3F9578DB24B0240C00B79818 /* String+.swift in Sources */,
@@ -1968,6 +2007,7 @@
 				3F40A69224EF420800261161 /* ProjectProgressController.swift in Sources */,
 				3F9578CA24B0196C00B79818 /* SignUpInteractor.swift in Sources */,
 				3FB8BD7F250ED47D001954FD /* InviteProfileToProjectsTableViewCell.swift in Sources */,
+				3F5B323F2531622B004DFBFD /* ProfileSuggestionsTableViewCell.swift in Sources */,
 				3F012A12252E8EFB00FF4985 /* ProfileResumeButton.swift in Sources */,
 				3F40A6C924F2326700261161 /* EditProfileDetailsWorker.swift in Sources */,
 				3F66CA17250452DC006F6DBD /* ProjectParticipantsListTableViewCell.swift in Sources */,

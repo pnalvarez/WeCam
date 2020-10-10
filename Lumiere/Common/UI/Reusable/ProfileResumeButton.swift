@@ -30,7 +30,7 @@ class ProfileResumeButton: UIButton {
     private lazy var ocupationLbl: UILabel = {
         let view = UILabel(frame: .zero)
         view.textColor = .black
-        view.font = ThemeFonts.RobotoRegular(16).rawValue
+        view.font = ThemeFonts.RobotoRegular(10).rawValue
         view.textAlignment = .left
         view.numberOfLines = 0
         return view

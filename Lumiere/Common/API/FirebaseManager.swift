@@ -2727,6 +2727,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                         }
                                                     }
                                                 }
+                                            } else {
+                                                noRelationUsersDispatchGroup.leave()
                                             }
                                         }
                                         //PHASE 2: FETCH ALL FILTERED USERS DATA
