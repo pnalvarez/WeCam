@@ -9,10 +9,28 @@
 import UIKit
 
 protocol ProfileSuggestionsDisplayLogic: class {
-    
+    func displayProfileSuggestions(_ viewModel: ProfileSuggestions.Info.ViewModel.UpcomingSuggestions)
+    func fadeProfileItem(_ viewModel: ProfileSuggestions.Info.ViewModel.ProfileItemToFade)
 }
 
 class ProfileSuggestionsController: BaseViewController {
+    
+    private lazy var tableView: UITableView = {
+        let view = UITableView(frame: .zero)
+        view.assignProtocols(to: self)
+        view.alwaysBounceVertical = false
+        view.bounces = false
+        view.registerCell(cellType: ProfileSuggestionsTableViewCell.self)
+        view.separatorStyle = .none
+        view.backgroundColor = .white
+        return view
+    }()
+    
+    private var viewModel: ProfileSuggestions.Info.ViewModel.UpcomingSuggestions? {
+        didSet {
+            refreshList()
+        }
+    }
     
     private var interactor: ProfileSuggestionsInteractor?
     var router: ProfileSuggestionsRouter?
@@ -46,6 +64,55 @@ class ProfileSuggestionsController: BaseViewController {
     }
 }
 
+extension ProfileSuggestionsController {
+    
+    private func refreshList() {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }
+}
+
+extension ProfileSuggestionsController: UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel?.profiles.count ?? 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(indexPath: indexPath, type: ProfileSuggestionsTableViewCell.self)
+        guard let profile = viewModel?.profiles[indexPath.row] else { return UITableViewCell() }
+        cell.setup(index: indexPath.row,
+                   delegate: self,
+                   viewModel: profile)
+        return cell
+    }
+}
+
+extension ProfileSuggestionsController: UITableViewDelegate { }
+
+extension ProfileSuggestionsController: ProfileSuggestionsTableViewCellDelegate {
+    
+    func didTapAdd(index: Int) {
+        
+    }
+    
+    func didTapRemove(index: Int) {
+        
+    }
+}
+
 extension ProfileSuggestionsController: ProfileSuggestionsDisplayLogic {
     
+    func displayProfileSuggestions(_ viewModel: ProfileSuggestions.Info.ViewModel.UpcomingSuggestions) {
+        self.viewModel = viewModel
+    }
+    
+    func fadeProfileItem(_ viewModel: ProfileSuggestions.Info.ViewModel.ProfileItemToFade) {
+        //TO DO
+    }
 }

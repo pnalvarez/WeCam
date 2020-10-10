@@ -7,7 +7,10 @@
 //
 
 protocol ProfileSuggestionsBusinessLogic {
-    
+    func fetchProfileSuggestions(_ request: ProfileSuggestions.Request.FetchProfileSuggestions)
+    func fetchAddUser(_ request: ProfileSuggestions.Request.AddUser)
+    func fetchRemoveUser(_ request: ProfileSuggestions.Request.RemoveUser)
+    func didSelectProfile(_ request: ProfileSuggestions.Request.SelectProfile)
 }
 
 protocol ProfileSuggestionsDataStore {
@@ -28,4 +31,19 @@ class ProfileSuggestionsInteractor: ProfileSuggestionsDataStore {
 
 extension ProfileSuggestionsInteractor: ProfileSuggestionsBusinessLogic {
     
+    func fetchProfileSuggestions(_ request: ProfileSuggestions.Request.FetchProfileSuggestions) {
+        
+    }
+    
+    func fetchAddUser(_ request: ProfileSuggestions.Request.AddUser) {
+        
+    }
+    
+    func fetchRemoveUser(_ request: ProfileSuggestions.Request.RemoveUser) {
+        
+    }
+    
+    func didSelectProfile(_ request: ProfileSuggestions.Request.SelectProfile) {
+        
+    }
 }
