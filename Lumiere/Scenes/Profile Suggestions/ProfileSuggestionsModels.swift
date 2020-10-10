@@ -53,7 +53,7 @@ struct ProfileSuggestions {
         }
         
         struct BusinessLogic {
-            
+            static let suggestionsLimit: Int = 20
         }
     }
     
@@ -146,12 +146,40 @@ struct ProfileSuggestions {
             let index: Int
         }
         
+        struct AddUserWithId {
+            let userId: String
+        }
+        
+        struct RemoveUserWithId {
+            let userId: String
+        }
+        
         struct SelectProfile {
             let index: Int
         }
         
         struct ChangeCriteria {
             let criteria: String
+        }
+        
+        struct FetchCommonConnectionsProfileSuggestions {
+            let limit: Int
+        }
+        
+        struct FetchCommonProjectsProfileSuggestions {
+            let limit: Int
+        }
+        
+        struct FetchCommonCathegoriesProfileSuggestions {
+            let limit: Int
+        }
+        
+        struct SendConnectionRequest {
+            let userId: String
+        }
+        
+        struct RemoveSuggestion {
+            let userId: String
         }
     }
 }
