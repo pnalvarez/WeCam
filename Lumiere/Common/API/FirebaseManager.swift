@@ -114,13 +114,15 @@ protocol FirebaseManagerProtocol {
     func fetchDataFromId<T: Mappable>(request: [String : Any],
                                       completion: @escaping (BaseResponse<T>) -> Void)
     func fetchGeneralProfileSuggestions<T: Mappable>(request: [String : Any],
-                                              completion: @escaping (BaseResponse<[T]>) -> Void)
+                                                     completion: @escaping (BaseResponse<[T]>) -> Void)
     func fetchCommonConnectionsProfileSuggestions<T: Mappable>(request: [String : Any],
                                                                completion: @escaping (BaseResponse<[T]>) -> Void)
     func fetchCommonProjectsProfileSuggestions<T: Mappable>(request: [String : Any],
                                                             completion: @escaping (BaseResponse<[T]>) -> Void)
     func fetchCommonCathegoriesProfileSuggestions<T: Mappable>(request: [String : Any],
-                                                            completion: @escaping (BaseResponse<[T]>) -> Void)
+                                                               completion: @escaping (BaseResponse<[T]>) -> Void)
+    func removeProfileSuggestion(request: [String : Any],
+                                 completion: @escaping (EmptyResponse) -> Void)
 }
 
 class FirebaseManager: FirebaseManagerProtocol {
@@ -187,41 +189,41 @@ class FirebaseManager: FirebaseManagerProtocol {
                         .child(Constants.usersPath)
                         .child(request.userId)
                         .updateChildValues(dictionary) {
-                        (error, ref) in
-                        if let error = error {
-                            completion(.error(error))
-                        } else {
-//                            self.realtimeDB
-//                                .child(Constants.allUsersCataloguePath)
-//                                .updateChildValues(request.userId) { error, ref in
-//                                    if let error = error {
-//                                        completion(.error(error))
-//                                        return
-//                                    } else {
-//                                        completion(.success)
-//                                    }
-//                                }
-                            self.realtimeDB
-                                .child(Constants.allUsersCataloguePath)
-                                .observeSingleEvent(of: .value) { snapshot in
-                                    var userIdsArray: [String]
-                                    if let userIds = snapshot.value as? [String] {
-                                        userIdsArray = userIds
-                                    } else {
-                                        userIdsArray = .empty
-                                    }
-                                    userIdsArray.append(request.userId)
-                                    self.realtimeDB
-                                        .updateChildValues([Constants.allUsersCataloguePath : userIdsArray]) { error, ref in
-                                            if let error = error {
-                                                completion(.error(error))
-                                                return
-                                            }
-                                            completion(.success)
+                            (error, ref) in
+                            if let error = error {
+                                completion(.error(error))
+                            } else {
+                                //                            self.realtimeDB
+                                //                                .child(Constants.allUsersCataloguePath)
+                                //                                .updateChildValues(request.userId) { error, ref in
+                                //                                    if let error = error {
+                                //                                        completion(.error(error))
+                                //                                        return
+                                //                                    } else {
+                                //                                        completion(.success)
+                                //                                    }
+                                //                                }
+                                self.realtimeDB
+                                    .child(Constants.allUsersCataloguePath)
+                                    .observeSingleEvent(of: .value) { snapshot in
+                                        var userIdsArray: [String]
+                                        if let userIds = snapshot.value as? [String] {
+                                            userIdsArray = userIds
+                                        } else {
+                                            userIdsArray = .empty
                                         }
+                                        userIdsArray.append(request.userId)
+                                        self.realtimeDB
+                                            .updateChildValues([Constants.allUsersCataloguePath : userIdsArray]) { error, ref in
+                                                if let error = error {
+                                                    completion(.error(error))
+                                                    return
+                                                }
+                                                completion(.success)
+                                            }
+                                    }
                             }
                         }
-                    }
                 }
             }
         }
@@ -1211,7 +1213,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                                     }
                                                                     completion(.success(mappedResponse))
                                                                 }
-                                                        }
+                                                            }
                                                     }
                                             }
                                     }
@@ -2511,7 +2513,7 @@ class FirebaseManager: FirebaseManagerProtocol {
     }
     
     func updateProjectProgress(request: [String : Any],
-                                completion: @escaping (EmptyResponse) -> Void) {
+                               completion: @escaping (EmptyResponse) -> Void) {
         guard let projectId = request["projectId"] as? String,
               let progress = request["progress"] as? Int else {
             completion(.error(FirebaseErrors.genericError))
@@ -2573,11 +2575,11 @@ class FirebaseManager: FirebaseManagerProtocol {
                             }
                         }
                 }
-        }
+            }
     }
     
     func fetchSearchProjects<T: Mappable>(request: [String : Any],
-                                completion: @escaping (BaseResponse<[T]>) -> Void) {
+                                          completion: @escaping (BaseResponse<[T]>) -> Void) {
         var projectsResponse: [[String : Any]] = .empty
         guard let preffix = request["preffix"] as? String else {
             completion(.error(FirebaseErrors.genericError))
@@ -2614,7 +2616,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                             }
                         }
                 }
-        }
+            }
     }
     
     func fetchDataFromId<T: Mappable>(request: [String : Any],
@@ -2650,7 +2652,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                 return
                             }
                             guard let title = project["title"] as? String,
-                                let image = project["image"] as? String else {
+                                  let image = project["image"] as? String else {
                                 completion(.error(FirebaseErrors.genericError))
                                 return
                             }
@@ -2660,18 +2662,19 @@ class FirebaseManager: FirebaseManagerProtocol {
                                 return
                             }
                             completion(.success(mappedResponse))
-                    }
+                        }
                 }
-        }
+            }
     }
     
     func fetchGeneralProfileSuggestions<T: Mappable>(request: [String : Any],
-                                              completion: @escaping ((BaseResponse<[T]>) -> Void)) {
+                                                     completion: @escaping ((BaseResponse<[T]>) -> Void)) {
         var userSuggestions = [String]()
         var queriedUsers = [[String : Any]]()
         var currentUserConnections = [String]()
         var currentUserProjects = [String]()
         var currentUserCathegories = [String]()
+        var removedUserSuggestions = [String]()
         
         guard let limit = request["limit"] as? Int else {
             completion(.error(FirebaseErrors.genericError))
@@ -2684,10 +2687,257 @@ class FirebaseManager: FirebaseManagerProtocol {
         realtimeDB
             .child(Constants.usersPath)
             .child(currentUser)
-            .child("interest_cathegories")
+            .child("removed_suggestions")
             .observeSingleEvent(of: .value) { snapshot in
-                if let cathegories = snapshot.value as? [String] {
-                    currentUserCathegories = cathegories
+                if let removedUsers = snapshot.value as? [String] {
+                    removedUserSuggestions = removedUsers
+                }
+                self.realtimeDB
+                    .child(Constants.usersPath)
+                    .child(currentUser)
+                    .child("interest_cathegories")
+                    .observeSingleEvent(of: .value) { snapshot in
+                        if let cathegories = snapshot.value as? [String] {
+                            currentUserCathegories = cathegories
+                        }
+                        self.realtimeDB
+                            .child(Constants.usersPath)
+                            .child(currentUser)
+                            .child("participating_projects")
+                            .observeSingleEvent(of: .value) { snapshot in
+                                if let projects = snapshot.value as? [String] {
+                                    currentUserProjects = projects
+                                }
+                                self.realtimeDB
+                                    .child(currentUser)
+                                    .child("connections")
+                                    .observeSingleEvent(of: .value) { snapshot in
+                                        if let connections = snapshot.value as? [String] {
+                                            currentUserConnections = connections
+                                        }
+                                        self.realtimeDB
+                                            .child(Constants.allUsersCataloguePath)
+                                            .observeSingleEvent(of: .value) { snapshot in
+                                                guard let allUsers = snapshot.value as? [String] else {
+                                                    completion(.error(FirebaseErrors.genericError))
+                                                    return
+                                                }
+                                                let noRelationUsersDispatchGroup = DispatchGroup()
+                                                for user in allUsers {
+                                                    noRelationUsersDispatchGroup.enter()
+                                                    if user != currentUser,
+                                                       !removedUserSuggestions.contains(user) {
+                                                        self.checkConnected(request: FetchUserRelationRequest(fromUserId: currentUser, toUserId: user)) { response in
+                                                            guard !response else {
+                                                                noRelationUsersDispatchGroup.leave()
+                                                                return
+                                                            }
+                                                            self.checkPending(request: FetchUserRelationRequest(fromUserId: currentUser, toUserId: user)) { response in
+                                                                guard !response else {
+                                                                    noRelationUsersDispatchGroup.leave()
+                                                                    return
+                                                                }
+                                                                self.checkSent(request: FetchUserRelationRequest(fromUserId: currentUser, toUserId: user)) { response in
+                                                                    if !response {
+                                                                        userSuggestions.append(user)
+                                                                    }
+                                                                    noRelationUsersDispatchGroup.leave()
+                                                                }
+                                                            }
+                                                        }
+                                                    } else {
+                                                        noRelationUsersDispatchGroup.leave()
+                                                    }
+                                                }
+                                                //PHASE 2: FETCH ALL FILTERED USERS DATA
+                                                noRelationUsersDispatchGroup.notify(queue: .main) {
+                                                    let usersDataQueryDispatchGroup = DispatchGroup()
+                                                    for user in userSuggestions {
+                                                        usersDataQueryDispatchGroup.enter()
+                                                        self.realtimeDB
+                                                            .child(Constants.usersPath)
+                                                            .child(user)
+                                                            .observeSingleEvent(of: .value) { snapshot in
+                                                                guard var userData = snapshot.value as? [String : Any] else {
+                                                                    completion(.error(FirebaseErrors.genericError))
+                                                                    return
+                                                                }
+                                                                userData["id"] = user
+                                                                queriedUsers.append(userData)
+                                                                usersDataQueryDispatchGroup.leave()
+                                                            }
+                                                    }
+                                                    usersDataQueryDispatchGroup.notify(queue: .main) {
+                                                        for index in 0..<queriedUsers.count {
+                                                            var userConnections = [String]()
+                                                            if let connections = queriedUsers[index]["connections"] as? [String] {
+                                                                userConnections = connections
+                                                            }
+                                                            let commonConnectionsCount = userConnections.filter({ currentUserConnections.contains($0) }).count
+                                                            var userProjects = [String]()
+                                                            if let projects = queriedUsers[index]["participating_projects"] as? [String] {
+                                                                userProjects = projects
+                                                            }
+                                                            let commonProjectsCount = userProjects.filter({ currentUserProjects.contains($0) }).count
+                                                            var userCathegories = [String]()
+                                                            if let cathegories = queriedUsers[index]["interest_cathegories"] as? [String] {
+                                                                userCathegories = cathegories
+                                                            }
+                                                            let commonInterestCathegoriesCount = userCathegories.filter({ currentUserCathegories.contains($0) }).count
+                                                            let totalScore = commonConnectionsCount * self.commonConnectionsScore + commonProjectsCount * self.commonProjectsScore + commonInterestCathegoriesCount * self.commonCathegoriesScore
+                                                            queriedUsers[index]["score"] = totalScore
+                                                        }
+                                                        queriedUsers.sort(by: {
+                                                            guard let score0 = $0["score"] as? Int,
+                                                                  let score1 = $1["score"] as? Int else {
+                                                                return true
+                                                            }
+                                                            return score0 > score1
+                                                        })
+                                                        let responseSuggestions = queriedUsers.prefix(limit)
+                                                        let mappedResponse = Mapper<T>().mapArray(JSONArray: Array(responseSuggestions))
+                                                        completion(.success(mappedResponse))
+                                                    }
+                                                }
+                                            }
+                                    }
+                            }
+                    }
+        }
+    }
+    
+    func fetchCommonConnectionsProfileSuggestions<T: Mappable>(request: [String : Any],
+                                                               completion: @escaping (BaseResponse<[T]>) -> Void) {
+        var currentUserConnections = [String]()
+        var noRelationUsers = [String]()
+        var usersDataResults = [[String : Any]]()
+        var removedSuggestedUsers = [String]()
+        
+        guard let limit = request["limit"] as? Int else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        guard let currentUser = authReference.currentUser?.uid else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        realtimeDB
+            .child(Constants.usersPath)
+            .child(currentUser)
+            .child("removed_suggestions")
+            .observeSingleEvent(of: .value) { snapshot in
+                if let removedUsers = snapshot.value as? [String] {
+                    removedSuggestedUsers = removedUsers
+                }
+                self.realtimeDB
+                    .child(Constants.usersPath)
+                    .child(currentUser)
+                    .child("connections")
+                    .observeSingleEvent(of: .value) { snapshot in
+                        if let connections = snapshot.value as? [String] {
+                            currentUserConnections = connections
+                        } else {
+                            currentUserConnections = .empty
+                        }
+                        self.realtimeDB
+                            .child(Constants.allUsersCataloguePath)
+                            .observeSingleEvent(of: .value) { snapshot in
+                                guard let allUsers = snapshot.value as? [String] else {
+                                    completion(.error(FirebaseErrors.genericError))
+                                    return
+                                }
+                                let dispatchGroup = DispatchGroup()
+                                for user in allUsers {
+                                    dispatchGroup.enter()
+                                    if user != currentUser,
+                                       !removedSuggestedUsers.contains(user) {
+                                        self.checkConnected(request: FetchUserRelationRequest(fromUserId: currentUser, toUserId: user)) { result in
+                                            guard !result else {
+                                                dispatchGroup.leave()
+                                                return
+                                            }
+                                            self.checkSent(request: FetchUserRelationRequest(fromUserId: currentUser, toUserId: user)) { result in
+                                                guard !result else {
+                                                    dispatchGroup.leave()
+                                                    return
+                                                }
+                                                self.checkPending(request: FetchUserRelationRequest(fromUserId: currentUser, toUserId: user)) { result in
+                                                    guard !result else {
+                                                        dispatchGroup.leave()
+                                                        return
+                                                    }
+                                                    noRelationUsers.append(user)
+                                                    dispatchGroup.leave()
+                                                }
+                                            }
+                                        }
+                                    } else {
+                                        dispatchGroup.leave()
+                                    }
+                                }
+                                dispatchGroup.notify(queue: .main) {
+                                    let userDataDispatchGroup = DispatchGroup()
+                                    for user in noRelationUsers {
+                                        userDataDispatchGroup.enter()
+                                        self.realtimeDB
+                                            .child(Constants.usersPath)
+                                            .child(user)
+                                            .observeSingleEvent(of: .value) { snapshot in
+                                                guard var userData = snapshot.value as? [String
+                                                        : Any] else {
+                                                    completion(.error(FirebaseErrors.genericError))
+                                                    return
+                                                }
+                                                var userConnections: [String] = .empty
+                                                if let connections = userData["connections"] as? [String] {
+                                                    userConnections = connections
+                                                }
+                                                let score = userConnections.filter({ currentUserConnections.contains($0) }).count
+                                                userData["score"] = score
+                                                userData["id"] = user
+                                                usersDataResults.append(userData)
+                                                userDataDispatchGroup.leave()
+                                            }
+                                    }
+                                    userDataDispatchGroup.notify(queue: .main) {
+                                        let orderedScores = Array(usersDataResults.sorted(by: {
+                                            guard let score0 = $0["score"] as? Int,
+                                                  let score1 = $1["score"] as? Int else {
+                                                return true
+                                            }
+                                            return score0 > score1
+                                        }).prefix(limit))
+                                        let mappedResponse = Mapper<T>().mapArray(JSONArray: orderedScores)
+                                        completion(.success(mappedResponse))
+                                    }
+                                }
+                            }
+                    }
+            }
+    }
+    
+    func fetchCommonProjectsProfileSuggestions<T: Mappable>(request: [String : Any],
+                                                            completion: @escaping (BaseResponse<[T]>) -> Void) {
+        var currentUserProjects = [String]()
+        var noRelationUsers = [String]()
+        var usersDataResults = [[String : Any]]()
+        var removedSuggestedUsers = [String]()
+        
+        guard let limit = request["limit"] as? Int else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        guard let currentUser = authReference.currentUser?.uid else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        realtimeDB
+            .child(Constants.usersPath)
+            .child(currentUser)
+            .child("removed_suggestions")
+            .observeSingleEvent(of: .value) { snapshot in
+                if let removedUsers = snapshot.value as? [String] {
+                    removedSuggestedUsers = removedUsers
                 }
                 self.realtimeDB
                     .child(Constants.usersPath)
@@ -2696,296 +2946,84 @@ class FirebaseManager: FirebaseManagerProtocol {
                     .observeSingleEvent(of: .value) { snapshot in
                         if let projects = snapshot.value as? [String] {
                             currentUserProjects = projects
+                        } else {
+                            currentUserProjects = .empty
                         }
                         self.realtimeDB
-                            .child(currentUser)
-                            .child("connections")
+                            .child(Constants.allUsersCataloguePath)
                             .observeSingleEvent(of: .value) { snapshot in
-                                if let connections = snapshot.value as? [String] {
-                                    currentUserConnections = connections
+                                guard let allUsers = snapshot.value as? [String] else {
+                                    completion(.error(FirebaseErrors.genericError))
+                                    return
                                 }
-                                self.realtimeDB
-                                    .child(Constants.allUsersCataloguePath)
-                                    .observeSingleEvent(of: .value) { snapshot in
-                                        guard let allUsers = snapshot.value as? [String] else {
-                                            completion(.error(FirebaseErrors.genericError))
-                                            return
-                                        }
-                                        let noRelationUsersDispatchGroup = DispatchGroup()
-                                        for user in allUsers {
-                                            noRelationUsersDispatchGroup.enter()
-                                            if user != currentUser {
-                                                self.checkConnected(request: FetchUserRelationRequest(fromUserId: currentUser, toUserId: user)) { response in
-                                                    guard !response else {
-                                                        noRelationUsersDispatchGroup.leave()
+                                let dispatchGroup = DispatchGroup()
+                                for user in allUsers {
+                                    dispatchGroup.enter()
+                                    if user != currentUser,
+                                       !removedSuggestedUsers.contains(user) {
+                                        self.checkConnected(request: FetchUserRelationRequest(fromUserId: currentUser, toUserId: user)) { result in
+                                            guard !result else {
+                                                dispatchGroup.leave()
+                                                return
+                                            }
+                                            self.checkSent(request: FetchUserRelationRequest(fromUserId: currentUser, toUserId: user)) { result in
+                                                guard !result else {
+                                                    dispatchGroup.leave()
+                                                    return
+                                                }
+                                                self.checkPending(request: FetchUserRelationRequest(fromUserId: currentUser, toUserId: user)) { result in
+                                                    guard !result else {
+                                                        dispatchGroup.leave()
                                                         return
                                                     }
-                                                    self.checkPending(request: FetchUserRelationRequest(fromUserId: currentUser, toUserId: user)) { response in
-                                                        guard !response else {
-                                                            noRelationUsersDispatchGroup.leave()
-                                                            return
-                                                        }
-                                                        self.checkSent(request: FetchUserRelationRequest(fromUserId: currentUser, toUserId: user)) { response in
-                                                            if !response {
-                                                                userSuggestions.append(user)
-                                                            }
-                                                            noRelationUsersDispatchGroup.leave()
-                                                        }
-                                                    }
+                                                    noRelationUsers.append(user)
+                                                    dispatchGroup.leave()
                                                 }
-                                            } else {
-                                                noRelationUsersDispatchGroup.leave()
                                             }
                                         }
-                                        //PHASE 2: FETCH ALL FILTERED USERS DATA
-                                        noRelationUsersDispatchGroup.notify(queue: .main) {
-                                            let usersDataQueryDispatchGroup = DispatchGroup()
-                                            for user in userSuggestions {
-                                                usersDataQueryDispatchGroup.enter()
-                                                self.realtimeDB
-                                                    .child(Constants.usersPath)
-                                                    .child(user)
-                                                    .observeSingleEvent(of: .value) { snapshot in
-                                                        guard var userData = snapshot.value as? [String : Any] else {
-                                                            completion(.error(FirebaseErrors.genericError))
-                                                            return
-                                                        }
-                                                        userData["id"] = user
-                                                        queriedUsers.append(userData)
-                                                        usersDataQueryDispatchGroup.leave()
-                                                    }
-                                            }
-                                            usersDataQueryDispatchGroup.notify(queue: .main) {
-                                                for index in 0..<queriedUsers.count {
-                                                    var userConnections = [String]()
-                                                    if let connections = queriedUsers[index]["connections"] as? [String] {
-                                                        userConnections = connections
-                                                    }
-                                                    let commonConnectionsCount = userConnections.filter({ currentUserConnections.contains($0) }).count
-                                                    var userProjects = [String]()
-                                                    if let projects = queriedUsers[index]["participating_projects"] as? [String] {
-                                                        userProjects = projects
-                                                    }
-                                                    let commonProjectsCount = userProjects.filter({ currentUserProjects.contains($0) }).count
-                                                    var userCathegories = [String]()
-                                                    if let cathegories = queriedUsers[index]["interest_cathegories"] as? [String] {
-                                                        userCathegories = cathegories
-                                                    }
-                                                    let commonInterestCathegoriesCount = userCathegories.filter({ currentUserCathegories.contains($0) }).count
-                                                    let totalScore = commonConnectionsCount * self.commonConnectionsScore + commonProjectsCount * self.commonProjectsScore + commonInterestCathegoriesCount * self.commonCathegoriesScore
-                                                    queriedUsers[index]["score"] = totalScore
+                                    } else {
+                                        dispatchGroup.leave()
+                                    }
+                                }
+                                dispatchGroup.notify(queue: .main) {
+                                    let userDataDispatchGroup = DispatchGroup()
+                                    for user in noRelationUsers {
+                                        userDataDispatchGroup.enter()
+                                        self.realtimeDB
+                                            .child(Constants.usersPath)
+                                            .child(user)
+                                            .observeSingleEvent(of: .value) { snapshot in
+                                                guard var userData = snapshot.value as? [String
+                                                        : Any] else {
+                                                    completion(.error(FirebaseErrors.genericError))
+                                                    return
                                                 }
-                                                queriedUsers.sort(by: {
-                                                    guard let score0 = $0["score"] as? Int,
-                                                          let score1 = $1["score"] as? Int else {
-                                                        return true
-                                                    }
-                                                    return score0 > score1
-                                                })
-                                                let responseSuggestions = queriedUsers.prefix(limit)
-                                                let mappedResponse = Mapper<T>().mapArray(JSONArray: Array(responseSuggestions))
-                                                completion(.success(mappedResponse))
+                                                var userProjects: [String] = .empty
+                                                if let projects = userData["participating_projects"] as? [String] {
+                                                    userProjects = projects
+                                                }
+                                                let score = userProjects.filter({ currentUserProjects.contains($0) }).count
+                                                userData["score"] = score
+                                                userData["id"] = user
+                                                usersDataResults.append(userData)
+                                                userDataDispatchGroup.leave()
                                             }
-                                        }
-                                }
-                            }
-                        }
-                }
-        }
-    
-    func fetchCommonConnectionsProfileSuggestions<T: Mappable>(request: [String : Any],
-                                                     completion: @escaping (BaseResponse<[T]>) -> Void) {
-        var currentUserConnections = [String]()
-        var noRelationUsers = [String]()
-        var usersDataResults = [[String : Any]]()
-        
-        guard let limit = request["limit"] as? Int else {
-            completion(.error(FirebaseErrors.genericError))
-            return
-        }
-        guard let currentUser = authReference.currentUser?.uid else {
-            completion(.error(FirebaseErrors.genericError))
-            return
-        }
-        realtimeDB
-            .child(Constants.usersPath)
-            .child(currentUser)
-            .child("connections")
-            .observeSingleEvent(of: .value) { snapshot in
-                if let connections = snapshot.value as? [String] {
-                    currentUserConnections = connections
-                } else {
-                    currentUserConnections = .empty
-                }
-                self.realtimeDB
-                    .child(Constants.allUsersCataloguePath)
-                    .observeSingleEvent(of: .value) { snapshot in
-                        guard let allUsers = snapshot.value as? [String] else {
-                            completion(.error(FirebaseErrors.genericError))
-                            return
-                        }
-                        let dispatchGroup = DispatchGroup()
-                        for user in allUsers {
-                            dispatchGroup.enter()
-                            if user != currentUser {
-                                self.checkConnected(request: FetchUserRelationRequest(fromUserId: currentUser, toUserId: user)) { result in
-                                    guard !result else {
-                                        dispatchGroup.leave()
-                                        return
                                     }
-                                    self.checkSent(request: FetchUserRelationRequest(fromUserId: currentUser, toUserId: user)) { result in
-                                        guard !result else {
-                                            dispatchGroup.leave()
-                                            return
-                                        }
-                                        self.checkPending(request: FetchUserRelationRequest(fromUserId: currentUser, toUserId: user)) { result in
-                                            guard !result else {
-                                                dispatchGroup.leave()
-                                                return
+                                    userDataDispatchGroup.notify(queue: .main) {
+                                        let orderedScores = Array(usersDataResults.sorted(by: {
+                                            guard let score0 = $0["score"] as? Int,
+                                                  let score1 = $1["score"] as? Int else {
+                                                return true
                                             }
-                                            noRelationUsers.append(user)
-                                            dispatchGroup.leave()
-                                        }
+                                            return score0 > score1
+                                        }).prefix(limit))
+                                        let mappedResponse = Mapper<T>().mapArray(JSONArray: orderedScores)
+                                        completion(.success(mappedResponse))
                                     }
                                 }
-                            } else {
-                                dispatchGroup.leave()
                             }
-                        }
-                        dispatchGroup.notify(queue: .main) {
-                            let userDataDispatchGroup = DispatchGroup()
-                            for user in noRelationUsers {
-                                userDataDispatchGroup.enter()
-                                self.realtimeDB
-                                    .child(Constants.usersPath)
-                                    .child(user)
-                                    .observeSingleEvent(of: .value) { snapshot in
-                                        guard var userData = snapshot.value as? [String
-                                        : Any] else {
-                                            completion(.error(FirebaseErrors.genericError))
-                                            return
-                                        }
-                                        var userConnections: [String] = .empty
-                                        if let connections = userData["connections"] as? [String] {
-                                            userConnections = connections
-                                        }
-                                        let score = userConnections.filter({ currentUserConnections.contains($0) }).count
-                                        userData["score"] = score
-                                        userData["id"] = user
-                                        usersDataResults.append(userData)
-                                        userDataDispatchGroup.leave()
-                                }
-                            }
-                            userDataDispatchGroup.notify(queue: .main) {
-                                let orderedScores = Array(usersDataResults.sorted(by: {
-                                    guard let score0 = $0["score"] as? Int,
-                                          let score1 = $1["score"] as? Int else {
-                                        return true
-                                    }
-                                    return score0 > score1
-                                }).prefix(limit))
-                                let mappedResponse = Mapper<T>().mapArray(JSONArray: orderedScores)
-                                completion(.success(mappedResponse))
-                            }
-                        }
-                }
-        }
-    }
-    
-    func fetchCommonProjectsProfileSuggestions<T: Mappable>(request: [String : Any],
-                                                            completion: @escaping (BaseResponse<[T]>) -> Void) {
-        var currentUserProjects = [String]()
-        var noRelationUsers = [String]()
-        var usersDataResults = [[String : Any]]()
-        
-        guard let limit = request["limit"] as? Int else {
-            completion(.error(FirebaseErrors.genericError))
-            return
-        }
-        guard let currentUser = authReference.currentUser?.uid else {
-            completion(.error(FirebaseErrors.genericError))
-            return
-        }
-        realtimeDB
-            .child(Constants.usersPath)
-            .child(currentUser)
-            .child("participating_projects")
-            .observeSingleEvent(of: .value) { snapshot in
-                if let connections = snapshot.value as? [String] {
-                    currentUserProjects = connections
-                } else {
-                    currentUserProjects = .empty
-                }
-                self.realtimeDB
-                    .child(Constants.allUsersCataloguePath)
-                    .observeSingleEvent(of: .value) { snapshot in
-                        guard let allUsers = snapshot.value as? [String] else {
-                            completion(.error(FirebaseErrors.genericError))
-                            return
-                        }
-                        let dispatchGroup = DispatchGroup()
-                        for user in allUsers {
-                            dispatchGroup.enter()
-                            if user != currentUser {
-                                self.checkConnected(request: FetchUserRelationRequest(fromUserId: currentUser, toUserId: user)) { result in
-                                    guard !result else {
-                                        dispatchGroup.leave()
-                                        return
-                                    }
-                                    self.checkSent(request: FetchUserRelationRequest(fromUserId: currentUser, toUserId: user)) { result in
-                                        guard !result else {
-                                            dispatchGroup.leave()
-                                            return
-                                        }
-                                        self.checkPending(request: FetchUserRelationRequest(fromUserId: currentUser, toUserId: user)) { result in
-                                            guard !result else {
-                                                dispatchGroup.leave()
-                                                return
-                                            }
-                                            noRelationUsers.append(user)
-                                            dispatchGroup.leave()
-                                        }
-                                    }
-                                }
-                            } else {
-                                dispatchGroup.leave()
-                            }
-                        }
-                        dispatchGroup.notify(queue: .main) {
-                            let userDataDispatchGroup = DispatchGroup()
-                            for user in noRelationUsers {
-                                userDataDispatchGroup.enter()
-                                self.realtimeDB
-                                    .child(Constants.usersPath)
-                                    .child(user)
-                                    .observeSingleEvent(of: .value) { snapshot in
-                                        guard var userData = snapshot.value as? [String
-                                        : Any] else {
-                                            completion(.error(FirebaseErrors.genericError))
-                                            return
-                                        }
-                                        usersDataResults.append(userData)
-                                        guard let projects = userData["participating_projects"] as? [String] else { return }
-                                        let score = projects.filter({ currentUserProjects.contains($0) }).count
-                                        userData["score"] = score
-                                        usersDataResults.append(userData)
-                                        userDataDispatchGroup.leave()
-                                }
-                            }
-                            userDataDispatchGroup.notify(queue: .main) {
-                                let orderedScores = Array(usersDataResults.sorted(by: {
-                                    guard let score0 = $0["score"] as? Int,
-                                          let score1 = $1["score"] as? Int else {
-                                        return true
-                                    }
-                                    return score0 > score1
-                                }).prefix(limit))
-                                let mappedResponse = Mapper<T>().mapArray(JSONArray: orderedScores)
-                                completion(.success(mappedResponse))
-                            }
-                        }
-                }
-        }
+                    }
+            }
     }
     
     func fetchCommonCathegoriesProfileSuggestions<T: Mappable>(request: [String : Any],
@@ -2993,6 +3031,7 @@ class FirebaseManager: FirebaseManagerProtocol {
         var currentUserCathegories = [String]()
         var noRelationUsers = [String]()
         var usersDataResults = [[String : Any]]()
+        var removedSuggestedUsers = [String]()
         
         guard let limit = request["limit"] as? Int else {
             completion(.error(FirebaseErrors.genericError))
@@ -3005,83 +3044,141 @@ class FirebaseManager: FirebaseManagerProtocol {
         realtimeDB
             .child(Constants.usersPath)
             .child(currentUser)
-            .child("interest_cathegories")
+            .child("removed_suggestions")
             .observeSingleEvent(of: .value) { snapshot in
-                guard let cathegories = snapshot.value as? [String] else {
-                    completion(.error(FirebaseErrors.genericError))
-                    return
+                if let removedUsers = snapshot.value as? [String] {
+                    removedSuggestedUsers = removedUsers
                 }
-                currentUserCathegories = cathegories
                 self.realtimeDB
-                    .child(Constants.allUsersCataloguePath)
+                    .child(Constants.usersPath)
+                    .child(currentUser)
+                    .child("interest_cathegories")
                     .observeSingleEvent(of: .value) { snapshot in
-                        guard let allUsers = snapshot.value as? [String] else {
-                            completion(.error(FirebaseErrors.genericError))
-                            return
+                        if let cathegories = snapshot.value as? [String] {
+                            currentUserCathegories = cathegories
+                        } else {
+                            currentUserCathegories = .empty
                         }
-                        let dispatchGroup = DispatchGroup()
-                        for user in allUsers {
-                            dispatchGroup.enter()
-                            if user != currentUser {
-                                self.checkConnected(request: FetchUserRelationRequest(fromUserId: currentUser, toUserId: user)) { result in
-                                    guard !result else {
-                                        dispatchGroup.leave()
-                                        return
-                                    }
-                                    self.checkSent(request: FetchUserRelationRequest(fromUserId: currentUser, toUserId: user)) { result in
-                                        guard !result else {
-                                            dispatchGroup.leave()
-                                            return
-                                        }
-                                        self.checkPending(request: FetchUserRelationRequest(fromUserId: currentUser, toUserId: user)) { result in
+                        self.realtimeDB
+                            .child(Constants.allUsersCataloguePath)
+                            .observeSingleEvent(of: .value) { snapshot in
+                                guard let allUsers = snapshot.value as? [String] else {
+                                    completion(.error(FirebaseErrors.genericError))
+                                    return
+                                }
+                                let dispatchGroup = DispatchGroup()
+                                for user in allUsers {
+                                    dispatchGroup.enter()
+                                    if user != currentUser,
+                                       !removedSuggestedUsers.contains(user) {
+                                        self.checkConnected(request: FetchUserRelationRequest(fromUserId: currentUser, toUserId: user)) { result in
                                             guard !result else {
                                                 dispatchGroup.leave()
                                                 return
                                             }
-                                            noRelationUsers.append(user)
-                                            dispatchGroup.leave()
+                                            self.checkSent(request: FetchUserRelationRequest(fromUserId: currentUser, toUserId: user)) { result in
+                                                guard !result else {
+                                                    dispatchGroup.leave()
+                                                    return
+                                                }
+                                                self.checkPending(request: FetchUserRelationRequest(fromUserId: currentUser, toUserId: user)) { result in
+                                                    guard !result else {
+                                                        dispatchGroup.leave()
+                                                        return
+                                                    }
+                                                    noRelationUsers.append(user)
+                                                    dispatchGroup.leave()
+                                                }
+                                            }
                                         }
+                                    } else {
+                                        dispatchGroup.leave()
                                     }
                                 }
-                            } else {
-                                dispatchGroup.leave()
-                            }
-                        }
-                        dispatchGroup.notify(queue: .main) {
-                            let userDataDispatchGroup = DispatchGroup()
-                            for user in noRelationUsers {
-                                userDataDispatchGroup.enter()
-                                self.realtimeDB
-                                    .child(Constants.usersPath)
-                                    .child(user)
-                                    .observeSingleEvent(of: .value) { snapshot in
-                                        guard var userData = snapshot.value as? [String
-                                        : Any] else {
-                                            completion(.error(FirebaseErrors.genericError))
-                                            return
-                                        }
-                                        usersDataResults.append(userData)
-                                        guard let cathegories = userData["interest_cathegories"] as? [String] else { return }
-                                        let score = cathegories.filter({ currentUserCathegories.contains($0) }).count
-                                        userData["score"] = score
-                                        usersDataResults.append(userData)
-                                        userDataDispatchGroup.leave()
+                                dispatchGroup.notify(queue: .main) {
+                                    let userDataDispatchGroup = DispatchGroup()
+                                    for user in noRelationUsers {
+                                        userDataDispatchGroup.enter()
+                                        self.realtimeDB
+                                            .child(Constants.usersPath)
+                                            .child(user)
+                                            .observeSingleEvent(of: .value) { snapshot in
+                                                guard var userData = snapshot.value as? [String
+                                                        : Any] else {
+                                                    completion(.error(FirebaseErrors.genericError))
+                                                    return
+                                                }
+                                                var userCathegories: [String] = .empty
+                                                if let cathegories = userData["interest_cathegories"] as? [String] {
+                                                    userCathegories = cathegories
+                                                }
+                                                let score = userCathegories.filter({ currentUserCathegories.contains($0) }).count
+                                                userData["score"] = score
+                                                userData["id"] = user
+                                                usersDataResults.append(userData)
+                                                userDataDispatchGroup.leave()
+                                            }
+                                    }
+                                    userDataDispatchGroup.notify(queue: .main) {
+                                        let orderedScores = Array(usersDataResults.sorted(by: {
+                                            guard let score0 = $0["score"] as? Int,
+                                                  let score1 = $1["score"] as? Int else {
+                                                return true
+                                            }
+                                            return score0 > score1
+                                        }).prefix(limit))
+                                        let mappedResponse = Mapper<T>().mapArray(JSONArray: orderedScores)
+                                        completion(.success(mappedResponse))
+                                    }
                                 }
                             }
-                            userDataDispatchGroup.notify(queue: .main) {
-                                let orderedScores = Array(usersDataResults.sorted(by: {
-                                    guard let score0 = $0["score"] as? Int,
-                                          let score1 = $1["score"] as? Int else {
-                                        return true
-                                    }
-                                    return score0 > score1
-                                }).prefix(limit))
-                                let mappedResponse = Mapper<T>().mapArray(JSONArray: orderedScores)
-                                completion(.success(mappedResponse))
-                            }
-                        }
-                }
+                    }
+            }
+    }
+    
+    func removeProfileSuggestion(request: [String : Any],
+                                 completion: @escaping (EmptyResponse) -> Void) {
+        guard let userId = request["userId"] as? String else {
+            completion(.error(FirebaseErrors.genericError))
+            return
         }
+        guard let currentUser = authReference.currentUser?.uid else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        realtimeDB
+            .child(Constants.allUsersCataloguePath)
+            .observeSingleEvent(of: .value) { snapshot in
+                guard let allUsers = snapshot.value as? [String] else {
+                    completion(.error(FirebaseErrors.genericError))
+                    return
+                }
+                guard allUsers.contains(userId) else {
+                    completion(.error(FirebaseErrors.genericError))
+                    return
+                }
+                self.realtimeDB
+                    .child(Constants.usersPath)
+                    .child(currentUser)
+                    .child("removed_suggestions")
+                    .observeSingleEvent(of: .value) { snapshot in
+                        var removedUsers = [String]()
+                        if let removedSuggestions = snapshot.value as? [String] {
+                            removedUsers = removedSuggestions
+                        }
+                        removedUsers.append(userId)
+                        self.realtimeDB
+                            .child(Constants.usersPath)
+                            .child(currentUser)
+                            .updateChildValues(["removed_suggestions": removedUsers]) { (error, ref) in
+                                if let error = error {
+                                    completion(.error(error))
+                                    return
+                                }
+                                completion(.success)
+                            }
+                    }
+            }
     }
 }
 

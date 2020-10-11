@@ -57,6 +57,7 @@ extension ProfileSuggestionsInteractor {
                 self.presenter.presentProfileSuggestions(suggestions)
             case .error(let error):
                 self.presenter.presentLoading(false)
+                self.presenter.presentError(ProfileSuggestions.Info.Model.ProfileSuggestionsError(error: error))
             }
         }
     }
@@ -80,6 +81,7 @@ extension ProfileSuggestionsInteractor {
                 self.presenter.presentProfileSuggestions(suggestions)
             case .error(let error):
                 self.presenter.presentLoading(false)
+                self.presenter.presentError(ProfileSuggestions.Info.Model.ProfileSuggestionsError(error: error))
             }
         }
     }
@@ -103,6 +105,7 @@ extension ProfileSuggestionsInteractor {
                 self.presenter.presentProfileSuggestions(suggestions)
             case .error(let error):
                 self.presenter.presentLoading(false)
+                self.presenter.presentError(ProfileSuggestions.Info.Model.ProfileSuggestionsError(error: error))
             }
         }
     }
@@ -135,13 +138,17 @@ extension ProfileSuggestionsInteractor: ProfileSuggestionsBusinessLogic {
             case .success:
                 self.profileSuggestions?.profiles.removeAll(where: { $0.id == id })
             case .error(let error):
-                break
+                self.presenter.presentError(ProfileSuggestions.Info.Model.ProfileSuggestionsError(error: error))
             }
         }
     }
     
     func fetchRemoveUser(_ request: ProfileSuggestions.Request.RemoveUser) {
         guard let id = profileSuggestions?.profiles[request.index].id else { return }
+        presenter.presentFadeItem(ProfileSuggestions
+                                    .Info
+                                    .Model
+                                    .ProfileFade(index: request.index))
         worker.fetchRemoveProfileSuggestion(ProfileSuggestions
                                                 .Request
                                                 .RemoveUserWithId(userId: id)) { response in
@@ -149,7 +156,7 @@ extension ProfileSuggestionsInteractor: ProfileSuggestionsBusinessLogic {
             case .success:
                 self.profileSuggestions?.profiles.removeAll(where: { $0.id == id })
             case .error(let error):
-                break
+                self.presenter.presentError(ProfileSuggestions.Info.Model.ProfileSuggestionsError(error: error))
             }
         }
     }

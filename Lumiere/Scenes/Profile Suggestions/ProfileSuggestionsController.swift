@@ -136,7 +136,12 @@ extension ProfileSuggestionsController: UITableViewDataSource {
     }
 }
 
-extension ProfileSuggestionsController: UITableViewDelegate { }
+extension ProfileSuggestionsController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        interactor?.didSelectProfile(ProfileSuggestions.Request.SelectProfile(index: indexPath.row))
+    }
+}
 
 extension ProfileSuggestionsController: ProfileSuggestionsTableViewCellDelegate {
     

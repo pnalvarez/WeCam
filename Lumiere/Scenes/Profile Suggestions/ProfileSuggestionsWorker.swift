@@ -56,6 +56,7 @@ class ProfileSuggestionsWorker: ProfileSuggestionsWorkerProtocol {
     
     func fetchRemoveProfileSuggestion(_ request: ProfileSuggestions.Request.RemoveUserWithId,
                                       completion: @escaping (EmptyResponse) -> Void) {
-        //TO DO
+        let headers: [String : Any] = ["userId" : request.userId]
+        builder.removeProfileSuggestion(request: headers, completion: completion)
     }
 }
