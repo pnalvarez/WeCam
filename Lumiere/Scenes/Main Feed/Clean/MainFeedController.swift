@@ -62,6 +62,11 @@ class MainFeedController: BaseViewController {
         interactor?.fetchSuggestedProfiles(MainFeed.Request.FetchSuggestedProfiles())
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        flushProfileSuggestions()
+    }
+    
     private func setup() {
         let viewController = self
         let presenter = MainFeedPresenter(viewController: viewController)
@@ -86,6 +91,14 @@ extension MainFeedController {
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
+    }
+    
+    private func flushProfileSuggestions() {
+        profileSuggestionsViewModel = nil
+        let cell = tableView.cellForRow(at: IndexPath(row: MainFeed.Constants.BusinessLogic.CellIndexes.profileSuggestions.rawValue,
+                                                      section: MainFeed.Constants.BusinessLogic.Sections.defaultFeed.rawValue),
+                                        type: ProfileSuggestionsFeedTableViewCell.self)
+        cell.flushItems()
     }
 }
 

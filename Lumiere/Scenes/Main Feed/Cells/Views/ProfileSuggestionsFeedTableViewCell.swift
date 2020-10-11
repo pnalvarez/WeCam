@@ -30,6 +30,7 @@ class ProfileSuggestionsFeedTableViewCell: UITableViewCell {
         view.bounces = false
         view.backgroundColor = ThemeColors.whiteThemeColor.rawValue
         view.clipsToBounds = true
+        view.delegate = self
         return view
     }()
     
@@ -62,6 +63,23 @@ class ProfileSuggestionsFeedTableViewCell: UITableViewCell {
         self.viewModel = viewModel
         applyViewCode()
     }
+    
+    func flushItems() {
+        for view in mainContainer.subviews {
+            view.removeFromSuperview()
+        }
+        scrollView.layoutIfNeeded()
+    }
+}
+
+extension ProfileSuggestionsFeedTableViewCell: UIScrollViewDelegate {
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        scrollView.layoutIfNeeded()
+        for view in mainContainer.subviews {
+            view.layoutIfNeeded()
+        }
+    }
 }
 
 extension ProfileSuggestionsFeedTableViewCell {
@@ -69,7 +87,7 @@ extension ProfileSuggestionsFeedTableViewCell {
     private func buildProfileSuggestionsButtons() {
         var buttons: [ProfileResumeButton] = .empty
         guard let suggestions = viewModel?.suggestions else { return }
-        let scrollWidth: CGFloat = CGFloat(22 + (141 * suggestions.count) / 2)
+        let scrollWidth: CGFloat = CGFloat(22 + (142 * suggestions.count) / 2)
         scrollView.contentSize = CGSize(width: scrollWidth, height: scrollView.frame.height)
         for index in 0..<suggestions.count {
             let button = ProfileResumeButton(frame: .zero,

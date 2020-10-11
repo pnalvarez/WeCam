@@ -61,7 +61,19 @@ struct MainFeed {
         }
         
         struct BusinessLogic {
+            
             static let suggestionsLimit: Int = 10
+            
+            enum CellIndexes: Int {
+                case search = 0
+                case profileSuggestions = 1
+                case ongoingProjectsSuggestions = 2
+            }
+            
+            enum Sections: Int {
+                case defaultFeed = 0
+                case finishedProjects = 1
+            }
         }
     }
     
