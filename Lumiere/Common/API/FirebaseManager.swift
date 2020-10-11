@@ -2865,10 +2865,13 @@ class FirebaseManager: FirebaseManagerProtocol {
                                             completion(.error(FirebaseErrors.genericError))
                                             return
                                         }
-                                        usersDataResults.append(userData)
-                                        guard let connections = userData["connections"] as? [String] else { return }
-                                        let score = connections.filter({ currentUserConnections.contains($0) }).count
+                                        var userConnections: [String] = .empty
+                                        if let connections = userData["connections"] as? [String] {
+                                            userConnections = connections
+                                        }
+                                        let score = userConnections.filter({ currentUserConnections.contains($0) }).count
                                         userData["score"] = score
+                                        userData["id"] = user
                                         usersDataResults.append(userData)
                                         userDataDispatchGroup.leave()
                                 }

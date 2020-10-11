@@ -26,10 +26,10 @@ class ProfileSuggestionsFeedTableViewCell: UITableViewCell {
     
     private lazy var scrollView: UIScrollView = {
         let view = UIScrollView(frame: .zero)
-        view.alwaysBounceVertical = false
         view.alwaysBounceHorizontal = false
         view.bounces = false
         view.backgroundColor = ThemeColors.whiteThemeColor.rawValue
+        view.clipsToBounds = true
         return view
     }()
     
@@ -41,7 +41,7 @@ class ProfileSuggestionsFeedTableViewCell: UITableViewCell {
     
     private lazy var seeAllButton: UIButton = {
         let view = UIButton(frame: .zero)
-        view.addTarget(self, action: #selector(didTapSeeAll), for: .touchUpInside)
+        view.addTarget(self, action: #selector(didTapSeeAll(_:)), for: .touchUpInside)
         view.setTitle(MainFeed.Constants.Texts.profileSuggestionsSeeAllButton, for: .normal)
         view.setTitleColor(MainFeed.Constants.Colors.profileSuggestionsSeeAllButton, for: .normal)
         view.titleLabel?.font = MainFeed.Constants.Fonts.profileSuggestionsSeeAllButton
@@ -111,7 +111,7 @@ extension ProfileSuggestionsFeedTableViewCell {
     }
     
     @objc
-    private func didTapSeeAll() {
+    private func didTapSeeAll(_ sender: UIButton) {
         delegate?.didTapSeeAll()
     }
 }
@@ -142,7 +142,7 @@ extension ProfileSuggestionsFeedTableViewCell: ViewCodeProtocol {
         }
         seeAllButton.snp.makeConstraints { make in
             make.right.equalToSuperview().inset(18)
-            make.top.equalTo(scrollView.snp.bottom).offset(15)
+            make.top.equalTo(headerLbl.snp.bottom).offset(125)
             make.height.equalTo(16)
             make.width.equalTo(70)
         }

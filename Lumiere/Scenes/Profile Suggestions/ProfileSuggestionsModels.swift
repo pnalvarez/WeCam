@@ -48,7 +48,7 @@ struct ProfileSuggestions {
         struct Dimensions {
             
             struct Heights {
-                
+                static let defaultCellHeight: CGFloat = 118
             }
         }
         
@@ -99,7 +99,7 @@ struct ProfileSuggestions {
             }
             
             struct UpcomingSuggestions: Equatable {
-                let profiles: [Profile]
+                var profiles: [Profile]
             }
             
             struct Profile: Equatable {
@@ -108,12 +108,20 @@ struct ProfileSuggestions {
                 let image: String
                 let ocupation: String
             }
+            
+            struct ProfileFade: Equatable {
+                let index: Int
+            }
+            
+            struct ProfileSuggestionsError {
+                let error: Error
+            }
         }
         
         struct ViewModel {
             
             struct UpcomingSuggestions: Equatable {
-                let profiles: [Profile]
+                var profiles: [Profile]
             }
             
             struct Profile: Equatable {
@@ -125,6 +133,10 @@ struct ProfileSuggestions {
             struct ProfileItemToFade: Equatable {
                 let index: Int
             }
+            
+            struct ProfileSuggestionsError {
+                let error: String
+            }
         }
         
         struct Received {
@@ -135,7 +147,7 @@ struct ProfileSuggestions {
     struct Request {
         
         struct FetchProfileSuggestions {
-            let criteria: Info.Model.SuggestionsCriteria
+            
         }
         
         struct AddUser {

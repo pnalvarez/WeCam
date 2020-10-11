@@ -11,6 +11,7 @@ import UIKit
 protocol ProfileSuggestionsTableViewCellDelegate: class {
     func didTapAdd(index: Int)
     func didTapRemove(index: Int)
+    func didEndFading(index: Int)
 }
 
 class ProfileSuggestionsTableViewCell: UITableViewCell {
@@ -79,6 +80,18 @@ class ProfileSuggestionsTableViewCell: UITableViewCell {
         self.delegate = delegate
         self.viewModel = viewModel
         applyViewCode()
+    }
+    
+    func fade() {
+        UIView.animate(withDuration: 1, animations: {
+            for view in self.subviews {
+                view.alpha = 0
+            }
+        }) { (result) in
+            if result {
+                self.delegate?.didEndFading(index: self.index ?? 0)
+            }
+        }
     }
 }
 

@@ -11,7 +11,8 @@ import UIKit
 typealias ProfileSuggestionsRouterProtocol = NSObject & ProfileSuggestionsRoutingLogic & ProfileSuggestionsDataTransfer
 
 protocol ProfileSuggestionsRoutingLogic {
-    
+    func routeToProfileDetails()
+    func routeBack()
 }
 
 protocol ProfileSuggestionsDataTransfer {
@@ -33,4 +34,11 @@ extension ProfileSuggestionsRouter: BaseRouterProtocol {
 
 extension ProfileSuggestionsRouter: ProfileSuggestionsRoutingLogic {
     
+    func routeToProfileDetails() {
+        
+    }
+    
+    func routeBack() {
+        viewController?.navigationController?.popViewController(animated: true)
+    }
 }

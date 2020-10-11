@@ -11,9 +11,26 @@ import UIKit
 protocol ProfileSuggestionsDisplayLogic: class {
     func displayProfileSuggestions(_ viewModel: ProfileSuggestions.Info.ViewModel.UpcomingSuggestions)
     func fadeProfileItem(_ viewModel: ProfileSuggestions.Info.ViewModel.ProfileItemToFade)
+    func displayProfileDetails()
+    func displayError(_ viewModel: ProfileSuggestions.Info.ViewModel.ProfileSuggestionsError)
+    func displayLoading(_ loading: Bool)
 }
 
 class ProfileSuggestionsController: BaseViewController {
+    
+    private lazy var activityView: UIActivityIndicatorView = {
+        let view = UIActivityIndicatorView(frame: .zero)
+        view.backgroundColor = ThemeColors.whiteThemeColor.rawValue
+        view.color = ThemeColors.mainRedColor.rawValue
+        view.startAnimating()
+        return view
+    }()
+    
+    private lazy var backButton: DefaultBackButton = {
+        let view = DefaultBackButton(frame: .zero)
+        view.addTarget(self, action: #selector(didTapBack), for: .touchUpInside)
+        return view
+    }()
     
     private lazy var tableView: UITableView = {
         let view = UITableView(frame: .zero)
@@ -23,6 +40,14 @@ class ProfileSuggestionsController: BaseViewController {
         view.registerCell(cellType: ProfileSuggestionsTableViewCell.self)
         view.separatorStyle = .none
         view.backgroundColor = .white
+        return view
+    }()
+    
+    private lazy var mainView: ProfileSuggestionsView = {
+        let view = ProfileSuggestionsView(frame: .zero,
+                                          activityView: activityView,
+                                          backButton: backButton,
+                                          tableView: tableView)
         return view
     }()
     
@@ -48,8 +73,14 @@ class ProfileSuggestionsController: BaseViewController {
         super.viewDidLoad()
     }
     
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
+    override func loadView() {
+        super.loadView()
+        self.view = mainView
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        interactor?.fetchProfileSuggestions(ProfileSuggestions.Request.FetchProfileSuggestions())
     }
     
     private func setup() {
@@ -73,6 +104,14 @@ extension ProfileSuggestionsController {
     }
 }
 
+extension ProfileSuggestionsController {
+    
+    @objc
+    private func didTapBack() {
+        router?.routeBack()
+    }
+}
+
 extension ProfileSuggestionsController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -91,6 +130,10 @@ extension ProfileSuggestionsController: UITableViewDataSource {
                    viewModel: profile)
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return ProfileSuggestions.Constants.Dimensions.Heights.defaultCellHeight
+    }
 }
 
 extension ProfileSuggestionsController: UITableViewDelegate { }
@@ -98,11 +141,17 @@ extension ProfileSuggestionsController: UITableViewDelegate { }
 extension ProfileSuggestionsController: ProfileSuggestionsTableViewCellDelegate {
     
     func didTapAdd(index: Int) {
-        
+        interactor?.fetchAddUser(ProfileSuggestions.Request.AddUser(index: index))
     }
     
     func didTapRemove(index: Int) {
-        
+        interactor?.fetchRemoveUser(ProfileSuggestions.Request.RemoveUser(index: index))
+    }
+    
+    func didEndFading(index: Int) {
+        viewModel?.profiles.remove(at: index)
+        tableView.deleteRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
+        refreshList()
     }
 }
 
@@ -113,6 +162,19 @@ extension ProfileSuggestionsController: ProfileSuggestionsDisplayLogic {
     }
     
     func fadeProfileItem(_ viewModel: ProfileSuggestions.Info.ViewModel.ProfileItemToFade) {
-        //TO DO
+        let cell = tableView.cellForRow(at: IndexPath(row: viewModel.index, section: 0), type: ProfileSuggestionsTableViewCell.self)
+        cell.fade()
+    }
+    
+    func displayProfileDetails() {
+        router?.routeToProfileDetails()
+    }
+    
+    func displayError(_ viewModel: ProfileSuggestions.Info.ViewModel.ProfileSuggestionsError) {
+        UIAlertController.displayAlert(in: self, title: "Erro", message: viewModel.error)
+    }
+    
+    func displayLoading(_ loading: Bool) {
+        activityView.isHidden = !loading
     }
 }

@@ -56,7 +56,7 @@ struct MainFeed {
             struct Heighs {
                 static let headerCell: CGFloat = 85
                 static let recentSearchCell: CGFloat = 34
-                static let profileSuggestionsCell: CGFloat = 147
+                static let profileSuggestionsCell: CGFloat = 170
             }
         }
         

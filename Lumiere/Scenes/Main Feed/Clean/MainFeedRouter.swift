@@ -61,6 +61,7 @@ extension MainFeedRouter: MainFeedRoutingLogic {
     }
     
     func routeToProfileSuggestions() {
-        
+        let vc = ProfileSuggestionsController()
+        routeTo(nextVC: vc)
     }
 }
