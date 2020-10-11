@@ -78,7 +78,7 @@ extension ProfileSuggestionsView: ViewCodeProtocol {
             make.width.equalTo(150)
         }
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(mainLbl.snp.bottom).offset(77)
+            make.top.equalTo(mainLbl.snp.bottom).offset(50)
             make.left.right.bottom.equalToSuperview()
         }
     }

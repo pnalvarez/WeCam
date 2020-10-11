@@ -48,7 +48,7 @@ struct ProfileSuggestions {
         struct Dimensions {
             
             struct Heights {
-                static let defaultCellHeight: CGFloat = 118
+                static let defaultCellHeight: CGFloat = 128
             }
         }
         

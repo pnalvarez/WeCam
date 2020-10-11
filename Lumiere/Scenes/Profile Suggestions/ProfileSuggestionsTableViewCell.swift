@@ -124,7 +124,7 @@ extension ProfileSuggestionsTableViewCell: ViewCodeProtocol {
             make.left.equalToSuperview().inset(16)
         }
         nameLbl.snp.makeConstraints { make in
-            make.top.equalTo(photoImageView)
+            make.top.equalTo(photoImageView).offset(10)
             make.left.equalTo(photoImageView.snp.right).offset(12)
             make.right.equalToSuperview().inset(28)
         }

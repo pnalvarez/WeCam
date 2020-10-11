@@ -13,6 +13,11 @@ class MainFeedTableView: UITableView {
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
         separatorStyle = .none
+        bounces = false
+        alwaysBounceVertical = false
+        backgroundColor = .white
+        rowHeight = UITableView.automaticDimension
+        estimatedRowHeight = 44
     }
     
     required init?(coder: NSCoder) {
