@@ -19,7 +19,7 @@ class ProfileSuggestionsTableViewCell: UITableViewCell {
     private lazy var photoImageView: UIImageView = {
         let view = UIImageView(frame: .zero)
         view.contentMode = .scaleToFill
-        view.layer.cornerRadius = 52
+        view.layer.cornerRadius = 41
         view.clipsToBounds = true
         view.sd_setImage(with: URL(string: viewModel?.image ?? .empty), completed: nil)
         return view
@@ -120,7 +120,7 @@ extension ProfileSuggestionsTableViewCell: ViewCodeProtocol {
     func setupConstraints() {
         photoImageView.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.width.height.equalTo(104)
+            make.width.height.equalTo(84)
             make.left.equalToSuperview().inset(16)
         }
         nameLbl.snp.makeConstraints { make in

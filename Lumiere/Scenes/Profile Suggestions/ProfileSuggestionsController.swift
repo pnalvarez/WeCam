@@ -32,6 +32,13 @@ class ProfileSuggestionsController: BaseViewController {
         return view
     }()
     
+    private lazy var filterButton: SelectionFilterView = {
+        let view = SelectionFilterView(frame: .zero,
+                                       selectedItem: "Amigos em comum",
+                                       delegate: self)
+        return view
+    }()
+    
     private lazy var tableView: UITableView = {
         let view = UITableView(frame: .zero)
         view.assignProtocols(to: self)
@@ -47,6 +54,7 @@ class ProfileSuggestionsController: BaseViewController {
         let view = ProfileSuggestionsView(frame: .zero,
                                           activityView: activityView,
                                           backButton: backButton,
+                                          filterButton: filterButton,
                                           tableView: tableView)
         return view
     }()
@@ -140,6 +148,13 @@ extension ProfileSuggestionsController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         interactor?.didSelectProfile(ProfileSuggestions.Request.SelectProfile(index: indexPath.row))
+    }
+}
+
+extension ProfileSuggestionsController: SelectionFilterViewDelegate {
+    
+    func didTapBottomSheetButton() {
+        // TO DO
     }
 }
 
