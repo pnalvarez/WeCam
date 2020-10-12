@@ -21,7 +21,7 @@ enum FirebaseErrors: String, Error {
     case signInError = "Ocorreu um erro ao tentar logar"
 }
 
-protocol FirebaseAuthHelperProtocol {
+protocol FirebaseManagerProtocol {
     func createUser(request: CreateUserRequest,
                     completion: @escaping (SignUp.Response.RegisterUser) -> Void)
     func registerUserData(request: SaveUserInfoRequest,
@@ -115,7 +115,7 @@ protocol FirebaseAuthHelperProtocol {
                                       completion: @escaping (BaseResponse<T>) -> Void)
 }
 
-class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
+class FirebaseManager: FirebaseManagerProtocol {
     
     private let realtimeDB = Database.database().reference()
     private let authReference = Auth.auth()
@@ -2665,7 +2665,7 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
 }
 
 //MARK: User Relationships
-extension FirebaseAuthHelper {
+extension FirebaseManager {
     
     private func checkConnected(request: FetchUserRelationRequest,
                                 completion: @escaping (Bool) -> Void) {

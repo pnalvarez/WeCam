@@ -19,10 +19,10 @@ protocol ConnectionsListWorkerProtocol {
 
 class ConnectionsListWorker: ConnectionsListWorkerProtocol {
     
-    private let builder: FirebaseAuthHelperProtocol
+    private let builder: FirebaseManagerProtocol
     
     init() {
-        self.builder = FirebaseAuthHelper()
+        self.builder = FirebaseManager()
     }
     
     func fetchConnections(_ request: ConnectionsList.Request.FetchConnectionsWithId,

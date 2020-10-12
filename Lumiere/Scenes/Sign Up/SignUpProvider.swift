@@ -19,9 +19,9 @@ protocol SignUpProviderProtocol {
 class SignUpProvider: SignUpProviderProtocol {
     
     private let reference: DatabaseReference
-    private let helper: FirebaseAuthHelperProtocol
+    private let helper: FirebaseManagerProtocol
     
-    init(helper: FirebaseAuthHelperProtocol = FirebaseAuthHelper()) {
+    init(helper: FirebaseManagerProtocol = FirebaseManager()) {
         self.reference = Database.database().reference()
         self.helper = helper
     }
