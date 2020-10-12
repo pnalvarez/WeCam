@@ -115,7 +115,7 @@ class SearchResultsController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        interactor?.fetchResultTypes(SearchResults.Request.ResultTypes())
+        interactor?.fetchResultTypes(SearchResults.Request.FetchResultTypes())
         factory = SearchResultsFactory(tableView: tableView)
         refreshList()
     }
@@ -164,12 +164,14 @@ extension SearchResultsController: UITableViewDataSource {
 extension SearchResultsController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let usersCount = viewModel?.users.count ?? 0
-        if indexPath.row >= usersCount {
-            interactor?.fetchSelectProject(SearchResults.Request.SelectProject(index: indexPath.row - usersCount))
+        var resultType: SearchResults.Request.ResultType
+        if resultTypeSegmentedControl.selectedSegmentIndex == 0 {
+            resultType = .profile
         } else {
-            interactor?.fetchSelectProfile(SearchResults.Request.SelectProfile(index: indexPath.row))
+            resultType = .project
         }
+        let request = SearchResults.Request.SelectItem(index: indexPath.row, type: resultType)
+        interactor?.fetchSelectItem(request)
     }
 }
 

@@ -9,9 +9,8 @@
 protocol SearchResultsBusinessLogic {
     func fetchBeginSearch(_ request: SearchResults.Request.Search)
     func fetchSearch(_ request: SearchResults.Request.SearchWithPreffix)
-    func fetchSelectProfile(_ request: SearchResults.Request.SelectProfile)
-    func fetchSelectProject(_ request: SearchResults.Request.SelectProject)
-    func fetchResultTypes(_ request: SearchResults.Request.ResultTypes)
+    func fetchResultTypes(_ request: SearchResults.Request.FetchResultTypes)
+    func fetchSelectItem(_ request: SearchResults.Request.SelectItem)
 }
 
 protocol SearchResultsDataStore {
@@ -114,20 +113,21 @@ extension SearchResultsInteractor: SearchResultsBusinessLogic {
         }
     }
     
-    func fetchSelectProfile(_ request: SearchResults.Request.SelectProfile) {
-        guard let profile = results?.users[request.index] else { return }
-        selectedItem = .profile(profile)
-        presenter.presentProfileDetails()
-    }
-    
-    func fetchSelectProject(_ request: SearchResults.Request.SelectProject) {
-        guard let project = results?.projects[request.index] else { return }
-        selectedItem = .project(project)
-        presenter.presentProjectDetails()
-    }
-    
-    func fetchResultTypes(_ request: SearchResults.Request.ResultTypes) {
+    func fetchResultTypes(_ request: SearchResults.Request.FetchResultTypes) {
         let resultTypes = SearchResults.Info.Model.UpcomingTypes(types: SearchResults.Info.Model.ResultType.toArray())
         presenter.presentResultTypes(resultTypes)
+    }
+    
+    func fetchSelectItem(_ request: SearchResults.Request.SelectItem) {
+        switch request.type {
+        case .profile:
+            guard let user = results?.users[request.index] else { return }
+            selectedItem = .profile(user)
+            presenter.presentProfileDetails()
+        case .project:
+            guard let project = results?.projects[request.index] else { return }
+            selectedItem = .project(project)
+            presenter.presentProjectDetails()
+        }
     }
 }

@@ -215,7 +215,17 @@ struct SearchResults {
     
     struct Request {
         
-        struct ResultTypes {
+        enum ResultType {
+            case profile
+            case project
+        }
+        
+        struct SelectItem {
+            let index: Int
+            let type: ResultType
+        }
+        
+        struct FetchResultTypes {
             
         }
         
@@ -225,10 +235,6 @@ struct SearchResults {
         
         struct SearchWithPreffix {
             let preffix: String
-        }
-        
-        struct SelectItem {
-            let index: Int
         }
         
         struct SelectProfile {
