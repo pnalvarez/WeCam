@@ -2538,7 +2538,7 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                     completion(.error(FirebaseErrors.genericError))
                     return
                 }
-                userIds.removeAll(where: { $0 != currentUser })
+                userIds.removeAll(where: { $0 == currentUser })
                 guard userIds.count > 0 else {
                     completion(.success(.empty))
                     return
