@@ -52,14 +52,25 @@ class SearchResultsController: BaseViewController {
     
     private lazy var resultTypeSegmentedControl: UISegmentedControl = {
         let view = UISegmentedControl(frame: .zero)
+        view.addTarget(self, action: #selector(didChangeSelectedType), for: .valueChanged)
         view.selectedSegmentTintColor = SearchResults.Constants.Colors.resultTypeSegmentedControlSelected
         view.tintColor = SearchResults.Constants.Colors.resultTypeSegmentedControlUnselected
         view.layer.cornerRadius = 8
         return view
     }()
     
+    private lazy var resultsQuantityLbl: UILabel = {
+        let view = UILabel(frame: .zero)
+        view.textColor = SearchResults.Constants.Colors.resultsQuantityLbl
+        view.font = SearchResults.Constants.Fonts.resultsQuantityLbl
+        view.textAlignment = .center
+        return view
+    }()
+    
     private lazy var tableView: UITableView = {
         let view = UITableView(frame: .zero)
+        view.registerCell(cellType: ProfileResultTableViewCell.self)
+        view.registerCell(cellType: OnGoingProjectResultTableViewCell.self)
         view.assignProtocols(to: self)
         view.bounces = false
         view.alwaysBounceVertical = false
@@ -74,6 +85,7 @@ class SearchResultsController: BaseViewController {
                                      searchTextField: searchTextField,
                                      searchButton: searchButton,
                                      resultTypesSegmentedControl: resultTypeSegmentedControl,
+                                     resultsQuantityLbl: resultsQuantityLbl,
                                      tableView: tableView)
         view.backgroundColor = .white
         return view
@@ -81,6 +93,7 @@ class SearchResultsController: BaseViewController {
     
     private var viewModel: SearchResults.Info.ViewModel.UpcomingResults? {
         didSet {
+            setupUI()
             refreshList()
         }
     }
@@ -163,11 +176,20 @@ extension SearchResultsController: UITableViewDelegate {
 extension SearchResultsController {
     
     private func refreshList() {
-        guard let results = viewModel else { return }
-        factory = SearchResultsFactory(viewModel: results, tableView: tableView)
-        sections = factory?.buildSections()
+        guard let results = viewModel,
+              let factory = factory as? SearchResultsFactory else { return }
+        factory.viewModel = results
+        sections = factory.buildSections()
         DispatchQueue.main.async {
             self.tableView.reloadData()
+        }
+    }
+    
+    private func setupUI() {
+        if resultTypeSegmentedControl.selectedSegmentIndex == 0 {
+            resultsQuantityLbl.text = String(viewModel?.users.count ?? 0) + SearchResults.Constants.Texts.resultsQuantityLbl
+        } else {
+            resultsQuantityLbl.text = String(viewModel?.projects.count ?? 0) + SearchResults.Constants.Texts.resultsQuantityLbl
         }
     }
 }
@@ -184,6 +206,22 @@ extension SearchResultsController {
         interactor?.fetchSearch(SearchResults
                                     .Request
                                     .SearchWithPreffix(preffix: searchTextField.text ?? .empty))
+    }
+    
+    @objc
+    private func didChangeSelectedType() {
+        guard let factory = factory as? SearchResultsFactory else {
+            return
+        }
+        if resultTypeSegmentedControl.selectedSegmentIndex == 0 {
+            factory.selectedType = .profile
+            resultsQuantityLbl.text = String(viewModel?.users.count ?? 0) + SearchResults.Constants.Texts.resultsQuantityLbl
+        } else {
+            factory.selectedType = .project
+            resultsQuantityLbl.text = String(viewModel?.projects.count ?? 0) + SearchResults.Constants.Texts.resultsQuantityLbl
+        }
+        sections = factory.buildSections()
+        refreshList()
     }
 }
 

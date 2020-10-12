@@ -15,6 +15,7 @@ class SearchResultsView: UIView {
     private unowned var searchTextField: UITextField
     private unowned var searchButton: UIButton
     private unowned var resultTypesSegmentedControl: UISegmentedControl
+    private unowned var resultsQuantityLbl: UILabel
     private unowned var tableView: UITableView
     
     private lazy var headerImageView: UIImageView = {
@@ -36,12 +37,14 @@ class SearchResultsView: UIView {
          searchTextField: UITextField,
          searchButton: UIButton,
          resultTypesSegmentedControl: UISegmentedControl,
+         resultsQuantityLbl: UILabel,
          tableView: UITableView) {
         self.activityView = activityView
         self.backButton = backButton
         self.searchTextField = searchTextField
         self.searchButton = searchButton
         self.resultTypesSegmentedControl = resultTypesSegmentedControl
+        self.resultsQuantityLbl = resultsQuantityLbl
         self.tableView = tableView
         super.init(frame: frame)
         applyViewCode()
@@ -61,6 +64,7 @@ extension SearchResultsView: ViewCodeProtocol {
         searchTextField.addSubview(searchButton)
         addSubview(searchTextField)
         addSubview(resultTypesSegmentedControl)
+        addSubview(resultsQuantityLbl)
         addSubview(tableView)
         addSubview(activityView)
     }
@@ -98,8 +102,13 @@ extension SearchResultsView: ViewCodeProtocol {
             make.right.left.equalToSuperview().inset(10)
             make.height.equalTo(32)
         }
+        resultsQuantityLbl.snp.makeConstraints { make in
+            make.top.equalTo(resultTypesSegmentedControl.snp.bottom).offset(10)
+            make.centerX.equalToSuperview()
+            make.width.equalTo(100)
+        }
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(resultTypesSegmentedControl.snp.bottom).offset(12)
+            make.top.equalTo(resultsQuantityLbl.snp.bottom).offset(12)
             make.left.right.bottom.equalToSuperview()
         }
         activityView.snp.makeConstraints { make in

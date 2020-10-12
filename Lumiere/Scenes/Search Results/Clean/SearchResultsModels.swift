@@ -30,6 +30,7 @@ struct SearchResults {
             static let resultTypeSegmentedControlSelected = UIColor(rgb: 0xffffff)
             static let resultTypeSegmentedControlUnselected = UIColor(rgb: 0xc4c4c4)
             static let resultTypeSegmentedControlText = UIColor(rgb: 0x969494)
+            static let resultsQuantityLbl = UIColor(rgb: 0x969494)
         }
         
         struct Fonts {
@@ -40,10 +41,11 @@ struct SearchResults {
             static let cathegoriesLbl = ThemeFonts.RobotoRegular(16).rawValue
             static let progressLbl = ThemeFonts.RobotoRegular(16).rawValue
             static let resultTypeSegmentedControl = ThemeFonts.RobotoBold(16).rawValue
+            static let resultsQuantityLbl = ThemeFonts.RobotoBold(16).rawValue
         }
         
         struct Texts {
-            
+            static let resultsQuantityLbl = " resultados"
         }
         
         struct Images {
@@ -163,6 +165,11 @@ struct SearchResults {
             
             struct ResultType: Equatable {
                 let text: String
+            }
+            
+            enum SelectedType {
+                case profile
+                case project
             }
         }
         
