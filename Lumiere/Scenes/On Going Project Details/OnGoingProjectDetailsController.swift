@@ -301,6 +301,11 @@ class OnGoingProjectDetailsController: BaseViewController, UINavigationControlle
         interactor?.fetchProjectDetails(OnGoingProjectDetails.Request.FetchProject())
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.tabBarController?.tabBar.isHidden = false
+    }
+    
     override func loadView() {
         super.loadView()
         self.view = mainView
@@ -395,7 +400,7 @@ extension OnGoingProjectDetailsController {
     
     @objc
     private func didTapClose() {
-        router?.routeToEndOfFlow()
+        router?.routeBack()
     }
     
     @objc

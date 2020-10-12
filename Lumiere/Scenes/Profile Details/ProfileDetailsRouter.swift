@@ -41,6 +41,7 @@ class ProfileDetailsRouter: NSObject, ProfileDetailsDataTransfer {
                                               to destination: inout OnGoingProjectDetailsDataStore) {
         guard let projectId = source.selectedProject?.id else { return }
         destination.receivedData = OnGoingProjectDetails.Info.Received.Project(projectId: projectId, notInvitedUsers: .empty)
+        destination.routingContext = .checkingProject
     }
     
     private func transferDataToInviteProfileToProjects(from source: ProfileDetailsDataStore,

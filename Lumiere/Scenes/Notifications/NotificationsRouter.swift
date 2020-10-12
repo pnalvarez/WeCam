@@ -31,6 +31,7 @@ class NotificationsRouter: NSObject, NotificationsDataTransfer {
     private func transferDataToProjectDetails(from origin: NotificationsDataStore,
                                               to destination: inout OnGoingProjectDetailsDataStore) {
         destination.receivedData = OnGoingProjectDetails.Info.Received.Project(projectId: origin.selectedProject?.projectId ?? .empty, notInvitedUsers: .empty)
+        destination.routingContext = .checkingProject
     }
 }
 

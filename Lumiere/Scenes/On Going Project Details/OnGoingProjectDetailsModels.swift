@@ -97,6 +97,11 @@ struct OnGoingProjectDetails {
                 let projectId: String
                 let notInvitedUsers: [String]
             }
+            
+            enum RoutingContext {
+                case justCreatedProject
+                case checkingProject
+            }
         }
         
         struct Model {

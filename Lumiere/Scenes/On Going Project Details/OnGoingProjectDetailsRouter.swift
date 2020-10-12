@@ -11,7 +11,7 @@ import UIKit
 typealias OnGoingProjectDetailsRouterProtocol = NSObject & OnGoingProjectDetailsRoutingLogic & OnGoingProjectDetailsDataTransfer
 
 protocol OnGoingProjectDetailsRoutingLogic {
-    func routeToEndOfFlow()
+    func routeBack()
     func routeToUserDetails()
     func routeToProjectParticipantsList()
     func routeToProjectInvites()
@@ -57,8 +57,13 @@ extension OnGoingProjectDetailsRouter: BaseRouterProtocol {
 
 extension OnGoingProjectDetailsRouter: OnGoingProjectDetailsRoutingLogic {
     
-    func routeToEndOfFlow() {
-        viewController?.navigationController?.popToRootViewController(animated: true)
+    func routeBack() {
+        switch dataStore?.routingContext ?? .checkingProject {
+        case .justCreatedProject:
+            viewController?.navigationController?.popToRootViewController(animated: true)
+        case .checkingProject:
+            viewController?.navigationController?.popViewController(animated: true)
+        }
     }
     
     func routeToUserDetails() {

@@ -43,6 +43,7 @@ class EditProjectDetailsRouter: NSObject, EditProjectDetailsDataTransfer {
         guard let project = source.publishedProject else { return }
         destination.receivedData = OnGoingProjectDetails.Info.Received.Project(projectId: project.id,
                                                                                notInvitedUsers: project.userIdsNotInvited)
+        destination.routingContext = .justCreatedProject
     }
 }
 

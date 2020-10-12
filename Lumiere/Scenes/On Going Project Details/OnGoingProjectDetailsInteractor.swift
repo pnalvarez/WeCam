@@ -26,6 +26,7 @@ protocol OnGoingProjectDetailsDataStore {
     var projectData: OnGoingProjectDetails.Info.Model.Project? { get set }
     var projectRelation: OnGoingProjectDetails.Info.Model.ProjectRelation? { get set }
     var selectedTeamMemberId: String? { get set }
+    var routingContext: OnGoingProjectDetails.Info.Received.RoutingContext? { get set }
 }
 
 class OnGoingProjectDetailsInteractor: OnGoingProjectDetailsDataStore {
@@ -37,6 +38,7 @@ class OnGoingProjectDetailsInteractor: OnGoingProjectDetailsDataStore {
     var projectData: OnGoingProjectDetails.Info.Model.Project?
     var projectRelation: OnGoingProjectDetails.Info.Model.ProjectRelation?
     var selectedTeamMemberId: String?
+    var routingContext: OnGoingProjectDetails.Info.Received.RoutingContext?
     
     init(worker: OnGoingProjectDetailsWorkerProtocol = OnGoingProjectDetailsWorker(),
          presenter: OnGoingProjectDetailsPresentationLogic) {
