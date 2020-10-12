@@ -11,6 +11,7 @@ protocol SearchResultsBusinessLogic {
     func fetchSearch(_ request: SearchResults.Request.SearchWithPreffix)
     func fetchSelectProfile(_ request: SearchResults.Request.SelectProfile)
     func fetchSelectProject(_ request: SearchResults.Request.SelectProject)
+    func fetchResultTypes(_ request: SearchResults.Request.ResultTypes)
 }
 
 protocol SearchResultsDataStore {
@@ -123,5 +124,10 @@ extension SearchResultsInteractor: SearchResultsBusinessLogic {
         guard let project = results?.projects[request.index] else { return }
         selectedItem = .project(project)
         presenter.presentProjectDetails()
+    }
+    
+    func fetchResultTypes(_ request: SearchResults.Request.ResultTypes) {
+        let resultTypes = SearchResults.Info.Model.UpcomingTypes(types: SearchResults.Info.Model.ResultType.toArray())
+        presenter.presentResultTypes(resultTypes)
     }
 }

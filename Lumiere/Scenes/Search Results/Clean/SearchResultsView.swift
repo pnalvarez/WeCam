@@ -14,6 +14,7 @@ class SearchResultsView: UIView {
     private unowned var backButton: DefaultBackButton
     private unowned var searchTextField: UITextField
     private unowned var searchButton: UIButton
+    private unowned var resultTypesSegmentedControl: UISegmentedControl
     private unowned var tableView: UITableView
     
     private lazy var headerImageView: UIImageView = {
@@ -34,11 +35,13 @@ class SearchResultsView: UIView {
          backButton: DefaultBackButton,
          searchTextField: UITextField,
          searchButton: UIButton,
+         resultTypesSegmentedControl: UISegmentedControl,
          tableView: UITableView) {
         self.activityView = activityView
         self.backButton = backButton
         self.searchTextField = searchTextField
         self.searchButton = searchButton
+        self.resultTypesSegmentedControl = resultTypesSegmentedControl
         self.tableView = tableView
         super.init(frame: frame)
         applyViewCode()
@@ -57,6 +60,7 @@ extension SearchResultsView: ViewCodeProtocol {
         searchTextField.addSubview(searchDivider)
         searchTextField.addSubview(searchButton)
         addSubview(searchTextField)
+        addSubview(resultTypesSegmentedControl)
         addSubview(tableView)
         addSubview(activityView)
     }
@@ -89,8 +93,13 @@ extension SearchResultsView: ViewCodeProtocol {
             make.centerY.equalToSuperview()
             make.width.height.equalTo(15)
         }
+        resultTypesSegmentedControl.snp.makeConstraints { make in
+            make.top.equalTo(searchTextField.snp.bottom).offset(15)
+            make.right.left.equalToSuperview().inset(10)
+            make.height.equalTo(32)
+        }
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(searchTextField.snp.bottom).offset(12)
+            make.top.equalTo(resultTypesSegmentedControl.snp.bottom).offset(12)
             make.left.right.bottom.equalToSuperview()
         }
         activityView.snp.makeConstraints { make in

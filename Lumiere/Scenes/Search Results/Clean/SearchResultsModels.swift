@@ -27,6 +27,9 @@ struct SearchResults {
             static let progressLbl = ThemeColors.mainRedColor.rawValue
             static let footerView = UIColor.white
             static let resultBackground = UIColor(rgb: 0xededed).withAlphaComponent(0.4)
+            static let resultTypeSegmentedControlSelected = UIColor(rgb: 0xffffff)
+            static let resultTypeSegmentedControlUnselected = UIColor(rgb: 0xc4c4c4)
+            static let resultTypeSegmentedControlText = UIColor(rgb: 0x969494)
         }
         
         struct Fonts {
@@ -36,6 +39,7 @@ struct SearchResults {
             static let titleLbl = ThemeFonts.RobotoBold(16).rawValue
             static let cathegoriesLbl = ThemeFonts.RobotoRegular(16).rawValue
             static let progressLbl = ThemeFonts.RobotoRegular(16).rawValue
+            static let resultTypeSegmentedControl = ThemeFonts.RobotoBold(16).rawValue
         }
         
         struct Texts {
@@ -82,6 +86,23 @@ struct SearchResults {
                         return project
                     }
                 }
+            }
+            
+            enum ResultType: String, CaseIterable {
+                case profile = "Perfil de usuários"
+                case project = "Projetos publicados"
+                
+                static func toArray() -> [ResultType] {
+                    var array: [ResultType] = []
+                    for value in ResultType.allCases {
+                        array.append(value)
+                    }
+                    return array
+                }
+            }
+            
+            struct UpcomingTypes: Equatable {
+                let types: [ResultType]
             }
             
             struct Results: Equatable {
@@ -135,6 +156,14 @@ struct SearchResults {
             struct ResultError {
                 let error: String
             }
+            
+            struct UpcomingTypes: Equatable {
+                let types: [ResultType]
+            }
+            
+            struct ResultType: Equatable {
+                let text: String
+            }
         }
         
         struct Response {
@@ -178,6 +207,10 @@ struct SearchResults {
     }
     
     struct Request {
+        
+        struct ResultTypes {
+            
+        }
         
         struct Search {
             

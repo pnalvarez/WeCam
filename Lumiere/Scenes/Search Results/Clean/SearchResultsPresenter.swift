@@ -14,6 +14,7 @@ protocol SearchResultsPresentationLogic {
     func presentProfileDetails()
     func presentProjectDetails()
     func presentError(_ response: SearchResults.Info.Model.ResultError)
+    func presentResultTypes(_ response: SearchResults.Info.Model.UpcomingTypes)
 }
 
 class SearchResultsPresenter: SearchResultsPresentationLogic {
@@ -44,6 +45,11 @@ class SearchResultsPresenter: SearchResultsPresentationLogic {
     func presentError(_ response: SearchResults.Info.Model.ResultError) {
         let viewModel = SearchResults.Info.ViewModel.ResultError(error: response.error.localizedDescription)
         viewController.displayError(viewModel)
+    }
+    
+    func presentResultTypes(_ response: SearchResults.Info.Model.UpcomingTypes) {
+        let viewModel = SearchResults.Info.ViewModel.UpcomingTypes(types: response.types.map({ SearchResults.Info.ViewModel.ResultType(text: $0.rawValue) }))
+        viewController.displayResultTypes(viewModel)
     }
 }
 
