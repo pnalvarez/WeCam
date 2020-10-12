@@ -14,6 +14,7 @@ protocol SearchResultsDisplayLogic: class {
     func displayProjectDetails()
     func displayLoading(_ loading: Bool)
     func displayError(_ viewModel: SearchResults.Info.ViewModel.ResultError)
+    func displayResultTypes(_ viewModel: SearchResults.Info.ViewModel.UpcomingTypes)
 }
 
 class SearchResultsController: BaseViewController {
@@ -49,6 +50,14 @@ class SearchResultsController: BaseViewController {
         return view
     }()
     
+    private lazy var resultTypeSegmentedControl: UISegmentedControl = {
+        let view = UISegmentedControl(frame: .zero)
+        view.selectedSegmentTintColor = SearchResults.Constants.Colors.resultTypeSegmentedControlSelected
+        view.tintColor = SearchResults.Constants.Colors.resultTypeSegmentedControlUnselected
+        view.layer.cornerRadius = 8
+        return view
+    }()
+    
     private lazy var tableView: UITableView = {
         let view = UITableView(frame: .zero)
         view.assignProtocols(to: self)
@@ -64,6 +73,7 @@ class SearchResultsController: BaseViewController {
                                      backButton: backButton,
                                      searchTextField: searchTextField,
                                      searchButton: searchButton,
+                                     resultTypesSegmentedControl: resultTypeSegmentedControl,
                                      tableView: tableView)
         view.backgroundColor = .white
         return view
@@ -92,6 +102,7 @@ class SearchResultsController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        interactor?.fetchResultTypes(SearchResults.Request.ResultTypes())
         factory = SearchResultsFactory(tableView: tableView)
         refreshList()
     }
@@ -196,5 +207,12 @@ extension SearchResultsController: SearchResultsDisplayLogic {
     
     func displayError(_ viewModel: SearchResults.Info.ViewModel.ResultError) {
         UIAlertController.displayAlert(in: self, title: "Erro ao carregar resultados", message: viewModel.error)
+    }
+    
+    func displayResultTypes(_ viewModel: SearchResults.Info.ViewModel.UpcomingTypes) {
+        for index in 0..<viewModel.types.count {
+            resultTypeSegmentedControl.insertSegment(withTitle: viewModel.types[index].text, at: index, animated: false)
+        }
+        resultTypeSegmentedControl.selectedSegmentIndex = 0
     }
 }
