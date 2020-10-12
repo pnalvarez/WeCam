@@ -25,17 +25,18 @@ class ProfileDetailsController: BaseViewController {
     
     private lazy var onGoingProjectsCarrousel: UIScrollView = {
         let view = UIScrollView(frame: .zero)
-        view.alwaysBounceVertical = false
         view.alwaysBounceHorizontal = false
         view.bounces = false
         view.delegate = self
         view.backgroundColor = ThemeColors.whiteThemeColor.rawValue
+        view.clipsToBounds = true
         return view
     }()
     
     private lazy var projectsContainer: UIView = {
         let view = UIView(frame: .zero)
-        view.backgroundColor = .white
+        view.backgroundColor = ThemeColors.whiteThemeColor.rawValue
+        view.isHidden = true
         return view
     }()
     
@@ -124,7 +125,8 @@ class ProfileDetailsController: BaseViewController {
     }()
     
     
-    private(set) var projectViews: [OnGoingProjectDisplayView] = []
+    private(set) var projectViews: [OnGoingProjectDisplayView] = .empty
+    private var projectButtons: [UIButton] = .empty
     
     private var interactor: ProfileDetailsBusinessLogic?
     var router: ProfileDetailsRouterProtocol?
@@ -171,9 +173,8 @@ extension ProfileDetailsController {
     
     private func buildOnGoingProjectsCarrousel() {
         onGoingProjectsCarrousel.contentSize = CGSize(width: 110 * projectViews.count + 50, height: 105)
-//        onGoingProjectsCarrousel.isHidden = projectViews.isEmpty
         for i in 0..<projectViews.count {
-            projectsContainer.addSubview(projectViews[i])
+            onGoingProjectsCarrousel.addSubview(projectViews[i])
             projectViews[i].snp.makeConstraints { make in
                 make.top.bottom.equalToSuperview()
                 make.width.equalTo(105)
@@ -190,8 +191,10 @@ extension ProfileDetailsController {
     }
     
     private func clearCarrousel() {
-        for view in projectsContainer.subviews {
-            view.removeFromSuperview()
+        for view in onGoingProjectsCarrousel.subviews {
+            if view is OnGoingProjectDisplayView {
+                view.removeFromSuperview()
+            }
         }
     }
 }
