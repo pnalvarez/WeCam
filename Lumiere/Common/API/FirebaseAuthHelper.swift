@@ -2522,6 +2522,7 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
     func fetchSearchProfiles<T: Mappable>(request: [String : Any],
                                           completion: @escaping (BaseResponse<[T]>) -> Void) {
         var usersResponse: [[String : Any]] = .empty
+        
         guard let preffix = request["preffix"] as? String else {
             completion(.error(FirebaseErrors.genericError))
             return
@@ -2533,8 +2534,13 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
         realtimeDB
             .child(Constants.allUsersCataloguePath)
             .observeSingleEvent(of: .value) { snapshot in
-                guard let userIds = snapshot.value as? [String] else {
+                guard var userIds = snapshot.value as? [String] else {
                     completion(.error(FirebaseErrors.genericError))
+                    return
+                }
+                userIds.removeAll(where: { $0 != currentUser })
+                guard userIds.count > 0 else {
+                    completion(.success(.empty))
                     return
                 }
                 for i in 0..<userIds.count {
@@ -2567,6 +2573,8 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
     func fetchSearchProjects<T: Mappable>(request: [String : Any],
                                 completion: @escaping (BaseResponse<[T]>) -> Void) {
         var projectsResponse: [[String : Any]] = .empty
+        var allProjects = [String]()
+        
         guard let preffix = request["preffix"] as? String else {
             completion(.error(FirebaseErrors.genericError))
             return
@@ -2574,15 +2582,17 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
         realtimeDB
             .child(Constants.allProjectsCataloguePath)
             .observeSingleEvent(of: .value) { snapshot in
-                guard let projectIds = snapshot.value as? [String] else {
-                    completion(.error(FirebaseErrors.genericError))
+                if let projectIds = snapshot.value as? [String] {
+                    allProjects = projectIds
+                } else {
+                    completion(.success(.empty))
                     return
                 }
-                for i in 0..<projectIds.count {
+                for i in 0..<allProjects.count {
                     self.realtimeDB
                         .child(Constants.projectsPath)
                         .child(Constants.ongoingProjectsPath)
-                        .child(projectIds[i])
+                        .child(allProjects[i])
                         .observeSingleEvent(of: .value) { snapshot in
                             guard var project = snapshot.value as? [String : Any] else {
                                 completion(.error(FirebaseErrors.genericError))
@@ -2595,8 +2605,8 @@ class FirebaseAuthHelper: FirebaseAuthHelperProtocol {
                             if title.hasPrefix(preffix) {
                                 projectsResponse.append(project)
                             }
-                            project["id"] = projectIds[i]
-                            if i == projectIds.count-1 {
+                            project["id"] = allProjects[i]
+                            if i == allProjects.count-1 {
                                 let mappedResponse = Mapper<T>().mapArray(JSONArray: projectsResponse)
                                 completion(.success(mappedResponse))
                             }
