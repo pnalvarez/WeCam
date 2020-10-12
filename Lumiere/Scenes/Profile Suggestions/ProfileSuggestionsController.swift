@@ -154,7 +154,7 @@ extension ProfileSuggestionsController: UITableViewDelegate {
 extension ProfileSuggestionsController: SelectionFilterViewDelegate {
     
     func didTapBottomSheetButton() {
-        // TO DO
+        print("show bottomsheet")
     }
 }
 

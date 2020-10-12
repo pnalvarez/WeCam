@@ -32,6 +32,7 @@ class SelectionFilterView: UIView {
     private lazy var changeButton: UIButton = {
         let view = UIButton(frame: .zero)
         view.addTarget(self, action: #selector(didTapChange), for: .touchUpInside)
+        view.setImage(UIImage(named: "seta-filtragem 1", in: Bundle(for: ProfileSuggestionsController.self), compatibleWith: nil), for: .normal)
         return view
     }()
     
@@ -42,7 +43,8 @@ class SelectionFilterView: UIView {
          selectedItem: String,
          delegate: SelectionFilterViewDelegate? = nil) {
         self.selectedItem = selectedItem
-        self.delegate = delegate
+        self.delegate =
+            delegate
         super.init(frame: frame)
         applyViewCode()
     }
@@ -76,14 +78,12 @@ extension SelectionFilterView: ViewCodeProtocol {
         }
         dividerView.snp.makeConstraints { make in
             make.top.bottom.equalToSuperview()
-            make.right.equalToSuperview().inset(19)
+            make.right.equalToSuperview().inset(30)
             make.width.equalTo(1)
         }
         changeButton.snp.makeConstraints { make in
-            make.left.equalTo(dividerView.snp.right).offset(4)
-            make.centerY.equalToSuperview()
-            make.width.equalTo(10)
-            make.height.equalTo(6)
+            make.left.equalTo(dividerView.snp.right)
+            make.top.bottom.right.equalToSuperview()
         }
     }
     
