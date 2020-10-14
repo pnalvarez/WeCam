@@ -36,7 +36,11 @@ class SelectionFilterView: UIView {
         return view
     }()
     
-    private var selectedItem: String
+    var selectedItem: String {
+        didSet {
+            itemLbl.text = selectedItem
+        }
+    }
     private weak var delegate: SelectionFilterViewDelegate?
     
     init(frame: CGRect,

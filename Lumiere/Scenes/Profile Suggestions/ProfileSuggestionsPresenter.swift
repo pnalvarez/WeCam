@@ -14,6 +14,7 @@ protocol ProfileSuggestionsPresentationLogic {
     func presentFadeItem(_ response: ProfileSuggestions.Info.Model.ProfileFade)
     func presentError(_ response: ProfileSuggestions.Info.Model.ProfileSuggestionsError)
     func presentLoading(_ loading: Bool)
+    func presentCriterias(_ response: ProfileSuggestions.Info.Model.UpcomingCriteria)
 }
 
 class ProfileSuggestionsPresenter: ProfileSuggestionsPresentationLogic {
@@ -53,5 +54,10 @@ class ProfileSuggestionsPresenter: ProfileSuggestionsPresentationLogic {
     
     func presentLoading(_ loading: Bool) {
         viewController.displayLoading(loading)
+    }
+    
+    func presentCriterias(_ response: ProfileSuggestions.Info.Model.UpcomingCriteria) {
+        let viewModel = ProfileSuggestions.Info.ViewModel.UpcomingCriteria(selectedCriteria: response.selectedCriteria.rawValue, criterias: response.criterias.map({ $0.rawValue }))
+        viewController.displayCriterias(viewModel)
     }
 }

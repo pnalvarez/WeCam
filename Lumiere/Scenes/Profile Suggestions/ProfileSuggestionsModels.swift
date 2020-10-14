@@ -23,6 +23,8 @@ struct ProfileSuggestions {
             static let addButtonText = ThemeColors.whiteThemeColor.rawValue
             static let removeButtonBackground = UIColor(rgb: 0xededed)
             static let removeButtonText = UIColor(rgb: 0x000000)
+            static let optionButtonUnselected = ThemeColors.whiteThemeColor.rawValue
+            static let optionButtonSelected = UIColor(rgb: 0xe3e0e0)
         }
         
         struct Fonts {
@@ -92,10 +94,23 @@ struct ProfileSuggestions {
         
         struct Model {
             
-            enum SuggestionsCriteria: String {
-                case commonFriends = "amigos em comum"
-                case commonProjects = "projetos em comum"
-                case commonInterestCathegories = "categorias em comum"
+            enum SuggestionsCriteria: String, CaseIterable {
+                case commonFriends = "  Amigos em comum"
+                case commonProjects = "  Projetos em comum"
+                case commonInterestCathegories = "  Categorias em comum"
+                
+                static func toArray() -> [Self] {
+                    var criterias = [Self]()
+                    for criteria in allCases {
+                        criterias.append(criteria)
+                    }
+                    return criterias
+                }
+            }
+            
+            struct UpcomingCriteria: Equatable {
+                let selectedCriteria: SuggestionsCriteria
+                let criterias: [SuggestionsCriteria]
             }
             
             struct UpcomingSuggestions: Equatable {
@@ -119,6 +134,11 @@ struct ProfileSuggestions {
         }
         
         struct ViewModel {
+            
+            struct UpcomingCriteria: Equatable {
+                let selectedCriteria: String
+                let criterias: [String]
+            }
             
             struct UpcomingSuggestions: Equatable {
                 var profiles: [Profile]
@@ -145,6 +165,10 @@ struct ProfileSuggestions {
     }
     
     struct Request {
+        
+        struct FetchCriteria {
+            
+        }
         
         struct FetchProfileSuggestions {
             

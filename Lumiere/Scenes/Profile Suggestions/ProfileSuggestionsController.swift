@@ -14,6 +14,7 @@ protocol ProfileSuggestionsDisplayLogic: class {
     func displayProfileDetails()
     func displayError(_ viewModel: ProfileSuggestions.Info.ViewModel.ProfileSuggestionsError)
     func displayLoading(_ loading: Bool)
+    func displayCriterias(_ viewModel: ProfileSuggestions.Info.ViewModel.UpcomingCriteria)
 }
 
 class ProfileSuggestionsController: BaseViewController {
@@ -34,8 +35,18 @@ class ProfileSuggestionsController: BaseViewController {
     
     private lazy var filterButton: SelectionFilterView = {
         let view = SelectionFilterView(frame: .zero,
-                                       selectedItem: "Amigos em comum",
+                                       selectedItem: criteriaViewModel?.selectedCriteria ?? .empty,
                                        delegate: self)
+        return view
+    }()
+    
+    private lazy var optionsStackView: UIStackView = {
+        let view = UIStackView(frame: .zero)
+        view.distribution = .fillEqually
+        view.spacing = 0
+        view.alignment = .center
+        view.axis = .vertical
+        view.isHidden = true
         return view
     }()
     
@@ -55,11 +66,18 @@ class ProfileSuggestionsController: BaseViewController {
                                           activityView: activityView,
                                           backButton: backButton,
                                           filterButton: filterButton,
+                                          optionsStackView: optionsStackView,
                                           tableView: tableView)
         return view
     }()
     
-    private var viewModel: ProfileSuggestions.Info.ViewModel.UpcomingSuggestions? {
+    private var criteriaViewModel: ProfileSuggestions.Info.ViewModel.UpcomingCriteria? {
+        didSet {
+            buildOptionFilters()
+        }
+    }
+    
+    private var suggestionsViewModel: ProfileSuggestions.Info.ViewModel.UpcomingSuggestions? {
         didSet {
             refreshList()
         }
@@ -79,6 +97,7 @@ class ProfileSuggestionsController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        interactor?.fetchCriterias(ProfileSuggestions.Request.FetchCriteria())
     }
     
     override func loadView() {
@@ -110,6 +129,24 @@ extension ProfileSuggestionsController {
             self.tableView.reloadData()
         }
     }
+    
+    private func buildOptionFilters() {
+        guard let criterias = criteriaViewModel?.criterias else { return }
+        let selectedIndex = criteriaViewModel?.criterias.firstIndex(where: { criteriaViewModel?.selectedCriteria == $0 })
+        for index in 0..<criterias.count {
+            let button = OptionFilterButton(frame: .zero, option: criterias[index])
+            button.addTarget(self, action: #selector(didSelectOption(_:)), for: .touchUpInside)
+            button.tag = index
+            if selectedIndex == index {
+                button.backgroundColor = ProfileSuggestions.Constants.Colors.optionButtonSelected
+            }
+            optionsStackView.addArrangedSubview(button)
+            button.snp.makeConstraints { make in
+                make.width.equalTo(filterButton)
+                make.height.equalTo(20)
+            }
+        }
+    }
 }
 
 extension ProfileSuggestionsController {
@@ -117,6 +154,21 @@ extension ProfileSuggestionsController {
     @objc
     private func didTapBack() {
         router?.routeBack()
+    }
+    
+    @objc
+    private func didSelectOption(_ sender: UIButton) {
+        guard let text = criteriaViewModel?.criterias[sender.tag] else { return }
+        filterButton.selectedItem = text
+        optionsStackView.isHidden = true
+        optionsStackView.arrangedSubviews.forEach({
+            if $0 == sender {
+                $0.backgroundColor = ProfileSuggestions.Constants.Colors.optionButtonSelected
+            } else {
+                $0.backgroundColor = ProfileSuggestions.Constants.Colors.optionButtonUnselected
+            }
+        })
+        interactor?.didChangeCriteria(ProfileSuggestions.Request.ChangeCriteria(criteria: text))
     }
 }
 
@@ -127,12 +179,12 @@ extension ProfileSuggestionsController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel?.profiles.count ?? 0
+        return suggestionsViewModel?.profiles.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(indexPath: indexPath, type: ProfileSuggestionsTableViewCell.self)
-        guard let profile = viewModel?.profiles[indexPath.row] else { return UITableViewCell() }
+        guard let profile = suggestionsViewModel?.profiles[indexPath.row] else { return UITableViewCell() }
         cell.setup(index: indexPath.row,
                    delegate: self,
                    viewModel: profile)
@@ -154,7 +206,7 @@ extension ProfileSuggestionsController: UITableViewDelegate {
 extension ProfileSuggestionsController: SelectionFilterViewDelegate {
     
     func didTapBottomSheetButton() {
-        print("show bottomsheet")
+        optionsStackView.isHidden = !optionsStackView.isHidden
     }
 }
 
@@ -169,7 +221,7 @@ extension ProfileSuggestionsController: ProfileSuggestionsTableViewCellDelegate 
     }
     
     func didEndFading(index: Int) {
-        viewModel?.profiles.remove(at: index)
+        suggestionsViewModel?.profiles.remove(at: index)
         tableView.deleteRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
         refreshList()
     }
@@ -178,7 +230,7 @@ extension ProfileSuggestionsController: ProfileSuggestionsTableViewCellDelegate 
 extension ProfileSuggestionsController: ProfileSuggestionsDisplayLogic {
     
     func displayProfileSuggestions(_ viewModel: ProfileSuggestions.Info.ViewModel.UpcomingSuggestions) {
-        self.viewModel = viewModel
+        self.suggestionsViewModel = viewModel
     }
     
     func fadeProfileItem(_ viewModel: ProfileSuggestions.Info.ViewModel.ProfileItemToFade) {
@@ -196,5 +248,10 @@ extension ProfileSuggestionsController: ProfileSuggestionsDisplayLogic {
     
     func displayLoading(_ loading: Bool) {
         activityView.isHidden = !loading
+    }
+    
+    func displayCriterias(_ viewModel: ProfileSuggestions.Info.ViewModel.UpcomingCriteria) {
+        self.criteriaViewModel = viewModel
+        filterButton.selectedItem = viewModel.selectedCriteria
     }
 }

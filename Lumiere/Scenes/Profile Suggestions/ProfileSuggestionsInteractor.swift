@@ -12,11 +12,12 @@ protocol ProfileSuggestionsBusinessLogic {
     func fetchRemoveUser(_ request: ProfileSuggestions.Request.RemoveUser)
     func didSelectProfile(_ request: ProfileSuggestions.Request.SelectProfile)
     func didChangeCriteria(_ request: ProfileSuggestions.Request.ChangeCriteria)
+    func fetchCriterias(_ request: ProfileSuggestions.Request.FetchCriteria)
 }
 
 protocol ProfileSuggestionsDataStore {
     var suggestionCriteria: ProfileSuggestions.Info.Model.SuggestionsCriteria { get set }
-    var selectedProfile: String? { get }
+    var selectedProfile: String? { get set }
     var profileSuggestions: ProfileSuggestions.Info.Model.UpcomingSuggestions? { get }
 }
 
@@ -178,5 +179,10 @@ extension ProfileSuggestionsInteractor: ProfileSuggestionsBusinessLogic {
         case .commonInterestCathegories:
             fetchCommonCathegoriesSuggestions()
         }
+    }
+    
+    func fetchCriterias(_ request: ProfileSuggestions.Request.FetchCriteria) {
+        let result = ProfileSuggestions.Info.Model.UpcomingCriteria(selectedCriteria: suggestionCriteria, criterias: ProfileSuggestions.Info.Model.SuggestionsCriteria.toArray())
+        presenter.presentCriterias(result)
     }
 }

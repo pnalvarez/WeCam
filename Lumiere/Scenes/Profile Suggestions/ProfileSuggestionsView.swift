@@ -13,6 +13,7 @@ class ProfileSuggestionsView: UIView {
     private unowned var activityView: UIActivityIndicatorView
     private unowned var backButton: DefaultBackButton
     private unowned var filterButton: SelectionFilterView
+    private unowned var optionsStackView: UIStackView
     private unowned var tableView: UITableView
     
     private lazy var mainHeader: UIImageView = {
@@ -36,10 +37,12 @@ class ProfileSuggestionsView: UIView {
          activityView: UIActivityIndicatorView,
          backButton: DefaultBackButton,
          filterButton: SelectionFilterView,
+         optionsStackView: UIStackView,
          tableView: UITableView) {
         self.activityView = activityView
         self.backButton = backButton
         self.filterButton = filterButton
+        self.optionsStackView = optionsStackView
         self.tableView = tableView
         super.init(frame: frame)
         applyViewCode()
@@ -59,6 +62,7 @@ extension ProfileSuggestionsView: ViewCodeProtocol {
         addSubview(mainLbl)
         addSubview(filterButton)
         addSubview(tableView)
+        addSubview(optionsStackView)
     }
     
     func setupConstraints() {
@@ -86,6 +90,10 @@ extension ProfileSuggestionsView: ViewCodeProtocol {
             make.left.equalTo(mainLbl.snp.right).offset(9)
             make.right.equalToSuperview().inset(11)
             make.height.equalTo(18)
+        }
+        optionsStackView.snp.makeConstraints { make in
+            make.top.equalTo(filterButton.snp.bottom)
+            make.centerX.equalTo(filterButton)
         }
         tableView.snp.makeConstraints { make in
             make.top.equalTo(mainLbl.snp.bottom).offset(50)
