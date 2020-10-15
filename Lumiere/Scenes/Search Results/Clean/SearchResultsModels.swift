@@ -46,6 +46,7 @@ struct SearchResults {
         
         struct Texts {
             static let resultsQuantityLbl = " resultados"
+            static let emptyListResult = "Nenhum resultado encontrado :("
         }
         
         struct Images {

@@ -194,6 +194,15 @@ extension SearchResultsController {
             resultsQuantityLbl.text = String(viewModel?.projects.count ?? 0) + SearchResults.Constants.Texts.resultsQuantityLbl
         }
     }
+    
+    private func checkEmptyList(withType type: SearchResults.Info.ViewModel.SelectedType) {
+        switch type {
+        case .profile:
+            tableView.backgroundView = viewModel?.users.isEmpty ?? true ? EmptyListView(frame: .zero, text: SearchResults.Constants.Texts.emptyListResult) : nil
+        case .project:
+            tableView.backgroundView = viewModel?.projects.isEmpty ?? true ? EmptyListView(frame: .zero, text: SearchResults.Constants.Texts.emptyListResult) : nil
+        }
+    }
 }
 
 extension SearchResultsController {
@@ -215,13 +224,17 @@ extension SearchResultsController {
         guard let factory = factory as? SearchResultsFactory else {
             return
         }
+        var selectedType: SearchResults.Info.ViewModel.SelectedType
         if resultTypeSegmentedControl.selectedSegmentIndex == 0 {
-            factory.selectedType = .profile
+            selectedType = .profile
             resultsQuantityLbl.text = String(viewModel?.users.count ?? 0) + SearchResults.Constants.Texts.resultsQuantityLbl
+            checkEmptyList(withType: .profile)
         } else {
-            factory.selectedType = .project
+            selectedType = .project
             resultsQuantityLbl.text = String(viewModel?.projects.count ?? 0) + SearchResults.Constants.Texts.resultsQuantityLbl
+            checkEmptyList(withType: .project)
         }
+        factory.selectedType = selectedType
         sections = factory.buildSections()
         refreshList()
     }
@@ -231,6 +244,11 @@ extension SearchResultsController: SearchResultsDisplayLogic {
     
     func displaySearchResults(_ viewModel: SearchResults.Info.ViewModel.UpcomingResults) {
         self.viewModel = viewModel
+        if resultTypeSegmentedControl.selectedSegmentIndex == 0 {
+            checkEmptyList(withType: .profile)
+        } else {
+            checkEmptyList(withType: .project)
+        }
     }
     
     func displayProfileDetails() {
@@ -254,5 +272,6 @@ extension SearchResultsController: SearchResultsDisplayLogic {
             resultTypeSegmentedControl.insertSegment(withTitle: viewModel.types[index].text, at: index, animated: false)
         }
         resultTypeSegmentedControl.selectedSegmentIndex = 0
+        checkEmptyList(withType: .profile)
     }
 }
