@@ -71,7 +71,8 @@ extension EmptyListView: ViewCodeProtocol {
     func setupConstraints() {
         centralContainer.snp.makeConstraints { make in
             make.centerY.equalToSuperview().offset(-100)
-            make.left.right.equalToSuperview().inset(56)
+            make.centerX.equalToSuperview()
+            make.width.equalTo(301)
             make.height.equalTo(46)
         }
         centralLbl.snp.makeConstraints { make in
