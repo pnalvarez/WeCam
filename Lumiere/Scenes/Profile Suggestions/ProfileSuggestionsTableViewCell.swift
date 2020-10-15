@@ -21,13 +21,11 @@ class ProfileSuggestionsTableViewCell: UITableViewCell {
         view.contentMode = .scaleToFill
         view.layer.cornerRadius = 41
         view.clipsToBounds = true
-        view.sd_setImage(with: URL(string: viewModel?.image ?? .empty), completed: nil)
         return view
     }()
     
     private lazy var nameLbl: UILabel = {
         let view = UILabel(frame: .zero)
-        view.text = viewModel?.name
         view.textColor = ProfileSuggestions.Constants.Colors.nameLbl
         view.font = ProfileSuggestions.Constants.Fonts.nameLbl
         view.textAlignment = .left
@@ -37,7 +35,6 @@ class ProfileSuggestionsTableViewCell: UITableViewCell {
     
     private lazy var ocupationLbl: UILabel = {
         let view = UILabel(frame: .zero)
-        view.text = viewModel?.ocupation
         view.textColor = ProfileSuggestions.Constants.Colors.ocupationLbl
         view.font = ProfileSuggestions.Constants.Fonts.ocupationLbl
         view.textAlignment = .left
@@ -148,5 +145,8 @@ extension ProfileSuggestionsTableViewCell: ViewCodeProtocol {
     func configureViews() {
         backgroundColor = .white
         selectionStyle = .none
+        photoImageView.sd_setImage(with: URL(string: viewModel?.image ?? .empty), completed: nil)
+        nameLbl.text = viewModel?.name
+        ocupationLbl.text = viewModel?.ocupation
     }
 }

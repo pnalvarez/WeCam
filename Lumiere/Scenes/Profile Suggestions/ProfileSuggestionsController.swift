@@ -56,7 +56,7 @@ class ProfileSuggestionsController: BaseViewController {
         view.alwaysBounceVertical = false
         view.bounces = false
         view.registerCell(cellType: ProfileSuggestionsTableViewCell.self)
-        view.separatorStyle = .none
+        view.separatorStyle = .none 
         view.backgroundColor = .white
         return view
     }()
@@ -85,7 +85,7 @@ class ProfileSuggestionsController: BaseViewController {
     
     private var interactor: ProfileSuggestionsInteractor?
     var router: ProfileSuggestionsRouter?
-    
+
     init() {
         super.init(nibName: nil, bundle: nil)
         setup()
