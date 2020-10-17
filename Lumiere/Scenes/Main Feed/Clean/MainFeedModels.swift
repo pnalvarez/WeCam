@@ -60,6 +60,7 @@ struct MainFeed {
                 static let headerCell: CGFloat = 85
                 static let recentSearchCell: CGFloat = 34
                 static let profileSuggestionsCell: CGFloat = 170
+                static let ongoingProjectsFeedCell: CGFloat = 180
             }
         }
         

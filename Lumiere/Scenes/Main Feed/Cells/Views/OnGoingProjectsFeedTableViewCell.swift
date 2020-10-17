@@ -84,15 +84,31 @@ extension OnGoingProjectsFeedTableViewCell: UIScrollViewDelegate {
 extension OnGoingProjectsFeedTableViewCell: ViewCodeProtocol {
     
     func buildViewHierarchy() {
-        
+        addSubview(headerLbl)
+        scrollView.addSubview(mainContainer)
+        addSubview(scrollView)
     }
     
     func setupConstraints() {
-        
+        headerLbl.snp.makeConstraints { make in
+            make.top.equalToSuperview().inset(5)
+            make.left.equalToSuperview().inset(22)
+            make.width.equalTo(150)
+        }
+        scrollView.snp.makeConstraints { make in
+            make.top.equalTo(headerLbl.snp.bottom).offset(12)
+            make.left.right.equalToSuperview()
+            make.bottom.equalToSuperview().inset(15)
+        }
+        mainContainer.snp.makeConstraints { make in
+            make.edges.height.equalToSuperview()
+            make.width.equalToSuperview().priority(250)
+        }
     }
     
     func configureViews() {
-        
+        backgroundColor = .white
+        selectionStyle = .none
     }
 }
 
