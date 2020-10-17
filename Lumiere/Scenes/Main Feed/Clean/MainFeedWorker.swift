@@ -9,6 +9,8 @@
 protocol MainFeedWorkerProtocol {
     func fetchProfileSuggestions(_ request: MainFeed.Request.FetchSuggestedProfiles,
                                  completion: @escaping (BaseResponse<[MainFeed.Info.Response.ProfileSuggestion]>) -> Void)
+    func fetchOnGoingProjects(_ request: MainFeed.Request.FetchOnGoingProjects,
+                              completion: @escaping (BaseResponse<[MainFeed.Info.Response.OnGoingProject]>) -> Void)
 }
 
 class MainFeedWorker: MainFeedWorkerProtocol {
@@ -23,6 +25,13 @@ class MainFeedWorker: MainFeedWorkerProtocol {
                                  completion: @escaping (BaseResponse<[MainFeed.Info.Response.ProfileSuggestion]>) -> Void) {
         let headers: [String : Any] = ["limit": MainFeed.Constants.BusinessLogic.suggestionsLimit]
         builder.fetchGeneralProfileSuggestions(request: headers,
-                                        completion: completion)
+                                               completion: completion)
+    }
+    
+    func fetchOnGoingProjects(_ request: MainFeed.Request.FetchOnGoingProjects,
+                              completion: @escaping (BaseResponse<[MainFeed.Info.Response.OnGoingProject]>) -> Void) {
+        let headers: [String : Any] = ["limit": MainFeed.Constants.BusinessLogic.ongoingProjectsLimit]
+        builder.fetchOnGoingProjectsFeed(request: headers,
+                                         completion: completion)
     }
 }

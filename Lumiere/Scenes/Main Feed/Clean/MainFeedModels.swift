@@ -67,6 +67,7 @@ struct MainFeed {
         struct BusinessLogic {
             
             static let suggestionsLimit: Int = 10
+            static let ongoingProjectsLimit: Int = 50
             
             enum CellIndexes: Int {
                 case search = 0
@@ -188,20 +189,20 @@ struct MainFeed {
                     ocupation <- map["professional_area"]
                 }
             }
-        }
-        
-        final class OnGoingProject: Mappable {
             
-            var id: String?
-            var image: String?
-            var progress: Int?
-            
-            init?(map: Map) { }
-            
-            func mapping(map: Map) {
-                id <- map["id"]
-                image <- map["image"]
-                progress <- map["progress"]
+            final class OnGoingProject: Mappable {
+                
+                var id: String?
+                var image: String?
+                var progress: Int?
+                
+                init?(map: Map) { }
+                
+                func mapping(map: Map) {
+                    id <- map["id"]
+                    image <- map["image"]
+                    progress <- map["progress"]
+                }
             }
         }
     }

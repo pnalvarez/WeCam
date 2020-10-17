@@ -18,7 +18,9 @@ protocol MainFeedDataStore {
     var currentUserId: MainFeed.Info.Received.CurrentUser? { get set }
     var searchKey: MainFeed.Info.Model.SearchKey? { get set }
     var profileSuggestions: MainFeed.Info.Model.UpcomingProfiles? { get set }
+    var ongoingProjects: MainFeed.Info.Model.UpcomingProjects? { get set }
     var selectedProfile: String? { get set }
+    var selectedProject: String? { get set }
 }
 
 class MainFeedInteractor: MainFeedDataStore {
@@ -30,6 +32,8 @@ class MainFeedInteractor: MainFeedDataStore {
     var searchKey: MainFeed.Info.Model.SearchKey?
     var profileSuggestions: MainFeed.Info.Model.UpcomingProfiles?
     var selectedProfile: String?
+    var ongoingProjects: MainFeed.Info.Model.UpcomingProjects?
+    var selectedProject: String?
     
     init(worker: MainFeedWorkerProtocol = MainFeedWorker(),
          presenter: MainFeedPresentationLogic) {
@@ -84,6 +88,23 @@ extension MainFeedInteractor: MainFeedBusinessLogic {
     }
     
     func fetchOnGoingProjectsFeed(_ request: MainFeed.Request.FetchOnGoingProjects) {
-        
+        worker.fetchOnGoingProjects(request) { response in
+            switch response {
+            case .success(let data):
+                self.ongoingProjects = MainFeed
+                    .Info
+                    .Model
+                    .UpcomingProjects(projects: data.map({ MainFeed
+                                                            .Info
+                                                            .Model
+                                                            .OnGoingProject(id: $0.id ?? .empty,
+                                                                            image: $0.image ?? .empty,
+                                                                            progress: $0.progress ?? 0)}))
+                guard let projects = self.ongoingProjects else { return }
+                self.presenter.presentOnGoingProjects(projects)
+            case .error(let error):
+                break
+            }
+        }
     }
 }

@@ -123,6 +123,8 @@ protocol FirebaseManagerProtocol {
                                                                completion: @escaping (BaseResponse<[T]>) -> Void)
     func removeProfileSuggestion(request: [String : Any],
                                  completion: @escaping (EmptyResponse) -> Void)
+    func fetchOnGoingProjectsFeed<T: Mappable>(request: [String : Any],
+                                               completion: @escaping (BaseResponse<[T]>) -> Void)
 }
 
 class FirebaseManager: FirebaseManagerProtocol {
@@ -3189,6 +3191,11 @@ class FirebaseManager: FirebaseManagerProtocol {
                             }
                     }
             }
+    }
+    
+    func fetchOnGoingProjectsFeed<T: Mappable>(request: [String : Any],
+                                     completion: @escaping (BaseResponse<[T]>) -> Void) {
+        
     }
 }
 
