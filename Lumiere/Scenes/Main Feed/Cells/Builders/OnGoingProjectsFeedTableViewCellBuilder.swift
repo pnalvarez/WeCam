@@ -11,10 +11,10 @@ import UIKit
 class OnGoingProjectsFeedTableViewCellBuilder: TableViewCellBuilderProtocol {
     
     private weak var delegate: OnGoingProjectsFeedTableViewCellDelegate?
-    private var viewModel: MainFeed.Info.ViewModel.UpcomingProjects
+    private var viewModel: MainFeed.Info.ViewModel.UpcomingProjects?
     
     init(delegate: OnGoingProjectsFeedTableViewCellDelegate? = nil,
-         viewModel: MainFeed.Info.ViewModel.UpcomingProjects) {
+         viewModel: MainFeed.Info.ViewModel.UpcomingProjects?) {
         self.delegate = delegate
         self.viewModel = viewModel
     }

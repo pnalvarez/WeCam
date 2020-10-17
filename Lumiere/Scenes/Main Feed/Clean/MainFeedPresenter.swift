@@ -12,7 +12,7 @@ protocol MainFeedPresentationLogic {
     func presentSearchResults()
     func presentProfileSuggestions(_ response: MainFeed.Info.Model.UpcomingProfiles)
     func presentProfileDetails()
-    func presentAllProfileSuggestions()
+    func presentOnGoingProjects(_ response: MainFeed.Info.Model.UpcomingProjects)
 }
 
 class MainFeedPresenter: MainFeedPresentationLogic {
@@ -36,7 +36,8 @@ class MainFeedPresenter: MainFeedPresentationLogic {
         viewController.displayProfileDetails()
     }
     
-    func presentAllProfileSuggestions() {
-        viewController.displayAllProfileSuggestions()
+    func presentOnGoingProjects(_ response: MainFeed.Info.Model.UpcomingProjects) {
+        let viewModel = MainFeed.Info.ViewModel.UpcomingProjects(projects: response.projects.map({ MainFeed.Info.ViewModel.OnGoingProject(image: $0.image, progress: Float($0.progress) / 100)}))
+        viewController.displayOnGoingProjectsFeed(viewModel)
     }
 }

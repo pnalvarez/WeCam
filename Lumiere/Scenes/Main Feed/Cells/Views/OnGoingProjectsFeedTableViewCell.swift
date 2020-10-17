@@ -46,7 +46,7 @@ class OnGoingProjectsFeedTableViewCell: UITableViewCell {
     }
     private weak var delegate: OnGoingProjectsFeedTableViewCellDelegate?
 
-    func setup(viewModel: MainFeed.Info.ViewModel.UpcomingProjects,
+    func setup(viewModel: MainFeed.Info.ViewModel.UpcomingProjects?,
                delegate: OnGoingProjectsFeedTableViewCellDelegate? = nil) {
         self.viewModel = viewModel
         self.delegate = delegate

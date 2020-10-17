@@ -11,6 +11,7 @@ protocol MainFeedBusinessLogic {
     func fetchRecentSearches(_ request: MainFeed.Request.RecentSearches)
     func fetchSuggestedProfiles(_ request: MainFeed.Request.FetchSuggestedProfiles)
     func didSelectSuggestedProfile(_ request: MainFeed.Request.SelectSuggestedProfile)
+    func fetchOnGoingProjectsFeed(_ request: MainFeed.Request.FetchOnGoingProjects)
 }
 
 protocol MainFeedDataStore {
@@ -80,5 +81,9 @@ extension MainFeedInteractor: MainFeedBusinessLogic {
     func didSelectSuggestedProfile(_ request: MainFeed.Request.SelectSuggestedProfile) {
         selectedProfile = profileSuggestions?.suggestions[request.index].userId
         presenter.presentProfileDetails()
+    }
+    
+    func fetchOnGoingProjectsFeed(_ request: MainFeed.Request.FetchOnGoingProjects) {
+        
     }
 }

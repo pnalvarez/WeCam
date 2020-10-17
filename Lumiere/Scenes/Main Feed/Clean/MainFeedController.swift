@@ -12,7 +12,7 @@ protocol MainFeedDisplayLogic: class {
     func displaySearchResults()
     func displayProfileSuggestions(_ viewModel: MainFeed.Info.ViewModel.UpcomingProfiles)
     func displayProfileDetails()
-    func displayAllProfileSuggestions()
+    func displayOnGoingProjectsFeed(_ viewModel: MainFeed.Info.ViewModel.UpcomingProjects)
 }
 
 class MainFeedController: BaseViewController {
@@ -32,6 +32,14 @@ class MainFeedController: BaseViewController {
     private var profileSuggestionsViewModel: MainFeed.Info.ViewModel.UpcomingProfiles? {
         didSet {
             factory?.profileSuggestionsViewModel = profileSuggestionsViewModel
+            sections = factory?.buildSections()
+            refreshTableView()
+        }
+    }
+    
+    private var ongoingProjectsFeedViewModel: MainFeed.Info.ViewModel.UpcomingProjects? {
+        didSet {
+            factory?.ongoingProjectsViewModel = ongoingProjectsFeedViewModel
             sections = factory?.buildSections()
             refreshTableView()
         }
@@ -166,7 +174,7 @@ extension MainFeedController: MainFeedDisplayLogic {
         router?.routeToProfileDetails()
     }
     
-    func displayAllProfileSuggestions() {
-        
+    func displayOnGoingProjectsFeed(_ viewModel: MainFeed.Info.ViewModel.UpcomingProjects) {
+        self.ongoingProjectsFeedViewModel = viewModel
     }
 }

@@ -227,5 +227,9 @@ struct MainFeed {
         struct FetchSuggestedProfiles {
             
         }
+        
+        struct FetchOnGoingProjects {
+            
+        }
     }
 }
