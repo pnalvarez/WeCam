@@ -92,6 +92,7 @@ extension SearchResultsInteractor: SearchResultsBusinessLogic {
     
     func fetchSearch(_ request: SearchResults.Request.SearchWithPreffix) {
         presenter.presentLoading(true)
+        searchKey = SearchResults.Info.Received.SearchKey(key: request.preffix)
         worker.fetchProfiles(request) { response in
             switch response {
             case .success(let data):

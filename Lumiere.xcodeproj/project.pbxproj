@@ -243,6 +243,8 @@
 		3F9578DD24B0314D00B79818 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9578DC24B0314D00B79818 /* BaseViewController.swift */; };
 		3FA1C1512536738B00385322 /* OptionFilterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA1C1502536738B00385322 /* OptionFilterButton.swift */; };
 		3FA1C1562536817500385322 /* UIStackView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA1C1552536817500385322 /* UIStackView+.swift */; };
+		3FA1C162253B851100385322 /* OnGoingProjectsFeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA1C161253B851000385322 /* OnGoingProjectsFeedTableViewCell.swift */; };
+		3FA1C167253B88F700385322 /* OnGoingProjectFeedResumeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA1C166253B88F700385322 /* OnGoingProjectFeedResumeButton.swift */; };
 		3FAD1A012516B4CF00ED4074 /* MainFeedController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FAD1A002516B4CF00ED4074 /* MainFeedController.swift */; };
 		3FAD1A092516B50D00ED4074 /* MainFeedTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FAD1A082516B50D00ED4074 /* MainFeedTableView.swift */; };
 		3FAD1A0E2516B53100ED4074 /* MainFeedTableViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FAD1A0D2516B53100ED4074 /* MainFeedTableViewFactory.swift */; };
@@ -548,6 +550,8 @@
 		3F9578DC24B0314D00B79818 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BaseViewController.swift; path = "../New Group/BaseViewController.swift"; sourceTree = "<group>"; };
 		3FA1C1502536738B00385322 /* OptionFilterButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionFilterButton.swift; sourceTree = "<group>"; };
 		3FA1C1552536817500385322 /* UIStackView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+.swift"; sourceTree = "<group>"; };
+		3FA1C161253B851000385322 /* OnGoingProjectsFeedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnGoingProjectsFeedTableViewCell.swift; sourceTree = "<group>"; };
+		3FA1C166253B88F700385322 /* OnGoingProjectFeedResumeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnGoingProjectFeedResumeButton.swift; sourceTree = "<group>"; };
 		3FAD1A002516B4CF00ED4074 /* MainFeedController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFeedController.swift; sourceTree = "<group>"; };
 		3FAD1A082516B50D00ED4074 /* MainFeedTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFeedTableView.swift; sourceTree = "<group>"; };
 		3FAD1A0D2516B53100ED4074 /* MainFeedTableViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFeedTableViewFactory.swift; sourceTree = "<group>"; };
@@ -764,6 +768,7 @@
 				3FB8806A2533BD2E003C0D1B /* SelectionFilterView.swift */,
 				3FB8808D2533FE31003C0D1B /* DefaultBottomSheet.swift */,
 				3FA1C1502536738B00385322 /* OptionFilterButton.swift */,
+				3FA1C166253B88F700385322 /* OnGoingProjectFeedResumeButton.swift */,
 			);
 			path = Reusable;
 			sourceTree = "<group>";
@@ -1518,6 +1523,7 @@
 				3FAD1A4B2516BAFB00ED4074 /* SearchHeaderTableViewCell.swift */,
 				3F0129F0252D290A00FF4985 /* RecentSearchTableViewCell.swift */,
 				3F012A05252E8C4100FF4985 /* ProfileSuggestionsFeedTableViewCell.swift */,
+				3FA1C161253B851000385322 /* OnGoingProjectsFeedTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1924,6 +1930,7 @@
 				3FB8BD6F250D5FBD001954FD /* OnGoingProjectInvitesInteractor.swift in Sources */,
 				3F8D139924D53B0900AED7EB /* NotificationsInteractor.swift in Sources */,
 				3FB8806B2533BD2E003C0D1B /* SelectionFilterView.swift in Sources */,
+				3FA1C162253B851100385322 /* OnGoingProjectsFeedTableViewCell.swift in Sources */,
 				3F6EEA3724E0A3970075C500 /* ConnectionsListWorker.swift in Sources */,
 				3F95785E24AD764700B79818 /* ViewCodeProtocol.swift in Sources */,
 				3F8AB7912516DB6100E949F6 /* SearchHeaderTableViewCellBuilder.swift in Sources */,
@@ -1933,6 +1940,7 @@
 				3F012A17252E9A8F00FF4985 /* ProfileSuggestionsFeedTableViewCellBuilder.swift in Sources */,
 				3F40A69024EF41ED00261161 /* ProjectProgressView.swift in Sources */,
 				3FB8808E2533FE31003C0D1B /* DefaultBottomSheet.swift in Sources */,
+				3FA1C167253B88F700385322 /* OnGoingProjectFeedResumeButton.swift in Sources */,
 				3FE8DF5A24CBD271005DE30D /* UIView+.swift in Sources */,
 				3F95786124AD775D00B79818 /* LaunchScreenController.swift in Sources */,
 				3F5B324925316325004DFBFD /* ProfileSuggestionsInteractor.swift in Sources */,

@@ -22,6 +22,7 @@ struct MainFeed {
             static let recentSearchTitle = UIColor(rgb: 0x000000)
             static let profileSuggestionsHeaderLbl = UIColor(rgb: 0x969494)
             static let profileSuggestionsSeeAllButton = ThemeColors.mainRedColor.rawValue
+            static let ongoingProjectsHeaderLbl = UIColor(rgb: 0x969494)
         }
         
         struct Fonts {
@@ -29,11 +30,13 @@ struct MainFeed {
             static let recentSearchTitle = ThemeFonts.RobotoBold(16).rawValue
             static let profileSuggestionsHeaderLbl = ThemeFonts.RobotoBold(16).rawValue
             static let profileSuggestionsSeeAllButton = ThemeFonts.RobotoBold(16).rawValue
+            static let ongoingProjectsHeaderLbl = ThemeFonts.RobotoBold(16).rawValue
         }
         
         struct Texts {
             static let profileSuggestionsHeaderLbl = "Sugestões de Perfil"
             static let profileSuggestionsSeeAllButton = "Ver Tudo"
+            static let ongoingProjectsHeaderLbl = "Projetos em Andamento"
         }
         
         struct Images {
@@ -114,6 +117,16 @@ struct MainFeed {
                 let name: String
                 let ocupation: String
             }
+            
+            struct UpcomingProjects: Equatable {
+                let projects: [OnGoingProject]
+            }
+            
+            struct OnGoingProject: Equatable {
+                let id: String
+                let image: String
+                let progress: Int
+            }
         }
         
         struct ViewModel {
@@ -131,6 +144,15 @@ struct MainFeed {
                 let image: String
                 let name: String
                 let ocupation: String
+            }
+            
+            struct UpcomingProjects: Equatable {
+                let projects: [OnGoingProject]
+            }
+            
+            struct OnGoingProject: Equatable {
+                let image: String
+                let progress: Float
             }
         }
         
@@ -164,6 +186,21 @@ struct MainFeed {
                     name <- map["name"]
                     ocupation <- map["professional_area"]
                 }
+            }
+        }
+        
+        final class OnGoingProject: Mappable {
+            
+            var id: String?
+            var image: String?
+            var progress: Int?
+            
+            init?(map: Map) { }
+            
+            func mapping(map: Map) {
+                id <- map["id"]
+                image <- map["image"]
+                progress <- map["progress"]
             }
         }
     }
