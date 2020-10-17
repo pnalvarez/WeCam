@@ -245,6 +245,7 @@
 		3FA1C1562536817500385322 /* UIStackView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA1C1552536817500385322 /* UIStackView+.swift */; };
 		3FA1C162253B851100385322 /* OnGoingProjectsFeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA1C161253B851000385322 /* OnGoingProjectsFeedTableViewCell.swift */; };
 		3FA1C167253B88F700385322 /* OnGoingProjectFeedResumeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA1C166253B88F700385322 /* OnGoingProjectFeedResumeButton.swift */; };
+		3FA1C16C253B8BC900385322 /* OnGoingProjectsFeedTableViewCellBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA1C16B253B8BC900385322 /* OnGoingProjectsFeedTableViewCellBuilder.swift */; };
 		3FAD1A012516B4CF00ED4074 /* MainFeedController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FAD1A002516B4CF00ED4074 /* MainFeedController.swift */; };
 		3FAD1A092516B50D00ED4074 /* MainFeedTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FAD1A082516B50D00ED4074 /* MainFeedTableView.swift */; };
 		3FAD1A0E2516B53100ED4074 /* MainFeedTableViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FAD1A0D2516B53100ED4074 /* MainFeedTableViewFactory.swift */; };
@@ -552,6 +553,7 @@
 		3FA1C1552536817500385322 /* UIStackView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+.swift"; sourceTree = "<group>"; };
 		3FA1C161253B851000385322 /* OnGoingProjectsFeedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnGoingProjectsFeedTableViewCell.swift; sourceTree = "<group>"; };
 		3FA1C166253B88F700385322 /* OnGoingProjectFeedResumeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnGoingProjectFeedResumeButton.swift; sourceTree = "<group>"; };
+		3FA1C16B253B8BC900385322 /* OnGoingProjectsFeedTableViewCellBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnGoingProjectsFeedTableViewCellBuilder.swift; sourceTree = "<group>"; };
 		3FAD1A002516B4CF00ED4074 /* MainFeedController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFeedController.swift; sourceTree = "<group>"; };
 		3FAD1A082516B50D00ED4074 /* MainFeedTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFeedTableView.swift; sourceTree = "<group>"; };
 		3FAD1A0D2516B53100ED4074 /* MainFeedTableViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFeedTableViewFactory.swift; sourceTree = "<group>"; };
@@ -1513,6 +1515,7 @@
 				3F8AB7902516DB6100E949F6 /* SearchHeaderTableViewCellBuilder.swift */,
 				3F012A00252E8B3100FF4985 /* RecentSearchTableViewCellBuilder.swift */,
 				3F012A16252E9A8F00FF4985 /* ProfileSuggestionsFeedTableViewCellBuilder.swift */,
+				3FA1C16B253B8BC900385322 /* OnGoingProjectsFeedTableViewCellBuilder.swift */,
 			);
 			path = Builders;
 			sourceTree = "<group>";
@@ -1988,6 +1991,7 @@
 				3F8D13CA24DCCD2100AED7EB /* BaseResponse.swift in Sources */,
 				3F8D13C024D78CBF00AED7EB /* NotificationTableViewCell.swift in Sources */,
 				3F6EEA3924E0A3A50075C500 /* ConnectionsListRouter.swift in Sources */,
+				3FA1C16C253B8BC900385322 /* OnGoingProjectsFeedTableViewCellBuilder.swift in Sources */,
 				3F8D138E24D5364000AED7EB /* ProfileDetailsWorker.swift in Sources */,
 				3F5B323A253161EC004DFBFD /* ProfileSuggestionsView.swift in Sources */,
 				3F8D13A124D53C4400AED7EB /* NotificationsModels.swift in Sources */,

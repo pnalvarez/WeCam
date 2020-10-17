@@ -39,7 +39,6 @@ class OnGoingProjectsFeedTableViewCell: UITableViewCell {
         return view
     }()
     
-    private var index: Int?
     private var viewModel: MainFeed.Info.ViewModel.UpcomingProjects? {
         didSet {
             buildProjectsFeed()
@@ -47,10 +46,8 @@ class OnGoingProjectsFeedTableViewCell: UITableViewCell {
     }
     private weak var delegate: OnGoingProjectsFeedTableViewCellDelegate?
 
-    func setup(index: Int,
-               viewModel: MainFeed.Info.ViewModel.UpcomingProjects,
+    func setup(viewModel: MainFeed.Info.ViewModel.UpcomingProjects,
                delegate: OnGoingProjectsFeedTableViewCellDelegate? = nil) {
-        self.index = index
         self.viewModel = viewModel
         self.delegate = delegate
         applyViewCode()
