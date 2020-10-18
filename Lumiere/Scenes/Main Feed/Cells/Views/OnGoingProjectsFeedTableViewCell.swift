@@ -36,6 +36,7 @@ class OnGoingProjectsFeedTableViewCell: UITableViewCell {
     private lazy var mainContainer: UIView = {
         let view = UIView(frame: .zero)
         view.backgroundColor = ThemeColors.whiteThemeColor.rawValue
+        view.isHidden = true
         return view
     }()
     
@@ -44,6 +45,7 @@ class OnGoingProjectsFeedTableViewCell: UITableViewCell {
             buildProjectsFeed()
         }
     }
+    
     private weak var delegate: OnGoingProjectsFeedTableViewCellDelegate?
 
     func setup(viewModel: MainFeed.Info.ViewModel.UpcomingProjects?,
@@ -64,7 +66,37 @@ class OnGoingProjectsFeedTableViewCell: UITableViewCell {
 extension OnGoingProjectsFeedTableViewCell {
     
     private func buildProjectsFeed() {
-        
+        var buttons = [OnGoingProjectFeedResumeButton]()
+        guard let projects = viewModel?.projects else { return }
+        let scrollWidth = MainFeed.Constants.Dimensions.Widths.ongoingProjectsFeedOffset + ((MainFeed.Constants.Dimensions.Widths.ongoingProjectResumeButton + MainFeed.Constants.Dimensions.Widths.ongoingProfojectsFeedInterval) * CGFloat(projects.count))
+        scrollView.contentSize = CGSize(width: scrollWidth, height: scrollView.frame.height)
+        for index in 0..<projects.count {
+            let button = OnGoingProjectFeedResumeButton(frame: .zero,
+                                                        image: projects[index].image,
+                                                        progress: projects[index].progress)
+            button.tag = index
+            button.addTarget(self, action: #selector(didTapOnGoingProject(_:)), for: .touchUpInside)
+            buttons.append(button)
+            scrollView.addSubview(button)
+            button.snp.makeConstraints { make in
+                make.top.equalToSuperview()
+                make.height.equalTo(95)
+                make.width.equalTo(84)
+                if index == 0 {
+                    make.left.equalToSuperview().inset(22)
+                } else {
+                    make.left.equalTo(buttons[index-1].snp.right).offset(10)
+                }
+            }
+        }
+    }
+}
+
+extension OnGoingProjectsFeedTableViewCell {
+    
+    @objc
+    private func didTapOnGoingProject(_ sender: UIButton) {
+        delegate?.didSelectProject(index: sender.tag)
     }
 }
 
@@ -90,12 +122,12 @@ extension OnGoingProjectsFeedTableViewCell: ViewCodeProtocol {
         headerLbl.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(5)
             make.left.equalToSuperview().inset(22)
-            make.width.equalTo(150)
+            make.width.equalTo(200)
         }
         scrollView.snp.makeConstraints { make in
             make.top.equalTo(headerLbl.snp.bottom).offset(12)
             make.left.right.equalToSuperview()
-            make.bottom.equalToSuperview().inset(15)
+            make.bottom.equalToSuperview()
         }
         mainContainer.snp.makeConstraints { make in
             make.edges.height.equalToSuperview()

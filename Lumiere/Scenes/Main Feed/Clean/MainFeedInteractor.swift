@@ -12,6 +12,7 @@ protocol MainFeedBusinessLogic {
     func fetchSuggestedProfiles(_ request: MainFeed.Request.FetchSuggestedProfiles)
     func didSelectSuggestedProfile(_ request: MainFeed.Request.SelectSuggestedProfile)
     func fetchOnGoingProjectsFeed(_ request: MainFeed.Request.FetchOnGoingProjects)
+    func didSelectOnGoingProject(_ request: MainFeed.Request.SelectOnGoingProject)
 }
 
 protocol MainFeedDataStore {
@@ -106,5 +107,10 @@ extension MainFeedInteractor: MainFeedBusinessLogic {
                 break
             }
         }
+    }
+    
+    func didSelectOnGoingProject(_ request: MainFeed.Request.SelectOnGoingProject) {
+        selectedProject = ongoingProjects?.projects[request.index].id
+        presenter.presentOnGoingProjectDetails()
     }
 }

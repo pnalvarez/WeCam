@@ -21,7 +21,7 @@ class OnGoingProjectFeedResumeButton: UIButton {
     private lazy var progressView: UIProgressView = {
         let view = UIProgressView(progressViewStyle: .bar)
         view.progressTintColor = .blue
-        view.tintColor = .gray
+        view.backgroundColor = .gray
         return view
     }()
     
@@ -34,6 +34,7 @@ class OnGoingProjectFeedResumeButton: UIButton {
         self.image = image
         self.progress = progress
         super.init(frame: frame)
+        applyViewCode()
     }
     
     required init?(coder: NSCoder) {
@@ -50,18 +51,20 @@ extension OnGoingProjectFeedResumeButton: ViewCodeProtocol {
     
     func setupConstraints() {
         photoImageView.snp.makeConstraints { make in
-            make.center.equalToSuperview()
+            make.top.equalToSuperview()
+            make.centerX.equalToSuperview()
             make.height.width.equalTo(84)
         }
         progressView.snp.makeConstraints { make in
-            make.top.equalTo(photoImageView.snp.bottom).offset(2)
+            make.top.equalTo(photoImageView.snp.bottom).offset(5)
             make.centerX.equalTo(photoImageView)
-            make.left.right.equalToSuperview().inset(2)
+            make.left.right.equalToSuperview().inset(5)
         }
     }
     
     func configureViews() {
         backgroundColor = .white
+        clipsToBounds = true
         photoImageView.sd_setImage(with: URL(string: image), completed: nil)
         progressView.progress = progress
     }

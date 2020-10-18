@@ -13,6 +13,7 @@ protocol MainFeedRoutingLogic {
     func routeToSearchResults()
     func routeToProfileDetails()
     func routeToProfileSuggestions()
+    func routeToOnGoingProjectDetails()
 }
 
 protocol MainFeedDataTransfer {
@@ -32,6 +33,13 @@ class MainFeedRouter: NSObject, MainFeedDataTransfer {
     private func transferDataToProfileDetails(from source: MainFeedDataStore,
                                               to destination: inout ProfileDetailsDataStore) {
         destination.receivedUserData = ProfileDetails.Info.Received.User(userId: source.selectedProfile ?? .empty)
+    }
+    
+    private func transferDataToOnGoingProjectDetails(from source: MainFeedDataStore,
+                                                     to destination: inout OnGoingProjectDetailsDataStore) {
+        destination.receivedData = OnGoingProjectDetails.Info.Received.Project(projectId: source.selectedProject ?? .empty,
+                                                                               notInvitedUsers: .empty)
+        destination.routingContext = .checkingProject
     }
 }
 
@@ -62,6 +70,14 @@ extension MainFeedRouter: MainFeedRoutingLogic {
     
     func routeToProfileSuggestions() {
         let vc = ProfileSuggestionsController()
+        routeTo(nextVC: vc)
+    }
+    
+    func routeToOnGoingProjectDetails() {
+        let vc = OnGoingProjectDetailsController()
+        guard let source = dataStore,
+              var destination = vc.router?.dataStore else { return }
+        transferDataToOnGoingProjectDetails(from: source, to: &destination)
         routeTo(nextVC: vc)
     }
 }

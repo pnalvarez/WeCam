@@ -13,6 +13,7 @@ protocol MainFeedDisplayLogic: class {
     func displayProfileSuggestions(_ viewModel: MainFeed.Info.ViewModel.UpcomingProfiles)
     func displayProfileDetails()
     func displayOnGoingProjectsFeed(_ viewModel: MainFeed.Info.ViewModel.UpcomingProjects)
+    func displayOnGoingProjectDetails()
 }
 
 class MainFeedController: BaseViewController {
@@ -68,11 +69,13 @@ class MainFeedController: BaseViewController {
         super.viewWillAppear(animated)
         refreshTableView()
         interactor?.fetchSuggestedProfiles(MainFeed.Request.FetchSuggestedProfiles())
+        interactor?.fetchOnGoingProjectsFeed(MainFeed.Request.FetchOnGoingProjects())
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         flushProfileSuggestions()
+        flushOnGoingProjectsFeed()
     }
     
     private func setup() {
@@ -82,8 +85,10 @@ class MainFeedController: BaseViewController {
         let router = MainFeedRouter()
         let factory = MainFeedTableViewFactory(tableView: tableView,
                                                profileSuggestionsViewModel: profileSuggestionsViewModel,
+                                               ongoingProjectsViewModel: ongoingProjectsFeedViewModel,
                                                searchDelegate: self,
-                                               profileSuggestionsDelegate: self)
+                                               profileSuggestionsDelegate: self,
+                                               ongoingProjectsFeedDelegate: self)
         viewController.interactor = interactor
         viewController.router = router
         viewController.factory = factory
@@ -108,6 +113,13 @@ extension MainFeedController {
                                         type: ProfileSuggestionsFeedTableViewCell.self)
         cell.flushItems()
     }
+    
+    private func flushOnGoingProjectsFeed() {
+        ongoingProjectsFeedViewModel = nil
+        let cell = tableView.cellForRow(at: IndexPath(row: MainFeed.Constants.BusinessLogic.CellIndexes.ongoingProjectsSuggestions.rawValue, section: MainFeed.Constants.BusinessLogic.Sections.defaultFeed.rawValue),
+                                        type: OnGoingProjectsFeedTableViewCell.self)
+        cell.flushItems()
+    }
 }
 
 extension MainFeedController: SearchHeaderTableViewCellDelegate {
@@ -125,6 +137,13 @@ extension MainFeedController: ProfileSuggestionsFeedTableViewCellDelegate {
     
     func didTapSeeAll() {
         router?.routeToProfileSuggestions()
+    }
+}
+
+extension MainFeedController: OnGoingProjectsFeedTableViewCellDelegate {
+    
+    func didSelectProject(index: Int) {
+        interactor?.didSelectOnGoingProject(MainFeed.Request.SelectOnGoingProject(index: index))
     }
 }
 
@@ -176,5 +195,9 @@ extension MainFeedController: MainFeedDisplayLogic {
     
     func displayOnGoingProjectsFeed(_ viewModel: MainFeed.Info.ViewModel.UpcomingProjects) {
         self.ongoingProjectsFeedViewModel = viewModel
+    }
+    
+    func displayOnGoingProjectDetails() {
+        router?.routeToOnGoingProjectDetails()
     }
 }

@@ -59,8 +59,15 @@ struct MainFeed {
             struct Heighs {
                 static let headerCell: CGFloat = 85
                 static let recentSearchCell: CGFloat = 34
-                static let profileSuggestionsCell: CGFloat = 170
-                static let ongoingProjectsFeedCell: CGFloat = 180
+                static let profileSuggestionsCell: CGFloat = 190
+                static let ongoingProjectsFeedCell: CGFloat = 140
+                static let ongoingProjectsResumeButton: CGFloat = 95
+            }
+            
+            struct Widths {
+                static let ongoingProjectResumeButton: CGFloat = 86
+                static let ongoingProjectsFeedOffset: CGFloat = 22
+                static let ongoingProfojectsFeedInterval: CGFloat = 10
             }
         }
         
@@ -225,6 +232,10 @@ struct MainFeed {
             let index: Int
         }
         
+        struct SelectOnGoingProject {
+            let index: Int
+        }
+        
         struct FetchSuggestedProfiles {
             
         }
@@ -232,5 +243,52 @@ struct MainFeed {
         struct FetchOnGoingProjects {
             
         }
+    }
+}
+
+extension MainFeed.Info.Response.OnGoingProject: MultipleStubbable {
+    static var stubArray: [MainFeed.Info.Response.OnGoingProject] {
+        return [MainFeed.Info.Response.OnGoingProject(JSONString: """
+                        {
+                            "id": "-MJT-LQSKyEK4fC3hr1g",
+                            "image": "https://firebasestorage.googleapis.com/v0/b/lumiere-b1a80.appspot.com/o/projects%2F-MJT-LQSKyEK4fC3hr1g?alt=media&token=96b8b01f-268b-4b5f-b8a4-03d7f5c3e1c9",
+                            "progress": 67
+                        }
+                """)!,
+                MainFeed.Info.Response.OnGoingProject(JSONString: """
+                                {
+                                    "id": "-MJT-LQSKyEK4fC3hr1g",
+                                    "image": "https://firebasestorage.googleapis.com/v0/b/lumiere-b1a80.appspot.com/o/projects%2F-MJT-LQSKyEK4fC3hr1g?alt=media&token=96b8b01f-268b-4b5f-b8a4-03d7f5c3e1c9",
+                                    "progress": 67
+                                }
+                        """)!,
+                MainFeed.Info.Response.OnGoingProject(JSONString: """
+                                {
+                                    "id": "-MJT-LQSKyEK4fC3hr1g",
+                                    "image": "https://firebasestorage.googleapis.com/v0/b/lumiere-b1a80.appspot.com/o/projects%2F-MJT-LQSKyEK4fC3hr1g?alt=media&token=96b8b01f-268b-4b5f-b8a4-03d7f5c3e1c9",
+                                    "progress": 67
+                                }
+                        """)!,
+                MainFeed.Info.Response.OnGoingProject(JSONString: """
+                                {
+                                    "id": "-MJT-LQSKyEK4fC3hr1g",
+                                    "image": "https://firebasestorage.googleapis.com/v0/b/lumiere-b1a80.appspot.com/o/projects%2F-MJT-LQSKyEK4fC3hr1g?alt=media&token=96b8b01f-268b-4b5f-b8a4-03d7f5c3e1c9",
+                                    "progress": 67
+                                }
+                        """)!,
+                MainFeed.Info.Response.OnGoingProject(JSONString: """
+                                {
+                                    "id": "-MJT-LQSKyEK4fC3hr1g",
+                                    "image": "https://firebasestorage.googleapis.com/v0/b/lumiere-b1a80.appspot.com/o/projects%2F-MJT-LQSKyEK4fC3hr1g?alt=media&token=96b8b01f-268b-4b5f-b8a4-03d7f5c3e1c9",
+                                    "progress": 67
+                                }
+                        """)!,
+                MainFeed.Info.Response.OnGoingProject(JSONString: """
+                                {
+                                    "id": "-MJT-LQSKyEK4fC3hr1g",
+                                    "image": "https://firebasestorage.googleapis.com/v0/b/lumiere-b1a80.appspot.com/o/projects%2F-MJT-LQSKyEK4fC3hr1g?alt=media&token=96b8b01f-268b-4b5f-b8a4-03d7f5c3e1c9",
+                                    "progress": 67
+                                }
+                        """)!]
     }
 }

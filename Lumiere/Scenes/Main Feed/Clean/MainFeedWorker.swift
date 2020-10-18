@@ -30,8 +30,9 @@ class MainFeedWorker: MainFeedWorkerProtocol {
     
     func fetchOnGoingProjects(_ request: MainFeed.Request.FetchOnGoingProjects,
                               completion: @escaping (BaseResponse<[MainFeed.Info.Response.OnGoingProject]>) -> Void) {
-        let headers: [String : Any] = ["limit": MainFeed.Constants.BusinessLogic.ongoingProjectsLimit]
-        builder.fetchOnGoingProjectsFeed(request: headers,
-                                         completion: completion)
+//        let headers: [String : Any] = ["limit": MainFeed.Constants.BusinessLogic.ongoingProjectsLimit]
+//        builder.fetchOnGoingProjectsFeed(request: headers,
+//                                         completion: completion)
+        completion(.success(MainFeed.Info.Response.OnGoingProject.stubArray))
     }
 }
