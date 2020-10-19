@@ -23,6 +23,8 @@ struct MainFeed {
             static let profileSuggestionsHeaderLbl = UIColor(rgb: 0x969494)
             static let profileSuggestionsSeeAllButton = ThemeColors.mainRedColor.rawValue
             static let ongoingProjectsHeaderLbl = UIColor(rgb: 0x969494)
+            static let optionButtonUnselected = ThemeColors.whiteThemeColor.rawValue
+            static let optionButtonSelected = UIColor(rgb: 0xe3e0e0)
         }
         
         struct Fonts {
@@ -37,6 +39,8 @@ struct MainFeed {
             static let profileSuggestionsHeaderLbl = "Sugestões de Perfil"
             static let profileSuggestionsSeeAllButton = "Ver Tudo"
             static let ongoingProjectsHeaderLbl = "Projetos em Andamento"
+            static let allCriteria = "Todos"
+            static let relativeToConnectionsCriteria = "Conexões"
         }
         
         struct Images {
@@ -136,6 +140,28 @@ struct MainFeed {
                 let image: String
                 let progress: Int
             }
+            
+            enum OnGoingProjectFeedCriteria: Equatable {
+                case all
+                case connections
+                case cathegory(_ style: MovieStyle)
+                
+                func mapToString() -> String {
+                    switch self {
+                    case .all:
+                        return MainFeed.Constants.Texts.allCriteria
+                    case .connections:
+                        return MainFeed.Constants.Texts.relativeToConnectionsCriteria
+                    case .cathegory(let style):
+                        return style.rawValue
+                    }
+                }
+            }
+            
+            struct UpcomingOnGoingProjectCriterias: Equatable {
+                var selectedCriteria: OnGoingProjectFeedCriteria
+                var criterias: [OnGoingProjectFeedCriteria]
+            }
         }
         
         struct ViewModel {
@@ -162,6 +188,15 @@ struct MainFeed {
             struct OnGoingProject: Equatable {
                 let image: String
                 let progress: Float
+            }
+            
+            struct OnGoingProjectFeedCriteria: Equatable {
+                let criteria: String
+            }
+            
+            struct UpcomingOnGoingProjectsCriterias: Equatable {
+                let selectedCriteria: OnGoingProjectFeedCriteria
+                let criterias: [OnGoingProjectFeedCriteria]
             }
         }
         
@@ -211,6 +246,17 @@ struct MainFeed {
                     progress <- map["progress"]
                 }
             }
+            
+            final class InterestCathegories: Mappable {
+                
+                var cathegories: [String]?
+                
+                init?(map: Map) { }
+                
+                func mapping(map: Map) {
+                    cathegories <- map["interest_cathegories"]
+                }
+            }
         }
     }
     
@@ -242,6 +288,14 @@ struct MainFeed {
         
         struct FetchOnGoingProjects {
             
+        }
+        
+        struct FetchInterestCathegories {
+            
+        }
+        
+        struct SelectOnGoingProjectCathegory {
+            let text: String
         }
     }
 }

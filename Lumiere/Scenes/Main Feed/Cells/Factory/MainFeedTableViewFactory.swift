@@ -13,6 +13,7 @@ class MainFeedTableViewFactory: TableViewFactory {
     private let tableView: UITableView
     var profileSuggestionsViewModel: MainFeed.Info.ViewModel.UpcomingProfiles?
     var ongoingProjectsViewModel: MainFeed.Info.ViewModel.UpcomingProjects?
+    var ongoingProjectsCriterias: MainFeed.Info.ViewModel.UpcomingOnGoingProjectsCriterias?
     
     private weak var searchDelegate: SearchHeaderTableViewCellDelegate?
     private weak var profileSuggestionsDelegate: ProfileSuggestionsFeedTableViewCellDelegate?
@@ -21,12 +22,14 @@ class MainFeedTableViewFactory: TableViewFactory {
     init(tableView: UITableView,
          profileSuggestionsViewModel: MainFeed.Info.ViewModel.UpcomingProfiles? = nil,
          ongoingProjectsViewModel: MainFeed.Info.ViewModel.UpcomingProjects? = nil,
+         ongoingProjectsCriterias: MainFeed.Info.ViewModel.UpcomingOnGoingProjectsCriterias? = nil,
          searchDelegate: SearchHeaderTableViewCellDelegate? = nil,
          profileSuggestionsDelegate: ProfileSuggestionsFeedTableViewCellDelegate? = nil,
          ongoingProjectsFeedDelegate: OnGoingProjectsFeedTableViewCellDelegate? = nil) {
         self.tableView = tableView
         self.profileSuggestionsViewModel = profileSuggestionsViewModel
         self.ongoingProjectsViewModel = ongoingProjectsViewModel
+        self.ongoingProjectsCriterias = ongoingProjectsCriterias
         self.searchDelegate = searchDelegate
         self.profileSuggestionsDelegate = profileSuggestionsDelegate
         self.ongoingProjectsFeedDelegate = ongoingProjectsFeedDelegate
@@ -54,6 +57,7 @@ class MainFeedTableViewFactory: TableViewFactory {
     
     private var ongoingProjectsFeedBuilder: TableViewCellBuilderProtocol {
         return OnGoingProjectsFeedTableViewCellBuilder(delegate: ongoingProjectsFeedDelegate,
-                                                       viewModel: ongoingProjectsViewModel)
+                                                       viewModel: ongoingProjectsViewModel,
+                                                       criteriasViewModel: ongoingProjectsCriterias)
     }
 }

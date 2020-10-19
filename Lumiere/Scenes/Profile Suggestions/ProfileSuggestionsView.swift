@@ -86,7 +86,7 @@ extension ProfileSuggestionsView: ViewCodeProtocol {
             make.width.equalTo(150)
         }
         filterButton.snp.makeConstraints { make in
-            make.centerY.equalTo(mainLbl.snp.centerY)
+            make.centerY.equalTo(mainLbl)
             make.left.equalTo(mainLbl.snp.right).offset(9)
             make.right.equalToSuperview().inset(11)
             make.height.equalTo(18)

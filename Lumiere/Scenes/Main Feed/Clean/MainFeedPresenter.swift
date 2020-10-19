@@ -14,6 +14,7 @@ protocol MainFeedPresentationLogic {
     func presentProfileDetails()
     func presentOnGoingProjects(_ response: MainFeed.Info.Model.UpcomingProjects)
     func presentOnGoingProjectDetails()
+    func presentOnGoingProjectsFeedCriterias(_ response: MainFeed.Info.Model.UpcomingOnGoingProjectCriterias)
 }
 
 class MainFeedPresenter: MainFeedPresentationLogic {
@@ -44,5 +45,10 @@ class MainFeedPresenter: MainFeedPresentationLogic {
     
     func presentOnGoingProjectDetails() {
         viewController.displayOnGoingProjectDetails()
+    }
+    
+    func presentOnGoingProjectsFeedCriterias(_ response: MainFeed.Info.Model.UpcomingOnGoingProjectCriterias) {
+        let viewModel = MainFeed.Info.ViewModel.UpcomingOnGoingProjectsCriterias(selectedCriteria: MainFeed.Info.ViewModel.OnGoingProjectFeedCriteria(criteria: response.selectedCriteria.mapToString()), criterias: response.criterias.map({ MainFeed.Info.ViewModel.OnGoingProjectFeedCriteria(criteria: $0.mapToString())}))
+        viewController.displayOnGoingProjectsCriterias(viewModel)
     }
 }

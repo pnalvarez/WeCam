@@ -10,6 +10,7 @@ import UIKit
 
 protocol OnGoingProjectsFeedTableViewCellDelegate: class {
     func didSelectProject(index: Int)
+    func didSelectedNewCriteria(text: String)
 }
 
 class OnGoingProjectsFeedTableViewCell: UITableViewCell {
@@ -40,7 +41,30 @@ class OnGoingProjectsFeedTableViewCell: UITableViewCell {
         return view
     }()
     
-    private var viewModel: MainFeed.Info.ViewModel.UpcomingProjects? {
+    private lazy var selectionFilter: SelectionFilterView = {
+        let view = SelectionFilterView(frame: .zero,
+                                       selectedItem: MainFeed.Constants.Texts.allCriteria,
+                                       delegate: self)
+        return view
+    }()
+    
+    private lazy var optionsStackView: UIStackView = {
+        let view = UIStackView(frame: .zero)
+        view.distribution = .fillEqually
+        view.spacing = 0
+        view.alignment = .center
+        view.axis = .vertical
+        view.isHidden = true
+        return view
+    }()
+    
+    private var criteriasViewModel: MainFeed.Info.ViewModel.UpcomingOnGoingProjectsCriterias? {
+        didSet {
+            buildOptionFilters()
+        }
+    }
+    
+    private var projectsViewModel: MainFeed.Info.ViewModel.UpcomingProjects? {
         didSet {
             buildProjectsFeed()
         }
@@ -49,15 +73,20 @@ class OnGoingProjectsFeedTableViewCell: UITableViewCell {
     private weak var delegate: OnGoingProjectsFeedTableViewCellDelegate?
 
     func setup(viewModel: MainFeed.Info.ViewModel.UpcomingProjects?,
-               delegate: OnGoingProjectsFeedTableViewCellDelegate? = nil) {
-        self.viewModel = viewModel
+               delegate: OnGoingProjectsFeedTableViewCellDelegate? = nil,
+               criteriasViewModel: MainFeed.Info.ViewModel.UpcomingOnGoingProjectsCriterias? = nil) {
+        self.projectsViewModel = viewModel
         self.delegate = delegate
+        self.criteriasViewModel = criteriasViewModel
         applyViewCode()
     }
     
     func flushItems() {
         for view in mainContainer.subviews {
             view.removeFromSuperview()
+        }
+        for view in optionsStackView.arrangedSubviews {
+            optionsStackView.removeArrangedSubview(view)
         }
         scrollView.layoutIfNeeded()
     }
@@ -67,7 +96,7 @@ extension OnGoingProjectsFeedTableViewCell {
     
     private func buildProjectsFeed() {
         var buttons = [OnGoingProjectFeedResumeButton]()
-        guard let projects = viewModel?.projects else { return }
+        guard let projects = projectsViewModel?.projects else { return }
         let scrollWidth = MainFeed.Constants.Dimensions.Widths.ongoingProjectsFeedOffset + ((MainFeed.Constants.Dimensions.Widths.ongoingProjectResumeButton + MainFeed.Constants.Dimensions.Widths.ongoingProfojectsFeedInterval) * CGFloat(projects.count))
         scrollView.contentSize = CGSize(width: scrollWidth, height: scrollView.frame.height)
         for index in 0..<projects.count {
@@ -90,6 +119,24 @@ extension OnGoingProjectsFeedTableViewCell {
             }
         }
     }
+    
+    private func buildOptionFilters() {
+        guard let criterias = criteriasViewModel?.criterias else { return }
+        let selectedIndex = criterias.firstIndex(where: { criteriasViewModel?.selectedCriteria == $0 })
+        for index in 0..<criterias.count {
+            let button = OptionFilterButton(frame: .zero, option: criterias[index].criteria)
+            button.addTarget(self, action: #selector(didSelectOption(_:)), for: .touchUpInside)
+            button.tag = index
+            if selectedIndex == index {
+                button.backgroundColor = ProfileSuggestions.Constants.Colors.optionButtonSelected
+            }
+            optionsStackView.addArrangedSubview(button)
+            button.snp.makeConstraints { make in
+                make.left.right.equalToSuperview()
+                make.height.equalTo(20)
+            }
+        }
+    }
 }
 
 extension OnGoingProjectsFeedTableViewCell {
@@ -97,6 +144,21 @@ extension OnGoingProjectsFeedTableViewCell {
     @objc
     private func didTapOnGoingProject(_ sender: UIButton) {
         delegate?.didSelectProject(index: sender.tag)
+    }
+    
+    @objc
+    private func didSelectOption(_ sender: UIButton) {
+        guard let text = criteriasViewModel?.criterias[sender.tag].criteria else { return }
+        selectionFilter.selectedItem = text
+        optionsStackView.isHidden = true
+        optionsStackView.arrangedSubviews.forEach({
+            if $0 == sender {
+                $0.backgroundColor = MainFeed.Constants.Colors.optionButtonSelected
+            } else {
+                $0.backgroundColor = MainFeed.Constants.Colors.optionButtonUnselected
+            }
+        })
+        delegate?.didSelectedNewCriteria(text: text)
     }
 }
 
@@ -110,12 +172,21 @@ extension OnGoingProjectsFeedTableViewCell: UIScrollViewDelegate {
     }
 }
 
+extension OnGoingProjectsFeedTableViewCell: SelectionFilterViewDelegate {
+    
+    func didTapBottomSheetButton() {
+        optionsStackView.isHidden = !optionsStackView.isHidden
+    }
+}
+
 extension OnGoingProjectsFeedTableViewCell: ViewCodeProtocol {
     
     func buildViewHierarchy() {
         addSubview(headerLbl)
         scrollView.addSubview(mainContainer)
         addSubview(scrollView)
+        addSubview(selectionFilter)
+        addSubview(optionsStackView)
     }
     
     func setupConstraints() {
@@ -123,6 +194,17 @@ extension OnGoingProjectsFeedTableViewCell: ViewCodeProtocol {
             make.top.equalToSuperview().inset(5)
             make.left.equalToSuperview().inset(22)
             make.width.equalTo(200)
+        }
+        selectionFilter.snp.makeConstraints { make in
+            make.centerY.equalTo(headerLbl)
+            make.left.equalTo(headerLbl.snp.right).offset(2)
+            make.height.equalTo(18)
+            make.right.equalToSuperview().inset(11)
+        }
+        optionsStackView.snp.makeConstraints { make in
+            make.top.equalTo(selectionFilter.snp.bottom)
+            make.width.equalTo(selectionFilter)
+            make.centerX.equalTo(selectionFilter)
         }
         scrollView.snp.makeConstraints { make in
             make.top.equalTo(headerLbl.snp.bottom).offset(12)

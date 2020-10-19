@@ -11,6 +11,8 @@ protocol MainFeedWorkerProtocol {
                                  completion: @escaping (BaseResponse<[MainFeed.Info.Response.ProfileSuggestion]>) -> Void)
     func fetchOnGoingProjects(_ request: MainFeed.Request.FetchOnGoingProjects,
                               completion: @escaping (BaseResponse<[MainFeed.Info.Response.OnGoingProject]>) -> Void)
+    func fetchInterestCathegories(_ request: MainFeed.Request.FetchInterestCathegories,
+                                  completion: @escaping (BaseResponse<MainFeed.Info.Response.InterestCathegories>) -> Void)
 }
 
 class MainFeedWorker: MainFeedWorkerProtocol {
@@ -34,5 +36,11 @@ class MainFeedWorker: MainFeedWorkerProtocol {
 //        builder.fetchOnGoingProjectsFeed(request: headers,
 //                                         completion: completion)
         completion(.success(MainFeed.Info.Response.OnGoingProject.stubArray))
+    }
+    
+    func fetchInterestCathegories(_ request: MainFeed.Request.FetchInterestCathegories,
+                                  completion: @escaping (BaseResponse<MainFeed.Info.Response.InterestCathegories>) -> Void) {
+        let headers: [String : Any] = .empty
+        builder.fetchCurrentUser(request: headers, completion: completion)
     }
 }

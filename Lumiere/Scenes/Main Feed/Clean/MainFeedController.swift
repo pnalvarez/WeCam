@@ -14,6 +14,7 @@ protocol MainFeedDisplayLogic: class {
     func displayProfileDetails()
     func displayOnGoingProjectsFeed(_ viewModel: MainFeed.Info.ViewModel.UpcomingProjects)
     func displayOnGoingProjectDetails()
+    func displayOnGoingProjectsCriterias(_ viewModel: MainFeed.Info.ViewModel.UpcomingOnGoingProjectsCriterias)
 }
 
 class MainFeedController: BaseViewController {
@@ -30,21 +31,9 @@ class MainFeedController: BaseViewController {
     private var interactor: MainFeedBusinessLogic?
     var router: MainFeedRouterProtocol?
     
-    private var profileSuggestionsViewModel: MainFeed.Info.ViewModel.UpcomingProfiles? {
-        didSet {
-            factory?.profileSuggestionsViewModel = profileSuggestionsViewModel
-            sections = factory?.buildSections()
-            refreshTableView()
-        }
-    }
-    
-    private var ongoingProjectsFeedViewModel: MainFeed.Info.ViewModel.UpcomingProjects? {
-        didSet {
-            factory?.ongoingProjectsViewModel = ongoingProjectsFeedViewModel
-            sections = factory?.buildSections()
-            refreshTableView()
-        }
-    }
+    private var profileSuggestionsViewModel: MainFeed.Info.ViewModel.UpcomingProfiles?
+    private var ongoingProjectsFeedViewModel: MainFeed.Info.ViewModel.UpcomingProjects?
+    private var ongoingProjectsCriteriaViewModel: MainFeed.Info.ViewModel.UpcomingOnGoingProjectsCriterias?
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -67,9 +56,7 @@ class MainFeedController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        refreshTableView()
         interactor?.fetchSuggestedProfiles(MainFeed.Request.FetchSuggestedProfiles())
-        interactor?.fetchOnGoingProjectsFeed(MainFeed.Request.FetchOnGoingProjects())
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -83,18 +70,11 @@ class MainFeedController: BaseViewController {
         let presenter = MainFeedPresenter(viewController: viewController)
         let interactor = MainFeedInteractor(presenter: presenter)
         let router = MainFeedRouter()
-        let factory = MainFeedTableViewFactory(tableView: tableView,
-                                               profileSuggestionsViewModel: profileSuggestionsViewModel,
-                                               ongoingProjectsViewModel: ongoingProjectsFeedViewModel,
-                                               searchDelegate: self,
-                                               profileSuggestionsDelegate: self,
-                                               ongoingProjectsFeedDelegate: self)
         viewController.interactor = interactor
         viewController.router = router
         viewController.factory = factory
         router.dataStore = interactor
         router.viewController = viewController
-        sections = factory.buildSections()
     }
 }
 
@@ -145,6 +125,10 @@ extension MainFeedController: OnGoingProjectsFeedTableViewCellDelegate {
     func didSelectProject(index: Int) {
         interactor?.didSelectOnGoingProject(MainFeed.Request.SelectOnGoingProject(index: index))
     }
+    
+    func didSelectedNewCriteria(text: String) {
+        interactor?.didSelectOnGoingProjectCathegory(MainFeed.Request.SelectOnGoingProjectCathegory(text: text))
+    }
 }
 
 extension MainFeedController: UITableViewDataSource {
@@ -187,6 +171,7 @@ extension MainFeedController: MainFeedDisplayLogic {
     
     func displayProfileSuggestions(_ viewModel: MainFeed.Info.ViewModel.UpcomingProfiles) {
         self.profileSuggestionsViewModel = viewModel
+        interactor?.fetchOnGoingProjectsFeed(MainFeed.Request.FetchOnGoingProjects())
     }
     
     func displayProfileDetails() {
@@ -195,9 +180,23 @@ extension MainFeedController: MainFeedDisplayLogic {
     
     func displayOnGoingProjectsFeed(_ viewModel: MainFeed.Info.ViewModel.UpcomingProjects) {
         self.ongoingProjectsFeedViewModel = viewModel
+        interactor?.fetchInterestCathegories(MainFeed.Request.FetchInterestCathegories())
     }
     
     func displayOnGoingProjectDetails() {
         router?.routeToOnGoingProjectDetails()
+    }
+    
+    func displayOnGoingProjectsCriterias(_ viewModel: MainFeed.Info.ViewModel.UpcomingOnGoingProjectsCriterias) {
+        self.ongoingProjectsCriteriaViewModel = viewModel
+        factory = MainFeedTableViewFactory(tableView: tableView,
+                                           profileSuggestionsViewModel: profileSuggestionsViewModel,
+                                           ongoingProjectsViewModel: ongoingProjectsFeedViewModel,
+                                           ongoingProjectsCriterias: ongoingProjectsCriteriaViewModel,
+                                           searchDelegate: self,
+                                           profileSuggestionsDelegate: self,
+                                           ongoingProjectsFeedDelegate: self)
+        sections = factory?.buildSections()
+        refreshTableView()
     }
 }

@@ -13,6 +13,8 @@ protocol MainFeedBusinessLogic {
     func didSelectSuggestedProfile(_ request: MainFeed.Request.SelectSuggestedProfile)
     func fetchOnGoingProjectsFeed(_ request: MainFeed.Request.FetchOnGoingProjects)
     func didSelectOnGoingProject(_ request: MainFeed.Request.SelectOnGoingProject)
+    func fetchInterestCathegories(_ request: MainFeed.Request.FetchInterestCathegories)
+    func didSelectOnGoingProjectCathegory(_ request: MainFeed.Request.SelectOnGoingProjectCathegory)
 }
 
 protocol MainFeedDataStore {
@@ -22,6 +24,7 @@ protocol MainFeedDataStore {
     var ongoingProjects: MainFeed.Info.Model.UpcomingProjects? { get set }
     var selectedProfile: String? { get set }
     var selectedProject: String? { get set }
+    var ongoingProjectsFeedCriterias: MainFeed.Info.Model.UpcomingOnGoingProjectCriterias? { get }
 }
 
 class MainFeedInteractor: MainFeedDataStore {
@@ -35,6 +38,7 @@ class MainFeedInteractor: MainFeedDataStore {
     var selectedProfile: String?
     var ongoingProjects: MainFeed.Info.Model.UpcomingProjects?
     var selectedProject: String?
+    var ongoingProjectsFeedCriterias: MainFeed.Info.Model.UpcomingOnGoingProjectCriterias?
     
     init(worker: MainFeedWorkerProtocol = MainFeedWorker(),
          presenter: MainFeedPresentationLogic) {
@@ -112,5 +116,26 @@ extension MainFeedInteractor: MainFeedBusinessLogic {
     func didSelectOnGoingProject(_ request: MainFeed.Request.SelectOnGoingProject) {
         selectedProject = ongoingProjects?.projects[request.index].id
         presenter.presentOnGoingProjectDetails()
+    }
+    
+    func fetchInterestCathegories(_ request: MainFeed.Request.FetchInterestCathegories) {
+        worker.fetchInterestCathegories(MainFeed.Request.FetchInterestCathegories()) { response in
+            switch response {
+            case .success(let cathegories):
+                guard let cathegories = cathegories.cathegories else { return }
+                self.ongoingProjectsFeedCriterias = MainFeed.Info.Model.UpcomingOnGoingProjectCriterias(selectedCriteria: .all, criterias: [.all, .connections])
+                self.ongoingProjectsFeedCriterias?.criterias.append(contentsOf: cathegories.map( {
+                    MainFeed.Info.Model.OnGoingProjectFeedCriteria.cathegory(MovieStyle(rawValue: $0) ?? .action)
+                }))
+                guard let criterias = self.ongoingProjectsFeedCriterias else { return }
+                self.presenter.presentOnGoingProjectsFeedCriterias(criterias)
+            case .error(let error):
+                break
+            }
+        }
+    }
+    
+    func didSelectOnGoingProjectCathegory(_ request: MainFeed.Request.SelectOnGoingProjectCathegory) {
+        
     }
 }

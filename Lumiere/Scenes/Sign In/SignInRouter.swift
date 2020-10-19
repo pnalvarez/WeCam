@@ -88,33 +88,11 @@ extension SignInRouter: SignInRoutingLogic {
         }
         transferDataToProfileDetails(from: source, to: &profileDetailsDataStore)
         
-        let projectDetailsVc = OnGoingProjectDetailsController()
-        profileDetailsVc.tabBarItem = UITabBarItem(title: nil,
-                                                   image: ProfileDetails.Constants.Images.tabBarDefaultImage,
-                                                   selectedImage: ProfileDetails.Constants.Images.tabBarSelectedImage)
-        projectDetailsVc.router?.dataStore?.receivedData = OnGoingProjectDetails.Info.Received.Project(projectId: "-MFItlhEHI3aram2mV-v", notInvitedUsers: .empty)
-        
         let tabController = UITabBarController()
         tabController.viewControllers = [UINavigationController(rootViewController:                                            mainFeedVc),
                                          UINavigationController(rootViewController: selectProjectImageVc),
                                          UINavigationController(rootViewController: notificationsVc),
                                          UINavigationController(rootViewController: profileDetailsVc)]
-
-//        FirebaseAuthHelper().fetchSendConnectionRequest(request: ["userId": "MNd2Xtwcd3hN5nUI5WxOWJgeBN33"]) {
-//            response in
-//        }
-        /////*****
-//        let float: Float = 0.8
-//        let headers: [String : Any] = ["payload": ["image": ProjectProgress.Constants.Images.logo?.jpegData(compressionQuality: 0.5),
-//                                                   "cathegories": ["Animação"],
-//                                                   "sinopsis": "Sinopse Teste",
-//                                                   "needing": "Needing Teste",
-//                                                   "percentage": float],
-//                                       "participants": ["oqfulYH9jIRiUjHoYGTesByfUtb2",
-//                                                        "vb0dzg25PqSyD1SkwsZ5CsZmKq23"]]
-//        FirebaseAuthHelper().fetchCreateProject(request: headers) { response in
-//
-//        }
         routeTo(nextVC: tabController)
     }
 }

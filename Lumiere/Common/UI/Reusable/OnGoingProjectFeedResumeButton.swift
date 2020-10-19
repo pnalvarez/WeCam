@@ -20,7 +20,7 @@ class OnGoingProjectFeedResumeButton: UIButton {
     
     private lazy var progressView: UIProgressView = {
         let view = UIProgressView(progressViewStyle: .bar)
-        view.progressTintColor = .blue
+        view.progressTintColor = ThemeColors.mainRedColor.rawValue
         view.backgroundColor = .gray
         return view
     }()
