@@ -287,7 +287,12 @@ struct MainFeed {
         }
         
         struct FetchOnGoingProjects {
-            
+            let fromConnections: Bool
+            let cathegory: String
+        }
+        
+        struct RequestOnGoingProjectsFeed {
+            let item: String
         }
         
         struct FetchInterestCathegories {

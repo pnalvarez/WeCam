@@ -171,7 +171,7 @@ extension MainFeedController: MainFeedDisplayLogic {
     
     func displayProfileSuggestions(_ viewModel: MainFeed.Info.ViewModel.UpcomingProfiles) {
         self.profileSuggestionsViewModel = viewModel
-        interactor?.fetchOnGoingProjectsFeed(MainFeed.Request.FetchOnGoingProjects())
+        interactor?.fetchOnGoingProjectsFeed(MainFeed.Request.RequestOnGoingProjectsFeed(item: "Todos"))
     }
     
     func displayProfileDetails() {

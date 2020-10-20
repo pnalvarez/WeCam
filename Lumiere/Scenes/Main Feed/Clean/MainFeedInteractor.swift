@@ -11,7 +11,7 @@ protocol MainFeedBusinessLogic {
     func fetchRecentSearches(_ request: MainFeed.Request.RecentSearches)
     func fetchSuggestedProfiles(_ request: MainFeed.Request.FetchSuggestedProfiles)
     func didSelectSuggestedProfile(_ request: MainFeed.Request.SelectSuggestedProfile)
-    func fetchOnGoingProjectsFeed(_ request: MainFeed.Request.FetchOnGoingProjects)
+    func fetchOnGoingProjectsFeed(_ request: MainFeed.Request.RequestOnGoingProjectsFeed)
     func didSelectOnGoingProject(_ request: MainFeed.Request.SelectOnGoingProject)
     func fetchInterestCathegories(_ request: MainFeed.Request.FetchInterestCathegories)
     func didSelectOnGoingProjectCathegory(_ request: MainFeed.Request.SelectOnGoingProjectCathegory)
@@ -92,8 +92,9 @@ extension MainFeedInteractor: MainFeedBusinessLogic {
         presenter.presentProfileDetails()
     }
     
-    func fetchOnGoingProjectsFeed(_ request: MainFeed.Request.FetchOnGoingProjects) {
-        worker.fetchOnGoingProjects(request) { response in
+    func fetchOnGoingProjectsFeed(_ request: MainFeed.Request.RequestOnGoingProjectsFeed) {
+        let newRequest = MainFeed.Request.FetchOnGoingProjects(fromConnections: request.item == MainFeed.Constants.Texts.relativeToConnectionsCriteria, cathegory: request.item)
+        worker.fetchOnGoingProjects(newRequest) { response in
             switch response {
             case .success(let data):
                 self.ongoingProjects = MainFeed
@@ -136,6 +137,6 @@ extension MainFeedInteractor: MainFeedBusinessLogic {
     }
     
     func didSelectOnGoingProjectCathegory(_ request: MainFeed.Request.SelectOnGoingProjectCathegory) {
-        
+        //TO DO
     }
 }

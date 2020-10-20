@@ -137,6 +137,9 @@ class FirebaseManager: FirebaseManagerProtocol {
     private let commonProjectsScore: Int = 4
     private let commonCathegoriesScore: Int = 1
     
+    private let connectionInProjectScore: Int = 1
+    private let projectCathegoriesScore: Int = 3
+    
     private var mutex: Bool = true //Profile details mutex
     
     init() {
@@ -3195,7 +3198,118 @@ class FirebaseManager: FirebaseManagerProtocol {
     
     func fetchOnGoingProjectsFeed<T: Mappable>(request: [String : Any],
                                      completion: @escaping (BaseResponse<[T]>) -> Void) {
+        var allProjects = [String]()
+        var allProjectsData = [[String : Any]]()
+        var currentUserconnections = [String]()
+        var currentUserInterestCathegories = [String]()
         
+        guard let limits = request["limits"] as? Int,
+              let fromConnections = request["fromConnections"] as? Bool,
+              let cathegory = request["cathegory"] as? String else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        guard let currentUser = authReference.currentUser?.uid else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        realtimeDB
+            .child(Constants.usersPath)
+            .child(currentUser)
+            .child("interest_cathegories")
+            .observeSingleEvent(of: .value) { snapshot in
+                guard let cathegories = snapshot.value as? [String] else {
+                    completion(.error(FirebaseErrors.genericError))
+                    return
+                }
+                currentUserInterestCathegories = cathegories
+                self.realtimeDB
+                    .child(Constants.usersPath)
+                    .child(currentUser)
+                    .child("connections")
+                    .observeSingleEvent(of: .value) { snapshot in
+                        guard let connections = snapshot.value as? [String] else {
+                            completion(.error(FirebaseErrors.genericError))
+                            return
+                        }
+                        currentUserconnections = connections
+                        self.realtimeDB
+                            .child(Constants.allProjectsCataloguePath)
+                            .observeSingleEvent(of: .value) { snapshot in
+                                if let projects = snapshot.value as? [String] {
+                                    allProjects = projects
+                                } else {
+                                    allProjects = .empty
+                                }
+                                let projectsDetailsDispatchGroup = DispatchGroup()
+                                for project in allProjects {
+                                    projectsDetailsDispatchGroup.enter()
+                                    self.realtimeDB
+                                        .child(Constants.projectsPath)
+                                        .child(Constants.ongoingProjectsPath)
+                                        .child(project)
+                                        .observeSingleEvent(of: .value) { snapshot in
+                                            guard var projectData = snapshot.value as? [String : Any] else {
+                                                completion(.error(FirebaseErrors.genericError))
+                                                return
+                                            }
+                                            guard let participants = projectData["participants"] as? [String],
+                                                  let cathegories = projectData["cathegories"] as? [String] else {
+                                                completion(.error(FirebaseErrors.genericError))
+                                                return
+                                            }
+                                            let connectionsCount = participants.filter({currentUserconnections.contains($0)}).count
+                                            let commonCathegoriesCount = cathegories.filter({currentUserInterestCathegories.contains($0)}).count
+                                            projectData["score"] = self.connectionInProjectScore * connectionsCount + self.projectCathegoriesScore *  commonCathegoriesCount
+                                            allProjectsData.append(projectData)
+                                            projectsDetailsDispatchGroup.leave()
+                                        }
+                                }
+                                projectsDetailsDispatchGroup.notify(queue: .main) {
+                                    var projectsWithoutCurrentUser = allProjectsData.filter({
+                                        guard let participants = $0["participants"] as? [String] else {
+                                            return false
+                                        }
+                                        return !participants.contains(currentUser)
+                                    })
+                                    if fromConnections {
+                                        projectsWithoutCurrentUser = projectsWithoutCurrentUser.filter({
+                                            guard let participants = $0["participants"] as? [String] else {
+                                                return false
+                                            }
+                                            return participants
+                                                .filter({currentUserconnections.contains($0)}).count > 0
+                                        })
+                                    }
+                                    projectsWithoutCurrentUser = projectsWithoutCurrentUser.filter({
+                                        guard let cathegories = $0["cathegories"] as? [String] else {
+                                            return false
+                                        }
+                                        return currentUserInterestCathegories
+                                            .filter({cathegories.contains($0)}).count > 0
+                                    })
+                                    if cathegory != "Todos", cathegory != "Conexões" {
+                                        projectsWithoutCurrentUser = projectsWithoutCurrentUser.filter({
+                                            guard let cathegories = $0["cathegories"] as? [String] else {
+                                                return false
+                                            }
+                                            return cathegories.contains(cathegory)
+                                        })
+                                    }
+                                    projectsWithoutCurrentUser = projectsWithoutCurrentUser.sorted(by: {
+                                        guard let score0 = $0["score"] as? Int,
+                                              let score1 = $1["score"] as? Int else {
+                                            return false
+                                        }
+                                        return score0 > score1
+                                    })
+                                    projectsWithoutCurrentUser = Array(projectsWithoutCurrentUser.prefix(limits))
+                                    let mappedResponse = Mapper<T>().mapArray(JSONArray: projectsWithoutCurrentUser)
+                                    completion(.success(mappedResponse))
+                                }
+                            }
+                }
+        }
     }
 }
 
