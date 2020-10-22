@@ -262,6 +262,10 @@ struct MainFeed {
     
     struct Request {
         
+        struct MainFeed {
+            
+        }
+        
         struct Search {
             let key: String
         }

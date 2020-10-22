@@ -90,6 +90,11 @@ class OnGoingProjectsFeedTableViewCell: UITableViewCell {
         }
         scrollView.layoutIfNeeded()
     }
+    
+    func resetSelectionFilter() {
+        selectionFilter.selectedItem = MainFeed.Constants.Texts.allCriteria
+        optionsStackView.subviews[0].backgroundColor = MainFeed.Constants.Colors.optionButtonSelected
+    }
 }
 
 extension OnGoingProjectsFeedTableViewCell {
@@ -220,6 +225,7 @@ extension OnGoingProjectsFeedTableViewCell: ViewCodeProtocol {
     func configureViews() {
         backgroundColor = .white
         selectionStyle = .none
+        clipsToBounds = true
     }
 }
 

@@ -56,13 +56,14 @@ class MainFeedController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        interactor?.fetchSuggestedProfiles(MainFeed.Request.FetchSuggestedProfiles())
+        interactor?.fetchMainFeed(MainFeed.Request.MainFeed())
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         flushProfileSuggestions()
         flushOnGoingProjectsFeed()
+        resetOnGoingProjectsSelectionFilter()
     }
     
     private func setup() {
@@ -100,6 +101,11 @@ extension MainFeedController {
                                         type: OnGoingProjectsFeedTableViewCell.self)
         cell.flushItems()
     }
+    
+    private func resetOnGoingProjectsSelectionFilter() {
+        let cell = tableView.cellForRow(at: IndexPath(row: MainFeed.Constants.BusinessLogic.CellIndexes.ongoingProjectsSuggestions.rawValue, section: MainFeed.Constants.BusinessLogic.Sections.defaultFeed.rawValue), type: OnGoingProjectsFeedTableViewCell.self)
+        cell.resetSelectionFilter()
+    }
 }
 
 extension MainFeedController: SearchHeaderTableViewCellDelegate {
@@ -127,6 +133,7 @@ extension MainFeedController: OnGoingProjectsFeedTableViewCellDelegate {
     }
     
     func didSelectedNewCriteria(text: String) {
+        flushOnGoingProjectsFeed()
         interactor?.didSelectOnGoingProjectCathegory(MainFeed.Request.SelectOnGoingProjectCathegory(text: text))
     }
 }
@@ -171,7 +178,6 @@ extension MainFeedController: MainFeedDisplayLogic {
     
     func displayProfileSuggestions(_ viewModel: MainFeed.Info.ViewModel.UpcomingProfiles) {
         self.profileSuggestionsViewModel = viewModel
-        interactor?.fetchOnGoingProjectsFeed(MainFeed.Request.RequestOnGoingProjectsFeed(item: "Todos"))
     }
     
     func displayProfileDetails() {
@@ -180,7 +186,6 @@ extension MainFeedController: MainFeedDisplayLogic {
     
     func displayOnGoingProjectsFeed(_ viewModel: MainFeed.Info.ViewModel.UpcomingProjects) {
         self.ongoingProjectsFeedViewModel = viewModel
-        interactor?.fetchInterestCathegories(MainFeed.Request.FetchInterestCathegories())
     }
     
     func displayOnGoingProjectDetails() {

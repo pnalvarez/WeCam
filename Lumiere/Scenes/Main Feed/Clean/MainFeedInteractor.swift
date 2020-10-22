@@ -9,11 +9,9 @@
 protocol MainFeedBusinessLogic {
     func fetchSearch(_ request: MainFeed.Request.Search)
     func fetchRecentSearches(_ request: MainFeed.Request.RecentSearches)
-    func fetchSuggestedProfiles(_ request: MainFeed.Request.FetchSuggestedProfiles)
+    func fetchMainFeed(_ request: MainFeed.Request.MainFeed)
     func didSelectSuggestedProfile(_ request: MainFeed.Request.SelectSuggestedProfile)
-    func fetchOnGoingProjectsFeed(_ request: MainFeed.Request.RequestOnGoingProjectsFeed)
     func didSelectOnGoingProject(_ request: MainFeed.Request.SelectOnGoingProject)
-    func fetchInterestCathegories(_ request: MainFeed.Request.FetchInterestCathegories)
     func didSelectOnGoingProjectCathegory(_ request: MainFeed.Request.SelectOnGoingProjectCathegory)
 }
 
@@ -49,23 +47,7 @@ class MainFeedInteractor: MainFeedDataStore {
 
 extension MainFeedInteractor {
     
-    private func fetchData(_ request: MainFeed.Request.FetchData) {
-        
-    }
-}
-
-extension MainFeedInteractor: MainFeedBusinessLogic {
-    
-    func fetchSearch(_ request: MainFeed.Request.Search) {
-        searchKey = MainFeed.Info.Model.SearchKey(key: request.key)
-        presenter.presentSearchResults()
-    }
-    
-    func fetchRecentSearches(_ request: MainFeed.Request.RecentSearches) {
-        let searchIds = LocalSaveManager.instance.fetchRecentSearches()
-    }
-    
-    func fetchSuggestedProfiles(_ request: MainFeed.Request.FetchSuggestedProfiles) {
+    private func fetchSuggestedProfiles(_ request: MainFeed.Request.FetchSuggestedProfiles) {
         worker.fetchProfileSuggestions(MainFeed.Request.FetchSuggestedProfiles()) { response in
             switch response {
             case .success(let data):
@@ -81,10 +63,67 @@ extension MainFeedInteractor: MainFeedBusinessLogic {
                                                                                    ocupation: $0.ocupation ?? .empty)}))
                 guard let suggestions = self.profileSuggestions else { return }
                 self.presenter.presentProfileSuggestions(suggestions)
+                self.fetchOnGoingProjectsFeed(MainFeed.Request.RequestOnGoingProjectsFeed(item: MainFeed.Constants.Texts.allCriteria))
             case .error(let error):
                 break
             }
         }
+    }
+    
+    private func fetchOnGoingProjectsFeed(_ request: MainFeed.Request.RequestOnGoingProjectsFeed) {
+        let newRequest = MainFeed.Request.FetchOnGoingProjects(fromConnections: request.item == MainFeed.Constants.Texts.relativeToConnectionsCriteria, cathegory: request.item)
+        worker.fetchOnGoingProjects(newRequest) { response in
+            switch response {
+            case .success(let data):
+                self.ongoingProjects = MainFeed
+                    .Info
+                    .Model
+                    .UpcomingProjects(projects: data.map({ MainFeed
+                                                            .Info
+                                                            .Model
+                                                            .OnGoingProject(id: $0.id ?? .empty,
+                                                                            image: $0.image ?? .empty,
+                                                                            progress: $0.progress ?? 0)}))
+                guard let projects = self.ongoingProjects else { return }
+                self.presenter.presentOnGoingProjects(projects)
+                self.fetchInterestCathegories(MainFeed.Request.FetchInterestCathegories())
+            case .error(let error):
+                break
+            }
+        }
+    }
+    
+    private func fetchInterestCathegories(_ request: MainFeed.Request.FetchInterestCathegories) {
+        worker.fetchInterestCathegories(MainFeed.Request.FetchInterestCathegories()) { response in
+            switch response {
+            case .success(let cathegories):
+                guard let cathegories = cathegories.cathegories else { return }
+                self.ongoingProjectsFeedCriterias = MainFeed.Info.Model.UpcomingOnGoingProjectCriterias(selectedCriteria: .all, criterias: [.all, .connections])
+                self.ongoingProjectsFeedCriterias?.criterias.append(contentsOf: cathegories.map( {
+                    MainFeed.Info.Model.OnGoingProjectFeedCriteria.cathegory(MovieStyle(rawValue: $0) ?? .action)
+                }))
+                guard let criterias = self.ongoingProjectsFeedCriterias else { return }
+                self.presenter.presentOnGoingProjectsFeedCriterias(criterias)
+            case .error(let error):
+                break
+            }
+        }
+    }
+}
+
+extension MainFeedInteractor: MainFeedBusinessLogic {
+    
+    func fetchSearch(_ request: MainFeed.Request.Search) {
+        searchKey = MainFeed.Info.Model.SearchKey(key: request.key)
+        presenter.presentSearchResults()
+    }
+    
+    func fetchRecentSearches(_ request: MainFeed.Request.RecentSearches) {
+        let searchIds = LocalSaveManager.instance.fetchRecentSearches()
+    }
+    
+    func fetchMainFeed(_ request: MainFeed.Request.MainFeed) {
+        fetchSuggestedProfiles(MainFeed.Request.FetchSuggestedProfiles())
     }
     
     func didSelectSuggestedProfile(_ request: MainFeed.Request.SelectSuggestedProfile) {
@@ -92,8 +131,13 @@ extension MainFeedInteractor: MainFeedBusinessLogic {
         presenter.presentProfileDetails()
     }
     
-    func fetchOnGoingProjectsFeed(_ request: MainFeed.Request.RequestOnGoingProjectsFeed) {
-        let newRequest = MainFeed.Request.FetchOnGoingProjects(fromConnections: request.item == MainFeed.Constants.Texts.relativeToConnectionsCriteria, cathegory: request.item)
+    func didSelectOnGoingProject(_ request: MainFeed.Request.SelectOnGoingProject) {
+        selectedProject = ongoingProjects?.projects[request.index].id
+        presenter.presentOnGoingProjectDetails()
+    }
+    
+    func didSelectOnGoingProjectCathegory(_ request: MainFeed.Request.SelectOnGoingProjectCathegory) {
+        let newRequest = MainFeed.Request.FetchOnGoingProjects(fromConnections: request.text == MainFeed.Constants.Texts.relativeToConnectionsCriteria, cathegory: request.text)
         worker.fetchOnGoingProjects(newRequest) { response in
             switch response {
             case .success(let data):
@@ -112,31 +156,5 @@ extension MainFeedInteractor: MainFeedBusinessLogic {
                 break
             }
         }
-    }
-    
-    func didSelectOnGoingProject(_ request: MainFeed.Request.SelectOnGoingProject) {
-        selectedProject = ongoingProjects?.projects[request.index].id
-        presenter.presentOnGoingProjectDetails()
-    }
-    
-    func fetchInterestCathegories(_ request: MainFeed.Request.FetchInterestCathegories) {
-        worker.fetchInterestCathegories(MainFeed.Request.FetchInterestCathegories()) { response in
-            switch response {
-            case .success(let cathegories):
-                guard let cathegories = cathegories.cathegories else { return }
-                self.ongoingProjectsFeedCriterias = MainFeed.Info.Model.UpcomingOnGoingProjectCriterias(selectedCriteria: .all, criterias: [.all, .connections])
-                self.ongoingProjectsFeedCriterias?.criterias.append(contentsOf: cathegories.map( {
-                    MainFeed.Info.Model.OnGoingProjectFeedCriteria.cathegory(MovieStyle(rawValue: $0) ?? .action)
-                }))
-                guard let criterias = self.ongoingProjectsFeedCriterias else { return }
-                self.presenter.presentOnGoingProjectsFeedCriterias(criterias)
-            case .error(let error):
-                break
-            }
-        }
-    }
-    
-    func didSelectOnGoingProjectCathegory(_ request: MainFeed.Request.SelectOnGoingProjectCathegory) {
-        //TO DO
     }
 }
