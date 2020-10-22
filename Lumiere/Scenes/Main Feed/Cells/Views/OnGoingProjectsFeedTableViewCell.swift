@@ -71,6 +71,19 @@ class OnGoingProjectsFeedTableViewCell: UITableViewCell {
     }
     
     private weak var delegate: OnGoingProjectsFeedTableViewCellDelegate?
+    
+    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+            for subview in subviews as [UIView] {
+                if !subview.isHidden
+                   && subview.alpha > 0
+                   && subview.isUserInteractionEnabled
+                   && subview.point(inside: convert(point, to: subview), with: event) {
+                     return true
+                }
+            }
+            return false
+        }
+
 
     func setup(viewModel: MainFeed.Info.ViewModel.UpcomingProjects?,
                delegate: OnGoingProjectsFeedTableViewCellDelegate? = nil,
@@ -225,7 +238,6 @@ extension OnGoingProjectsFeedTableViewCell: ViewCodeProtocol {
     func configureViews() {
         backgroundColor = .white
         selectionStyle = .none
-        clipsToBounds = true
     }
 }
 
