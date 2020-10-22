@@ -73,16 +73,16 @@ class OnGoingProjectsFeedTableViewCell: UITableViewCell {
     private weak var delegate: OnGoingProjectsFeedTableViewCellDelegate?
     
     override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
-            for subview in subviews as [UIView] {
-                if !subview.isHidden
-                   && subview.alpha > 0
-                   && subview.isUserInteractionEnabled
-                   && subview.point(inside: convert(point, to: subview), with: event) {
-                     return true
-                }
+        for subview in subviews as [UIView] {
+            if !subview.isHidden
+                && subview.alpha > 0
+                && subview.isUserInteractionEnabled
+                && subview.point(inside: convert(point, to: subview), with: event) {
+                return true
             }
-            return false
         }
+        return false
+    }
 
 
     func setup(viewModel: MainFeed.Info.ViewModel.UpcomingProjects?,
@@ -107,6 +107,19 @@ class OnGoingProjectsFeedTableViewCell: UITableViewCell {
     func resetSelectionFilter() {
         selectionFilter.selectedItem = MainFeed.Constants.Texts.allCriteria
         optionsStackView.subviews[0].backgroundColor = MainFeed.Constants.Colors.optionButtonSelected
+    }
+    
+    func flushProjectsFeed() {
+        for view in scrollView.subviews {
+            if view is OnGoingProjectFeedResumeButton {
+                view.removeFromSuperview()
+            }
+        }
+        scrollView.layoutIfNeeded()
+    }
+    
+    func setProjects(viewModel: MainFeed.Info.ViewModel.UpcomingProjects?) {
+        self.projectsViewModel = viewModel
     }
 }
 
@@ -176,6 +189,7 @@ extension OnGoingProjectsFeedTableViewCell {
                 $0.backgroundColor = MainFeed.Constants.Colors.optionButtonUnselected
             }
         })
+        flushProjectsFeed()
         delegate?.didSelectedNewCriteria(text: text)
     }
 }

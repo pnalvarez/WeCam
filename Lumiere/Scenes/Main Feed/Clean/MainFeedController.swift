@@ -106,6 +106,11 @@ extension MainFeedController {
         let cell = tableView.cellForRow(at: IndexPath(row: MainFeed.Constants.BusinessLogic.CellIndexes.ongoingProjectsSuggestions.rawValue, section: MainFeed.Constants.BusinessLogic.Sections.defaultFeed.rawValue), type: OnGoingProjectsFeedTableViewCell.self)
         cell.resetSelectionFilter()
     }
+    
+    private func updateOnGoingProjectsFeed() {
+        let cell = tableView.cellForRow(at: IndexPath(row: MainFeed.Constants.BusinessLogic.CellIndexes.ongoingProjectsSuggestions.rawValue, section: MainFeed.Constants.BusinessLogic.Sections.defaultFeed.rawValue), type: OnGoingProjectsFeedTableViewCell.self)
+        cell.setProjects(viewModel: ongoingProjectsFeedViewModel)
+    }
 }
 
 extension MainFeedController: SearchHeaderTableViewCellDelegate {
@@ -133,7 +138,6 @@ extension MainFeedController: OnGoingProjectsFeedTableViewCellDelegate {
     }
     
     func didSelectedNewCriteria(text: String) {
-        flushOnGoingProjectsFeed()
         interactor?.didSelectOnGoingProjectCathegory(MainFeed.Request.SelectOnGoingProjectCathegory(text: text))
     }
 }
