@@ -21,6 +21,7 @@ protocol MainFeedDataStore {
     var selectedProfile: String? { get set }
     var selectedProject: String? { get set }
     var mainFeedData: MainFeed.Info.Model.UpcomingFeedData? { get }
+    var selectedCathegory: String { get }
 }
 
 class MainFeedInteractor: MainFeedDataStore {
@@ -33,6 +34,12 @@ class MainFeedInteractor: MainFeedDataStore {
     var selectedProfile: String?
     var selectedProject: String?
     var mainFeedData: MainFeed.Info.Model.UpcomingFeedData?
+    
+    var selectedCathegory: String = MainFeed.Constants.Texts.allCriteria {
+        didSet {
+            mainFeedData?.interestCathegories?.selectedCriteria = buildMainFeedCathegory()
+        }
+    }
     
     init(worker: MainFeedWorkerProtocol = MainFeedWorker(),
          presenter: MainFeedPresentationLogic) {
@@ -54,7 +61,7 @@ extension MainFeedInteractor {
                                                           ocupation: $0.ocupation ?? .empty)
                 })), ongoingProjects: nil,
                 interestCathegories: nil)
-                self.fetchOnGoingProjectsFeed(MainFeed.Request.RequestOnGoingProjectsFeed(item: MainFeed.Constants.Texts.allCriteria))
+                self.fetchOnGoingProjectsFeed(MainFeed.Request.RequestOnGoingProjectsFeed(item: self.selectedCathegory))
             case .error(let error):
                 break
             }
@@ -87,13 +94,25 @@ extension MainFeedInteractor {
                 defaultCathegories.append(contentsOf: cathegories.map( {
                     MainFeed.Info.Model.OnGoingProjectFeedCriteria.cathegory(MovieStyle(rawValue: $0) ?? .action)
                 }))
-                self.mainFeedData?.interestCathegories = MainFeed.Info.Model.UpcomingOnGoingProjectCriterias(selectedCriteria: .all, criterias: defaultCathegories)
+                self.mainFeedData?.interestCathegories = MainFeed.Info.Model.UpcomingOnGoingProjectCriterias(selectedCriteria: self.buildMainFeedCathegory(), criterias: defaultCathegories)
                 guard let data = self.mainFeedData else { return }
                 self.presenter.presentFeedData(data)
             case .error(let error):
                 break
             }
         }
+    }
+    
+    private func buildMainFeedCathegory() -> MainFeed.Info.Model.OnGoingProjectFeedCriteria{
+        var criteria: MainFeed.Info.Model.OnGoingProjectFeedCriteria
+        if selectedCathegory == MainFeed.Constants.Texts.allCriteria {
+            criteria = .all
+        } else if selectedCathegory == MainFeed.Constants.Texts.relativeToConnectionsCriteria {
+            criteria = .connections
+        } else {
+            criteria = MainFeed.Info.Model.OnGoingProjectFeedCriteria.cathegory(MovieStyle(rawValue: selectedCathegory) ?? .action)
+        }
+        return criteria
     }
 }
 
@@ -127,6 +146,7 @@ extension MainFeedInteractor: MainFeedBusinessLogic {
         worker.fetchOnGoingProjects(newRequest) { response in
             switch response {
             case .success(let data):
+                self.selectedCathegory = request.text
                 self.mainFeedData?.ongoingProjects = MainFeed.Info.Model.UpcomingProjects(projects: data.map({
                     MainFeed.Info.Model.OnGoingProject(id: $0.id ?? .empty,
                                                        image: $0.image ?? .empty,

@@ -3230,8 +3230,9 @@ class FirebaseManager: FirebaseManagerProtocol {
                     .observeSingleEvent(of: .value) { snapshot in
                         if let connections = snapshot.value as? [String] {
                             currentUserconnections = connections
+                        } else {
+                            currentUserconnections = .empty
                         }
-                        currentUserconnections = .empty
                         self.realtimeDB
                             .child(Constants.allProjectsCataloguePath)
                             .observeSingleEvent(of: .value) { snapshot in

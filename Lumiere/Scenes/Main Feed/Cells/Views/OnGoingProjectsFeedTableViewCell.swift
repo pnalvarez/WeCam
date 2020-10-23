@@ -154,6 +154,7 @@ extension OnGoingProjectsFeedTableViewCell {
     private func buildOptionFilters() {
         guard let criterias = criteriasViewModel?.criterias else { return }
         let selectedIndex = criterias.firstIndex(where: { criteriasViewModel?.selectedCriteria == $0 })
+        selectionFilter.selectedItem = criteriasViewModel?.selectedCriteria.criteria ?? .empty
         for index in 0..<criterias.count {
             let button = OptionFilterButton(frame: .zero, option: criterias[index].criteria)
             button.addTarget(self, action: #selector(didSelectOption(_:)), for: .touchUpInside)

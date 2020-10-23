@@ -133,6 +133,7 @@ extension ProfileSuggestionsController {
     private func buildOptionFilters() {
         guard let criterias = criteriaViewModel?.criterias else { return }
         let selectedIndex = criteriaViewModel?.criterias.firstIndex(where: { criteriaViewModel?.selectedCriteria == $0 })
+        filterButton.selectedItem = criteriaViewModel?.selectedCriteria.description ?? .empty
         for index in 0..<criterias.count {
             let button = OptionFilterButton(frame: .zero, option: criterias[index])
             button.addTarget(self, action: #selector(didSelectOption(_:)), for: .touchUpInside)
