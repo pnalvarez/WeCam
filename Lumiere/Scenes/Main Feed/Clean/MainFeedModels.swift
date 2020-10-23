@@ -120,6 +120,12 @@ struct MainFeed {
                 let type: ItemType
             }
             
+            struct UpcomingFeedData: Equatable {
+                var profileSuggestions: UpcomingProfiles?
+                var ongoingProjects: UpcomingProjects?
+                var interestCathegories: UpcomingOnGoingProjectCriterias?
+            }
+            
             struct UpcomingProfiles: Equatable {
                 let suggestions: [ProfileSuggestion]
             }
@@ -169,6 +175,12 @@ struct MainFeed {
             struct RecentSearch: Equatable {
                 let image: String
                 let title: String
+            }
+            
+            struct UpcomingFeedData: Equatable {
+                let suggestedProfiles: UpcomingProfiles
+                let ongoingProjects: UpcomingProjects
+                let interestCathegories: UpcomingOnGoingProjectsCriterias
             }
             
             struct UpcomingProfiles: Equatable {

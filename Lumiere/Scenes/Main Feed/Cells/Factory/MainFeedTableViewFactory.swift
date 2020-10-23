@@ -11,25 +11,19 @@ import UIKit
 class MainFeedTableViewFactory: TableViewFactory {
     
     private let tableView: UITableView
-    var profileSuggestionsViewModel: MainFeed.Info.ViewModel.UpcomingProfiles?
-    var ongoingProjectsViewModel: MainFeed.Info.ViewModel.UpcomingProjects?
-    var ongoingProjectsCriterias: MainFeed.Info.ViewModel.UpcomingOnGoingProjectsCriterias?
+    var viewModel: MainFeed.Info.ViewModel.UpcomingFeedData?
     
     private weak var searchDelegate: SearchHeaderTableViewCellDelegate?
     private weak var profileSuggestionsDelegate: ProfileSuggestionsFeedTableViewCellDelegate?
     private weak var ongoingProjectsFeedDelegate: OnGoingProjectsFeedTableViewCellDelegate?
     
     init(tableView: UITableView,
-         profileSuggestionsViewModel: MainFeed.Info.ViewModel.UpcomingProfiles? = nil,
-         ongoingProjectsViewModel: MainFeed.Info.ViewModel.UpcomingProjects? = nil,
-         ongoingProjectsCriterias: MainFeed.Info.ViewModel.UpcomingOnGoingProjectsCriterias? = nil,
+         viewModel: MainFeed.Info.ViewModel.UpcomingFeedData? = nil,
          searchDelegate: SearchHeaderTableViewCellDelegate? = nil,
          profileSuggestionsDelegate: ProfileSuggestionsFeedTableViewCellDelegate? = nil,
          ongoingProjectsFeedDelegate: OnGoingProjectsFeedTableViewCellDelegate? = nil) {
         self.tableView = tableView
-        self.profileSuggestionsViewModel = profileSuggestionsViewModel
-        self.ongoingProjectsViewModel = ongoingProjectsViewModel
-        self.ongoingProjectsCriterias = ongoingProjectsCriterias
+        self.viewModel = viewModel
         self.searchDelegate = searchDelegate
         self.profileSuggestionsDelegate = profileSuggestionsDelegate
         self.ongoingProjectsFeedDelegate = ongoingProjectsFeedDelegate
@@ -52,12 +46,12 @@ class MainFeedTableViewFactory: TableViewFactory {
     
     private var profileSuggestionsBuilder: TableViewCellBuilderProtocol {
         return ProfileSuggestionsFeedTableViewCellBuilder(delegate: profileSuggestionsDelegate,
-                                                          viewModel: profileSuggestionsViewModel)
+                                                          viewModel: viewModel?.suggestedProfiles)
     }
     
     private var ongoingProjectsFeedBuilder: TableViewCellBuilderProtocol {
         return OnGoingProjectsFeedTableViewCellBuilder(delegate: ongoingProjectsFeedDelegate,
-                                                       viewModel: ongoingProjectsViewModel,
-                                                       criteriasViewModel: ongoingProjectsCriterias)
+                                                       viewModel: viewModel?.ongoingProjects,
+                                                       criteriasViewModel: viewModel?.interestCathegories)
     }
 }

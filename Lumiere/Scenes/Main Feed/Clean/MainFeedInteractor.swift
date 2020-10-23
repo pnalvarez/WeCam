@@ -18,11 +18,9 @@ protocol MainFeedBusinessLogic {
 protocol MainFeedDataStore {
     var currentUserId: MainFeed.Info.Received.CurrentUser? { get set }
     var searchKey: MainFeed.Info.Model.SearchKey? { get set }
-    var profileSuggestions: MainFeed.Info.Model.UpcomingProfiles? { get set }
-    var ongoingProjects: MainFeed.Info.Model.UpcomingProjects? { get set }
     var selectedProfile: String? { get set }
     var selectedProject: String? { get set }
-    var ongoingProjectsFeedCriterias: MainFeed.Info.Model.UpcomingOnGoingProjectCriterias? { get }
+    var mainFeedData: MainFeed.Info.Model.UpcomingFeedData? { get }
 }
 
 class MainFeedInteractor: MainFeedDataStore {
@@ -32,11 +30,9 @@ class MainFeedInteractor: MainFeedDataStore {
     
     var currentUserId: MainFeed.Info.Received.CurrentUser?
     var searchKey: MainFeed.Info.Model.SearchKey?
-    var profileSuggestions: MainFeed.Info.Model.UpcomingProfiles?
     var selectedProfile: String?
-    var ongoingProjects: MainFeed.Info.Model.UpcomingProjects?
     var selectedProject: String?
-    var ongoingProjectsFeedCriterias: MainFeed.Info.Model.UpcomingOnGoingProjectCriterias?
+    var mainFeedData: MainFeed.Info.Model.UpcomingFeedData?
     
     init(worker: MainFeedWorkerProtocol = MainFeedWorker(),
          presenter: MainFeedPresentationLogic) {
@@ -51,18 +47,13 @@ extension MainFeedInteractor {
         worker.fetchProfileSuggestions(MainFeed.Request.FetchSuggestedProfiles()) { response in
             switch response {
             case .success(let data):
-                self.profileSuggestions = MainFeed
-                    .Info
-                    .Model
-                    .UpcomingProfiles(suggestions: data.map({ MainFeed
-                                                                .Info
-                                                                .Model
-                                                                .ProfileSuggestion(userId: $0.userId ?? .empty,
-                                                                                   image: $0.image ?? .empty,
-                                                                                   name: $0.name ?? .empty,
-                                                                                   ocupation: $0.ocupation ?? .empty)}))
-                guard let suggestions = self.profileSuggestions else { return }
-                self.presenter.presentProfileSuggestions(suggestions)
+                self.mainFeedData = MainFeed.Info.Model.UpcomingFeedData(profileSuggestions: MainFeed.Info.Model.UpcomingProfiles(suggestions: data.map({
+                    MainFeed.Info.Model.ProfileSuggestion(userId: $0.userId ?? .empty,
+                                                          image: $0.image ?? .empty,
+                                                          name: $0.name ?? .empty,
+                                                          ocupation: $0.ocupation ?? .empty)
+                })), ongoingProjects: nil,
+                interestCathegories: nil)
                 self.fetchOnGoingProjectsFeed(MainFeed.Request.RequestOnGoingProjectsFeed(item: MainFeed.Constants.Texts.allCriteria))
             case .error(let error):
                 break
@@ -75,17 +66,11 @@ extension MainFeedInteractor {
         worker.fetchOnGoingProjects(newRequest) { response in
             switch response {
             case .success(let data):
-                self.ongoingProjects = MainFeed
-                    .Info
-                    .Model
-                    .UpcomingProjects(projects: data.map({ MainFeed
-                                                            .Info
-                                                            .Model
-                                                            .OnGoingProject(id: $0.id ?? .empty,
-                                                                            image: $0.image ?? .empty,
-                                                                            progress: $0.progress ?? 0)}))
-                guard let projects = self.ongoingProjects else { return }
-                self.presenter.presentOnGoingProjects(projects)
+                self.mainFeedData?.ongoingProjects = MainFeed.Info.Model.UpcomingProjects(projects: data.map({
+                    MainFeed.Info.Model.OnGoingProject(id: $0.id ?? .empty,
+                                                       image: $0.image ?? .empty,
+                                                       progress: $0.progress ?? 0)
+                }))
                 self.fetchInterestCathegories(MainFeed.Request.FetchInterestCathegories())
             case .error(let error):
                 break
@@ -97,13 +82,14 @@ extension MainFeedInteractor {
         worker.fetchInterestCathegories(MainFeed.Request.FetchInterestCathegories()) { response in
             switch response {
             case .success(let cathegories):
+                var defaultCathegories: [MainFeed.Info.Model.OnGoingProjectFeedCriteria] = [.all, .connections]
                 guard let cathegories = cathegories.cathegories else { return }
-                self.ongoingProjectsFeedCriterias = MainFeed.Info.Model.UpcomingOnGoingProjectCriterias(selectedCriteria: .all, criterias: [.all, .connections])
-                self.ongoingProjectsFeedCriterias?.criterias.append(contentsOf: cathegories.map( {
+                defaultCathegories.append(contentsOf: cathegories.map( {
                     MainFeed.Info.Model.OnGoingProjectFeedCriteria.cathegory(MovieStyle(rawValue: $0) ?? .action)
                 }))
-                guard let criterias = self.ongoingProjectsFeedCriterias else { return }
-                self.presenter.presentOnGoingProjectsFeedCriterias(criterias)
+                self.mainFeedData?.interestCathegories = MainFeed.Info.Model.UpcomingOnGoingProjectCriterias(selectedCriteria: .all, criterias: defaultCathegories)
+                guard let data = self.mainFeedData else { return }
+                self.presenter.presentFeedData(data)
             case .error(let error):
                 break
             }
@@ -127,12 +113,12 @@ extension MainFeedInteractor: MainFeedBusinessLogic {
     }
     
     func didSelectSuggestedProfile(_ request: MainFeed.Request.SelectSuggestedProfile) {
-        selectedProfile = profileSuggestions?.suggestions[request.index].userId
+        selectedProfile = mainFeedData?.ongoingProjects?.projects[request.index].id
         presenter.presentProfileDetails()
     }
     
     func didSelectOnGoingProject(_ request: MainFeed.Request.SelectOnGoingProject) {
-        selectedProject = ongoingProjects?.projects[request.index].id
+        selectedProject = mainFeedData?.ongoingProjects?.projects[request.index].id
         presenter.presentOnGoingProjectDetails()
     }
     
@@ -141,17 +127,13 @@ extension MainFeedInteractor: MainFeedBusinessLogic {
         worker.fetchOnGoingProjects(newRequest) { response in
             switch response {
             case .success(let data):
-                self.ongoingProjects = MainFeed
-                    .Info
-                    .Model
-                    .UpcomingProjects(projects: data.map({ MainFeed
-                                                            .Info
-                                                            .Model
-                                                            .OnGoingProject(id: $0.id ?? .empty,
-                                                                            image: $0.image ?? .empty,
-                                                                            progress: $0.progress ?? 0)}))
-                guard let projects = self.ongoingProjects else { return }
-                self.presenter.presentOnGoingProjects(projects)
+                self.mainFeedData?.ongoingProjects = MainFeed.Info.Model.UpcomingProjects(projects: data.map({
+                    MainFeed.Info.Model.OnGoingProject(id: $0.id ?? .empty,
+                                                       image: $0.image ?? .empty,
+                                                       progress: $0.progress ?? 0)
+                }))
+                guard let data = self.mainFeedData else { return }
+                self.presenter.presentFeedData(data)
             case .error(let error):
                 break
             }
