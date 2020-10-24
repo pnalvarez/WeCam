@@ -132,7 +132,7 @@ extension MainFeedInteractor: MainFeedBusinessLogic {
     }
     
     func didSelectSuggestedProfile(_ request: MainFeed.Request.SelectSuggestedProfile) {
-        selectedProfile = mainFeedData?.ongoingProjects?.projects[request.index].id
+        selectedProfile = mainFeedData?.profileSuggestions?.suggestions[request.index].userId
         presenter.presentProfileDetails()
     }
     
