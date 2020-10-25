@@ -92,12 +92,12 @@ extension InviteProfileToProjectsView: ViewCodeProtocol {
             make.height.width.equalTo(31)
         }
         mainLbl.snp.makeConstraints { make in
-            make.top.equalTo(backButton.snp.bottom).offset(35)
+            make.centerY.equalTo(backButton)
             make.centerX.equalToSuperview()
             make.width.equalTo(170)
         }
         searchTextField.snp.makeConstraints { make in
-            make.top.equalTo(mainLbl.snp.bottom).offset(14)
+            make.top.equalTo(mainLbl.snp.bottom).offset(24)
             make.centerX.equalTo(mainLbl)
             make.width.equalTo(306)
             make.height.equalTo(24)

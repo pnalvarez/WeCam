@@ -407,8 +407,8 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
         }
         teamCollectionView.snp.makeConstraints { make in
             make.top.equalTo(teamFixedLbl.snp.bottom).offset(17)
-            make.left.equalTo(teamFixedLbl)
-            make.right.equalToSuperview().inset(59)
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
             make.height.equalTo(115)
         }
         moreInfoButton.snp.makeConstraints { make in

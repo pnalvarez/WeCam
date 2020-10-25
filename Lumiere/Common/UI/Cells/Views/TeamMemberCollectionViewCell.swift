@@ -33,13 +33,14 @@ class TeamMemberCollectionViewCell: UICollectionViewCell {
         view.textAlignment = .center
         view.textColor = .black
         view.font = ThemeFonts.RobotoBold(10).rawValue
+        view.numberOfLines = 0
         return view
     }()
     
     private lazy var ocupationLbl: UILabel = {
         let view = UILabel(frame: .zero)
         view.textAlignment = .center
-        view.numberOfLines = 2
+        view.numberOfLines = 0
         view.textColor = .black
         view.font = ThemeFonts.RobotoRegular(10).rawValue
         return view
@@ -73,7 +74,7 @@ extension TeamMemberCollectionViewCell: ViewCodeProtocol {
         }
         nameLbl.snp.makeConstraints { make in
             make.top.equalTo(imageView)
-            make.left.equalTo(imageView.snp.right)
+            make.left.equalTo(imageView.snp.right).inset(2)
             make.right.equalToSuperview()
         }
         ocupationLbl.snp.makeConstraints { make in
