@@ -413,7 +413,7 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
         }
         moreInfoButton.snp.makeConstraints { make in
             make.top.equalTo(teamCollectionView.snp.bottom).offset(12)
-            make.right.equalTo(teamCollectionView)
+            make.right.equalTo(teamCollectionView).offset(-10)
             make.height.equalTo(19)
             make.width.equalTo(103)
         }

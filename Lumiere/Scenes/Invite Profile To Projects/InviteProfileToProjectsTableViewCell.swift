@@ -18,7 +18,7 @@ class InviteProfileToProjectsTableViewCell: UITableViewCell {
     private lazy var projectImageView: UIImageView = {
         let view = UIImageView(frame: .zero)
         view.contentMode = .scaleToFill
-        view.layer.cornerRadius = 50
+        view.layer.cornerRadius = 42
         view.clipsToBounds = true
         return view
     }()
@@ -93,7 +93,7 @@ extension InviteProfileToProjectsTableViewCell: ViewCodeProtocol {
         projectImageView.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.left.equalToSuperview().inset(26)
-            make.height.width.equalTo(100)
+            make.height.width.equalTo(84)
         }
         interactionButton.snp.makeConstraints { make in
             make.top.equalTo(projectImageView)

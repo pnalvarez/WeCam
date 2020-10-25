@@ -17,7 +17,7 @@ class OnGoingProjectInvitesTableViewCell: UITableViewCell {
     
     private lazy var photoImageView: UIImageView = {
         let view = UIImageView(frame: .zero)
-        view.layer.cornerRadius = 52
+        view.layer.cornerRadius = 42
         view.clipsToBounds = true
         view.contentMode = .scaleToFill
         return view
@@ -94,10 +94,10 @@ extension OnGoingProjectInvitesTableViewCell: ViewCodeProtocol {
         photoImageView.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.left.equalToSuperview().inset(20)
-            make.height.width.equalTo(104)
+            make.height.width.equalTo(84)
         }
         interactButton.snp.makeConstraints { make in
-            make.top.equalTo(nameLbl)
+            make.centerY.equalTo(nameLbl)
             make.height.width.equalTo(30)
             make.right.equalToSuperview().inset(30)
         }
@@ -114,7 +114,7 @@ extension OnGoingProjectInvitesTableViewCell: ViewCodeProtocol {
         emailLbl.snp.makeConstraints { make in
             make.top.equalTo(ocupationLbl.snp.bottom)
             make.left.equalTo(ocupationLbl)
-            make.width.equalTo(ocupationLbl)
+            make.right.equalToSuperview().inset(2)
         }
     }
     

@@ -96,17 +96,17 @@ extension OnGoingProjectInvitesView: ViewCodeProtocol {
             make.edges.equalToSuperview()
         }
         closeButton.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(44)
-            make.right.equalToSuperview().inset(54)
+            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(28)
+            make.right.equalToSuperview().inset(30)
             make.height.width.equalTo(31)
         }
         projectTitleLbl.snp.makeConstraints { make in
-            make.top.equalTo(closeButton.snp.bottom).offset(8)
+            make.centerY.equalTo(closeButton)
             make.left.equalToSuperview().inset(46)
             make.width.equalTo(200)
         }
         searchTextField.snp.makeConstraints { make in
-            make.top.equalTo(projectTitleLbl.snp.bottom).offset(14)
+            make.top.equalTo(projectTitleLbl.snp.bottom).offset(24)
             make.left.equalTo(projectTitleLbl)
             make.right.equalTo(closeButton.snp.right)
             make.height.equalTo(24)
