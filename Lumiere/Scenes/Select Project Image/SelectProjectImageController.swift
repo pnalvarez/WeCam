@@ -16,13 +16,6 @@ protocol SelectProjectImageDisplayLogic: class {
 
 class SelectProjectImageController: BaseViewController, UINavigationControllerDelegate {
     
-    private lazy var backButton: UIButton = {
-        let view = UIButton(frame: .zero)
-        view.setImage(SelectProjectImage.Constants.Images.backButton, for: .normal)
-        view.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
-        return view
-    }()
-    
     private lazy var advanceButton: UIButton = {
         let view = UIButton(frame: .zero)
         view.addTarget(self, action: #selector(didTapAdvance), for: .touchUpInside)
@@ -47,7 +40,6 @@ class SelectProjectImageController: BaseViewController, UINavigationControllerDe
     
     private lazy var mainView: SelectProjectImageView = {
         let view = SelectProjectImageView(frame: .zero,
-                                          backButton: backButton,
                                           advanceButton: advanceButton,
                                           selectedImageView: selectedImageButton)
         return view
@@ -113,11 +105,6 @@ extension SelectProjectImageController: UIImagePickerControllerDelegate {
 }
 
 extension SelectProjectImageController {
-    
-    @objc
-    private func didTapBackButton() {
-        //TO DO
-    }
     
     @objc
     private func didTapAdvance() {

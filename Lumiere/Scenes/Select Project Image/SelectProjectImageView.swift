@@ -10,7 +10,6 @@ import UIKit
 
 class SelectProjectImageView: UIView {
     
-    private unowned var backButton: UIButton
     private unowned var advanceButton: UIButton
     private unowned var selectedImageButton: UIButton
     
@@ -24,10 +23,8 @@ class SelectProjectImageView: UIView {
     }()
     
     init(frame: CGRect,
-         backButton: UIButton,
          advanceButton: UIButton,
          selectedImageView: UIButton) {
-        self.backButton = backButton
         self.advanceButton = advanceButton
         self.selectedImageButton = selectedImageView
         super.init(frame: frame)
@@ -42,19 +39,12 @@ class SelectProjectImageView: UIView {
 extension SelectProjectImageView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
-        addSubview(backButton)
         addSubview(advanceButton)
         addSubview(selectedImageButton)
         addSubview(titleLbl)
     }
     
     func setupConstraints() {
-        backButton.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(28)
-            make.left.equalToSuperview().inset(28)
-            make.height.equalTo(32)
-            make.width.equalTo(31)
-        }
         advanceButton.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(34)
             make.right.equalToSuperview().inset(28)

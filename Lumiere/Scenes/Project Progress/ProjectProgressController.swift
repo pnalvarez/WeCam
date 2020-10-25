@@ -31,8 +31,8 @@ class ProjectProgressController: BaseViewController {
     
     private lazy var progressSlider: UISlider = {
         let view = UISlider(frame: .zero)
-        view.setThumbImage(ProjectProgress.Constants.Images.logo?.alpha(0.4), for: .normal)
-        view.setThumbImage(ProjectProgress.Constants.Images.logo, for: .highlighted)
+        view.setThumbImage(UIImage.imageWithImage(image: UIImage(named: "logo-apenas") ?? UIImage(), scaledToSize: CGSize(width: 80, height: 94)), for: .normal)
+        view.setThumbImage(UIImage.imageWithImage(image: UIImage(named: "logo-apenas") ?? UIImage(), scaledToSize: CGSize(width: 80, height: 94)), for: .highlighted)
         view.backgroundColor = ProjectProgress.Constants.Colors.progressSliderBackground
         view.tintColor = ProjectProgress.Constants.Colors.progressSliderBackground
         view.addTarget(self, action: #selector(didChangeSliderValue), for: .valueChanged)
@@ -94,18 +94,18 @@ extension ProjectProgressController {
     
     @objc
     private func didChangeSliderValue() {
-        var newImage = progressSlider.currentThumbImage?.rotate(radians: progressSlider.value * 2 * Float.pi / progressSlider.maximumValue)
-        let percentage = progressSlider.value / progressSlider.maximumValue
-        if percentage >= 0.8 {
-            newImage = newImage?.alpha(1.0)
-        } else if percentage >= 0.6 {
-            newImage = newImage?.alpha(0.8)
-        } else if percentage >= 0.4 {
-            newImage = newImage?.alpha(0.6)
-        } else {
-            newImage = newImage?.alpha(0.4)
-        }
-        progressSlider.setThumbImage(newImage, for: .normal)
+//        var newImage = progressSlider.currentThumbImage?.rotate(radians: progressSlider.value * 2 * Float.pi / progressSlider.maximumValue)
+//        let percentage = progressSlider.value / progressSlider.maximumValue
+//        if percentage >= 0.8 {
+//            newImage = newImage?.alpha(1.0)
+//        } else if percentage >= 0.6 {
+//            newImage = newImage?.alpha(0.8)
+//        } else if percentage >= 0.4 {
+//            newImage = newImage?.alpha(0.6)
+//        } else {
+//            newImage = newImage?.alpha(0.4)
+//        }
+//        progressSlider.setThumbImage(newImage, for: .normal)
     }
 }
 

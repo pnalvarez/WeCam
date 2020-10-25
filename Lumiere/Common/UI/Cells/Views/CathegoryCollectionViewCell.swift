@@ -72,13 +72,10 @@ extension CathegoryCollectionViewCell: ViewCodeProtocol {
     }
     
     func configureViews() {
-        mainLbl.backgroundColor = .clear
         mainLbl.text = movieStyle?.rawValue
         mainLbl.textAlignment = .center
-        mainLbl.numberOfLines = 1
+        mainLbl.numberOfLines = 0
         mainLbl.font = ThemeFonts.RobotoBold(16).rawValue
         mainLbl.textColor = UIColor(rgb: 0xffffff)
-        mainLbl.adjustsFontSizeToFitWidth = true
-        mainLbl.minimumScaleFactor = 0.5
     }
 }

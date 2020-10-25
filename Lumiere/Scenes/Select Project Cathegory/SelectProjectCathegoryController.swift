@@ -143,7 +143,7 @@ extension SelectProjectCathegoryController: UICollectionViewDelegateFlowLayout {
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
 
-        return CGSize(width: collectionView.frame.width / 4, height: view.frame.height * 0.13)
+        return CGSize(width: collectionView.frame.width / 3.7, height: 87)
     }
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
@@ -160,7 +160,7 @@ extension SelectProjectCathegoryController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets.init(top: 0, left: 26, bottom: 0, right: 26)
+        return UIEdgeInsets.init(top: 0, left: 20, bottom: 0, right: 20)
     }
 }
 

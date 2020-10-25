@@ -17,6 +17,7 @@ enum MovieStyle: String, CaseIterable {
     case fiction = "Ficção Científica"
     case war = "Guerra"
     case musical = "Musical"
+    case romance = "Romance"
     case police = "Policial"
     case series = "Seriado"
     case suspense = "Suspense"
@@ -27,6 +28,7 @@ enum MovieStyle: String, CaseIterable {
         for value in MovieStyle.allCases {
             array.append(value)
         }
+        array.sort(by: { return $0.rawValue < $1.rawValue })
         return array
     }
 }
