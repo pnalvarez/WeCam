@@ -41,7 +41,7 @@ class SelectProjectImageController: BaseViewController, UINavigationControllerDe
         view.layer.borderWidth = 1
         view.layer.borderColor = SelectProjectImage.Constants.Colors.selectedImageViewLayer
         view.setImage(SelectProjectImage.Constants.Images.camera, for: .normal)
-        view.layer.cornerRadius = 92
+        view.layer.cornerRadius = 71
         return view
     }()
     

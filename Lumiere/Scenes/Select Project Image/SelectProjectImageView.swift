@@ -63,7 +63,7 @@ extension SelectProjectImageView: ViewCodeProtocol {
         }
         selectedImageButton.snp.makeConstraints { make in
             make.center.equalToSuperview()
-            make.height.width.equalTo(184)
+            make.height.width.equalTo(142)
         }
         titleLbl.snp.makeConstraints { make in
             make.top.equalTo(selectedImageButton.snp.bottom).offset(25)
