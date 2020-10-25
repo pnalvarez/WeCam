@@ -65,6 +65,20 @@ struct ProfileDetails {
             static let onGoingProjectsLbl = "Projetos em andamento"
             static let inviteToProjectButton = "Convidar para projeto"
         }
+        
+        struct Dimensions {
+            
+            static let projectViewDefaultOffset: CGFloat = 50
+            
+            struct Heights {
+                static let scrollView: CGFloat = 95
+            }
+            
+            struct Widths {
+                static let projectView: CGFloat = 84
+                static let spaceBetweenProjects = 28
+            }
+        }
     }
     
     struct Info {

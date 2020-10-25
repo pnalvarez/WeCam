@@ -172,19 +172,20 @@ class ProfileDetailsController: BaseViewController {
 extension ProfileDetailsController {
     
     private func buildOnGoingProjectsCarrousel() {
-        onGoingProjectsCarrousel.contentSize = CGSize(width: 110 * projectViews.count + 50, height: 105)
+        let scrollWidth =  ProfileDetails.Constants.Dimensions.projectViewDefaultOffset + (ProfileDetails.Constants.Dimensions.Widths.projectView + CGFloat(ProfileDetails.Constants.Dimensions.Widths.spaceBetweenProjects)) * CGFloat(projectViews.count)
+        onGoingProjectsCarrousel.contentSize = CGSize(width: scrollWidth, height: ProfileDetails.Constants.Dimensions.Heights.scrollView)
         for i in 0..<projectViews.count {
             onGoingProjectsCarrousel.addSubview(projectViews[i])
             projectViews[i].snp.makeConstraints { make in
                 make.top.bottom.equalToSuperview()
-                make.width.equalTo(105)
+                make.width.equalTo(84)
                 if i == 0 {
                     make.left.equalToSuperview().inset(26)
                 } else {
-                    make.left.equalTo(projectViews[i-1].snp.right).offset(5)
+                    make.left.equalTo(projectViews[i-1].snp.right).offset(35)
                 }
-                if i == projectViews.count {
-                    make.right.equalToSuperview()
+                if i == projectViews.count-1 {
+                    make.right.equalToSuperview().inset(10)
                 }
             }
         }

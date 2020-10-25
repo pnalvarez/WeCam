@@ -130,6 +130,7 @@ extension OnGoingProjectsFeedTableViewCell {
         guard let projects = projectsViewModel?.projects else { return }
         let scrollWidth = MainFeed.Constants.Dimensions.Widths.ongoingProjectsFeedOffset + ((MainFeed.Constants.Dimensions.Widths.ongoingProjectResumeButton + MainFeed.Constants.Dimensions.Widths.ongoingProfojectsFeedInterval) * CGFloat(projects.count))
         scrollView.contentSize = CGSize(width: scrollWidth, height: scrollView.frame.height)
+        scrollView.isScrollEnabled = true
         for index in 0..<projects.count {
             let button = OnGoingProjectFeedResumeButton(frame: .zero,
                                                         image: projects[index].image,
@@ -226,7 +227,7 @@ extension OnGoingProjectsFeedTableViewCell: ViewCodeProtocol {
         headerLbl.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(5)
             make.left.equalToSuperview().inset(22)
-            make.width.equalTo(200)
+            make.width.equalTo(180)
         }
         selectionFilter.snp.makeConstraints { make in
             make.centerY.equalTo(headerLbl)

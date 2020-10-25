@@ -347,7 +347,7 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
             make.height.width.equalTo(31)
         }
         cathegoryLbl.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(28)
+            make.centerY.equalTo(closeButton)
             make.centerX.equalToSuperview()
             make.width.equalTo(180)
         }
@@ -419,7 +419,7 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
         }
         needFixedLbl.snp.makeConstraints { make in
             make.top.equalTo(infoContainer.snp.bottom).offset(30)
-            make.left.equalToSuperview().inset(56)
+            make.left.equalTo(infoContainer).offset(2)
             make.width.equalTo(94)
         }
         dotView.snp.makeConstraints { make in

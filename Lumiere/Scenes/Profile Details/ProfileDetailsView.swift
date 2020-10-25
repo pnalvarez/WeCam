@@ -75,6 +75,26 @@ class ProfileDetailsView: UIView {
         return view
     }()
     
+    private lazy var scrollView: UIScrollView = {
+        let view = UIScrollView(frame: .zero)
+        view.bounces = false
+        view.alwaysBounceVertical = false
+        view.showsVerticalScrollIndicator = true
+        view.contentSize = CGSize(width: view.frame.width, height: 1000)
+        view.backgroundColor = .white
+        return view
+    }()
+    
+    private lazy var mainContainer: UIView = {
+        let view = UIView(frame: .zero)
+        view.backgroundColor = .white
+        return view
+    }()
+    
+    private lazy var bottom: UIView = {
+        return UIView(frame: .zero)
+    }()
+    
     private var viewModel: ProfileDetails.Info.ViewModel.User?
     
     init(frame: CGRect,
@@ -138,26 +158,37 @@ class ProfileDetailsView: UIView {
 extension ProfileDetailsView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
-        addSubview(backButton)
-        addSubview(photoImageView)
-        addSubview(nameLbl)
-        addSubview(occupationLbl)
-        addSubview(emailLbl)
-        addSubview(phoneNumberLbl)
-        addSubview(inviteToProjectButton)
-        addSubview(addConnectionButton)
+        mainContainer.addSubview(backButton)
+        mainContainer.addSubview(photoImageView)
+        mainContainer.addSubview(nameLbl)
+        mainContainer.addSubview(occupationLbl)
+        mainContainer.addSubview(emailLbl)
+        mainContainer.addSubview(phoneNumberLbl)
+        mainContainer.addSubview(inviteToProjectButton)
+        mainContainer.addSubview(addConnectionButton)
         buttonStackView.addArrangedSubview(editProfileButton)
         buttonStackView.addArrangedSubview(allConnectionsButton)
-        addSubview(buttonStackView)
-        addSubview(onGoingProjectsLbl)
+        mainContainer.addSubview(buttonStackView)
+        mainContainer.addSubview(onGoingProjectsLbl)
         projectsCarrousel.addSubview(projectsContainer)
-        addSubview(projectsCarrousel)
+        mainContainer.addSubview(projectsCarrousel)
+        mainContainer.addSubview(bottom)
+        scrollView.addSubview(mainContainer)
+        addSubview(scrollView)
         addSubview(translucentView)
         addSubview(confirmationAlertView)
         addSubview(activityView)
     }
     
     func setupConstraints() {
+        scrollView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        mainContainer.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+            make.width.equalToSuperview()
+            make.height.equalToSuperview().priority(250)
+        }
         activityView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
@@ -169,7 +200,7 @@ extension ProfileDetailsView: ViewCodeProtocol {
             make.edges.equalToSuperview()
         }
         backButton.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide.snp.top).inset(28)
+            make.top.equalToSuperview().inset(28)
             make.left.equalToSuperview().inset(28)
             make.height.equalTo(30.44)
             make.width.equalTo(32)
@@ -229,12 +260,17 @@ extension ProfileDetailsView: ViewCodeProtocol {
         projectsCarrousel.snp.makeConstraints { make in
             make.top.equalTo(onGoingProjectsLbl.snp.bottom).offset(25)
             make.left.right.equalToSuperview()
-            make.height.equalTo(106)
+            make.height.equalTo(105)
         }
         projectsContainer.snp.makeConstraints { make in
             make.edges.equalToSuperview()
             make.height.equalToSuperview()
             make.width.equalToSuperview().priority(250)
+        }
+        bottom.snp.makeConstraints { make in
+            make.top.equalToSuperview().inset(500)
+            make.left.right.equalToSuperview()
+            make.bottom.equalToSuperview().inset(10)
         }
     }
     

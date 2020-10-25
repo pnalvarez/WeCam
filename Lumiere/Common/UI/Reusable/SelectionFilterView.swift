@@ -20,6 +20,7 @@ class SelectionFilterView: UIView {
         view.textAlignment = .left
         view.textColor = UIColor(rgb: 0x969494)
         view.font = ThemeFonts.RobotoBold(12).rawValue
+        view.adjustsFontSizeToFitWidth = true
         return view
     }()
     
@@ -77,8 +78,8 @@ extension SelectionFilterView: ViewCodeProtocol {
     func setupConstraints() {
         itemLbl.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.left.equalToSuperview().inset(8)
-            make.width.equalTo(180)
+            make.left.equalToSuperview().inset(2)
+            make.right.equalTo(dividerView.snp.left).offset(-2)
         }
         dividerView.snp.makeConstraints { make in
             make.top.bottom.equalToSuperview()
