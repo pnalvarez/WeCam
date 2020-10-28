@@ -177,7 +177,8 @@ extension ProfileDetailsController {
         for i in 0..<projectViews.count {
             onGoingProjectsCarrousel.addSubview(projectViews[i])
             projectViews[i].snp.makeConstraints { make in
-                make.top.bottom.equalToSuperview()
+                make.top.equalToSuperview().offset(10)
+                make.height.equalTo(84)
                 make.width.equalTo(84)
                 if i == 0 {
                     make.left.equalToSuperview().inset(26)

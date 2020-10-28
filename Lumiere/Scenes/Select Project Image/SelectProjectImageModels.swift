@@ -36,7 +36,7 @@ struct SelectProjectImage {
                                             compatibleWith: nil)
             static let tabBarImage = UIImage(named: "publicacao-antes-de-clicar 1",
                                              in: SelectProjectImage.bundle,
-                                             compatibleWith: nil)
+                                             compatibleWith: nil)?.withRenderingMode(.alwaysOriginal)
             static let tabBarSelectedImage = UIImage(named: "publicacao-depois-de-clicar 1",
                                                      in: SelectProjectImage.bundle,
                                                      compatibleWith: nil)

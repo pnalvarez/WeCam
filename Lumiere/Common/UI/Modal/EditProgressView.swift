@@ -138,7 +138,7 @@ extension EditProgressView: ViewCodeProtocol {
         }
         progressSlider.snp.makeConstraints { make in
             make.top.equalTo(mainLbl).offset(120)
-            make.right.left.equalToSuperview().inset(130)
+            make.right.left.equalToSuperview().inset(50)
             make.height.equalTo(6)
         }
         percentageLbl.snp.makeConstraints { make in

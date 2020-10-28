@@ -52,7 +52,7 @@ struct ProfileDetails {
             static let logout = UIImage(named: "ajustar 1", in: ProfileDetails.bundle, compatibleWith: nil)
             static let tabBarDefaultImage = UIImage(named: "perfil-antes-de-clicar 1",
                                                     in: ProfileDetails.bundle,
-                                                    compatibleWith: nil)
+                                                    compatibleWith: nil)?.withRenderingMode(.alwaysOriginal)
             static let tabBarSelectedImage = UIImage(named: "perfil-depois-de-clicar 1",
                                                      in: ProfileDetails.bundle,
                                                      compatibleWith: nil)
@@ -71,7 +71,7 @@ struct ProfileDetails {
             static let projectViewDefaultOffset: CGFloat = 50
             
             struct Heights {
-                static let scrollView: CGFloat = 95
+                static let scrollView: CGFloat = 84
             }
             
             struct Widths {

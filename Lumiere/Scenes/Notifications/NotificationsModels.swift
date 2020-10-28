@@ -70,8 +70,8 @@ struct Notifications {
         struct Images {
             static let tabBarDefaultImage = UIImage(named: "notificacao-antes-de-clicar 1-1",
                                                     in: Notifications.bundle,
-                                                    compatibleWith: nil)
-            static let tabBarSelectedImage = UIImage(named: "notificacao-depois-de-clicar 1-1",
+                                                    compatibleWith: nil)?.withRenderingMode(.alwaysOriginal)
+            static let tabBarSelectedImage = UIImage(named: "notificacao-depois-de-clicar 1",
                                                      in: Notifications.bundle,
                                                      compatibleWith: nil)
         }

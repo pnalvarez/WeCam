@@ -49,7 +49,7 @@ struct MainFeed {
                                          compatibleWith: nil)
             static let tabBarImage = UIImage(named: "home-antes-de-clicar 1",
                                              in: MainFeed.bundle,
-                                             compatibleWith: nil)
+                                             compatibleWith: nil)?.withRenderingMode(.alwaysOriginal)
             static let tabBarSelectedImage = UIImage(named: "home-depois-de-clicar 1",
                                                      in: MainFeed.bundle,
                                                      compatibleWith: nil)

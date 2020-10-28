@@ -51,7 +51,7 @@ class MainFeedPresenter: MainFeedPresentationLogic {
                 .ViewModel
                 .UpcomingProjects(projects: response.ongoingProjects?.projects.map({
                     MainFeed.Info.ViewModel.OnGoingProject(image: $0.image,
-                                                           progress: Float($0.progress))
+                                                           progress: Float($0.progress)/100)
                 }) ?? .empty),
             interestCathegories: MainFeed
                 .Info

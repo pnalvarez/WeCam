@@ -14,7 +14,7 @@ enum MovieStyle: String, CaseIterable {
     case drama = "Drama"
     case dance = "Dança"
     case documentary = "Documentário"
-    case fiction = "Ficção Científica"
+    case fiction = "Ficção\n Científica"
     case war = "Guerra"
     case musical = "Musical"
     case romance = "Romance"

@@ -75,7 +75,8 @@ extension CathegoryCollectionViewCell: ViewCodeProtocol {
         mainLbl.text = movieStyle?.rawValue
         mainLbl.textAlignment = .center
         mainLbl.numberOfLines = 0
-        mainLbl.font = ThemeFonts.RobotoBold(16).rawValue
+        mainLbl.font = ThemeFonts.RobotoBold(12).rawValue
         mainLbl.textColor = UIColor(rgb: 0xffffff)
+        mainLbl.adjustsFontSizeToFitWidth = true
     }
 }
