@@ -219,3 +219,63 @@ struct ProfileSuggestions {
         }
     }
 }
+
+extension ProfileSuggestions.Info.Response.Profile: MultipleStubbable {
+    static var stubArray: [ProfileSuggestions.Info.Response.Profile] {
+        return [ProfileSuggestions
+                    .Info
+                    .Response
+                    .Profile(JSONString: """
+                            {
+                                "id": "idUser1",
+                                "name": "Usuario Teste 1",
+                                "profile_image_url": "image",
+                                "professional_area": "Artista"
+                            }
+                    """)!,
+                ProfileSuggestions
+                            .Info
+                            .Response
+                            .Profile(JSONString: """
+                                    {
+                                        "id": "idUser2",
+                                        "name": "Usuario Teste 2",
+                                        "profile_image_url": "image",
+                                        "professional_area": "Artista"
+                                    }
+                            """)!,
+                ProfileSuggestions
+                            .Info
+                            .Response
+                            .Profile(JSONString: """
+                                    {
+                                        "id": "idUser3",
+                                        "name": "Usuario Teste 3",
+                                        "profile_image_url": "image",
+                                        "professional_area": "Artista"
+                                    }
+                            """)!,
+                ProfileSuggestions
+                            .Info
+                            .Response
+                            .Profile(JSONString: """
+                                    {
+                                        "id": "idUser4",
+                                        "name": "Usuario Teste 4",
+                                        "profile_image_url": "image",
+                                        "professional_area": "Artista"
+                                    }
+                            """)!,
+                ProfileSuggestions
+                            .Info
+                            .Response
+                            .Profile(JSONString: """
+                                    {
+                                        "id": "idUser5",
+                                        "name": "Usuario Teste 5",
+                                        "profile_image_url": "image",
+                                        "professional_area": "Artista"
+                                    }
+                            """)!]
+    }
+}
