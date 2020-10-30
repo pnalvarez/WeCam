@@ -10,6 +10,7 @@ import UIKit
 
 protocol ProjectProgressPresentationLogic {
     func presentEditProjectDetails()
+    func presentFinishConfirmationAlert()
 }
 
 class ProjectProgressPresenter: ProjectProgressPresentationLogic {
@@ -22,5 +23,9 @@ class ProjectProgressPresenter: ProjectProgressPresentationLogic {
     
     func presentEditProjectDetails() {
         viewController.displayEditProjectDetails()
+    }
+    
+    func presentFinishConfirmationAlert() {
+        viewController.displayFinishConfirmationDialog()
     }
 }

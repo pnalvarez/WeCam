@@ -23,6 +23,36 @@ extension UIAlertController {
         controller.present(alertController, animated: true)
     }
     
+    static func displayConfirmationDialog(in controller: UIViewController,
+                                          title: String,
+                                          message: String,
+                                          confirmOption: String = "Confirmar",
+                                          refuseOption: String = "Não",
+                                          confirmationCallback: @escaping () -> Void,
+                                          refuseCallback: (() -> Void)? = nil,
+                                          animated: Bool) {
+        let alertController = UIAlertController(title: title,
+                                                message: message,
+                                                preferredStyle: .alert)
+        let confirmAction = UIAlertAction(title: confirmOption,
+                                          style: .default,
+                                          handler: { _ in
+                                            confirmationCallback()
+                                          })
+        let refuseAction = UIAlertAction(title: refuseOption,
+                                         style: .default, handler: { _ in
+                                            guard let callback = refuseCallback else {
+                                                return
+                                            }
+                                            callback()
+                                         })
+        confirmAction.setValue(ThemeColors.mainRedColor.rawValue, forKey: "titleTextColor")
+        alertController.addAction(refuseAction)
+        alertController.addAction(confirmAction)
+        
+        controller.present(alertController, animated: animated)
+    }
+    
     open override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 

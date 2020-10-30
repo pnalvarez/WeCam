@@ -21,6 +21,7 @@ protocol OnGoingProjectDetailsDisplayLogic: class {
     func displayRefusedInteraction()
     func displayEditProgressModal(_ viewModel: OnGoingProjectDetails.Info.ViewModel.Progress)
     func hideEditProgressModal()
+    func displayConfirmFinishedProjectAlert()
 }
 
 class OnGoingProjectDetailsController: BaseViewController, UINavigationControllerDelegate {
@@ -467,7 +468,6 @@ extension OnGoingProjectDetailsController {
 extension OnGoingProjectDetailsController: EditProgressViewDelegate {
     
     func didConfirm(progress: Float) {
-        mainView.hideEditProgressView()
         interactor?.fetchUpdateProgress(OnGoingProjectDetails.Request.UpdateProgress(newProgress: progress))
     }
     
@@ -538,5 +538,16 @@ extension OnGoingProjectDetailsController: OnGoingProjectDetailsDisplayLogic {
     
     func hideEditProgressModal() {
         mainView.hideEditProgressView()
+    }
+    
+    func displayConfirmFinishedProjectAlert() {
+            UIAlertController.displayConfirmationDialog(in: self,
+                                                        title: OnGoingProjectDetails.Constants.Texts.finishConfirmationTitle, message: OnGoingProjectDetails.Constants.Texts.finishConfirmationMessage, confirmationCallback: {
+                                                            self.interactor?.fetchFinishProject(OnGoingProjectDetails.Request.Finish())
+                                                            self.mainView.hideEditProgressView()
+                                                        }, refuseCallback: {
+                                                            self.interactor?.fetchConfirmNewProgress(OnGoingProjectDetails.Request.ConfirmProgress())
+                                                            self.mainView.hideEditProgressView()
+                                                        },  animated: true)
     }
 }

@@ -19,6 +19,8 @@ protocol OnGoingProjectDetailsBusinessLogic {
     func fetchRefuseInteraction(_ request: OnGoingProjectDetails.Request.RefuseInteraction)
     func fetchProgressPercentage(_ request: OnGoingProjectDetails.Request.FetchProgress)
     func fetchUpdateProgress(_ request: OnGoingProjectDetails.Request.UpdateProgress)
+    func fetchFinishProject(_ request: OnGoingProjectDetails.Request.Finish)
+    func fetchConfirmNewProgress(_ request: OnGoingProjectDetails.Request.ConfirmProgress)
 }
 
 protocol OnGoingProjectDetailsDataStore {
@@ -27,6 +29,7 @@ protocol OnGoingProjectDetailsDataStore {
     var projectRelation: OnGoingProjectDetails.Info.Model.ProjectRelation? { get set }
     var selectedTeamMemberId: String? { get set }
     var routingContext: OnGoingProjectDetails.Info.Received.RoutingContext? { get set }
+    var selectedProgress: OnGoingProjectDetails.Info.Model.SavedProgress? { get }
 }
 
 class OnGoingProjectDetailsInteractor: OnGoingProjectDetailsDataStore {
@@ -39,6 +42,7 @@ class OnGoingProjectDetailsInteractor: OnGoingProjectDetailsDataStore {
     var projectRelation: OnGoingProjectDetails.Info.Model.ProjectRelation?
     var selectedTeamMemberId: String?
     var routingContext: OnGoingProjectDetails.Info.Received.RoutingContext?
+    var selectedProgress: OnGoingProjectDetails.Info.Model.SavedProgress?
     
     init(worker: OnGoingProjectDetailsWorkerProtocol = OnGoingProjectDetailsWorker(),
          presenter: OnGoingProjectDetailsPresentationLogic) {
@@ -154,6 +158,20 @@ extension OnGoingProjectDetailsInteractor {
                     .Model
                     .Feedback(title: "Erro",
                 message: error.localizedDescription))
+            }
+        }
+    }
+    
+    private func fetchUpdateProgress(progress: Float) {
+        worker.fetchUpdateProgress(OnGoingProjectDetails.Request.UpdateProgressToInteger(projectId: projectData?.id ?? .empty, progress: Int(progress * 100))) { response in
+            switch response {
+            case .success:
+                self.presenter.presentFeedback(OnGoingProjectDetails.Info.Model.Feedback(title: OnGoingProjectDetails.Constants.Texts.updatedProgressTitle, message: OnGoingProjectDetails.Constants.Texts.updateProgressMessage))
+                self.projectData?.progress = Int(progress * 100)
+                guard let project = self.projectData else { return }
+                self.presenter.presentProjectDetails(project)
+            case .error(let error):
+                self.presenter.presentError(error.localizedDescription)
             }
         }
     }
@@ -364,16 +382,21 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
     }
     
     func fetchUpdateProgress(_ request: OnGoingProjectDetails.Request.UpdateProgress) {
-        worker.fetchUpdateProgress(OnGoingProjectDetails.Request.UpdateProgressToInteger(projectId: projectData?.id ?? .empty, progress: Int(request.newProgress * 100))) { response in
-            switch response {
-            case .success:
-                self.presenter.presentFeedback(OnGoingProjectDetails.Info.Model.Feedback(title: OnGoingProjectDetails.Constants.Texts.updatedProgressTitle, message: OnGoingProjectDetails.Constants.Texts.updateProgressMessage))
-                self.projectData?.progress = Int(request.newProgress * 100)
-                guard let project = self.projectData else { return }
-                self.presenter.presentProjectDetails(project)
-            case .error(let error):
-                self.presenter.presentError(error.localizedDescription)
-            }
+        selectedProgress = OnGoingProjectDetails.Info.Model.SavedProgress(progress: request.newProgress)
+        if request.newProgress > OnGoingProjectDetails.Constants.BusinessLogic.finishedProjectBottomRange {
+            presenter.presentConfirmFinishedProjectAlert()
+        } else {
+            presenter.hideEditProgressModal()
+            fetchUpdateProgress(progress: request.newProgress)
         }
+    }
+    
+    func fetchFinishProject(_ request: OnGoingProjectDetails.Request.Finish) {
+        //TO DO
+    }
+    
+    func fetchConfirmNewProgress(_ request: OnGoingProjectDetails.Request.ConfirmProgress) {
+        guard let progress = selectedProgress?.progress else { return }
+        fetchUpdateProgress(progress: Float(progress))
     }
 }

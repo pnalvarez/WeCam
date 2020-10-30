@@ -10,6 +10,7 @@ import UIKit
 
 protocol ProjectProgressDisplayLogic: class {
     func displayEditProjectDetails()
+    func displayFinishConfirmationDialog()
 }
 
 class ProjectProgressController: BaseViewController {
@@ -113,5 +114,9 @@ extension ProjectProgressController: ProjectProgressDisplayLogic {
     
     func displayEditProjectDetails() {
         router?.routeToEditProjectDetails()
+    }
+    
+    func displayFinishConfirmationDialog() {
+        UIAlertController.displayConfirmationDialog(in: self,title: ProjectProgress.Constants.Texts.finishConfirmationTitle, message: ProjectProgress.Constants.Texts.finishConfirmationMessage, confirmationCallback: { self.interactor?.fetchConfirmFinished(ProjectProgress.Request.ConfirmFinishedStatus())}, refuseCallback: { self.interactor?.fetchConfirmPercentage(ProjectProgress.Request.ConfirmPercentage()) }, animated: true)
     }
 }

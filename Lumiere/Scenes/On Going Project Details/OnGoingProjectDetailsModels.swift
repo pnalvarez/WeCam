@@ -82,10 +82,17 @@ struct OnGoingProjectDetails {
             static let progressFixedLbl = "Concluído"
             static let updatedProgressTitle = "Progresso atualizado"
             static let updateProgressMessage = "O progresso do seu projeto foi atualizado"
+            static let finishConfirmationTitle = "Seu projeto está 100% concluído?"
+            static let finishConfirmationMessage = "Por acaso você considera seu projeto finalizado? Se sim, ele entrará para o feed de projetos concluídos e terá de adicionar a URL de um vídeo"
         }
         
         struct Images {
             
+        }
+        
+        struct BusinessLogic {
+            static let finishedProjectBottomRange: Float = 0.9
+            static let finishedProjectStatus: Float = 1.0
         }
     }
     
@@ -144,6 +151,10 @@ struct OnGoingProjectDetails {
             struct Feedback: Equatable {
                 let title: String
                 let message: String
+            }
+            
+            struct SavedProgress {
+                let progress: Float
             }
         }
         
@@ -351,6 +362,14 @@ struct OnGoingProjectDetails {
         }
         
         struct CancelEditing {
+            
+        }
+        
+        struct Finish {
+            
+        }
+        
+        struct ConfirmProgress {
             
         }
     }

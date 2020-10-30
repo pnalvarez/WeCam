@@ -12,6 +12,7 @@ import XCTest
 class ProfileSuggestionsInteractor_Tests: XCTestCase {
     
     var sut: ProfileSuggestionsInteractor!
+    var workerMock: ProfileSuggestionsWorkerMock!
     
     override func setUp() {
         super.setUp()
@@ -19,5 +20,32 @@ class ProfileSuggestionsInteractor_Tests: XCTestCase {
     
     override func tearDown() {
         super.tearDown()
+    }
+}
+
+extension ProfileSuggestionsInteractor_Tests: ProfileSuggestionsPresentationLogic {
+    
+    func presentProfileSuggestions(_ response: ProfileSuggestions.Info.Model.UpcomingSuggestions) {
+        
+    }
+    
+    func presentProfileDetails() {
+        <#code#>
+    }
+    
+    func presentFadeItem(_ response: ProfileSuggestions.Info.Model.ProfileFade) {
+        <#code#>
+    }
+    
+    func presentError(_ response: ProfileSuggestions.Info.Model.ProfileSuggestionsError) {
+        <#code#>
+    }
+    
+    func presentLoading(_ loading: Bool) {
+        <#code#>
+    }
+    
+    func presentCriterias(_ response: ProfileSuggestions.Info.Model.UpcomingCriteria) {
+        <#code#>
     }
 }

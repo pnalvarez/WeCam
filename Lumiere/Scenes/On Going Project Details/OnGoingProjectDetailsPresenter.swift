@@ -19,6 +19,8 @@ protocol OnGoingProjectDetailsPresentationLogic {
     func presentInteractionEffectivated()
     func presentRefusedInteraction()
     func presentEditProgressModal(withProgress response: OnGoingProjectDetails.Info.Model.Progress)
+    func presentConfirmFinishedProjectAlert()
+    func hideEditProgressModal()
 }
 
 class OnGoingProjectDetailsPresenter: OnGoingProjectDetailsPresentationLogic {
@@ -94,5 +96,13 @@ class OnGoingProjectDetailsPresenter: OnGoingProjectDetailsPresentationLogic {
     func presentEditProgressModal(withProgress response: OnGoingProjectDetails.Info.Model.Progress) {
         let viewModel = OnGoingProjectDetails.Info.ViewModel.Progress(percentage: Float(response.percentage))
         viewController.displayEditProgressModal(viewModel)
+    }
+    
+    func presentConfirmFinishedProjectAlert() {
+        viewController.displayConfirmFinishedProjectAlert()
+    }
+    
+    func hideEditProgressModal() {
+        viewController.hideEditProgressModal()
     }
 }

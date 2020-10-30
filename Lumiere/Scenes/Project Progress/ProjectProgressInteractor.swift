@@ -8,6 +8,8 @@
 
 protocol ProjectProgressBusinessLogic {
     func fetchAdvance(_ request: ProjectProgress.Request.Advance)
+    func fetchConfirmFinished(_ request: ProjectProgress.Request.ConfirmFinishedStatus)
+    func fetchConfirmPercentage(_ request: ProjectProgress.Request.ConfirmPercentage)
 }
 
 protocol ProjectProgressDataStore {
@@ -36,6 +38,19 @@ extension ProjectProgressInteractor: ProjectProgressBusinessLogic {
         progressingProject = ProjectProgress.Info.Model.Project(image: projectData?.image,
                                                                 cathegories: projectData?.cathegories ?? .empty,
                                                                 progress: request.percentage)
+        if request.percentage > ProjectProgress.Constants.BusinessLogic.finishedProgressBottonRange {
+            presenter.presentFinishConfirmationAlert()
+        } else {
+            presenter.presentEditProjectDetails()
+        }
+    }
+    
+    func fetchConfirmFinished(_ request: ProjectProgress.Request.ConfirmFinishedStatus) {
+        progressingProject?.progress = ProjectProgress.Constants.BusinessLogic.finishedPercentage
+        //TO DO
+    }
+    
+    func fetchConfirmPercentage(_ request: ProjectProgress.Request.ConfirmPercentage) {
         presenter.presentEditProjectDetails()
     }
 }
