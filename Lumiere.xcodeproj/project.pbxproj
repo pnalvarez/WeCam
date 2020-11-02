@@ -97,6 +97,7 @@
 		3F40A6DE24F4899500261161 /* InviteListModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A6DD24F4899500261161 /* InviteListModels.swift */; };
 		3F40A6E024F4992F00261161 /* InviteListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A6DF24F4992F00261161 /* InviteListTableViewCell.swift */; };
 		3F40A6E224F582EF00261161 /* UserDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A6E124F582EF00261161 /* UserDisplayView.swift */; };
+		3F42A41725509D3E0088E232 /* ProfileSuggestionsPresenter+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F42A41625509D3E0088E232 /* ProfileSuggestionsPresenter+Tests.swift */; };
 		3F43311E24E8E8B90082825E /* ConfirmationAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F43311D24E8E8B90082825E /* ConfirmationAlertView.swift */; };
 		3F5A422B2517F83600F10D63 /* SignInModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5A422A2517F83600F10D63 /* SignInModels.swift */; };
 		3F5A4236251C145E00F10D63 /* Stubbable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5A4235251C145E00F10D63 /* Stubbable.swift */; };
@@ -395,6 +396,7 @@
 		3F40A6DD24F4899500261161 /* InviteListModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteListModels.swift; sourceTree = "<group>"; };
 		3F40A6DF24F4992F00261161 /* InviteListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteListTableViewCell.swift; sourceTree = "<group>"; };
 		3F40A6E124F582EF00261161 /* UserDisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDisplayView.swift; sourceTree = "<group>"; };
+		3F42A41625509D3E0088E232 /* ProfileSuggestionsPresenter+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProfileSuggestionsPresenter+Tests.swift"; sourceTree = "<group>"; };
 		3F43311D24E8E8B90082825E /* ConfirmationAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationAlertView.swift; sourceTree = "<group>"; };
 		3F5A422A2517F83600F10D63 /* SignInModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInModels.swift; sourceTree = "<group>"; };
 		3F5A4235251C145E00F10D63 /* Stubbable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stubbable.swift; sourceTree = "<group>"; };
@@ -941,6 +943,7 @@
 			isa = PBXGroup;
 			children = (
 				3F5D8A0D254905E300FB9BBD /* ProfileSuggestionsInteractor+Tests.swift */,
+				3F42A41625509D3E0088E232 /* ProfileSuggestionsPresenter+Tests.swift */,
 			);
 			path = "Profile Suggestions";
 			sourceTree = "<group>";
@@ -2074,6 +2077,7 @@
 				3F0129DB252AB48C00FF4985 /* OnGoingProjectInvitesWorkerMock.swift in Sources */,
 				3F037F6D2522B9F60060B928 /* EditProjectDetailsPresenter+Tests.swift in Sources */,
 				3F5A4246251D3C4D00F10D63 /* NotificationsWorkerMock.swift in Sources */,
+				3F42A41725509D3E0088E232 /* ProfileSuggestionsPresenter+Tests.swift in Sources */,
 				3F655FD7252A4A52004A1D54 /* SearchResultsPresenter+Tests.swift in Sources */,
 				3F037F7C2522BE630060B928 /* InviteListInteractor+Tests.swift in Sources */,
 				3F8D13B724D75A2700AED7EB /* ProfileDetailsInteractor+Tests.swift in Sources */,

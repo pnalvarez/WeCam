@@ -285,22 +285,34 @@ extension ProfileSuggestions.Info.Model.Profile: MultipleStubbable {
         return [ProfileSuggestions.Info.Model.Profile(id: "idUser1",
                                                       name: "Usuario Teste 1",
                                                       image: "image",
-                                                      ocupation: "Artisra"),
+                                                      ocupation: "Artista"),
                 ProfileSuggestions.Info.Model.Profile(id: "idUser2",
                                                       name: "Usuario Teste 2",
                                                       image: "image",
-                                                      ocupation: "Artisra"),
+                                                      ocupation: "Artista"),
                 ProfileSuggestions.Info.Model.Profile(id: "idUser3",
                                                       name: "Usuario Teste 3",
                                                       image: "image",
-                                                      ocupation: "Artisra"),
+                                                      ocupation: "Artista"),
                 ProfileSuggestions.Info.Model.Profile(id: "idUser4",
                                                       name: "Usuario Teste 4",
                                                       image: "image",
-                                                      ocupation: "Artisra"),
+                                                      ocupation: "Artista"),
                 ProfileSuggestions.Info.Model.Profile(id: "idUser5",
                                                       name: "Usuario Teste 5",
                                                       image: "image",
-                                                      ocupation: "Artisra")]
+                                                      ocupation: "Artista")]
+    }
+}
+
+extension ProfileSuggestions.Info.Model.ProfileFade: Stubbable {
+    static var stub: ProfileSuggestions.Info.Model.ProfileFade {
+        return ProfileSuggestions.Info.Model.ProfileFade(index: 0)
+    }
+}
+
+extension ProfileSuggestions.Info.Model.UpcomingCriteria: Stubbable {
+    static var stub: ProfileSuggestions.Info.Model.UpcomingCriteria {
+        return ProfileSuggestions.Info.Model.UpcomingCriteria(selectedCriteria: .commonFriends, criterias: [.commonFriends, .commonProjects, .commonInterestCathegories])
     }
 }
