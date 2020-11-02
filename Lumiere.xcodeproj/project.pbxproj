@@ -98,6 +98,8 @@
 		3F40A6E024F4992F00261161 /* InviteListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A6DF24F4992F00261161 /* InviteListTableViewCell.swift */; };
 		3F40A6E224F582EF00261161 /* UserDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A6E124F582EF00261161 /* UserDisplayView.swift */; };
 		3F42A41725509D3E0088E232 /* ProfileSuggestionsPresenter+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F42A41625509D3E0088E232 /* ProfileSuggestionsPresenter+Tests.swift */; };
+		3F42A4432550AFF50088E232 /* MainFeedWorkerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F42A4422550AFF40088E232 /* MainFeedWorkerMock.swift */; };
+		3F42A44B2550B2920088E232 /* MainFeedInteractor+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F42A44A2550B2920088E232 /* MainFeedInteractor+Tests.swift */; };
 		3F43311E24E8E8B90082825E /* ConfirmationAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F43311D24E8E8B90082825E /* ConfirmationAlertView.swift */; };
 		3F5A422B2517F83600F10D63 /* SignInModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5A422A2517F83600F10D63 /* SignInModels.swift */; };
 		3F5A4236251C145E00F10D63 /* Stubbable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5A4235251C145E00F10D63 /* Stubbable.swift */; };
@@ -397,6 +399,8 @@
 		3F40A6DF24F4992F00261161 /* InviteListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteListTableViewCell.swift; sourceTree = "<group>"; };
 		3F40A6E124F582EF00261161 /* UserDisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDisplayView.swift; sourceTree = "<group>"; };
 		3F42A41625509D3E0088E232 /* ProfileSuggestionsPresenter+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProfileSuggestionsPresenter+Tests.swift"; sourceTree = "<group>"; };
+		3F42A4422550AFF40088E232 /* MainFeedWorkerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFeedWorkerMock.swift; sourceTree = "<group>"; };
+		3F42A44A2550B2920088E232 /* MainFeedInteractor+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainFeedInteractor+Tests.swift"; sourceTree = "<group>"; };
 		3F43311D24E8E8B90082825E /* ConfirmationAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationAlertView.swift; sourceTree = "<group>"; };
 		3F5A422A2517F83600F10D63 /* SignInModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInModels.swift; sourceTree = "<group>"; };
 		3F5A4235251C145E00F10D63 /* Stubbable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stubbable.swift; sourceTree = "<group>"; };
@@ -916,6 +920,22 @@
 			path = "Invite List";
 			sourceTree = "<group>";
 		};
+		3F42A4402550AFD10088E232 /* Main Feed */ = {
+			isa = PBXGroup;
+			children = (
+				3F42A44A2550B2920088E232 /* MainFeedInteractor+Tests.swift */,
+			);
+			path = "Main Feed";
+			sourceTree = "<group>";
+		};
+		3F42A4412550AFE00088E232 /* Main Feed */ = {
+			isa = PBXGroup;
+			children = (
+				3F42A4422550AFF40088E232 /* MainFeedWorkerMock.swift */,
+			);
+			path = "Main Feed";
+			sourceTree = "<group>";
+		};
 		3F5A4244251D3C3D00F10D63 /* Notifications */ = {
 			isa = PBXGroup;
 			children = (
@@ -1088,6 +1108,7 @@
 		3F8D136124D0EC6700AED7EB /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				3F42A4402550AFD10088E232 /* Main Feed */,
 				3F5D8A0C254905C400FB9BBD /* Profile Suggestions */,
 				3F0129E2252AB76200FF4985 /* OnGoing Project Invites */,
 				3F0129C2252A50F100FF4985 /* OnGoing Project Details */,
@@ -1128,6 +1149,7 @@
 		3F8D137224D0ED7E00AED7EB /* Mocks */ = {
 			isa = PBXGroup;
 			children = (
+				3F42A4412550AFE00088E232 /* Main Feed */,
 				3F5D8A15254A408500FB9BBD /* Profile Suggestions */,
 				3F0129D9252AB46200FF4985 /* OnGoing Project Invites */,
 				3F0129CB252A522400FF4985 /* OnGoing Project Details */,
@@ -2076,6 +2098,7 @@
 				3F037F732522BD650060B928 /* InviteListWorkerMock.swift in Sources */,
 				3F0129DB252AB48C00FF4985 /* OnGoingProjectInvitesWorkerMock.swift in Sources */,
 				3F037F6D2522B9F60060B928 /* EditProjectDetailsPresenter+Tests.swift in Sources */,
+				3F42A44B2550B2920088E232 /* MainFeedInteractor+Tests.swift in Sources */,
 				3F5A4246251D3C4D00F10D63 /* NotificationsWorkerMock.swift in Sources */,
 				3F42A41725509D3E0088E232 /* ProfileSuggestionsPresenter+Tests.swift in Sources */,
 				3F655FD7252A4A52004A1D54 /* SearchResultsPresenter+Tests.swift in Sources */,
@@ -2109,6 +2132,7 @@
 				3F0129E4252AB77500FF4985 /* OnGoingProjectInvitesInteractor+Tests.swift in Sources */,
 				3F037F42252113CC0060B928 /* ProjectProgressInteractor+Tests.swift in Sources */,
 				3F5A4240251D3C0300F10D63 /* NotificationsInteractor+Tests.swift in Sources */,
+				3F42A4432550AFF50088E232 /* MainFeedWorkerMock.swift in Sources */,
 				3F037F2625202A640060B928 /* SelectProjectImageInteractor+Tests.swift in Sources */,
 				3F037F842522C5220060B928 /* InviteListPresenter+Tests.swift in Sources */,
 				3F8D13B924D75A3400AED7EB /* ProfileDetailsPresenter+Tests.swift in Sources */,

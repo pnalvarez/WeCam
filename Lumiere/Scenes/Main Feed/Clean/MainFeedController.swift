@@ -13,12 +13,18 @@ protocol MainFeedDisplayLogic: class {
     func displayProfileDetails()
     func displayOnGoingProjectDetails()
     func displayFeedData(_ viewModel: MainFeed.Info.ViewModel.UpcomingFeedData)
+    func displayGenericError()
 }
 
 class MainFeedController: BaseViewController {
     
+    private lazy var errorView: EmptyListView = {
+        let view = EmptyListView(frame: .zero, text: MainFeed.Constants.Texts.genericError)
+        return view
+    }()
+    
     private lazy var tableView: MainFeedTableView = {
-        let view = MainFeedTableView(frame: .zero)
+        let view = MainFeedTableView(frame: .zero, errorView: errorView)
         view.assignProtocols(to: self)
         return view
     }()
@@ -194,5 +200,9 @@ extension MainFeedController: MainFeedDisplayLogic {
     
     func displayFeedData(_ viewModel: MainFeed.Info.ViewModel.UpcomingFeedData) {
         self.viewModel = viewModel
+    }
+    
+    func displayGenericError() {
+        
     }
 }

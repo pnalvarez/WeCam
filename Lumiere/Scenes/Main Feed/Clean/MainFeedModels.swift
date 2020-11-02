@@ -41,6 +41,7 @@ struct MainFeed {
             static let ongoingProjectsHeaderLbl = "Projetos em Andamento"
             static let allCriteria = "Todos"
             static let relativeToConnectionsCriteria = "Conexões"
+            static let genericError = "Ocorreu um erro genérico"
         }
         
         struct Images {
@@ -109,7 +110,7 @@ struct MainFeed {
                 case project
             }
             
-            struct SearchKey {
+            struct SearchKey: Equatable {
                 let key: String
             }
             
@@ -366,4 +367,38 @@ extension MainFeed.Info.Response.OnGoingProject: MultipleStubbable {
                                 }
                         """)!]
     }
+}
+
+extension MainFeed.Info.Response.ProfileSuggestion: MultipleStubbable {
+    static var stubArray: [MainFeed.Info.Response.ProfileSuggestion] = [
+        MainFeed.Info.Response.ProfileSuggestion(JSONString: """
+                        {
+                            "id": "idUser1",
+                            "profile_image_url": "image",
+                            "name": "Usuario Teste 1",
+                            "professional_area": "Artista"
+                        }
+        """)!,
+        MainFeed.Info.Response.ProfileSuggestion(JSONString: """
+                        {
+                            "id": "idUser2",
+                            "profile_image_url": "image",
+                            "name": "Usuario Teste 2",
+                            "professional_area": "Artista"
+                        }
+        """)!,
+        MainFeed.Info.Response.ProfileSuggestion(JSONString: """
+                        {
+                            "id": "idUser3",
+                            "profile_image_url": "image",
+                            "name": "Usuario Teste 3",
+                            "professional_area": "Artista"
+                        }
+        """)!
+    ]
+}
+
+extension MainFeed.Info.Response.InterestCathegories: Stubbable {
+    static var stub: MainFeed.Info.Response.InterestCathegories =
+        MainFeed.Info.Response.InterestCathegories(JSON: ["interest_cathegories": ["Ação", "Animação", "Aventura"]])!
 }

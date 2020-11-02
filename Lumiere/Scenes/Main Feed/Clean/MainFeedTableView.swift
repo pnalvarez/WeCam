@@ -10,7 +10,12 @@ import UIKit
 
 class MainFeedTableView: UITableView {
     
-    override init(frame: CGRect, style: UITableView.Style) {
+    private unowned var errorView: EmptyListView
+    
+    init(frame: CGRect,
+         style: UITableView.Style = .plain,
+         errorView: EmptyListView) {
+        self.errorView = errorView
         super.init(frame: frame, style: style)
         separatorStyle = .none
         bounces = false
@@ -22,5 +27,18 @@ class MainFeedTableView: UITableView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+extension MainFeedTableView: ViewCodeProtocol {
+    
+    func buildViewHierarchy() {
+        addSubview(errorView)
+    }
+    
+    func setupConstraints() {
+        errorView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
     }
 }
