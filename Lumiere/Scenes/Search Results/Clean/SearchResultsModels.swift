@@ -284,8 +284,7 @@ extension SearchResults.Info.Response.Project: MultipleStubbable {
                             "id": "idProj1",
                             "title": "Projeto Teste 1",
                             "progress": 50,
-                            "firstCathegory": "Ação",
-                            "secondCathegory": "Animação",
+                            "cathegories": ["Ação", "Animação"],
                             "image": "image"
                         }
                 """)!,
@@ -294,8 +293,7 @@ extension SearchResults.Info.Response.Project: MultipleStubbable {
                                     "id": "idProj2",
                                     "title": "Projeto Teste 2",
                                     "progress": 70,
-                                    "firstCathegory": "Ação",
-                                    "secondCathegory": "Animação",
+                                    "cathegories": ["Ação", "Animação"],
                                     "image": "image"
                                 }
                         """)!,
@@ -304,8 +302,7 @@ extension SearchResults.Info.Response.Project: MultipleStubbable {
                                     "id": "idProj3",
                                     "title": "Projeto Teste 3",
                                     "progress": 50,
-                                    "firstCathegory": "Ação",
-                                    "secondCathegory": "Animação",
+                                    "cathegories": ["Ação", "Animação"],
                                     "image": "image"
                                 }
                         """)!]

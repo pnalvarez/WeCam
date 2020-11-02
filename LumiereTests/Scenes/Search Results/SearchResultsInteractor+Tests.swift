@@ -65,8 +65,24 @@ class SearchResultsInteractor_Tests: XCTestCase {
         XCTAssertNotNil(error)
     }
     
-    func testFetchSelectItem() {
-        //TO DO
+    func testFetchSelectItem_Profile() {
+        sut.results = SearchResults.Info.Model.Results.stub
+        XCTAssertNil(sut.selectedItem)
+        XCTAssertFalse(presentProfileDetailsFlag)
+        sut.fetchSelectItem(SearchResults.Request.SelectItem(index: 0, type: .profile))
+        let expectedResult = SearchResults.Info.Model.SelectedItem.profile(SearchResults.Info.Model.Profile(id: "idUser1", name: "Usuario Teste 1", image: "image", ocupation: "Artist"))
+        XCTAssertEqual(expectedResult, sut.selectedItem)
+        XCTAssertTrue(presentProfileDetailsFlag)
+    }
+    
+    func testFetchSelectItem_Project() {
+        sut.results = SearchResults.Info.Model.Results.stub
+        XCTAssertNil(sut.selectedItem)
+        XCTAssertFalse(presentProjectDetailsFlag)
+        sut.fetchSelectItem(SearchResults.Request.SelectItem(index: 0, type: .project))
+        let expectedResult = SearchResults.Info.Model.SelectedItem.project(SearchResults.Info.Model.Project(id: "idProj1", title: "Projeto Teste 1", progress: 50, firstCathegory: "Ação", secondCathegory: nil, image: "image"))
+        XCTAssertEqual(expectedResult, sut.selectedItem)
+        XCTAssertTrue(presentProjectDetailsFlag)
     }
 }
 
