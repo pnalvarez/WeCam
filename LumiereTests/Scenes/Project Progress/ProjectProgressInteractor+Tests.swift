@@ -35,6 +35,11 @@ class ProjectProgressInteractor_Tests: XCTestCase {
 
 extension ProjectProgressInteractor_Tests: ProjectProgressPresentationLogic {
     
+    func presentFinishConfirmationAlert() {
+        
+    }
+    
+    
     func presentEditProjectDetails() {
         self.presentEditProgressDetailsFlag = true
     }

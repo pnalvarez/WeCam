@@ -279,3 +279,28 @@ extension ProfileSuggestions.Info.Response.Profile: MultipleStubbable {
                             """)!]
     }
 }
+
+extension ProfileSuggestions.Info.Model.Profile: MultipleStubbable {
+    static var stubArray: [ProfileSuggestions.Info.Model.Profile] {
+        return [ProfileSuggestions.Info.Model.Profile(id: "idUser1",
+                                                      name: "Usuario Teste 1",
+                                                      image: "image",
+                                                      ocupation: "Artisra"),
+                ProfileSuggestions.Info.Model.Profile(id: "idUser2",
+                                                      name: "Usuario Teste 2",
+                                                      image: "image",
+                                                      ocupation: "Artisra"),
+                ProfileSuggestions.Info.Model.Profile(id: "idUser3",
+                                                      name: "Usuario Teste 3",
+                                                      image: "image",
+                                                      ocupation: "Artisra"),
+                ProfileSuggestions.Info.Model.Profile(id: "idUser4",
+                                                      name: "Usuario Teste 4",
+                                                      image: "image",
+                                                      ocupation: "Artisra"),
+                ProfileSuggestions.Info.Model.Profile(id: "idUser5",
+                                                      name: "Usuario Teste 5",
+                                                      image: "image",
+                                                      ocupation: "Artisra")]
+    }
+}

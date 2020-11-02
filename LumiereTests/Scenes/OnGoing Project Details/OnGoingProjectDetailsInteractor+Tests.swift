@@ -275,6 +275,15 @@ class OnGoingProjectDetailsInteractor_Tests: XCTestCase {
 
 extension OnGoingProjectDetailsInteractor_Tests: OnGoingProjectDetailsPresentationLogic {
     
+    func presentConfirmFinishedProjectAlert() {
+        
+    }
+    
+    func hideEditProgressModal() {
+        
+    }
+    
+    
     func presentProjectDetails(_ response: OnGoingProjectDetails.Info.Model.Project) {
         self.projectDetails = response
         self.presentProjectDetailsFlag = true

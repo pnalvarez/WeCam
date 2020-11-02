@@ -165,4 +165,8 @@ extension OnGoingProjectDetailsPresenter_Tests: OnGoingProjectDetailsDisplayLogi
     func hideEditProgressModal() {
         self.hideConfirmationModalFlag = true
     }
+    
+    func displayConfirmFinishedProjectAlert() {
+        
+    }
 }

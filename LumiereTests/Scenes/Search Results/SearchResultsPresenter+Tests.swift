@@ -88,4 +88,8 @@ extension SearchResultsPresenter_Tests: SearchResultsDisplayLogic {
     func displayError(_ viewModel: SearchResults.Info.ViewModel.ResultError) {
         self.error = viewModel
     }
+    
+    func displayResultTypes(_ viewModel: SearchResults.Info.ViewModel.UpcomingTypes) {
+        
+    }
 }

@@ -139,8 +139,7 @@ extension OnGoingProjectDetailsInteractor {
                 self.presenter.presentInteractionEffectivated()
             case .error(let error):
                 self.presenter.presentLoading(false)
-                self.presenter.presentFeedback(OnGoingProjectDetails.Info.Model.Feedback(title: "Erro",
-                                                                                         message: error.localizedDescription))
+                self.presenter.presentFeedback(OnGoingProjectDetails.Info.Model.Feedback(title: "Erro", message: error.localizedDescription))
             }
         }
     }

@@ -65,33 +65,8 @@ class SearchResultsInteractor_Tests: XCTestCase {
         XCTAssertNotNil(error)
     }
     
-    func testFetchSelectProfile() {
-        XCTAssertNil(results)
-        sut.results = SearchResults.Info.Model.Results.stub
-        XCTAssertNil(sut.selectedItem)
-        XCTAssertFalse(presentProjectDetailsFlag)
-        sut.fetchSelectProfile(SearchResults.Request.SelectProfile(index: 0))
-        XCTAssertEqual(sut.selectedItem, SearchResults
-                        .Info
-                        .Model
-                        .SelectedItem.profile(SearchResults.Info.Model.Profile(id: "idUser1",
-                                                                               name: "Usuario Teste 1",
-                                                                               image: "image",
-                                                                               ocupation: "Artist")))
-        XCTAssertTrue(presentProfileDetailsFlag)
-        XCTAssertNil(error)
-    }
-    
-    func testFetchSelectProject() {
-        sut.results = SearchResults.Info.Model.Results.stub
-        XCTAssertNil(sut.selectedItem)
-        XCTAssertFalse(presentProjectDetailsFlag)
-        sut.fetchSelectProject(SearchResults.Request.SelectProject(index: 0))
-        let expectedResult = SearchResults.Info.Model.SelectedItem.project(SearchResults.Info.Model.Project(id: "idProj1",
-                                                                                                            title: "Projeto Teste 1", progress: 50, firstCathegory: "Ação", secondCathegory: nil, image:
-                                                                                                            "image"))
-        XCTAssertEqual(expectedResult, sut.selectedItem)
-        XCTAssertTrue(presentProjectDetailsFlag)
+    func testFetchSelectItem() {
+        //TO DO
     }
 }
 
@@ -115,5 +90,9 @@ extension SearchResultsInteractor_Tests: SearchResultsPresentationLogic {
     
     func presentError(_ response: SearchResults.Info.Model.ResultError) {
         self.error = response
+    }
+    
+    func presentResultTypes(_ response: SearchResults.Info.Model.UpcomingTypes) {
+        
     }
 }

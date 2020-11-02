@@ -155,11 +155,8 @@
 		3F8AB7912516DB6100E949F6 /* SearchHeaderTableViewCellBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8AB7902516DB6100E949F6 /* SearchHeaderTableViewCellBuilder.swift */; };
 		3F8D136724D0ED0D00AED7EB /* SignInInteractor+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D136624D0ED0D00AED7EB /* SignInInteractor+Tests.swift */; };
 		3F8D136924D0ED3A00AED7EB /* SignInPresenter+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D136824D0ED3A00AED7EB /* SignInPresenter+Tests.swift */; };
-		3F8D136B24D0ED4800AED7EB /* SignInProvider+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D136A24D0ED4800AED7EB /* SignInProvider+Tests.swift */; };
 		3F8D136D24D0ED5C00AED7EB /* SignUpInteractor+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D136C24D0ED5C00AED7EB /* SignUpInteractor+Tests.swift */; };
 		3F8D136F24D0ED6800AED7EB /* SignUpPresenter+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D136E24D0ED6800AED7EB /* SignUpPresenter+Tests.swift */; };
-		3F8D137124D0ED7500AED7EB /* SignUpProvider+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D137024D0ED7500AED7EB /* SignUpProvider+Tests.swift */; };
-		3F8D137424D0ED9200AED7EB /* FirebaseHelperMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D137324D0ED9200AED7EB /* FirebaseHelperMock.swift */; };
 		3F8D137624D0EDA000AED7EB /* SignInProviderMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D137524D0EDA000AED7EB /* SignInProviderMock.swift */; };
 		3F8D137824D0EDAD00AED7EB /* SignInInteractorMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D137724D0EDAD00AED7EB /* SignInInteractorMock.swift */; };
 		3F8D137C24D0EDCB00AED7EB /* SignUpProviderMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D137B24D0EDCB00AED7EB /* SignUpProviderMock.swift */; };
@@ -456,11 +453,8 @@
 		3F8AB7902516DB6100E949F6 /* SearchHeaderTableViewCellBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHeaderTableViewCellBuilder.swift; sourceTree = "<group>"; };
 		3F8D136624D0ED0D00AED7EB /* SignInInteractor+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SignInInteractor+Tests.swift"; sourceTree = "<group>"; };
 		3F8D136824D0ED3A00AED7EB /* SignInPresenter+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SignInPresenter+Tests.swift"; sourceTree = "<group>"; };
-		3F8D136A24D0ED4800AED7EB /* SignInProvider+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SignInProvider+Tests.swift"; sourceTree = "<group>"; };
 		3F8D136C24D0ED5C00AED7EB /* SignUpInteractor+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SignUpInteractor+Tests.swift"; sourceTree = "<group>"; };
 		3F8D136E24D0ED6800AED7EB /* SignUpPresenter+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SignUpPresenter+Tests.swift"; sourceTree = "<group>"; };
-		3F8D137024D0ED7500AED7EB /* SignUpProvider+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SignUpProvider+Tests.swift"; sourceTree = "<group>"; };
-		3F8D137324D0ED9200AED7EB /* FirebaseHelperMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseHelperMock.swift; sourceTree = "<group>"; };
 		3F8D137524D0EDA000AED7EB /* SignInProviderMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInProviderMock.swift; sourceTree = "<group>"; };
 		3F8D137724D0EDAD00AED7EB /* SignInInteractorMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInInteractorMock.swift; sourceTree = "<group>"; };
 		3F8D137B24D0EDCB00AED7EB /* SignUpProviderMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpProviderMock.swift; sourceTree = "<group>"; };
@@ -1115,7 +1109,6 @@
 			children = (
 				3F8D136C24D0ED5C00AED7EB /* SignUpInteractor+Tests.swift */,
 				3F8D136E24D0ED6800AED7EB /* SignUpPresenter+Tests.swift */,
-				3F8D137024D0ED7500AED7EB /* SignUpProvider+Tests.swift */,
 			);
 			path = "Sign Up";
 			sourceTree = "<group>";
@@ -1125,7 +1118,6 @@
 			children = (
 				3F8D136624D0ED0D00AED7EB /* SignInInteractor+Tests.swift */,
 				3F8D136824D0ED3A00AED7EB /* SignInPresenter+Tests.swift */,
-				3F8D136A24D0ED4800AED7EB /* SignInProvider+Tests.swift */,
 			);
 			path = "Sign In";
 			sourceTree = "<group>";
@@ -1144,17 +1136,8 @@
 				3F8D13BA24D75A3900AED7EB /* Profile Details */,
 				3F8D138124D0EDEC00AED7EB /* Sign In */,
 				3F8D138024D0EDE600AED7EB /* Sign Up */,
-				3F8D137F24D0EDDF00AED7EB /* Firebase */,
 			);
 			path = Mocks;
-			sourceTree = "<group>";
-		};
-		3F8D137F24D0EDDF00AED7EB /* Firebase */ = {
-			isa = PBXGroup;
-			children = (
-				3F8D137324D0ED9200AED7EB /* FirebaseHelperMock.swift */,
-			);
-			path = Firebase;
 			sourceTree = "<group>";
 		};
 		3F8D138024D0EDE600AED7EB /* Sign Up */ = {
@@ -2101,7 +2084,6 @@
 				3F8D136924D0ED3A00AED7EB /* SignInPresenter+Tests.swift in Sources */,
 				3F037F592521170C0060B928 /* EditProjectDetailsWorkerMock.swift in Sources */,
 				3F037F9B2522DB8A0060B928 /* EditProfileDetailsPresenter+Tests.swift in Sources */,
-				3F8D136B24D0ED4800AED7EB /* SignInProvider+Tests.swift in Sources */,
 				3F8D136F24D0ED6800AED7EB /* SignUpPresenter+Tests.swift in Sources */,
 				3F8D137624D0EDA000AED7EB /* SignInProviderMock.swift in Sources */,
 				3F037F3C252110FE0060B928 /* SelectProjectCathegoryPresenter+Tests.swift in Sources */,
@@ -2109,7 +2091,6 @@
 				3F037F652521186B0060B928 /* EditProjectDetailsInteractor+Tests.swift in Sources */,
 				3F8D137824D0EDAD00AED7EB /* SignInInteractorMock.swift in Sources */,
 				3F95783724AD6FBE00B79818 /* LumiereTests.swift in Sources */,
-				3F8D137424D0ED9200AED7EB /* FirebaseHelperMock.swift in Sources */,
 				3F037F8A2522C71E0060B928 /* EditProfileDetailsWorkerMock.swift in Sources */,
 				3F0129EC252B7A9000FF4985 /* OnGoingProjectInvitesPresenter+Tests.swift in Sources */,
 				3F5D8A17254A409700FB9BBD /* ProfileSuggestionsWorkerMock.swift in Sources */,
@@ -2123,7 +2104,6 @@
 				3F037F932522C95C0060B928 /* EditProfileDetailsInteractor+Tests.swift in Sources */,
 				3F0129E4252AB77500FF4985 /* OnGoingProjectInvitesInteractor+Tests.swift in Sources */,
 				3F037F42252113CC0060B928 /* ProjectProgressInteractor+Tests.swift in Sources */,
-				3F8D137124D0ED7500AED7EB /* SignUpProvider+Tests.swift in Sources */,
 				3F5A4240251D3C0300F10D63 /* NotificationsInteractor+Tests.swift in Sources */,
 				3F037F2625202A640060B928 /* SelectProjectImageInteractor+Tests.swift in Sources */,
 				3F037F842522C5220060B928 /* InviteListPresenter+Tests.swift in Sources */,
