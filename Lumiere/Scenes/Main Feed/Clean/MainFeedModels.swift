@@ -402,3 +402,25 @@ extension MainFeed.Info.Response.InterestCathegories: Stubbable {
     static var stub: MainFeed.Info.Response.InterestCathegories =
         MainFeed.Info.Response.InterestCathegories(JSON: ["interest_cathegories": ["Ação", "Animação", "Aventura"]])!
 }
+
+extension MainFeed.Info.Model.UpcomingFeedData: Stubbable {
+    static var stub: MainFeed.Info.Model.UpcomingFeedData {
+        return MainFeed
+            .Info
+            .Model
+            .UpcomingFeedData(profileSuggestions: MainFeed
+                                .Info
+                                .Model
+                                .UpcomingProfiles(suggestions: [MainFeed
+                                                                    .Info
+                                                                    .Model
+                                                                    .ProfileSuggestion(userId: "idUser1",
+                                                                                       image: "image",
+                                                                                       name: "Usuario Teste 1",
+                                                                                       ocupation: "Artista")]), ongoingProjects: MainFeed
+                                                                                        .Info
+                                                                                        .Model
+                                                                                        .UpcomingProjects(projects: [MainFeed.Info.Model.OnGoingProject(id: "idProj1",
+                                                                                                                                                        image: "image", progress: 0)]), interestCathegories: MainFeed.Info.Model.UpcomingOnGoingProjectCriterias(selectedCriteria: .all, criterias: [.all, .connections, .cathegory(.action)]))
+    }
+}
