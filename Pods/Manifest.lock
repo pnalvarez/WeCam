@@ -354,6 +354,7 @@ PODS:
     - SDWebImage/Core (= 5.0.6)
   - SDWebImage/Core (5.0.6)
   - SnapKit (5.0.1)
+  - YoutubePlayer-in-WKWebView (0.3.4)
 
 DEPENDENCIES:
   - Firebase/Auth
@@ -364,6 +365,7 @@ DEPENDENCIES:
   - ObjectMapper (~> 4.2.0)
   - SDWebImage (~> 5.0.2)
   - SnapKit (~> 5.0.1)
+  - YoutubePlayer-in-WKWebView
 
 SPEC REPOS:
   trunk:
@@ -393,6 +395,7 @@ SPEC REPOS:
     - PromisesObjC
     - SDWebImage
     - SnapKit
+    - YoutubePlayer-in-WKWebView
 
 SPEC CHECKSUMS:
   abseil: 6c8eb7892aefa08d929b39f9bb108e5367e3228f
@@ -421,7 +424,8 @@ SPEC CHECKSUMS:
   PromisesObjC: b48e0338dbbac2207e611750777895f7a5811b75
   SDWebImage: 920f1a2ff1ca8296ad34f6e0510a1ef1d70ac965
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
+  YoutubePlayer-in-WKWebView: af2f5929fc78882d94bfdfeea999b661b78d9717
 
-PODFILE CHECKSUM: 4989028ed2f332c39bdf91152ce2e74a3b71c08a
+PODFILE CHECKSUM: 2aa3a17bf609e23dd59ea3b6b7abaca34917a635
 
 COCOAPODS: 1.9.3

@@ -14,6 +14,7 @@ target 'Lumiere' do
 	pod 'Firebase/Auth'
   pod 'Firebase/Firestore'
   pod 'Firebase/Storage'
+  pod 'YoutubePlayer-in-WKWebView'
 
   target 'LumiereTests' do
     inherit! :search_paths
