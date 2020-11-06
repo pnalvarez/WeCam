@@ -11,7 +11,8 @@ import UIKit
 typealias InsertMediaRouterProtocol = NSObject & InsertMediaRoutingLogic & InsertMediaDataTransfer
 
 protocol InsertMediaRoutingLogic {
-    
+    func routeToFinishedProjectDetails()
+    func routeBack()
 }
 
 protocol InsertMediaDataTransfer {
@@ -33,4 +34,11 @@ extension InsertMediaRouter: BaseRouterProtocol {
 
 extension InsertMediaRouter: InsertMediaRoutingLogic {
     
+    func routeBack() {
+        viewController?.navigationController?.popViewController(animated: true)
+    }
+    
+    func routeToFinishedProjectDetails() {
+        
+    }
 }

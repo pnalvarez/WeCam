@@ -7,9 +7,28 @@
 //
 
 protocol InsertMediaWorkerProtocol {
-    
+    func fetchProjectDetails(_ request: InsertMedia.Request.FetchProjectDetails,
+                             completion: @escaping (BaseResponse<InsertMedia.Info.Response.Project>) -> Void)
+    func fetchPublishProject(_ request: InsertMedia.Request.SubmitVideo,
+                             completion: @escaping (EmptyResponse) -> Void)
 }
 
 class InsertMediaWorker: InsertMediaWorkerProtocol {
     
+    private let builder: FirebaseManagerProtocol
+    
+    init(builder: FirebaseManagerProtocol = FirebaseManager()) {
+        self.builder = builder
+    }
+    
+    func fetchProjectDetails(_ request: InsertMedia.Request.FetchProjectDetails,
+                             completion: @escaping (BaseResponse<InsertMedia.Info.Response.Project>) -> Void) {
+        let headers: [String : Any] = ["projectId": request.id]
+        builder.fetchProjectWorking(request: headers, completion: completion)
+    }
+    
+    func fetchPublishProject(_ request: InsertMedia.Request.SubmitVideo,
+                             completion: @escaping (EmptyResponse) -> Void) {
+        //TO DO
+    }
 }
