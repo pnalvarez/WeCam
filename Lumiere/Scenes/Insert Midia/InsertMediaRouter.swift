@@ -16,7 +16,7 @@ protocol InsertMediaRoutingLogic {
 }
 
 protocol InsertMediaDataTransfer {
-    
+    var dataStore: InsertMediaDataStore? { get }
 }
 
 class InsertMediaRouter: NSObject, InsertMediaDataTransfer {

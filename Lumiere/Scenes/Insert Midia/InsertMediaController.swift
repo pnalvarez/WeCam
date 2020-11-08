@@ -23,6 +23,7 @@ class InsertMediaController: BaseViewController {
         view.startAnimating()
         view.color = ThemeColors.mainRedColor.rawValue
         view.backgroundColor = .white
+        view.isHidden = true
         return view
     }()
     
@@ -34,13 +35,14 @@ class InsertMediaController: BaseViewController {
     
     private lazy var inputTextField: UITextField = {
         let view = UITextField(frame: .zero)
-        view.addTarget(self, action: #selector(didChangeInputTextField), for: .valueChanged)
+        view.addTarget(self, action: #selector(didChangeInputTextField), for: .editingChanged)
         view.layer.borderWidth = 1
         view.layer.borderColor = InsertMedia.Constants.Colors.inputTextFieldLayer
         view.layer.cornerRadius = 4
         view.backgroundColor = InsertMedia.Constants.Colors.inputTextFieldBackground
         view.textColor = InsertMedia.Constants.Colors.inputTextFieldText
         view.font = InsertMedia.Constants.Fonts.inputTextField
+        view.delegate = self
         return view
     }()
     
@@ -142,6 +144,7 @@ extension InsertMediaController {
     
     @objc
     private func didChangeInputTextField() {
+        submitEnabled = false
         interactor?.fetchYoutubeVideoId(InsertMedia.Request.FetchVideo(url: inputTextField.text ?? .empty))
     }
     
@@ -156,11 +159,48 @@ extension InsertMediaController: WKYTPlayerViewDelegate {
     func playerView(_ playerView: WKYTPlayerView, receivedError error: WKYTPlayerError) {
         showVideoError()
     }
+    
+    func playerViewDidBecomeReady(_ playerView: WKYTPlayerView) {
+        submitEnabled = true
+    }
+    
+    func playerView(_ playerView: WKYTPlayerView, didChangeTo state: WKYTPlayerState) {
+        switch state {
+        case .unknown:
+            submitEnabled = false
+        default:
+            submitEnabled = true
+        }
+    }
+}
+
+extension InsertMediaController {
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let  char = string.cString(using: String.Encoding.utf8)!
+        let isBackSpace = strcmp(char, "\\b")
+        
+        guard textField.text?.count ?? 0 <= InsertMedia.Constants.BusinessLogic.inputTextFieldLenght else {
+            return false
+        }
+        if (isBackSpace == -92) && (textField.text?.count)! > 0 {
+            if textField == inputTextField {
+                textField.text!.removeAll()
+                interactor?.fetchYoutubeVideoId(InsertMedia.Request.FetchVideo(url: textField.text ?? .empty))
+                submitEnabled = false
+            } else {
+                textField.text?.removeLast()
+            }
+        }
+        return true
+    }
 }
 
 extension InsertMediaController: InsertMediaDisplayLogic {
     
     func displayYoutubeVideo(_ viewModel: InsertMedia.Info.ViewModel.Media) {
+        urlErrorView.isHidden = true
+        playerView.isHidden = false
         playerView.load(withVideoId: viewModel.videoId)
     }
     

@@ -21,6 +21,7 @@ protocol OnGoingProjectDetailsPresentationLogic {
     func presentEditProgressModal(withProgress response: OnGoingProjectDetails.Info.Model.Progress)
     func presentConfirmFinishedProjectAlert()
     func hideEditProgressModal()
+    func presentInsertMediaScreen()
 }
 
 class OnGoingProjectDetailsPresenter: OnGoingProjectDetailsPresentationLogic {
@@ -104,5 +105,9 @@ class OnGoingProjectDetailsPresenter: OnGoingProjectDetailsPresentationLogic {
     
     func hideEditProgressModal() {
         viewController.hideEditProgressModal()
+    }
+    
+    func presentInsertMediaScreen() {
+        viewController.displayInsertMediaScreen()
     }
 }

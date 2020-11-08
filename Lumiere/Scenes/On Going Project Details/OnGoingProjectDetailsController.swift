@@ -22,6 +22,7 @@ protocol OnGoingProjectDetailsDisplayLogic: class {
     func displayEditProgressModal(_ viewModel: OnGoingProjectDetails.Info.ViewModel.Progress)
     func hideEditProgressModal()
     func displayConfirmFinishedProjectAlert()
+    func displayInsertMediaScreen()
 }
 
 class OnGoingProjectDetailsController: BaseViewController, UINavigationControllerDelegate {
@@ -305,6 +306,7 @@ class OnGoingProjectDetailsController: BaseViewController, UINavigationControlle
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.tabBarController?.tabBar.isHidden = false
+        hideConfirmationModal()
     }
     
     override func loadView() {
@@ -549,5 +551,9 @@ extension OnGoingProjectDetailsController: OnGoingProjectDetailsDisplayLogic {
                                                             self.interactor?.fetchConfirmNewProgress(OnGoingProjectDetails.Request.ConfirmProgress())
                                                             self.mainView.hideEditProgressView()
                                                         },  animated: true)
+    }
+    
+    func displayInsertMediaScreen() {
+        router?.routeToInsertMedia()
     }
 }

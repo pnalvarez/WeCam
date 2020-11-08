@@ -15,6 +15,7 @@ protocol OnGoingProjectDetailsRoutingLogic {
     func routeToUserDetails()
     func routeToProjectParticipantsList()
     func routeToProjectInvites()
+    func routeToInsertMedia()
 }
 
 protocol OnGoingProjectDetailsDataTransfer {
@@ -45,6 +46,11 @@ class OnGoingProjectDetailsRouter: NSObject, OnGoingProjectDetailsDataTransfer {
     private func transferDataToProjectInvites(from source: OnGoingProjectDetailsDataStore,
                                               to destination: inout OnGoingProjectInvitesDataStore) {
         destination.projectReceivedModel = OnGoingProjectInvites.Info.Received.Project(projectId: source.projectData?.id ?? .empty)
+    }
+    
+    private func transferDataToInsertMedia(from source: OnGoingProjectDetailsDataStore,
+                                           to destination: inout InsertMediaDataStore) {
+        destination.receivedData = InsertMedia.Info.Received.FinishingProject(id: source.projectData?.id ?? .empty)
     }
 }
 
@@ -87,6 +93,14 @@ extension OnGoingProjectDetailsRouter: OnGoingProjectDetailsRoutingLogic {
         guard let source = dataStore,
             var destination = vc.router?.dataStore else { return }
         transferDataToProjectInvites(from: source, to: &destination)
+        routeTo(nextVC: vc)
+    }
+    
+    func routeToInsertMedia() {
+        let vc = InsertMediaController()
+        guard let source = dataStore,
+              var destination = vc.router?.dataStore else { return }
+        transferDataToInsertMedia(from: source, to: &destination)
         routeTo(nextVC: vc)
     }
 }

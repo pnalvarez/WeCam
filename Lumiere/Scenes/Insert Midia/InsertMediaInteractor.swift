@@ -62,7 +62,7 @@ extension InsertMediaInteractor {
 extension InsertMediaInteractor: InsertMediaBusinessLogic {
     
     func fetchYoutubeVideoId(_ request: InsertMedia.Request.FetchVideo) {
-        guard let id = request.url.youtubeID else {
+        guard let id = request.url.youtubeID, id.count == InsertMedia.Constants.BusinessLogic.youtubeIdLenght else {
             presenter.presentVideoError()
             return
         }

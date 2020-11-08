@@ -17,7 +17,7 @@ struct InsertMedia {
             static let insertUrlLbl = UIColor(rgb: 0x707070)
             static let inputTextFieldLayer = UIColor(rgb: 0xe3e0e0).cgColor
             static let inputTextFieldText = UIColor(rgb: 0x55a3ff)
-            static let inputTextFieldBackground = UIColor(rgb: 0x000000)
+            static let inputTextFieldBackground = UIColor(rgb: 0xffffff)
             static let previewLbl = UIColor(rgb: 0x707070)
             static let submitButtonBackgroundEnabled = ThemeColors.mainRedColor.rawValue
             static let submitButtonBackgroundDisabled = ThemeColors.mainRedColor.rawValue.withAlphaComponent(0.4)
@@ -43,7 +43,8 @@ struct InsertMedia {
         }
         
         struct BusinessLogic {
-            
+            static let youtubeIdLenght: Int = 11
+            static let inputTextFieldLenght: Int = 28
         }
     }
     

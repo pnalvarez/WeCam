@@ -174,6 +174,11 @@ extension OnGoingProjectDetailsInteractor {
             }
         }
     }
+    
+    private func finishProject() {
+        presenter.hideEditProgressModal()
+        presenter.presentInsertMediaScreen()
+    }
 }
 
 extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
@@ -333,7 +338,7 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
         guard let relation = projectRelation else { return }
         switch relation {
         case .author:
-            break
+            finishProject()
         case .simpleParticipating:
             fetchExitProject(OnGoingProjectDetails
                 .Request
@@ -391,7 +396,8 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
     }
     
     func fetchFinishProject(_ request: OnGoingProjectDetails.Request.Finish) {
-        //TO DO
+//        presenter.hideEditProgressModal()
+//        presenter.presentInsertMediaScreen()
     }
     
     func fetchConfirmNewProgress(_ request: OnGoingProjectDetails.Request.ConfirmProgress) {
