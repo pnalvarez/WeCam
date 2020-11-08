@@ -108,6 +108,13 @@
 		3F42A4982553932F0088E232 /* InsertMediaPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F42A4972553932F0088E232 /* InsertMediaPresenter.swift */; };
 		3F42A49D2553933D0088E232 /* InsertMediaWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F42A49C2553933D0088E232 /* InsertMediaWorker.swift */; };
 		3F42A4A2255393520088E232 /* InsertMediaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F42A4A1255393520088E232 /* InsertMediaView.swift */; };
+		3F42A5332557AB6B0088E232 /* FinishedProjectDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F42A5322557AB6A0088E232 /* FinishedProjectDetailsView.swift */; };
+		3F42A5382557AC500088E232 /* FinishedProjectDetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F42A5372557AC500088E232 /* FinishedProjectDetailsController.swift */; };
+		3F42A53D2557AC960088E232 /* FinishedProjectDetailsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F42A53C2557AC960088E232 /* FinishedProjectDetailsModels.swift */; };
+		3F42A5422557AD130088E232 /* FinishedProjectDetailsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F42A5412557AD130088E232 /* FinishedProjectDetailsRouter.swift */; };
+		3F42A5472557ADBB0088E232 /* FinishedProjectDetailsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F42A5462557ADBB0088E232 /* FinishedProjectDetailsPresenter.swift */; };
+		3F42A54C2557AE0F0088E232 /* FinishedProjectDetailsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F42A54B2557AE0F0088E232 /* FinishedProjectDetailsInteractor.swift */; };
+		3F42A5512557AE710088E232 /* FinishedProjectDetailsWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F42A5502557AE710088E232 /* FinishedProjectDetailsWorker.swift */; };
 		3F43311E24E8E8B90082825E /* ConfirmationAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F43311D24E8E8B90082825E /* ConfirmationAlertView.swift */; };
 		3F5A422B2517F83600F10D63 /* SignInModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5A422A2517F83600F10D63 /* SignInModels.swift */; };
 		3F5A4236251C145E00F10D63 /* Stubbable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5A4235251C145E00F10D63 /* Stubbable.swift */; };
@@ -424,6 +431,13 @@
 		3F42A4972553932F0088E232 /* InsertMediaPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsertMediaPresenter.swift; sourceTree = "<group>"; };
 		3F42A49C2553933D0088E232 /* InsertMediaWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsertMediaWorker.swift; sourceTree = "<group>"; };
 		3F42A4A1255393520088E232 /* InsertMediaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsertMediaView.swift; sourceTree = "<group>"; };
+		3F42A5322557AB6A0088E232 /* FinishedProjectDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishedProjectDetailsView.swift; sourceTree = "<group>"; };
+		3F42A5372557AC500088E232 /* FinishedProjectDetailsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishedProjectDetailsController.swift; sourceTree = "<group>"; };
+		3F42A53C2557AC960088E232 /* FinishedProjectDetailsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishedProjectDetailsModels.swift; sourceTree = "<group>"; };
+		3F42A5412557AD130088E232 /* FinishedProjectDetailsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishedProjectDetailsRouter.swift; sourceTree = "<group>"; };
+		3F42A5462557ADBB0088E232 /* FinishedProjectDetailsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishedProjectDetailsPresenter.swift; sourceTree = "<group>"; };
+		3F42A54B2557AE0F0088E232 /* FinishedProjectDetailsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishedProjectDetailsInteractor.swift; sourceTree = "<group>"; };
+		3F42A5502557AE710088E232 /* FinishedProjectDetailsWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishedProjectDetailsWorker.swift; sourceTree = "<group>"; };
 		3F43311D24E8E8B90082825E /* ConfirmationAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationAlertView.swift; sourceTree = "<group>"; };
 		3F5A422A2517F83600F10D63 /* SignInModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInModels.swift; sourceTree = "<group>"; };
 		3F5A4235251C145E00F10D63 /* Stubbable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stubbable.swift; sourceTree = "<group>"; };
@@ -976,6 +990,20 @@
 			path = "Insert Midia";
 			sourceTree = "<group>";
 		};
+		3F42A5312557AB510088E232 /* Finished Project Details */ = {
+			isa = PBXGroup;
+			children = (
+				3F42A5322557AB6A0088E232 /* FinishedProjectDetailsView.swift */,
+				3F42A5372557AC500088E232 /* FinishedProjectDetailsController.swift */,
+				3F42A53C2557AC960088E232 /* FinishedProjectDetailsModels.swift */,
+				3F42A5412557AD130088E232 /* FinishedProjectDetailsRouter.swift */,
+				3F42A5462557ADBB0088E232 /* FinishedProjectDetailsPresenter.swift */,
+				3F42A54B2557AE0F0088E232 /* FinishedProjectDetailsInteractor.swift */,
+				3F42A5502557AE710088E232 /* FinishedProjectDetailsWorker.swift */,
+			);
+			path = "Finished Project Details";
+			sourceTree = "<group>";
+		};
 		3F5A4244251D3C3D00F10D63 /* Notifications */ = {
 			isa = PBXGroup;
 			children = (
@@ -1431,6 +1459,7 @@
 		3F95786724AD79C900B79818 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				3F42A5312557AB510088E232 /* Finished Project Details */,
 				3F42A47C255392D70088E232 /* Insert Midia */,
 				3F5B3230253161A0004DFBFD /* Profile Suggestions */,
 				3F6EEA2D24E0A3550075C500 /* Connections List */,
@@ -1924,6 +1953,7 @@
 				3F95787124AEA4B800B79818 /* SignInController.swift in Sources */,
 				3F66CA0F2504517A006F6DBD /* ProjectParticipantsListInteractor.swift in Sources */,
 				3F8D13A524D73C2600AED7EB /* Array+.swift in Sources */,
+				3F42A5512557AE710088E232 /* FinishedProjectDetailsWorker.swift in Sources */,
 				3FAD1A092516B50D00ED4074 /* MainFeedTableView.swift in Sources */,
 				3F42A481255392F20088E232 /* InsertMediaController.swift in Sources */,
 				3F40A68124EDF5A300261161 /* SelectProjectCathegoryController.swift in Sources */,
@@ -2001,6 +2031,7 @@
 				3F40A6AD24F0932800261161 /* EditProjectDetailsRouter.swift in Sources */,
 				3FB8BD87250ED5AE001954FD /* InviteProfileToProjectsRouter.swift in Sources */,
 				3F40A60B24E9CA4D00261161 /* LoadingView.swift in Sources */,
+				3F42A5422557AD130088E232 /* FinishedProjectDetailsRouter.swift in Sources */,
 				3F40A6C324F231A000261161 /* EditProfileDetailsController.swift in Sources */,
 				3F5B324E253163C8004DFBFD /* ProfileSuggestionsWorker.swift in Sources */,
 				3FB8BD77250D65A6001954FD /* OnGoingProjectInvitesTableViewCell.swift in Sources */,
@@ -2056,6 +2087,7 @@
 				3FB8BD7B250ED3C2001954FD /* InviteProfileToProjectsController.swift in Sources */,
 				3F40A61624EA0EE700261161 /* SelectProjectImagePresenter.swift in Sources */,
 				3F6EEA3B24E0A3AE0075C500 /* ConnectionsListModels.swift in Sources */,
+				3F42A53D2557AC960088E232 /* FinishedProjectDetailsModels.swift in Sources */,
 				3F8D13CE24DF388700AED7EB /* FetchUserRelationRequest.swift in Sources */,
 				3F42A4A2255393520088E232 /* InsertMediaView.swift in Sources */,
 				3F40A6B224F1CAE500261161 /* OnGoingProjectDetailsView.swift in Sources */,
@@ -2065,6 +2097,8 @@
 				3F5A422B2517F83600F10D63 /* SignInModels.swift in Sources */,
 				3F8D139724D53AA300AED7EB /* NotificationsController.swift in Sources */,
 				3F6EEA7324E870AD0075C500 /* InfopListReader.swift in Sources */,
+				3F42A54C2557AE0F0088E232 /* FinishedProjectDetailsInteractor.swift in Sources */,
+				3F42A5382557AC500088E232 /* FinishedProjectDetailsController.swift in Sources */,
 				3F95786424AD77E200B79818 /* LaunchScreenRouter.swift in Sources */,
 				3F40A6D624F4873F00261161 /* InviteListInteractor.swift in Sources */,
 				3F9578D724B01A0600B79818 /* MovieStyle.swift in Sources */,
@@ -2106,6 +2140,7 @@
 				3F95785724AD75E700B79818 /* LaunchScreenView.swift in Sources */,
 				3F0129F1252D290A00FF4985 /* RecentSearchTableViewCell.swift in Sources */,
 				3FAD1A182516B5BE00ED4074 /* BaseSection.swift in Sources */,
+				3F42A5332557AB6B0088E232 /* FinishedProjectDetailsView.swift in Sources */,
 				3F6EEA3124E0A3720075C500 /* ConnectionsListView.swift in Sources */,
 				3F43311E24E8E8B90082825E /* ConfirmationAlertView.swift in Sources */,
 				3F40A68524EDF68300261161 /* SelectProjectCathegoryPresenter.swift in Sources */,
@@ -2119,6 +2154,7 @@
 				3F40A6BC24F1CD4400261161 /* OnGoingProjectDetailsModels.swift in Sources */,
 				3F42A493255393210088E232 /* InsertMediaInteractor.swift in Sources */,
 				3F40A6B024F1CADA00261161 /* OnGoingProjectDetailsController.swift in Sources */,
+				3F42A5472557ADBB0088E232 /* FinishedProjectDetailsPresenter.swift in Sources */,
 				3F6EEA3D24E0A6B10075C500 /* ConnectionsListTableViewCell.swift in Sources */,
 				3F5B32562531642D004DFBFD /* ProfileSuggestionsPresenter.swift in Sources */,
 				3F8D13BE24D789EF00AED7EB /* UITableView+.swift in Sources */,
