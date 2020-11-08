@@ -29,6 +29,7 @@ class InsertMediaWorker: InsertMediaWorkerProtocol {
     
     func fetchPublishProject(_ request: InsertMedia.Request.SubmitVideo,
                              completion: @escaping (EmptyResponse) -> Void) {
-        //TO DO
+        let headers: [String : Any] = ["projectId" : request.projectId, "youtube_url" : request.media, "title" : request.projectTitle, "sinopsis" : request.sinopsis, "cathegories" : request.cathegories, "participants" : request.participants, "image" : request.image, "finish_date" : request.finishedDate]
+        builder.publishProject(request: headers, completion: completion)
     }
 }

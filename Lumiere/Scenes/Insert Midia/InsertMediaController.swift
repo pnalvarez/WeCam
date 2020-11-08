@@ -180,9 +180,9 @@ extension InsertMediaController {
         let  char = string.cString(using: String.Encoding.utf8)!
         let isBackSpace = strcmp(char, "\\b")
         
-        guard textField.text?.count ?? 0 <= InsertMedia.Constants.BusinessLogic.inputTextFieldLenght else {
-            return false
-        }
+//        guard textField.text?.count ?? 0 <= InsertMedia.Constants.BusinessLogic.inputTextFieldLenght else {
+//            return false
+//        }
         if (isBackSpace == -92) && (textField.text?.count)! > 0 {
             if textField == inputTextField {
                 textField.text!.removeAll()

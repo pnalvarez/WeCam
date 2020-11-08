@@ -125,6 +125,8 @@ protocol FirebaseManagerProtocol {
                                  completion: @escaping (EmptyResponse) -> Void)
     func fetchOnGoingProjectsFeed<T: Mappable>(request: [String : Any],
                                                completion: @escaping (BaseResponse<[T]>) -> Void)
+    func publishProject(request: [String : Any],
+                        completion: @escaping (EmptyResponse) -> Void)
 }
 
 class FirebaseManager: FirebaseManagerProtocol {
@@ -3308,6 +3310,128 @@ class FirebaseManager: FirebaseManagerProtocol {
                                     completion(.success(mappedResponse))
                                 }
                             }
+                }
+        }
+    }
+    
+    func publishProject(request: [String : Any],
+                        completion: @escaping (EmptyResponse) -> Void) {
+        var finishedProjects = [String]()
+        var allUsers = [String]()
+        
+        guard let projectId = request["projectId"] as? String,
+              let youtubeURL = request["youtube_url"] as? String,
+              let title = request["title"] as? String,
+              let sinopsis = request["sinopsis"] as? String,
+              let cathegories = request["cathegories"] as? [String],
+              let participants = request["participants"] as? [String],
+              let image = request["image"] as? String,
+              let finishDate = request["finish_date"] as? Int else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        guard let authorId = authReference.currentUser?.uid else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        realtimeDB
+            .child(Constants.allProjectsCataloguePath)
+            .observeSingleEvent(of: .value) { snapshot in
+                guard var allProjects = snapshot.value as? [String] else {
+                    completion(.error(FirebaseErrors.genericError))
+                    return
+                }
+                allProjects.removeAll(where: { $0 == projectId})
+                self.realtimeDB
+                    .updateChildValues([Constants.allProjectsCataloguePath : allProjects]) { (error, ref) in
+                        if let error = error {
+                            completion(.error(error))
+                            return
+                        }
+                        self.realtimeDB
+                            .child(Constants.finishedProjectsCataloguePath)
+                            .observeSingleEvent(of: .value) { snapshot in
+                                if let projects = snapshot.value as? [String] {
+                                    finishedProjects = projects
+                                }
+                                finishedProjects.append(projectId)
+                                self.realtimeDB
+                                    .updateChildValues([Constants.finishedProjectsCataloguePath : finishedProjects]) { (error, ref) in
+                                        if let error = error {
+                                            completion(.error(error))
+                                            return
+                                        }
+                                        self.realtimeDB
+                                            .child(Constants.projectsPath)
+                                            .child(Constants.ongoingProjectsPath)
+                                            .child(projectId)
+                                            .removeValue { (error, ref) in
+                                                if let error = error {
+                                                    completion(.error(error))
+                                                    return
+                                                }
+                                                let dict: [String : Any] = ["youtube_url": youtubeURL, "title": title, "sinopsis": sinopsis, "cathegories": cathegories, "participants": participants, "author_id": authorId, "image": image, "finish_date": finishDate]
+                                                self.realtimeDB
+                                                    .child(Constants.projectsPath)
+                                                    .child(Constants.finishedProjectsPath)
+                                                    .child(projectId)
+                                                    .updateChildValues(dict) { (error, ref) in
+                                                        if let error = error {
+                                                            completion(.error(error))
+                                                            return
+                                                        }
+                                                        let dispatchGroup = DispatchGroup()
+                                                        self.realtimeDB
+                                                            .child(Constants.allUsersCataloguePath)
+                                                            .observeSingleEvent(of: .value) { snapshot in
+                                                                guard let users = snapshot.value as? [String] else {
+                                                                    completion(.error(FirebaseErrors.genericError))
+                                                                    return
+                                                                }
+                                                                allUsers = users
+                                                                for user in allUsers {
+                                                                    dispatchGroup.enter()
+                                                                    self.realtimeDB.child(Constants.usersPath).child(user)
+                                                              .child("participating_projects").observeSingleEvent(of: .value) { snapshot in
+                                                                if var projects = snapshot.value as? [String] {
+                                                                    if projects.contains(projectId) {
+                                                                        projects.removeAll(where: { $0 == projectId})
+                                                                        self.realtimeDB.child(Constants.usersPath).child(user).updateChildValues(["participating_projects" : projects]) { (error, ref) in
+                                                                            if let error = error {
+                                                                                completion(.error(error))
+                                                                                return
+                                                                            }
+                                                                            self.realtimeDB.child(Constants.usersPath).child(user).child("finished_projects").observeSingleEvent(of: .value) { snapshot in
+                                                                                var projects = [String]()
+                                                                                if let finishedProjects = snapshot.value as? [String] {
+                                                                                projects = finishedProjects
+                                                                                }
+                                                                                projects.append(projectId)
+                                                                                self.realtimeDB.child(Constants.usersPath).child(user).updateChildValues(["finished_projects" : projects]) { (error, ref) in
+                                                                                    if let error = error {
+                                                                                        completion(.error(error))
+                                                                                        return
+                                                                                    }
+                                                                                    dispatchGroup.leave()
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    } else {
+                                                                        dispatchGroup.leave()
+                                                                    }
+                                                                } else {
+                                                                    dispatchGroup.leave()
+                                                                }
+                                                            }
+                                                        }
+                                                                dispatchGroup.notify(queue: .main) {
+                                                                    completion(.success)
+                                                                }
+                                                    }
+                                            }
+                                        }
+                                }
+                        }
                 }
         }
     }
