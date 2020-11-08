@@ -127,6 +127,8 @@ protocol FirebaseManagerProtocol {
                                                completion: @escaping (BaseResponse<[T]>) -> Void)
     func publishProject(request: [String : Any],
                         completion: @escaping (EmptyResponse) -> Void)
+    func fetchFinishedProjectData<T: Mappable>(request: [String : Any],
+                                  completion: @escaping (BaseResponse<T>) -> Void)
 }
 
 class FirebaseManager: FirebaseManagerProtocol {
@@ -3433,6 +3435,29 @@ class FirebaseManager: FirebaseManagerProtocol {
                                 }
                         }
                 }
+        }
+    }
+    
+    func fetchFinishedProjectData<T: Mappable>(request: [String : Any],
+                                               completion: @escaping (BaseResponse<T>) -> Void) {
+        guard let projectId = request["projectId"] as? String else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        realtimeDB
+            .child(Constants.projectsPath)
+            .child(Constants.finishedProjectsPath)
+            .child(projectId)
+            .observeSingleEvent(of: .value) { snapshot in
+                guard let project = snapshot.value as? [String : Any] else {
+                    completion(.error(FirebaseErrors.parseError))
+                    return
+                }
+                guard let mappedResponse = Mapper<T>().map(JSON: project) else {
+                    completion(.error(FirebaseErrors.parseError))
+                    return
+                }
+                completion(.success(mappedResponse))
         }
     }
 }

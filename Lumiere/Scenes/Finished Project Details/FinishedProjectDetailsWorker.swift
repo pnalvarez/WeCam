@@ -7,7 +7,16 @@
 //
 
 protocol FinishedProjectDetailsWorkerProtocol {
-    
+    func fetchProjectData(_ request: FinishedProjectDetails.Request.FetchProjectDataWithId,
+                          completion: @escaping  (BaseResponse<FinishedProjectDetails.Info.Response.Project>) -> Void)
+    func fetchTeamMemberData(_ request: FinishedProjectDetails.Request.FetchTeamMembersWithId,
+                          completion: @escaping (BaseResponse<FinishedProjectDetails.Info.Response.TeamMember>) -> Void)
+    func fetchAcceptProjectInvite(_ request: FinishedProjectDetails.Request.AcceptInvite,
+                                  completion: @escaping (EmptyResponse) -> Void)
+    func fetchRefuseProjectInvite(_ request: FinishedProjectDetails.Request.RefuseInvite,
+                                  completion: @escaping (EmptyResponse) -> Void)
+    func fetchProjectRelation(_ request: FinishedProjectDetails.Request.ProjectRelationWithId,
+                              completion: @escaping (EmptyResponse) -> Void)
 }
 
 class FinishedProjectDetailsWorker: FinishedProjectDetailsWorkerProtocol {
@@ -16,5 +25,30 @@ class FinishedProjectDetailsWorker: FinishedProjectDetailsWorkerProtocol {
     
     init(builder: FirebaseManagerProtocol = FirebaseManager()) {
         self.builder = builder
+    }
+    
+    func fetchProjectData(_ request: FinishedProjectDetails.Request.FetchProjectDataWithId,
+                          completion: @escaping (BaseResponse<FinishedProjectDetails.Info.Response.Project>) -> Void) {
+        
+    }
+    
+    func fetchTeamMemberData(_ request: FinishedProjectDetails.Request.FetchTeamMembersWithId,
+                             completion: @escaping (BaseResponse<FinishedProjectDetails.Info.Response.TeamMember>) -> Void) {
+        
+    }
+    
+    func fetchAcceptProjectInvite(_ request: FinishedProjectDetails.Request.AcceptInvite,
+                                  completion: @escaping (EmptyResponse) -> Void) {
+        
+    }
+    
+    func fetchRefuseProjectInvite(_ request: FinishedProjectDetails.Request.RefuseInvite,
+                                  completion: @escaping (EmptyResponse) -> Void) {
+        
+    }
+    
+    func fetchProjectRelation(_ request: FinishedProjectDetails.Request.ProjectRelationWithId,
+                              completion: @escaping (EmptyResponse) -> Void) {
+        
     }
 }

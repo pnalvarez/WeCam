@@ -7,7 +7,7 @@
 //
 
 protocol FinishedProjectDetailsBusinessLogic {
-    
+    func fetchProjectData(_ request: FinishedProjectDetails.Request.FetchProjectData)
 }
 
 protocol FinishedProjectDetailsDataStore {
@@ -28,4 +28,7 @@ class FinishedProjectDetailsInteractor: FinishedProjectDetailsDataStore {
 
 extension FinishedProjectDetailsInteractor: FinishedProjectDetailsBusinessLogic {
     
+    func fetchProjectData(_ request: FinishedProjectDetails.Request.FetchProjectData) {
+        
+    }
 }
