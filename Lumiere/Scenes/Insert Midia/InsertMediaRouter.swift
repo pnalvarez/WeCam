@@ -23,12 +23,16 @@ class InsertMediaRouter: NSObject, InsertMediaDataTransfer {
     
     weak var viewController: UIViewController?
     var dataStore: InsertMediaDataStore?
+    
+    private func transferDataToFinishedProjectDetails(from source: InsertMediaDataStore, to destination: inout FinishedProjectDetailsDataStore) {
+        destination.receivedData = FinishedProjectDetails.Info.Received.Project(id: source.finishedProject?.id ?? .empty)
+    }
 }
 
 extension InsertMediaRouter: BaseRouterProtocol {
     
     func routeTo(nextVC: UIViewController) {
-        
+        viewController?.navigationController?.pushViewController(nextVC, animated: true)
     }
 }
 
@@ -39,6 +43,11 @@ extension InsertMediaRouter: InsertMediaRoutingLogic {
     }
     
     func routeToFinishedProjectDetails() {
-        
+        let vc = FinishedProjectDetailsController()
+        guard let source = dataStore,
+              var destination = vc.router?.dataStore else { return }
+        transferDataToFinishedProjectDetails(from: source,
+                                             to: &destination)
+        routeTo(nextVC: vc)
     }
 }

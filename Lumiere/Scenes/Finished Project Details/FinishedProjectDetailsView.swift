@@ -91,6 +91,7 @@ class FinishedProjectDetailsView: UIView {
         self.teamCollectionView = teamCollectionView
         self.moreInfoButton = moreInfoButton
         super.init(frame: frame)
+        applyViewCode()
     }
     
     required init?(coder: NSCoder) {
@@ -132,7 +133,7 @@ extension FinishedProjectDetailsView: ViewCodeProtocol {
         photoImageView.snp.makeConstraints { make in
             make.top.equalTo(closeButton.snp.bottom).offset(10)
             make.centerX.equalToSuperview()
-            make.width.equalTo(150)
+            make.width.equalTo(200)
             make.height.equalTo(182)
         }
         titleLbl.snp.makeConstraints { make in
@@ -173,7 +174,7 @@ extension FinishedProjectDetailsView: ViewCodeProtocol {
             make.height.equalTo(30)
         }
         watchButton.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(577)
+            make.top.equalToSuperview().offset(640)
             make.centerX.equalToSuperview()
             make.width.equalTo(98)
             make.height.equalTo(30)

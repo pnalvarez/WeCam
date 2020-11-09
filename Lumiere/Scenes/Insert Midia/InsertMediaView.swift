@@ -11,6 +11,9 @@ import YoutubePlayer_in_WKWebView
 
 class InsertMediaView: UIView {
     
+    private unowned var loadingView: LoadingView
+    private unowned var confirmationAlertView: ConfirmationAlertView
+    private unowned var translucentView: UIView
     private unowned var activityView: UIActivityIndicatorView
     private unowned var backButton: DefaultBackButton
     private unowned var inputTextField: UITextField
@@ -51,12 +54,18 @@ class InsertMediaView: UIView {
     }()
     
     init(frame: CGRect,
+         loadingView: LoadingView,
+         confirmationAlertView: ConfirmationAlertView,
+         translucentView: UIView,
          activityView: UIActivityIndicatorView,
          backButton: DefaultBackButton,
          inputTextField: UITextField,
          urlErrorView: EmptyListView,
          playerView: WKYTPlayerView,
          submitButton: UIButton) {
+        self.loadingView = loadingView
+        self.confirmationAlertView = confirmationAlertView
+        self.translucentView = translucentView
         self.activityView = activityView
         self.backButton = backButton
         self.inputTextField = inputTextField
@@ -70,6 +79,31 @@ class InsertMediaView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    func displayConfirmationModal() {
+        UIView.animate(withDuration: 0.2, animations: {
+            self.translucentView.isHidden = false
+            self.confirmationAlertView.snp.remakeConstraints { make in
+                make.top.equalTo(self.translucentView.snp.centerY)
+                make.left.right.equalToSuperview()
+                make.height.equalTo(self.translucentView)
+            }
+            self.layoutIfNeeded()
+        })
+    }
+    
+    func hideConfirmationModal() {
+        UIView.animate(withDuration: 0.2, animations: {
+            self.translucentView.isHidden = true
+            self.confirmationAlertView.snp.remakeConstraints { make in
+                make.top.equalTo(self.translucentView.snp.bottom)
+                make.left.right.equalToSuperview()
+                make.height.equalTo(self.translucentView)
+            }
+            self.layoutIfNeeded()
+        })
+    }
+    
 }
 
 extension InsertMediaView: ViewCodeProtocol {
@@ -85,6 +119,9 @@ extension InsertMediaView: ViewCodeProtocol {
         scrollView.addSubview(mainContainer)
         addSubview(scrollView)
         addSubview(activityView)
+        addSubview(translucentView)
+        addSubview(confirmationAlertView)
+        addSubview(loadingView)
     }
     
     func setupConstraints() {
@@ -133,6 +170,16 @@ extension InsertMediaView: ViewCodeProtocol {
             make.height.equalToSuperview().priority(250)
         }
         activityView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        translucentView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        confirmationAlertView.snp.makeConstraints { make in
+            make.top.equalTo(translucentView.snp.bottom)
+            make.size.equalTo(translucentView)
+        }
+        loadingView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
     }

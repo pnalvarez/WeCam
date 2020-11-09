@@ -14,9 +14,33 @@ protocol InsertMediaDisplayLogic: class {
     func displayVideoError()
     func displayFinishedProjectDetails()
     func displayLoading(_ loading: Bool)
+    func displayConfirmationAlert()
+    func displayLongLoading(_ loading: Bool)
 }
 
 class InsertMediaController: BaseViewController {
+    
+    private lazy var loadingView: LoadingView = {
+        let view = LoadingView(frame: .zero)
+        view.isHidden = true
+        return view
+    }()
+    
+    private lazy var confirmationAlertView: ConfirmationAlertView = {
+        let view = ConfirmationAlertView(frame: .zero,
+                                         delegate: self,
+                                         text: InsertMedia.Constants.Texts.confirmation)
+        return view
+    }()
+    
+    private lazy var translucentView: UIView = {
+        let view = UIView(frame: .zero)
+        view.backgroundColor = UIColor(rgb: 0xededed).withAlphaComponent(0.5)
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self,
+                                                         action: #selector(hideConfirmationAlert)))
+        view.isHidden = true
+        return view
+    }()
     
     private lazy var activityView: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView(frame: .zero)
@@ -71,6 +95,9 @@ class InsertMediaController: BaseViewController {
     
     private lazy var mainView: InsertMediaView = {
         let view = InsertMediaView(frame: .zero,
+                                   loadingView: loadingView,
+                                   confirmationAlertView: confirmationAlertView,
+                                   translucentView: translucentView,
                                    activityView: activityView,
                                    backButton: backButton,
                                    inputTextField: inputTextField,
@@ -152,6 +179,12 @@ extension InsertMediaController {
     private func didTapSubmit() {
         interactor?.fetchPublishVideo(InsertMedia.Request.Publish())
     }
+    
+    @objc
+    private func hideConfirmationAlert() {
+        navigationController?.tabBarController?.tabBar.isHidden = false
+        mainView.hideConfirmationModal()
+    }
 }
 
 extension InsertMediaController: WKYTPlayerViewDelegate {
@@ -171,6 +204,20 @@ extension InsertMediaController: WKYTPlayerViewDelegate {
         default:
             submitEnabled = true
         }
+    }
+}
+
+extension InsertMediaController: ConfirmationAlertViewDelegate {
+    
+    func didTapAccept() {
+        navigationController?.tabBarController?.tabBar.isHidden = false
+        mainView.hideConfirmationModal()
+        interactor?.fetchConfirmPublishing(InsertMedia.Request.Confirm())
+    }
+    
+    func didTapRefuse() {
+        navigationController?.tabBarController?.tabBar.isHidden = false
+        mainView.hideConfirmationModal()
     }
 }
 
@@ -214,5 +261,16 @@ extension InsertMediaController: InsertMediaDisplayLogic {
     
     func displayLoading(_ loading: Bool) {
         activityView.isHidden = !loading
+    }
+    
+    func displayConfirmationAlert() {
+        navigationController?.tabBarController?.tabBar.isHidden = true
+        mainView.displayConfirmationModal()
+    }
+    
+    func displayLongLoading(_ loading: Bool) {
+        navigationController?.tabBarController?.tabBar.isHidden = loading
+        loadingView.isHidden = !loading
+        loadingView.animateRotate()
     }
 }

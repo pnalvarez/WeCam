@@ -36,6 +36,7 @@ struct InsertMedia {
             static let previewLbl = "Preview"
             static let submitButton = "Publicar"
             static let urlNotFound = "URL não encontrada"
+            static let confirmation = "Tem certeza que deseja publicar este projeto associado a este video? Esta ação não poderá ser desfeita"
         }
         
         struct Images {
@@ -131,6 +132,10 @@ struct InsertMedia {
             let image: String
             let media: String
             let finishedDate: Int
+        }
+        
+        struct Confirm {
+            
         }
     }
 }

@@ -10,6 +10,7 @@ import Foundation
 protocol InsertMediaBusinessLogic {
     func fetchYoutubeVideoId(_ request: InsertMedia.Request.FetchVideo)
     func fetchPublishVideo(_ request: InsertMedia.Request.Publish)
+    func fetchConfirmPublishing(_ request: InsertMedia.Request.Confirm)
 }
 
 protocol InsertMediaDataStore {
@@ -50,7 +51,7 @@ extension InsertMediaInteractor {
         worker.fetchPublishProject(request) { response in
             switch response {
             case .success:
-                self.presenter.presentLoading(false)
+                self.presenter.presentLongLoading(false)
                 self.presenter.presentFinishedProjectDetails()
             case .error(let error):
                 self.presenter.presentLoading(false)
@@ -72,7 +73,11 @@ extension InsertMediaInteractor: InsertMediaBusinessLogic {
     }
     
     func fetchPublishVideo(_ request: InsertMedia.Request.Publish) {
-        presenter.presentLoading(true)
+        presenter.presentConfirmationModal()
+    }
+    
+    func fetchConfirmPublishing(_ request: InsertMedia.Request.Confirm) {
+        presenter.presentLongLoading(true)
         worker.fetchProjectDetails(InsertMedia.Request.FetchProjectDetails(id: receivedData?.id ?? .empty)) { response in
             switch response {
             case .success(let data):

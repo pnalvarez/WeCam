@@ -110,6 +110,14 @@ class FinishedProjectDetailsController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.tabBarController?.tabBar.isHidden = true
+        navigationController?.isNavigationBarHidden = true
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        interactor?.fetchProjectData(FinishedProjectDetails.Request.FetchProjectData())
+        interactor?.fetchProjectRelation(FinishedProjectDetails.Request.ProjectRelation())
     }
     
     override func loadView() {

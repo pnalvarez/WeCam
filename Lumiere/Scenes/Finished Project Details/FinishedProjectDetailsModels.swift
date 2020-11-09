@@ -128,7 +128,7 @@ struct FinishedProjectDetails {
                 let image: String
                 let title: String
                 let sinopsis: String
-                let participants: [TeamMember]
+                var participants: [TeamMember]
             }
             
             struct TeamMember {

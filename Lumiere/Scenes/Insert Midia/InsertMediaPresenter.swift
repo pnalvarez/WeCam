@@ -13,6 +13,8 @@ protocol InsertMediaPresentationLogic {
     func presentVideoWithId(_ response: InsertMedia.Info.Model.Media)
     func presentFinishedProjectDetails()
     func presentLoading(_ loading: Bool)
+    func presentLongLoading(_ loading: Bool)
+    func presentConfirmationModal()
 }
 
 class InsertMediaPresenter: InsertMediaPresentationLogic {
@@ -38,5 +40,13 @@ class InsertMediaPresenter: InsertMediaPresentationLogic {
     
     func presentLoading(_ loading: Bool) {
         viewController.displayLoading(loading)
+    }
+    
+    func presentLongLoading(_ loading: Bool) {
+        viewController.displayLongLoading(loading)
+    }
+    
+    func presentConfirmationModal() {
+        viewController.displayConfirmationAlert()
     }
 }
