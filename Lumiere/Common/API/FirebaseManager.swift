@@ -129,6 +129,10 @@ protocol FirebaseManagerProtocol {
                         completion: @escaping (EmptyResponse) -> Void)
     func fetchFinishedProjectData<T: Mappable>(request: [String : Any],
                                   completion: @escaping (BaseResponse<T>) -> Void)
+    func acceptFinishedProjectInvite(request: [String : Any],
+                                    completion: @escaping (EmptyResponse) -> Void)
+    func fetchFinishedProjectRelation<T: Mappable>(request: [String : Any],
+                                      completion: @escaping (BaseResponse<T>) -> Void)
 }
 
 class FirebaseManager: FirebaseManagerProtocol {
@@ -3458,6 +3462,92 @@ class FirebaseManager: FirebaseManagerProtocol {
                     return
                 }
                 completion(.success(mappedResponse))
+        }
+    }
+
+    func acceptFinishedProjectInvite(request: [String : Any],
+                                     completion: @escaping (EmptyResponse) -> Void) {
+        //TO DO
+    }
+    
+    func fetchFinishedProjectRelation<T: Mappable>(request: [String : Any],
+                                                   completion: @escaping (BaseResponse<T>) -> Void) {
+        guard let projectId = request["projectId"] as? String else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        guard let currentUser = authReference.currentUser?.uid else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        realtimeDB
+            .child(Constants.projectsPath)
+            .child(Constants.finishedProjectsPath)
+            .child(projectId)
+            .child("author_id")
+            .observeSingleEvent(of: .value) { snapshot in
+                guard let authorId = snapshot.value as? String else {
+                    completion(.error(FirebaseErrors.genericError))
+                    return
+                }
+                if authorId == currentUser {
+                    let dict: [String : Any] = ["relation": "AUTHOR"]
+                    guard let mappedResponse = Mapper<T>().map(JSON: dict) else {
+                        completion(.error(FirebaseErrors.parseError))
+                        return
+                    }
+                    completion(.success(mappedResponse))
+                    return
+                }
+                self.realtimeDB
+                    .child(Constants.projectsPath)
+                    .child(Constants.finishedProjectsPath)
+                    .child(projectId)
+                    .child("participants")
+                    .observeSingleEvent(of: .value) { snapshot in
+                        guard let participants = snapshot.value as? [String] else {
+                            completion(.error(FirebaseErrors.genericError))
+                            return
+                        }
+                        if participants.contains(currentUser) {
+                            let dict: [String : Any] = ["relation": "SIMPLE_PARTICIPANT"]
+                            guard let mappedResponse = Mapper<T>().map(JSON: dict) else {
+                                completion(.error(FirebaseErrors.parseError))
+                                return
+                            }
+                            completion(.success(mappedResponse))
+                            return
+                        }
+                        self.realtimeDB
+                            .child(Constants.projectsPath)
+                            .child(Constants.finishedProjectsPath)
+                            .child(projectId)
+                            .child("pending_invites")
+                            .observeSingleEvent(of: .value) { snapshot in
+                            var invitedUsers = [String]()
+                                if let pendingInvites = snapshot.value as? [String] {
+                                    invitedUsers = pendingInvites
+                                } else {
+                                    invitedUsers = .empty
+                                }
+                                if invitedUsers.contains(currentUser) {
+                                    let dict: [String : Any] = ["relation": "PENDING"]
+                                    guard let mappedResponse = Mapper<T>().map(JSON: dict) else {
+                                        completion(.error(FirebaseErrors.parseError))
+                                        return
+                                    }
+                                    completion(.success(mappedResponse))
+                                    return
+                                }
+                                let dict: [String : Any] = ["relation": "NOTHING"]
+                                guard let mappedResponse = Mapper<T>().map(JSON: dict) else {
+                                    completion(.error(FirebaseErrors.parseError))
+                                    return
+                                }
+                                completion(.success(mappedResponse))
+                                return
+                        }
+                }
         }
     }
 }

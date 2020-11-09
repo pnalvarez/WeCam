@@ -29,12 +29,16 @@ class FinishedProjectDetailsWorker: FinishedProjectDetailsWorkerProtocol {
     
     func fetchProjectData(_ request: FinishedProjectDetails.Request.FetchProjectDataWithId,
                           completion: @escaping (BaseResponse<FinishedProjectDetails.Info.Response.Project>) -> Void) {
-        
+        let headers: [String : Any] = ["projectId" : request.id]
+        builder.fetchFinishedProjectData(request: headers,
+                                         completion: completion)
     }
     
     func fetchTeamMemberData(_ request: FinishedProjectDetails.Request.FetchTeamMembersWithId,
                              completion: @escaping (BaseResponse<FinishedProjectDetails.Info.Response.TeamMember>) -> Void) {
-        
+        let headers: [String : Any] = ["userId" : request.id]
+        builder.fetchUserData(request: headers,
+                              completion: completion)
     }
     
     func fetchAcceptProjectInvite(_ request: FinishedProjectDetails.Request.AcceptInvite,
