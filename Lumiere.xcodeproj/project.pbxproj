@@ -115,6 +115,13 @@
 		3F42A5472557ADBB0088E232 /* FinishedProjectDetailsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F42A5462557ADBB0088E232 /* FinishedProjectDetailsPresenter.swift */; };
 		3F42A54C2557AE0F0088E232 /* FinishedProjectDetailsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F42A54B2557AE0F0088E232 /* FinishedProjectDetailsInteractor.swift */; };
 		3F42A5512557AE710088E232 /* FinishedProjectDetailsWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F42A5502557AE710088E232 /* FinishedProjectDetailsWorker.swift */; };
+		3F42A557255A13300088E232 /* WatchVideoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F42A556255A132F0088E232 /* WatchVideoController.swift */; };
+		3F42A55F255A13610088E232 /* WatchVideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F42A55E255A13610088E232 /* WatchVideoView.swift */; };
+		3F42A564255A13950088E232 /* WatchVideoModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F42A563255A13950088E232 /* WatchVideoModels.swift */; };
+		3F42A569255A14450088E232 /* WatchVideoRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F42A568255A14450088E232 /* WatchVideoRouter.swift */; };
+		3F42A56E255A14C10088E232 /* WatchVideoPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F42A56D255A14C10088E232 /* WatchVideoPresenter.swift */; };
+		3F42A573255A15150088E232 /* WatchVideoWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F42A572255A15150088E232 /* WatchVideoWorker.swift */; };
+		3F42A578255A15480088E232 /* WatchVideoInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F42A577255A15480088E232 /* WatchVideoInteractor.swift */; };
 		3F43311E24E8E8B90082825E /* ConfirmationAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F43311D24E8E8B90082825E /* ConfirmationAlertView.swift */; };
 		3F5A422B2517F83600F10D63 /* SignInModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5A422A2517F83600F10D63 /* SignInModels.swift */; };
 		3F5A4236251C145E00F10D63 /* Stubbable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5A4235251C145E00F10D63 /* Stubbable.swift */; };
@@ -438,6 +445,13 @@
 		3F42A5462557ADBB0088E232 /* FinishedProjectDetailsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishedProjectDetailsPresenter.swift; sourceTree = "<group>"; };
 		3F42A54B2557AE0F0088E232 /* FinishedProjectDetailsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishedProjectDetailsInteractor.swift; sourceTree = "<group>"; };
 		3F42A5502557AE710088E232 /* FinishedProjectDetailsWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishedProjectDetailsWorker.swift; sourceTree = "<group>"; };
+		3F42A556255A132F0088E232 /* WatchVideoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchVideoController.swift; sourceTree = "<group>"; };
+		3F42A55E255A13610088E232 /* WatchVideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchVideoView.swift; sourceTree = "<group>"; };
+		3F42A563255A13950088E232 /* WatchVideoModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchVideoModels.swift; sourceTree = "<group>"; };
+		3F42A568255A14450088E232 /* WatchVideoRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchVideoRouter.swift; sourceTree = "<group>"; };
+		3F42A56D255A14C10088E232 /* WatchVideoPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchVideoPresenter.swift; sourceTree = "<group>"; };
+		3F42A572255A15150088E232 /* WatchVideoWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchVideoWorker.swift; sourceTree = "<group>"; };
+		3F42A577255A15480088E232 /* WatchVideoInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchVideoInteractor.swift; sourceTree = "<group>"; };
 		3F43311D24E8E8B90082825E /* ConfirmationAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationAlertView.swift; sourceTree = "<group>"; };
 		3F5A422A2517F83600F10D63 /* SignInModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInModels.swift; sourceTree = "<group>"; };
 		3F5A4235251C145E00F10D63 /* Stubbable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stubbable.swift; sourceTree = "<group>"; };
@@ -1004,6 +1018,20 @@
 			path = "Finished Project Details";
 			sourceTree = "<group>";
 		};
+		3F42A555255A131A0088E232 /* Watch Video */ = {
+			isa = PBXGroup;
+			children = (
+				3F42A556255A132F0088E232 /* WatchVideoController.swift */,
+				3F42A55E255A13610088E232 /* WatchVideoView.swift */,
+				3F42A563255A13950088E232 /* WatchVideoModels.swift */,
+				3F42A568255A14450088E232 /* WatchVideoRouter.swift */,
+				3F42A56D255A14C10088E232 /* WatchVideoPresenter.swift */,
+				3F42A572255A15150088E232 /* WatchVideoWorker.swift */,
+				3F42A577255A15480088E232 /* WatchVideoInteractor.swift */,
+			);
+			path = "Watch Video";
+			sourceTree = "<group>";
+		};
 		3F5A4244251D3C3D00F10D63 /* Notifications */ = {
 			isa = PBXGroup;
 			children = (
@@ -1459,6 +1487,7 @@
 		3F95786724AD79C900B79818 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				3F42A555255A131A0088E232 /* Watch Video */,
 				3F42A5312557AB510088E232 /* Finished Project Details */,
 				3F42A47C255392D70088E232 /* Insert Midia */,
 				3F5B3230253161A0004DFBFD /* Profile Suggestions */,
@@ -1987,12 +2016,14 @@
 				3F40A6BE24F1CE5100261161 /* DefaultCloseButton.swift in Sources */,
 				3F40A60E24EA0D5700261161 /* SelectProjectImageController.swift in Sources */,
 				3F95787724AEA4D100B79818 /* SignInPresenter.swift in Sources */,
+				3F42A564255A13950088E232 /* WatchVideoModels.swift in Sources */,
 				3F66CA0625017C14006F6DBD /* NSAttributedString+.swift in Sources */,
 				3F8D13C424D79FE100AED7EB /* GetAllNotificationsRequest.swift in Sources */,
 				3FAD1A1D2516B5DC00ED4074 /* TableViewSectionProtocol.swift in Sources */,
 				3F40A61024EA0D9B00261161 /* SelectProjectImageRouter.swift in Sources */,
 				3F655F6B2523C4F5004A1D54 /* SearchResultsInteractor.swift in Sources */,
 				3FAD1A332516B81B00ED4074 /* MainFeedPresenter.swift in Sources */,
+				3F42A56E255A14C10088E232 /* WatchVideoPresenter.swift in Sources */,
 				3FE8DF5C24CBD81C005DE30D /* ThemeColors.swift in Sources */,
 				3F40A61A24EA10C300261161 /* SelectProjectImageModels.swift in Sources */,
 				3F655F752523C755004A1D54 /* SearchResultsModels.swift in Sources */,
@@ -2016,6 +2047,7 @@
 				3F8D13C824D8FC1400AED7EB /* UIImage+.swift in Sources */,
 				3FB8BD71250D602B001954FD /* OnGoingProjectInvitesWorker.swift in Sources */,
 				3F9578C624B0195600B79818 /* SignUpView.swift in Sources */,
+				3F42A578255A15480088E232 /* WatchVideoInteractor.swift in Sources */,
 				3F8116DE24B6AB620083A3DA /* ReusableView.swift in Sources */,
 				3F40A6DC24F4882200261161 /* InviteListRouter.swift in Sources */,
 				3F40A69C24EF439E00261161 /* ProjectProgressModels.swift in Sources */,
@@ -2027,6 +2059,7 @@
 				3F05D1A72515D11300932FFC /* EditProgressView.swift in Sources */,
 				3F8D13C624D8F5A100AED7EB /* URL+.swift in Sources */,
 				3F0CAA6424CCE118005E2558 /* SaveUserInfoRequest.swift in Sources */,
+				3F42A557255A13300088E232 /* WatchVideoController.swift in Sources */,
 				3F40A6BA24F1CC9200261161 /* OnGoingProjectDetailsRouter.swift in Sources */,
 				3F40A6AD24F0932800261161 /* EditProjectDetailsRouter.swift in Sources */,
 				3FB8BD87250ED5AE001954FD /* InviteProfileToProjectsRouter.swift in Sources */,
@@ -2052,6 +2085,7 @@
 				3F6EEA3724E0A3970075C500 /* ConnectionsListWorker.swift in Sources */,
 				3F95785E24AD764700B79818 /* ViewCodeProtocol.swift in Sources */,
 				3F8AB7912516DB6100E949F6 /* SearchHeaderTableViewCellBuilder.swift in Sources */,
+				3F42A55F255A13610088E232 /* WatchVideoView.swift in Sources */,
 				3FA1C1512536738B00385322 /* OptionFilterButton.swift in Sources */,
 				3F8D138624D5361A00AED7EB /* ProfileDetailsView.swift in Sources */,
 				3F42A489255393020088E232 /* InsertMediaRouter.swift in Sources */,
@@ -2122,6 +2156,7 @@
 				3F9578D424B019BE00B79818 /* MovieStyleButton.swift in Sources */,
 				3F42A49D2553933D0088E232 /* InsertMediaWorker.swift in Sources */,
 				3F012A06252E8C4100FF4985 /* ProfileSuggestionsFeedTableViewCell.swift in Sources */,
+				3F42A573255A15150088E232 /* WatchVideoWorker.swift in Sources */,
 				3F40A6D424F4870100261161 /* InviteListView.swift in Sources */,
 				3F8D13AC24D7466A00AED7EB /* FetchCurrentUserIdRequest.swift in Sources */,
 				3F6EEA7124E5DEEC0075C500 /* UITabBar+.swift in Sources */,
@@ -2138,6 +2173,7 @@
 				3FAD1A382516B86E00ED4074 /* MainFeedWorker.swift in Sources */,
 				3F1158AF24C3F0EC00075C73 /* TeamMemberViewModel.swift in Sources */,
 				3F95785724AD75E700B79818 /* LaunchScreenView.swift in Sources */,
+				3F42A569255A14450088E232 /* WatchVideoRouter.swift in Sources */,
 				3F0129F1252D290A00FF4985 /* RecentSearchTableViewCell.swift in Sources */,
 				3FAD1A182516B5BE00ED4074 /* BaseSection.swift in Sources */,
 				3F42A5332557AB6B0088E232 /* FinishedProjectDetailsView.swift in Sources */,

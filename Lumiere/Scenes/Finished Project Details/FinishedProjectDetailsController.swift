@@ -194,7 +194,7 @@ extension FinishedProjectDetailsController {
     
     @objc
     private func didTapWatch() {
-        
+        router?.routeToWatchVideo()
     }
     
     @objc

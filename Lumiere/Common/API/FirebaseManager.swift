@@ -3550,6 +3550,26 @@ class FirebaseManager: FirebaseManagerProtocol {
                 }
         }
     }
+//
+//    func fetchFinishedProjectYoutubeVideo<T: Mappable>(request: [String : Any],
+//                                             completion: @escaping (BaseResponse<T>) -> Void) {
+//        guard let projectId = request["projectId"] as? String else {
+//            completion(.error(FirebaseErrors.genericError))
+//            return
+//        }
+//        realtimeDB
+//            .child(Constants.projectsPath)
+//            .child(Constants.finishedProjectsPath)
+//            .child(projectId)
+//            .child("youtube_url")
+//            .observeSingleEvent(of: .value) { snapshot in
+//                guard let url = snapshot.value as? String else {
+//                    completion(.error(FirebaseErrors.genericError))
+//                    return
+//                }
+//                let dict =
+//        }
+//    }
 }
 
 //MARK: User Relationships
