@@ -131,24 +131,25 @@ extension FinishedProjectDetailsView: ViewCodeProtocol {
             make.height.width.equalTo(31)
         }
         photoImageView.snp.makeConstraints { make in
-            make.top.equalTo(closeButton.snp.bottom).offset(10)
+            make.top.equalTo(closeButton.snp.bottom).offset(24)
             make.centerX.equalToSuperview()
-            make.width.equalTo(200)
+            make.width.equalTo(240)
             make.height.equalTo(182)
         }
         titleLbl.snp.makeConstraints { make in
-            make.top.equalTo(photoImageView.snp.bottom).offset(5)
+            make.top.equalTo(photoImageView.snp.bottom).offset(12)
             make.centerX.equalToSuperview()
             make.width.equalTo(180)
         }
         containerView.snp.makeConstraints { make in
-            make.top.equalTo(titleLbl.snp.bottom).offset(2)
-            make.centerX.equalToSuperview()
-            make.width.equalTo(268)
-            make.height.equalTo(88)
+            make.top.equalTo(titleLbl.snp.bottom).offset(8)
+            make.left.right.equalToSuperview().inset(20)
+            make.height.equalTo(188)
         }
         sinopsisLbl.snp.makeConstraints { make in
-            make.edges.equalTo(UIEdgeInsets(top: 14, left: 0, bottom: 0, right: 18))
+            make.top.equalToSuperview().inset(9)
+            make.centerX.equalToSuperview()
+            make.left.right.equalToSuperview()
         }
         teamFixedLbl.snp.makeConstraints { make in
             make.top.equalTo(containerView.snp.bottom).offset(18)
@@ -168,15 +169,15 @@ extension FinishedProjectDetailsView: ViewCodeProtocol {
             make.width.equalTo(103)
         }
         interactionButton.snp.makeConstraints { make in
-            make.top.equalTo(moreInfoButton.snp.bottom).offset(15)
+            make.top.equalTo(moreInfoButton.snp.bottom).offset(10)
             make.centerX.equalToSuperview()
-            make.width.equalTo(98)
+            make.width.equalTo(132)
             make.height.equalTo(30)
         }
         watchButton.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(640)
+            make.top.equalToSuperview().offset(742)
             make.centerX.equalToSuperview()
-            make.width.equalTo(98)
+            make.width.equalTo(132)
             make.height.equalTo(30)
         }
         scrollView.snp.makeConstraints { make in

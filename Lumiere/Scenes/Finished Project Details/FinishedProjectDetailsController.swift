@@ -36,6 +36,7 @@ class FinishedProjectDetailsController: BaseViewController {
     
     private lazy var watchButton: UIButton = {
         let view = UIButton(frame: .zero)
+        view.layer.cornerRadius = 4
         view.addTarget(self, action: #selector(didTapWatch), for: .touchUpInside)
         view.backgroundColor = FinishedProjectDetails.Constants.Colors.watchButtonBackground
         view.setTitle(FinishedProjectDetails.Constants.Texts.watchButton, for: .normal)
