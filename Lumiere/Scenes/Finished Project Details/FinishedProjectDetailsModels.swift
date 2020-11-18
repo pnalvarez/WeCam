@@ -66,6 +66,10 @@ struct FinishedProjectDetails {
             struct Project {
                 let id: String
             }
+            
+            struct Routing {
+                let routingMethod: RoutingMethod
+            }
         }
         
         struct Response {

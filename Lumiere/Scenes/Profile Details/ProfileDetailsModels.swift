@@ -30,6 +30,7 @@ struct ProfileDetails {
             static let onGoingProjectsLbl = UIColor(rgb: 0x969494)
             static let inviteToProjectButtonBackground = UIColor(rgb: 0xededed)
             static let inviteToProjectButtonText = UIColor(rgb: 0x000000)
+            static let finishedProjectsLbl = UIColor(rgb: 0x969494)
         }
         
         struct Fonts {
@@ -41,6 +42,7 @@ struct ProfileDetails {
             static let editProfileButton = ThemeFonts.RobotoBold(16).rawValue
             static let onGoingProjectsLbl = ThemeFonts.RobotoBold(16).rawValue
             static let inviteToProjectButton = ThemeFonts.RobotoRegular(16).rawValue
+            static let finishedProjectsLbl = ThemeFonts.RobotoRegular(16).rawValue
         }
         
         struct Images {
@@ -64,19 +66,24 @@ struct ProfileDetails {
             static let editProfileButton = "Editar Perfil"
             static let onGoingProjectsLbl = "Projetos em andamento"
             static let inviteToProjectButton = "Convidar para projeto"
+            static let finishedProjectsLbl = "Projetos Finalizados"
         }
         
         struct Dimensions {
             
             static let projectViewDefaultOffset: CGFloat = 50
+            static let finishedProjectButtonDefaultOffset: CGFloat = 50
             
             struct Heights {
                 static let scrollView: CGFloat = 84
+                static let finishedScrollView: CGFloat = 254
             }
             
             struct Widths {
                 static let projectView: CGFloat = 84
+                static let finishedProjectButton: CGFloat = 159
                 static let spaceBetweenProjects = 28
+                static let spaceBetweenFinishedProjects = 12
             }
         }
     }
@@ -120,7 +127,7 @@ struct ProfileDetails {
                 let phoneNumber: String
                 let connectionsCount: String
                 var progressingProjects: [Project]
-                let finishedProjects: [Project]
+                var finishedProjects: [Project]
             }
             
             struct CurrentUser {

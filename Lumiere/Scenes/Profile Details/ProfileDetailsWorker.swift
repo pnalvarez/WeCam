@@ -12,8 +12,10 @@ protocol ProfileDetailsWorkerProtocol {
                        completion: @escaping (BaseResponse<ProfileDetails.Response.User>) -> Void)
     func fetchUserRelation(_ request: ProfileDetails.Request.FetchUserRelation,
                            completion: @escaping (BaseResponse<ProfileDetails.Response.UserRelation>) -> Void)
-    func fetchProjectsData(_ request: ProfileDetails.Request.FetchUserProjects,
+    func fetchCurrentProjectsData(_ request: ProfileDetails.Request.FetchUserProjects,
                           completion: @escaping (BaseResponse<[ProfileDetails.Response.Project]>) -> Void)
+    func fetchFinishedProjectsData(_ request: ProfileDetails.Request.FetchUserProjects,
+                                   completion: @escaping (BaseResponse<[ProfileDetails.Response.Project]>) -> Void)
     func fetchRemoveConnection(_ request: ProfileDetails.Request.RemoveConnection,
                                 completion: @escaping (EmptyResponse) -> Void)
     func fetchRemovePendingConnection(_ request: ProfileDetails.Request.RemovePendingConnection,
@@ -46,10 +48,16 @@ class ProfileDetailsWorker: ProfileDetailsWorkerProtocol {
         builder.fetchUserRelation(request: headers, completion: completion)
     }
 
-    func fetchProjectsData(_ request: ProfileDetails.Request.FetchUserProjects,
+    func fetchCurrentProjectsData(_ request: ProfileDetails.Request.FetchUserProjects,
                           completion: @escaping (BaseResponse<[ProfileDetails.Response.Project]>) -> Void) {
         let headers: [String : Any] = ["userId": request.userId]
         builder.fetchUserParticipatingProjects(request: headers, completion: completion)
+    }
+    
+    func fetchFinishedProjectsData(_ request: ProfileDetails.Request.FetchUserProjects,
+                                   completion: @escaping (BaseResponse<[ProfileDetails.Response.Project]>) -> Void) {
+        let headers: [String : Any] = ["userId": request.userId]
+        builder.fetchUserFinishedProjects(request: headers, completion: completion)
     }
     
     func fetchRemoveConnection(_ request: ProfileDetails.Request.RemoveConnection,
@@ -82,4 +90,3 @@ class ProfileDetailsWorker: ProfileDetailsWorkerProtocol {
         builder.fetchSignOut(request: headers, completion: completion)
     }
 }
-

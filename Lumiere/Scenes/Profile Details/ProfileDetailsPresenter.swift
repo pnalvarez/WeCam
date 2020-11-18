@@ -18,6 +18,7 @@ protocol ProfileDetailsPresentationLogic {
     func didSignOut()
     func presentConfirmationAlert(_ response: ProfileDetails.Info.Model.IneractionConfirmation)
     func presentProjectDetails()
+    func presentFinishedProjectDetails()
 }
 
 class ProfileDetailsPresenter: ProfileDetailsPresentationLogic {
@@ -32,7 +33,7 @@ class ProfileDetailsPresenter: ProfileDetailsPresentationLogic {
     /// - Parameter response: <#response description#>
     func presentUserInfo(_ response: ProfileDetails.Info.Model.User) {
         let progressingProjects = response.progressingProjects.map({ ProfileDetails.Info.ViewModel.Project(image: $0.image)})
-        let finishedProjects = buildProjectsViewModel(from: response.finishedProjects)
+        let finishedProjects = response.finishedProjects.map({ ProfileDetails.Info.ViewModel.Project(image: $0.image)})
         var connectionTypeImage: UIImage?
         switch response.connectionType {
         case .contact:
@@ -169,11 +170,8 @@ class ProfileDetailsPresenter: ProfileDetailsPresentationLogic {
     func presentProjectDetails() {
         viewController.displayProjectDetails()
     }
-}
-
-extension ProfileDetailsPresenter {
     
-    private func buildProjectsViewModel(from projectsModels: [ProfileDetails.Info.Model.Project]) -> [ProfileDetails.Info.ViewModel.Project] {
-        return .empty
+    func presentFinishedProjectDetails() {
+        viewController.displayFinishedProjectDetails()
     }
 }

@@ -189,7 +189,7 @@ extension FinishedProjectDetailsController {
     
     @objc
     private func didTapClose() {
-        
+        router?.dismiss()
     }
     
     @objc

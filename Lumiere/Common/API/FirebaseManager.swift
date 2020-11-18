@@ -5,7 +5,6 @@
 //  Created by Pedro Alvarez on 19/07/20.
 //  Copyright © 2020 Pedro Alvarez. All rights reserved.
 //
-
 import FirebaseAuth
 import FirebaseAnalytics
 import FirebaseFirestore
@@ -133,6 +132,10 @@ protocol FirebaseManagerProtocol {
                                     completion: @escaping (EmptyResponse) -> Void)
     func fetchFinishedProjectRelation<T: Mappable>(request: [String : Any],
                                       completion: @escaping (BaseResponse<T>) -> Void)
+    func fetchUserFinishedProjects<T: Mappable>(request: [String : Any],
+                                                completion: @escaping (BaseResponse<[T]>) -> Void)
+    func publishNewProject(request: [String : Any],
+                           completion: @escaping (EmptyResponse) -> Void)
 }
 
 class FirebaseManager: FirebaseManagerProtocol {
@@ -1153,7 +1156,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                     projectReference.updateChildValues(projectDict) { (error, ref) in
                         if let error = error {
                             completion(.error(error))
-                            return 
+                            return
                         }
                         self.realtimeDB
                             .child(Constants.usersPath)
@@ -3550,26 +3553,98 @@ class FirebaseManager: FirebaseManagerProtocol {
                 }
         }
     }
-//
-//    func fetchFinishedProjectYoutubeVideo<T: Mappable>(request: [String : Any],
-//                                             completion: @escaping (BaseResponse<T>) -> Void) {
-//        guard let projectId = request["projectId"] as? String else {
-//            completion(.error(FirebaseErrors.genericError))
-//            return
-//        }
-//        realtimeDB
-//            .child(Constants.projectsPath)
-//            .child(Constants.finishedProjectsPath)
-//            .child(projectId)
-//            .child("youtube_url")
-//            .observeSingleEvent(of: .value) { snapshot in
-//                guard let url = snapshot.value as? String else {
-//                    completion(.error(FirebaseErrors.genericError))
-//                    return
-//                }
-//                let dict =
-//        }
-//    }
+    
+    func fetchUserFinishedProjects<T: Mappable>(request: [String : Any],
+                                                completion: @escaping (BaseResponse<[T]>) -> Void) {
+        var finishedProjects = [String]()
+        var finishedProjectsData = [[String : Any]]()
+        guard let userId = request["userId"] as? String else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        realtimeDB
+            .child(Constants.usersPath)
+            .child(userId)
+            .child("finished_projects")
+            .observeSingleEvent(of: .value) { snapshot in
+                if let projects = snapshot.value as? [String] {
+                    finishedProjects = projects
+                } else {
+                    let mappedResponse = Mapper<T>().mapArray(JSONArray: .empty)
+                    completion(.success(mappedResponse))
+                    return
+                }
+                let dispatchGroup = DispatchGroup()
+                for project in finishedProjects {
+                    dispatchGroup.enter()
+                    self.realtimeDB
+                        .child(Constants.projectsPath)
+                        .child(Constants.finishedProjectsPath)
+                        .child(project)
+                        .observeSingleEvent(of: .value) { snapshot in
+                            guard var projectData = snapshot.value as? [String : Any] else {
+                                completion(.error(FirebaseErrors.genericError))
+                                return
+                            }
+                            projectData["projectId"] = project
+                            finishedProjectsData.append(projectData)
+                            dispatchGroup.leave()
+                    }
+                }
+                dispatchGroup.notify(queue: .main) {
+                    let mappedResponse = Mapper<T>().mapArray(JSONArray: finishedProjectsData)
+                    completion(.success(mappedResponse))
+                }
+        }
+    }
+    
+    func publishNewProject(request: [String : Any],
+                              completion: @escaping (EmptyResponse) -> Void) {
+        guard let title = request["title"] as? String,
+              let sinopsis = request["sinopsis"] as? String,
+              let cathegories = request["cathegories"] as? [String],
+              let video = request["youtube_url"] as? String,
+              let image = request["image"] as? Data else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        let projectReference = realtimeDB
+            .child(Constants.projectsPath)
+            .child(Constants.finishedProjectsPath)
+            .childByAutoId()
+        guard let projectId = projectReference.key else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        let projectImageReference =  storage.child(Constants.projectsPath).child(projectId)
+        projectImageReference.putData(image, metadata: nil) { (metadata, error) in
+            if let error = error {
+                completion(.error(error))
+                return
+            }
+            projectImageReference.downloadURL { (url, error) in
+                if let error = error {
+                    completion(.error(error))
+                    return
+                }
+                guard let url = url else {
+                    completion(.error(FirebaseErrors.genericError))
+                    return
+                }
+                let dict: [String : Any] = ["title": title, "sinopsis": sinopsis, "cathegories": cathegories, "youtube_url": video, "image": url.absoluteString]
+                self.realtimeDB
+                    .child(Constants.projectsPath)
+                    .child(Constants.finishedProjectsPath)
+                    .updateChildValues([projectId : dict]) { (error, metadata) in
+                        if let error = error {
+                            completion(.error(error))
+                            return
+                        }
+                        completion(.success)
+                }
+            }
+        }
+    }
 }
 
 //MARK: User Relationships
@@ -3644,4 +3719,3 @@ extension FirebaseManager {
             }
     }
 }
-

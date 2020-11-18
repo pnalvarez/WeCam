@@ -16,6 +16,7 @@ protocol ProfileDetailsRoutingLogic {
     func routeToEditProfileDetails()
     func routeToProjectDetails()
     func routeToInviteToProjects()
+    func routeToFinishedProjectsDetails()
 }
 
 protocol ProfileDetailsDataTransfer {
@@ -48,12 +49,23 @@ class ProfileDetailsRouter: NSObject, ProfileDetailsDataTransfer {
                                                        to destination: inout InviteProfileToProjectsDataStore) {
         destination.receivedUser = InviteProfileToProjects.Info.Received.User(userId: source.userDataModel?.id ?? .empty)
     }
+    
+    private func transferDataToFinishedProjectDetails(from source: ProfileDetailsDataStore,
+                                                      to destination: inout FinishedProjectDetailsDataStore) {
+        destination.receivedData = FinishedProjectDetails.Info.Received.Project(id: source.selectedProject?.id ?? .empty)
+        destination.routingModel = FinishedProjectDetails.Info.Received.Routing(routingMethod: .modal)
+    }
 }
 
 extension ProfileDetailsRouter: BaseRouterProtocol {
     
     func routeTo(nextVC: UIViewController) {
-        viewController?.navigationController?.pushViewController(nextVC, animated: true)
+        if nextVC is FinishedProjectDetailsController {
+            nextVC.modalPresentationStyle = .fullScreen
+            viewController?.navigationController?.present(nextVC, animated: true, completion: nil)
+        } else {
+            viewController?.navigationController?.pushViewController(nextVC, animated: true)
+        }
     }
 }
 
@@ -96,6 +108,15 @@ extension ProfileDetailsRouter: ProfileDetailsRoutingLogic {
         guard let source = dataStore,
             var destination = vc.router?.dataStore else { return }
         transferDataToInviteProfileToProjects(from: source, to: &destination)
+        routeTo(nextVC: vc)
+    }
+    
+    func routeToFinishedProjectsDetails() {
+        let vc = FinishedProjectDetailsController()
+        guard let source = dataStore,
+              var destination = vc.router?.dataStore else { return }
+        transferDataToFinishedProjectDetails(from: source,
+                                             to: &destination)
         routeTo(nextVC: vc)
     }
 }

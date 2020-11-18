@@ -26,6 +26,7 @@ class InsertMediaRouter: NSObject, InsertMediaDataTransfer {
     
     private func transferDataToFinishedProjectDetails(from source: InsertMediaDataStore, to destination: inout FinishedProjectDetailsDataStore) {
         destination.receivedData = FinishedProjectDetails.Info.Received.Project(id: source.finishedProject?.id ?? .empty)
+        destination.routingModel = FinishedProjectDetails.Info.Received.Routing(routingMethod: .push)
     }
 }
 

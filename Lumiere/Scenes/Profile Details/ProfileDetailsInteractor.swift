@@ -13,6 +13,7 @@ protocol ProfileDetailsBusinessLogic {
     func fetchAllConnections(_ request: ProfileDetails.Request.AllConnections)
     func fetchConfirmInteraction(_ request: ProfileDetails.Request.ConfirmInteraction)
     func didSelectOnGoingProject(_ request: ProfileDetails.Request.SelectProjectWithIndex)
+    func didSelectFinishedProject(_ request: ProfileDetails.Request.SelectProjectWithIndex)
 }
 
 protocol ProfileDetailsDataStore {
@@ -164,15 +165,26 @@ extension ProfileDetailsInteractor {
     }
     
     private func fetchUserOnGoingProjects() {
-        worker.fetchProjectsData(ProfileDetails.Request.FetchUserProjects(userId: receivedUserData?.userId ?? .empty)) { response in
+        worker.fetchCurrentProjectsData(ProfileDetails.Request.FetchUserProjects(userId: receivedUserData?.userId ?? .empty)) { response in
             switch response {
             case .success(let data):
                 self.userDataModel?.progressingProjects = data.map({ ProfileDetails.Info.Model.Project(id: $0.projectId ?? .empty, image: $0.image ?? .empty)})
+                self.fetchUserFinishedProjects()
+            case .error(let error):
+                break
+            }
+        }
+    }
+    
+    private func fetchUserFinishedProjects() {
+        worker.fetchFinishedProjectsData(ProfileDetails.Request.FetchUserProjects(userId: receivedUserData?.userId ?? .empty)) { response in
+            switch response {
+            case .success(let data):
+                self.userDataModel?.finishedProjects = data.map({ ProfileDetails.Info.Model.Project(id: $0.projectId ?? .empty, image: $0.image ?? .empty)})
                 self.presenter.presentLoading(false)
                 guard let userModel = self.userDataModel else { return }
                 self.presenter.presentUserInfo(userModel)
                 self.checkUserTypeModifications()
-                break
             case .error(let error):
                 break
             }
@@ -265,5 +277,9 @@ extension ProfileDetailsInteractor: ProfileDetailsBusinessLogic {
         selectedProject = userDataModel?.progressingProjects[request.index]
         presenter.presentProjectDetails()
     }
+    
+    func didSelectFinishedProject(_ request: ProfileDetails.Request.SelectProjectWithIndex) {
+        selectedProject = userDataModel?.finishedProjects[request.index]
+        presenter.presentFinishedProjectDetails()
+    }
 }
-

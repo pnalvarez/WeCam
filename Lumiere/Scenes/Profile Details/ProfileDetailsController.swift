@@ -5,7 +5,6 @@
 //  Created by Pedro Alvarez on 01/08/20.
 //  Copyright © 2020 Pedro Alvarez. All rights reserved.
 //
-
 import UIKit
 
 protocol ProfileDetailsDisplayLogic: class {
@@ -19,6 +18,7 @@ protocol ProfileDetailsDisplayLogic: class {
     func displaySignOut()
     func displayConfirmation(_ viewModel: ProfileDetails.Info.ViewModel.InteractionConfirmation)
     func displayProjectDetails()
+    func displayFinishedProjectDetails()
 }
 
 class ProfileDetailsController: BaseViewController {
@@ -109,11 +109,30 @@ class ProfileDetailsController: BaseViewController {
         return view
     }()
     
+    private lazy var finishedProjectsCarrousel: UIScrollView = {
+        let view = UIScrollView(frame: .zero)
+        view.alwaysBounceHorizontal = false
+        view.bounces = false
+        view.delegate = self
+        view.backgroundColor = ThemeColors.whiteThemeColor.rawValue
+        view.clipsToBounds = true
+        return view
+    }()
+    
+    private lazy var finishedProjectsContainer: UIView = {
+        let view = UIView(frame: .zero)
+        view.backgroundColor = ThemeColors.whiteThemeColor.rawValue
+        view.isHidden = true
+        return view
+    }()
+    
     private lazy var mainView: ProfileDetailsView = {
         let view = ProfileDetailsView(frame: .zero,
                                       activityView: activityView,
                                       projectsCarrousel: onGoingProjectsCarrousel,
+                                      finishedProjectsCarrousel: finishedProjectsCarrousel,
                                       projectsContainer: projectsContainer,
+                                      finishedProjectsContainer: finishedProjectsContainer,
                                       confirmationAlertView: confirmationAlertView,
                                       translucentView: translucentView,
                                       backButton: backButton,
@@ -126,6 +145,7 @@ class ProfileDetailsController: BaseViewController {
     
     
     private(set) var projectViews: [OnGoingProjectDisplayView] = .empty
+    private(set) var finishedProjectButtons: [UIButton] = .empty
     private var projectButtons: [UIButton] = .empty
     
     private var interactor: ProfileDetailsBusinessLogic?
@@ -192,6 +212,26 @@ extension ProfileDetailsController {
         }
     }
     
+    private func buildFinishedProjectsCarrousel() {
+        let scrollWidth = ProfileDetails.Constants.Dimensions.finishedProjectButtonDefaultOffset + (ProfileDetails.Constants.Dimensions.Widths.finishedProjectButton + CGFloat(ProfileDetails.Constants.Dimensions.Widths.spaceBetweenFinishedProjects)) * CGFloat(finishedProjectButtons.count)
+        finishedProjectsCarrousel.contentSize = CGSize(width: scrollWidth, height: ProfileDetails.Constants.Dimensions.Heights.finishedScrollView)
+        for i in 0..<finishedProjectButtons.count {
+            finishedProjectsCarrousel.addSubview(finishedProjectButtons[i])
+            finishedProjectButtons[i].snp.makeConstraints { make in
+                make.top.equalToSuperview().offset(10)
+                make.height.equalTo(254)
+                make.width.equalTo(180)
+                if i == 0 {
+                    make.left.equalToSuperview().inset(23)
+                } else {
+                    make.left.equalTo(finishedProjectButtons[i-1].snp.right).offset(12)
+                }
+                if i == finishedProjectButtons.count-1 {
+                    make.right.equalToSuperview().inset(10)
+                }
+            }
+        }
+    }
     private func clearCarrousel() {
         for view in onGoingProjectsCarrousel.subviews {
             if view is OnGoingProjectDisplayView {
@@ -243,6 +283,12 @@ extension ProfileDetailsController {
     private func didTapInviteToProject() {
         router?.routeToInviteToProjects()
     }
+    
+    @objc
+    private func didTapFinishedProject(_ sender: UIButton) {
+        guard let index = finishedProjectButtons.firstIndex(where: { $0.image(for: .normal)?.isEqual(sender.image(for: .normal)) ?? false }) else { return }
+        interactor?.didSelectFinishedProject(ProfileDetails.Request.SelectProjectWithIndex(index: index))
+    }
 }
 
 extension ProfileDetailsController: ConfirmationAlertViewDelegate {
@@ -273,20 +319,18 @@ extension ProfileDetailsController: ProfileDetailsDisplayLogic {
     
     func displayUserInfo(_ viewModel: ProfileDetails.Info.ViewModel.User) {
         projectViews = viewModel.progressingProjects.map({ OnGoingProjectDisplayView(frame: .zero, projectImage: $0.image)})
+        finishedProjectButtons = viewModel.finishedProjects.map({
+            let button = UIButton(frame: .zero)
+            button.sd_setImage(with: URL(string: $0.image), for: .normal, completed: nil)
+            button.addTarget(self, action: #selector(didTapFinishedProject(_:)), for: .touchUpInside)
+            return button
+        })
         for i in 0..<projectViews.count {
-//            let gesture = UITapGestureRecognizer(target: self, action: #selector(didTapCarrouselItem))
-//            projectViews[i].addGestureRecognizer(gesture)
             projectViews[i].callback = { self.interactor?.didSelectOnGoingProject(ProfileDetails.Request.SelectProjectWithIndex(index: i))
             }
         }
-//        for i in 0..<viewModel.progressingProjects.count {
-//            var views = [OnGoingProjectDisplayView]()
-//            views.append(OnGoingProjectDisplayView(frame: .zero,
-//                                                        projectImage: viewModel.progressingProjects[i].image,
-//                                                        callback: { self.interactor?.didSelectOnGoingProject(ProfileDetails.Request.SelectProjectWithIndex(index: i))}))
-//            projectViews = views
-//        }
         buildOnGoingProjectsCarrousel()
+        buildFinishedProjectsCarrousel()
         mainView.setup(viewModel: viewModel)
     }
     
@@ -330,5 +374,9 @@ extension ProfileDetailsController: ProfileDetailsDisplayLogic {
     
     func displayProjectDetails() {
         router?.routeToProjectDetails()
+    }
+    
+    func displayFinishedProjectDetails() {
+        router?.routeToFinishedProjectsDetails()
     }
 }

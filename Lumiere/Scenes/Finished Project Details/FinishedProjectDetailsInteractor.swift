@@ -14,6 +14,7 @@ protocol FinishedProjectDetailsBusinessLogic {
 
 protocol FinishedProjectDetailsDataStore {
     var receivedData: FinishedProjectDetails.Info.Received.Project? { get set }
+    var routingModel: FinishedProjectDetails.Info.Received.Routing? { get set }
     var projectData: FinishedProjectDetails.Info.Model.Project? { get }
     var projectRelation: FinishedProjectDetails.Info.Model.Relation? { get }
 }
@@ -24,6 +25,7 @@ class FinishedProjectDetailsInteractor: FinishedProjectDetailsDataStore {
     private let presenter: FinishedProjectDetailsPresentationLogic
     
     var receivedData: FinishedProjectDetails.Info.Received.Project?
+    var routingModel: FinishedProjectDetails.Info.Received.Routing?
     var projectData: FinishedProjectDetails.Info.Model.Project?
     var projectRelation: FinishedProjectDetails.Info.Model.Relation?
     

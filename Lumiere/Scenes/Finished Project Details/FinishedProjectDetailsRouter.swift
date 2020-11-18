@@ -12,6 +12,7 @@ typealias FinishedProjectDetailsRouterProtocol = NSObject & FinishedProjectDetai
 
 protocol FinishedProjectDetailsRoutingLogic {
     func routeToWatchVideo()
+    func dismiss()
 }
 
 protocol FinishedProjectDetailsDataTransfer {
@@ -19,6 +20,10 @@ protocol FinishedProjectDetailsDataTransfer {
 }
 
 class FinishedProjectDetailsRouter: NSObject, FinishedProjectDetailsDataTransfer {
+    
+    var routingMethod: RoutingMethod {
+        return dataStore?.routingModel?.routingMethod ?? .push
+    }
     
     var dataStore: FinishedProjectDetailsDataStore?
     weak var viewController: UIViewController?
@@ -39,6 +44,15 @@ extension FinishedProjectDetailsRouter: BaseRouterProtocol {
 }
 
 extension FinishedProjectDetailsRouter: FinishedProjectDetailsRoutingLogic {
+    
+    func dismiss() {
+        switch routingMethod {
+        case .modal:
+            viewController?.dismiss(animated: true, completion: nil)
+        case .push:
+            viewController?.navigationController?.popToRootViewController(animated: true)
+        }
+    }
     
     func routeToWatchVideo() {
         let vc = WatchVideoController()

@@ -7,7 +7,13 @@
 //
 import UIKit
 
-protocol BaseRouterProtocol {
+@objc enum RoutingMethod: Int {
+    case modal
+    case push
+}
+
+@objc protocol BaseRouterProtocol {
+    @objc optional var routingMethod: RoutingMethod { get }
     var viewController: UIViewController? { get set }
     func routeTo(nextVC: UIViewController)
 }
