@@ -5,7 +5,6 @@
 //  Created by Pedro Alvarez on 22/08/20.
 //  Copyright © 2020 Pedro Alvarez. All rights reserved.
 //
-
 import UIKit
 
 typealias OnGoingProjectDetailsRouterProtocol = NSObject & OnGoingProjectDetailsRoutingLogic & OnGoingProjectDetailsDataTransfer
@@ -49,8 +48,8 @@ class OnGoingProjectDetailsRouter: NSObject, OnGoingProjectDetailsDataTransfer {
     }
     
     private func transferDataToInsertMedia(from source: OnGoingProjectDetailsDataStore,
-                                           to destination: inout InsertMediaDataStore) {
-        destination.receivedData = InsertMedia.Info.Received.FinishingProject(id: source.projectData?.id ?? .empty)
+                                           to destination: inout InsertVideoDataStore) {
+        destination.receivedData = InsertVideo.Info.Received.ReceivedProject.finishing(InsertVideo.Info.Received.FinishingProject(id: source.projectData?.id ?? .empty))
     }
 }
 
@@ -97,7 +96,7 @@ extension OnGoingProjectDetailsRouter: OnGoingProjectDetailsRoutingLogic {
     }
     
     func routeToInsertMedia() {
-        let vc = InsertMediaController()
+        let vc = InsertVideoController()
         guard let source = dataStore,
               var destination = vc.router?.dataStore else { return }
         transferDataToInsertMedia(from: source, to: &destination)

@@ -1,16 +1,15 @@
 //
-//  InsertMediaController.swift
+//  InsertVideoController.swift
 //  Lumiere
 //
 //  Created by Pedro Alvarez on 04/11/20.
 //  Copyright © 2020 Pedro Alvarez. All rights reserved.
 //
-
 import UIKit
 import YoutubePlayer_in_WKWebView
 
-protocol InsertMediaDisplayLogic: class {
-    func displayYoutubeVideo(_ viewModel: InsertMedia.Info.ViewModel.Media)
+protocol InsertVideoDisplayLogic: class {
+    func displayYoutubeVideo(_ viewModel: InsertVideo.Info.ViewModel.Video)
     func displayVideoError()
     func displayFinishedProjectDetails()
     func displayLoading(_ loading: Bool)
@@ -18,7 +17,7 @@ protocol InsertMediaDisplayLogic: class {
     func displayLongLoading(_ loading: Bool)
 }
 
-class InsertMediaController: BaseViewController {
+class InsertVideoController: BaseViewController {
     
     private lazy var loadingView: LoadingView = {
         let view = LoadingView(frame: .zero)
@@ -29,7 +28,7 @@ class InsertMediaController: BaseViewController {
     private lazy var confirmationAlertView: ConfirmationAlertView = {
         let view = ConfirmationAlertView(frame: .zero,
                                          delegate: self,
-                                         text: InsertMedia.Constants.Texts.confirmation)
+                                         text: InsertVideo.Constants.Texts.confirmation)
         return view
     }()
     
@@ -61,17 +60,17 @@ class InsertMediaController: BaseViewController {
         let view = UITextField(frame: .zero)
         view.addTarget(self, action: #selector(didChangeInputTextField), for: .editingChanged)
         view.layer.borderWidth = 1
-        view.layer.borderColor = InsertMedia.Constants.Colors.inputTextFieldLayer
+        view.layer.borderColor = InsertVideo.Constants.Colors.inputTextFieldLayer
         view.layer.cornerRadius = 4
-        view.backgroundColor = InsertMedia.Constants.Colors.inputTextFieldBackground
-        view.textColor = InsertMedia.Constants.Colors.inputTextFieldText
-        view.font = InsertMedia.Constants.Fonts.inputTextField
+        view.backgroundColor = InsertVideo.Constants.Colors.inputTextFieldBackground
+        view.textColor = InsertVideo.Constants.Colors.inputTextFieldText
+        view.font = InsertVideo.Constants.Fonts.inputTextField
         view.delegate = self
         return view
     }()
     
     private lazy var urlErrorView: EmptyListView = {
-        let view = EmptyListView(frame: .zero, text: InsertMedia.Constants.Texts.urlNotFound)
+        let view = EmptyListView(frame: .zero, text: InsertVideo.Constants.Texts.urlNotFound)
         view.isHidden = true
         return view
     }()
@@ -85,16 +84,16 @@ class InsertMediaController: BaseViewController {
     private lazy var submitButton: UIButton = {
         let view = UIButton(frame: .zero)
         view.addTarget(self, action: #selector(didTapSubmit), for: .touchUpInside)
-        view.backgroundColor = InsertMedia.Constants.Colors.submitButtonBackgroundDisabled
+        view.backgroundColor = InsertVideo.Constants.Colors.submitButtonBackgroundDisabled
         view.layer.cornerRadius = 4
-        view.setTitle(InsertMedia.Constants.Texts.submitButton, for: .normal)
-        view.setTitleColor(InsertMedia.Constants.Colors.submitButtonText, for: .normal)
-        view.titleLabel?.font = InsertMedia.Constants.Fonts.submitButton
+        view.setTitle(InsertVideo.Constants.Texts.submitButton, for: .normal)
+        view.setTitleColor(InsertVideo.Constants.Colors.submitButtonText, for: .normal)
+        view.titleLabel?.font = InsertVideo.Constants.Fonts.submitButton
         return view
     }()
     
-    private lazy var mainView: InsertMediaView = {
-        let view = InsertMediaView(frame: .zero,
+    private lazy var mainView: InsertVideoView = {
+        let view = InsertVideoView(frame: .zero,
                                    loadingView: loadingView,
                                    confirmationAlertView: confirmationAlertView,
                                    translucentView: translucentView,
@@ -110,13 +109,13 @@ class InsertMediaController: BaseViewController {
     
     var submitEnabled: Bool = false {
         didSet {
-            submitButton.backgroundColor = submitEnabled ? InsertMedia.Constants.Colors.submitButtonBackgroundEnabled : InsertMedia.Constants.Colors.submitButtonBackgroundDisabled
+            submitButton.backgroundColor = submitEnabled ? InsertVideo.Constants.Colors.submitButtonBackgroundEnabled : InsertVideo.Constants.Colors.submitButtonBackgroundDisabled
             submitButton.isEnabled = submitEnabled
         }
     }
     
-    private var interactor: InsertMediaBusinessLogic?
-    var router: InsertMediaRouterProtocol?
+    private var interactor: InsertVideoBusinessLogic?
+    var router: InsertVideoRouterProtocol?
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -136,16 +135,16 @@ class InsertMediaController: BaseViewController {
         self.view = mainView
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         playerView.stopVideo()
     }
     
     private func setup() {
         let viewController = self
-        let presenter = InsertMediaPresenter(viewController: viewController)
-        let interactor = InsertMediaInteractor(presenter: presenter)
-        let router = InsertMediaRouter()
+        let presenter = InsertVideoPresenter(viewController: viewController)
+        let interactor = InsertVideoInteractor(presenter: presenter)
+        let router = InsertVideoRouter()
         viewController.interactor = interactor
         viewController.router = router
         router.viewController = viewController
@@ -153,7 +152,7 @@ class InsertMediaController: BaseViewController {
     }
 }
 
-extension InsertMediaController {
+extension InsertVideoController {
 
     private func showVideoError() {
         playerView.isHidden = true
@@ -162,7 +161,7 @@ extension InsertMediaController {
     }
 }
 
-extension InsertMediaController {
+extension InsertVideoController {
     
     @objc
     private func didTapBack() {
@@ -172,12 +171,12 @@ extension InsertMediaController {
     @objc
     private func didChangeInputTextField() {
         submitEnabled = false
-        interactor?.fetchYoutubeVideoId(InsertMedia.Request.FetchVideo(url: inputTextField.text ?? .empty))
+        interactor?.fetchYoutubeVideoId(InsertVideo.Request.FetchVideo(url: inputTextField.text ?? .empty))
     }
     
     @objc
     private func didTapSubmit() {
-        interactor?.fetchPublishVideo(InsertMedia.Request.Publish())
+        interactor?.fetchPublishVideo(InsertVideo.Request.Publish())
     }
     
     @objc
@@ -187,7 +186,7 @@ extension InsertMediaController {
     }
 }
 
-extension InsertMediaController: WKYTPlayerViewDelegate {
+extension InsertVideoController: WKYTPlayerViewDelegate {
     
     func playerView(_ playerView: WKYTPlayerView, receivedError error: WKYTPlayerError) {
         showVideoError()
@@ -207,12 +206,12 @@ extension InsertMediaController: WKYTPlayerViewDelegate {
     }
 }
 
-extension InsertMediaController: ConfirmationAlertViewDelegate {
+extension InsertVideoController: ConfirmationAlertViewDelegate {
     
     func didTapAccept() {
         navigationController?.tabBarController?.tabBar.isHidden = false
         mainView.hideConfirmationModal()
-        interactor?.fetchConfirmPublishing(InsertMedia.Request.Confirm())
+        interactor?.fetchConfirmPublishing(InsertVideo.Request.Confirm())
     }
     
     func didTapRefuse() {
@@ -221,19 +220,16 @@ extension InsertMediaController: ConfirmationAlertViewDelegate {
     }
 }
 
-extension InsertMediaController {
+extension InsertVideoController {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let  char = string.cString(using: String.Encoding.utf8)!
         let isBackSpace = strcmp(char, "\\b")
         
-//        guard textField.text?.count ?? 0 <= InsertMedia.Constants.BusinessLogic.inputTextFieldLenght else {
-//            return false
-//        }
         if (isBackSpace == -92) && (textField.text?.count)! > 0 {
             if textField == inputTextField {
                 textField.text!.removeAll()
-                interactor?.fetchYoutubeVideoId(InsertMedia.Request.FetchVideo(url: textField.text ?? .empty))
+                interactor?.fetchYoutubeVideoId(InsertVideo.Request.FetchVideo(url: textField.text ?? .empty))
                 submitEnabled = false
             } else {
                 textField.text?.removeLast()
@@ -243,9 +239,9 @@ extension InsertMediaController {
     }
 }
 
-extension InsertMediaController: InsertMediaDisplayLogic {
+extension InsertVideoController: InsertVideoDisplayLogic {
     
-    func displayYoutubeVideo(_ viewModel: InsertMedia.Info.ViewModel.Media) {
+    func displayYoutubeVideo(_ viewModel: InsertVideo.Info.ViewModel.Video) {
         urlErrorView.isHidden = true
         playerView.isHidden = false
         playerView.load(withVideoId: viewModel.videoId)
@@ -270,6 +266,8 @@ extension InsertMediaController: InsertMediaDisplayLogic {
     
     func displayLongLoading(_ loading: Bool) {
         navigationController?.tabBarController?.tabBar.isHidden = loading
+        playerView.stopVideo()
+        playerView.delegate = nil
         loadingView.isHidden = !loading
         loadingView.animateRotate()
     }

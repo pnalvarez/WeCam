@@ -101,13 +101,13 @@
 		3F42A4432550AFF50088E232 /* MainFeedWorkerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F42A4422550AFF40088E232 /* MainFeedWorkerMock.swift */; };
 		3F42A44B2550B2920088E232 /* MainFeedInteractor+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F42A44A2550B2920088E232 /* MainFeedInteractor+Tests.swift */; };
 		3F42A4502550E5240088E232 /* MainFeedPresenter+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F42A44F2550E5240088E232 /* MainFeedPresenter+Tests.swift */; };
-		3F42A481255392F20088E232 /* InsertMediaController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F42A480255392F20088E232 /* InsertMediaController.swift */; };
-		3F42A489255393020088E232 /* InsertMediaRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F42A488255393020088E232 /* InsertMediaRouter.swift */; };
-		3F42A48E255393150088E232 /* InsertMediaModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F42A48D255393150088E232 /* InsertMediaModels.swift */; };
-		3F42A493255393210088E232 /* InsertMediaInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F42A492255393210088E232 /* InsertMediaInteractor.swift */; };
-		3F42A4982553932F0088E232 /* InsertMediaPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F42A4972553932F0088E232 /* InsertMediaPresenter.swift */; };
-		3F42A49D2553933D0088E232 /* InsertMediaWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F42A49C2553933D0088E232 /* InsertMediaWorker.swift */; };
-		3F42A4A2255393520088E232 /* InsertMediaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F42A4A1255393520088E232 /* InsertMediaView.swift */; };
+		3F42A481255392F20088E232 /* InsertVideoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F42A480255392F20088E232 /* InsertVideoController.swift */; };
+		3F42A489255393020088E232 /* InsertVideoRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F42A488255393020088E232 /* InsertVideoRouter.swift */; };
+		3F42A48E255393150088E232 /* InsertVideoModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F42A48D255393150088E232 /* InsertVideoModels.swift */; };
+		3F42A493255393210088E232 /* InsertVideoInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F42A492255393210088E232 /* InsertVideoInteractor.swift */; };
+		3F42A4982553932F0088E232 /* InsertVideoPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F42A4972553932F0088E232 /* InsertVideoPresenter.swift */; };
+		3F42A49D2553933D0088E232 /* InsertVideoWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F42A49C2553933D0088E232 /* InsertVideoWorker.swift */; };
+		3F42A4A2255393520088E232 /* InsertVideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F42A4A1255393520088E232 /* InsertVideoView.swift */; };
 		3F42A5332557AB6B0088E232 /* FinishedProjectDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F42A5322557AB6A0088E232 /* FinishedProjectDetailsView.swift */; };
 		3F42A5382557AC500088E232 /* FinishedProjectDetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F42A5372557AC500088E232 /* FinishedProjectDetailsController.swift */; };
 		3F42A53D2557AC960088E232 /* FinishedProjectDetailsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F42A53C2557AC960088E232 /* FinishedProjectDetailsModels.swift */; };
@@ -431,13 +431,13 @@
 		3F42A4422550AFF40088E232 /* MainFeedWorkerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFeedWorkerMock.swift; sourceTree = "<group>"; };
 		3F42A44A2550B2920088E232 /* MainFeedInteractor+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainFeedInteractor+Tests.swift"; sourceTree = "<group>"; };
 		3F42A44F2550E5240088E232 /* MainFeedPresenter+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainFeedPresenter+Tests.swift"; sourceTree = "<group>"; };
-		3F42A480255392F20088E232 /* InsertMediaController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsertMediaController.swift; sourceTree = "<group>"; };
-		3F42A488255393020088E232 /* InsertMediaRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsertMediaRouter.swift; sourceTree = "<group>"; };
-		3F42A48D255393150088E232 /* InsertMediaModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsertMediaModels.swift; sourceTree = "<group>"; };
-		3F42A492255393210088E232 /* InsertMediaInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsertMediaInteractor.swift; sourceTree = "<group>"; };
-		3F42A4972553932F0088E232 /* InsertMediaPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsertMediaPresenter.swift; sourceTree = "<group>"; };
-		3F42A49C2553933D0088E232 /* InsertMediaWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsertMediaWorker.swift; sourceTree = "<group>"; };
-		3F42A4A1255393520088E232 /* InsertMediaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsertMediaView.swift; sourceTree = "<group>"; };
+		3F42A480255392F20088E232 /* InsertVideoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsertVideoController.swift; sourceTree = "<group>"; };
+		3F42A488255393020088E232 /* InsertVideoRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsertVideoRouter.swift; sourceTree = "<group>"; };
+		3F42A48D255393150088E232 /* InsertVideoModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsertVideoModels.swift; sourceTree = "<group>"; };
+		3F42A492255393210088E232 /* InsertVideoInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsertVideoInteractor.swift; sourceTree = "<group>"; };
+		3F42A4972553932F0088E232 /* InsertVideoPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsertVideoPresenter.swift; sourceTree = "<group>"; };
+		3F42A49C2553933D0088E232 /* InsertVideoWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsertVideoWorker.swift; sourceTree = "<group>"; };
+		3F42A4A1255393520088E232 /* InsertVideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsertVideoView.swift; sourceTree = "<group>"; };
 		3F42A5322557AB6A0088E232 /* FinishedProjectDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishedProjectDetailsView.swift; sourceTree = "<group>"; };
 		3F42A5372557AC500088E232 /* FinishedProjectDetailsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishedProjectDetailsController.swift; sourceTree = "<group>"; };
 		3F42A53C2557AC960088E232 /* FinishedProjectDetailsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishedProjectDetailsModels.swift; sourceTree = "<group>"; };
@@ -993,13 +993,13 @@
 		3F42A47C255392D70088E232 /* Insert Midia */ = {
 			isa = PBXGroup;
 			children = (
-				3F42A480255392F20088E232 /* InsertMediaController.swift */,
-				3F42A488255393020088E232 /* InsertMediaRouter.swift */,
-				3F42A48D255393150088E232 /* InsertMediaModels.swift */,
-				3F42A492255393210088E232 /* InsertMediaInteractor.swift */,
-				3F42A4972553932F0088E232 /* InsertMediaPresenter.swift */,
-				3F42A49C2553933D0088E232 /* InsertMediaWorker.swift */,
-				3F42A4A1255393520088E232 /* InsertMediaView.swift */,
+				3F42A480255392F20088E232 /* InsertVideoController.swift */,
+				3F42A488255393020088E232 /* InsertVideoRouter.swift */,
+				3F42A48D255393150088E232 /* InsertVideoModels.swift */,
+				3F42A492255393210088E232 /* InsertVideoInteractor.swift */,
+				3F42A4972553932F0088E232 /* InsertVideoPresenter.swift */,
+				3F42A49C2553933D0088E232 /* InsertVideoWorker.swift */,
+				3F42A4A1255393520088E232 /* InsertVideoView.swift */,
 			);
 			path = "Insert Midia";
 			sourceTree = "<group>";
@@ -1984,7 +1984,7 @@
 				3F8D13A524D73C2600AED7EB /* Array+.swift in Sources */,
 				3F42A5512557AE710088E232 /* FinishedProjectDetailsWorker.swift in Sources */,
 				3FAD1A092516B50D00ED4074 /* MainFeedTableView.swift in Sources */,
-				3F42A481255392F20088E232 /* InsertMediaController.swift in Sources */,
+				3F42A481255392F20088E232 /* InsertVideoController.swift in Sources */,
 				3F40A68124EDF5A300261161 /* SelectProjectCathegoryController.swift in Sources */,
 				3F5B325B253164E3004DFBFD /* ProfileSuggestionsRouter.swift in Sources */,
 				3F95782024AD6FBC00B79818 /* AppDelegate.swift in Sources */,
@@ -2040,7 +2040,7 @@
 				3FB8BD83250ED4FF001954FD /* InviteProfileToProjectsPresenter.swift in Sources */,
 				3F8D139F24D53BA600AED7EB /* NotificationsRouter.swift in Sources */,
 				3F8D13B224D750F900AED7EB /* SaveNotificationsRequest.swift in Sources */,
-				3F42A4982553932F0088E232 /* InsertMediaPresenter.swift in Sources */,
+				3F42A4982553932F0088E232 /* InsertVideoPresenter.swift in Sources */,
 				3F012A01252E8B3100FF4985 /* RecentSearchTableViewCellBuilder.swift in Sources */,
 				3F66CA0D25045139006F6DBD /* ProjectParticipantsListView.swift in Sources */,
 				3F40A6AB24F092CD00261161 /* EditProjectDetailsModels.swift in Sources */,
@@ -2088,7 +2088,7 @@
 				3F42A55F255A13610088E232 /* WatchVideoView.swift in Sources */,
 				3FA1C1512536738B00385322 /* OptionFilterButton.swift in Sources */,
 				3F8D138624D5361A00AED7EB /* ProfileDetailsView.swift in Sources */,
-				3F42A489255393020088E232 /* InsertMediaRouter.swift in Sources */,
+				3F42A489255393020088E232 /* InsertVideoRouter.swift in Sources */,
 				3F8D13A724D73F5E00AED7EB /* FetchUserDataRequest.swift in Sources */,
 				3F012A17252E9A8F00FF4985 /* ProfileSuggestionsFeedTableViewCellBuilder.swift in Sources */,
 				3F40A69024EF41ED00261161 /* ProjectProgressView.swift in Sources */,
@@ -2123,7 +2123,7 @@
 				3F6EEA3B24E0A3AE0075C500 /* ConnectionsListModels.swift in Sources */,
 				3F42A53D2557AC960088E232 /* FinishedProjectDetailsModels.swift in Sources */,
 				3F8D13CE24DF388700AED7EB /* FetchUserRelationRequest.swift in Sources */,
-				3F42A4A2255393520088E232 /* InsertMediaView.swift in Sources */,
+				3F42A4A2255393520088E232 /* InsertVideoView.swift in Sources */,
 				3F40A6B224F1CAE500261161 /* OnGoingProjectDetailsView.swift in Sources */,
 				3F40A6A924F0927C00261161 /* EditProjectDetailsPresenter.swift in Sources */,
 				3F0CAA6624CCE41D005E2558 /* SignInRequest.swift in Sources */,
@@ -2139,7 +2139,7 @@
 				3FB8BD7D250ED441001954FD /* InviteProfileToProjectsView.swift in Sources */,
 				3F40A69E24F08F7C00261161 /* DefaultBackButton.swift in Sources */,
 				3F5B3232253161B6004DFBFD /* ProfileSuggestionsController.swift in Sources */,
-				3F42A48E255393150088E232 /* InsertMediaModels.swift in Sources */,
+				3F42A48E255393150088E232 /* InsertVideoModels.swift in Sources */,
 				3F40A61224EA0E4B00261161 /* SelectProjectImageView.swift in Sources */,
 				3F9578CE24B0197F00B79818 /* SignUpProvider.swift in Sources */,
 				3F40A6A124F0914400261161 /* EditProjectDetailsController.swift in Sources */,
@@ -2154,7 +2154,7 @@
 				3F95786A24AEA07100B79818 /* LaunchScreenInteractor.swift in Sources */,
 				3FE8DF5824C7BEE2005DE30D /* Constants.swift in Sources */,
 				3F9578D424B019BE00B79818 /* MovieStyleButton.swift in Sources */,
-				3F42A49D2553933D0088E232 /* InsertMediaWorker.swift in Sources */,
+				3F42A49D2553933D0088E232 /* InsertVideoWorker.swift in Sources */,
 				3F012A06252E8C4100FF4985 /* ProfileSuggestionsFeedTableViewCell.swift in Sources */,
 				3F42A573255A15150088E232 /* WatchVideoWorker.swift in Sources */,
 				3F40A6D424F4870100261161 /* InviteListView.swift in Sources */,
@@ -2188,7 +2188,7 @@
 				3F5B32442531627C004DFBFD /* ProfileSuggestionsModels.swift in Sources */,
 				3F6EEA6F24E5D7550075C500 /* Dictionary+.swift in Sources */,
 				3F40A6BC24F1CD4400261161 /* OnGoingProjectDetailsModels.swift in Sources */,
-				3F42A493255393210088E232 /* InsertMediaInteractor.swift in Sources */,
+				3F42A493255393210088E232 /* InsertVideoInteractor.swift in Sources */,
 				3F40A6B024F1CADA00261161 /* OnGoingProjectDetailsController.swift in Sources */,
 				3F42A5472557ADBB0088E232 /* FinishedProjectDetailsPresenter.swift in Sources */,
 				3F6EEA3D24E0A6B10075C500 /* ConnectionsListTableViewCell.swift in Sources */,

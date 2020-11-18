@@ -8,20 +8,20 @@
 
 import UIKit
 
-protocol InsertMediaPresentationLogic {
+protocol InsertVideoPresentationLogic {
     func presentVideoError()
-    func presentVideoWithId(_ response: InsertMedia.Info.Model.Media)
+    func presentVideoWithId(_ response: InsertVideo.Info.Model.Video)
     func presentFinishedProjectDetails()
     func presentLoading(_ loading: Bool)
     func presentLongLoading(_ loading: Bool)
     func presentConfirmationModal()
 }
 
-class InsertMediaPresenter: InsertMediaPresentationLogic {
+class InsertVideoPresenter: InsertVideoPresentationLogic {
     
-    private unowned var viewController: InsertMediaDisplayLogic
+    private unowned var viewController: InsertVideoDisplayLogic
     
-    init(viewController: InsertMediaDisplayLogic) {
+    init(viewController: InsertVideoDisplayLogic) {
         self.viewController = viewController
     }
     
@@ -29,8 +29,8 @@ class InsertMediaPresenter: InsertMediaPresentationLogic {
         viewController.displayVideoError()
     }
     
-    func presentVideoWithId(_ response: InsertMedia.Info.Model.Media) {
-        let viewModel = InsertMedia.Info.ViewModel.Media(videoId: response.videoId)
+    func presentVideoWithId(_ response: InsertVideo.Info.Model.Video) {
+        let viewModel = InsertVideo.Info.ViewModel.Video(videoId: response.videoId)
         viewController.displayYoutubeVideo(viewModel)
     }
     

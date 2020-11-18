@@ -5,7 +5,6 @@
 //  Created by Pedro Alvarez on 21/08/20.
 //  Copyright © 2020 Pedro Alvarez. All rights reserved.
 //
-
 import UIKit
 
 typealias EditProjectDetailsRouterProtocol = NSObject & EditProjectDetailsRoutingLogic & EditProjectDetailsDataTransfer
@@ -14,6 +13,7 @@ protocol EditProjectDetailsRoutingLogic {
     func routeBack()
     func routeToInviteList()
     func routeToPublishedProjectDetails()
+    func routeToInsertMedia()
 }
 
 protocol EditProjectDetailsDataTransfer {
@@ -45,6 +45,22 @@ class EditProjectDetailsRouter: NSObject, EditProjectDetailsDataTransfer {
                                                                                notInvitedUsers: project.userIdsNotInvited)
         destination.routingContext = .justCreatedProject
     }
+    
+    private func transferDataToInsertMedia(from source: EditProjectDetailsDataStore,
+                                           to destination: inout InsertVideoDataStore) {
+        let project = InsertVideo
+            .Info
+            .Received
+            .NewProject(title: source.publishingProject?.title ?? .empty,
+                        sinopsis: source.publishingProject?.sinopsis ?? .empty,
+                        image: source.publishingProject?.image ?? Data(),
+                        cathegories: source.publishingProject?.cathegories ?? .empty)
+        destination.receivedData = InsertVideo
+            .Info
+            .Received
+            .ReceivedProject
+            .new(project)
+    }
 }
 
 extension EditProjectDetailsRouter: BaseRouterProtocol {
@@ -73,6 +89,14 @@ extension EditProjectDetailsRouter: EditProjectDetailsRoutingLogic {
         guard let source = dataStore,
             var destination = vc.router?.dataStore else { return }
         transferDataToProjectDetails(from: source, to: &destination)
+        routeTo(nextVC: vc)
+    }
+    
+    func routeToInsertMedia() {
+        let vc = InsertVideoController()
+        guard let source = dataStore,
+              var destination = vc.router?.dataStore else { return }
+        transferDataToInsertMedia(from: source, to: &destination)
         routeTo(nextVC: vc)
     }
 }

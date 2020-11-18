@@ -1,15 +1,14 @@
 //
-//  InsertMediaModels.swift
+//  InsertVideoModels.swift
 //  Lumiere
 //
 //  Created by Pedro Alvarez on 04/11/20.
 //  Copyright © 2020 Pedro Alvarez. All rights reserved.
 //
-
 import UIKit
 import ObjectMapper
 
-struct InsertMedia {
+struct InsertVideo {
     
     struct Constants {
         
@@ -81,12 +80,29 @@ struct InsertMedia {
             struct FinishingProject {
                 let id: String
             }
+            
+            struct NewProject {
+                let title: String
+                let sinopsis: String
+                let image: Data
+                let cathegories: [String]
+            }
+            
+            enum ReceivedProject {
+                case finishing(FinishingProject)
+                case new(NewProject)
+            }
         }
         
         struct Model {
             
-            struct Media {
+            struct Video {
                 let videoId: String
+            }
+            
+            enum ProjectToSubmit {
+                case finishing(FinishedProject)
+                case new(NewProject)
             }
             
             struct FinishedProject {
@@ -99,11 +115,21 @@ struct InsertMedia {
                 let media: String
                 let finishDate: Date
             }
+            
+            struct NewProject {
+                let title: String
+                let cathegories: [String]
+                let sinopsis: String
+                let teamMembers: [String]
+                let image: Data
+                let media: String
+                let finishDate: Date
+            }
         }
         
         struct ViewModel {
             
-            struct Media {
+            struct Video {
                 let videoId: String
             }
         }
@@ -130,7 +156,17 @@ struct InsertMedia {
             let cathegories: [String]
             let participants: [String]
             let image: String
-            let media: String
+            let video: String
+            let finishedDate: Int
+        }
+        
+        struct CreateProject {
+            let projectTitle: String
+            let sinopsis: String
+            let cathegories: [String]
+            let participants: [String]
+            let image: Data
+            let video: String
             let finishedDate: Int
         }
         

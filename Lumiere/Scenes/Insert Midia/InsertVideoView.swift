@@ -9,7 +9,7 @@
 import UIKit
 import YoutubePlayer_in_WKWebView
 
-class InsertMediaView: UIView {
+class InsertVideoView: UIView {
     
     private unowned var loadingView: LoadingView
     private unowned var confirmationAlertView: ConfirmationAlertView
@@ -39,17 +39,17 @@ class InsertMediaView: UIView {
     
     private lazy var insertUrlLbl: UILabel = {
         let view = UILabel(frame: .zero)
-        view.textColor = InsertMedia.Constants.Colors.insertUrlLbl
-        view.text = InsertMedia.Constants.Texts.insertUrlLbl
-        view.font = InsertMedia.Constants.Fonts.insertUrlLbl
+        view.textColor = InsertVideo.Constants.Colors.insertUrlLbl
+        view.text = InsertVideo.Constants.Texts.insertUrlLbl
+        view.font = InsertVideo.Constants.Fonts.insertUrlLbl
         return view
     }()
     
     private lazy var previewLbl: UILabel = {
         let view = UILabel(frame: .zero)
-        view.textColor = InsertMedia.Constants.Colors.previewLbl
-        view.text = InsertMedia.Constants.Texts.previewLbl
-        view.font = InsertMedia.Constants.Fonts.previewLbl
+        view.textColor = InsertVideo.Constants.Colors.previewLbl
+        view.text = InsertVideo.Constants.Texts.previewLbl
+        view.font = InsertVideo.Constants.Fonts.previewLbl
         return view
     }()
     
@@ -106,7 +106,7 @@ class InsertMediaView: UIView {
     
 }
 
-extension InsertMediaView: ViewCodeProtocol {
+extension InsertVideoView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
         mainContainer.addSubview(backButton)
