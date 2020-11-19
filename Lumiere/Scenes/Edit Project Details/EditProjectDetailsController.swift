@@ -13,6 +13,7 @@ protocol EditProjectDetailsDisplayLogic: class {
     func displayInvitedUsers(_ viewModel: EditProjectDetails.Info.ViewModel.InvitedUsers)
     func displayLoading(_ loading: Bool)
     func displayError(_ viewModel: EditProjectDetails.Info.ViewModel.DisplayError)
+    func displayUpdatedProjectContextUI()
 }
 
 class EditProjectDetailsController: BaseViewController {
@@ -122,6 +123,7 @@ class EditProjectDetailsController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        interactor?.fetchContext(EditProjectDetails.Request.FetchContext())
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -192,5 +194,9 @@ extension EditProjectDetailsController: EditProjectDetailsDisplayLogic {
     func displayError(_ viewModel: EditProjectDetails.Info.ViewModel.DisplayError) {
         mainView.updateAllTextFields()
         UIAlertController.displayAlert(in: self, title: EditProjectDetails.Constants.Texts.errorTitle, message: viewModel.description)
+    }
+    
+    func displayUpdatedProjectContextUI() {
+        mainView.updateForFinishedProject()
     }
 }

@@ -14,6 +14,7 @@ protocol EditProjectDetailsPresentationLogic {
     func presentLoading(_ loading: Bool)
     func presentServerError(_ response: EditProjectDetails.Info.Model.ServerError)
     func presentLocalError(_ response: EditProjectDetails.Info.Model.LocalError)
+    func presentFinishedProjectContextUI()
 }
 
 class EditProjectDetailsPresenter: EditProjectDetailsPresentationLogic {
@@ -50,5 +51,9 @@ class EditProjectDetailsPresenter: EditProjectDetailsPresentationLogic {
     func presentLocalError(_ response: EditProjectDetails.Info.Model.LocalError) {
         let viewModel = EditProjectDetails.Info.ViewModel.DisplayError(description: response.description)
         viewController.displayError(viewModel)
+    }
+    
+    func presentFinishedProjectContextUI() {
+        viewController.displayUpdatedProjectContextUI()
     }
 }

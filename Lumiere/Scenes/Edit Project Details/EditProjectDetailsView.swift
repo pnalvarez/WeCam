@@ -146,6 +146,12 @@ class EditProjectDetailsView: UIView {
         sinopsisTextView.layer.borderColor = EditProjectDetails.Constants.Colors.sinopsisTextFieldLayer
         projectTitleTextField.layer.borderColor = EditProjectDetails.Constants.Colors.projectTitleTextFieldLayer
     }
+    
+    func updateForFinishedProject() {
+        needLbl.isHidden = true
+        needTextView.isHidden = true
+        teamFixedLbl.isHidden = true
+    }
 }
 
 extension EditProjectDetailsView {

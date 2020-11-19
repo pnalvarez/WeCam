@@ -8,11 +8,13 @@
 
 protocol EditProjectDetailsBusinessLogic {
     func fetchInvitations(_ request: EditProjectDetails.Request.Invitations)
+    func fetchContext(_ request: EditProjectDetails.Request.FetchContext)
     func fetchPublish(_ request: EditProjectDetails.Request.Publish)
 }
 
 protocol EditProjectDetailsDataStore {
     var receivedData: EditProjectDetails.Info.Received.Project? { get set }
+    var routingContext: EditProjectDetails.Info.Received.RoutingContext? { get set }
     var invitedUsers: EditProjectDetails.Info.Model.InvitedUsers? { get set }
     var publishingProject: EditProjectDetails.Info.Model.PublishingProject? { get set }
     var publishedProject: EditProjectDetails.Info.Model.PublishedProject? { get set }
@@ -24,6 +26,7 @@ class EditProjectDetailsInteractor: EditProjectDetailsDataStore {
     var presenter: EditProjectDetailsPresentationLogic
     
     var receivedData: EditProjectDetails.Info.Received.Project?
+    var routingContext: EditProjectDetails.Info.Received.RoutingContext?
     var invitedUsers: EditProjectDetails.Info.Model.InvitedUsers?
     var publishingProject: EditProjectDetails.Info.Model.PublishingProject?
     var publishedProject: EditProjectDetails.Info.Model.PublishedProject?
@@ -99,6 +102,12 @@ extension EditProjectDetailsInteractor: EditProjectDetailsBusinessLogic {
     func fetchInvitations(_ request: EditProjectDetails.Request.Invitations) {
         guard let users = invitedUsers else { return }
         presenter.presentInvitedUsers(users)
+    }
+    
+    func fetchContext(_ request: EditProjectDetails.Request.FetchContext) {
+        if routingContext?.context == .finished {
+            presenter.presentFinishedProjectContextUI()
+        }
     }
     
     func fetchPublish(_ request: EditProjectDetails.Request.Publish) {

@@ -47,10 +47,11 @@ extension ProjectProgressInteractor: ProjectProgressBusinessLogic {
     
     func fetchConfirmFinished(_ request: ProjectProgress.Request.ConfirmFinishedStatus) {
         progressingProject?.progress = ProjectProgress.Constants.BusinessLogic.finishedPercentage
-        //TO DO
+        progressingProject?.status = .finished
+        presenter.presentEditProjectDetails()
     }
     
-    func fetchConfirmPercentage(_ request: ProjectProgress.Request.ConfirmPercentage) {
+    func fetchConfirmPercentage(_ request: ProjectProgress.Request.ConfirmPercentage) {     
         presenter.presentEditProjectDetails()
     }
 }

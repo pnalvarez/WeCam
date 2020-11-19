@@ -69,6 +69,10 @@ struct EditProjectDetails {
         
         struct Received {
             
+            struct RoutingContext {
+                let context: Model.Context
+            }
+            
             struct Project {
                 let image: Data?
                 let cathegories: [String]
@@ -77,6 +81,11 @@ struct EditProjectDetails {
         }
         
         struct Model {
+            
+            enum Context {
+                case finished
+                case ongoing
+            }
             
             struct PublishedProject {
                 let id: String
@@ -185,6 +194,10 @@ struct EditProjectDetails {
             let title: String
             let image: String
             let authorId: String
+        }
+        
+        struct FetchContext {
+            
         }
     }
 }

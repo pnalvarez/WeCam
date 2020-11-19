@@ -26,6 +26,14 @@ class ProjectProgressRouter: NSObject, ProjectProgressDataTransfer {
     
     private func transferDataToEditProjectDetails(from source: ProjectProgressDataStore,
                                                   to destination: inout EditProjectDetailsDataStore) {
+        switch source.progressingProject?.status {
+        case .ongoing:
+            destination.routingContext = EditProjectDetails.Info.Received.RoutingContext(context: .ongoing)
+        case .finished:
+            destination.routingContext = EditProjectDetails.Info.Received.RoutingContext(context: .finished)
+        case .none:
+            break
+        }
         destination.receivedData = EditProjectDetails.Info.Received.Project(image: source.progressingProject?.image,
                                                                             cathegories: source.progressingProject?.cathegories ?? .empty,
                                                                             progress: source.progressingProject?.progress ?? 0.0)

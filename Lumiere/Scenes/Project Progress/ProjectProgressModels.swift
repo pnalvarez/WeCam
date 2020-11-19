@@ -65,10 +65,16 @@ struct ProjectProgress {
         
         struct Model {
             
+            enum ProjectStatus {
+                case ongoing
+                case finished
+            }
+            
             struct Project {
                 let image: Data?
                 let cathegories: [String]
                 var progress: Float
+                var status: ProjectStatus = .ongoing
             }
         }
         
