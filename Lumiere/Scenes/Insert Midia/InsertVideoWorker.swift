@@ -11,7 +11,7 @@ protocol InsertVideoWorkerProtocol {
     func fetchPublishExistingProject(_ request: InsertVideo.Request.SubmitVideo,
                              completion: @escaping (EmptyResponse) -> Void)
     func fetchPublishNewProject(_ request: InsertVideo.Request.CreateProject,
-                                completion: @escaping (EmptyResponse) -> Void)
+                                completion: @escaping (BaseResponse<InsertVideo.Info.Response.FinishedProject>) -> Void)
 }
 
 class InsertVideoWorker: InsertVideoWorkerProtocol {
@@ -35,7 +35,7 @@ class InsertVideoWorker: InsertVideoWorkerProtocol {
     }
     
     func fetchPublishNewProject(_ request: InsertVideo.Request.CreateProject,
-                                completion: @escaping (EmptyResponse) -> Void) {
+                                completion: @escaping (BaseResponse<InsertVideo.Info.Response.FinishedProject>) -> Void) {
         let headers: [String : Any] = ["title": request.projectTitle, "sinopsis": request.sinopsis, "cathegories": request.cathegories, "youtube_url": request.video, "image": request.image]
         builder.publishNewProject(request: headers,
                                   completion: completion)

@@ -15,6 +15,7 @@ protocol EditProjectDetailsPresentationLogic {
     func presentServerError(_ response: EditProjectDetails.Info.Model.ServerError)
     func presentLocalError(_ response: EditProjectDetails.Info.Model.LocalError)
     func presentFinishedProjectContextUI()
+    func presentInsertVideo()
 }
 
 class EditProjectDetailsPresenter: EditProjectDetailsPresentationLogic {
@@ -55,5 +56,9 @@ class EditProjectDetailsPresenter: EditProjectDetailsPresentationLogic {
     
     func presentFinishedProjectContextUI() {
         viewController.displayUpdatedProjectContextUI()
+    }
+    
+    func presentInsertVideo() {
+        viewController.displayInsertVideo()
     }
 }

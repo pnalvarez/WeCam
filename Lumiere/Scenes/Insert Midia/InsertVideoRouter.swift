@@ -23,12 +23,15 @@ class InsertVideoRouter: NSObject, InsertVideoDataTransfer {
     weak var viewController: UIViewController?
     var dataStore: InsertVideoDataStore?
     
-    private func transferDataToFinishedProjectDetails(from source: InsertVideoDataStore, to destination: inout FinishedProjectDetailsDataStore) {
-        switch source.finishedProject {
+    private func transferDataToFinishedProjectDetails(from source: InsertVideoDataStore,
+                                                      to destination: inout FinishedProjectDetailsDataStore) {
+        switch source.finishedProjectToSubmit {
         case .finishing(let data):
             destination.receivedData = FinishedProjectDetails.Info.Received.Project(id: data.id)
             destination.routingModel = FinishedProjectDetails.Info.Received.Routing(routingMethod: .push)
-        default:
+        case .new(let newProject):
+            destination.receivedData = FinishedProjectDetails.Info.Received.Project(id: newProject.id ?? .empty)
+        case .none:
             break
         }
     }

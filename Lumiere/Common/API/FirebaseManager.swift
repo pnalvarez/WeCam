@@ -134,8 +134,8 @@ protocol FirebaseManagerProtocol {
                                       completion: @escaping (BaseResponse<T>) -> Void)
     func fetchUserFinishedProjects<T: Mappable>(request: [String : Any],
                                                 completion: @escaping (BaseResponse<[T]>) -> Void)
-    func publishNewProject(request: [String : Any],
-                           completion: @escaping (EmptyResponse) -> Void)
+    func publishNewProject<T: Mappable>(request: [String : Any],
+                              completion: @escaping (BaseResponse<T>) -> Void)
 }
 
 class FirebaseManager: FirebaseManagerProtocol {
@@ -3598,8 +3598,8 @@ class FirebaseManager: FirebaseManagerProtocol {
         }
     }
     
-    func publishNewProject(request: [String : Any],
-                              completion: @escaping (EmptyResponse) -> Void) {
+    func publishNewProject<T: Mappable>(request: [String : Any],
+                              completion: @escaping (BaseResponse<T>) -> Void) {
         guard let title = request["title"] as? String,
               let sinopsis = request["sinopsis"] as? String,
               let cathegories = request["cathegories"] as? [String],
@@ -3640,7 +3640,12 @@ class FirebaseManager: FirebaseManagerProtocol {
                             completion(.error(error))
                             return
                         }
-                        completion(.success)
+                        let dict: [String : Any] = ["id": projectId]
+                        guard let mappedResponse = Mapper<T>().map(JSON: dict) else {
+                            completion(.error(FirebaseErrors.parseError))
+                            return
+                        }
+                        completion(.success(mappedResponse))
                 }
             }
         }

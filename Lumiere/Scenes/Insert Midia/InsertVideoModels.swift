@@ -73,6 +73,16 @@ struct InsertVideo {
                     authorId <- map["author_id"]
                 }
             }
+            
+            final class FinishedProject: Mappable {
+                var id: String?
+                
+                init?(map: Map) { }
+                
+                func mapping(map: Map) {
+                    id <- map["id"]
+                }
+            }
         }
         
         struct Received {
@@ -117,6 +127,7 @@ struct InsertVideo {
             }
             
             struct NewProject {
+                var id: String?
                 let title: String
                 let cathegories: [String]
                 let sinopsis: String

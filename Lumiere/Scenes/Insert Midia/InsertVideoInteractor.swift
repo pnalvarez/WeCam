@@ -16,7 +16,7 @@ protocol InsertVideoBusinessLogic {
 protocol InsertVideoDataStore {
     var receivedData: InsertVideo.Info.Received.ReceivedProject? { get set }
     var video: InsertVideo.Info.Model.Video? { get }
-    var finishedProject: InsertVideo.Info.Model.ProjectToSubmit? { get }
+    var finishedProjectToSubmit: InsertVideo.Info.Model.ProjectToSubmit? { get }
 }
 
 class InsertVideoInteractor: InsertVideoDataStore {
@@ -26,7 +26,7 @@ class InsertVideoInteractor: InsertVideoDataStore {
     
     var receivedData: InsertVideo.Info.Received.ReceivedProject?
     var video: InsertVideo.Info.Model.Video?
-    var finishedProject: InsertVideo.Info.Model.ProjectToSubmit?
+    var finishedProjectToSubmit: InsertVideo.Info.Model.ProjectToSubmit?
     
     init(worker: InsertVideoWorkerProtocol = InsertVideoWorker(),
          presenter: InsertVideoPresentationLogic) {
@@ -74,7 +74,7 @@ extension InsertVideoInteractor {
                                      image: data.image ?? .empty,
                                      media: self.video?.videoId ?? .empty,
                                      finishDate: Date())
-                self.finishedProject = InsertVideo
+                self.finishedProjectToSubmit = InsertVideo
                     .Info
                     .Model
                     .ProjectToSubmit.finishing(project)
@@ -87,17 +87,17 @@ extension InsertVideoInteractor {
     }
     
     private func publishNewProject(withData project: InsertVideo.Info.Received.NewProject) {
-        let project = InsertVideo
+        var project = InsertVideo
             .Info
             .Model
-            .NewProject(title: project.title,
+            .NewProject(id: nil,
+                        title: project.title,
                         cathegories: project.cathegories,
                         sinopsis: project.sinopsis,
                         teamMembers: .empty,
                         image: project.image,
                         media: video?.videoId ?? .empty,
                         finishDate: Date())
-        finishedProject = InsertVideo.Info.Model.ProjectToSubmit.new(project)
         worker.fetchPublishNewProject(InsertVideo
                                         .Request
                                         .CreateProject(projectTitle: project.title,
@@ -109,7 +109,9 @@ extension InsertVideoInteractor {
                                                        finishedDate: Int(project.finishDate.timeIntervalSince1970))) {
             response in
             switch response {
-            case .success:
+            case .success(let data):
+                project.id = data.id
+                self.finishedProjectToSubmit = InsertVideo.Info.Model.ProjectToSubmit.new(project)
                 self.presenter.presentLongLoading(false)
                 self.presenter.presentFinishedProjectDetails()
             case .error(let error):
@@ -142,7 +144,6 @@ extension InsertVideoInteractor: InsertVideoBusinessLogic {
             fetchFinishingProjectDetails(withData: project)
         case .new(let project):
             publishNewProject(withData: project)
-            break
         case .none:
             break
         }

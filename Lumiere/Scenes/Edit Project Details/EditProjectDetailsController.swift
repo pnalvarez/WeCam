@@ -14,6 +14,7 @@ protocol EditProjectDetailsDisplayLogic: class {
     func displayLoading(_ loading: Bool)
     func displayError(_ viewModel: EditProjectDetails.Info.ViewModel.DisplayError)
     func displayUpdatedProjectContextUI()
+    func displayInsertVideo()
 }
 
 class EditProjectDetailsController: BaseViewController {
@@ -158,7 +159,7 @@ extension EditProjectDetailsController {
     
     @objc
     private func didTapPublish() {
-        interactor?.fetchPublish(EditProjectDetails.Request.Publish(title: projectTitleTextField.text ?? .empty,
+        interactor?.fetchSubmit(EditProjectDetails.Request.Publish(title: projectTitleTextField.text ?? .empty,
                                                                     sinopsis: sinopsisTextView.text,
                                                                     needing: needTextView.text))
     }
@@ -198,5 +199,9 @@ extension EditProjectDetailsController: EditProjectDetailsDisplayLogic {
     
     func displayUpdatedProjectContextUI() {
         mainView.updateForFinishedProject()
+    }
+    
+    func displayInsertVideo() {
+        router?.routeToInsertVideo()
     }
 }

@@ -13,7 +13,7 @@ protocol EditProjectDetailsRoutingLogic {
     func routeBack()
     func routeToInviteList()
     func routeToPublishedProjectDetails()
-    func routeToInsertMedia()
+    func routeToInsertVideo()
 }
 
 protocol EditProjectDetailsDataTransfer {
@@ -92,7 +92,7 @@ extension EditProjectDetailsRouter: EditProjectDetailsRoutingLogic {
         routeTo(nextVC: vc)
     }
     
-    func routeToInsertMedia() {
+    func routeToInsertVideo() {
         let vc = InsertVideoController()
         guard let source = dataStore,
               var destination = vc.router?.dataStore else { return }

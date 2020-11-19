@@ -9,7 +9,7 @@
 protocol EditProjectDetailsBusinessLogic {
     func fetchInvitations(_ request: EditProjectDetails.Request.Invitations)
     func fetchContext(_ request: EditProjectDetails.Request.FetchContext)
-    func fetchPublish(_ request: EditProjectDetails.Request.Publish)
+    func fetchSubmit(_ request: EditProjectDetails.Request.Publish)
 }
 
 protocol EditProjectDetailsDataStore {
@@ -81,6 +81,28 @@ extension EditProjectDetailsInteractor {
         }
         return false
     }
+    
+    private func publishProject(_ request: EditProjectDetails.Request.Publish) {
+        presenter.presentLoading(true)
+        guard let project = publishingProject else { return }
+        worker.fetchPublish(request: EditProjectDetails.Request.CompletePublish(project: project)) { response in
+            switch response {
+            case .success(let data):
+                self.publishedProject = EditProjectDetails.Info.Model.PublishedProject(id: data.id ?? .empty,
+                                                                                       title: data.title ?? .empty,
+                                                                                       authorId: data.authorId ?? .empty,
+                                                                                       image: data.image ?? .empty,
+                                                                                       userIdsNotInvited: .empty)
+                guard let project = self.publishedProject else { return }
+                self.fetchInviteUsers(withProjectDate: project)
+                break
+            case .error(let error):
+                self.presenter.presentLoading(false)
+                self.presenter.presentServerError(EditProjectDetails.Info.Model.ServerError(error: error))
+                break
+            }
+        }
+    }
 }
 
 extension EditProjectDetailsInteractor: InviteListDelegate {
@@ -110,9 +132,8 @@ extension EditProjectDetailsInteractor: EditProjectDetailsBusinessLogic {
         }
     }
     
-    func fetchPublish(_ request: EditProjectDetails.Request.Publish) {
+    func fetchSubmit(_ request: EditProjectDetails.Request.Publish) {
         guard !checkErrors(request) else { return }
-        presenter.presentLoading(true)
         publishingProject = EditProjectDetails.Info.Model.PublishingProject(image: receivedData?.image,
                                                                   cathegories: receivedData?.cathegories ?? .empty,
                                                                   progress: Int((receivedData?.progress ?? 0) * 100),
@@ -120,23 +141,13 @@ extension EditProjectDetailsInteractor: EditProjectDetailsBusinessLogic {
                                                                   invitedUserIds: invitedUsers?.users.map({$0.id}) ?? .empty,
                                                                   sinopsis: request.sinopsis,
                                                                   needing: request.needing)
-        guard let project = publishingProject else { return }
-        worker.fetchPublish(request: EditProjectDetails.Request.CompletePublish(project: project)) { response in
-            switch response {
-            case .success(let data):
-                self.publishedProject = EditProjectDetails.Info.Model.PublishedProject(id: data.id ?? .empty,
-                                                                                       title: data.title ?? .empty,
-                                                                                       authorId: data.authorId ?? .empty,
-                                                                                       image: data.image ?? .empty,
-                                                                                       userIdsNotInvited: .empty)
-                guard let project = self.publishedProject else { return }
-                self.fetchInviteUsers(withProjectDate: project)
-                break
-            case .error(let error):
-                self.presenter.presentLoading(false)
-                self.presenter.presentServerError(EditProjectDetails.Info.Model.ServerError(error: error))
-                break
-            }
+        switch routingContext?.context {
+        case .ongoing:
+            publishProject(request)
+        case .finished:
+            presenter.presentInsertVideo()
+        case .none:
+            break
         }
     }
 }
