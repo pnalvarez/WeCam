@@ -167,7 +167,7 @@ class ProfileDetailsController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        clearCarrousel()
+        clearProjectsCarrousels()
         navigationController?.tabBarController?.tabBar.isHidden = false
         interactor?.fetchUserInfo(ProfileDetails.Request.UserData())
     }
@@ -232,11 +232,14 @@ extension ProfileDetailsController {
             }
         }
     }
-    private func clearCarrousel() {
+    private func clearProjectsCarrousels() {
         for view in onGoingProjectsCarrousel.subviews {
             if view is OnGoingProjectDisplayView {
                 view.removeFromSuperview()
             }
+        }
+        for view in finishedProjectButtons {
+            view.removeFromSuperview()
         }
     }
 }
