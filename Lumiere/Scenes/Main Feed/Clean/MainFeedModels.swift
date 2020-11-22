@@ -25,6 +25,7 @@ struct MainFeed {
             static let ongoingProjectsHeaderLbl = UIColor(rgb: 0x969494)
             static let optionButtonUnselected = ThemeColors.whiteThemeColor.rawValue
             static let optionButtonSelected = UIColor(rgb: 0xe3e0e0)
+            static let finishedProjectFeedFixedLbl = UIColor(rgb: 0x969494)
         }
         
         struct Fonts {
@@ -33,6 +34,7 @@ struct MainFeed {
             static let profileSuggestionsHeaderLbl = ThemeFonts.RobotoBold(16).rawValue
             static let profileSuggestionsSeeAllButton = ThemeFonts.RobotoBold(16).rawValue
             static let ongoingProjectsHeaderLbl = ThemeFonts.RobotoBold(16).rawValue
+            static let finishedProjectFeedFixedLbl = ThemeFonts.RobotoRegular(16).rawValue
         }
         
         struct Texts {
@@ -67,12 +69,17 @@ struct MainFeed {
                 static let profileSuggestionsCell: CGFloat = 190
                 static let ongoingProjectsFeedCell: CGFloat = 140
                 static let ongoingProjectsResumeButton: CGFloat = 95
+                static let finishedProjectButton: CGFloat = 182
+                static let finishedProjectsFeedCell: CGFloat = 218
             }
             
             struct Widths {
                 static let ongoingProjectResumeButton: CGFloat = 86
                 static let ongoingProjectsFeedOffset: CGFloat = 22
                 static let ongoingProfojectsFeedInterval: CGFloat = 10
+                static let finishedProjectButton: CGFloat = 128
+                static let finishedProjectsFeedOffset: CGFloat = 22
+                static let finishedProjectsFeedInterval: CGFloat = 15
             }
         }
         
@@ -80,11 +87,13 @@ struct MainFeed {
             
             static let suggestionsLimit: Int = 10
             static let ongoingProjectsLimit: Int = 50
+            static let finishedProjectsLimit: Int = 50
             
             enum CellIndexes: Int {
                 case search = 0
                 case profileSuggestions = 1
                 case ongoingProjectsSuggestions = 2
+                case finishedProjects = 3
             }
             
             enum Sections: Int {
@@ -110,6 +119,13 @@ struct MainFeed {
                 case project
             }
             
+            enum FinishedProjectsFeedCriteria {
+                case connections
+                case popular
+                case recentlyWatched
+                case style(MovieStyle)
+            }
+            
             struct SearchKey: Equatable {
                 let key: String
             }
@@ -125,6 +141,7 @@ struct MainFeed {
                 var profileSuggestions: UpcomingProfiles?
                 var ongoingProjects: UpcomingProjects?
                 var interestCathegories: UpcomingOnGoingProjectCriterias?
+                var finishedProjectsFeeds: UpcomingFinishedProjectsFeeds?
             }
             
             struct UpcomingProfiles: Equatable {
@@ -146,6 +163,20 @@ struct MainFeed {
                 let id: String
                 let image: String
                 let progress: Int
+            }
+            
+            struct UpcomingFinishedProjectsFeeds: Equatable {
+                let feeds: [FinishedProjectFeed]
+            }
+            
+            struct FinishedProjectFeed: Equatable {
+                let criteria: String
+                let projects: [FinishedProject]
+            }
+            
+            struct FinishedProject: Equatable {
+                let id: String
+                let image: String
             }
             
             enum OnGoingProjectFeedCriteria: Equatable {
@@ -182,6 +213,7 @@ struct MainFeed {
                 let suggestedProfiles: UpcomingProfiles
                 let ongoingProjects: UpcomingProjects
                 let interestCathegories: UpcomingOnGoingProjectsCriterias
+                let finishedProjects: UpcomingFinishedProjectsFeeds
             }
             
             struct UpcomingProfiles: Equatable {
@@ -210,6 +242,19 @@ struct MainFeed {
             struct UpcomingOnGoingProjectsCriterias: Equatable {
                 let selectedCriteria: OnGoingProjectFeedCriteria
                 let criterias: [OnGoingProjectFeedCriteria]
+            }
+            
+            struct UpcomingFinishedProjectsFeeds: Equatable {
+                let feeds: [FinishedProjectFeed]
+            }
+            
+            struct FinishedProjectFeed: Equatable {
+                let criteria: String
+                let projects: [FinishedProject]
+            }
+            
+            struct FinishedProject: Equatable {
+                let image: String
             }
         }
         

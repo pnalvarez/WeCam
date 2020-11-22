@@ -84,7 +84,6 @@ class OnGoingProjectsFeedTableViewCell: UITableViewCell {
         return false
     }
 
-
     func setup(viewModel: MainFeed.Info.ViewModel.UpcomingProjects?,
                delegate: OnGoingProjectsFeedTableViewCellDelegate? = nil,
                criteriasViewModel: MainFeed.Info.ViewModel.UpcomingOnGoingProjectsCriterias? = nil) {

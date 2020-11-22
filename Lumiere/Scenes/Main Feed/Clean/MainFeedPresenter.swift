@@ -62,7 +62,28 @@ class MainFeedPresenter: MainFeedPresentationLogic {
                                                     .OnGoingProjectFeedCriteria(criteria: response.interestCathegories?.selectedCriteria.mapToString() ?? .empty),
                                                   criterias: response.interestCathegories?.criterias.map({
                                                     MainFeed.Info.ViewModel.OnGoingProjectFeedCriteria(criteria: $0.mapToString())
-                                                  }) ?? .empty ))
+                                                  }) ?? .empty ),
+            finishedProjects: mapFinishedProjectsFeeds(response.finishedProjectsFeeds))
         viewController.displayFeedData(viewModel)
+    }
+    
+    private func mapFinishedProjectsFeeds(_ input: MainFeed.Info.Model.UpcomingFinishedProjectsFeeds?) -> MainFeed.Info.ViewModel.UpcomingFinishedProjectsFeeds {
+        var feedsViewModel = [MainFeed.Info.ViewModel.FinishedProjectFeed]()
+        guard let input = input else { return MainFeed.Info.ViewModel.UpcomingFinishedProjectsFeeds(feeds: .empty)}
+        for feed in input.feeds {
+            var projects = [MainFeed.Info.ViewModel.FinishedProject]()
+            for project in feed.projects {
+                projects.append(MainFeed
+                                    .Info
+                                    .ViewModel
+                                    .FinishedProject(image: project.image))
+            }
+            feedsViewModel.append(MainFeed
+                                    .Info
+                                    .ViewModel
+                                    .FinishedProjectFeed(criteria: feed.criteria,
+                                                         projects: projects))
+        }
+        return MainFeed.Info.ViewModel.UpcomingFinishedProjectsFeeds(feeds: feedsViewModel)
     }
 }
