@@ -1,6 +1,0 @@
-framework module Pods_Lumiere {
-  umbrella header "Pods-Lumiere-umbrella.h"
-
-  export *
-  module * { export * }
-}
