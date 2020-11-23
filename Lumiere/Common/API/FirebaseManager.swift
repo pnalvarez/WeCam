@@ -136,6 +136,8 @@ protocol FirebaseManagerProtocol {
                                                 completion: @escaping (BaseResponse<[T]>) -> Void)
     func publishNewProject<T: Mappable>(request: [String : Any],
                               completion: @escaping (BaseResponse<T>) -> Void)
+    func addViewToProject(request: [String : Any],
+                                       completion: @escaping(EmptyResponse) -> Void)
 }
 
 class FirebaseManager: FirebaseManagerProtocol {
@@ -3379,7 +3381,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                     completion(.error(error))
                                                     return
                                                 }
-                                                let dict: [String : Any] = ["youtube_url": youtubeURL, "title": title, "sinopsis": sinopsis, "cathegories": cathegories, "participants": participants, "author_id": authorId, "image": image, "finish_date": finishDate]
+                                                let dict: [String : Any] = ["youtube_url": youtubeURL, "title": title, "sinopsis": sinopsis, "cathegories": cathegories, "participants": participants, "author_id": authorId, "image": image, "finish_date": finishDate, "views": 0]
                                                 self.realtimeDB
                                                     .child(Constants.projectsPath)
                                                     .child(Constants.finishedProjectsPath)
@@ -3631,7 +3633,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                     completion(.error(FirebaseErrors.genericError))
                     return
                 }
-                let dict: [String : Any] = ["title": title, "sinopsis": sinopsis, "cathegories": cathegories, "youtube_url": video, "image": url.absoluteString]
+                let dict: [String : Any] = ["title": title, "sinopsis": sinopsis, "cathegories": cathegories, "youtube_url": video, "image": url.absoluteString, "views": 0, "finish_date": Date().timeIntervalSince1970]
                 self.realtimeDB
                     .child(Constants.projectsPath)
                     .child(Constants.finishedProjectsPath)
@@ -3648,6 +3650,37 @@ class FirebaseManager: FirebaseManagerProtocol {
                         completion(.success(mappedResponse))
                 }
             }
+        }
+    }
+    
+    func addViewToProject(request: [String : Any],
+                          completion: @escaping (EmptyResponse) -> Void) {
+        guard let projectId = request["projectId"] as? String else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        realtimeDB
+            .child(Constants.projectsPath)
+            .child(Constants.finishedProjectsPath)
+            .child(projectId)
+            .child("views")
+            .observeSingleEvent(of: .value) { snapshot in
+                guard var views = snapshot.value as? Int else {
+                    completion(.error(FirebaseErrors.genericError))
+                    return
+                }
+                views+=1
+                let lastSeenTimestamp = Date().timeIntervalSince1970
+                self.realtimeDB
+                    .child(Constants.projectsPath)
+                    .child(Constants.finishedProjectsPath)
+                    .child(projectId)
+                    .updateChildValues(["views": views, "last_view": lastSeenTimestamp]) { (error, ref) in
+                        if let error = error {
+                            completion(.error(error))
+                            return
+                        }
+                }
         }
     }
 }

@@ -8,6 +8,7 @@
 
 protocol WatchVideoBusinessLogic {
     func fetchYoutubeVideo(_ request: WatchVideo.Request.FetchYoutubeId)
+    func fetchRegisterView(_ request: WatchVideo.Request.RegisterView)
 }
 
 protocol WatchVideoDataStore {
@@ -44,6 +45,17 @@ extension WatchVideoInteractor: WatchVideoBusinessLogic {
                 self.presenter.presentYoutubeVideo(video)
             case .error(let error):
                 self.presenter.presentLoading(false)
+            }
+        }
+    }
+    
+    func fetchRegisterView(_ request: WatchVideo.Request.RegisterView) {
+        worker.fetchRegisterView(WatchVideo.Request.RegisterViewWithId(projectId: receivedData?.id ?? .empty)) { response in
+            switch response {
+            case .success:
+                break
+            case .error(let error):
+                break
             }
         }
     }

@@ -61,6 +61,7 @@ class WatchVideoController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         interactor?.fetchYoutubeVideo(WatchVideo.Request.FetchYoutubeId())
+        interactor?.fetchRegisterView(WatchVideo.Request.RegisterView())
     }
     
     override func loadView() {

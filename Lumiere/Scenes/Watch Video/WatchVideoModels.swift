@@ -52,8 +52,12 @@ struct WatchVideo {
     
     struct Request {
         
-        struct FetchYoutubeId {
-            
+        struct RegisterView { }
+        
+        struct FetchYoutubeId { }
+        
+        struct RegisterViewWithId {
+            let projectId: String
         }
         
         struct FetchYoutubeIdWithProjectId {
