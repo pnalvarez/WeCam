@@ -13,6 +13,8 @@ protocol MainFeedWorkerProtocol {
                               completion: @escaping (BaseResponse<[MainFeed.Info.Response.OnGoingProject]>) -> Void)
     func fetchInterestCathegories(_ request: MainFeed.Request.FetchInterestCathegories,
                                   completion: @escaping (BaseResponse<MainFeed.Info.Response.InterestCathegories>) -> Void)
+    func fetchFinishedProjectsLogicFeed(_ request: MainFeed.Request.FinishedProjectsLogicFeed,
+                                        completion: @escaping (BaseResponse<[MainFeed.Info.Response.FinishedProject]>) -> Void)
 }
 
 class MainFeedWorker: MainFeedWorkerProtocol {
@@ -43,4 +45,10 @@ class MainFeedWorker: MainFeedWorkerProtocol {
         let headers: [String : Any] = .empty
         builder.fetchCurrentUser(request: headers, completion: completion)
     }
+    
+    func fetchFinishedProjectsLogicFeed(_ request: MainFeed.Request.FinishedProjectsLogicFeed,
+                                        completion: @escaping (BaseResponse<[MainFeed.Info.Response.FinishedProject]>) -> Void) {
+        let headers: [String : Any] = ["criteria": request.criteria]
+        builder.fetchFinishedProjectsLogicFeed(request: headers, completion: completion)
+     }
 }

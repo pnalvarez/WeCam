@@ -137,7 +137,9 @@ protocol FirebaseManagerProtocol {
     func publishNewProject<T: Mappable>(request: [String : Any],
                               completion: @escaping (BaseResponse<T>) -> Void)
     func addViewToProject(request: [String : Any],
-                                       completion: @escaping(EmptyResponse) -> Void)
+                          completion: @escaping (EmptyResponse) -> Void)
+    func fetchFinishedProjectsLogicFeed<T: Mappable>(request: [String : Any],
+                                                completion: @escaping (BaseResponse<[T]>) -> Void)
 }
 
 class FirebaseManager: FirebaseManagerProtocol {
@@ -154,6 +156,12 @@ class FirebaseManager: FirebaseManagerProtocol {
     private let projectCathegoriesScore: Int = 3
     
     private var mutex: Bool = true //Profile details mutex
+    
+    private enum FinishedProjectsLogicCriteria: String {
+        case connections = "Conexões"
+        case popular = "Popular"
+        case recent = "Recente"
+    }
     
     init() {
         realtimeDB.keepSynced(true)
@@ -3682,6 +3690,174 @@ class FirebaseManager: FirebaseManagerProtocol {
                         }
                 }
         }
+    }
+    
+    func fetchFinishedProjectsLogicFeed<T: Mappable>(request: [String : Any],
+                                                completion: @escaping (BaseResponse<[T]>) -> Void) {
+        guard let criteria = request["criteria"] as? String else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        guard let currentUser = authReference.currentUser?.uid else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        let newCriteria = FinishedProjectsLogicCriteria(rawValue: criteria)
+        switch newCriteria {
+        case .connections:
+            fetchFinishedConnectionsFeed(currentUser: currentUser, completion: completion)
+        case .popular:
+            fetchFinishedPopularFeed(currentUser: currentUser, completion: completion)
+        case .recent:
+            fetchFinishedRecentFeed(currentUser: currentUser, completion: completion)
+        case .none:
+            completion(.error(FirebaseErrors.genericError))
+        }
+    }
+}
+
+//MARK: Finished Project Logic feeds
+extension FirebaseManager {
+    
+    private func fetchFinishedConnectionsFeed<T: Mappable>(currentUser: String,
+                                              completion: @escaping (BaseResponse<[T]>) -> Void) {
+        var finishedProjects = [String]()
+        var userConnections = [String]()
+        var userProjects = [String]()
+        var responseProjects = [[String : Any]]()
+        
+        realtimeDB
+            .child(Constants.finishedProjectsCataloguePath)
+            .observeSingleEvent(of: .value) { snapshot in
+                guard let projects = snapshot.value as? [String] else {
+                    completion(.success(.empty))
+                    return
+                }
+                finishedProjects = projects
+                self.realtimeDB
+                    .child(Constants.usersPath)
+                    .child(currentUser)
+                    .child("connections")
+                    .observeSingleEvent(of: .value) { snapshot in
+                        if let connections = snapshot.value as? [String] {
+                            userConnections = connections
+                        }
+                        self.realtimeDB
+                            .child(Constants.usersPath)
+                            .child(currentUser)
+                            .child("finished_projects")
+                            .observeSingleEvent(of: .value) { snapshot in
+                                if let projects = snapshot.value as? [String] {
+                                    userProjects = projects
+                                }
+                                finishedProjects = finishedProjects.filter({ !userProjects.contains($0) })
+                                let dispatchGroup = DispatchGroup()
+                                for project in finishedProjects {
+                                    dispatchGroup.enter()
+                                    self.realtimeDB
+                                        .child(Constants.projectsPath)
+                                        .child(Constants.finishedProjectsPath)
+                                        .child(project)
+                                        .observeSingleEvent(of: .value) { snapshot in
+                                            guard let projectData = snapshot.value as? [String : Any] else {
+                                                completion(.error(FirebaseErrors.genericError))
+                                                return
+                                            }
+                                            guard let participants = projectData["participants"] as? [String],
+                                                  let image = projectData["image"] as? [String] else {
+                                                completion(.error(FirebaseErrors.genericError))
+                                                return
+                                            }
+                                            let score = userConnections.filter({ participants.contains($0)}).count
+                                            let dict: [String : Any] = ["id": project, "image": image, "score": score]
+                                            responseProjects.append(dict)
+                                            dispatchGroup.leave()
+                                        }
+                                }
+                                dispatchGroup.notify(queue: .main) {
+                                    responseProjects.sort { project1, project2 in
+                                        guard let score1 = project1["score"] as? Int,
+                                              let score2 = project2["score"] as? Int else {
+                                            return false
+                                        }
+                                        return score1 > score2
+                                    }
+                                    let response = Array(responseProjects.prefix(50))
+                                    let mappedResponse = Mapper<T>().mapArray(JSONArray: response)
+                                    completion(.success(mappedResponse))
+                                }
+                        }
+                }
+        }
+    }
+    
+    private func fetchFinishedPopularFeed<T: Mappable>(currentUser: String,
+                                              completion: @escaping (BaseResponse<[T]>) -> Void) {
+        var finishedProjects = [String]()
+        var responseProjects = [[String : Any]]()
+        
+        realtimeDB
+            .child(Constants.finishedProjectsCataloguePath)
+            .observeSingleEvent(of: .value) { snapshot in
+                guard let projects = snapshot.value as? [String] else {
+                    completion(.success(.empty))
+                    return
+                }
+                finishedProjects = projects
+                let dispatchGroup = DispatchGroup()
+                for project in finishedProjects {
+                    dispatchGroup.enter()
+                    self.realtimeDB
+                        .child(Constants.projectsPath)
+                        .child(Constants.finishedProjectsPath)
+                        .child(project)
+                        .child("participants")
+                        .observeSingleEvent(of: .value) { snapshot in
+                            guard let participants = snapshot.value as? [String] else {
+                                completion(.error(FirebaseErrors.genericError))
+                                return
+                            }
+                            if participants.contains(currentUser) {
+                                finishedProjects.removeAll(where: { $0 == project })
+                            }
+                            dispatchGroup.leave()
+                    }
+                    dispatchGroup.notify(queue: .main) {
+                        let dispatchGroup = DispatchGroup()
+                        for project in finishedProjects {
+                            dispatchGroup.enter()
+                            self.realtimeDB
+                                .child(Constants.projectsPath)
+                                .child(Constants.finishedProjectsPath)
+                                .child(project)
+                                .observeSingleEvent(of: .value) { snapshot in
+                                    guard let projectData = snapshot.value as? [String : Any] else {
+                                        completion(.error(FirebaseErrors.genericError))
+                                        return
+                                    }
+                                    responseProjects.append(projectData)
+                            }
+                            dispatchGroup.leave()
+                        }
+                        dispatchGroup.notify(queue: .main) {
+                            responseProjects.sort { project1, project2 in
+                                guard let views1 = project1["views"] as? Int,
+                                      let views2 = project2["views"] as? Int else {
+                                    return false
+                                }
+                                return views1 > views2
+                            }
+                            let mappedResponse = Mapper<T>().mapArray(JSONArray: responseProjects)
+                            completion(.success(mappedResponse))
+                        }
+                    }
+                }
+        }
+    }
+    
+    private func fetchFinishedRecentFeed<T: Mappable>(currentUser: String,
+                                              completion: @escaping (BaseResponse<[T]>) -> Void) {
+        
     }
 }
 

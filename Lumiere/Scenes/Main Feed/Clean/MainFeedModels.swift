@@ -119,11 +119,10 @@ struct MainFeed {
                 case project
             }
             
-            enum FinishedProjectsFeedCriteria {
-                case connections
-                case popular
-                case recentlyWatched
-                case style(MovieStyle)
+            enum FinishedProjectsFeedLogicCriteria: String {
+                case connections = "Conexões"
+                case popular = "Popular"
+                case recentlyWatched = "Recente"
             }
             
             struct SearchKey: Equatable {
@@ -166,7 +165,7 @@ struct MainFeed {
             }
             
             struct UpcomingFinishedProjectsFeeds: Equatable {
-                let feeds: [FinishedProjectFeed]
+                var feeds: [FinishedProjectFeed]
             }
             
             struct FinishedProjectFeed: Equatable {
@@ -315,6 +314,19 @@ struct MainFeed {
                     cathegories <- map["interest_cathegories"]
                 }
             }
+            
+            final class FinishedProject: Mappable {
+                
+                var id: String?
+                var image: String?
+                
+                init?(map: Map) { }
+                
+                func mapping(map: Map) {
+                    id <- map["id"]
+                    image <- map["image"]
+                }
+            }
         }
     }
     
@@ -363,6 +375,10 @@ struct MainFeed {
         
         struct SelectOnGoingProjectCathegory {
             let text: String
+        }
+        
+        struct FinishedProjectsLogicFeed {
+            let criteria: String
         }
     }
 }

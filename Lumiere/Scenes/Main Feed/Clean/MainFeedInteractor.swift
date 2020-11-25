@@ -114,6 +114,41 @@ extension MainFeedInteractor {
         }
         return criteria
     }
+    
+    private func fetchFinishedProjectsLogicFeeds() {
+        mainFeedData?.finishedProjectsFeeds = MainFeed.Info.Model.UpcomingFinishedProjectsFeeds(feeds: .empty)
+        fetchLogicFeed(.connections) { response in
+            switch response {
+            case .success(let data):
+                self.mainFeedData?.finishedProjectsFeeds?.feeds.append(MainFeed.Info.Model.FinishedProjectFeed(criteria: MainFeed.Info.Model.FinishedProjectsFeedLogicCriteria.connections.rawValue, projects: data.map({ MainFeed.Info.Model.FinishedProject(id: $0.id ?? .empty, image: $0.image ?? .empty)})))
+                self.fetchLogicFeed(.popular) { response in
+                    switch response {
+                    case .success(let data):
+                        self.mainFeedData?.finishedProjectsFeeds?.feeds.append(MainFeed.Info.Model.FinishedProjectFeed(criteria: MainFeed.Info.Model.FinishedProjectsFeedLogicCriteria.connections.rawValue, projects: data.map({ MainFeed.Info.Model.FinishedProject(id: $0.id ?? .empty, image: $0.image ?? .empty)})))
+                        self.fetchLogicFeed(.recentlyWatched) { response in
+                            switch response {
+                            case .success(let data):
+                                self.mainFeedData?.finishedProjectsFeeds?.feeds.append(MainFeed.Info.Model.FinishedProjectFeed(criteria: MainFeed.Info.Model.FinishedProjectsFeedLogicCriteria.connections.rawValue, projects: data.map({ MainFeed.Info.Model.FinishedProject(id: $0.id ?? .empty, image: $0.image ?? .empty)})))
+                                guard let feed = self.mainFeedData else { return }
+                                self.presenter.presentFeedData(feed)
+                            case .error(_):
+                                break
+                            }
+                        }
+                    case .error(_):
+                        break
+                    }
+                }
+            case .error(_):
+                break
+            }
+        }
+    }
+    
+    private func fetchLogicFeed(_ criteria: MainFeed.Info.Model.FinishedProjectsFeedLogicCriteria,
+                                completion: @escaping (BaseResponse<[MainFeed.Info.Response.FinishedProject]>) -> Void) {
+        worker.fetchFinishedProjectsLogicFeed(MainFeed.Request.FinishedProjectsLogicFeed(criteria: criteria.rawValue), completion: completion)
+    }
 }
 
 extension MainFeedInteractor: MainFeedBusinessLogic {
