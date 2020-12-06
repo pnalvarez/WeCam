@@ -44,6 +44,8 @@
 		3F0CAA6224CCE0E8005E2558 /* CreateUserRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0CAA6124CCE0E8005E2558 /* CreateUserRequest.swift */; };
 		3F0CAA6624CCE41D005E2558 /* SignInRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0CAA6524CCE41D005E2558 /* SignInRequest.swift */; };
 		3F1158AF24C3F0EC00075C73 /* TeamMemberViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1158AE24C3F0EC00075C73 /* TeamMemberViewModel.swift */; };
+		3F2FD833257D8B7D003D93BF /* Resettable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2FD832257D8B7C003D93BF /* Resettable.swift */; };
+		3F2FD838257D8BC3003D93BF /* UITableViewCell+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2FD837257D8BC3003D93BF /* UITableViewCell+.swift */; };
 		3F40A60B24E9CA4D00261161 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A60A24E9CA4D00261161 /* LoadingView.swift */; };
 		3F40A60E24EA0D5700261161 /* SelectProjectImageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A60D24EA0D5700261161 /* SelectProjectImageController.swift */; };
 		3F40A61024EA0D9B00261161 /* SelectProjectImageRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A60F24EA0D9B00261161 /* SelectProjectImageRouter.swift */; };
@@ -375,6 +377,8 @@
 		3F0CAA6124CCE0E8005E2558 /* CreateUserRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserRequest.swift; sourceTree = "<group>"; };
 		3F0CAA6524CCE41D005E2558 /* SignInRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInRequest.swift; sourceTree = "<group>"; };
 		3F1158AE24C3F0EC00075C73 /* TeamMemberViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamMemberViewModel.swift; sourceTree = "<group>"; };
+		3F2FD832257D8B7C003D93BF /* Resettable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resettable.swift; sourceTree = "<group>"; };
+		3F2FD837257D8BC3003D93BF /* UITableViewCell+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+.swift"; sourceTree = "<group>"; };
 		3F40A60A24E9CA4D00261161 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		3F40A60D24EA0D5700261161 /* SelectProjectImageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectProjectImageController.swift; sourceTree = "<group>"; };
 		3F40A60F24EA0D9B00261161 /* SelectProjectImageRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectProjectImageRouter.swift; sourceTree = "<group>"; };
@@ -1417,6 +1421,7 @@
 				3FAD1A1C2516B5DC00ED4074 /* TableViewSectionProtocol.swift */,
 				3FAD1A242516B5F500ED4074 /* TableViewCellBuilderProtocol.swift */,
 				3F5A4235251C145E00F10D63 /* Stubbable.swift */,
+				3F2FD832257D8B7C003D93BF /* Resettable.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -1471,6 +1476,7 @@
 				3F05D19E2515BFF200932FFC /* Float+.swift */,
 				3FB880A12534070F003C0D1B /* UISegmentedControl+.swift */,
 				3FA1C1552536817500385322 /* UIStackView+.swift */,
+				3F2FD837257D8BC3003D93BF /* UITableViewCell+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -2009,6 +2015,7 @@
 				3F40A6BE24F1CE5100261161 /* DefaultCloseButton.swift in Sources */,
 				3F40A60E24EA0D5700261161 /* SelectProjectImageController.swift in Sources */,
 				3F95787724AEA4D100B79818 /* SignInPresenter.swift in Sources */,
+				3F2FD833257D8B7D003D93BF /* Resettable.swift in Sources */,
 				3F42A564255A13950088E232 /* WatchVideoModels.swift in Sources */,
 				3F66CA0625017C14006F6DBD /* NSAttributedString+.swift in Sources */,
 				3F8D13C424D79FE100AED7EB /* GetAllNotificationsRequest.swift in Sources */,
@@ -2091,6 +2098,7 @@
 				3F40A69424EF426500261161 /* ProjectProgressInteractor.swift in Sources */,
 				3F40A6A324F091BB00261161 /* EditProjectDetailsView.swift in Sources */,
 				3F6EEA7724E8D1CE0075C500 /* EmptyListView.swift in Sources */,
+				3F2FD838257D8BC3003D93BF /* UITableViewCell+.swift in Sources */,
 				3F6EEA7524E87EE10075C500 /* UIAlertController+.swift in Sources */,
 				3F40A6DE24F4899500261161 /* InviteListModels.swift in Sources */,
 				3F9578D024B0198700B79818 /* SignUpRouter.swift in Sources */,

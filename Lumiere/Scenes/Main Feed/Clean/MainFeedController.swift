@@ -73,7 +73,7 @@ class MainFeedController: BaseViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        flush()
+        flushContent()
     }
     
     private func setup() {
@@ -96,29 +96,11 @@ extension MainFeedController {
             self.tableView.reloadData()
         }
     }
-    
-    private func flushProfileSuggestions() {
-        let cell = tableView.cellForRow(at: IndexPath(row: MainFeed.Constants.BusinessLogic.CellIndexes.profileSuggestions.rawValue,
-                                                      section: MainFeed.Constants.BusinessLogic.Sections.defaultFeed.rawValue),
-                                        type: ProfileSuggestionsFeedTableViewCell.self)
-        cell.flushItems()
-    }
-    
+
     private func flushOnGoingProjectsFeed() {
         let cell = tableView.cellForRow(at: IndexPath(row: MainFeed.Constants.BusinessLogic.CellIndexes.ongoingProjectsSuggestions.rawValue, section: MainFeed.Constants.BusinessLogic.Sections.defaultFeed.rawValue),
                                         type: OnGoingProjectsFeedTableViewCell.self)
         cell.flushItems()
-    }
-    
-    private func resetOnGoingProjectsSelectionFilter() {
-        let cell = tableView.cellForRow(at: IndexPath(row: MainFeed.Constants.BusinessLogic.CellIndexes.ongoingProjectsSuggestions.rawValue, section: MainFeed.Constants.BusinessLogic.Sections.defaultFeed.rawValue), type: OnGoingProjectsFeedTableViewCell.self)
-        cell.resetSelectionFilter()
-    }
-    
-    private func flush() {
-        flushProfileSuggestions()
-        flushOnGoingProjectsFeed()
-        resetOnGoingProjectsSelectionFilter()
     }
 }
 
@@ -137,6 +119,14 @@ extension MainFeedController: ProfileSuggestionsFeedTableViewCellDelegate {
     
     func didTapSeeAll() {
         router?.routeToProfileSuggestions()
+    }
+}
+
+extension MainFeedController: Resettable {
+    
+    func flushContent() {
+        tableView = MainFeedTableView(frame: .zero, errorView: errorView)
+        tableView.assignProtocols(to: self)
     }
 }
 

@@ -120,6 +120,11 @@ class OnGoingProjectsFeedTableViewCell: UITableViewCell {
     func setProjects(viewModel: MainFeed.Info.ViewModel.UpcomingProjects?) {
         self.projectsViewModel = viewModel
     }
+    
+    deinit {
+        flushItems()
+        flushProjectsFeed()
+    }
 }
 
 extension OnGoingProjectsFeedTableViewCell {

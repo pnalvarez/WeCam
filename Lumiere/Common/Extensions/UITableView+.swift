@@ -25,7 +25,7 @@ extension UITableView {
         }
     }
     
-    func dequeueReusableCell<T: UITableViewCell>(indexPath: IndexPath, type: T.Type) -> T {
+    func dequeueReusableCell <T: UITableViewCell>(indexPath: IndexPath, type: T.Type) -> T {
         let cell = dequeueReusableCell(withIdentifier: T.defaultReuseIdentifier, for: indexPath) as! T
         return cell
     }

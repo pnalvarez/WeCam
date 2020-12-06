@@ -64,11 +64,15 @@ class ProfileSuggestionsFeedTableViewCell: UITableViewCell {
         applyViewCode()
     }
     
-    func flushItems() {
+    override func flushContent() {
         for view in mainContainer.subviews {
             view.removeFromSuperview()
         }
         scrollView.layoutIfNeeded()
+    }
+    
+    deinit {
+        flushContent()
     }
 }
 

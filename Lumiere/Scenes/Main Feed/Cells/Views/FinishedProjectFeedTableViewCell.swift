@@ -104,6 +104,10 @@ class FinishedProjectFeedTableViewCell: UITableViewCell {
     @objc private func didTapProject(_ sender: UIButton) {
         delegate?.didSelectProject(index: sender.tag)
     }
+    
+    deinit {
+        flushProjectsFeed()
+    }
 }
 
 extension FinishedProjectFeedTableViewCell: UIScrollViewDelegate {
