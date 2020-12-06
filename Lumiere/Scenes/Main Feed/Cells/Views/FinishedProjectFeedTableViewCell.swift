@@ -85,6 +85,7 @@ class FinishedProjectFeedTableViewCell: UITableViewCell {
         for index in 0..<projects.count {
             let button = UIButton(frame: .zero)
             button.tag = index
+            button.sd_setImage(with: URL(string: projects[index].image), for: .normal, completed: nil)
             button.addTarget(self, action: #selector(didTapProject(_:)), for: .touchUpInside)
             buttons.append(button)
             scrollView.addSubview(button)
@@ -130,7 +131,7 @@ extension FinishedProjectFeedTableViewCell: ViewCodeProtocol {
             make.width.equalTo(220)
         }
         scrollView.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(14)
+            make.top.equalTo(fixedLbl.snp.bottom).offset(14)
             make.left.right.equalToSuperview()
             make.height.equalTo(182)
         }
@@ -143,5 +144,6 @@ extension FinishedProjectFeedTableViewCell: ViewCodeProtocol {
     
     func configureViews() {
         backgroundColor = .white
+        fixedLbl.text = viewModel?.criteria
     }
 }

@@ -34,7 +34,7 @@ struct MainFeed {
             static let profileSuggestionsHeaderLbl = ThemeFonts.RobotoBold(16).rawValue
             static let profileSuggestionsSeeAllButton = ThemeFonts.RobotoBold(16).rawValue
             static let ongoingProjectsHeaderLbl = ThemeFonts.RobotoBold(16).rawValue
-            static let finishedProjectFeedFixedLbl = ThemeFonts.RobotoRegular(16).rawValue
+            static let finishedProjectFeedFixedLbl = ThemeFonts.RobotoBold(16).rawValue
         }
         
         struct Texts {
@@ -67,10 +67,10 @@ struct MainFeed {
                 static let headerCell: CGFloat = 85
                 static let recentSearchCell: CGFloat = 34
                 static let profileSuggestionsCell: CGFloat = 190
-                static let ongoingProjectsFeedCell: CGFloat = 140
+                static let ongoingProjectsFeedCell: CGFloat = 150
                 static let ongoingProjectsResumeButton: CGFloat = 95
                 static let finishedProjectButton: CGFloat = 182
-                static let finishedProjectsFeedCell: CGFloat = 218
+                static let finishedProjectsFeedCell: CGFloat = 238
             }
             
             struct Widths {
