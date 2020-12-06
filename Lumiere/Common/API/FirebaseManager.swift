@@ -3764,7 +3764,7 @@ extension FirebaseManager {
                                                 return
                                             }
                                             guard let participants = projectData["participants"] as? [String],
-                                                  let image = projectData["image"] as? [String] else {
+                                                  let image = projectData["image"] as? String else {
                                                 completion(.error(FirebaseErrors.genericError))
                                                 return
                                             }
@@ -3822,34 +3822,34 @@ extension FirebaseManager {
                             }
                             dispatchGroup.leave()
                     }
-                    dispatchGroup.notify(queue: .main) {
-                        let dispatchGroup = DispatchGroup()
-                        for project in finishedProjects {
-                            dispatchGroup.enter()
-                            self.realtimeDB
-                                .child(Constants.projectsPath)
-                                .child(Constants.finishedProjectsPath)
-                                .child(project)
-                                .observeSingleEvent(of: .value) { snapshot in
-                                    guard let projectData = snapshot.value as? [String : Any] else {
-                                        completion(.error(FirebaseErrors.genericError))
-                                        return
-                                    }
-                                    responseProjects.append(projectData)
-                            }
-                            dispatchGroup.leave()
-                        }
-                        dispatchGroup.notify(queue: .main) {
-                            responseProjects.sort { project1, project2 in
-                                guard let views1 = project1["views"] as? Int,
-                                      let views2 = project2["views"] as? Int else {
-                                    return false
+                }
+                dispatchGroup.notify(queue: .main) {
+                    let newDispatchGroup = DispatchGroup()
+                    for project in finishedProjects {
+                        newDispatchGroup.enter()
+                        self.realtimeDB
+                            .child(Constants.projectsPath)
+                            .child(Constants.finishedProjectsPath)
+                            .child(project)
+                            .observeSingleEvent(of: .value) { snapshot in
+                                guard let projectData = snapshot.value as? [String : Any] else {
+                                    completion(.error(FirebaseErrors.genericError))
+                                    return
                                 }
-                                return views1 > views2
-                            }
-                            let mappedResponse = Mapper<T>().mapArray(JSONArray: responseProjects)
-                            completion(.success(mappedResponse))
+                                responseProjects.append(projectData)
+                                newDispatchGroup.leave()
                         }
+                    }
+                    newDispatchGroup.notify(queue: .main) {
+                        responseProjects.sort { project1, project2 in
+                            guard let views1 = project1["views"] as? Int,
+                                  let views2 = project2["views"] as? Int else {
+                                return false
+                            }
+                            return views1 > views2
+                        }
+                        let mappedResponse = Mapper<T>().mapArray(JSONArray: responseProjects)
+                        completion(.success(mappedResponse))
                     }
                 }
         }
@@ -3857,7 +3857,66 @@ extension FirebaseManager {
     
     private func fetchFinishedRecentFeed<T: Mappable>(currentUser: String,
                                               completion: @escaping (BaseResponse<[T]>) -> Void) {
+        var finishedProjects = [String]()
+        var responseProjects = [[String : Any]]()
         
+        realtimeDB
+            .child(Constants.finishedProjectsCataloguePath)
+            .observeSingleEvent(of: .value) { snapshot in
+                guard let projects = snapshot.value as? [String] else {
+                    completion(.success(.empty))
+                    return
+                }
+                finishedProjects = projects
+                let dispatchGroup = DispatchGroup()
+                for project in finishedProjects {
+                    dispatchGroup.enter()
+                    self.realtimeDB
+                        .child(Constants.projectsPath)
+                        .child(Constants.finishedProjectsPath)
+                        .child(project)
+                        .child("participants")
+                        .observeSingleEvent(of: .value) { snapshot in
+                            guard let participants = snapshot.value as? [String] else {
+                                completion(.error(FirebaseErrors.genericError))
+                                return
+                            }
+                            if participants.contains(currentUser) {
+                                finishedProjects.removeAll(where: { $0 == project })
+                            }
+                            dispatchGroup.leave()
+                    }
+                }
+                dispatchGroup.notify(queue: .main) {
+                    let dispatchGroup = DispatchGroup()
+                    for project in finishedProjects {
+                        dispatchGroup.enter()
+                        self.realtimeDB
+                            .child(Constants.projectsPath)
+                            .child(Constants.finishedProjectsPath)
+                            .child(project)
+                            .observeSingleEvent(of: .value) { snapshot in
+                                guard let projectData = snapshot.value as? [String : Any] else {
+                                    completion(.error(FirebaseErrors.genericError))
+                                    return
+                                }
+                                responseProjects.append(projectData)
+                                dispatchGroup.leave()
+                        }
+                    }
+                    dispatchGroup.notify(queue: .main) {
+                        responseProjects.sort { project1, project2 in
+                            guard let lastView1 = project1["last_view"] as? Int,
+                                  let lastView2 = project2["last_view"] as? Int else {
+                                return false
+                            }
+                            return lastView1 > lastView2
+                        }
+                        let mappedResponse = Mapper<T>().mapArray(JSONArray: responseProjects)
+                        completion(.success(mappedResponse))
+                    }
+                }
+        }
     }
 }
 

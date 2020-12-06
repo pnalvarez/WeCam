@@ -16,24 +16,21 @@ class MainFeedTableViewFactory: TableViewFactory {
     private weak var searchDelegate: SearchHeaderTableViewCellDelegate?
     private weak var profileSuggestionsDelegate: ProfileSuggestionsFeedTableViewCellDelegate?
     private weak var ongoingProjectsFeedDelegate: OnGoingProjectsFeedTableViewCellDelegate?
-    private weak var finishedProjectsFeedDelegate: FinishedProjectFeedTableViewCellDelegate?
     
     init(tableView: UITableView,
          viewModel: MainFeed.Info.ViewModel.UpcomingFeedData? = nil,
          searchDelegate: SearchHeaderTableViewCellDelegate? = nil,
          profileSuggestionsDelegate: ProfileSuggestionsFeedTableViewCellDelegate? = nil,
-         ongoingProjectsFeedDelegate: OnGoingProjectsFeedTableViewCellDelegate? = nil,
-         finishedProjectsFeedDelegate: FinishedProjectFeedTableViewCellDelegate? = nil) {
+         ongoingProjectsFeedDelegate: OnGoingProjectsFeedTableViewCellDelegate? = nil) {
         self.tableView = tableView
         self.viewModel = viewModel
         self.searchDelegate = searchDelegate
         self.profileSuggestionsDelegate = profileSuggestionsDelegate
         self.ongoingProjectsFeedDelegate = ongoingProjectsFeedDelegate
-        self.finishedProjectsFeedDelegate = finishedProjectsFeedDelegate
     }
     
     func buildSections() -> [TableViewSectionProtocol] {
-        return [firstSection, finishedProjectsSection()]
+        return [firstSection]
     }
     
     private var firstSection: TableViewSectionProtocol {
@@ -56,18 +53,5 @@ class MainFeedTableViewFactory: TableViewFactory {
         return OnGoingProjectsFeedTableViewCellBuilder(delegate: ongoingProjectsFeedDelegate,
                                                        viewModel: viewModel?.ongoingProjects,
                                                        criteriasViewModel: viewModel?.interestCathegories)
-    }
-    
-    private var finishedProjectsFeedsBuilder: [TableViewCellBuilderProtocol] {
-        var builders = [TableViewCellBuilderProtocol]()
-        guard let feeds = viewModel?.finishedProjects.feeds else { return .empty }
-        for project in feeds {
-            builders.append(FinishedProjectFeedTableViewCellBuilder(delegate: finishedProjectsFeedDelegate, viewModel: project))
-        }
-        return builders
-    }
-    
-    private func finishedProjectsSection() -> TableViewSectionProtocol {
-        return BaseSection(builders: finishedProjectsFeedsBuilder, tableView: tableView)
     }
 }

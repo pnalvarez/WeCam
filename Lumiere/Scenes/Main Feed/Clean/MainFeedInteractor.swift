@@ -95,8 +95,7 @@ extension MainFeedInteractor {
                     MainFeed.Info.Model.OnGoingProjectFeedCriteria.cathegory(MovieStyle(rawValue: $0) ?? .action)
                 }))
                 self.mainFeedData?.interestCathegories = MainFeed.Info.Model.UpcomingOnGoingProjectCriterias(selectedCriteria: self.buildMainFeedCathegory(), criterias: defaultCathegories)
-                guard let data = self.mainFeedData else { return }
-                self.presenter.presentFeedData(data)
+                self.fetchFinishedProjectsLogicFeeds()
             case .error(let error):
                 break
             }
@@ -124,11 +123,11 @@ extension MainFeedInteractor {
                 self.fetchLogicFeed(.popular) { response in
                     switch response {
                     case .success(let data):
-                        self.mainFeedData?.finishedProjectsFeeds?.feeds.append(MainFeed.Info.Model.FinishedProjectFeed(criteria: MainFeed.Info.Model.FinishedProjectsFeedLogicCriteria.connections.rawValue, projects: data.map({ MainFeed.Info.Model.FinishedProject(id: $0.id ?? .empty, image: $0.image ?? .empty)})))
+                        self.mainFeedData?.finishedProjectsFeeds?.feeds.append(MainFeed.Info.Model.FinishedProjectFeed(criteria: MainFeed.Info.Model.FinishedProjectsFeedLogicCriteria.popular.rawValue, projects: data.map({ MainFeed.Info.Model.FinishedProject(id: $0.id ?? .empty, image: $0.image ?? .empty)})))
                         self.fetchLogicFeed(.recentlyWatched) { response in
                             switch response {
                             case .success(let data):
-                                self.mainFeedData?.finishedProjectsFeeds?.feeds.append(MainFeed.Info.Model.FinishedProjectFeed(criteria: MainFeed.Info.Model.FinishedProjectsFeedLogicCriteria.connections.rawValue, projects: data.map({ MainFeed.Info.Model.FinishedProject(id: $0.id ?? .empty, image: $0.image ?? .empty)})))
+                                self.mainFeedData?.finishedProjectsFeeds?.feeds.append(MainFeed.Info.Model.FinishedProjectFeed(criteria: MainFeed.Info.Model.FinishedProjectsFeedLogicCriteria.recentlyWatched.rawValue, projects: data.map({ MainFeed.Info.Model.FinishedProject(id: $0.id ?? .empty, image: $0.image ?? .empty)})))
                                 guard let feed = self.mainFeedData else { return }
                                 self.presenter.presentFeedData(feed)
                             case .error(_):
