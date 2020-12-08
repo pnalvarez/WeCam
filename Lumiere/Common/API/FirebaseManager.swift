@@ -140,6 +140,8 @@ protocol FirebaseManagerProtocol {
                           completion: @escaping (EmptyResponse) -> Void)
     func fetchFinishedProjectsLogicFeed<T: Mappable>(request: [String : Any],
                                                 completion: @escaping (BaseResponse<[T]>) -> Void)
+    func fetchFinishedProjectCathegoryFeed<T: Mappable>(request: [String : Any],
+                                                        completion: @escaping (BaseResponse<[T]>) -> Void)
 }
 
 class FirebaseManager: FirebaseManagerProtocol {
@@ -3712,6 +3714,84 @@ class FirebaseManager: FirebaseManagerProtocol {
             fetchFinishedRecentFeed(currentUser: currentUser, completion: completion)
         case .none:
             completion(.error(FirebaseErrors.genericError))
+        }
+    }
+    
+    func fetchFinishedProjectCathegoryFeed<T: Mappable>(request: [String : Any],
+                                                        completion: @escaping (BaseResponse<[T]>) -> Void) {
+        var finishedProjects = [String]()
+        var userProjects = [String]()
+        var finishedProjectsData = [[String: Any]]()
+        
+        guard let cathegory = request["cathegory"] as? String else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        guard let currentUser = authReference.currentUser?.uid else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        realtimeDB
+            .child(Constants.finishedProjectsCataloguePath)
+            .observeSingleEvent(of: .value) { snapshot in
+                guard let projects = snapshot.value as? [String] else {
+                    completion(.success(.empty))
+                    return
+                }
+                finishedProjects = projects
+                self.realtimeDB
+                    .child(Constants.usersPath)
+                    .child(currentUser)
+                    .child("finished_projects")
+                    .observeSingleEvent(of: .value) { snapshot in
+                        guard let projects = snapshot.value as? [String] else {
+                            completion(.error(FirebaseErrors.genericError))
+                            return
+                        }
+                        userProjects = projects
+                        finishedProjects = finishedProjects.filter({ !userProjects.contains($0)})
+                        let dispatchGroup = DispatchGroup()
+                        for project in finishedProjects {
+                            dispatchGroup.enter()
+                            self.realtimeDB
+                                .child(Constants.projectsPath)
+                                .child(Constants.finishedProjectsPath)
+                                .child(project)
+                                .child("cathegories")
+                                .observeSingleEvent(of: .value) { snapshot in
+                                    guard let cathegories = snapshot.value as? [String] else {
+                                        completion(.error(FirebaseErrors.genericError))
+                                        return
+                                    }
+                                    if !cathegories.contains(cathegory) {
+                                        finishedProjects.removeAll(where: { $0 == project})
+                                    }
+                                    dispatchGroup.leave()
+                            }
+                        }
+                        dispatchGroup.notify(queue: .main) {
+                            let newDispatchGroup = DispatchGroup()
+                            for project in finishedProjects {
+                                newDispatchGroup.enter()
+                                self.realtimeDB
+                                    .child(Constants.projectsPath)
+                                    .child(Constants.finishedProjectsPath)
+                                    .child(project)
+                                    .observeSingleEvent(of: .value) { snapshot in
+                                        guard let project = snapshot.value as? [String: Any] else {
+                                            completion(.error(FirebaseErrors.genericError))
+                                            return
+                                        }
+                                        finishedProjectsData.append(project)
+                                        newDispatchGroup.leave()
+                                }
+                            }
+                            newDispatchGroup.notify(queue: .main) {
+                                let mappedResponse = Mapper<T>().mapArray(JSONArray: finishedProjectsData)
+                                completion(.success(mappedResponse))
+                            }
+                        }
+            }
         }
     }
 }

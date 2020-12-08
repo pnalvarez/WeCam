@@ -5,6 +5,7 @@
 //  Created by Pedro Alvarez on 19/09/20.
 //  Copyright © 2020 Pedro Alvarez. All rights reserved.
 //
+import Foundation
 
 protocol MainFeedBusinessLogic {
     func fetchSearch(_ request: MainFeed.Request.Search)
@@ -128,8 +129,7 @@ extension MainFeedInteractor {
                             switch response {
                             case .success(let data):
                                 self.mainFeedData?.finishedProjectsFeeds?.feeds.append(MainFeed.Info.Model.FinishedProjectFeed(criteria: MainFeed.Info.Model.FinishedProjectsFeedLogicCriteria.recentlyWatched.rawValue, projects: data.map({ MainFeed.Info.Model.FinishedProject(id: $0.id ?? .empty, image: $0.image ?? .empty)})))
-                                guard let feed = self.mainFeedData else { return }
-                                self.presenter.presentFeedData(feed)
+                                self.fetchFinishedProjectsCathegoryFeeds()
                             case .error(_):
                                 break
                             }
@@ -147,6 +147,33 @@ extension MainFeedInteractor {
     private func fetchLogicFeed(_ criteria: MainFeed.Info.Model.FinishedProjectsFeedLogicCriteria,
                                 completion: @escaping (BaseResponse<[MainFeed.Info.Response.FinishedProject]>) -> Void) {
         worker.fetchFinishedProjectsLogicFeed(MainFeed.Request.FinishedProjectsLogicFeed(criteria: criteria.rawValue), completion: completion)
+    }
+    
+    private func fetchFinishedProjectsCathegoryFeeds() {
+        if let interestCathegories = mainFeedData?.interestCathegories {
+            let dispatchGroup = DispatchGroup()
+            for cathegory in interestCathegories.criterias {
+                dispatchGroup.enter()
+                switch cathegory {
+                case .cathegory(let style):
+                    worker.fetchFinishedProjectsCathegoryFeed(MainFeed.Request.FinishedProjectsCathegoryFeed(cathegory: style.rawValue)) { response in
+                        switch response {
+                        case .success(let projects):
+                            self.mainFeedData?.finishedProjectsFeeds?.feeds.append(MainFeed.Info.Model.FinishedProjectFeed(criteria: style.rawValue, projects: projects.map({ MainFeed.Info.Model.FinishedProject(id: $0.id ?? .empty, image: $0.image ?? .empty)})))
+                            dispatchGroup.leave()
+                        case .error(let error):
+                            dispatchGroup.leave()
+                        }
+                    }
+                default:
+                    break
+                }
+            }
+            dispatchGroup.notify(queue: .main) {
+                guard let data = self.mainFeedData else { return }
+                self.presenter.presentFeedData(data)
+            }
+        }
     }
 }
 

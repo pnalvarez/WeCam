@@ -15,6 +15,8 @@ protocol MainFeedWorkerProtocol {
                                   completion: @escaping (BaseResponse<MainFeed.Info.Response.InterestCathegories>) -> Void)
     func fetchFinishedProjectsLogicFeed(_ request: MainFeed.Request.FinishedProjectsLogicFeed,
                                         completion: @escaping (BaseResponse<[MainFeed.Info.Response.FinishedProject]>) -> Void)
+    func fetchFinishedProjectsCathegoryFeed(_ request: MainFeed.Request.FinishedProjectsCathegoryFeed,
+                                            completion: @escaping (BaseResponse<[MainFeed.Info.Response.FinishedProject]>) -> Void)
 }
 
 class MainFeedWorker: MainFeedWorkerProtocol {
@@ -37,7 +39,6 @@ class MainFeedWorker: MainFeedWorkerProtocol {
         let headers: [String : Any] = ["limits": MainFeed.Constants.BusinessLogic.ongoingProjectsLimit, "fromConnections": request.fromConnections, "cathegory": request.cathegory]
         builder.fetchOnGoingProjectsFeed(request: headers,
                                          completion: completion)
-//        completion(.success(MainFeed.Info.Response.OnGoingProject.stubArray))
     }
     
     func fetchInterestCathegories(_ request: MainFeed.Request.FetchInterestCathegories,
@@ -51,4 +52,10 @@ class MainFeedWorker: MainFeedWorkerProtocol {
         let headers: [String : Any] = ["criteria": request.criteria]
         builder.fetchFinishedProjectsLogicFeed(request: headers, completion: completion)
      }
+    
+    func fetchFinishedProjectsCathegoryFeed(_ request: MainFeed.Request.FinishedProjectsCathegoryFeed,
+                                            completion: @escaping (BaseResponse<[MainFeed.Info.Response.FinishedProject]>) -> Void) {
+        let headers: [String : Any] = ["cathegory": request.cathegory]
+        builder.fetchFinishedProjectCathegoryFeed(request: headers, completion: completion)
+    }
 }

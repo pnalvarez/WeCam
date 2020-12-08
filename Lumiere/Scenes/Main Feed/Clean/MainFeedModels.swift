@@ -380,6 +380,10 @@ struct MainFeed {
         struct FinishedProjectsLogicFeed {
             let criteria: String
         }
+        
+        struct FinishedProjectsCathegoryFeed {
+            let cathegory: String
+        }
     }
 }
 
