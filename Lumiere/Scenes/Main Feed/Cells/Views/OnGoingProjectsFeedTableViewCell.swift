@@ -72,6 +72,12 @@ class OnGoingProjectsFeedTableViewCell: UITableViewCell {
     
     private weak var delegate: OnGoingProjectsFeedTableViewCellDelegate?
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        flushProjectsFeed()
+        flushItems()
+    }
+    
     override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
         for subview in subviews as [UIView] {
             if !subview.isHidden

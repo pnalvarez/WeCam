@@ -12,6 +12,7 @@ protocol MainFeedPresentationLogic {
     func presentSearchResults()
     func presentProfileDetails()
     func presentOnGoingProjectDetails()
+    func presentFinishedProjectDetails()
     func presentFeedData(_ response: MainFeed.Info.Model.UpcomingFeedData)
 }
 
@@ -65,6 +66,10 @@ class MainFeedPresenter: MainFeedPresentationLogic {
                                                   }) ?? .empty ),
             finishedProjects: mapFinishedProjectsFeeds(response.finishedProjectsFeeds))
         viewController.displayFeedData(viewModel)
+    }
+    
+    func presentFinishedProjectDetails() {
+        viewController.displayFinishedProjectDetails()
     }
     
     private func mapFinishedProjectsFeeds(_ input: MainFeed.Info.Model.UpcomingFinishedProjectsFeeds?) -> MainFeed.Info.ViewModel.UpcomingFinishedProjectsFeeds {

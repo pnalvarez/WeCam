@@ -384,6 +384,15 @@ struct MainFeed {
         struct FinishedProjectsCathegoryFeed {
             let cathegory: String
         }
+        
+        struct SelectFinishedProject {
+            let projectIndex: Int
+            let catheghoryIndex: Int
+        }
+        
+        struct FinishedProjectsNewFeed {
+            
+        }
     }
 }
 

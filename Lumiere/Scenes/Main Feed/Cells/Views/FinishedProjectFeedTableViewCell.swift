@@ -10,7 +10,7 @@ import UIKit
 import SDWebImage
 
 protocol FinishedProjectFeedTableViewCellDelegate: class {
-    func didSelectProject(index: Int)
+    func didSelectFinishedProject(projectIndex: Int, cathegoryIndex: Int)
 }
 
 class FinishedProjectFeedTableViewCell: UITableViewCell {
@@ -27,7 +27,6 @@ class FinishedProjectFeedTableViewCell: UITableViewCell {
         let view = UIScrollView(frame: .zero)
         view.alwaysBounceHorizontal = false
         view.bounces = false
-        view.delegate = self
         view.backgroundColor = ThemeColors.whiteThemeColor.rawValue
         view.clipsToBounds = true
         return view
@@ -42,10 +41,17 @@ class FinishedProjectFeedTableViewCell: UITableViewCell {
     
     private weak var delegate: FinishedProjectFeedTableViewCellDelegate?
     
+    private var index: Int?
+    
     private var viewModel: MainFeed.Info.ViewModel.FinishedProjectFeed? {
         didSet {
             buildProjectsCarrousel()
         }
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        flushProjectsFeed()
     }
     
     override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
@@ -61,8 +67,10 @@ class FinishedProjectFeedTableViewCell: UITableViewCell {
     }
     
     func setup(delegate: FinishedProjectFeedTableViewCellDelegate? = nil,
+               index: Int? = nil,
                viewModel: MainFeed.Info.ViewModel.FinishedProjectFeed) {
         self.delegate = delegate
+        self.index = index
         self.viewModel = viewModel
         applyViewCode()
     }
@@ -102,21 +110,11 @@ class FinishedProjectFeedTableViewCell: UITableViewCell {
     }
     
     @objc private func didTapProject(_ sender: UIButton) {
-        delegate?.didSelectProject(index: sender.tag)
+        delegate?.didSelectFinishedProject(projectIndex: sender.tag, cathegoryIndex: index ?? 0)
     }
     
     deinit {
         flushProjectsFeed()
-    }
-}
-
-extension FinishedProjectFeedTableViewCell: UIScrollViewDelegate {
-    
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        scrollView.layoutIfNeeded()
-//        for view in projectViews {
-//            view.layoutIfNeeded()
-//        }
     }
 }
 
@@ -149,5 +147,6 @@ extension FinishedProjectFeedTableViewCell: ViewCodeProtocol {
     func configureViews() {
         backgroundColor = .white
         fixedLbl.text = viewModel?.criteria
+        selectionStyle = .none
     }
 }

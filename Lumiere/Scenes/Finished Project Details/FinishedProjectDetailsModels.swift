@@ -152,6 +152,10 @@ struct FinishedProjectDetails {
             struct Relation {
                 let relation: ProjectRelation
             }
+            
+            struct Routing {
+                let method: RoutingMethod
+            }
         }
         
         struct ViewModel {
@@ -172,6 +176,10 @@ struct FinishedProjectDetails {
             
             struct Relation {
                 let relation: Model.ProjectRelation
+            }
+            
+            struct Routing {
+                let method: RoutingMethod
             }
         }
     }

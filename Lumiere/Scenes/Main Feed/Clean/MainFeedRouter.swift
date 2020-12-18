@@ -14,6 +14,7 @@ protocol MainFeedRoutingLogic {
     func routeToProfileDetails()
     func routeToProfileSuggestions()
     func routeToOnGoingProjectDetails()
+    func routeToFinishedProjectDetails()
 }
 
 protocol MainFeedDataTransfer {
@@ -40,6 +41,12 @@ class MainFeedRouter: NSObject, MainFeedDataTransfer {
         destination.receivedData = OnGoingProjectDetails.Info.Received.Project(projectId: source.selectedProject ?? .empty,
                                                                                notInvitedUsers: .empty)
         destination.routingContext = .checkingProject
+    }
+    
+    private func transferDataToFinishedProjectDetails(from source: MainFeedDataStore,
+                                                      to destination: inout FinishedProjectDetailsDataStore) {
+        destination.receivedData = FinishedProjectDetails.Info.Received.Project(id: source.selectedProject ?? .empty)
+        destination.routingModel = FinishedProjectDetails.Info.Received.Routing(routingMethod: .push)
     }
 }
 
@@ -78,6 +85,14 @@ extension MainFeedRouter: MainFeedRoutingLogic {
         guard let source = dataStore,
               var destination = vc.router?.dataStore else { return }
         transferDataToOnGoingProjectDetails(from: source, to: &destination)
+        routeTo(nextVC: vc)
+    }
+    
+    func routeToFinishedProjectDetails() {
+        let vc = FinishedProjectDetailsController()
+        guard let source = dataStore,
+              var destination = vc.router?.dataStore else { return }
+        transferDataToFinishedProjectDetails(from: source, to: &destination)
         routeTo(nextVC: vc)
     }
 }

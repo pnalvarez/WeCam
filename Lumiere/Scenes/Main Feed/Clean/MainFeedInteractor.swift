@@ -14,6 +14,7 @@ protocol MainFeedBusinessLogic {
     func didSelectSuggestedProfile(_ request: MainFeed.Request.SelectSuggestedProfile)
     func didSelectOnGoingProject(_ request: MainFeed.Request.SelectOnGoingProject)
     func didSelectOnGoingProjectCathegory(_ request: MainFeed.Request.SelectOnGoingProjectCathegory)
+    func didSelectFinishedProject(_ request: MainFeed.Request.SelectFinishedProject)
 }
 
 protocol MainFeedDataStore {
@@ -166,12 +167,24 @@ extension MainFeedInteractor {
                         }
                     }
                 default:
-                    break
+                    dispatchGroup.leave()
                 }
             }
             dispatchGroup.notify(queue: .main) {
+                self.fetchFinishedProjectsNewFeed()
+            }
+        }
+    }
+    
+    private func fetchFinishedProjectsNewFeed() {
+        worker.fetchFinishedProjectsNewFeed(MainFeed.Request.FinishedProjectsNewFeed()) { response in
+            switch response {
+            case .success(let projects):
+                self.mainFeedData?.finishedProjectsFeeds?.feeds.append(MainFeed.Info.Model.FinishedProjectFeed(criteria: "Novos projetos", projects: projects.map({ MainFeed.Info.Model.FinishedProject(id: $0.id ?? .empty, image: $0.image ?? .empty)})))
                 guard let data = self.mainFeedData else { return }
                 self.presenter.presentFeedData(data)
+            case .error(let error):
+                break
             }
         }
     }
@@ -219,5 +232,10 @@ extension MainFeedInteractor: MainFeedBusinessLogic {
                 break
             }
         }
+    }
+    
+    func didSelectFinishedProject(_ request: MainFeed.Request.SelectFinishedProject) {
+        selectedProject = mainFeedData?.finishedProjectsFeeds?.feeds[request.catheghoryIndex].projects[request.projectIndex].id
+        presenter.presentFinishedProjectDetails()
     }
 }

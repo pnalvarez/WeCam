@@ -12,6 +12,7 @@ protocol MainFeedDisplayLogic: class {
     func displaySearchResults()
     func displayProfileDetails()
     func displayOnGoingProjectDetails()
+    func displayFinishedProjectDetails()
     func displayFeedData(_ viewModel: MainFeed.Info.ViewModel.UpcomingFeedData)
     func displayGenericError()
 }
@@ -41,7 +42,8 @@ class MainFeedController: BaseViewController {
                                                viewModel: viewModel,
                                                searchDelegate: self,
                                                profileSuggestionsDelegate: self,
-                                               ongoingProjectsFeedDelegate: self)
+                                               ongoingProjectsFeedDelegate: self,
+                                               finishedProjectsFeedDelegate: self)
             sections = factory?.buildSections()
             refreshTableView()
         }
@@ -68,12 +70,8 @@ class MainFeedController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        navigationController?.tabBarController?.tabBar.isHidden = false
         interactor?.fetchMainFeed(MainFeed.Request.MainFeed())
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        flushContent()
     }
     
     private func setup() {
@@ -122,14 +120,6 @@ extension MainFeedController: ProfileSuggestionsFeedTableViewCellDelegate {
     }
 }
 
-extension MainFeedController: Resettable {
-    
-    func flushContent() {
-        tableView = MainFeedTableView(frame: .zero, errorView: errorView)
-        tableView.assignProtocols(to: self)
-    }
-}
-
 extension MainFeedController: OnGoingProjectsFeedTableViewCellDelegate {
     
     func didSelectProject(index: Int) {
@@ -139,6 +129,13 @@ extension MainFeedController: OnGoingProjectsFeedTableViewCellDelegate {
     func didSelectedNewCriteria(text: String) {
         flushOnGoingProjectsFeed()
         interactor?.didSelectOnGoingProjectCathegory(MainFeed.Request.SelectOnGoingProjectCathegory(text: text))
+    }
+}
+
+extension MainFeedController: FinishedProjectFeedTableViewCellDelegate {
+    
+    func didSelectFinishedProject(projectIndex: Int, cathegoryIndex: Int) {
+        interactor?.didSelectFinishedProject(MainFeed.Request.SelectFinishedProject(projectIndex: projectIndex, catheghoryIndex: cathegoryIndex))
     }
 }
 
@@ -186,6 +183,10 @@ extension MainFeedController: MainFeedDisplayLogic {
     
     func displayOnGoingProjectDetails() {
         router?.routeToOnGoingProjectDetails()
+    }
+    
+    func displayFinishedProjectDetails() {
+        router?.routeToFinishedProjectDetails()
     }
     
     func displayFeedData(_ viewModel: MainFeed.Info.ViewModel.UpcomingFeedData) {

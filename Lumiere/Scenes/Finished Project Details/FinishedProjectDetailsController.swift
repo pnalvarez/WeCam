@@ -15,6 +15,7 @@ protocol FinishedProjectDetailsDisplayLogic: class {
     func displayLoading(_ loading: Bool)
     func displayRelationUI(_ viewModel: FinishedProjectDetails.Info.ViewModel.Relation)
     func displayAllParticipants()
+    func displayRoutingUI(_ viewModel: FinishedProjectDetails.Info.ViewModel.Routing)
 }
 
 class FinishedProjectDetailsController: BaseViewController {
@@ -240,6 +241,10 @@ extension FinishedProjectDetailsController: FinishedProjectDetailsDisplayLogic {
     }
     
     func displayAllParticipants() {
+        
+    }
+    
+    func displayRoutingUI(_ viewModel: FinishedProjectDetails.Info.ViewModel.Routing) {
         
     }
 }

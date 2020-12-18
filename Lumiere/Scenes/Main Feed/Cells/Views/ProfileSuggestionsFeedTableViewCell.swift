@@ -57,6 +57,11 @@ class ProfileSuggestionsFeedTableViewCell: UITableViewCell {
         }
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        flushContent()
+    }
+    
     func setup(delegate: ProfileSuggestionsFeedTableViewCellDelegate? = nil,
                viewModel: MainFeed.Info.ViewModel.UpcomingProfiles?) {
         self.delegate = delegate
@@ -69,10 +74,6 @@ class ProfileSuggestionsFeedTableViewCell: UITableViewCell {
             view.removeFromSuperview()
         }
         scrollView.layoutIfNeeded()
-    }
-    
-    deinit {
-        flushContent()
     }
 }
 

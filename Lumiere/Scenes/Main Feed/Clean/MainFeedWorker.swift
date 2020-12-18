@@ -17,6 +17,8 @@ protocol MainFeedWorkerProtocol {
                                         completion: @escaping (BaseResponse<[MainFeed.Info.Response.FinishedProject]>) -> Void)
     func fetchFinishedProjectsCathegoryFeed(_ request: MainFeed.Request.FinishedProjectsCathegoryFeed,
                                             completion: @escaping (BaseResponse<[MainFeed.Info.Response.FinishedProject]>) -> Void)
+    func fetchFinishedProjectsNewFeed(_ request: MainFeed.Request.FinishedProjectsNewFeed,
+                                      completion: @escaping (BaseResponse<[MainFeed.Info.Response.FinishedProject]>) -> Void)
 }
 
 class MainFeedWorker: MainFeedWorkerProtocol {
@@ -57,5 +59,11 @@ class MainFeedWorker: MainFeedWorkerProtocol {
                                             completion: @escaping (BaseResponse<[MainFeed.Info.Response.FinishedProject]>) -> Void) {
         let headers: [String : Any] = ["cathegory": request.cathegory]
         builder.fetchFinishedProjectCathegoryFeed(request: headers, completion: completion)
+    }
+    
+    func fetchFinishedProjectsNewFeed(_ request: MainFeed.Request.FinishedProjectsNewFeed,
+                                      completion: @escaping (BaseResponse<[MainFeed.Info.Response.FinishedProject]>) -> Void) {
+        let headers: [String : Any] = .empty
+        builder.fetchFinishedProjectsNewFeed(request: headers, completion: completion)
     }
 }

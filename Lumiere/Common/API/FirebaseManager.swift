@@ -142,6 +142,8 @@ protocol FirebaseManagerProtocol {
                                                 completion: @escaping (BaseResponse<[T]>) -> Void)
     func fetchFinishedProjectCathegoryFeed<T: Mappable>(request: [String : Any],
                                                         completion: @escaping (BaseResponse<[T]>) -> Void)
+    func fetchFinishedProjectsNewFeed<T: Mappable>(request: [String : Any],
+                                                   completion: @escaping (BaseResponse<[T]>) -> Void)
 }
 
 class FirebaseManager: FirebaseManagerProtocol {
@@ -3612,11 +3614,17 @@ class FirebaseManager: FirebaseManagerProtocol {
     
     func publishNewProject<T: Mappable>(request: [String : Any],
                               completion: @escaping (BaseResponse<T>) -> Void) {
+        var allFinishedProjects = [String]()
+        
         guard let title = request["title"] as? String,
               let sinopsis = request["sinopsis"] as? String,
               let cathegories = request["cathegories"] as? [String],
               let video = request["youtube_url"] as? String,
               let image = request["image"] as? Data else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        guard let currentUser = authReference.currentUser?.uid else {
             completion(.error(FirebaseErrors.genericError))
             return
         }
@@ -3643,7 +3651,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                     completion(.error(FirebaseErrors.genericError))
                     return
                 }
-                let dict: [String : Any] = ["title": title, "sinopsis": sinopsis, "cathegories": cathegories, "youtube_url": video, "image": url.absoluteString, "views": 0, "finish_date": Date().timeIntervalSince1970]
+                let dict: [String : Any] = ["title": title, "sinopsis": sinopsis, "cathegories": cathegories, "youtube_url": video, "image": url.absoluteString, "views": 0, "finish_date": Date().timeIntervalSince1970, "participants": [currentUser], "author_id": currentUser]
                 self.realtimeDB
                     .child(Constants.projectsPath)
                     .child(Constants.finishedProjectsPath)
@@ -3652,12 +3660,26 @@ class FirebaseManager: FirebaseManagerProtocol {
                             completion(.error(error))
                             return
                         }
-                        let dict: [String : Any] = ["id": projectId]
-                        guard let mappedResponse = Mapper<T>().map(JSON: dict) else {
-                            completion(.error(FirebaseErrors.parseError))
-                            return
+                        self.realtimeDB
+                            .child(Constants.finishedProjectsCataloguePath)
+                            .observeSingleEvent(of: .value) { snapshot in
+                                if let projects = snapshot.value as? [String] {
+                                    allFinishedProjects = projects
+                                }
+                                allFinishedProjects.append(projectId)
+                                self.realtimeDB.updateChildValues([Constants.finishedProjectsCataloguePath: allFinishedProjects]) { (error, metadata) in
+                                    if let error = error {
+                                        completion(.error(error))
+                                        return
+                                    }
+                                    let dict: [String : Any] = ["id": projectId]
+                                    guard let mappedResponse = Mapper<T>().map(JSON: dict) else {
+                                        completion(.error(FirebaseErrors.parseError))
+                                        return
+                                    }
+                                    completion(.success(mappedResponse))
+                                }
                         }
-                        completion(.success(mappedResponse))
                 }
             }
         }
@@ -3744,11 +3766,9 @@ class FirebaseManager: FirebaseManagerProtocol {
                     .child(currentUser)
                     .child("finished_projects")
                     .observeSingleEvent(of: .value) { snapshot in
-                        guard let projects = snapshot.value as? [String] else {
-                            completion(.error(FirebaseErrors.genericError))
-                            return
+                        if let projects = snapshot.value as? [String] {
+                            userProjects = projects
                         }
-                        userProjects = projects
                         finishedProjects = finishedProjects.filter({ !userProjects.contains($0)})
                         let dispatchGroup = DispatchGroup()
                         for project in finishedProjects {
@@ -3771,17 +3791,18 @@ class FirebaseManager: FirebaseManagerProtocol {
                         }
                         dispatchGroup.notify(queue: .main) {
                             let newDispatchGroup = DispatchGroup()
-                            for project in finishedProjects {
+                            for projectId in finishedProjects {
                                 newDispatchGroup.enter()
                                 self.realtimeDB
                                     .child(Constants.projectsPath)
                                     .child(Constants.finishedProjectsPath)
-                                    .child(project)
+                                    .child(projectId)
                                     .observeSingleEvent(of: .value) { snapshot in
-                                        guard let project = snapshot.value as? [String: Any] else {
+                                        guard var project = snapshot.value as? [String: Any] else {
                                             completion(.error(FirebaseErrors.genericError))
                                             return
                                         }
+                                        project["id"] = projectId
                                         finishedProjectsData.append(project)
                                         newDispatchGroup.leave()
                                 }
@@ -3792,6 +3813,66 @@ class FirebaseManager: FirebaseManagerProtocol {
                             }
                         }
             }
+        }
+    }
+    
+    func fetchFinishedProjectsNewFeed<T: Mappable>(request: [String : Any],
+                                                   completion: @escaping (BaseResponse<[T]>) -> Void) {
+        var finishedProjects = [String]()
+        var userProjects = [String]()
+        var finishedProjectsData = [[String: Any]]()
+        
+        guard let currentUser = authReference.currentUser?.uid else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        
+        realtimeDB
+            .child(Constants.finishedProjectsCataloguePath)
+            .observeSingleEvent(of: .value) { snapshot in
+                guard let projects = snapshot.value as? [String] else {
+                    completion(.success(.empty))
+                    return
+                }
+                finishedProjects = projects
+                self.realtimeDB
+                    .child(Constants.usersPath)
+                    .child(currentUser)
+                    .child("finished_projects")
+                    .observeSingleEvent(of: .value) { snapshot in
+                        if let projects = snapshot.value as? [String] {
+                            userProjects = projects
+                        }
+                        finishedProjects = finishedProjects.filter({ !userProjects.contains($0)})
+                        let dispatchGroup = DispatchGroup()
+                        for project in finishedProjects {
+                            dispatchGroup.enter()
+                            self.realtimeDB
+                                .child(Constants.projectsPath)
+                                .child(Constants.finishedProjectsPath)
+                                .child(project)
+                                .observeSingleEvent(of: .value) { snapshot in
+                                    guard var projectData = snapshot.value as? [String : Any] else {
+                                        completion(.error(FirebaseErrors.genericError))
+                                        return
+                                    }
+                                    projectData["id"] = project
+                                    finishedProjectsData.append(projectData)
+                                    dispatchGroup.leave()
+                            }
+                        }
+                        dispatchGroup.notify(queue: .main) {
+                            finishedProjectsData.sort(by: { project1, project2 in
+                                guard let date1 = project1["finish_date"] as? Double,
+                                      let date2 = project2["finish_date"] as? Double else {
+                                    return false
+                                }
+                                return date1 > date2
+                            })
+                            let mappedResponse = Mapper<T>().mapArray(JSONArray: finishedProjectsData)
+                            completion(.success(mappedResponse))
+                        }
+                }
         }
     }
 }
@@ -3831,6 +3912,10 @@ extension FirebaseManager {
                                     userProjects = projects
                                 }
                                 finishedProjects = finishedProjects.filter({ !userProjects.contains($0) })
+                                guard finishedProjects.count > 0 else {
+                                    completion(.success(.empty))
+                                    return
+                                }
                                 let dispatchGroup = DispatchGroup()
                                 for project in finishedProjects {
                                     dispatchGroup.enter()
@@ -3850,7 +3935,9 @@ extension FirebaseManager {
                                             }
                                             let score = userConnections.filter({ participants.contains($0)}).count
                                             let dict: [String : Any] = ["id": project, "image": image, "score": score]
-                                            responseProjects.append(dict)
+                                            if score > 0 {
+                                                responseProjects.append(dict)
+                                            }
                                             dispatchGroup.leave()
                                         }
                                 }
@@ -3912,10 +3999,11 @@ extension FirebaseManager {
                             .child(Constants.finishedProjectsPath)
                             .child(project)
                             .observeSingleEvent(of: .value) { snapshot in
-                                guard let projectData = snapshot.value as? [String : Any] else {
+                                guard var projectData = snapshot.value as? [String : Any] else {
                                     completion(.error(FirebaseErrors.genericError))
                                     return
                                 }
+                                projectData["id"] = project
                                 responseProjects.append(projectData)
                                 newDispatchGroup.leave()
                         }
@@ -3976,10 +4064,11 @@ extension FirebaseManager {
                             .child(Constants.finishedProjectsPath)
                             .child(project)
                             .observeSingleEvent(of: .value) { snapshot in
-                                guard let projectData = snapshot.value as? [String : Any] else {
+                                guard var projectData = snapshot.value as? [String : Any] else {
                                     completion(.error(FirebaseErrors.genericError))
                                     return
                                 }
+                                projectData["id"] = project
                                 responseProjects.append(projectData)
                                 dispatchGroup.leave()
                         }

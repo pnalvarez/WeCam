@@ -42,7 +42,7 @@ struct ProfileDetails {
             static let editProfileButton = ThemeFonts.RobotoBold(16).rawValue
             static let onGoingProjectsLbl = ThemeFonts.RobotoBold(16).rawValue
             static let inviteToProjectButton = ThemeFonts.RobotoRegular(16).rawValue
-            static let finishedProjectsLbl = ThemeFonts.RobotoRegular(16).rawValue
+            static let finishedProjectsLbl = ThemeFonts.RobotoBold(16).rawValue
         }
         
         struct Images {

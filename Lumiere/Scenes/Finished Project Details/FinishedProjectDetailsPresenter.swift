@@ -15,6 +15,7 @@ protocol FinishedProjectDetailsPresentationLogic {
     func presentLoading(_ loading: Bool)
     func presentRelationUI(_ response: FinishedProjectDetails.Info.Model.Relation)
     func presentAllParticipants()
+    func presentRoutingUI(_ response: FinishedProjectDetails.Info.Model.Routing)
 }
 
 class FinishedProjectDetailsPresenter: FinishedProjectDetailsPresentationLogic {
@@ -55,5 +56,10 @@ class FinishedProjectDetailsPresenter: FinishedProjectDetailsPresentationLogic {
     
     func presentAllParticipants() {
         viewController.displayAllParticipants()
+    }
+    
+    func presentRoutingUI(_ response: FinishedProjectDetails.Info.Model.Routing) {
+        let viewModel = FinishedProjectDetails.Info.ViewModel.Routing(method: response.method)
+        viewController.displayRoutingUI(viewModel)
     }
 }

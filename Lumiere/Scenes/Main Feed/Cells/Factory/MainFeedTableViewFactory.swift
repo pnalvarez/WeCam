@@ -61,8 +61,8 @@ class MainFeedTableViewFactory: TableViewFactory {
     private var finishedProjectsFeedsBuilder: [TableViewCellBuilderProtocol] {
         var builders = [TableViewCellBuilderProtocol]()
         guard let feeds = viewModel?.finishedProjects.feeds else { return .empty }
-        for project in feeds {
-            builders.append(FinishedProjectFeedTableViewCellBuilder(delegate: finishedProjectsFeedDelegate, viewModel: project))
+        for index in 0..<feeds.count {
+            builders.append(FinishedProjectFeedTableViewCellBuilder(delegate: finishedProjectsFeedDelegate, index: index, viewModel: feeds[index]))
         }
         return builders
     }
