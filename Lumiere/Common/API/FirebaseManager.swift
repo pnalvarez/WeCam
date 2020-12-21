@@ -3615,6 +3615,7 @@ class FirebaseManager: FirebaseManagerProtocol {
     func publishNewProject<T: Mappable>(request: [String : Any],
                               completion: @escaping (BaseResponse<T>) -> Void) {
         var allFinishedProjects = [String]()
+        var userProjects = [String]()
         
         guard let title = request["title"] as? String,
               let sinopsis = request["sinopsis"] as? String,
@@ -3672,12 +3673,28 @@ class FirebaseManager: FirebaseManagerProtocol {
                                         completion(.error(error))
                                         return
                                     }
-                                    let dict: [String : Any] = ["id": projectId]
-                                    guard let mappedResponse = Mapper<T>().map(JSON: dict) else {
-                                        completion(.error(FirebaseErrors.parseError))
-                                        return
+                                    self.realtimeDB
+                                        .child(Constants.usersPath)
+                                        .child(currentUser)
+                                        .child("finished_projects")
+                                        .observeSingleEvent(of: .value) { snapshot in
+                                            if let projects = snapshot.value as? [String] {
+                                                userProjects = projects
+                                            }
+                                            userProjects.append(projectId)
+                                            self.realtimeDB.child(Constants.usersPath).child(currentUser).updateChildValues(["finished_projects": userProjects]) { (error, metadata) in
+                                                if let error = error {
+                                                    completion(.error(error))
+                                                    return
+                                                }
+                                                let dict: [String : Any] = ["id": projectId]
+                                                guard let mappedResponse = Mapper<T>().map(JSON: dict) else {
+                                                    completion(.error(FirebaseErrors.parseError))
+                                                    return
+                                                }
+                                                completion(.success(mappedResponse))
+                                            }
                                     }
-                                    completion(.success(mappedResponse))
                                 }
                         }
                 }

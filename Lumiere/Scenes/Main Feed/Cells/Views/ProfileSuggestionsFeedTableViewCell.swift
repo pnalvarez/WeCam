@@ -31,6 +31,7 @@ class ProfileSuggestionsFeedTableViewCell: UITableViewCell {
         view.backgroundColor = ThemeColors.whiteThemeColor.rawValue
         view.clipsToBounds = true
         view.delegate = self
+        view.isScrollEnabled = true
         return view
     }()
     
