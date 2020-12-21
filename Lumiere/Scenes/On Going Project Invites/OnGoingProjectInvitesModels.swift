@@ -63,7 +63,7 @@ struct OnGoingProjectInvites {
         }
         
         struct Model {
-            
+
             enum Relation {
                 case simpleParticipant
                 case sentRequest
