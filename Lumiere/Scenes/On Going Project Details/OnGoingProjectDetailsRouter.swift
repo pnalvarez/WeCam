@@ -45,6 +45,7 @@ class OnGoingProjectDetailsRouter: NSObject, OnGoingProjectDetailsDataTransfer {
     private func transferDataToProjectInvites(from source: OnGoingProjectDetailsDataStore,
                                               to destination: inout OnGoingProjectInvitesDataStore) {
         destination.projectReceivedModel = OnGoingProjectInvites.Info.Received.Project(projectId: source.projectData?.id ?? .empty)
+        destination.context = OnGoingProjectInvites.Info.Received.Context(context: .ongoing)
     }
     
     private func transferDataToInsertMedia(from source: OnGoingProjectDetailsDataStore,

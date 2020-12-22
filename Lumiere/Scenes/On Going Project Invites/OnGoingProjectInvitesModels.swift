@@ -60,9 +60,18 @@ struct OnGoingProjectInvites {
             struct Project {
                 let projectId: String
             }
+            
+            struct Context {
+                let context: Model.ProjectContext
+            }
         }
         
         struct Model {
+            
+            enum ProjectContext {
+                case ongoing
+                case finished
+            }
 
             enum Relation {
                 case simpleParticipant

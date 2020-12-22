@@ -18,6 +18,7 @@ protocol OnGoingProjectInvitesBusinessLogic {
 
 protocol OnGoingProjectInvitesDataStore {
     var projectReceivedModel: OnGoingProjectInvites.Info.Received.Project? { get set }
+    var context: OnGoingProjectInvites.Info.Received.Context? { get set }
     var projectModel: OnGoingProjectInvites.Info.Model.Project? { get set }
     var users: OnGoingProjectInvites.Info.Model.UpcomingUsers? { get set }
     var selectedUser: OnGoingProjectInvites.Info.Model.User? { get set }
@@ -31,6 +32,7 @@ class OnGoingProjectInvitesInteractor: OnGoingProjectInvitesDataStore {
     private let presenter: OnGoingProjectInvitesPresentationLogic
     
     var projectReceivedModel: OnGoingProjectInvites.Info.Received.Project?
+    var context: OnGoingProjectInvites.Info.Received.Context?
     var projectModel: OnGoingProjectInvites.Info.Model.Project?
     var users: OnGoingProjectInvites.Info.Model.UpcomingUsers?
     var selectedUser: OnGoingProjectInvites.Info.Model.User?

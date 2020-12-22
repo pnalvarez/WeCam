@@ -144,6 +144,8 @@ protocol FirebaseManagerProtocol {
                                                         completion: @escaping (BaseResponse<[T]>) -> Void)
     func fetchFinishedProjectsNewFeed<T: Mappable>(request: [String : Any],
                                                    completion: @escaping (BaseResponse<[T]>) -> Void)
+    func fetchUserRelationToFinishedProject<T: Mappable>(request: [String : Any],
+                                                         completion: @escaping (BaseResponse<T>) -> Void)
 }
 
 class FirebaseManager: FirebaseManagerProtocol {
@@ -3890,6 +3892,55 @@ class FirebaseManager: FirebaseManagerProtocol {
                             completion(.success(mappedResponse))
                         }
                 }
+        }
+    }
+    
+    func fetchUserRelationToFinishedProject<T: Mappable>(request: [String : Any],
+                                                         completion: @escaping (BaseResponse<T>) -> Void) {
+        guard let userId = request["userId"] as? String,
+              let projectId = request["projectId"] as? String else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        realtimeDB
+            .child(Constants.projectsPath)
+            .child(Constants.finishedProjectsPath)
+            .child(projectId)
+            .observeSingleEvent(of: .value) { snapshot in
+                guard let projectData = snapshot.value as? [String : Any] else {
+                    completion(.error(FirebaseErrors.genericError))
+                    return
+                }
+                guard let participants = projectData["participants"] as? [String] else {
+                    completion(.error(FirebaseErrors.genericError))
+                    return
+                }
+                if participants.contains(userId) {
+                    let dict: [String : Any] = ["relation": "PARTICIPANT"]
+                    guard let mappedResponse = Mapper<T>().map(JSON: dict) else {
+                        completion(.error(FirebaseErrors.parseError))
+                        return
+                    }
+                    completion(.success(mappedResponse))
+                    return
+                }
+                if let pendingInvites = projectData["pending"] as? [String],
+                   pendingInvites.contains(userId) {
+                    let dict: [String : Any] = ["relation": "PENDING"]
+                    guard let mappedResponse = Mapper<T>().map(JSON: dict) else {
+                        completion(.error(FirebaseErrors.parseError))
+                        return
+                    }
+                    completion(.success(mappedResponse))
+                    return
+                }
+                let dict: [String : Any] = ["relation": "NOTHING"]
+                guard let mappedResponse = Mapper<T>().map(JSON: dict) else {
+                    completion(.error(FirebaseErrors.parseError))
+                    return
+                }
+                completion(.success(mappedResponse))
+                return
         }
     }
 }
