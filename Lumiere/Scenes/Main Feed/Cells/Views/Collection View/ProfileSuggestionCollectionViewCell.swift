@@ -1,14 +1,13 @@
 //
-//  ProfileResumeButton.swift
+//  ProfileSuggestionCollectionViewCell.swift
 //  Lumiere
 //
-//  Created by Pedro Alvarez on 07/10/20.
+//  Created by Pedro Alvarez on 27/12/20.
 //  Copyright © 2020 Pedro Alvarez. All rights reserved.
 //
-
 import UIKit
 
-class ProfileResumeButton: UIButton {
+class ProfileSuggestionCollectionViewCell: UICollectionViewCell {
     
     private lazy var photoImageView: UIImageView = {
         let view = UIImageView(frame: .zero)
@@ -35,28 +34,16 @@ class ProfileResumeButton: UIButton {
         view.numberOfLines = 0
         return view
     }()
+
+    private var viewModel: MainFeed.Info.ViewModel.ProfileSuggestion?
     
-    private let image: String?
-    private let name: String?
-    private let ocupation: String?
-    
-    init(frame: CGRect,
-         image: String,
-         name: String,
-         ocupation: String) {
-        self.image = image
-        self.name = name
-        self.ocupation = ocupation
-        super.init(frame: frame)
+    func setup(viewModel: MainFeed.Info.ViewModel.ProfileSuggestion?) {
+        self.viewModel = viewModel
         applyViewCode()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }
 
-extension ProfileResumeButton: ViewCodeProtocol {
+extension ProfileSuggestionCollectionViewCell: ViewCodeProtocol {
     
     func buildViewHierarchy() {
         addSubview(photoImageView)
@@ -88,8 +75,8 @@ extension ProfileResumeButton: ViewCodeProtocol {
         layer.borderColor = UIColor(rgb: 0xe5dfdf).cgColor
         clipsToBounds = true
         
-        photoImageView.sd_setImage(with: URL(string: image ?? .empty), completed: nil)
-        nameLbl.text = name
-        ocupationLbl.text = ocupation
+        photoImageView.sd_setImage(with: URL(string: viewModel?.image ?? .empty), completed: nil)
+        nameLbl.text = viewModel?.name
+        ocupationLbl.text = viewModel?.ocupation
     }
 }

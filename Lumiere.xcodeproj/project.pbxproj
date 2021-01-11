@@ -305,6 +305,9 @@
 		3FD0EDED250D599300E22029 /* OnGoingProjectInvitesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD0EDEC250D599300E22029 /* OnGoingProjectInvitesView.swift */; };
 		3FD0EDEF250D5AFD00E22029 /* OnGoingProjectInvitesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD0EDEE250D5AFD00E22029 /* OnGoingProjectInvitesController.swift */; };
 		3FD0EDF1250D5B8700E22029 /* OnGoingProjectInvitesRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD0EDF0250D5B8700E22029 /* OnGoingProjectInvitesRouter.swift */; };
+		3FD96CEF2599581600B1B4EE /* ProfileSuggestionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD96CEE2599581600B1B4EE /* ProfileSuggestionCollectionViewCell.swift */; };
+		3FD96CF42599654300B1B4EE /* OnGoingProjectItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD96CF32599654300B1B4EE /* OnGoingProjectItemCollectionViewCell.swift */; };
+		3FD96CF9259969AC00B1B4EE /* FinishedProjectItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD96CF8259969AC00B1B4EE /* FinishedProjectItemCollectionViewCell.swift */; };
 		3FE8DF4124C3F738005DE30D /* ThemeFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE8DF4024C3F738005DE30D /* ThemeFonts.swift */; };
 		3FE8DF4324C3FA51005DE30D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3FE8DF4224C3FA51005DE30D /* GoogleService-Info.plist */; };
 		3FE8DF5424C52F72005DE30D /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE8DF5324C52F72005DE30D /* FirebaseManager.swift */; };
@@ -646,6 +649,9 @@
 		3FD0EDEC250D599300E22029 /* OnGoingProjectInvitesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnGoingProjectInvitesView.swift; sourceTree = "<group>"; };
 		3FD0EDEE250D5AFD00E22029 /* OnGoingProjectInvitesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnGoingProjectInvitesController.swift; sourceTree = "<group>"; };
 		3FD0EDF0250D5B8700E22029 /* OnGoingProjectInvitesRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnGoingProjectInvitesRouter.swift; sourceTree = "<group>"; };
+		3FD96CEE2599581600B1B4EE /* ProfileSuggestionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSuggestionCollectionViewCell.swift; sourceTree = "<group>"; };
+		3FD96CF32599654300B1B4EE /* OnGoingProjectItemCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnGoingProjectItemCollectionViewCell.swift; sourceTree = "<group>"; };
+		3FD96CF8259969AC00B1B4EE /* FinishedProjectItemCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishedProjectItemCollectionViewCell.swift; sourceTree = "<group>"; };
 		3FE8DF4024C3F738005DE30D /* ThemeFonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeFonts.swift; sourceTree = "<group>"; };
 		3FE8DF4224C3FA51005DE30D /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		3FE8DF5324C52F72005DE30D /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
@@ -1651,6 +1657,7 @@
 		3FAD1A4A2516BAD500ED4074 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				3FD96CED259957BF00B1B4EE /* Collection View */,
 				3FAD1A4B2516BAFB00ED4074 /* SearchHeaderTableViewCell.swift */,
 				3F0129F0252D290A00FF4985 /* RecentSearchTableViewCell.swift */,
 				3F012A05252E8C4100FF4985 /* ProfileSuggestionsFeedTableViewCell.swift */,
@@ -1688,6 +1695,16 @@
 				3FB8BD76250D65A6001954FD /* OnGoingProjectInvitesTableViewCell.swift */,
 			);
 			path = "On Going Project Invites";
+			sourceTree = "<group>";
+		};
+		3FD96CED259957BF00B1B4EE /* Collection View */ = {
+			isa = PBXGroup;
+			children = (
+				3FD96CEE2599581600B1B4EE /* ProfileSuggestionCollectionViewCell.swift */,
+				3FD96CF32599654300B1B4EE /* OnGoingProjectItemCollectionViewCell.swift */,
+				3FD96CF8259969AC00B1B4EE /* FinishedProjectItemCollectionViewCell.swift */,
+			);
+			path = "Collection View";
 			sourceTree = "<group>";
 		};
 		3FE8DF3F24C3F72A005DE30D /* Themes */ = {
@@ -1978,6 +1995,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3FB8BD81250ED4A3001954FD /* InviteProfileToProjectsInteractor.swift in Sources */,
+				3FD96CF9259969AC00B1B4EE /* FinishedProjectItemCollectionViewCell.swift in Sources */,
 				3F95787124AEA4B800B79818 /* SignInController.swift in Sources */,
 				3F66CA0F2504517A006F6DBD /* ProjectParticipantsListInteractor.swift in Sources */,
 				3F8D13A524D73C2600AED7EB /* Array+.swift in Sources */,
@@ -2015,6 +2033,7 @@
 				3F40A6BE24F1CE5100261161 /* DefaultCloseButton.swift in Sources */,
 				3F40A60E24EA0D5700261161 /* SelectProjectImageController.swift in Sources */,
 				3F95787724AEA4D100B79818 /* SignInPresenter.swift in Sources */,
+				3FD96CEF2599581600B1B4EE /* ProfileSuggestionCollectionViewCell.swift in Sources */,
 				3F2FD833257D8B7D003D93BF /* Resettable.swift in Sources */,
 				3F42A564255A13950088E232 /* WatchVideoModels.swift in Sources */,
 				3F66CA0625017C14006F6DBD /* NSAttributedString+.swift in Sources */,
@@ -2083,6 +2102,7 @@
 				3F6EEA3724E0A3970075C500 /* ConnectionsListWorker.swift in Sources */,
 				3F95785E24AD764700B79818 /* ViewCodeProtocol.swift in Sources */,
 				3F8AB7912516DB6100E949F6 /* SearchHeaderTableViewCellBuilder.swift in Sources */,
+				3FD96CF42599654300B1B4EE /* OnGoingProjectItemCollectionViewCell.swift in Sources */,
 				3F42A55F255A13610088E232 /* WatchVideoView.swift in Sources */,
 				3FA1C1512536738B00385322 /* OptionFilterButton.swift in Sources */,
 				3F8D138624D5361A00AED7EB /* ProfileDetailsView.swift in Sources */,

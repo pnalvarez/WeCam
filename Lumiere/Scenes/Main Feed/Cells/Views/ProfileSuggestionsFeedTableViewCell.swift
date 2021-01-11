@@ -24,20 +24,15 @@ class ProfileSuggestionsFeedTableViewCell: UITableViewCell {
         return view
     }()
     
-    private lazy var scrollView: UIScrollView = {
-        let view = UIScrollView(frame: .zero)
-        view.alwaysBounceHorizontal = false
+    private lazy var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        view.assignProtocols(to: self)
+        view.alwaysBounceHorizontal = true
         view.bounces = false
-        view.backgroundColor = ThemeColors.whiteThemeColor.rawValue
-        view.clipsToBounds = true
-        view.delegate = self
-        view.isScrollEnabled = true
-        return view
-    }()
-    
-    private lazy var mainContainer: UIView = {
-        let view = UIView(frame: .zero)
-        view.backgroundColor = ThemeColors.whiteThemeColor.rawValue
+        view.registerCell(cellType: ProfileSuggestionCollectionViewCell.self)
+        view.backgroundColor = .white
         return view
     }()
     
@@ -52,9 +47,9 @@ class ProfileSuggestionsFeedTableViewCell: UITableViewCell {
     
     private weak var delegate: ProfileSuggestionsFeedTableViewCellDelegate?
     
-    private var viewModel: MainFeed.Info.ViewModel.UpcomingProfiles?{
+    private var viewModel: MainFeed.Info.ViewModel.UpcomingProfiles? {
         didSet {
-            buildProfileSuggestionsButtons()
+            reloadCollectionView()
         }
     }
     
@@ -70,62 +65,63 @@ class ProfileSuggestionsFeedTableViewCell: UITableViewCell {
         applyViewCode()
     }
     
-    override func flushContent() {
-        for view in mainContainer.subviews {
-            view.removeFromSuperview()
-        }
-        scrollView.layoutIfNeeded()
-    }
-}
-
-extension ProfileSuggestionsFeedTableViewCell: UIScrollViewDelegate {
-    
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        scrollView.layoutIfNeeded()
-        for view in mainContainer.subviews {
-            view.layoutIfNeeded()
+    private func reloadCollectionView() {
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
         }
     }
 }
 
-extension ProfileSuggestionsFeedTableViewCell {
+extension ProfileSuggestionsFeedTableViewCell: UICollectionViewDataSource {
     
-    private func buildProfileSuggestionsButtons() {
-        var buttons: [ProfileResumeButton] = .empty
-        guard let suggestions = viewModel?.suggestions else { return }
-        let scrollWidth: CGFloat = CGFloat(22 + (142 * suggestions.count) / 2)
-        scrollView.contentSize = CGSize(width: scrollWidth, height: scrollView.frame.height)
-        for index in 0..<suggestions.count {
-            let button = ProfileResumeButton(frame: .zero,
-                                             image: suggestions[index].image,
-                                             name: suggestions[index].name,
-                                             ocupation: suggestions[index].ocupation)
-            button.tag = index
-            button.addTarget(self, action: #selector(didTapProfile(_:)), for: .touchUpInside)
-            buttons.append(button)
-            mainContainer.addSubview(button)
-            button.snp.makeConstraints { make in
-                if index == 0 {
-                    make.top.equalToSuperview().inset(10)
-                    make.left.equalToSuperview().inset(22)
-                } else if index == 1 {
-                    make.top.equalTo(buttons[0].snp.bottom).offset(11)
-                    make.left.equalToSuperview().inset(22)
-                } else {
-                    if index % 2 == 0 {
-                        make.top.equalToSuperview().inset(10)
-                        make.left.equalTo(buttons[index-1].snp.right).offset(14)
-                    } else {
-                        make.top.equalTo(buttons[index-1].snp.bottom).offset(11)
-                        make.left.equalTo(buttons[index-2].snp.right).offset(14)
-                    }
-                }
-                make.height.equalTo(37)
-                make.width.equalTo(127)
-            }
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return viewModel?.suggestions.count ?? 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(indexPath: indexPath, type: ProfileSuggestionCollectionViewCell.self)
+        guard let suggestion = viewModel?.suggestions[indexPath.item] else {
+            return UICollectionViewCell()
         }
+        cell.setup(viewModel: suggestion)
+        return cell
     }
 }
+
+extension ProfileSuggestionsFeedTableViewCell: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        delegate?.didTapProfileSuggestion(index: indexPath.item)
+    }
+}
+
+extension ProfileSuggestionsFeedTableViewCell: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        return CGSize(width: 128, height: 38)
+    }
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 11
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 14
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets.init(top: 10, left: 22, bottom: 0, right: 22)
+    }
+}
+ 
 
 extension ProfileSuggestionsFeedTableViewCell {
     
@@ -143,9 +139,8 @@ extension ProfileSuggestionsFeedTableViewCell {
 extension ProfileSuggestionsFeedTableViewCell: ViewCodeProtocol {
     
     func buildViewHierarchy() {
-        scrollView.addSubview(mainContainer)
-        addSubview(scrollView)
         addSubview(headerLbl)
+        addSubview(collectionView)
         addSubview(seeAllButton)
     }
     
@@ -155,18 +150,14 @@ extension ProfileSuggestionsFeedTableViewCell: ViewCodeProtocol {
             make.left.equalToSuperview().inset(22)
             make.width.equalTo(150)
         }
-        scrollView.snp.makeConstraints { make in
+        collectionView.snp.makeConstraints { make in
             make.top.equalTo(headerLbl.snp.bottom).offset(12)
             make.left.right.equalToSuperview()
-            make.bottom.equalToSuperview().inset(15)
-        }
-        mainContainer.snp.makeConstraints { make in
-            make.edges.height.equalToSuperview()
-            make.width.equalToSuperview().priority(250)
+            make.height.equalTo(100)
         }
         seeAllButton.snp.makeConstraints { make in
             make.right.equalToSuperview().inset(18)
-            make.top.equalTo(headerLbl.snp.bottom).offset(125)
+            make.top.equalTo(collectionView.snp.bottom).offset(10)
             make.height.equalTo(16)
             make.width.equalTo(70)
         }

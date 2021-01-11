@@ -23,19 +23,15 @@ class FinishedProjectFeedTableViewCell: UITableViewCell {
         return view
     }()
     
-    private lazy var scrollView: UIScrollView = {
-        let view = UIScrollView(frame: .zero)
-        view.alwaysBounceHorizontal = false
+    private lazy var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        view.assignProtocols(to: self)
+        view.alwaysBounceHorizontal = true
         view.bounces = false
-        view.backgroundColor = ThemeColors.whiteThemeColor.rawValue
-        view.clipsToBounds = true
-        return view
-    }()
-    
-    private lazy var container: UIView = {
-        let view = UIView(frame: .zero)
-        view.backgroundColor = ThemeColors.whiteThemeColor.rawValue
-        view.isHidden = true
+        view.registerCell(cellType: FinishedProjectItemCollectionViewCell.self)
+        view.backgroundColor = .white
         return view
     }()
     
@@ -45,25 +41,8 @@ class FinishedProjectFeedTableViewCell: UITableViewCell {
     
     private var viewModel: MainFeed.Info.ViewModel.FinishedProjectFeed? {
         didSet {
-            buildProjectsCarrousel()
+            reloadCollectionView()
         }
-    }
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        flushProjectsFeed()
-    }
-    
-    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
-        for subview in subviews as [UIView] {
-            if !subview.isHidden
-                && subview.alpha > 0
-                && subview.isUserInteractionEnabled
-                && subview.point(inside: convert(point, to: subview), with: event) {
-                return true
-            }
-        }
-        return false
     }
     
     func setup(delegate: FinishedProjectFeedTableViewCellDelegate? = nil,
@@ -75,46 +54,60 @@ class FinishedProjectFeedTableViewCell: UITableViewCell {
         applyViewCode()
     }
     
-    func flushProjectsFeed() {
-        for view in scrollView.subviews {
-            if view is UIButton {
-                view.removeFromSuperview()
-            }
-        }
-        scrollView.layoutIfNeeded()
-    }
-    
-    private func buildProjectsCarrousel() {
-        var buttons = [UIButton]()
-        guard let projects = viewModel?.projects else { return }
-        let scrollWidth = MainFeed.Constants.Dimensions.Widths.finishedProjectsFeedOffset + ((MainFeed.Constants.Dimensions.Widths.finishedProjectButton + MainFeed.Constants.Dimensions.Widths.finishedProjectsFeedInterval) * CGFloat(projects.count))
-        scrollView.contentSize = CGSize(width: scrollWidth, height: scrollView.frame.height)
-        scrollView.isScrollEnabled = true
-        for index in 0..<projects.count {
-            let button = UIButton(frame: .zero)
-            button.tag = index
-            button.sd_setImage(with: URL(string: projects[index].image), for: .normal, completed: nil)
-            button.addTarget(self, action: #selector(didTapProject(_:)), for: .touchUpInside)
-            buttons.append(button)
-            scrollView.addSubview(button)
-            button.snp.makeConstraints { make in
-                make.top.bottom.equalToSuperview()
-                make.width.equalTo(128)
-                if index == 0 {
-                    make.left.equalToSuperview().inset(22)
-                } else {
-                    make.left.equalTo(buttons[index-1].snp.right).offset(15)
-                }
-            }
+    private func reloadCollectionView() {
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
         }
     }
+}
+
+extension FinishedProjectFeedTableViewCell: UICollectionViewDataSource {
     
-    @objc private func didTapProject(_ sender: UIButton) {
-        delegate?.didSelectFinishedProject(projectIndex: sender.tag, cathegoryIndex: index ?? 0)
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return viewModel?.projects.count ?? 0
     }
     
-    deinit {
-        flushProjectsFeed()
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(indexPath: indexPath, type: FinishedProjectItemCollectionViewCell.self)
+        guard let project = viewModel?.projects[indexPath.item] else {
+            return UICollectionViewCell()
+        }
+        cell.setup(viewModel: project)
+        return cell
+    }
+}
+
+extension FinishedProjectFeedTableViewCell: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        delegate?.didSelectFinishedProject(projectIndex: indexPath.item, cathegoryIndex: index ?? 0)
+    }
+}
+
+extension FinishedProjectFeedTableViewCell: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        return CGSize(width: 128, height: 182)
+    }
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 10
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 15
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets.init(top: 0, left: 22, bottom: 0, right: 22)
     }
 }
 
@@ -122,8 +115,7 @@ extension FinishedProjectFeedTableViewCell: ViewCodeProtocol {
     
     func buildViewHierarchy() {
         addSubview(fixedLbl)
-        scrollView.addSubview(container)
-        addSubview(scrollView)
+        addSubview(collectionView)
     }
     
     func setupConstraints() {
@@ -132,15 +124,10 @@ extension FinishedProjectFeedTableViewCell: ViewCodeProtocol {
             make.left.equalToSuperview().inset(22)
             make.width.equalTo(220)
         }
-        scrollView.snp.makeConstraints { make in
+        collectionView.snp.makeConstraints { make in
             make.top.equalTo(fixedLbl.snp.bottom).offset(14)
             make.left.right.equalToSuperview()
             make.height.equalTo(182)
-        }
-        container.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-            make.height.equalToSuperview()
-            make.width.equalToSuperview().priority(250)
         }
     }
     

@@ -213,6 +213,10 @@ extension ProfileDetailsController {
     }
     
     private func buildFinishedProjectsCarrousel() {
+        guard finishedProjectButtons.count > 0 else {
+            onGoingProjectsCarrousel.isHidden = true
+            return 
+        }
         let scrollWidth = ProfileDetails.Constants.Dimensions.finishedProjectButtonDefaultOffset + (ProfileDetails.Constants.Dimensions.Widths.finishedProjectButton + CGFloat(ProfileDetails.Constants.Dimensions.Widths.spaceBetweenFinishedProjects)) * CGFloat(finishedProjectButtons.count)
         finishedProjectsCarrousel.contentSize = CGSize(width: scrollWidth, height: ProfileDetails.Constants.Dimensions.Heights.finishedScrollView)
         for i in 0..<finishedProjectButtons.count {
@@ -275,11 +279,6 @@ extension ProfileDetailsController {
     @objc
     private func didTapEditProfile() {
         router?.routeToEditProfileDetails()
-    }
-    
-    @objc
-    private func didTapCarrouselItem() {
-        print("Click")
     }
     
     @objc

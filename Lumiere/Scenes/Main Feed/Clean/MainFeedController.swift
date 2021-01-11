@@ -94,12 +94,6 @@ extension MainFeedController {
             self.tableView.reloadData()
         }
     }
-
-    private func flushOnGoingProjectsFeed() {
-        let cell = tableView.cellForRow(at: IndexPath(row: MainFeed.Constants.BusinessLogic.CellIndexes.ongoingProjectsSuggestions.rawValue, section: MainFeed.Constants.BusinessLogic.Sections.defaultFeed.rawValue),
-                                        type: OnGoingProjectsFeedTableViewCell.self)
-        cell.flushItems()
-    }
 }
 
 extension MainFeedController: SearchHeaderTableViewCellDelegate {
@@ -127,7 +121,6 @@ extension MainFeedController: OnGoingProjectsFeedTableViewCellDelegate {
     }
     
     func didSelectedNewCriteria(text: String) {
-        flushOnGoingProjectsFeed()
         interactor?.didSelectOnGoingProjectCathegory(MainFeed.Request.SelectOnGoingProjectCathegory(text: text))
     }
 }
