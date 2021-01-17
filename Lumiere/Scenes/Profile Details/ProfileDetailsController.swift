@@ -23,20 +23,27 @@ protocol ProfileDetailsDisplayLogic: class {
 
 class ProfileDetailsController: BaseViewController {
     
-    private lazy var onGoingProjectsCarrousel: UIScrollView = {
-        let view = UIScrollView(frame: .zero)
-        view.alwaysBounceHorizontal = false
+    private lazy var ongoingProjectsCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        view.assignProtocols(to: self)
+        view.alwaysBounceHorizontal = true
         view.bounces = false
-        view.delegate = self
-        view.backgroundColor = ThemeColors.whiteThemeColor.rawValue
-        view.clipsToBounds = true
+        view.backgroundColor = .clear
+        view.registerCell(cellType: ProfileDetailsOnGoingProjectCollectionViewCell.self)
         return view
     }()
     
-    private lazy var projectsContainer: UIView = {
-        let view = UIView(frame: .zero)
-        view.backgroundColor = ThemeColors.whiteThemeColor.rawValue
-        view.isHidden = true
+    private lazy var finishedProjectsCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        view.assignProtocols(to: self)
+        view.alwaysBounceHorizontal = true
+        view.bounces = false
+        view.backgroundColor = .clear
+        view.registerCell(cellType: ProfileDetailsFinishedProjectCollectionViewCell.self)
         return view
     }()
     
@@ -109,30 +116,11 @@ class ProfileDetailsController: BaseViewController {
         return view
     }()
     
-    private lazy var finishedProjectsCarrousel: UIScrollView = {
-        let view = UIScrollView(frame: .zero)
-        view.alwaysBounceHorizontal = false
-        view.bounces = false
-        view.delegate = self
-        view.backgroundColor = ThemeColors.whiteThemeColor.rawValue
-        view.clipsToBounds = true
-        return view
-    }()
-    
-    private lazy var finishedProjectsContainer: UIView = {
-        let view = UIView(frame: .zero)
-        view.backgroundColor = ThemeColors.whiteThemeColor.rawValue
-        view.isHidden = true
-        return view
-    }()
-    
     private lazy var mainView: ProfileDetailsView = {
         let view = ProfileDetailsView(frame: .zero,
                                       activityView: activityView,
-                                      projectsCarrousel: onGoingProjectsCarrousel,
-                                      finishedProjectsCarrousel: finishedProjectsCarrousel,
-                                      projectsContainer: projectsContainer,
-                                      finishedProjectsContainer: finishedProjectsContainer,
+                                      ongoingProjectsCollectionView: ongoingProjectsCollectionView,
+                                      finishedProjectsCollectionView: finishedProjectsCollectionView,
                                       confirmationAlertView: confirmationAlertView,
                                       translucentView: translucentView,
                                       backButton: backButton,
@@ -143,10 +131,21 @@ class ProfileDetailsController: BaseViewController {
         return view
     }()
     
+    private var ongoingProjects: [ProfileDetails.Info.ViewModel.Project]? {
+        didSet {
+            DispatchQueue.main.async {
+                self.ongoingProjectsCollectionView.reloadData()
+            }
+        }
+    }
     
-    private(set) var projectViews: [OnGoingProjectDisplayView] = .empty
-    private(set) var finishedProjectButtons: [UIButton] = .empty
-    private var projectButtons: [UIButton] = .empty
+    private var finishedProjects: [ProfileDetails.Info.ViewModel.Project]? {
+        didSet {
+            DispatchQueue.main.async {
+                self.finishedProjectsCollectionView.reloadData()
+            }
+        }
+    }
     
     private var interactor: ProfileDetailsBusinessLogic?
     var router: ProfileDetailsRouterProtocol?
@@ -167,7 +166,6 @@ class ProfileDetailsController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        clearProjectsCarrousels()
         navigationController?.tabBarController?.tabBar.isHidden = false
         interactor?.fetchUserInfo(ProfileDetails.Request.UserData())
     }
@@ -186,61 +184,6 @@ class ProfileDetailsController: BaseViewController {
         router.dataStore = interactor
         router.viewController = viewController
         viewController.interactor = interactor
-    }
-}
-
-extension ProfileDetailsController {
-    
-    private func buildOnGoingProjectsCarrousel() {
-        let scrollWidth =  ProfileDetails.Constants.Dimensions.projectViewDefaultOffset + (ProfileDetails.Constants.Dimensions.Widths.projectView + CGFloat(ProfileDetails.Constants.Dimensions.Widths.spaceBetweenProjects)) * CGFloat(projectViews.count)
-        onGoingProjectsCarrousel.contentSize = CGSize(width: scrollWidth, height: ProfileDetails.Constants.Dimensions.Heights.scrollView)
-        for i in 0..<projectViews.count {
-            onGoingProjectsCarrousel.addSubview(projectViews[i])
-            projectViews[i].snp.makeConstraints { make in
-                make.top.equalToSuperview().offset(10)
-                make.height.equalTo(84)
-                make.width.equalTo(84)
-                if i == 0 {
-                    make.left.equalToSuperview().inset(26)
-                } else {
-                    make.left.equalTo(projectViews[i-1].snp.right).offset(35)
-                }
-                if i == projectViews.count-1 {
-                    make.right.equalToSuperview().inset(10)
-                }
-            }
-        }
-    }
-    
-    private func buildFinishedProjectsCarrousel() {
-        let scrollWidth = ProfileDetails.Constants.Dimensions.finishedProjectButtonDefaultOffset + (ProfileDetails.Constants.Dimensions.Widths.finishedProjectButton + CGFloat(ProfileDetails.Constants.Dimensions.Widths.spaceBetweenFinishedProjects)) * CGFloat(finishedProjectButtons.count)
-        finishedProjectsCarrousel.contentSize = CGSize(width: scrollWidth, height: ProfileDetails.Constants.Dimensions.Heights.finishedScrollView)
-        for i in 0..<finishedProjectButtons.count {
-            finishedProjectsCarrousel.addSubview(finishedProjectButtons[i])
-            finishedProjectButtons[i].snp.makeConstraints { make in
-                make.top.equalToSuperview().offset(10)
-                make.height.equalTo(254)
-                make.width.equalTo(180)
-                if i == 0 {
-                    make.left.equalToSuperview().inset(23)
-                } else {
-                    make.left.equalTo(finishedProjectButtons[i-1].snp.right).offset(12)
-                }
-                if i == finishedProjectButtons.count-1 {
-                    make.right.equalToSuperview().inset(10)
-                }
-            }
-        }
-    }
-    private func clearProjectsCarrousels() {
-        for view in onGoingProjectsCarrousel.subviews {
-            if view is OnGoingProjectDisplayView {
-                view.removeFromSuperview()
-            }
-        }
-        for view in finishedProjectButtons {
-            view.removeFromSuperview()
-        }
     }
 }
 
@@ -281,11 +224,78 @@ extension ProfileDetailsController {
     private func didTapInviteToProject() {
         router?.routeToInviteToProjects()
     }
+}
+
+extension ProfileDetailsController: UICollectionViewDataSource {
     
-    @objc
-    private func didTapFinishedProject(_ sender: UIButton) {
-        guard let index = finishedProjectButtons.firstIndex(where: { $0.image(for: .normal)?.isEqual(sender.image(for: .normal)) ?? false }) else { return }
-        interactor?.didSelectFinishedProject(ProfileDetails.Request.SelectProjectWithIndex(index: index))
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if collectionView == ongoingProjectsCollectionView {
+            return ongoingProjects?.count ?? 0
+        } else if collectionView == finishedProjectsCollectionView {
+            return finishedProjects?.count ?? 0
+        }
+        return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if collectionView == ongoingProjectsCollectionView {
+            guard let viewModel = ongoingProjects?[indexPath.row] else {
+                return UICollectionViewCell()
+            }
+            let cell = collectionView.dequeueReusableCell(indexPath: indexPath, type: ProfileDetailsOnGoingProjectCollectionViewCell.self)
+            cell.setup(viewModel: viewModel)
+            return cell
+        } else if collectionView == finishedProjectsCollectionView {
+            guard let viewModel = finishedProjects?[indexPath.row] else {
+                return UICollectionViewCell()
+            }
+            let cell = collectionView.dequeueReusableCell(indexPath: indexPath, type: ProfileDetailsFinishedProjectCollectionViewCell.self)
+            cell.setup(viewModel: viewModel)
+            return cell
+        }
+        return UICollectionViewCell()
+    }
+}
+
+extension ProfileDetailsController: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if collectionView == ongoingProjectsCollectionView {
+            interactor?.didSelectOnGoingProject(ProfileDetails.Request.SelectProjectWithIndex(index: indexPath.row))
+        } else if collectionView == finishedProjectsCollectionView {
+            interactor?.didSelectFinishedProject(ProfileDetails.Request.SelectProjectWithIndex(index: indexPath.row))
+        }
+    }
+}
+
+extension ProfileDetailsController: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        if collectionView == ongoingProjectsCollectionView {
+            return CGSize(width: 84, height: 84)
+        } else if collectionView == finishedProjectsCollectionView {
+            return CGSize(width: 128, height: 182)
+        }
+        return CGSize(width: 0, height: 0)
+    }
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 10
+    }
+
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 10
+    }
+
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets.init(top: 0, left: 26, bottom: 0, right: 26)
     }
 }
 
@@ -303,32 +313,11 @@ extension ProfileDetailsController: ConfirmationAlertViewDelegate {
     }
 }
 
-extension ProfileDetailsController: UIScrollViewDelegate {
-    
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        scrollView.layoutIfNeeded()
-        for view in projectViews {
-            view.layoutIfNeeded()
-        }
-    }
-}
-
 extension ProfileDetailsController: ProfileDetailsDisplayLogic {
     
     func displayUserInfo(_ viewModel: ProfileDetails.Info.ViewModel.User) {
-        projectViews = viewModel.progressingProjects.map({ OnGoingProjectDisplayView(frame: .zero, projectImage: $0.image)})
-        finishedProjectButtons = viewModel.finishedProjects.map({
-            let button = UIButton(frame: .zero)
-            button.sd_setImage(with: URL(string: $0.image), for: .normal, completed: nil)
-            button.addTarget(self, action: #selector(didTapFinishedProject(_:)), for: .touchUpInside)
-            return button
-        })
-        for i in 0..<projectViews.count {
-            projectViews[i].callback = { self.interactor?.didSelectOnGoingProject(ProfileDetails.Request.SelectProjectWithIndex(index: i))
-            }
-        }
-        buildOnGoingProjectsCarrousel()
-        buildFinishedProjectsCarrousel()
+        ongoingProjects = viewModel.progressingProjects
+        finishedProjects = viewModel.finishedProjects
         mainView.setup(viewModel: viewModel)
     }
     

@@ -13,7 +13,8 @@ class ProfileDetailsOnGoingProjectCollectionViewCell: UICollectionViewCell {
     
     private lazy var imageView: UIImageView = {
         let view = UIImageView(frame: .zero)
-        view.layer.cornerRadius = 52
+        view.contentMode = .scaleToFill
+        view.layer.cornerRadius = 42
         view.clipsToBounds = true
         view.layer.borderWidth = 1
         view.layer.borderColor = UIColor.black.cgColor
@@ -42,6 +43,7 @@ extension ProfileDetailsOnGoingProjectCollectionViewCell: ViewCodeProtocol {
     
     func configureViews() {
         backgroundColor = .white
+        clipsToBounds = true
         imageView.sd_setImage(with: URL(string: viewModel?.image ?? .empty), completed: nil)
     }
 }

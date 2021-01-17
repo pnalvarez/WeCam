@@ -10,10 +10,8 @@ import UIKit
 class ProfileDetailsView: UIView {
     
     private unowned var activityView: UIActivityIndicatorView
-    private unowned var currentProjectsCarrousel: UIScrollView
-    private unowned var finishedProjectsCarrousel: UIScrollView
-    private unowned var currentProjectsContainer: UIView
-    private unowned var finishedProjectsContainer: UIView
+    private unowned var ongoingProjectsCollectionView: UICollectionView
+    private unowned var finishedProjectsCollectionView: UICollectionView
     private unowned var confirmationAlertView: ConfirmationAlertView
     private unowned var translucentView: UIView
     private unowned var backButton: UIButton
@@ -89,9 +87,9 @@ class ProfileDetailsView: UIView {
         view.bounces = false
         view.alwaysBounceVertical = false
         view.showsVerticalScrollIndicator = true
-        view.contentSize = CGSize(width: view.frame.width, height: 1000)
         view.backgroundColor = .white
         view.clipsToBounds = true
+        view.contentSize = CGSize(width: frame.width, height: 200)
         return view
     }()
     
@@ -105,10 +103,8 @@ class ProfileDetailsView: UIView {
     
     init(frame: CGRect,
          activityView: UIActivityIndicatorView,
-         projectsCarrousel: UIScrollView,
-         finishedProjectsCarrousel: UIScrollView,
-         projectsContainer: UIView,
-         finishedProjectsContainer: UIView,
+         ongoingProjectsCollectionView: UICollectionView,
+         finishedProjectsCollectionView: UICollectionView,
          confirmationAlertView: ConfirmationAlertView,
          translucentView: UIView,
          backButton: UIButton,
@@ -117,10 +113,8 @@ class ProfileDetailsView: UIView {
          allConnectionsButton: UIButton,
          editProfileButton: UIButton) {
         self.activityView = activityView
-        self.currentProjectsCarrousel = projectsCarrousel
-        self.finishedProjectsCarrousel = finishedProjectsCarrousel
-        self.currentProjectsContainer = projectsContainer
-        self.finishedProjectsContainer = finishedProjectsContainer
+        self.ongoingProjectsCollectionView = ongoingProjectsCollectionView
+        self.finishedProjectsCollectionView = finishedProjectsCollectionView
         self.confirmationAlertView = confirmationAlertView
         self.translucentView = translucentView
         self.backButton = backButton
@@ -180,11 +174,9 @@ extension ProfileDetailsView: ViewCodeProtocol {
         buttonStackView.addArrangedSubview(allConnectionsButton)
         mainContainer.addSubview(buttonStackView)
         mainContainer.addSubview(onGoingProjectsLbl)
-        currentProjectsCarrousel.addSubview(currentProjectsContainer)
-        mainContainer.addSubview(currentProjectsCarrousel)
+        mainContainer.addSubview(ongoingProjectsCollectionView)
+        mainContainer.addSubview(finishedProjectsCollectionView)
         mainContainer.addSubview(finishedProjectsLbl)
-        finishedProjectsCarrousel.addSubview(finishedProjectsContainer)
-        mainContainer.addSubview(finishedProjectsCarrousel)
         scrollView.addSubview(mainContainer)
         addSubview(scrollView)
         addSubview(translucentView)
@@ -269,33 +261,24 @@ extension ProfileDetailsView: ViewCodeProtocol {
             make.left.equalToSuperview().inset(26)
             make.width.equalTo(208)
         }
-        currentProjectsCarrousel.snp.makeConstraints { make in
-            make.top.equalTo(onGoingProjectsLbl.snp.bottom).offset(25)
+        ongoingProjectsCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(onGoingProjectsLbl.snp.bottom).offset(16)
             make.left.right.equalToSuperview()
-            make.height.equalTo(105)
-        }
-        currentProjectsContainer.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-            make.height.equalToSuperview()
-            make.width.equalToSuperview().priority(250)
+            make.height.equalTo(84)
         }
         finishedProjectsLbl.snp.makeConstraints { make in
-            make.top.equalTo(currentProjectsCarrousel.snp.bottom).offset(57)
+            make.top.equalTo(ongoingProjectsCollectionView.snp.bottom).offset(57)
             make.left.width.equalTo(onGoingProjectsLbl)
         }
-        finishedProjectsCarrousel.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(602)
+        finishedProjectsCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(finishedProjectsLbl.snp.bottom).offset(16)
             make.left.right.equalToSuperview()
-            make.height.equalTo(254)
-        }
-        finishedProjectsContainer.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-            make.height.equalToSuperview()
-            make.width.equalToSuperview().priority(250)
+            make.height.equalTo(182)
         }
     }
     
     func configureViews() {
+        scrollView.contentSize = CGSize(width: frame.width, height: 760)
         backgroundColor = .white
         allConnectionsButton.setAttributedTitle(viewModel?.connectionsCount, for: .normal)
         nameLbl.attributedText = viewModel?.name
