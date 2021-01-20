@@ -144,6 +144,7 @@ protocol FirebaseManagerProtocol {
                                                         completion: @escaping (BaseResponse<[T]>) -> Void)
     func fetchFinishedProjectsNewFeed<T: Mappable>(request: [String : Any],
                                                    completion: @escaping (BaseResponse<[T]>) -> Void)
+    func inviteUserToFinishedProject(request: [String : Any], completion: @escaping (EmptyResponse) -> Void)
 }
 
 class FirebaseManager: FirebaseManagerProtocol {
@@ -213,7 +214,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                       "interest_cathegories": request.interestCathegories,
                                                       "connect_notifications": [],
                                                       "project_notifications": [],
-                                                      "author_notifications": []]
+                                                      "author_notifications": [],
+                                                      "finished_project_invite_notifications": []]
                     
                     self.realtimeDB
                         .child(Constants.usersPath)
@@ -3889,6 +3891,82 @@ class FirebaseManager: FirebaseManagerProtocol {
                             let mappedResponse = Mapper<T>().mapArray(JSONArray: finishedProjectsData)
                             completion(.success(mappedResponse))
                         }
+                }
+        }
+    }
+    
+    func inviteUserToFinishedProject(request: [String : Any],
+                                     completion: @escaping (EmptyResponse) -> Void) {
+        var pendingInvites = [String]()
+        var inviteNotifications = [[String : Any]]()
+        
+        guard let projectId = request["projectId"] as? String,
+              let userId = request["userId"] as? String else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        realtimeDB
+            .child(Constants.projectsPath)
+            .child(Constants.finishedProjectsPath)
+            .child(projectId)
+            .child("pending_invites")
+            .observeSingleEvent(of: .value) { snapshot in
+                if let pendingUsers = snapshot.value as? [String] {
+                    pendingInvites = pendingUsers
+                }
+                pendingInvites.append(userId)
+                self.realtimeDB.child(Constants.projectsPath).child(Constants.finishedProjectsPath).child(projectId).updateChildValues(["pending_invites": pendingInvites]) { (error, ref) in
+                    if let error = error {
+                        completion(.error(error))
+                        return
+                    }
+                    self.realtimeDB
+                        .child(Constants.usersPath)
+                        .child(userId)
+                        .observeSingleEvent(of: .value) { snapshot in
+                            guard let userData = snapshot.value as? [String : Any] else {
+                                completion(.error(FirebaseErrors.genericError))
+                                return
+                            }
+                            self.realtimeDB
+                                .child(Constants.projectsPath)
+                                .child(Constants.finishedProjectsPath)
+                                .child(projectId)
+                                .observeSingleEvent(of: .value) { snapshot in
+                                    guard let projectData = snapshot.value as? [String : Any] else {
+                                        completion(.error(FirebaseErrors.genericError))
+                                        return
+                                    }
+                                    self.realtimeDB
+                                        .child(Constants.usersPath)
+                                        .child(userId)
+                                        .child("finished_project_invite_notifications")
+                                        .observeSingleEvent(of: .value) { snapshot in
+                                            if let notifications = snapshot.value as? [[String : Any]] {
+                                                inviteNotifications = notifications
+                                            }
+                                            guard let name = userData["name"] as? String,
+                                                  let image = projectData["image"] as? String else {
+                                                completion(.error(FirebaseErrors.genericError))
+                                                return
+                                            }
+                                            inviteNotifications.append(["projectId": projectId,
+                                                                        "userId" : userId,
+                                                                        "name": name,
+                                                                        "image": image])
+                                            self.realtimeDB
+                                                .child(Constants.usersPath)
+                                                .child(userId)
+                                                .updateChildValues(["finished_project_invite_notifications" : inviteNotifications]) { (error, ref) in
+                                                    if let error = error {
+                                                        completion(.error(error))
+                                                        return
+                                                    }
+                                                    completion(.success)
+                                            }
+                                    }
+                            }
+                    }
                 }
         }
     }

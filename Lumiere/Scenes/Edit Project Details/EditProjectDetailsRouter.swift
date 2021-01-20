@@ -38,12 +38,18 @@ class EditProjectDetailsRouter: NSObject, EditProjectDetailsDataTransfer {
         }
     }
     
-    private func transferDataToProjectDetails(from source: EditProjectDetailsDataStore,
-                                              to destination: inout OnGoingProjectDetailsDataStore) {
+    private func transferDataToOnGoingProjectDetails(from source: EditProjectDetailsDataStore,
+                                                     to destination: inout OnGoingProjectDetailsDataStore) {
         guard let project = source.publishedProject else { return }
         destination.receivedData = OnGoingProjectDetails.Info.Received.Project(projectId: project.id,
                                                                                notInvitedUsers: project.userIdsNotInvited)
         destination.routingContext = .justCreatedProject
+    }
+    
+    private func transferDataToFinishedProjectDetails(from source: EditProjectDetailsDataStore, to destination: inout FinishedProjectDetailsDataStore) {
+        guard let project = source.publishedProject else { return }
+        destination.receivedData = FinishedProjectDetails.Info.Received.Project(id: project.id, userIdsNotInvited: project.userIdsNotInvited)
+        destination.routingModel = FinishedProjectDetails.Info.Received.Routing(routingMethod: .modal)
     }
     
     private func transferDataToInsertMedia(from source: EditProjectDetailsDataStore,
@@ -79,7 +85,7 @@ extension EditProjectDetailsRouter: EditProjectDetailsRoutingLogic {
     func routeToInviteList() {
         let vc = InviteListController()
         guard let source = dataStore,
-            var destination = vc.router?.dataStore else { return }
+              var destination = vc.router?.dataStore else { return }
         transferDataToInviteList(from: source, to: &destination)
         routeTo(nextVC: vc)
     }
@@ -87,8 +93,8 @@ extension EditProjectDetailsRouter: EditProjectDetailsRoutingLogic {
     func routeToPublishedProjectDetails() {
         let vc = OnGoingProjectDetailsController()
         guard let source = dataStore,
-            var destination = vc.router?.dataStore else { return }
-        transferDataToProjectDetails(from: source, to: &destination)
+              var destination = vc.router?.dataStore else { return }
+        transferDataToOnGoingProjectDetails(from: source, to: &destination)
         routeTo(nextVC: vc)
     }
     

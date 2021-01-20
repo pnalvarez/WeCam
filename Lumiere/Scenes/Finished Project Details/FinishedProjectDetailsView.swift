@@ -175,13 +175,15 @@ extension FinishedProjectDetailsView: ViewCodeProtocol {
             make.height.equalTo(30)
         }
         watchButton.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(742)
+            make.top.equalTo(interactionButton.snp.bottom).offset(12)
             make.centerX.equalToSuperview()
             make.width.equalTo(132)
             make.height.equalTo(30)
+            make.bottom.equalToSuperview().inset(30)
         }
         scrollView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.top.equalTo(safeAreaLayoutGuide.snp.top)
+            make.bottom.right.left.equalToSuperview()
         }
         mainContainer.snp.makeConstraints { make in
             make.edges.equalToSuperview()

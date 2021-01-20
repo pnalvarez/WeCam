@@ -18,7 +18,7 @@ final class EditProjectDetailsWorkerMock: EditProjectDetailsWorkerProtocol {
         completion(.success(EditProjectDetails.Info.Response.Project.stub))
     }
     
-    func fetchInviteUser(request: EditProjectDetails.Request.InviteUser, completion: @escaping (EmptyResponse) -> Void) {
+    func fetchInviteUserToOnGoingProject(request: EditProjectDetails.Request.InviteUser, completion: @escaping (EmptyResponse) -> Void) {
         guard request.userId != "ERROR" else {
             completion(.error(FirebaseErrors.genericError))
             return

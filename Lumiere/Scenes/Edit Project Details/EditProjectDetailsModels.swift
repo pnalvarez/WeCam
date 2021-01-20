@@ -188,12 +188,17 @@ struct EditProjectDetails {
             let project: Info.Model.PublishingProject
         }
         
-        struct InviteUser {
+        struct InviteUserToOngoingProject {
             let projectId: String
             let userId: String
             let title: String
             let image: String
             let authorId: String
+        }
+        
+        struct InviteUserToFinishedProject {
+            let projectId: String
+            let userId: String
         }
         
         struct FetchContext {

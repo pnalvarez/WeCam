@@ -5,6 +5,7 @@
 //  Created by Pedro Alvarez on 21/08/20.
 //  Copyright © 2020 Pedro Alvarez. All rights reserved.
 //
+import Foundation
 
 protocol EditProjectDetailsBusinessLogic {
     func fetchInvitations(_ request: EditProjectDetails.Request.Invitations)
@@ -41,18 +42,18 @@ class EditProjectDetailsInteractor: EditProjectDetailsDataStore {
 
 extension EditProjectDetailsInteractor {
     
-    private func fetchInviteUsers(withProjectDate project: EditProjectDetails.Info.Model.PublishedProject) {
+    private func fetchInviteUsersToOngoingProject(withProjectData project: EditProjectDetails.Info.Model.PublishedProject) {
         guard let users = invitedUsers?.users, users.count > 0 else {
             presenter.presentPublishedProjectDetails()
             return
         }
         for i in 0..<users.count {
-            let request = EditProjectDetails.Request.InviteUser(projectId: project.id,
-                                                                userId: users[i].id,
-                                                                title: project.title,
-                                                                image: project.image,
-                                                                authorId: project.authorId)
-            worker.fetchInviteUser(request: request) { response in
+            let request = EditProjectDetails.Request.InviteUserToOngoingProject(projectId: project.id,
+                                                                                userId: users[i].id,
+                                                                                title: project.title,
+                                                                                image: project.image,
+                                                                                authorId: project.authorId)
+            worker.fetchInviteUserToOnGoingProject(request: request) { response in
                 switch response {
                 case .success:
                     if i == users.count-1 {
@@ -67,6 +68,27 @@ extension EditProjectDetailsInteractor {
                     break
                 }
             }
+        }
+    }
+    
+    private func inviteUsersToFinishedProject(withProjectData project: EditProjectDetails.Info.Model.PublishedProject) {
+        let dispatchGroup = DispatchGroup()
+        guard let users = invitedUsers?.users else {
+            return
+        }
+        for user in users {
+            dispatchGroup.enter()
+            worker.fetchInviteUserToFinishedProject(request: EditProjectDetails.Request.InviteUserToFinishedProject(projectId: project.id, userId: user.id)) { response in
+                switch response {
+                case .success:
+                    dispatchGroup.leave()
+                case .error(_):
+                    self.publishedProject?.userIdsNotInvited.append(user.id)
+                }
+            }
+        }
+        dispatchGroup.notify(queue: .main) {
+            self.presenter.presentPublishedProjectDetails()
         }
     }
     
@@ -94,8 +116,14 @@ extension EditProjectDetailsInteractor {
                                                                                        image: data.image ?? .empty,
                                                                                        userIdsNotInvited: .empty)
                 guard let project = self.publishedProject else { return }
-                self.fetchInviteUsers(withProjectDate: project)
-                break
+                if let context = self.routingContext?.context {
+                    switch context {
+                    case .ongoing:
+                        self.fetchInviteUsersToOngoingProject(withProjectData: project)
+                    case .finished:
+                        self.inviteUsersToFinishedProject(withProjectData: project)
+                    }
+                }
             case .error(let error):
                 self.presenter.presentLoading(false)
                 self.presenter.presentServerError(EditProjectDetails.Info.Model.ServerError(error: error))
@@ -135,12 +163,12 @@ extension EditProjectDetailsInteractor: EditProjectDetailsBusinessLogic {
     func fetchSubmit(_ request: EditProjectDetails.Request.Publish) {
         guard !checkErrors(request) else { return }
         publishingProject = EditProjectDetails.Info.Model.PublishingProject(image: receivedData?.image,
-                                                                  cathegories: receivedData?.cathegories ?? .empty,
-                                                                  progress: Int((receivedData?.progress ?? 0) * 100),
-                                                                  title: request.title,
-                                                                  invitedUserIds: invitedUsers?.users.map({$0.id}) ?? .empty,
-                                                                  sinopsis: request.sinopsis,
-                                                                  needing: request.needing)
+                                                                            cathegories: receivedData?.cathegories ?? .empty,
+                                                                            progress: Int((receivedData?.progress ?? 0) * 100),
+                                                                            title: request.title,
+                                                                            invitedUserIds: invitedUsers?.users.map({$0.id}) ?? .empty,
+                                                                            sinopsis: request.sinopsis,
+                                                                            needing: request.needing)
         switch routingContext?.context {
         case .ongoing:
             publishProject(request)

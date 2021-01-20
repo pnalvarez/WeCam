@@ -11,8 +11,10 @@ import ObjectMapper
 protocol EditProjectDetailsWorkerProtocol {
     func fetchPublish(request: EditProjectDetails.Request.CompletePublish,
                       completion: @escaping (BaseResponse<EditProjectDetails.Info.Response.Project>) -> Void)
-    func fetchInviteUser(request: EditProjectDetails.Request.InviteUser,
+    func fetchInviteUserToOnGoingProject(request: EditProjectDetails.Request.InviteUserToOngoingProject,
                          completion: @escaping (EmptyResponse) -> Void)
+    func fetchInviteUserToFinishedProject(request: EditProjectDetails.Request.InviteUserToFinishedProject,
+                                          completion: @escaping (EmptyResponse) -> Void)
 }
 
 class EditProjectDetailsWorker: EditProjectDetailsWorkerProtocol {
@@ -34,7 +36,7 @@ class EditProjectDetailsWorker: EditProjectDetailsWorkerProtocol {
         builder.fetchCreateProject(request: headers, completion: completion)
     }
     
-    func fetchInviteUser(request: EditProjectDetails.Request.InviteUser,
+    func fetchInviteUserToOnGoingProject(request: EditProjectDetails.Request.InviteUserToOngoingProject,
                          completion: @escaping (EmptyResponse) -> Void) {
         let headers: [String : Any] = ["image": request.image,
                                        "project_title": request.title,
@@ -42,5 +44,12 @@ class EditProjectDetailsWorker: EditProjectDetailsWorkerProtocol {
                                        "author_id": request.authorId,
                                        "userId": request.userId]
         builder.inviteUserToProject(request: headers, completion: completion)
+    }
+    
+    func fetchInviteUserToFinishedProject(request: EditProjectDetails.Request.InviteUserToFinishedProject,
+                                          completion: @escaping (EmptyResponse) -> Void) {
+        let headers: [String : Any] = ["projectId": request.projectId,
+                                       "userId": request.userId]
+        builder.inviteUserToFinishedProject(request: headers, completion: completion)
     }
 }

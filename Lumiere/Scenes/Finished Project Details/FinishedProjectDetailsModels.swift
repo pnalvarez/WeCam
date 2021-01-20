@@ -65,6 +65,7 @@ struct FinishedProjectDetails {
             
             struct Project {
                 let id: String
+                let userIdsNotInvited: [String]
             }
             
             struct Routing {
