@@ -96,6 +96,7 @@ struct InsertVideo {
                 let sinopsis: String
                 let image: Data
                 let cathegories: [String]
+                let invitedUsers: [String]
             }
             
             enum ReceivedProject {
@@ -179,6 +180,11 @@ struct InsertVideo {
             let image: Data
             let video: String
             let finishedDate: Int
+        }
+        
+        struct InviteUser {
+            let projectId: String
+            let userId: String
         }
         
         struct Confirm {

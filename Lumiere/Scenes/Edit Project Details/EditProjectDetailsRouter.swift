@@ -60,7 +60,7 @@ class EditProjectDetailsRouter: NSObject, EditProjectDetailsDataTransfer {
             .NewProject(title: source.publishingProject?.title ?? .empty,
                         sinopsis: source.publishingProject?.sinopsis ?? .empty,
                         image: source.publishingProject?.image ?? Data(),
-                        cathegories: source.publishingProject?.cathegories ?? .empty)
+                        cathegories: source.publishingProject?.cathegories ?? .empty, invitedUsers: source.invitedUsers?.users.map({$0.id}) ?? .empty)
         destination.receivedData = InsertVideo
             .Info
             .Received

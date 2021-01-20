@@ -151,6 +151,7 @@ class EditProjectDetailsView: UIView {
         needLbl.isHidden = true
         needTextView.isHidden = true
         teamFixedLbl.isHidden = true
+        publishButton.setTitle(EditProjectDetails.Constants.Texts.nextTitle, for: .normal)
     }
 }
 

@@ -52,7 +52,7 @@ class ProfileDetailsRouter: NSObject, ProfileDetailsDataTransfer {
     
     private func transferDataToFinishedProjectDetails(from source: ProfileDetailsDataStore,
                                                       to destination: inout FinishedProjectDetailsDataStore) {
-        destination.receivedData = FinishedProjectDetails.Info.Received.Project(id: source.selectedProject?.id ?? .empty)
+        destination.receivedData = FinishedProjectDetails.Info.Received.Project(id: source.selectedProject?.id ?? .empty, userIdsNotInvited: .empty)
         destination.routingModel = FinishedProjectDetails.Info.Received.Routing(routingMethod: .modal)
     }
 }

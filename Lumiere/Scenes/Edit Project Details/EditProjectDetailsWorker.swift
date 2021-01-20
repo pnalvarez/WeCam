@@ -13,8 +13,6 @@ protocol EditProjectDetailsWorkerProtocol {
                       completion: @escaping (BaseResponse<EditProjectDetails.Info.Response.Project>) -> Void)
     func fetchInviteUserToOnGoingProject(request: EditProjectDetails.Request.InviteUserToOngoingProject,
                          completion: @escaping (EmptyResponse) -> Void)
-    func fetchInviteUserToFinishedProject(request: EditProjectDetails.Request.InviteUserToFinishedProject,
-                                          completion: @escaping (EmptyResponse) -> Void)
 }
 
 class EditProjectDetailsWorker: EditProjectDetailsWorkerProtocol {
@@ -44,12 +42,5 @@ class EditProjectDetailsWorker: EditProjectDetailsWorkerProtocol {
                                        "author_id": request.authorId,
                                        "userId": request.userId]
         builder.inviteUserToProject(request: headers, completion: completion)
-    }
-    
-    func fetchInviteUserToFinishedProject(request: EditProjectDetails.Request.InviteUserToFinishedProject,
-                                          completion: @escaping (EmptyResponse) -> Void) {
-        let headers: [String : Any] = ["projectId": request.projectId,
-                                       "userId": request.userId]
-        builder.inviteUserToFinishedProject(request: headers, completion: completion)
     }
 }

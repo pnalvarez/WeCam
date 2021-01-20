@@ -71,26 +71,26 @@ extension EditProjectDetailsInteractor {
         }
     }
     
-    private func inviteUsersToFinishedProject(withProjectData project: EditProjectDetails.Info.Model.PublishedProject) {
-        let dispatchGroup = DispatchGroup()
-        guard let users = invitedUsers?.users else {
-            return
-        }
-        for user in users {
-            dispatchGroup.enter()
-            worker.fetchInviteUserToFinishedProject(request: EditProjectDetails.Request.InviteUserToFinishedProject(projectId: project.id, userId: user.id)) { response in
-                switch response {
-                case .success:
-                    dispatchGroup.leave()
-                case .error(_):
-                    self.publishedProject?.userIdsNotInvited.append(user.id)
-                }
-            }
-        }
-        dispatchGroup.notify(queue: .main) {
-            self.presenter.presentPublishedProjectDetails()
-        }
-    }
+//    private func inviteUsersToFinishedProject(withProjectData project: EditProjectDetails.Info.Model.PublishedProject) {
+//        let dispatchGroup = DispatchGroup()
+//        guard let users = invitedUsers?.users else {
+//            return
+//        }
+//        for user in users {
+//            dispatchGroup.enter()
+//            worker.fetchInviteUserToFinishedProject(request: EditProjectDetails.Request.InviteUserToFinishedProject(projectId: project.id, userId: user.id)) { response in
+//                switch response {
+//                case .success:
+//                    dispatchGroup.leave()
+//                case .error(_):
+//                    self.publishedProject?.userIdsNotInvited.append(user.id)
+//                }
+//            }
+//        }
+//        dispatchGroup.notify(queue: .main) {
+//            self.presenter.presentPublishedProjectDetails()
+//        }
+//    }
     
     private func checkErrors(_ request: EditProjectDetails.Request.Publish) -> Bool {
         guard !request.title.isEmpty else {
@@ -116,13 +116,8 @@ extension EditProjectDetailsInteractor {
                                                                                        image: data.image ?? .empty,
                                                                                        userIdsNotInvited: .empty)
                 guard let project = self.publishedProject else { return }
-                if let context = self.routingContext?.context {
-                    switch context {
-                    case .ongoing:
-                        self.fetchInviteUsersToOngoingProject(withProjectData: project)
-                    case .finished:
-                        self.inviteUsersToFinishedProject(withProjectData: project)
-                    }
+                if let context = self.routingContext?.context, context == .ongoing {
+                    self.fetchInviteUsersToOngoingProject(withProjectData: project)
                 }
             case .error(let error):
                 self.presenter.presentLoading(false)

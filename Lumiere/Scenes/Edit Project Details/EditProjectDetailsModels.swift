@@ -58,6 +58,7 @@ struct EditProjectDetails {
             static let projectTitleLbl = "Título do Projeto"
             static let errorTitle = "Erro"
             static let inviteFriendsButton = "Convidar mais Amigos"
+            static let nextTitle = "Próximo"
         }
         
         struct Images {
@@ -194,11 +195,6 @@ struct EditProjectDetails {
             let title: String
             let image: String
             let authorId: String
-        }
-        
-        struct InviteUserToFinishedProject {
-            let projectId: String
-            let userId: String
         }
         
         struct FetchContext {

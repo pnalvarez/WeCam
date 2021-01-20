@@ -45,7 +45,7 @@ class MainFeedRouter: NSObject, MainFeedDataTransfer {
     
     private func transferDataToFinishedProjectDetails(from source: MainFeedDataStore,
                                                       to destination: inout FinishedProjectDetailsDataStore) {
-        destination.receivedData = FinishedProjectDetails.Info.Received.Project(id: source.selectedProject ?? .empty)
+        destination.receivedData = FinishedProjectDetails.Info.Received.Project(id: source.selectedProject ?? .empty, userIdsNotInvited: .empty)
         destination.routingModel = FinishedProjectDetails.Info.Received.Routing(routingMethod: .push)
     }
 }

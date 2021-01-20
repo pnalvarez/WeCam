@@ -17,6 +17,7 @@ protocol InsertVideoDataStore {
     var receivedData: InsertVideo.Info.Received.ReceivedProject? { get set }
     var video: InsertVideo.Info.Model.Video? { get }
     var finishedProjectToSubmit: InsertVideo.Info.Model.ProjectToSubmit? { get }
+    var notInvitedUsers: [String]? { get }
 }
 
 class InsertVideoInteractor: InsertVideoDataStore {
@@ -27,6 +28,7 @@ class InsertVideoInteractor: InsertVideoDataStore {
     var receivedData: InsertVideo.Info.Received.ReceivedProject?
     var video: InsertVideo.Info.Model.Video?
     var finishedProjectToSubmit: InsertVideo.Info.Model.ProjectToSubmit?
+    var notInvitedUsers: [String]?
     
     init(worker: InsertVideoWorkerProtocol = InsertVideoWorker(),
          presenter: InsertVideoPresentationLogic) {
@@ -86,16 +88,16 @@ extension InsertVideoInteractor {
         }
     }
     
-    private func publishNewProject(withData project: InsertVideo.Info.Received.NewProject) {
+    private func publishNewProject(withData projectData: InsertVideo.Info.Received.NewProject) {
         var project = InsertVideo
             .Info
             .Model
             .NewProject(id: nil,
-                        title: project.title,
-                        cathegories: project.cathegories,
-                        sinopsis: project.sinopsis,
+                        title: projectData.title,
+                        cathegories: projectData.cathegories,
+                        sinopsis: projectData.sinopsis,
                         teamMembers: .empty,
-                        image: project.image,
+                        image: projectData.image,
                         media: video?.videoId ?? .empty,
                         finishDate: Date())
         worker.fetchPublishNewProject(InsertVideo
@@ -112,11 +114,31 @@ extension InsertVideoInteractor {
             case .success(let data):
                 project.id = data.id
                 self.finishedProjectToSubmit = InsertVideo.Info.Model.ProjectToSubmit.new(project)
-                self.presenter.presentLongLoading(false)
-                self.presenter.presentFinishedProjectDetails()
+                self.inviteUsers(withProjectData: project, invitedUsers: projectData.invitedUsers)
             case .error(let error):
                 break
             }
+        }
+    }
+    
+    private func inviteUsers(withProjectData project: InsertVideo.Info.Model.NewProject, invitedUsers: [String]) {
+        let dispatchGroup = DispatchGroup()
+        for user in invitedUsers {
+            dispatchGroup.enter()
+            worker.fetchInviteUserToFinishedProject(request: InsertVideo.Request.InviteUser(projectId: project.id ?? .empty, userId: user)) {
+                response in
+                switch response {
+                case .success:
+                    dispatchGroup.leave()
+                case .error(_):
+                    self.notInvitedUsers?.append(user)
+                    dispatchGroup.leave()
+                }
+            }
+        }
+        dispatchGroup.notify(queue: .main) {
+            self.presenter.presentLongLoading(false)
+            self.presenter.presentFinishedProjectDetails()
         }
     }
 }
