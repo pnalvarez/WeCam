@@ -23,6 +23,7 @@ protocol NotificationsDataStore {
     var selectedProject: Notifications.Info.Model.Project? { get set }
     var allNotifications: Notifications.Info.Model.AllNotifications? { get set }
     var upcomingConnectNotifications: Notifications.Info.Model.UpcomingConnectNotifications? { get set }
+    var finishedProjectInviteNotifications: Notifications.Info.Model.UpcomingFinishedProjectInviteNotifications? { get }
 }
 
 class NotificationsInteractor: NotificationsDataStore {
@@ -37,6 +38,7 @@ class NotificationsInteractor: NotificationsDataStore {
     var selectedProject: Notifications.Info.Model.Project?
     var allNotifications: Notifications.Info.Model.AllNotifications?
     var upcomingConnectNotifications: Notifications.Info.Model.UpcomingConnectNotifications?
+    var finishedProjectInviteNotifications: Notifications.Info.Model.UpcomingFinishedProjectInviteNotifications?
     
     init(presenter: NotificationsPresentationLogic,
          worker: NotificationsWorkerProtocol = NotificationsWorker()) {
@@ -75,13 +77,13 @@ extension NotificationsInteractor {
                         switch response {
                         case .success(let newData):
                             self.projectInviteNotifications?.notifications.append(Notifications
-                            .Info
-                            .Model
-                            .ProjectInviteNotification(userId: data[i].authorId ?? .empty,
-                                                       userName: newData.name ?? .empty,
-                                                       image: data[i].image ?? .empty,
-                                                       projectId: data[i].projectId ?? .empty,
-                                                       projectName: data[i].projectTitle ?? .empty))
+                                                                                    .Info
+                                                                                    .Model
+                                                                                    .OnGoingProjectInviteNotification(userId: data[i].authorId ?? .empty,
+                                                                                                                      userName: newData.name ?? .empty,
+                                                                                                                      image: data[i].image ?? .empty,
+                                                                                                                      projectId: data[i].projectId ?? .empty,
+                                                                                                                      projectName: data[i].projectTitle ?? .empty))
                             if i == data.count-1 {
                                 self.fetchProjectParticipationRequests()
                             }
@@ -101,7 +103,7 @@ extension NotificationsInteractor {
     
     private func updateNotifications(without userId: String) {
         allNotifications?.notifications.removeAll(where:
-            { $0.userId == userId && $0 is Notifications.Info.Model.ConnectNotification})
+                                                    { $0.userId == userId && $0 is Notifications.Info.Model.ConnectNotification})
     }
     
     private func fetchProjectParticipationRequests() {
@@ -112,34 +114,41 @@ extension NotificationsInteractor {
                 self.presenter.presentLoading(false)
                 if data.isEmpty {
                     self.projectParticipationRequests?.notifications = .empty
-                    self.allNotifications = Notifications
-                        .Info
-                        .Model
-                        .AllNotifications(notifications: self.projectParticipationRequests?.notifications ?? .empty)
-                    self.allNotifications?.notifications.append(contentsOf: self.projectInviteNotifications?.notifications ?? .empty)
-                    self.allNotifications?.notifications.append(contentsOf: self.upcomingConnectNotifications?.notifications ?? .empty)
-                    guard let allNotifications = self.allNotifications else { return }
-                    self.presenter.presentNotifications(allNotifications)
+                    self.fetchFinishedProjectInviteNotifications()
                 } else {
                     self.projectParticipationRequests?.notifications = data.map({ Notifications
-                        .Info
-                        .Model
-                        .ProjectParticipationRequestNotification(userId: $0.userId ?? .empty,
-                                                                 userName: $0.userName ?? .empty,
-                                                                 image: $0.image ?? .empty,
-                                                                 projectId: $0.projectId ?? .empty,
-                                                                 projectName: $0.projectName ?? .empty,
-                                                                 email: $0.userEmail ?? .empty,
-                                                                 ocupation: $0.ocupation ?? .empty) })
-                    self.allNotifications = Notifications.Info.Model.AllNotifications(notifications: self.projectParticipationRequests?.notifications ?? .empty)
-                    self.allNotifications?.notifications.append(contentsOf: self.projectInviteNotifications?.notifications ?? .empty)
-                    self.allNotifications?.notifications.append(contentsOf: self.upcomingConnectNotifications?.notifications ?? .empty)
-                    guard let allNotifications = self.allNotifications else { return }
-                    self.presenter.presentNotifications(allNotifications)
+                                                                                    .Info
+                                                                                    .Model
+                                                                                    .OnGoingProjectParticipationRequestNotification(userId: $0.userId ?? .empty,
+                                                                                                                                    userName: $0.userName ?? .empty,
+                                                                                                                                    image: $0.image ?? .empty,
+                                                                                                                                    projectId: $0.projectId ?? .empty,
+                                                                                                                                    projectName: $0.projectName ?? .empty,
+                                                                                                                                    email: $0.userEmail ?? .empty,
+                                                                                                                                    ocupation: $0.ocupation ?? .empty) })
+                    self.fetchFinishedProjectInviteNotifications()
                 }
             case .error(let error):
                 self.presenter.presentLoading(false)
                 self.presenter.presentError(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func fetchFinishedProjectInviteNotifications() {
+        finishedProjectInviteNotifications = Notifications.Info.Model.UpcomingFinishedProjectInviteNotifications(notifications: .empty)
+        worker.fetchFinishedProjectInviteNotifications(Notifications.Request.ProjectInviteNotifications()) { response in
+            switch response {
+            case .success(let notifications):
+                self.finishedProjectInviteNotifications?.notifications = notifications.map({Notifications.Info.Model.FinishedProjectInviteNotification(userId: $0.authorId ?? .empty, userName: $0.authorName ?? .empty, image: $0.projectImage ?? .empty, projectId: $0.projectId ?? .empty, projectName: $0.projectTitle ?? .empty)})
+                self.allNotifications = Notifications.Info.Model.AllNotifications(notifications: self.projectParticipationRequests?.notifications ?? .empty)
+                self.allNotifications?.notifications.append(contentsOf: self.projectInviteNotifications?.notifications ?? .empty)
+                self.allNotifications?.notifications.append(contentsOf: self.upcomingConnectNotifications?.notifications ?? .empty)
+                self.allNotifications?.notifications.append(contentsOf: self.finishedProjectInviteNotifications?.notifications ?? .empty)
+                guard let allNotifications = self.allNotifications else { return }
+                self.presenter.presentNotifications(allNotifications)
+            case .error(_):
+                break
             }
         }
     }
@@ -170,11 +179,11 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
             let id = notification.userId
             selectedUser = Notifications.Info.Model.User(userId: id)
             presenter.didFetchUserData()
-        } else if let notification = allNotifications?.notifications[request.index] as? Notifications.Info.Model.ProjectInviteNotification {
+        } else if let notification = allNotifications?.notifications[request.index] as? Notifications.Info.Model.OnGoingProjectInviteNotification {
             let id = notification.projectId
             selectedProject = Notifications.Info.Model.Project(projectId: id)
             presenter.didFetchProjectData()
-        } else if let notification = allNotifications?.notifications[request.index] as? Notifications.Info.Model.ProjectParticipationRequestNotification {
+        } else if let notification = allNotifications?.notifications[request.index] as? Notifications.Info.Model.OnGoingProjectParticipationRequestNotification {
             let id = notification.userId
             selectedUser = Notifications.Info.Model.User(userId: id)
             presenter.didFetchUserData()
@@ -202,7 +211,7 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
                     self.presenter.presentError(error.localizedDescription)
                 }
             }
-        } else if let projectInviteNotification = notification as? Notifications.Info.Model.ProjectInviteNotification {
+        } else if let projectInviteNotification = notification as? Notifications.Info.Model.OnGoingProjectInviteNotification {
             let projectId = projectInviteNotification.projectId
             let newRequest = Notifications.Request.AcceptProjectInvite(projectId: projectId)
             presenter.presentLoading(true)
@@ -211,19 +220,19 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
                 case .success:
                     self.presenter.presentLoading(false)
                     self.allNotifications?.notifications.removeAll(where: {
-                        if let notification = $0 as? Notifications.Info.Model.ProjectInviteNotification {
+                        if let notification = $0 as? Notifications.Info.Model.OnGoingProjectInviteNotification {
                             return notification.projectId == projectId
                         }
                         return false
                     })
-                     self.presenter.presentAnsweredProjectInviteNotification(index: index,
-                                                                             answer: .accepted)
+                    self.presenter.presentAnsweredProjectInviteNotification(index: index,
+                                                                            answer: .accepted)
                 case .error(let error):
                     self.presenter.presentLoading(false)
                     self.presenter.presentError(error.localizedDescription)
                 }
             }
-        } else if let projectParticipationRequest = notification as? Notifications.Info.Model.ProjectParticipationRequestNotification {
+        } else if let projectParticipationRequest = notification as? Notifications.Info.Model.OnGoingProjectParticipationRequestNotification {
             let projectId = projectParticipationRequest.projectId
             let userId = projectParticipationRequest.userId
             let newRequest = Notifications.Request.FetchAcceptUserIntoProject(userId: userId,
@@ -234,7 +243,7 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
                 case .success:
                     self.presenter.presentLoading(false)
                     self.allNotifications?.notifications.removeAll(where: {
-                        if let notification = $0 as? Notifications.Info.Model.ProjectParticipationRequestNotification {
+                        if let notification = $0 as? Notifications.Info.Model.OnGoingProjectParticipationRequestNotification {
                             return notification.projectId == projectId && notification.userId == userId
                         }
                         return false
@@ -246,8 +255,33 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
                     self.presenter.presentError(error.localizedDescription)
                 }
             }
+        } else if let finishedProjectInviteNotification = notification as? Notifications.Info.Model.FinishedProjectInviteNotification {
+            let projectId = finishedProjectInviteNotification.projectId
+            let newRequest = Notifications.Request.AcceptFinishedProjectInvite(projectId: projectId)
+            presenter.presentLoading(true)
+            worker.fetchAcceptFinishedProjectInvite(newRequest) { response in
+                switch response {
+                case .success:
+                    self.presenter.presentLoading(false)
+                    guard let index = self.allNotifications?.notifications.firstIndex(where: {
+                        guard let notification = $0 as? Notifications
+                                .Info
+                                .Model
+                                .FinishedProjectInviteNotification else {
+                            return false
+                        }
+                        return notification.projectId == projectId
+                    }) else { return }
+                    self.allNotifications?.notifications.remove(at: index)
+                    self.presenter.presentAnsweredFinishedProjectInviteNotifications(index: index, answer: .accepted)
+                case .error(let error):
+                    self.presenter.presentLoading(false)
+                    self.presenter.presentError(error.localizedDescription)
+                }
+            }
         }
-}
+    }
+    
     
     func didRefuseNotification(_ request: Notifications.Request.NotificationAnswer) {
         let index = request.index
@@ -269,7 +303,7 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
                     break
                 }
             }
-        } else if let projectInviteNotification = notification as? Notifications.Info.Model.ProjectInviteNotification {
+        } else if let projectInviteNotification = notification as? Notifications.Info.Model.OnGoingProjectInviteNotification {
             let projectId = projectInviteNotification.projectId
             let newRequest = Notifications.Request.RefuseProjectInvite(projectId: projectId)
             presenter.presentLoading(true)
@@ -278,13 +312,13 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
                 case .success:
                     self.presenter.presentLoading(false)
                     guard let index = self.allNotifications?.notifications.firstIndex(where: {
-                        guard let notification = $0 as? Notifications.Info.Model.ProjectInviteNotification else {
+                        guard let notification = $0 as? Notifications.Info.Model.OnGoingProjectInviteNotification else {
                             return false
                         }
                         return notification.projectId == projectId
                     }) else { return }
                     self.allNotifications?.notifications.removeAll(where: {
-                        guard let notification = $0 as? Notifications.Info.Model.ProjectInviteNotification else {
+                        guard let notification = $0 as? Notifications.Info.Model.OnGoingProjectInviteNotification else {
                             return false
                         }
                         return notification.projectId == projectId
@@ -295,7 +329,7 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
                     self.presenter.presentError(error.localizedDescription)
                 }
             }
-        } else if let projectParticipationRequest = notification as? Notifications.Info.Model.ProjectParticipationRequestNotification {
+        } else if let projectParticipationRequest = notification as? Notifications.Info.Model.OnGoingProjectParticipationRequestNotification {
             let projectId = projectParticipationRequest.projectId
             let userId = projectParticipationRequest.userId
             let newRequest = Notifications.Request.RefuseParticipationRequest(projectId: projectId,
@@ -306,23 +340,23 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
                 case .success:
                     self.presenter.presentLoading(false)
                     guard let index = self.allNotifications?.notifications.firstIndex(where: {
-                                           guard let notification = $0 as? Notifications
-                                            .Info
-                                            .Model
-                                            .ProjectParticipationRequestNotification else {
-                                               return false
-                                           }
+                        guard let notification = $0 as? Notifications
+                                .Info
+                                .Model
+                                .OnGoingProjectParticipationRequestNotification else {
+                            return false
+                        }
                         return notification.projectId == projectId && notification.userId == userId
-                                       }) else { return }
+                    }) else { return }
                     self.allNotifications?.notifications.removeAll(where: {
-                                       guard let notification = $0 as? Notifications
-                                        .Info
-                                        .Model
-                                        .ProjectParticipationRequestNotification else {
-                                           return false
-                                       }
-                    return notification.projectId == projectId && notification.userId == userId
-                                   })
+                        guard let notification = $0 as? Notifications
+                                .Info
+                                .Model
+                                .OnGoingProjectParticipationRequestNotification else {
+                            return false
+                        }
+                        return notification.projectId == projectId && notification.userId == userId
+                    })
                     self.presenter.presentAnsweredProjectParticipationRequest(index: index,
                                                                               answer: .refused)
                 case .error(let error):
@@ -330,9 +364,32 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
                     self.presenter.presentError(error.localizedDescription)
                 }
             }
+        } else if let finishedProjectNotification = notification as? Notifications.Info.Model.FinishedProjectInviteNotification {
+            let projectId = finishedProjectNotification.projectId
+            let newRequest = Notifications.Request.RefuseProjectInvite(projectId: projectId)
+            presenter.presentLoading(true)
+            worker.fetchRefuseFinishedProjectInvite(newRequest) { response in
+                switch response {
+                case .success:
+                    self.presenter.presentLoading(false)
+                    guard let index = self.allNotifications?.notifications.firstIndex(where: {
+                        guard let notification = $0 as? Notifications
+                                .Info
+                                .Model
+                                .FinishedProjectInviteNotification else {
+                            return false
+                        }
+                        return notification.projectId == projectId
+                    }) else { return }
+                    self.allNotifications?.notifications.remove(at: index)
+                    self.presenter.presentAnsweredFinishedProjectInviteNotifications(index: index, answer: .refused)
+                case .error(let error):
+                    self.presenter.presentLoading(false)
+                    self.presenter.presentError(error.localizedDescription)
+                }
+            }
         }
     }
-    
     func fetchRefreshNotifications(_ request: Notifications.Request.RefreshNotifications) {
         guard let allNotifications = self.allNotifications else { return }
         self.presenter.presentNotifications(allNotifications)

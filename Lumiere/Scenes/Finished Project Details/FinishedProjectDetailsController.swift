@@ -16,6 +16,7 @@ protocol FinishedProjectDetailsDisplayLogic: class {
     func displayRelationUI(_ viewModel: FinishedProjectDetails.Info.ViewModel.Relation)
     func displayAllParticipants()
     func displayRoutingUI(_ viewModel: FinishedProjectDetails.Info.ViewModel.Routing)
+    func displayError(_ viewModel: FinishedProjectDetails.Info.ViewModel.Error)
 }
 
 class FinishedProjectDetailsController: BaseViewController {
@@ -114,6 +115,7 @@ class FinishedProjectDetailsController: BaseViewController {
         super.viewDidLoad()
         navigationController?.tabBarController?.tabBar.isHidden = true
         navigationController?.isNavigationBarHidden = true
+        interactor?.fetchNotinvitedUsers(FinishedProjectDetails.Request.FetchNotInvitedUsers())
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -246,5 +248,9 @@ extension FinishedProjectDetailsController: FinishedProjectDetailsDisplayLogic {
     
     func displayRoutingUI(_ viewModel: FinishedProjectDetails.Info.ViewModel.Routing) {
         
+    }
+    
+    func displayError(_ viewModel: FinishedProjectDetails.Info.ViewModel.Error) {
+        UIAlertController.displayAlert(in: self, title: viewModel.title, message: viewModel.description)
     }
 }

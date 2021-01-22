@@ -11,7 +11,7 @@ protocol NotificationsWorkerProtocol {
     func fetchConnectionNotifications(_ request: Notifications.Request.FetchConnectionNotifications,
                             completion: @escaping (BaseResponse<Array<Notifications.Response.ConnectNotification>>) -> Void)
     func fetchProjectInviteNotifications(_ request: Notifications.Request.ProjectInviteNotifications,
-                                         completion: @escaping (BaseResponse<[Notifications.Response.ProjectInvite]>) -> Void)
+                                         completion: @escaping (BaseResponse<[Notifications.Response.OnGoingProjectInvite]>) -> Void)
     func fetchUserData(_ request: Notifications.Request.FetchUserData,
                        completion: @escaping (BaseResponse<Notifications.Response.User>) -> Void)
     func fetchConnectUsers(_ request: Notifications.Request.ConnectUsers,
@@ -23,13 +23,19 @@ protocol NotificationsWorkerProtocol {
     func fetchAcceptProjectInvite(_ request: Notifications.Request.AcceptProjectInvite,
                                   completion: @escaping (EmptyResponse) -> Void)
     func fetchProjectParticipationRequestNotifications(_ request: Notifications.Request.FetchProjectParticipationRequestNotifications,
-                                                       completion: @escaping (BaseResponse<[Notifications.Response.ProjectParticipationRequest]>) -> Void)
+                                                       completion: @escaping (BaseResponse<[Notifications.Response.OnGoingProjectParticipationRequest]>) -> Void)
     func fetchAcceptUserIntoProject(_ request: Notifications.Request.FetchAcceptUserIntoProject,
                                     completion: @escaping (EmptyResponse) -> Void)
     func fetchRefuseProjectInvite(_ request: Notifications.Request.RefuseProjectInvite,
                                   completion: @escaping (EmptyResponse) -> Void)
     func fetchRefuseProjectParticipationRequest(_ request: Notifications.Request.RefuseParticipationRequest,
                                                 completion: @escaping (EmptyResponse) -> Void)
+    func fetchFinishedProjectInviteNotifications(_ request: Notifications.Request.ProjectInviteNotifications,
+                                                 completion: @escaping (BaseResponse<[Notifications.Response.FinishedProjectInviteNotification]>) -> Void)
+    func fetchAcceptFinishedProjectInvite(_ request: Notifications.Request.AcceptFinishedProjectInvite,
+                                          completion: @escaping (EmptyResponse) -> Void)
+    func fetchRefuseFinishedProjectInvite(_ request: Notifications.Request.RefuseProjectInvite,
+                                          completion: @escaping (EmptyResponse) -> Void)
 }
 
 class NotificationsWorker: NotificationsWorkerProtocol {
@@ -48,7 +54,7 @@ class NotificationsWorker: NotificationsWorkerProtocol {
     }
     
     func fetchProjectInviteNotifications(_ request: Notifications.Request.ProjectInviteNotifications,
-                                         completion: @escaping (BaseResponse<[Notifications.Response.ProjectInvite]>) -> Void) {
+                                         completion: @escaping (BaseResponse<[Notifications.Response.OnGoingProjectInvite]>) -> Void) {
         let headers: [String : Any] = [:]
         builder.fetchProjectInvites(request: headers,
                                     completion: completion)
@@ -87,7 +93,7 @@ class NotificationsWorker: NotificationsWorkerProtocol {
     }
     
     func fetchProjectParticipationRequestNotifications(_ request: Notifications.Request.FetchProjectParticipationRequestNotifications,
-                                                       completion: @escaping (BaseResponse<[Notifications.Response.ProjectParticipationRequest]>) -> Void) {
+                                                       completion: @escaping (BaseResponse<[Notifications.Response.OnGoingProjectParticipationRequest]>) -> Void) {
         let headers: [String : Any] = .empty
         builder.fetchProjectParticipationRequestNotifications(request: headers,
                                                               completion: completion)
@@ -109,5 +115,23 @@ class NotificationsWorker: NotificationsWorkerProtocol {
                                                 completion: @escaping (EmptyResponse) -> Void) {
         let headers: [String : Any] = ["projectId": request.projectId, "userId": request.userId]
         builder.refuseUserIntoProject(request: headers, completion: completion)
+    }
+    
+    func fetchFinishedProjectInviteNotifications(_ request: Notifications.Request.ProjectInviteNotifications,
+                                                 completion: @escaping (BaseResponse<[Notifications.Response.FinishedProjectInviteNotification]>) -> Void) {
+        let headers: [String : Any] = .empty
+        builder.fetchFinishedProjectInviteNotifications(request: headers, completion: completion)
+    }
+    
+    func fetchAcceptFinishedProjectInvite(_ request: Notifications.Request.AcceptFinishedProjectInvite,
+                                          completion: @escaping (EmptyResponse) -> Void) {
+        let headers = ["projectId": request.projectId]
+        builder.acceptFinishedProjectInvite(request: headers, completion: completion)
+    }
+    
+    func fetchRefuseFinishedProjectInvite(_ request: Notifications.Request.RefuseProjectInvite,
+                                          completion: @escaping (EmptyResponse) -> Void) {
+        let headers = ["projectId": request.projectId]
+        builder.refuseFinishedProjectInvite(request: headers, completion: completion)
     }
 }

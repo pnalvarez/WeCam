@@ -10,6 +10,7 @@ import Foundation
 protocol FinishedProjectDetailsBusinessLogic {
     func fetchProjectData(_ request: FinishedProjectDetails.Request.FetchProjectData)
     func fetchProjectRelation(_ request: FinishedProjectDetails.Request.ProjectRelation)
+    func fetchNotinvitedUsers(_ request: FinishedProjectDetails.Request.FetchNotInvitedUsers)
 }
 
 protocol FinishedProjectDetailsDataStore {
@@ -63,7 +64,7 @@ extension FinishedProjectDetailsInteractor {
 }
 
 extension FinishedProjectDetailsInteractor: FinishedProjectDetailsBusinessLogic {
-    
+
     func fetchProjectData(_ request: FinishedProjectDetails.Request.FetchProjectData) {
         presenter.presentLoading(true)
         worker.fetchProjectData(FinishedProjectDetails.Request.FetchProjectDataWithId(id: receivedData?.id ?? .empty)) { response in
@@ -107,6 +108,12 @@ extension FinishedProjectDetailsInteractor: FinishedProjectDetailsBusinessLogic 
             case .error(let error):
                 break
             }
+        }
+    }
+    
+    func fetchNotinvitedUsers(_ request: FinishedProjectDetails.Request.FetchNotInvitedUsers) {
+        if !(receivedData?.userIdsNotInvited.isEmpty ?? true) {
+            
         }
     }
 }

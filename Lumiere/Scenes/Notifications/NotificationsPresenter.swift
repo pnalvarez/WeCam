@@ -13,11 +13,13 @@ protocol NotificationsPresentationLogic {
     func presentNotifications(_ response: Notifications.Info.Model.AllNotifications)
     func didFetchUserData()
     func presentAnsweredConnectNotification(index: Int,
-                                     answer: Notifications.Info.Model.NotificationAnswer)
+                                            answer: Notifications.Info.Model.NotificationAnswer)
     func presentAnsweredProjectInviteNotification(index: Int,
                                                   answer: Notifications.Info.Model.NotificationAnswer)
     func presentAnsweredProjectParticipationRequest(index: Int,
                                                     answer: Notifications.Info.Model.NotificationAnswer)
+    func presentAnsweredFinishedProjectInviteNotifications(index: Int,
+                                                           answer: Notifications.Info.Model.NotificationAnswer)
     func didFetchProjectData()
 }
 
@@ -46,34 +48,34 @@ class NotificationsPresenter: NotificationsPresentationLogic {
         for notification in response.notifications {
             var upcomingNotification: Notifications.Info.ViewModel.Notification
             if let connectNotification = notification as? Notifications.Info.Model.ConnectNotification {
-                 upcomingNotification = Notifications
-                                .Info
-                                .ViewModel
-                                .Notification(notificationText: Notifications.Constants.Texts.connectNotificationText,
-                                              image: notification.image,
-                                              name: connectNotification.userName,
-                                              ocupation: connectNotification.ocupation,
-                                              email: NSAttributedString(string: connectNotification.email,
-                                                                        attributes: [NSAttributedString.Key.font: Notifications
+                upcomingNotification = Notifications
+                    .Info
+                    .ViewModel
+                    .Notification(notificationText: Notifications.Constants.Texts.connectNotificationText,
+                                  image: notification.image,
+                                  name: connectNotification.userName,
+                                  ocupation: connectNotification.ocupation,
+                                  email: NSAttributedString(string: connectNotification.email,
+                                                            attributes: [NSAttributedString.Key.font: Notifications
                                                                             .Constants
                                                                             .Fonts
                                                                             .emailLbl,
-                                                                                     NSAttributedString.Key.foregroundColor:
-                                                                                        Notifications.Constants.Colors.emailLbl,
-                                                                                     NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue]), selectable: true)
-                            viewModel.notifications.append(upcomingNotification)
-            } else if let inviteProjectNotification = notification as? Notifications.Info.Model.ProjectInviteNotification {
-                 upcomingNotification = Notifications
-                            .Info
-                            .ViewModel
-                            .Notification(notificationText: "\(notification.userName) te convidou para este projeto, deseja participar?",
-                                          image: inviteProjectNotification.image,
-                                          name: inviteProjectNotification.projectName,
-                                          ocupation: .empty,
-                                          email: .empty,
-                                          selectable: true)
-                            viewModel.notifications.append(upcomingNotification)
-            } else if let projectParticipationRequest = notification as? Notifications.Info.Model.ProjectParticipationRequestNotification {
+                                                                         NSAttributedString.Key.foregroundColor:
+                                                                            Notifications.Constants.Colors.emailLbl,
+                                                                         NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue]), selectable: true)
+                viewModel.notifications.append(upcomingNotification)
+            } else if let inviteProjectNotification = notification as? Notifications.Info.Model.OnGoingProjectInviteNotification {
+                upcomingNotification = Notifications
+                    .Info
+                    .ViewModel
+                    .Notification(notificationText: "\(notification.userName) te convidou para este projeto, deseja participar?",
+                                  image: inviteProjectNotification.image,
+                                  name: inviteProjectNotification.projectName,
+                                  ocupation: .empty,
+                                  email: .empty,
+                                  selectable: true)
+                viewModel.notifications.append(upcomingNotification)
+            } else if let projectParticipationRequest = notification as? Notifications.Info.Model.OnGoingProjectParticipationRequestNotification {
                 upcomingNotification = Notifications
                     .Info
                     .ViewModel
@@ -82,13 +84,24 @@ class NotificationsPresenter: NotificationsPresentationLogic {
                                   name: projectParticipationRequest.userName,
                                   ocupation: projectParticipationRequest.ocupation,
                                   email: NSAttributedString(string: projectParticipationRequest.email,
-                                  attributes: [NSAttributedString.Key.font: Notifications
-                                      .Constants
-                                      .Fonts
-                                      .emailLbl,
-                                               NSAttributedString.Key.foregroundColor:
-                                                  Notifications.Constants.Colors.emailLbl,
-                                               NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue]),
+                                                            attributes: [NSAttributedString.Key.font: Notifications
+                                                                            .Constants
+                                                                            .Fonts
+                                                                            .emailLbl,
+                                                                         NSAttributedString.Key.foregroundColor:
+                                                                            Notifications.Constants.Colors.emailLbl,
+                                                                         NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue]),
+                                  selectable: true)
+                viewModel.notifications.append(upcomingNotification)
+            } else if let finishedProjectInviteNotification = notification as? Notifications.Info.Model.FinishedProjectInviteNotification {
+                upcomingNotification = Notifications
+                    .Info
+                    .ViewModel
+                    .Notification(notificationText: "\(finishedProjectInviteNotification.userName) disse que você participou deste projeto. Deseja confirmar?",
+                                  image: finishedProjectInviteNotification.image,
+                                  name: finishedProjectInviteNotification.projectName,
+                                  ocupation: .empty,
+                                  email: .empty,
                                   selectable: true)
                 viewModel.notifications.append(upcomingNotification)
             }
@@ -101,7 +114,7 @@ class NotificationsPresenter: NotificationsPresentationLogic {
     }
     
     func presentAnsweredConnectNotification(index: Int,
-                                     answer: Notifications.Info.Model.NotificationAnswer) {
+                                            answer: Notifications.Info.Model.NotificationAnswer) {
         var viewModel: Notifications.Info.ViewModel.NotificationAnswer
         switch answer {
         case .accepted:
@@ -138,6 +151,18 @@ class NotificationsPresenter: NotificationsPresentationLogic {
         case .refused:
             viewModel = Notifications.Info.ViewModel.NotificationAnswer(index: index,
                                                                         text: Notifications.Constants.Texts.refusedProjectParticipationRequest)
+        }
+        viewController.displayNotificationAnswer(viewModel)
+    }
+    
+    func presentAnsweredFinishedProjectInviteNotifications(index: Int,
+                                                           answer: Notifications.Info.Model.NotificationAnswer) {
+        var viewModel: Notifications.Info.ViewModel.NotificationAnswer
+        switch answer {
+        case .accepted:
+            viewModel = Notifications.Info.ViewModel.NotificationAnswer(index: index, text: Notifications.Constants.Texts.acceptedFinishedProjectInvite)
+        case .refused:
+            viewModel = Notifications.Info.ViewModel.NotificationAnswer(index: index, text: Notifications.Constants.Texts.refusedFinishedProjectInvite)
         }
         viewController.displayNotificationAnswer(viewModel)
     }

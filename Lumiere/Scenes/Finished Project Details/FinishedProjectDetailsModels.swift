@@ -136,6 +136,10 @@ struct FinishedProjectDetails {
                 var participants: [TeamMember]
             }
             
+            struct NotInvitedUsers {
+                let userIds: [String]
+            }
+            
             struct TeamMember {
                 let id: String
                 let name: String
@@ -182,12 +186,21 @@ struct FinishedProjectDetails {
             struct Routing {
                 let method: RoutingMethod
             }
+            
+            struct Error {
+                let title: String
+                let description: String
+            }
         }
     }
     
     struct Request {
         
         struct FetchProjectData {
+            
+        }
+        
+        struct FetchNotInvitedUsers {
             
         }
         

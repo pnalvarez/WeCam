@@ -20,8 +20,8 @@ final class NotificationsWorkerMock: NotificationsWorkerProtocol {
     }
     
     func fetchProjectInviteNotifications(_ request: Notifications.Request.ProjectInviteNotifications,
-                                         completion: @escaping (BaseResponse<[Notifications.Response.ProjectInvite]>) -> Void) {
-        completion(.success(Notifications.Response.ProjectInvite.stubArray))
+                                         completion: @escaping (BaseResponse<[Notifications.Response.OnGoingProjectInvite]>) -> Void) {
+        completion(.success(Notifications.Response.OnGoingProjectInvite.stubArray))
     }
     
     func fetchUserData(_ request: Notifications.Request.FetchUserData,
@@ -69,8 +69,8 @@ final class NotificationsWorkerMock: NotificationsWorkerProtocol {
     }
     
     func fetchProjectParticipationRequestNotifications(_ request: Notifications.Request.FetchProjectParticipationRequestNotifications,
-                                                       completion: @escaping (BaseResponse<[Notifications.Response.ProjectParticipationRequest]>) -> Void) {
-        completion(.success(Notifications.Response.ProjectParticipationRequest.stubArray))
+                                                       completion: @escaping (BaseResponse<[Notifications.Response.OnGoingProjectParticipationRequest]>) -> Void) {
+        completion(.success(Notifications.Response.OnGoingProjectParticipationRequest.stubArray))
     }
     
     func fetchAcceptUserIntoProject(_ request: Notifications.Request.FetchAcceptUserIntoProject,

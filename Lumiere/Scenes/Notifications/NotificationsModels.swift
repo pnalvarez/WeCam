@@ -46,8 +46,8 @@ struct Notifications {
         
         struct Texts {
             static let connectNotificationText = "Deseja permitir conexão?"
-            static let projectParticipateText = "Quer participar do seu projeto?"
-            static let projectPropertyText = "Você também é proprietário deste projeto?"
+            static let onGoingProjectParticipateText = "Quer participar do seu projeto?"
+            static let onGoingProjectPropertyText = "Você também é proprietário deste projeto?"
             static let noButton = "Não"
             static let yesButton = "Sim"
             static let error = "Ocorreu um erro ao tentar apresentar as notificações"
@@ -58,6 +58,8 @@ struct Notifications {
             static let refusedProjectInvite = "Você recusou o convite para este projeto"
             static let acceptedProjectParticipationRequest = "agora faz parte do seu projeto"
             static let refusedProjectParticipationRequest = "foi recusado no seu projeto"
+            static let acceptedFinishedProjectInvite = "Você confirmou sua participação neste projeto"
+            static let refusedFinishedProjectInvite = "Você recusou ter participado deste projeto"
         }
         
         struct Dimensions {
@@ -110,11 +112,15 @@ struct Notifications {
             }
             
             struct UpcomingProjectInvites {
-                var notifications: [ProjectInviteNotification]
+                var notifications: [OnGoingProjectInviteNotification]
             }
             
             struct UpcomingProjectParticipationRequests {
-                var notifications: [ProjectParticipationRequestNotification]
+                var notifications: [OnGoingProjectParticipationRequestNotification]
+            }
+            
+            struct UpcomingFinishedProjectInviteNotifications {
+                var notifications: [FinishedProjectInviteNotification]
             }
             
             class NotificationType: Equatable {
@@ -151,7 +157,7 @@ struct Notifications {
                 }
             }
             
-            class ProjectInviteNotification: NotificationType {
+            class OnGoingProjectInviteNotification: NotificationType {
                 let projectId: String
                 let projectName: String
                 
@@ -166,7 +172,7 @@ struct Notifications {
                 }
             }
             
-            class ProjectParticipationRequestNotification: NotificationType {
+            class OnGoingProjectParticipationRequestNotification: NotificationType {
                 let projectId: String
                 let projectName: String
                 let email: String
@@ -183,6 +189,21 @@ struct Notifications {
                     self.projectName = projectName
                     self.email = email
                     self.ocupation = ocupation
+                    super.init(userId: userId, userName: userName, image: image)
+                }
+            }
+            
+            class FinishedProjectInviteNotification: NotificationType {
+                let projectId: String
+                let projectName: String
+                
+                init(userId: String,
+                              userName: String,
+                              image: String,
+                              projectId: String,
+                              projectName: String) {
+                    self.projectId = projectId
+                    self.projectName = projectName
                     super.init(userId: userId, userName: userName, image: image)
                 }
             }
@@ -308,6 +329,14 @@ struct Notifications {
         struct RefreshNotifications {
             
         }
+        
+        struct AcceptFinishedProjectInvite {
+            let projectId: String
+        }
+        
+        struct RefuseFinishedProjectInvite {
+            let projectId: String
+        }
     }
     
     struct Response {
@@ -352,7 +381,7 @@ struct Notifications {
             }
         }
         
-        final class ProjectInvite: Mappable {
+        final class OnGoingProjectInvite: Mappable {
             
             var projectId: String?
             var authorId: String?
@@ -369,7 +398,7 @@ struct Notifications {
             }
         }
         
-        final class ProjectParticipationRequest: Mappable {
+        final class OnGoingProjectParticipationRequest: Mappable {
             
             var projectId: String?
             var userId: String?
@@ -389,6 +418,24 @@ struct Notifications {
                 ocupation <- map["userOcupation"]
                 image <- map["image"]
                 projectName <- map["projectName"]
+            }
+        }
+        
+        final class FinishedProjectInviteNotification: Mappable {
+            var projectId: String?
+            var authorId: String?
+            var authorName: String?
+            var projectTitle: String?
+            var projectImage: String?
+            
+            init?(map: Map) { }
+            
+            func mapping(map: Map) {
+                projectId <- map["projectId"]
+                authorId <- map["authorId"]
+                projectTitle <- map["projectTitle"]
+                projectImage <- map["image"]
+                authorName <- map["authorName"]
             }
         }
         
@@ -435,10 +482,10 @@ extension Notifications.Response.ConnectNotification: MultipleStubbable {
     }
 }
 
-extension Notifications.Response.ProjectInvite: MultipleStubbable {
-    static var stubArray: [Notifications.Response.ProjectInvite] {
+extension Notifications.Response.OnGoingProjectInvite: MultipleStubbable {
+    static var stubArray: [Notifications.Response.OnGoingProjectInvite] {
         return [
-            Notifications.Response.ProjectInvite(JSONString: """
+            Notifications.Response.OnGoingProjectInvite(JSONString: """
                         {
                             "projectId": "idProj1",
                             "author_id": "idUser1",
@@ -446,7 +493,7 @@ extension Notifications.Response.ProjectInvite: MultipleStubbable {
                             "image": "image"
                         }
                 """)!,
-            Notifications.Response.ProjectInvite(JSONString: """
+            Notifications.Response.OnGoingProjectInvite(JSONString: """
                         {
                             "projectId": "idProj2",
                             "author_id": "idUser2",
@@ -483,10 +530,10 @@ extension Notifications.Response.InvitingUser: Stubbable {
     }
 }
 
-extension Notifications.Response.ProjectParticipationRequest: MultipleStubbable {
+extension Notifications.Response.OnGoingProjectParticipationRequest: MultipleStubbable {
     
-    static var stubArray: [Notifications.Response.ProjectParticipationRequest] {
-        return [Notifications.Response.ProjectParticipationRequest(JSONString: """
+    static var stubArray: [Notifications.Response.OnGoingProjectParticipationRequest] {
+        return [Notifications.Response.OnGoingProjectParticipationRequest(JSONString: """
                         {
                             "projectId": "idProj1",
                             "userId": "idUser1",
@@ -497,7 +544,7 @@ extension Notifications.Response.ProjectParticipationRequest: MultipleStubbable 
                             "projectName": "Projeto Teste 1"
                         }
                 """)!,
-                Notifications.Response.ProjectParticipationRequest(JSONString: """
+                Notifications.Response.OnGoingProjectParticipationRequest(JSONString: """
                                 {
                                     "projectId": "idProj2",
                                     "userId": "idUser2",
@@ -514,7 +561,7 @@ extension Notifications.Response.ProjectParticipationRequest: MultipleStubbable 
 
 extension Notifications.Info.Model.AllNotifications: Stubbable {
     static var stub: Notifications.Info.Model.AllNotifications {
-        return Notifications.Info.Model.AllNotifications(notifications: [Notifications.Info.Model.ConnectNotification(userId: "idUser1", userName: "Usuario Teste 1", image: "image", ocupation: "Artista", email: "user_test1@hotmail.com"), Notifications.Info.Model.ProjectInviteNotification(userId: "idUser2", userName: "Usuario Teste 2", image: "image", projectId: "idProj2", projectName: "Projeto Teste 2"), Notifications.Info.Model.ProjectParticipationRequestNotification(userId: "idUser3", userName: "Usuario Teste 3", image: "image", projectId: "idProj3", projectName: "Projeto Teste 3", email: "user_test3@hotmail.com", ocupation: "Artista")])
+        return Notifications.Info.Model.AllNotifications(notifications: [Notifications.Info.Model.ConnectNotification(userId: "idUser1", userName: "Usuario Teste 1", image: "image", ocupation: "Artista", email: "user_test1@hotmail.com"), Notifications.Info.Model.OnGoingProjectInviteNotification(userId: "idUser2", userName: "Usuario Teste 2", image: "image", projectId: "idProj2", projectName: "Projeto Teste 2"), Notifications.Info.Model.OnGoingProjectParticipationRequestNotification(userId: "idUser3", userName: "Usuario Teste 3", image: "image", projectId: "idProj3", projectName: "Projeto Teste 3", email: "user_test3@hotmail.com", ocupation: "Artista")])
     }
 }
 

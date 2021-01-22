@@ -127,24 +127,30 @@ protocol FirebaseManagerProtocol {
     func publishProject(request: [String : Any],
                         completion: @escaping (EmptyResponse) -> Void)
     func fetchFinishedProjectData<T: Mappable>(request: [String : Any],
-                                  completion: @escaping (BaseResponse<T>) -> Void)
-    func acceptFinishedProjectInvite(request: [String : Any],
-                                    completion: @escaping (EmptyResponse) -> Void)
+                                               completion: @escaping (BaseResponse<T>) -> Void)
     func fetchFinishedProjectRelation<T: Mappable>(request: [String : Any],
-                                      completion: @escaping (BaseResponse<T>) -> Void)
+                                                   completion: @escaping (BaseResponse<T>) -> Void)
     func fetchUserFinishedProjects<T: Mappable>(request: [String : Any],
                                                 completion: @escaping (BaseResponse<[T]>) -> Void)
     func publishNewProject<T: Mappable>(request: [String : Any],
-                              completion: @escaping (BaseResponse<T>) -> Void)
+                                        completion: @escaping (BaseResponse<T>) -> Void)
     func addViewToProject(request: [String : Any],
                           completion: @escaping (EmptyResponse) -> Void)
     func fetchFinishedProjectsLogicFeed<T: Mappable>(request: [String : Any],
-                                                completion: @escaping (BaseResponse<[T]>) -> Void)
+                                                     completion: @escaping (BaseResponse<[T]>) -> Void)
     func fetchFinishedProjectCathegoryFeed<T: Mappable>(request: [String : Any],
                                                         completion: @escaping (BaseResponse<[T]>) -> Void)
     func fetchFinishedProjectsNewFeed<T: Mappable>(request: [String : Any],
                                                    completion: @escaping (BaseResponse<[T]>) -> Void)
-    func inviteUserToFinishedProject(request: [String : Any], completion: @escaping (EmptyResponse) -> Void)
+    func inviteUserToFinishedProject(request: [String : Any],
+                                     completion: @escaping (EmptyResponse) -> Void)
+    func fetchFinishedProjectInviteNotifications<T: Mappable>(request: [String : Any],
+                                                              completion: @escaping (BaseResponse<[T]>) -> Void)
+    func acceptFinishedProjectInvite(request: [String : Any],
+                                     completion: @escaping (EmptyResponse) -> Void)
+    
+    func refuseFinishedProjectInvite(request: [String : Any],
+                                     completion: @escaping (EmptyResponse) -> Void)
 }
 
 class FirebaseManager: FirebaseManagerProtocol {
@@ -2845,7 +2851,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                     }
                             }
                     }
-        }
+            }
     }
     
     func fetchCommonConnectionsProfileSuggestions<T: Mappable>(request: [String : Any],
@@ -3224,7 +3230,7 @@ class FirebaseManager: FirebaseManagerProtocol {
     }
     
     func fetchOnGoingProjectsFeed<T: Mappable>(request: [String : Any],
-                                     completion: @escaping (BaseResponse<[T]>) -> Void) {
+                                               completion: @escaping (BaseResponse<[T]>) -> Void) {
         var allProjects = [String]()
         var allProjectsData = [[String : Any]]()
         var currentUserconnections = [String]()
@@ -3335,8 +3341,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                     completion(.success(mappedResponse))
                                 }
                             }
-                }
-        }
+                    }
+            }
     }
     
     func publishProject(request: [String : Any],
@@ -3417,48 +3423,48 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                                 for user in allUsers {
                                                                     dispatchGroup.enter()
                                                                     self.realtimeDB.child(Constants.usersPath).child(user)
-                                                              .child("participating_projects").observeSingleEvent(of: .value) { snapshot in
-                                                                if var projects = snapshot.value as? [String] {
-                                                                    if projects.contains(projectId) {
-                                                                        projects.removeAll(where: { $0 == projectId})
-                                                                        self.realtimeDB.child(Constants.usersPath).child(user).updateChildValues(["participating_projects" : projects]) { (error, ref) in
-                                                                            if let error = error {
-                                                                                completion(.error(error))
-                                                                                return
-                                                                            }
-                                                                            self.realtimeDB.child(Constants.usersPath).child(user).child("finished_projects").observeSingleEvent(of: .value) { snapshot in
-                                                                                var projects = [String]()
-                                                                                if let finishedProjects = snapshot.value as? [String] {
-                                                                                projects = finishedProjects
-                                                                                }
-                                                                                projects.append(projectId)
-                                                                                self.realtimeDB.child(Constants.usersPath).child(user).updateChildValues(["finished_projects" : projects]) { (error, ref) in
-                                                                                    if let error = error {
-                                                                                        completion(.error(error))
-                                                                                        return
+                                                                        .child("participating_projects").observeSingleEvent(of: .value) { snapshot in
+                                                                            if var projects = snapshot.value as? [String] {
+                                                                                if projects.contains(projectId) {
+                                                                                    projects.removeAll(where: { $0 == projectId})
+                                                                                    self.realtimeDB.child(Constants.usersPath).child(user).updateChildValues(["participating_projects" : projects]) { (error, ref) in
+                                                                                        if let error = error {
+                                                                                            completion(.error(error))
+                                                                                            return
+                                                                                        }
+                                                                                        self.realtimeDB.child(Constants.usersPath).child(user).child("finished_projects").observeSingleEvent(of: .value) { snapshot in
+                                                                                            var projects = [String]()
+                                                                                            if let finishedProjects = snapshot.value as? [String] {
+                                                                                                projects = finishedProjects
+                                                                                            }
+                                                                                            projects.append(projectId)
+                                                                                            self.realtimeDB.child(Constants.usersPath).child(user).updateChildValues(["finished_projects" : projects]) { (error, ref) in
+                                                                                                if let error = error {
+                                                                                                    completion(.error(error))
+                                                                                                    return
+                                                                                                }
+                                                                                                dispatchGroup.leave()
+                                                                                            }
+                                                                                        }
                                                                                     }
+                                                                                } else {
                                                                                     dispatchGroup.leave()
                                                                                 }
+                                                                            } else {
+                                                                                dispatchGroup.leave()
                                                                             }
                                                                         }
-                                                                    } else {
-                                                                        dispatchGroup.leave()
-                                                                    }
-                                                                } else {
-                                                                    dispatchGroup.leave()
                                                                 }
-                                                            }
-                                                        }
                                                                 dispatchGroup.notify(queue: .main) {
                                                                     completion(.success)
                                                                 }
+                                                            }
                                                     }
                                             }
-                                        }
-                                }
-                        }
-                }
-        }
+                                    }
+                            }
+                    }
+            }
     }
     
     func fetchFinishedProjectData<T: Mappable>(request: [String : Any],
@@ -3481,12 +3487,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                     return
                 }
                 completion(.success(mappedResponse))
-        }
-    }
-
-    func acceptFinishedProjectInvite(request: [String : Any],
-                                     completion: @escaping (EmptyResponse) -> Void) {
-        //TO DO
+            }
     }
     
     func fetchFinishedProjectRelation<T: Mappable>(request: [String : Any],
@@ -3543,7 +3544,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                             .child(projectId)
                             .child("pending_invites")
                             .observeSingleEvent(of: .value) { snapshot in
-                            var invitedUsers = [String]()
+                                var invitedUsers = [String]()
                                 if let pendingInvites = snapshot.value as? [String] {
                                     invitedUsers = pendingInvites
                                 } else {
@@ -3565,9 +3566,9 @@ class FirebaseManager: FirebaseManagerProtocol {
                                 }
                                 completion(.success(mappedResponse))
                                 return
-                        }
-                }
-        }
+                            }
+                    }
+            }
     }
     
     func fetchUserFinishedProjects<T: Mappable>(request: [String : Any],
@@ -3605,17 +3606,17 @@ class FirebaseManager: FirebaseManagerProtocol {
                             projectData["projectId"] = project
                             finishedProjectsData.append(projectData)
                             dispatchGroup.leave()
-                    }
+                        }
                 }
                 dispatchGroup.notify(queue: .main) {
                     let mappedResponse = Mapper<T>().mapArray(JSONArray: finishedProjectsData)
                     completion(.success(mappedResponse))
                 }
-        }
+            }
     }
     
     func publishNewProject<T: Mappable>(request: [String : Any],
-                              completion: @escaping (BaseResponse<T>) -> Void) {
+                                        completion: @escaping (BaseResponse<T>) -> Void) {
         var allFinishedProjects = [String]()
         var userProjects = [String]()
         
@@ -3696,10 +3697,10 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                 }
                                                 completion(.success(mappedResponse))
                                             }
-                                    }
+                                        }
                                 }
-                        }
-                }
+                            }
+                    }
             }
         }
     }
@@ -3731,12 +3732,12 @@ class FirebaseManager: FirebaseManagerProtocol {
                             completion(.error(error))
                             return
                         }
-                }
-        }
+                    }
+            }
     }
     
     func fetchFinishedProjectsLogicFeed<T: Mappable>(request: [String : Any],
-                                                completion: @escaping (BaseResponse<[T]>) -> Void) {
+                                                     completion: @escaping (BaseResponse<[T]>) -> Void) {
         guard let criteria = request["criteria"] as? String else {
             completion(.error(FirebaseErrors.genericError))
             return
@@ -3806,7 +3807,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                         finishedProjects.removeAll(where: { $0 == project})
                                     }
                                     dispatchGroup.leave()
-                            }
+                                }
                         }
                         dispatchGroup.notify(queue: .main) {
                             let newDispatchGroup = DispatchGroup()
@@ -3824,15 +3825,15 @@ class FirebaseManager: FirebaseManagerProtocol {
                                         project["id"] = projectId
                                         finishedProjectsData.append(project)
                                         newDispatchGroup.leave()
-                                }
+                                    }
                             }
                             newDispatchGroup.notify(queue: .main) {
                                 let mappedResponse = Mapper<T>().mapArray(JSONArray: finishedProjectsData)
                                 completion(.success(mappedResponse))
                             }
                         }
+                    }
             }
-        }
     }
     
     func fetchFinishedProjectsNewFeed<T: Mappable>(request: [String : Any],
@@ -3878,7 +3879,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                     projectData["id"] = project
                                     finishedProjectsData.append(projectData)
                                     dispatchGroup.leave()
-                            }
+                                }
                         }
                         dispatchGroup.notify(queue: .main) {
                             finishedProjectsData.sort(by: { project1, project2 in
@@ -3891,8 +3892,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                             let mappedResponse = Mapper<T>().mapArray(JSONArray: finishedProjectsData)
                             completion(.success(mappedResponse))
                         }
-                }
-        }
+                    }
+            }
     }
     
     func inviteUserToFinishedProject(request: [String : Any],
@@ -3901,7 +3902,8 @@ class FirebaseManager: FirebaseManagerProtocol {
         var inviteNotifications = [[String : Any]]()
         
         guard let projectId = request["projectId"] as? String,
-              let userId = request["userId"] as? String else {
+              let userId = request["userId"] as? String,
+              let currentUser = authReference.currentUser?.uid else {
             completion(.error(FirebaseErrors.genericError))
             return
         }
@@ -3921,39 +3923,42 @@ class FirebaseManager: FirebaseManagerProtocol {
                         return
                     }
                     self.realtimeDB
-                        .child(Constants.usersPath)
-                        .child(userId)
+                        .child(Constants.projectsPath)
+                        .child(Constants.finishedProjectsPath)
+                        .child(projectId)
                         .observeSingleEvent(of: .value) { snapshot in
-                            guard let userData = snapshot.value as? [String : Any] else {
+                            guard let projectData = snapshot.value as? [String : Any] else {
                                 completion(.error(FirebaseErrors.genericError))
                                 return
                             }
                             self.realtimeDB
-                                .child(Constants.projectsPath)
-                                .child(Constants.finishedProjectsPath)
-                                .child(projectId)
+                                .child(Constants.usersPath)
+                                .child(userId)
+                                .child("finished_project_invite_notifications")
                                 .observeSingleEvent(of: .value) { snapshot in
-                                    guard let projectData = snapshot.value as? [String : Any] else {
+                                    if let notifications = snapshot.value as? [[String : Any]] {
+                                        inviteNotifications = notifications
+                                    }
+                                    guard
+                                        let image = projectData["image"],
+                                        let projectTitle = projectData["title"] as? String else {
                                         completion(.error(FirebaseErrors.genericError))
                                         return
                                     }
                                     self.realtimeDB
                                         .child(Constants.usersPath)
-                                        .child(userId)
-                                        .child("finished_project_invite_notifications")
+                                        .child(currentUser)
                                         .observeSingleEvent(of: .value) { snapshot in
-                                            if let notifications = snapshot.value as? [[String : Any]] {
-                                                inviteNotifications = notifications
-                                            }
-                                            guard let name = userData["name"] as? String,
-                                                  let image = projectData["image"] as? String else {
+                                            guard let data = snapshot.value as? [String : Any], let authorName = data["name"] as? String else {
                                                 completion(.error(FirebaseErrors.genericError))
                                                 return
                                             }
                                             inviteNotifications.append(["projectId": projectId,
                                                                         "userId" : userId,
-                                                                        "name": name,
-                                                                        "image": image])
+                                                                        "authorId": currentUser,
+                                                                        "authorName": authorName,
+                                                                        "image": image,
+                                                                        "projectTitle": projectTitle])
                                             self.realtimeDB
                                                 .child(Constants.usersPath)
                                                 .child(userId)
@@ -3963,12 +3968,189 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                         return
                                                     }
                                                     completion(.success)
+                                                }
+                                        }
+                                }
+                        }
+                }
+            }
+    }
+    
+    func fetchFinishedProjectInviteNotifications<T: Mappable>(request: [String : Any],
+                                                              completion: @escaping (BaseResponse<[T]>) -> Void) {
+        guard let currentUser = authReference.currentUser?.uid else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        realtimeDB
+            .child(Constants.usersPath)
+            .child(currentUser)
+            .child("finished_project_invite_notifications")
+            .observeSingleEvent(of: .value) { snapshot in
+                guard let allNotifications = snapshot.value as? [[String : Any]] else {
+                    completion(.success(.empty))
+                    return
+                }
+                let mappedResponse = Mapper<T>().mapArray(JSONArray: allNotifications)
+                completion(.success(mappedResponse))
+            }
+    }
+    
+    func acceptFinishedProjectInvite(request: [String : Any],
+                                     completion: @escaping (EmptyResponse) -> Void) {
+        var finishedProjects = [String]()
+        var allParticipants = [String]()
+        guard let currentUser = authReference.currentUser?.uid else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        guard let projectId = request["projectId"] as? String else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        realtimeDB
+            .child(Constants.usersPath)
+            .child(currentUser)
+            .child("finished_project_invite_notifications")
+            .observeSingleEvent(of: .value) { snapshot in
+                guard var notifications = snapshot.value as? [[String : Any]] else {
+                    completion(.error(FirebaseErrors.genericError))
+                    return
+                }
+                notifications.removeAll(where: {
+                    guard let id = $0["projectId"] as? String else {
+                        return false
+                    }
+                    return id == projectId
+                })
+                self.realtimeDB
+                    .child(Constants.usersPath)
+                    .child(currentUser)
+                    .updateChildValues(["finished_project_invite_notifications": notifications]) { (error, ref) in
+                        if let error = error {
+                            completion(.error(error))
+                            return
+                        }
+                        self.realtimeDB
+                            .child(Constants.usersPath)
+                            .child(currentUser)
+                            .child("finished_projects")
+                            .observeSingleEvent(of: .value) { snapshot in
+                                if let projects = snapshot.value as? [String] {
+                                    finishedProjects = projects
+                                }
+                                finishedProjects.append(projectId)
+                                self.realtimeDB
+                                    .child(Constants.usersPath)
+                                    .child(currentUser)
+                                    .updateChildValues(["finished_projects": finishedProjects]) { (error, ref) in
+                                        if let error = error {
+                                            completion(.error(error))
+                                            return
+                                        }
+                                        self.realtimeDB
+                                            .child(Constants.projectsPath)
+                                            .child(Constants.finishedProjectsPath)
+                                            .child(projectId).child("participants")
+                                            .observeSingleEvent(of: .value) { snapshot in
+                                                guard let participants = snapshot.value as? [String] else {
+                                                    completion(.error(FirebaseErrors.genericError))
+                                                    return
+                                                }
+                                                allParticipants = participants
+                                                allParticipants.append(currentUser)
+                                                self.realtimeDB
+                                                    .child(Constants.projectsPath)
+                                                    .child(Constants.finishedProjectsPath)
+                                                    .child(projectId)
+                                                    .updateChildValues(["participants": allParticipants]) { (error, ref) in
+                                                        if let error = error {
+                                                            completion(.error(error))
+                                                            return
+                                                        }
+                                                        self.realtimeDB
+                                                            .child(Constants.projectsPath)
+                                                            .child(Constants.finishedProjectsPath)
+                                                            .child(projectId)
+                                                            .child("pending_invites")
+                                                            .observeSingleEvent(of: .value) { snapshot in
+                                                                guard var pendingInvites = snapshot.value as? [String] else {
+                                                                    completion(.error(FirebaseErrors.genericError))
+                                                                    return
+                                                                }
+                                                                pendingInvites.removeAll(where: { $0 == currentUser})
+                                                                self.realtimeDB.child(Constants.projectsPath).child(Constants.finishedProjectsPath)
+                                                                    .child(projectId).updateChildValues(["pending_invites": pendingInvites]) { (error, ref) in
+                                                                        if let error = error {
+                                                                            completion(.error(error))
+                                                                            return
+                                                                        }
+                                                                        completion(.success)
+                                                                    }
+                                                            }
+                                                    }
                                             }
                                     }
                             }
                     }
-                }
+            }
+    }
+    
+    func refuseFinishedProjectInvite(request: [String : Any],
+                                     completion: @escaping (EmptyResponse) -> Void) {
+        guard let currentUser = authReference.currentUser?.uid else {
+            completion(.error(FirebaseErrors.genericError))
+            return
         }
+        guard let projectId = request["projectId"] as? String else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        realtimeDB
+            .child(Constants.usersPath)
+            .child(currentUser)
+            .child("finished_project_invite_notifications")
+            .observeSingleEvent(of: .value) { snapshot in
+                guard var notifications = snapshot.value as? [[String : Any]] else {
+                    completion(.error(FirebaseErrors.genericError))
+                    return
+                }
+                notifications.removeAll(where: {
+                    guard let id = $0["projectId"] as? String else {
+                        return false
+                    }
+                    return id == projectId
+                })
+                self.realtimeDB
+                    .child(Constants.usersPath)
+                    .child(currentUser)
+                    .updateChildValues(["finished_project_invite_notifications": notifications]) { (error, ref) in
+                        if let error = error {
+                            completion(.error(error))
+                            return
+                        }
+                        self.realtimeDB
+                            .child(Constants.projectsPath)
+                            .child(Constants.finishedProjectsPath)
+                            .child(projectId)
+                            .child("pending_invites")
+                            .observeSingleEvent(of: .value) { snapshot in
+                                guard var pendingInvites = snapshot.value as? [String] else {
+                                    completion(.error(FirebaseErrors.genericError))
+                                    return
+                                }
+                                pendingInvites.removeAll(where: { $0 == currentUser})
+                                self.realtimeDB.child(Constants.projectsPath).child(Constants.finishedProjectsPath)
+                                    .child(projectId).updateChildValues(["pending_invites": pendingInvites]) { (error, ref) in
+                                        if let error = error {
+                                            completion(.error(error))
+                                            return
+                                        }
+                                        completion(.success)
+                                    }
+                            }
+                    }
+            }
     }
 }
 
@@ -3976,7 +4158,7 @@ class FirebaseManager: FirebaseManagerProtocol {
 extension FirebaseManager {
     
     private func fetchFinishedConnectionsFeed<T: Mappable>(currentUser: String,
-                                              completion: @escaping (BaseResponse<[T]>) -> Void) {
+                                                           completion: @escaping (BaseResponse<[T]>) -> Void) {
         var finishedProjects = [String]()
         var userConnections = [String]()
         var userProjects = [String]()
@@ -4048,13 +4230,13 @@ extension FirebaseManager {
                                     let mappedResponse = Mapper<T>().mapArray(JSONArray: response)
                                     completion(.success(mappedResponse))
                                 }
-                        }
-                }
-        }
+                            }
+                    }
+            }
     }
     
     private func fetchFinishedPopularFeed<T: Mappable>(currentUser: String,
-                                              completion: @escaping (BaseResponse<[T]>) -> Void) {
+                                                       completion: @escaping (BaseResponse<[T]>) -> Void) {
         var finishedProjects = [String]()
         var responseProjects = [[String : Any]]()
         
@@ -4083,7 +4265,7 @@ extension FirebaseManager {
                                 finishedProjects.removeAll(where: { $0 == project })
                             }
                             dispatchGroup.leave()
-                    }
+                        }
                 }
                 dispatchGroup.notify(queue: .main) {
                     let newDispatchGroup = DispatchGroup()
@@ -4101,7 +4283,7 @@ extension FirebaseManager {
                                 projectData["id"] = project
                                 responseProjects.append(projectData)
                                 newDispatchGroup.leave()
-                        }
+                            }
                     }
                     newDispatchGroup.notify(queue: .main) {
                         responseProjects.sort { project1, project2 in
@@ -4115,11 +4297,11 @@ extension FirebaseManager {
                         completion(.success(mappedResponse))
                     }
                 }
-        }
+            }
     }
     
     private func fetchFinishedRecentFeed<T: Mappable>(currentUser: String,
-                                              completion: @escaping (BaseResponse<[T]>) -> Void) {
+                                                      completion: @escaping (BaseResponse<[T]>) -> Void) {
         var finishedProjects = [String]()
         var responseProjects = [[String : Any]]()
         
@@ -4148,7 +4330,7 @@ extension FirebaseManager {
                                 finishedProjects.removeAll(where: { $0 == project })
                             }
                             dispatchGroup.leave()
-                    }
+                        }
                 }
                 dispatchGroup.notify(queue: .main) {
                     let dispatchGroup = DispatchGroup()
@@ -4166,7 +4348,7 @@ extension FirebaseManager {
                                 projectData["id"] = project
                                 responseProjects.append(projectData)
                                 dispatchGroup.leave()
-                        }
+                            }
                     }
                     dispatchGroup.notify(queue: .main) {
                         responseProjects.sort { project1, project2 in
@@ -4180,7 +4362,7 @@ extension FirebaseManager {
                         completion(.success(mappedResponse))
                     }
                 }
-        }
+            }
     }
 }
 

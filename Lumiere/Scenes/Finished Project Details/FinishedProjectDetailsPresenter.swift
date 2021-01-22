@@ -16,6 +16,7 @@ protocol FinishedProjectDetailsPresentationLogic {
     func presentRelationUI(_ response: FinishedProjectDetails.Info.Model.Relation)
     func presentAllParticipants()
     func presentRoutingUI(_ response: FinishedProjectDetails.Info.Model.Routing)
+    func presentNotInvitedUsersErrorAlert(_ response: FinishedProjectDetails.Info.Model.NotInvitedUsers)
 }
 
 class FinishedProjectDetailsPresenter: FinishedProjectDetailsPresentationLogic {
@@ -61,5 +62,9 @@ class FinishedProjectDetailsPresenter: FinishedProjectDetailsPresentationLogic {
     func presentRoutingUI(_ response: FinishedProjectDetails.Info.Model.Routing) {
         let viewModel = FinishedProjectDetails.Info.ViewModel.Routing(method: response.method)
         viewController.displayRoutingUI(viewModel)
+    }
+    
+    func presentNotInvitedUsersErrorAlert(_ response: FinishedProjectDetails.Info.Model.NotInvitedUsers) {
+        //TO DO
     }
 }
