@@ -133,6 +133,11 @@ class EditProjectDetailsController: BaseViewController {
         mainView.cleanTextFields()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        mainView.flushCarrousel()
+    }
+    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         activityView.isHidden = false
@@ -166,7 +171,6 @@ extension EditProjectDetailsController {
     
     @objc
     private func didTapInviteFriends() {
-        mainView.flushCarrousel()
         router?.routeToInviteList()
     }
     
