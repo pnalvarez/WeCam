@@ -8,7 +8,7 @@
 
 import UIKit
 
-class OnGoingProjectInvitesView: UIView {
+class ProjectInvitesView: UIView {
     
     private unowned var activityView: UIActivityIndicatorView
     private unowned var modalAlertView: ConfirmationAlertView
@@ -20,13 +20,13 @@ class OnGoingProjectInvitesView: UIView {
     private lazy var projectTitleLbl: UILabel = {
         let view = UILabel(frame: .zero)
         view.textAlignment = .left
-        view.font = OnGoingProjectInvites.Constants.Fonts.projectTitleLbl
-        view.textColor = OnGoingProjectInvites.Constants.Colors.projectTitleLbl
+        view.font = ProjectInvites.Constants.Fonts.projectTitleLbl
+        view.textColor = ProjectInvites.Constants.Colors.projectTitleLbl
         view.numberOfLines = 0
         return view
     }()
     
-    private var viewModel: OnGoingProjectInvites.Info.ViewModel.Project?
+    private var viewModel: ProjectInvites.Info.ViewModel.Project?
     
     init(frame: CGRect,
          activityView: UIActivityIndicatorView,
@@ -48,7 +48,7 @@ class OnGoingProjectInvitesView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setup(viewModel: OnGoingProjectInvites.Info.ViewModel.Project) {
+    func setup(viewModel: ProjectInvites.Info.ViewModel.Project) {
         self.viewModel = viewModel
         applyViewCode()
     }
@@ -79,7 +79,7 @@ class OnGoingProjectInvitesView: UIView {
     }
 }
 
-extension OnGoingProjectInvitesView: ViewCodeProtocol {
+extension ProjectInvitesView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
         addSubview(projectTitleLbl)

@@ -96,7 +96,7 @@ protocol FirebaseManagerProtocol {
                                completion: @escaping (EmptyResponse) -> Void)
     func refuseUserIntoProject(request: [String : Any],
                                completion: @escaping (EmptyResponse) -> Void)
-    func fetchUserRelationToProject<T: Mappable>(request: [String : Any],
+    func fetchUserRelationToOnGoingProject<T: Mappable>(request: [String : Any],
                                                  completion: @escaping (BaseResponse<T>) -> Void)
     func removeProjectInviteToUser(request: [String : Any],
                                    completion: @escaping (EmptyResponse) -> Void)
@@ -151,6 +151,10 @@ protocol FirebaseManagerProtocol {
     
     func refuseFinishedProjectInvite(request: [String : Any],
                                      completion: @escaping (EmptyResponse) -> Void)
+    func fetchUserRelationToFinishedProject<T: Mappable>(request: [String : Any],
+                                                         completion: @escaping (BaseResponse<T>) -> Void)
+    func removeInviteToFinishedProjectFromUser(request: [String : Any],
+                                               completion: @escaping (EmptyResponse) -> Void)
 }
 
 class FirebaseManager: FirebaseManagerProtocol {
@@ -2334,7 +2338,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             }
     }
     
-    func fetchUserRelationToProject<T: Mappable>(request: [String : Any],
+    func fetchUserRelationToOnGoingProject<T: Mappable>(request: [String : Any],
                                                  completion: @escaping (BaseResponse<T>) -> Void) {
         var responseDict: [String : Any] = .empty
         guard let userId = request["userId"] as? String,
@@ -4140,6 +4144,113 @@ class FirebaseManager: FirebaseManagerProtocol {
                                     return
                                 }
                                 pendingInvites.removeAll(where: { $0 == currentUser})
+                                self.realtimeDB.child(Constants.projectsPath).child(Constants.finishedProjectsPath)
+                                    .child(projectId).updateChildValues(["pending_invites": pendingInvites]) { (error, ref) in
+                                        if let error = error {
+                                            completion(.error(error))
+                                            return
+                                        }
+                                        completion(.success)
+                                    }
+                            }
+                    }
+            }
+    }
+    
+    func fetchUserRelationToFinishedProject<T: Mappable>(request: [String : Any],
+                                                         completion: @escaping (BaseResponse<T>) -> Void) {
+        var responseDict: [String : Any] = .empty
+        guard let userId = request["userId"] as? String,
+              let projectId = request["projectId"] as? String else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        realtimeDB
+            .child(Constants.projectsPath)
+            .child(Constants.finishedProjectsPath)
+            .child(projectId)
+            .child("participants")
+            .observeSingleEvent(of: .value) { snapshot in
+                guard let participants = snapshot.value as? [String] else {
+                    completion(.error(FirebaseErrors.genericError))
+                    return
+                }
+                if participants.contains(userId) {
+                    responseDict["relation"] = "SIMPLE PARTICIPANT"
+                    guard let mappedResponse = Mapper<T>().map(JSON: responseDict) else {
+                        completion(.error(FirebaseErrors.parseError))
+                        return
+                    }
+                    completion(.success(mappedResponse))
+                    return
+                }
+                self.realtimeDB
+                    .child(Constants.projectsPath)
+                    .child(Constants.finishedProjectsPath)
+                    .child(projectId)
+                    .child("pending_invites")
+                    .observeSingleEvent(of: .value) { snapshot in
+                        if let invites = snapshot.value as? [String],
+                           invites.contains(userId) {
+                            responseDict["relation"] = "RECEIVED REQUEST"
+                            guard let mappedResponse = Mapper<T>().map(JSON: responseDict) else {
+                                completion(.error(FirebaseErrors.parseError))
+                                return
+                            }
+                            completion(.success(mappedResponse))
+                            return
+                        }
+                        responseDict["relation"] = "NOTHING"
+                        guard let mappedResponse = Mapper<T>().map(JSON: responseDict) else {
+                            completion(.error(FirebaseErrors.parseError))
+                            return
+                        }
+                        completion(.success(mappedResponse))
+                    }
+            }
+    }
+    
+    func removeInviteToFinishedProjectFromUser(request: [String : Any],
+                                               completion: @escaping (EmptyResponse) -> Void) {
+        guard let projectId = request["projectId"] as? String,
+              let userId = request["userId"] as? String else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        realtimeDB
+            .child(Constants.usersPath)
+            .child(userId)
+            .child("finished_project_invite_notifications")
+            .observeSingleEvent(of: .value) { snapshot in
+                guard var notifications = snapshot.value as? [[String : Any]] else {
+                    completion(.error(FirebaseErrors.genericError))
+                    return
+                }
+                notifications.removeAll(where: {
+                    guard let id = $0["projectId"] as? String else {
+                        return false
+                    }
+                    return id == projectId
+                })
+                self.realtimeDB
+                    .child(Constants.usersPath)
+                    .child(userId)
+                    .updateChildValues(["finished_project_invite_notifications": notifications]) { (error, ref) in
+                        if let error = error {
+                            completion(.error(error))
+                            return
+                        }
+                        self.realtimeDB
+                            .child(Constants.projectsPath)
+                            .child(Constants.finishedProjectsPath)
+                            .child(projectId)
+                            .child("pending_invites")
+                            .observeSingleEvent(of: .value) { snapshot in
+                                guard var pendingInvites = snapshot.value as? [String] else {
+                                    completion(.error(FirebaseErrors.genericError))
+                                    return
+                                }
+                                pendingInvites.removeAll(where: { $0 == userId})
                                 self.realtimeDB.child(Constants.projectsPath).child(Constants.finishedProjectsPath)
                                     .child(projectId).updateChildValues(["pending_invites": pendingInvites]) { (error, ref) in
                                         if let error = error {

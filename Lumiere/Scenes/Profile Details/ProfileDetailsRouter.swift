@@ -62,7 +62,8 @@ extension ProfileDetailsRouter: BaseRouterProtocol {
     func routeTo(nextVC: UIViewController) {
         if nextVC is FinishedProjectDetailsController {
             nextVC.modalPresentationStyle = .fullScreen
-            viewController?.navigationController?.present(nextVC, animated: true, completion: nil)
+            let newNavigationVC = UINavigationController(rootViewController: nextVC)
+            viewController?.navigationController?.present(newNavigationVC, animated: true, completion: nil)
         } else {
             viewController?.navigationController?.pushViewController(nextVC, animated: true)
         }

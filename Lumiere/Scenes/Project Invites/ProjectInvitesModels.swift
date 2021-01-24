@@ -9,9 +9,9 @@
 import UIKit
 import ObjectMapper
 
-struct OnGoingProjectInvites {
+struct ProjectInvites {
     
-    static let bundle = Bundle(for: OnGoingProjectInvitesController.self)
+    static let bundle = Bundle(for: ProjectInvitesController.self)
     
     struct Constants {
         
@@ -39,10 +39,10 @@ struct OnGoingProjectInvites {
         }
         
         struct Images {
-            static let invite = UIImage(named: "icone-usuario-sem-relação-com-o-projeto 1", in: OnGoingProjectInvites.bundle, compatibleWith: nil)
-            static let member = UIImage(named: "icone-usuario-participante", in: OnGoingProjectInvites.bundle, compatibleWith: nil)
-            static let receivedRequest = UIImage(named: "icone-usuario-convidado-projeto", in: OnGoingProjectInvites.bundle, compatibleWith: nil)
-            static let sentRequest = UIImage(named: "icone-solicitou-projeto", in: OnGoingProjectInvites.bundle, compatibleWith: nil)
+            static let invite = UIImage(named: "icone-usuario-sem-relação-com-o-projeto 1", in: ProjectInvites.bundle, compatibleWith: nil)
+            static let member = UIImage(named: "icone-usuario-participante", in: ProjectInvites.bundle, compatibleWith: nil)
+            static let receivedRequest = UIImage(named: "icone-usuario-convidado-projeto", in: ProjectInvites.bundle, compatibleWith: nil)
+            static let sentRequest = UIImage(named: "icone-solicitou-projeto", in: ProjectInvites.bundle, compatibleWith: nil)
         }
         
         struct Dimensions {
@@ -59,6 +59,11 @@ struct OnGoingProjectInvites {
             
             struct Project {
                 let projectId: String
+            }
+            
+            enum Context {
+                case finished
+                case ongoing
             }
         }
         
@@ -253,9 +258,9 @@ struct OnGoingProjectInvites {
     }
 }
 
-extension OnGoingProjectInvites.Info.Response.User: MultipleStubbable {
-    static var stubArray: [OnGoingProjectInvites.Info.Response.User] {
-        return [OnGoingProjectInvites.Info.Response.User(JSONString: """
+extension ProjectInvites.Info.Response.User: MultipleStubbable {
+    static var stubArray: [ProjectInvites.Info.Response.User] {
+        return [ProjectInvites.Info.Response.User(JSONString: """
                         {
                             "userId": "idUser1",
                             "image": "image",
@@ -264,7 +269,7 @@ extension OnGoingProjectInvites.Info.Response.User: MultipleStubbable {
                             "email": "user_test1@hotmail.com"
                         }
                 """)!,
-                OnGoingProjectInvites.Info.Response.User(JSONString: """
+                ProjectInvites.Info.Response.User(JSONString: """
                                 {
                                     "userId": "idUser2",
                                     "image": "image",
@@ -273,7 +278,7 @@ extension OnGoingProjectInvites.Info.Response.User: MultipleStubbable {
                                     "email": "user_test2@hotmail.com"
                                 }
                         """)!,
-                OnGoingProjectInvites.Info.Response.User(JSONString: """
+                ProjectInvites.Info.Response.User(JSONString: """
                                 {
                                     "userId": "idUser3",
                                     "image": "image",
@@ -285,9 +290,9 @@ extension OnGoingProjectInvites.Info.Response.User: MultipleStubbable {
     }
 }
 
-extension OnGoingProjectInvites.Info.Response.UserRelation: Stubbable {
-    static var stub: OnGoingProjectInvites.Info.Response.UserRelation {
-        return OnGoingProjectInvites.Info.Response.UserRelation(JSONString: """
+extension ProjectInvites.Info.Response.UserRelation: Stubbable {
+    static var stub: ProjectInvites.Info.Response.UserRelation {
+        return ProjectInvites.Info.Response.UserRelation(JSONString: """
                         {
                             "relation": "NOTHING"
                         }
@@ -295,9 +300,9 @@ extension OnGoingProjectInvites.Info.Response.UserRelation: Stubbable {
     }
 }
 
-extension OnGoingProjectInvites.Info.Response.Project: Stubbable {
-    static var stub: OnGoingProjectInvites.Info.Response.Project {
-        return OnGoingProjectInvites.Info.Response.Project(JSONString: """
+extension ProjectInvites.Info.Response.Project: Stubbable {
+    static var stub: ProjectInvites.Info.Response.Project {
+        return ProjectInvites.Info.Response.Project(JSONString: """
                     {
                         "title": "Projeto Teste 1",
                         "image": "image",
@@ -307,30 +312,30 @@ extension OnGoingProjectInvites.Info.Response.Project: Stubbable {
     }
 }
 
-extension OnGoingProjectInvites.Info.Model.UpcomingUsers: Stubbable {
-    static var stub: OnGoingProjectInvites.Info.Model.UpcomingUsers {
-        return OnGoingProjectInvites
+extension ProjectInvites.Info.Model.UpcomingUsers: Stubbable {
+    static var stub: ProjectInvites.Info.Model.UpcomingUsers {
+        return ProjectInvites
             .Info
             .Model
-            .UpcomingUsers(users: [OnGoingProjectInvites.Info.Model.User(userId: "idUser1",
+            .UpcomingUsers(users: [ProjectInvites.Info.Model.User(userId: "idUser1",
                                                                          image: "image",
                                                                          name: "Usuário Teste 1",
                                                                          ocupation: "Artista",
                                                                          email: "user_test1@hotmail.com",
                                                                          relation: .simpleParticipant),
-                                   OnGoingProjectInvites.Info.Model.User(userId: "idUser2",
+                                   ProjectInvites.Info.Model.User(userId: "idUser2",
                                                                          image: "image",
                                                                          name: "Usuário Teste 2",
                                                                          ocupation: "Artista",
                                                                          email: "user_test2@hotmail.com",
                                                                          relation: .sentRequest),
-                                   OnGoingProjectInvites.Info.Model.User(userId: "idUser3",
+                                   ProjectInvites.Info.Model.User(userId: "idUser3",
                                                                          image: "image",
                                                                          name: "Usuário Teste 3",
                                                                          ocupation: "Artista",
                                                                          email: "user_test3@hotmail.com",
                                                                          relation: .nothing),
-                                   OnGoingProjectInvites.Info.Model.User(userId: "idUser4",
+                                   ProjectInvites.Info.Model.User(userId: "idUser4",
                                                                          image: "image",
                                                                          name: "Usuário Teste 4",
                                                                          ocupation: "Artista",
@@ -339,8 +344,8 @@ extension OnGoingProjectInvites.Info.Model.UpcomingUsers: Stubbable {
     }
 }
 
-extension OnGoingProjectInvites.Info.Model.Project: Stubbable {
-    static var stub: OnGoingProjectInvites.Info.Model.Project {
-        return OnGoingProjectInvites.Info.Model.Project(projectId: "idProj1", title: "Projeto Teste 1", image: "image", authorId: "idUser1")
+extension ProjectInvites.Info.Model.Project: Stubbable {
+    static var stub: ProjectInvites.Info.Model.Project {
+        return ProjectInvites.Info.Model.Project(projectId: "idProj1", title: "Projeto Teste 1", image: "image", authorId: "idUser1")
     }
 }

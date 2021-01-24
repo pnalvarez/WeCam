@@ -202,7 +202,7 @@ extension FinishedProjectDetailsController {
     
     @objc
     private func didTapInteraction() {
-        
+        router?.routeToProjectInvites()
     }
     
     @objc

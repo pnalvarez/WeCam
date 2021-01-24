@@ -8,32 +8,32 @@
 
 @testable import Lumiere
 
-final class OnGoingProjectInvitesWorkerMock: OnGoingProjectInvitesWorkerProtocol {
+final class OnGoingProjectInvitesWorkerMock: ProjectInvitesWorkerProtocol {
     
-    func fetchConnections(_ request: OnGoingProjectInvites.Request.FetchUsers,
-                          completion: @escaping (BaseResponse<[OnGoingProjectInvites.Info.Response.User]>) -> Void) {
-        completion(.success(OnGoingProjectInvites.Info.Response.User.stubArray))
+    func fetchConnections(_ request: ProjectInvites.Request.FetchUsers,
+                          completion: @escaping (BaseResponse<[ProjectInvites.Info.Response.User]>) -> Void) {
+        completion(.success(ProjectInvites.Info.Response.User.stubArray))
     }
     
-    func fetchUserRelationToProject(_ request: OnGoingProjectInvites.Request.FetchRelation,
-                                    completion: @escaping (BaseResponse<OnGoingProjectInvites.Info.Response.UserRelation>) -> Void) {
+    func fetchUserRelationToProject(_ request: ProjectInvites.Request.FetchRelation,
+                                    completion: @escaping (BaseResponse<ProjectInvites.Info.Response.UserRelation>) -> Void) {
         guard request.projectId != "ERROR" else {
             completion(.error(FirebaseErrors.genericError))
             return
         }
-        completion(.success(OnGoingProjectInvites.Info.Response.UserRelation.stub))
+        completion(.success(ProjectInvites.Info.Response.UserRelation.stub))
     }
     
-    func fetchProjectInfo(_ request: OnGoingProjectInvites.Request.FetchProjectWithId,
-                          completion: @escaping (BaseResponse<OnGoingProjectInvites.Info.Response.Project>) -> Void) {
+    func fetchProjectInfo(_ request: ProjectInvites.Request.FetchProjectWithId,
+                          completion: @escaping (BaseResponse<ProjectInvites.Info.Response.Project>) -> Void) {
         guard request.id != "ERROR" else {
             completion(.error(FirebaseErrors.genericError))
             return
         }
-        completion(.success(OnGoingProjectInvites.Info.Response.Project.stub))
+        completion(.success(ProjectInvites.Info.Response.Project.stub))
     }
     
-    func fetchInviteUser(_ request: OnGoingProjectInvites.Request.InviteUser,
+    func fetchInviteUser(_ request: ProjectInvites.Request.InviteUser,
                          completion: @escaping (EmptyResponse) -> Void) {
         guard request.projectId != "ERROR" else {
             completion(.error(FirebaseErrors.genericError))
@@ -42,7 +42,7 @@ final class OnGoingProjectInvitesWorkerMock: OnGoingProjectInvitesWorkerProtocol
         completion(.success)
     }
     
-    func fetchAcceptUserIntoProject(_ request: OnGoingProjectInvites.Request.AcceptUser,
+    func fetchAcceptUserIntoProject(_ request: ProjectInvites.Request.AcceptUser,
                                     completion: @escaping (EmptyResponse) -> Void) {
         guard request.projectId != "ERROR" else {
             completion(.error(FirebaseErrors.genericError))
@@ -51,7 +51,7 @@ final class OnGoingProjectInvitesWorkerMock: OnGoingProjectInvitesWorkerProtocol
         completion(.success)
     }
     
-    func fetchRefuseUserIntoProject(_ request: OnGoingProjectInvites.Request.RefuseUser,
+    func fetchRefuseUserIntoProject(_ request: ProjectInvites.Request.RefuseUser,
                                     completion: @escaping (EmptyResponse) -> Void) {
         guard request.projectId != "ERROR" else {
             completion(.error(FirebaseErrors.genericError))
@@ -60,7 +60,7 @@ final class OnGoingProjectInvitesWorkerMock: OnGoingProjectInvitesWorkerProtocol
         completion(.success)
     }
     
-    func fetchRemoveUserFromProject(_ request: OnGoingProjectInvites.Request.RemoveUserFromProject,
+    func fetchRemoveUserFromProject(_ request: ProjectInvites.Request.RemoveUserFromProject,
                                     completion: @escaping (EmptyResponse) -> Void) {
         guard request.projectId != "ERROR" else {
             completion(.error(FirebaseErrors.genericError))
@@ -69,7 +69,7 @@ final class OnGoingProjectInvitesWorkerMock: OnGoingProjectInvitesWorkerProtocol
         completion(.success)
     }
     
-    func fetchRemoveInviteToUser(_ request: OnGoingProjectInvites.Request.RemoveInvite,
+    func fetchRemoveInviteToUser(_ request: ProjectInvites.Request.RemoveInvite,
                                  completion: @escaping (EmptyResponse) -> Void) {
         guard request.projectId != "ERROR" else {
             completion(.error(FirebaseErrors.genericError))

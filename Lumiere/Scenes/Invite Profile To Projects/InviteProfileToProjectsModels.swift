@@ -43,7 +43,7 @@ struct InviteProfileToProjects {
             static let participating = UIImage(named: "icone-usuario-participante", in: InviteProfileToProjects.bundle, compatibleWith: nil)
             static let receivedRequest = UIImage(named: "icone-usuario-convidado-projeto", in: InviteProfileToProjects.bundle, compatibleWith: nil)
             static let sentRequest = UIImage(named: "icone-solicitou-projeto", in: InviteProfileToProjects.bundle, compatibleWith: nil)
-            static let nothing = UIImage(named: "icone-usuario-sem-relação-com-o-projeto 1", in: OnGoingProjectInvites.bundle, compatibleWith: nil)
+            static let nothing = UIImage(named: "icone-usuario-sem-relação-com-o-projeto 1", in: ProjectInvites.bundle, compatibleWith: nil)
         }
         
         struct Dimensions {

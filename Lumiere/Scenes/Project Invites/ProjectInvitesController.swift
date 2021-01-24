@@ -8,18 +8,18 @@
 
 import UIKit
 
-protocol OnGoingProjectInvitesDisplayLogic: class {
-    func displayUsers(_ viewModel: OnGoingProjectInvites.Info.ViewModel.UpcomingUsers)
-    func displayProjectInfo(_ viewModel: OnGoingProjectInvites.Info.ViewModel.Project)
-    func displayConfirmationView(_ viewModel: OnGoingProjectInvites.Info.ViewModel.Alert)
+protocol ProjectInvitesDisplayLogic: class {
+    func displayUsers(_ viewModel: ProjectInvites.Info.ViewModel.UpcomingUsers)
+    func displayProjectInfo(_ viewModel: ProjectInvites.Info.ViewModel.Project)
+    func displayConfirmationView(_ viewModel: ProjectInvites.Info.ViewModel.Alert)
     func hideConfirmationView()
     func displayLoading(_ loading: Bool)
     func displayProfileDetails()
-    func displayError(_ viewModel: OnGoingProjectInvites.Info.ViewModel.ErrorViewModel)
-    func displayRelationUpdate(_ viewModel: OnGoingProjectInvites.Info.ViewModel.RelationUpdate)
+    func displayError(_ viewModel: ProjectInvites.Info.ViewModel.ErrorViewModel)
+    func displayRelationUpdate(_ viewModel: ProjectInvites.Info.ViewModel.RelationUpdate)
 }
 
-class OnGoingProjectInvitesController: BaseViewController {
+class ProjectInvitesController: BaseViewController {
     
     private lazy var activityView: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView(frame: .zero)
@@ -55,10 +55,10 @@ class OnGoingProjectInvitesController: BaseViewController {
         view.layer.cornerRadius = 4
         view.addTarget(self, action: #selector(didSearchTextFieldChange), for: .editingChanged)
         view.textAlignment = .left
-        view.font = OnGoingProjectInvites.Constants.Fonts.searchTextField
-        view.textColor = OnGoingProjectInvites.Constants.Colors.searchTextFieldText
+        view.font = ProjectInvites.Constants.Fonts.searchTextField
+        view.textColor = ProjectInvites.Constants.Colors.searchTextFieldText
         view.layer.borderWidth = 1
-        view.layer.borderColor = OnGoingProjectInvites.Constants.Colors.searchTextFieldLayer
+        view.layer.borderColor = ProjectInvites.Constants.Colors.searchTextFieldLayer
         return view
     }()
     
@@ -67,13 +67,13 @@ class OnGoingProjectInvitesController: BaseViewController {
         view.assignProtocols(to: self)
         view.bounces = false
         view.alwaysBounceVertical = false
-        view.registerCell(cellType: OnGoingProjectInvitesTableViewCell.self)
+        view.registerCell(cellType: ProjectInvitesTableViewCell.self)
         view.separatorStyle = .none
         return view
     }()
     
-    private lazy var mainView: OnGoingProjectInvitesView = {
-        let view = OnGoingProjectInvitesView(frame: .zero,
+    private lazy var mainView: ProjectInvitesView = {
+        let view = ProjectInvitesView(frame: .zero,
                                              activityView: activityView,
                                              modalAlertView: modalAlertView,
                                              translucentView: translucentView,
@@ -83,7 +83,7 @@ class OnGoingProjectInvitesController: BaseViewController {
         return view
     }()
     
-    private var viewModel: OnGoingProjectInvites.Info.ViewModel.UpcomingUsers? {
+    private var viewModel: ProjectInvites.Info.ViewModel.UpcomingUsers? {
         didSet {
             DispatchQueue.main.async {
                 self.tableView.reloadData()
@@ -91,8 +91,8 @@ class OnGoingProjectInvitesController: BaseViewController {
         }
     }
     
-    private var interactor: OnGoingProjectInvitesBusinessLogic?
-    var router: OnGoingProjectInvitesRouterProtocol?
+    private var interactor: ProjectInvitesBusinessLogic?
+    var router: ProjectInvitesRouterProtocol?
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -109,8 +109,8 @@ class OnGoingProjectInvitesController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        interactor?.fetchUsers(OnGoingProjectInvites.Request.FetchUsers())
-        interactor?.fetchProject(OnGoingProjectInvites.Request.FetchProject())
+        interactor?.fetchUsers(ProjectInvites.Request.FetchUsers())
+        interactor?.fetchProject(ProjectInvites.Request.FetchProject())
     }
     
     override func loadView() {
@@ -120,9 +120,9 @@ class OnGoingProjectInvitesController: BaseViewController {
     
     private func setup() {
         let viewController = self
-        let presenter = OnGoingProjectInvitesPresenter(viewController: viewController)
-        let interactor = OnGoingProjectInvitesInteractor(presenter: presenter)
-        let router = OnGoingProjectInvitesRouter()
+        let presenter = ProjectInvitesPresenter(viewController: viewController)
+        let interactor = ProjectInvitesInteractor(presenter: presenter)
+        let router = ProjectInvitesRouter()
         viewController.interactor = interactor
         viewController.router = router
         router.dataStore = interactor
@@ -130,7 +130,7 @@ class OnGoingProjectInvitesController: BaseViewController {
     }
 }
 
-extension OnGoingProjectInvitesController {
+extension ProjectInvitesController {
     
     @objc
     private func didTapClose() {
@@ -139,7 +139,7 @@ extension OnGoingProjectInvitesController {
     
     @objc
     private func didSearchTextFieldChange() {
-        interactor?.fetchSearchUser(OnGoingProjectInvites
+        interactor?.fetchSearchUser(ProjectInvites
             .Request
             .Search(preffix: searchTextField.text ?? .empty))
     }
@@ -150,60 +150,60 @@ extension OnGoingProjectInvitesController {
     }
 }
 
-extension OnGoingProjectInvitesController: OnGoingProjectInvitesTableViewCellDelegate {
+extension ProjectInvitesController: ProjectInvitesTableViewCellDelegate {
     
     func didTapInteraction(index: Int) {
-        interactor?.fetchInteract(OnGoingProjectInvites.Request.Interaction(index: index))
+        interactor?.fetchInteract(ProjectInvites.Request.Interaction(index: index))
     }
 }
 
-extension OnGoingProjectInvitesController: ConfirmationAlertViewDelegate {
+extension ProjectInvitesController: ConfirmationAlertViewDelegate {
     
     func didTapAccept() {
-        interactor?.fetchConfirmInteraction(OnGoingProjectInvites.Request.ConfirmInteraction())
+        interactor?.fetchConfirmInteraction(ProjectInvites.Request.ConfirmInteraction())
     }
     
     func didTapRefuse() {
-        interactor?.fetchRefuseInteraction(OnGoingProjectInvites.Request.RefuseInteraction())
+        interactor?.fetchRefuseInteraction(ProjectInvites.Request.RefuseInteraction())
     }
 }
 
-extension OnGoingProjectInvitesController: UITableViewDelegate {
+extension ProjectInvitesController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        interactor?.didSelectUser(OnGoingProjectInvites.Request.SelectUser(index: indexPath.row))
+        interactor?.didSelectUser(ProjectInvites.Request.SelectUser(index: indexPath.row))
     }
 }
 
-extension OnGoingProjectInvitesController: UITableViewDataSource {
+extension ProjectInvitesController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel?.users.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(indexPath: indexPath, type: OnGoingProjectInvitesTableViewCell.self)
+        let cell = tableView.dequeueReusableCell(indexPath: indexPath, type: ProjectInvitesTableViewCell.self)
         guard let viewModel = viewModel?.users[indexPath.row] else { return UITableViewCell() }
         cell.setup(delegate: self, index: indexPath.row, viewModel: viewModel)
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return OnGoingProjectInvites.Constants.Dimensions.Heights.cellHeight
+        return ProjectInvites.Constants.Dimensions.Heights.cellHeight
     }
 }
 
-extension OnGoingProjectInvitesController: OnGoingProjectInvitesDisplayLogic {
+extension ProjectInvitesController: ProjectInvitesDisplayLogic {
     
-    func displayUsers(_ viewModel: OnGoingProjectInvites.Info.ViewModel.UpcomingUsers) {
+    func displayUsers(_ viewModel: ProjectInvites.Info.ViewModel.UpcomingUsers) {
         self.viewModel = viewModel
     }
     
-    func displayProjectInfo(_ viewModel: OnGoingProjectInvites.Info.ViewModel.Project) {
+    func displayProjectInfo(_ viewModel: ProjectInvites.Info.ViewModel.Project) {
         mainView.setup(viewModel: viewModel)
     }
     
-    func displayConfirmationView(_ viewModel: OnGoingProjectInvites.Info.ViewModel.Alert) {
+    func displayConfirmationView(_ viewModel: ProjectInvites.Info.ViewModel.Alert) {
         mainView.displayConfirmationView(withText: viewModel.text)
     }
     
@@ -219,12 +219,12 @@ extension OnGoingProjectInvitesController: OnGoingProjectInvitesDisplayLogic {
         router?.routeToProfileDetails()
     }
     
-    func displayError(_ viewModel: OnGoingProjectInvites.Info.ViewModel.ErrorViewModel) {
+    func displayError(_ viewModel: ProjectInvites.Info.ViewModel.ErrorViewModel) {
         UIAlertController.displayAlert(in: self, title: viewModel.title, message: viewModel.message)
     }
     
-    func displayRelationUpdate(_ viewModel: OnGoingProjectInvites.Info.ViewModel.RelationUpdate) {
-        let cell = tableView.cellForRow(at: IndexPath(row: viewModel.index, section: 0), type: OnGoingProjectInvitesTableViewCell.self)
+    func displayRelationUpdate(_ viewModel: ProjectInvites.Info.ViewModel.RelationUpdate) {
+        let cell = tableView.cellForRow(at: IndexPath(row: viewModel.index, section: 0), type: ProjectInvitesTableViewCell.self)
         cell.updateRelation(image: viewModel.relation)
     }
 }

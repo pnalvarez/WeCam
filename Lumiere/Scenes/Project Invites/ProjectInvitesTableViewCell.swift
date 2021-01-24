@@ -9,11 +9,11 @@
 import UIKit
 import SDWebImage
 
-protocol OnGoingProjectInvitesTableViewCellDelegate: class {
+protocol ProjectInvitesTableViewCellDelegate: class {
     func didTapInteraction(index: Int)
 }
 
-class OnGoingProjectInvitesTableViewCell: UITableViewCell {
+class ProjectInvitesTableViewCell: UITableViewCell {
     
     private lazy var photoImageView: UIImageView = {
         let view = UIImageView(frame: .zero)
@@ -26,8 +26,8 @@ class OnGoingProjectInvitesTableViewCell: UITableViewCell {
     private lazy var nameLbl: UILabel = {
         let view = UILabel(frame: .zero)
         view.textAlignment = .left
-        view.font = OnGoingProjectInvites.Constants.Fonts.nameLbl
-        view.textColor = OnGoingProjectInvites.Constants.Colors.nameLbl
+        view.font = ProjectInvites.Constants.Fonts.nameLbl
+        view.textColor = ProjectInvites.Constants.Colors.nameLbl
         view.numberOfLines = 0
         return view
     }()
@@ -35,8 +35,8 @@ class OnGoingProjectInvitesTableViewCell: UITableViewCell {
     private lazy var ocupationLbl: UILabel = {
         let view = UILabel(frame: .zero)
         view.textAlignment = .left
-        view.font = OnGoingProjectInvites.Constants.Fonts.ocupationLbl
-        view.textColor = OnGoingProjectInvites.Constants.Colors.ocupationLbl
+        view.font = ProjectInvites.Constants.Fonts.ocupationLbl
+        view.textColor = ProjectInvites.Constants.Colors.ocupationLbl
         view.numberOfLines = 0
         return view
     }()
@@ -54,13 +54,13 @@ class OnGoingProjectInvitesTableViewCell: UITableViewCell {
         return view
     }()
     
-    private weak var delegate: OnGoingProjectInvitesTableViewCellDelegate?
+    private weak var delegate: ProjectInvitesTableViewCellDelegate?
     private var index: Int?
-    private var viewModel: OnGoingProjectInvites.Info.ViewModel.User?
+    private var viewModel: ProjectInvites.Info.ViewModel.User?
     
-    func setup(delegate: OnGoingProjectInvitesTableViewCellDelegate? = nil,
+    func setup(delegate: ProjectInvitesTableViewCellDelegate? = nil,
                index: Int,
-               viewModel: OnGoingProjectInvites.Info.ViewModel.User) {
+               viewModel: ProjectInvites.Info.ViewModel.User) {
         self.delegate = delegate
         self.index = index
         self.viewModel = viewModel
@@ -72,7 +72,7 @@ class OnGoingProjectInvitesTableViewCell: UITableViewCell {
     }
 }
 
-extension OnGoingProjectInvitesTableViewCell {
+extension ProjectInvitesTableViewCell {
     
     @objc
     private func didTapInteraction() {
@@ -80,7 +80,7 @@ extension OnGoingProjectInvitesTableViewCell {
     }
 }
 
-extension OnGoingProjectInvitesTableViewCell: ViewCodeProtocol {
+extension ProjectInvitesTableViewCell: ViewCodeProtocol {
     
     func buildViewHierarchy() {
         addSubview(photoImageView)

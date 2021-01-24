@@ -41,7 +41,7 @@ class InviteProfileToProjectsWorker: InviteProfileToProjectsWorkerProtocol {
     func fetchUserProjectRelation(request: InviteProfileToProjects.Request.FetchUserProjectRelation,
                                   completion: @escaping (BaseResponse<InviteProfileToProjects.Info.Response.ProjectRelation>) -> Void) {
         let headers: [String : Any] = ["userId": request.userId, "projectId": request.projectId]
-        builder.fetchUserRelationToProject(request: headers, completion: completion)
+        builder.fetchUserRelationToOnGoingProject(request: headers, completion: completion)
     }
     
     func fetchInviteUserToProject(request: InviteProfileToProjects.Request.InviteUser,

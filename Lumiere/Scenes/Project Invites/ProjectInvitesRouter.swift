@@ -8,23 +8,23 @@
 
 import UIKit
 
-typealias OnGoingProjectInvitesRouterProtocol = NSObject & OnGoingProjectInvitesRoutingLogic & OnGoingProjectInvitesDataTransfer
+typealias ProjectInvitesRouterProtocol = NSObject & ProjectInvitesRoutingLogic & ProjectInvitesDataTransfer
 
-protocol OnGoingProjectInvitesRoutingLogic {
+protocol ProjectInvitesRoutingLogic {
     func routeBack()
     func routeToProfileDetails()
 }
 
-protocol OnGoingProjectInvitesDataTransfer {
-    var dataStore: OnGoingProjectInvitesDataStore? { get set }
+protocol ProjectInvitesDataTransfer {
+    var dataStore: ProjectInvitesDataStore? { get set }
 }
 
-class OnGoingProjectInvitesRouter: NSObject, OnGoingProjectInvitesDataTransfer {
+class ProjectInvitesRouter: NSObject, ProjectInvitesDataTransfer {
     
     weak var viewController: UIViewController?
-    var dataStore: OnGoingProjectInvitesDataStore?
+    var dataStore: ProjectInvitesDataStore?
     
-    private func transferDataToProfileDetails(from source: OnGoingProjectInvitesDataStore,
+    private func transferDataToProfileDetails(from source: ProjectInvitesDataStore,
                                               to destination: inout ProfileDetailsDataStore) {
         destination.receivedUserData = ProfileDetails
             .Info
@@ -33,14 +33,14 @@ class OnGoingProjectInvitesRouter: NSObject, OnGoingProjectInvitesDataTransfer {
     }
 }
 
-extension OnGoingProjectInvitesRouter: BaseRouterProtocol {
+extension ProjectInvitesRouter: BaseRouterProtocol {
     
     func routeTo(nextVC: UIViewController) {
         viewController?.navigationController?.pushViewController(nextVC, animated: true)
     }
 }
 
-extension OnGoingProjectInvitesRouter: OnGoingProjectInvitesRoutingLogic {
+extension ProjectInvitesRouter: ProjectInvitesRoutingLogic {
     
     func routeBack() {
         viewController?.navigationController?.popViewController(animated: true)

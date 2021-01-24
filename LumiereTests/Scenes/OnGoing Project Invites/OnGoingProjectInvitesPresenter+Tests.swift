@@ -11,20 +11,20 @@ import XCTest
 
 class OnGoingProjectInvitesPresenter_Tests: XCTestCase {
     
-    var sut: OnGoingProjectInvitesPresenter!
+    var sut: ProjectInvitesPresenter!
     
-    var users: OnGoingProjectInvites.Info.ViewModel.UpcomingUsers?
-    var project: OnGoingProjectInvites.Info.ViewModel.Project?
-    var alert: OnGoingProjectInvites.Info.ViewModel.Alert?
+    var users: ProjectInvites.Info.ViewModel.UpcomingUsers?
+    var project: ProjectInvites.Info.ViewModel.Project?
+    var alert: ProjectInvites.Info.ViewModel.Alert?
     var hideConfirmationViewFlag = false
     var displayLoadingFLag = false
     var displayProfileDetailsFlag = false
-    var error: OnGoingProjectInvites.Info.ViewModel.ErrorViewModel?
-    var relationUpdate: OnGoingProjectInvites.Info.ViewModel.RelationUpdate?
+    var error: ProjectInvites.Info.ViewModel.ErrorViewModel?
+    var relationUpdate: ProjectInvites.Info.ViewModel.RelationUpdate?
     
     override func setUp() {
         super.setUp()
-        sut = OnGoingProjectInvitesPresenter(viewController: self)
+        sut = ProjectInvitesPresenter(viewController: self)
     }
     
     override func tearDown() {
@@ -42,28 +42,28 @@ class OnGoingProjectInvitesPresenter_Tests: XCTestCase {
     
     func testPresentUsers() {
         XCTAssertNil(users)
-        sut.presentUsers(OnGoingProjectInvites.Info.Model.UpcomingUsers.stub)
-        let expectedResult = OnGoingProjectInvites.Info.ViewModel.UpcomingUsers(users: [OnGoingProjectInvites.Info.ViewModel.User(image: "image", name: "Usuário Teste 1", ocupation: "Artista", email:  NSAttributedString(string: "user_test1@hotmail.com",
-                                                                                                                                                                                                                             attributes: [NSAttributedString.Key.font: OnGoingProjectInvites.Constants.Fonts.emailLbl,
-                                                                                                                                                                                                                                          NSAttributedString.Key.foregroundColor: OnGoingProjectInvites.Constants.Colors.emailLbl,
-                                                                                                                                                                                                                                          NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue]), relation: OnGoingProjectInvites.Constants.Images.member), OnGoingProjectInvites.Info.ViewModel.User(image: "image", name: "Usuário Teste 2", ocupation: "Artista", email:NSAttributedString(string: "user_test2@hotmail.com",
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  attributes: [NSAttributedString.Key.font: OnGoingProjectInvites.Constants.Fonts.emailLbl,
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               NSAttributedString.Key.foregroundColor: OnGoingProjectInvites.Constants.Colors.emailLbl,
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue]), relation: OnGoingProjectInvites.Constants.Images.sentRequest), OnGoingProjectInvites.Info.ViewModel.User(image: "image", name: "Usuário Teste 3", ocupation: "Artista", email: NSAttributedString(string: "user_test3@hotmail.com",
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             attributes: [NSAttributedString.Key.font: OnGoingProjectInvites.Constants.Fonts.emailLbl,
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          NSAttributedString.Key.foregroundColor: OnGoingProjectInvites.Constants.Colors.emailLbl,
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue]), relation: OnGoingProjectInvites.Constants.Images.invite), OnGoingProjectInvites.Info.ViewModel.User(image: "image", name: "Usuário Teste 4", ocupation: "Artista", email: NSAttributedString(string: "user_test4@hotmail.com",
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   attributes: [NSAttributedString.Key.font: OnGoingProjectInvites.Constants.Fonts.emailLbl,
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                NSAttributedString.Key.foregroundColor: OnGoingProjectInvites.Constants.Colors.emailLbl,
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue]), relation: OnGoingProjectInvites.Constants.Images.receivedRequest)])
+        sut.presentUsers(ProjectInvites.Info.Model.UpcomingUsers.stub)
+        let expectedResult = ProjectInvites.Info.ViewModel.UpcomingUsers(users: [ProjectInvites.Info.ViewModel.User(image: "image", name: "Usuário Teste 1", ocupation: "Artista", email:  NSAttributedString(string: "user_test1@hotmail.com",
+                                                                                                                                                                                                                             attributes: [NSAttributedString.Key.font: ProjectInvites.Constants.Fonts.emailLbl,
+                                                                                                                                                                                                                                          NSAttributedString.Key.foregroundColor: ProjectInvites.Constants.Colors.emailLbl,
+                                                                                                                                                                                                                                          NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue]), relation: ProjectInvites.Constants.Images.member), ProjectInvites.Info.ViewModel.User(image: "image", name: "Usuário Teste 2", ocupation: "Artista", email:NSAttributedString(string: "user_test2@hotmail.com",
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  attributes: [NSAttributedString.Key.font: ProjectInvites.Constants.Fonts.emailLbl,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               NSAttributedString.Key.foregroundColor: ProjectInvites.Constants.Colors.emailLbl,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue]), relation: ProjectInvites.Constants.Images.sentRequest), ProjectInvites.Info.ViewModel.User(image: "image", name: "Usuário Teste 3", ocupation: "Artista", email: NSAttributedString(string: "user_test3@hotmail.com",
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             attributes: [NSAttributedString.Key.font: ProjectInvites.Constants.Fonts.emailLbl,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          NSAttributedString.Key.foregroundColor: ProjectInvites.Constants.Colors.emailLbl,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue]), relation: ProjectInvites.Constants.Images.invite), ProjectInvites.Info.ViewModel.User(image: "image", name: "Usuário Teste 4", ocupation: "Artista", email: NSAttributedString(string: "user_test4@hotmail.com",
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   attributes: [NSAttributedString.Key.font: ProjectInvites.Constants.Fonts.emailLbl,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                NSAttributedString.Key.foregroundColor: ProjectInvites.Constants.Colors.emailLbl,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue]), relation: ProjectInvites.Constants.Images.receivedRequest)])
         XCTAssertEqual(expectedResult, users)
     }
     
     func testPresentProject() {
         XCTAssertNil(project)
         XCTAssertNil(error)
-        sut.presentProject(OnGoingProjectInvites.Info.Model.Project.stub)
-        let expectedResult = OnGoingProjectInvites.Info.ViewModel.Project(title: "Projeto Teste 1")
+        sut.presentProject(ProjectInvites.Info.Model.Project.stub)
+        let expectedResult = ProjectInvites.Info.ViewModel.Project(title: "Projeto Teste 1")
         XCTAssertEqual(expectedResult, project)
         XCTAssertNil(error)
     }
@@ -71,8 +71,8 @@ class OnGoingProjectInvitesPresenter_Tests: XCTestCase {
     func testPresentModalAlert() {
         XCTAssertNil(error)
         XCTAssertNil(alert)
-        sut.presentModalAlert(OnGoingProjectInvites.Info.Model.Alert(text: "Teste"))
-        let expectedResult = OnGoingProjectInvites.Info.ViewModel.Alert(text: "Teste")
+        sut.presentModalAlert(ProjectInvites.Info.Model.Alert(text: "Teste"))
+        let expectedResult = ProjectInvites.Info.ViewModel.Alert(text: "Teste")
         XCTAssertNil(error)
         XCTAssertEqual(expectedResult, alert)
     }
@@ -103,23 +103,23 @@ class OnGoingProjectInvitesPresenter_Tests: XCTestCase {
     
     func testPresentRelationUpdate() {
         XCTAssertNil(relationUpdate)
-        sut.presentRelationUpdate(OnGoingProjectInvites.Info.Model.RelationUpdate(index: 0, relation: .simpleParticipant))
-        let expectedResult = OnGoingProjectInvites.Info.ViewModel.RelationUpdate(index: 0, relation: OnGoingProjectInvites.Constants.Images.member)
+        sut.presentRelationUpdate(ProjectInvites.Info.Model.RelationUpdate(index: 0, relation: .simpleParticipant))
+        let expectedResult = ProjectInvites.Info.ViewModel.RelationUpdate(index: 0, relation: ProjectInvites.Constants.Images.member)
         XCTAssertEqual(expectedResult, relationUpdate)
     }
 }
 
-extension OnGoingProjectInvitesPresenter_Tests: OnGoingProjectInvitesDisplayLogic {
+extension OnGoingProjectInvitesPresenter_Tests: ProjectInvitesDisplayLogic {
     
-    func displayUsers(_ viewModel: OnGoingProjectInvites.Info.ViewModel.UpcomingUsers) {
+    func displayUsers(_ viewModel: ProjectInvites.Info.ViewModel.UpcomingUsers) {
         self.users = viewModel
     }
     
-    func displayProjectInfo(_ viewModel: OnGoingProjectInvites.Info.ViewModel.Project) {
+    func displayProjectInfo(_ viewModel: ProjectInvites.Info.ViewModel.Project) {
         self.project = viewModel
     }
     
-    func displayConfirmationView(_ viewModel: OnGoingProjectInvites.Info.ViewModel.Alert) {
+    func displayConfirmationView(_ viewModel: ProjectInvites.Info.ViewModel.Alert) {
         self.alert = viewModel
     }
     
@@ -135,11 +135,11 @@ extension OnGoingProjectInvitesPresenter_Tests: OnGoingProjectInvitesDisplayLogi
         self.displayProfileDetailsFlag = true
     }
     
-    func displayError(_ viewModel: OnGoingProjectInvites.Info.ViewModel.ErrorViewModel) {
+    func displayError(_ viewModel: ProjectInvites.Info.ViewModel.ErrorViewModel) {
         self.error = viewModel
     }
     
-    func displayRelationUpdate(_ viewModel: OnGoingProjectInvites.Info.ViewModel.RelationUpdate) {
+    func displayRelationUpdate(_ viewModel: ProjectInvites.Info.ViewModel.RelationUpdate) {
         self.relationUpdate = viewModel
     }
 }
