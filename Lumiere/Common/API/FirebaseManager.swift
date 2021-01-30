@@ -178,6 +178,43 @@ class FirebaseManager: FirebaseManagerProtocol {
         case recent = "Recente"
     }
     
+    private enum AcceptNotificationType {
+        case connection(username: String, image: String)
+        case projectInvite(username: String, projectName: String, image: String)
+        case projectParticipationRequest(projectName: String, image: String)
+        
+        var notificationText: String {
+            switch self {
+            case .connection(let username, _):
+                return "\(username) te aceitou como conexão"
+            case .projectInvite(let username, let projectName,_):
+                return "\(username) aceitou seu convite para o projeto \(projectName)"
+            case .projectParticipationRequest(let projectName, _):
+                return "Você foi aceito no projeto \(projectName)"
+            }
+        }
+        
+        var path: String {
+            switch self {
+            case .connection:
+                return "connection_accept_notification"
+            case .projectInvite:
+                return "project_invite_accept_notification"
+            case .projectParticipationRequest:
+                return "project_participation_accept_notification"
+            }
+        }
+        
+        var image: String {
+            switch self {
+            case .connection(_, let image),
+                 .projectInvite(_, _, let image),
+                 .projectParticipationRequest(_, let image):
+                return image
+            }
+        }
+    }
+    
     init() {
         realtimeDB.keepSynced(true)
     }
@@ -945,17 +982,36 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                 self.mutex = true
                                                 return
                                             }
-                                            self.fetchConnectUsers(request: ["fromUserId": userId,
-                                                                             "toUserId": currentUserId]) { response in
-                                                switch response {
-                                                case .success:
-                                                    completion(.success)
-                                                    self.mutex = true
-                                                    break
-                                                case .error(let error):
-                                                    completion(.error(error))
-                                                    self.mutex = true
-                                                }
+                                            self.realtimeDB
+                                                .child(Constants.usersPath)
+                                                .child(currentUserId)
+                                                .observeSingleEvent(of: .value) { snapshot in
+                                                    guard let data = snapshot.value as? [String : Any], let name = data["name"] as? String, let image = data["profile_image_url"] as? String else {
+                                                        completion(.error(FirebaseErrors.genericError))
+                                                        self.mutex = true
+                                                        return
+                                                    }
+                                                    self.sendAcceptNotification(type: .connection(username: name, image: image), userId: userId) { response in
+                                                        switch response {
+                                                        case .success:
+                                                            self.fetchConnectUsers(request: ["fromUserId": userId,
+                                                                                             "toUserId": currentUserId]) { response in
+                                                                switch response {
+                                                                case .success:
+                                                                    completion(.success)
+                                                                    self.mutex = true
+                                                                    break
+                                                                case .error(let error):
+                                                                    completion(.error(error))
+                                                                    self.mutex = true
+                                                                }
+                                                            }
+                                                        case .error(let error):
+                                                            completion(.error(error))
+                                                            self.mutex = true
+                                                            return
+                                                        }
+                                                    }
                                             }
                                         }
                                 }
@@ -1765,7 +1821,32 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                                             completion(.error(error))
                                                                             return
                                                                         }
-                                                                        completion(.success)
+                                                                        self.realtimeDB.child(Constants.usersPath).child(currentUser).observeSingleEvent(of: .value) { snapshot in
+                                                                            guard let data = snapshot.value as? [String : Any], let name = data["name"] as? String, let image = data["profile_image_url"] as? String else {
+                                                                                completion(.error(FirebaseErrors.genericError))
+                                                                                return
+                                                                            }
+                                                                            self.realtimeDB
+                                                                                .child(Constants.projectsPath)
+                                                                                .child(Constants.ongoingProjectsPath)
+                                                                                .child(projectId).child("title")
+                                                                                .observeSingleEvent(of: .value) { snapshot in
+                                                                                    guard let projectName = snapshot.value as? String else {
+                                                                                        completion(.error(FirebaseErrors.genericError))
+                                                                                        return
+                                                                                    }
+                                                                                    self.realtimeDB
+                                                                                        .child(Constants.projectsPath)
+                                                                                        .child(Constants.ongoingProjectsPath)
+                                                                                        .child(projectId).child("author_id")
+                                                                                        .observeSingleEvent(of: .value) { snapshot in
+                                                                                            guard let authorId = snapshot.value as? String else {
+                                                                                                completion(.error(FirebaseErrors.genericError))
+                                                                return                            }
+                                                                                            self.sendAcceptNotification(type: .projectInvite(username: name, projectName: projectName, image: image), userId: authorId, completion: completion)                     }
+
+                                                                            }
+                                                                        }
                                                                     }
                                                             }
                                                     }
@@ -2270,7 +2351,17 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                                         if let error = error {
                                                                             completion(.error(error))
                                                                         }
-                                                                        completion(.success)
+                                                                        self.realtimeDB
+                                                                            .child(Constants.projectsPath)
+                                                                            .child(Constants.ongoingProjectsPath)
+                                                                            .child(projectId)
+                                                                            .observeSingleEvent(of: .value) { snapshot in
+                                                                                guard let data = snapshot.value as? [String : Any], let name = data["title"] as? String, let image = data["image"] as? String else {
+                                                                                    completion(.error(FirebaseErrors.genericError))
+                                                                                    return
+                                                                                }
+                                                                                self.sendAcceptNotification(type: .projectParticipationRequest(projectName: name, image: image), userId: userId, completion: completion)
+                                                                        }
                                                                     }
                                                             }
                                                     }
@@ -4089,7 +4180,31 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                                             completion(.error(error))
                                                                             return
                                                                         }
-                                                                        completion(.success)
+                                                                        self.realtimeDB
+                                                                            .child(Constants.usersPath)
+                                                                            .child(currentUser)
+                                                                            .observeSingleEvent(of: .value) { snapshot in
+                                                                                guard let data = snapshot.value as? [String : Any], let name = data["name"] as? String, let image = data["profile_image_url"] as? String else {
+                                                                                    completion(.error(FirebaseErrors.genericError))
+                                                                                    return
+                                                                                }
+                                                                                self.realtimeDB.child(Constants.projectsPath).child(Constants.finishedProjectsPath).child(projectId).child("title").observeSingleEvent(of: .value) {
+                                                                                    snapshot in
+                                                                                    guard let title = snapshot.value as? String else {
+                                                                                        completion(.error(FirebaseErrors.genericError))
+                                                                                        return
+                                                                                    }
+                                                                                    self.realtimeDB
+                                                                                        .child(Constants.projectsPath)
+                                                                                        .child(Constants.finishedProjectsPath)
+                                                                                        .child(projectId).child("author_id")
+                                                                                        .observeSingleEvent(of: .value) { snapshot in
+                                                                                            guard let authorId = snapshot.value as? String else {
+                                                                                                completion(.error(FirebaseErrors.genericError))
+                                                                   return                         }
+                                                                                            self.sendAcceptNotification(type: .projectInvite(username: name, projectName: title, image: image), userId: authorId, completion: completion)                      }
+                                                                                }
+                                                                        }
                                                                     }
                                                             }
                                                     }
@@ -4474,6 +4589,32 @@ extension FirebaseManager {
                     }
                 }
             }
+    }
+
+    private func sendAcceptNotification(type: AcceptNotificationType,
+                                        userId: String,
+                                        completion: @escaping (EmptyResponse) -> Void) {
+        var allNotifications = [[String : Any]]()
+        realtimeDB
+            .child(Constants.usersPath)
+            .child(userId)
+            .child(type.path)
+            .observeSingleEvent(of: .value) { snapshot in
+                if let notifications = snapshot.value as? [[String : Any]] {
+                    allNotifications = notifications
+                }
+                allNotifications.append(["image": type.image, "text": type.notificationText])
+                self.realtimeDB
+                    .child(Constants.usersPath)
+                    .child(userId)
+                    .updateChildValues([type.path : allNotifications]) { (error, ref) in
+                        if let error = error {
+                            completion(.error(error))
+                            return
+                        }
+                        completion(.success)
+                }
+        }
     }
 }
 
