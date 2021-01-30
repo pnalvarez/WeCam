@@ -337,6 +337,10 @@ struct Notifications {
         struct RefuseFinishedProjectInvite {
             let projectId: String
         }
+        
+        struct AcceptNotifications {
+            
+        }
     }
     
     struct Response {
@@ -447,6 +451,18 @@ struct Notifications {
             
             func mapping(map: Map) {
                 name <- map["name"]
+            }
+        }
+        
+        final class AcceptNotification: Mappable {
+            var image: String?
+            var text: String?
+            
+            init?(map: Map) { }
+            
+            func mapping(map: Map) {
+                image <- map["image"]
+                text <- map["text"]
             }
         }
     }

@@ -36,6 +36,12 @@ protocol NotificationsWorkerProtocol {
                                           completion: @escaping (EmptyResponse) -> Void)
     func fetchRefuseFinishedProjectInvite(_ request: Notifications.Request.RefuseProjectInvite,
                                           completion: @escaping (EmptyResponse) -> Void)
+    func fetchConnectionAcceptNotifications(_ request: Notifications.Request.AcceptNotifications,
+                                            completion: @escaping (BaseResponse<[Notifications.Response.AcceptNotification]>) -> Void)
+    func fetchProjectInviteAcceptNotifications(_ request: Notifications.Request.AcceptNotifications,
+                                            completion: @escaping (BaseResponse<[Notifications.Response.AcceptNotification]>) -> Void)
+    func fetchProjectParticipationAcceptNotifications(_ request: Notifications.Request.AcceptNotifications,
+                                            completion: @escaping (BaseResponse<[Notifications.Response.AcceptNotification]>) -> Void)
 }
 
 class NotificationsWorker: NotificationsWorkerProtocol {
@@ -133,5 +139,23 @@ class NotificationsWorker: NotificationsWorkerProtocol {
                                           completion: @escaping (EmptyResponse) -> Void) {
         let headers = ["projectId": request.projectId]
         builder.refuseFinishedProjectInvite(request: headers, completion: completion)
+    }
+    
+    func fetchConnectionAcceptNotifications(_ request: Notifications.Request.AcceptNotifications,
+                                            completion: @escaping (BaseResponse<[Notifications.Response.AcceptNotification]>) -> Void) {
+        let headers: [String : Any] = .empty
+        builder.fetchConnectionAcceptNotifications(request: headers, completion: completion)
+        
+    }
+    func fetchProjectInviteAcceptNotifications(_ request: Notifications.Request.AcceptNotifications,
+                                               completion: @escaping (BaseResponse<[Notifications.Response.AcceptNotification]>) -> Void) {
+        let headers: [String : Any] = .empty
+        builder.fetchProjectInviteAcceptNotifications(request: headers, completion: completion)
+    }
+    
+    func fetchProjectParticipationAcceptNotifications(_ request: Notifications.Request.AcceptNotifications,
+                                                      completion: @escaping (BaseResponse<[Notifications.Response.AcceptNotification]>) -> Void) {
+        let headers: [String : Any] = .empty
+        builder.fetchProjectParticipationAcceptNotifications(request: headers, completion: completion)
     }
 }
