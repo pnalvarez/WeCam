@@ -45,7 +45,7 @@ class NotificationsPresenter: NotificationsPresentationLogic {
     
     func presentNotifications(_ response: Notifications.Info.Model.AllNotifications) {
         var viewModel = Notifications.Info.ViewModel.UpcomingNotifications(notifications: .empty)
-        for notification in response.notifications {
+        for notification in response.defaultNotifications {
             var upcomingNotification: Notifications.Info.ViewModel.Notification
             if let connectNotification = notification as? Notifications.Info.Model.ConnectNotification {
                 upcomingNotification = Notifications

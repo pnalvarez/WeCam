@@ -104,7 +104,8 @@ struct Notifications {
             }
             
             struct AllNotifications: Equatable {
-                var notifications: [Notifications.Info.Model.NotificationType] 
+                var defaultNotifications: [Notifications.Info.Model.NotificationType]
+                var acceptNotifications: [Notifications.Info.Model.AcceptNotification]
             }
             
             struct UpcomingConnectNotifications {
@@ -214,6 +215,11 @@ struct Notifications {
             
             struct Project {
                 let projectId: String
+            }
+            
+            struct AcceptNotification: Equatable {
+                let image: String
+                let text: String
             }
         }
         
@@ -577,7 +583,7 @@ extension Notifications.Response.OnGoingProjectParticipationRequest: MultipleStu
 
 extension Notifications.Info.Model.AllNotifications: Stubbable {
     static var stub: Notifications.Info.Model.AllNotifications {
-        return Notifications.Info.Model.AllNotifications(notifications: [Notifications.Info.Model.ConnectNotification(userId: "idUser1", userName: "Usuario Teste 1", image: "image", ocupation: "Artista", email: "user_test1@hotmail.com"), Notifications.Info.Model.OnGoingProjectInviteNotification(userId: "idUser2", userName: "Usuario Teste 2", image: "image", projectId: "idProj2", projectName: "Projeto Teste 2"), Notifications.Info.Model.OnGoingProjectParticipationRequestNotification(userId: "idUser3", userName: "Usuario Teste 3", image: "image", projectId: "idProj3", projectName: "Projeto Teste 3", email: "user_test3@hotmail.com", ocupation: "Artista")])
+        return Notifications.Info.Model.AllNotifications(defaultNotifications: [Notifications.Info.Model.ConnectNotification(userId: "idUser1", userName: "Usuario Teste 1", image: "image", ocupation: "Artista", email: "user_test1@hotmail.com"), Notifications.Info.Model.OnGoingProjectInviteNotification(userId: "idUser2", userName: "Usuario Teste 2", image: "image", projectId: "idProj2", projectName: "Projeto Teste 2"), Notifications.Info.Model.OnGoingProjectParticipationRequestNotification(userId: "idUser3", userName: "Usuario Teste 3", image: "image", projectId: "idProj3", projectName: "Projeto Teste 3", email: "user_test3@hotmail.com", ocupation: "Artista")], acceptNotifications: .empty)
     }
 }
 
