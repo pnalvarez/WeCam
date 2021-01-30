@@ -155,6 +155,12 @@ protocol FirebaseManagerProtocol {
                                                          completion: @escaping (BaseResponse<T>) -> Void)
     func removeInviteToFinishedProjectFromUser(request: [String : Any],
                                                completion: @escaping (EmptyResponse) -> Void)
+    func fetchConnectionAcceptNotifications<T: Mappable>(request: [String : Any],
+                                                         completion: @escaping (BaseResponse<[T]>) -> Void)
+    func fetchProjectInviteAcceptNotifications<T: Mappable>(request: [String : Any],
+                                                         completion: @escaping (BaseResponse<[T]>) -> Void)
+    func fetchProjectParticipationAcceptNotifications<T: Mappable>(request: [String : Any],
+                                                         completion: @escaping (BaseResponse<[T]>) -> Void)
 }
 
 class FirebaseManager: FirebaseManagerProtocol {
@@ -179,18 +185,18 @@ class FirebaseManager: FirebaseManagerProtocol {
     }
     
     private enum AcceptNotificationType {
-        case connection(username: String, image: String)
-        case projectInvite(username: String, projectName: String, image: String)
-        case projectParticipationRequest(projectName: String, image: String)
+        case connection(username: String? = nil, image: String? = nil)
+        case projectInvite(username: String? = nil, projectName: String? = nil, image: String? = nil)
+        case projectParticipationRequest(projectName: String? = nil, image: String? = nil)
         
         var notificationText: String {
             switch self {
             case .connection(let username, _):
-                return "\(username) te aceitou como conexão"
+                return "\(username ?? .empty) te aceitou como conexão"
             case .projectInvite(let username, let projectName,_):
-                return "\(username) aceitou seu convite para o projeto \(projectName)"
+                return "\(username ?? .empty) aceitou seu convite para o projeto \(projectName ?? .empty)"
             case .projectParticipationRequest(let projectName, _):
-                return "Você foi aceito no projeto \(projectName)"
+                return "Você foi aceito no projeto \(projectName ?? .empty)"
             }
         }
         
@@ -210,7 +216,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             case .connection(_, let image),
                  .projectInvite(_, _, let image),
                  .projectParticipationRequest(_, let image):
-                return image
+                return image ?? .empty
             }
         }
     }
@@ -4378,6 +4384,21 @@ class FirebaseManager: FirebaseManagerProtocol {
                     }
             }
     }
+    
+    func fetchConnectionAcceptNotifications<T: Mappable>(request: [String : Any],
+                                                         completion: @escaping (BaseResponse<[T]>) -> Void) {
+        fetchAcceptNotifications(type: .connection(), completion: completion)
+    }
+    
+    func fetchProjectInviteAcceptNotifications<T: Mappable>(request: [String : Any],
+                                                            completion: @escaping (BaseResponse<[T]>) -> Void) {
+        fetchAcceptNotifications(type: .projectInvite(), completion: completion)
+    }
+    
+    func fetchProjectParticipationAcceptNotifications<T: Mappable>(request: [String : Any],
+                                                                   completion: @escaping (BaseResponse<[T]>) -> Void) {
+        fetchAcceptNotifications(type: .projectParticipationRequest(), completion: completion)
+    }
 }
 
 //MARK: Finished Project Logic feeds
@@ -4614,6 +4635,26 @@ extension FirebaseManager {
                         }
                         completion(.success)
                 }
+        }
+    }
+    
+    private func fetchAcceptNotifications<T: Mappable>(type: AcceptNotificationType,
+                                                       completion: @escaping (BaseResponse<[T]>) -> Void) {
+        guard let currentUser = authReference.currentUser?.uid else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        realtimeDB
+            .child(Constants.usersPath)
+            .child(currentUser)
+            .child(type.path)
+            .observeSingleEvent(of: .value) { snapshot in
+                guard let notifications = snapshot.value as? [[String : Any]] else {
+                    completion(.error(FirebaseErrors.genericError))
+                    return
+                }
+                let mappedResponse = Mapper<T>().mapArray(JSONArray: notifications)
+                completion(.success(mappedResponse))
         }
     }
 }
