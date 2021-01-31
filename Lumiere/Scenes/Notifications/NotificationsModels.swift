@@ -67,7 +67,8 @@ struct Notifications {
         struct Dimensions {
             
             struct Heights {
-                static let notificationTableViewCell: CGFloat = 194
+                static let notificationTableViewCellRequest: CGFloat = 194
+                static let notificationTableViewCellAcceptance: CGFloat = 124
             }
         }
         
@@ -78,6 +79,14 @@ struct Notifications {
             static let tabBarSelectedImage = UIImage(named: "notificacao-depois-de-clicar 1",
                                                      in: Notifications.bundle,
                                                      compatibleWith: nil)
+        }
+        
+        struct BusinessLogic {
+            
+            struct SegmentedControlIndexes {
+                static let request: Int = 0
+                static let acceptance: Int = 1
+            }
         }
     }
     

@@ -32,7 +32,7 @@ class NotificationsController: BaseViewController {
         let view = UISegmentedControl(frame: .zero)
         view.tintColor = Notifications.Constants.Colors.criteriaSegmentedControlUnselected
         view.selectedSegmentTintColor = Notifications.Constants.Colors.criteriaSegmentedControlSelected
-        view.addTarget(self, action: #selector(didChangeSelectedCriteria), for: .touchUpInside)
+        view.addTarget(self, action: #selector(didChangeSelectedCriteria), for: .valueChanged)
         view.layer.cornerRadius = 8
         return view
     }()
@@ -113,7 +113,7 @@ extension NotificationsController {
     
     @objc
     private func didChangeSelectedCriteria() {
-        //TO DO
+        refreshTableView()
     }
 }
 
@@ -125,6 +125,13 @@ extension NotificationsController {
     }
     
     private func refreshTableView() {
+        if criteriaSegmentedControl.selectedSegmentIndex == Notifications.Constants.BusinessLogic.SegmentedControlIndexes.request {
+            tableView.backgroundView = (viewModel?.defaultNotifications.isEmpty ?? true) ? EmptyListView(frame: .zero,
+                                                                                       text: Notifications.Constants.Texts.emptyNotifications) : nil
+        } else if criteriaSegmentedControl.selectedSegmentIndex == Notifications.Constants.BusinessLogic.SegmentedControlIndexes.acceptance {
+            tableView.backgroundView = (viewModel?.acceptNotifications.isEmpty ?? true) ? EmptyListView(frame: .zero,
+                                                                                       text: Notifications.Constants.Texts.emptyNotifications) : nil
+        }
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
@@ -145,19 +152,35 @@ extension NotificationsController: NotificationTableViewCellDelegate {
 extension NotificationsController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel?.defaultNotifications.count ?? 0
+        if criteriaSegmentedControl.selectedSegmentIndex == Notifications.Constants.BusinessLogic.SegmentedControlIndexes.request {
+            return viewModel?.defaultNotifications.count ?? 0
+        } else {
+            return viewModel?.acceptNotifications.count ?? 0
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(indexPath: indexPath, type: NotificationTableViewCell.self)
-        cell.setup(viewModel: viewModel?.defaultNotifications[indexPath.row],
-                   index: indexPath.row,
-                   delegate: self)
+        if criteriaSegmentedControl.selectedSegmentIndex == Notifications.Constants.BusinessLogic.SegmentedControlIndexes.request {
+            cell.setup(viewModel: viewModel?.defaultNotifications[indexPath.row],
+                       index: indexPath.row,
+                       delegate: self,
+                       choosable: true)
+        } else {
+            cell.setup(acceptViewModel: viewModel?.acceptNotifications[indexPath.row],
+                       index: indexPath.row,
+                       delegate: self,
+                       choosable: false)
+        }
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return Notifications.Constants.Dimensions.Heights.notificationTableViewCell
+        if criteriaSegmentedControl.selectedSegmentIndex == Notifications.Constants.BusinessLogic.SegmentedControlIndexes.request {
+            return Notifications.Constants.Dimensions.Heights.notificationTableViewCellRequest
+        } else {
+            return Notifications.Constants.Dimensions.Heights.notificationTableViewCellAcceptance
+        }
     }
 }
 
@@ -184,8 +207,6 @@ extension  NotificationsController: NotificationsDisplayLogic {
     
     func displayNotifications(_ viewModel: Notifications.Info.ViewModel.UpcomingNotifications) {
         refreshHeader.endRefreshing()
-        tableView.backgroundView = viewModel.defaultNotifications.isEmpty ? EmptyListView(frame: .zero,
-                                                                                   text: Notifications.Constants.Texts.emptyNotifications) : nil
         self.viewModel = viewModel
         refreshTableView()
     }

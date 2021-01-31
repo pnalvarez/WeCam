@@ -91,7 +91,10 @@ class NotificationTableViewCell: UITableViewCell {
     
     private weak var delegate: NotificationTableViewCellDelegate?
     
-    private var viewModel: Notifications.Info.ViewModel.DefaultNotification?
+    private var defaultViewModel: Notifications.Info.ViewModel.DefaultNotification?
+    private var acceptanceViewModel: Notifications.Info.ViewModel.AcceptNotification?
+    
+    private var choosable: Bool = false
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -102,17 +105,21 @@ class NotificationTableViewCell: UITableViewCell {
     }
     
     func setup(viewModel: Notifications.Info.ViewModel.DefaultNotification? = nil,
+               acceptViewModel: Notifications.Info.ViewModel.AcceptNotification? = nil,
                index: Int,
-               delegate: NotificationTableViewCellDelegate? = nil) {
-        self.viewModel = viewModel
+               delegate: NotificationTableViewCellDelegate? = nil,
+               choosable: Bool = false) {
+        self.defaultViewModel = viewModel
+        self.acceptanceViewModel = acceptViewModel
         self.index = index
         self.delegate = delegate
+        self.choosable = choosable
         applyViewCode()
     }
     
     func displayAnswer(_ answer: String) {
         containerView.backgroundColor = Notifications.Constants.Colors.notificationCellAnsweredBackground
-        notificationLbl.text = "\(answer) \(viewModel?.name.components(separatedBy: String.space)[0] ?? .empty)"
+        notificationLbl.text = "\(answer) \(defaultViewModel?.name.components(separatedBy: String.space)[0] ?? .empty)"
         yesButton.removeFromSuperview()
         noButton.removeFromSuperview()
     }
@@ -192,12 +199,17 @@ extension NotificationTableViewCell: ViewCodeProtocol {
     
     func configureViews() {
         backgroundColor = Notifications.Constants.Colors.background
-        nameLbl.text = viewModel?.name
-        ocupationLbl.text = viewModel?.ocupation
-        emailLbl.attributedText = viewModel?.email
-        notificationLbl.text = viewModel?.notificationText
+        nameLbl.text = defaultViewModel?.name
+        ocupationLbl.text = defaultViewModel?.ocupation
+        emailLbl.attributedText = defaultViewModel?.email
+        notificationLbl.text = defaultViewModel != nil ? defaultViewModel?.notificationText : acceptanceViewModel?.text
         selectionStyle = .none
-        guard let imageStr = viewModel?.image else { return }
-        profileImageView.sd_setImage(with: URL(string: imageStr), completed: nil)
+        yesButton.isHidden = !choosable
+        noButton.isHidden = !choosable
+        if let imageStr = defaultViewModel?.image {
+            profileImageView.sd_setImage(with: URL(string: imageStr), completed: nil)
+        } else if let imageStr = acceptanceViewModel?.image {
+            profileImageView.sd_setImage(with: URL(string: imageStr), completed: nil)
+        }
     }
 }
