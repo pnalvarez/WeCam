@@ -13,6 +13,7 @@ protocol NotificationsBusinessLogic {
     func didAcceptNotification(_ request: Notifications.Request.NotificationAnswer)
     func didRefuseNotification(_ request: Notifications.Request.NotificationAnswer)
     func fetchRefreshNotifications(_ request: Notifications.Request.RefreshNotifications)
+    func fetchNotificationCriterias(_ request: Notifications.Request.NotificationCriterias)
 }
 
 protocol NotificationsDataStore {
@@ -423,5 +424,10 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
     func fetchRefreshNotifications(_ request: Notifications.Request.RefreshNotifications) {
         guard let allNotifications = self.allNotifications else { return }
         self.presenter.presentNotifications(allNotifications)
+    }
+    
+    func fetchNotificationCriterias(_ request: Notifications.Request.NotificationCriterias) {
+        let criterias = Notifications.Info.Model.UpcomingCriterias(criterias: Notifications.Info.Model.NotificationCriteria.toArray())
+        presenter.presentNotificationCriterias(response: criterias)
     }
 }

@@ -10,12 +10,15 @@ import UIKit
 class NotificationsView: UIView {
     
     private unowned var activityView: UIActivityIndicatorView
+    private unowned var criteriaSegmentedControl: UISegmentedControl
     private unowned var tableView: NotificationsTableView
     
     init(frame: CGRect,
          activityView: UIActivityIndicatorView,
+         criteriaSegmentedControl: UISegmentedControl,
          tableView: NotificationsTableView) {
         self.activityView = activityView
+        self.criteriaSegmentedControl = criteriaSegmentedControl
         self.tableView = tableView
         super.init(frame: frame)
         applyViewCode()
@@ -29,14 +32,20 @@ class NotificationsView: UIView {
 extension NotificationsView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
+        addSubview(criteriaSegmentedControl)
         addSubview(tableView)
         addSubview(activityView)
     }
     
     func setupConstraints() {
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(12.5)
+            make.top.equalTo(criteriaSegmentedControl.snp.bottom).offset(12.5)
             make.right.left.bottom.equalToSuperview()
+        }
+        criteriaSegmentedControl.snp.makeConstraints { make in
+            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(12)
+            make.right.left.equalToSuperview().inset(10)
+            make.height.equalTo(32)
         }
         activityView.snp.makeConstraints { make in
             make.edges.equalToSuperview()

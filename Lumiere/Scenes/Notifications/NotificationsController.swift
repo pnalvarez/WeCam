@@ -15,6 +15,7 @@ protocol NotificationsDisplayLogic: class {
     func displaySelectedUser()
     func displayNotificationAnswer(_ viewModel: Notifications.Info.ViewModel.NotificationAnswer)
     func displayProjectDetails()
+    func displayNotificationCriterias(_ viewModel: Notifications.Info.ViewModel.UpcomingNotificationCriterias)
 }
 
 class NotificationsController: BaseViewController {
@@ -24,6 +25,15 @@ class NotificationsController: BaseViewController {
         view.backgroundColor = .clear
         view.tintColor = ThemeColors.mainRedColor.rawValue
         view.addTarget(self, action: #selector(refreshNotifications), for: .valueChanged)
+        return view
+    }()
+    
+    private lazy var criteriaSegmentedControl: UISegmentedControl = {
+        let view = UISegmentedControl(frame: .zero)
+        view.tintColor = Notifications.Constants.Colors.criteriaSegmentedControlUnselected
+        view.selectedSegmentTintColor = Notifications.Constants.Colors.criteriaSegmentedControlSelected
+        view.addTarget(self, action: #selector(didChangeSelectedCriteria), for: .touchUpInside)
+        view.layer.cornerRadius = 8
         return view
     }()
     
@@ -45,6 +55,7 @@ class NotificationsController: BaseViewController {
     private lazy var mainView: NotificationsView = {
         let view = NotificationsView(frame: .zero,
                                      activityView: activityView,
+                                     criteriaSegmentedControl: criteriaSegmentedControl,
                                      tableView: tableView)
         return view
     }()
@@ -68,6 +79,7 @@ class NotificationsController: BaseViewController {
         navigationController?.isNavigationBarHidden = true
         setupTableView()
         refreshTableView()
+        interactor?.fetchNotificationCriterias(Notifications.Request.NotificationCriterias())
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -97,6 +109,11 @@ extension NotificationsController {
     @objc
     private func refreshNotifications() {
         interactor?.fetchRefreshNotifications(Notifications.Request.RefreshNotifications())
+    }
+    
+    @objc
+    private func didChangeSelectedCriteria() {
+        //TO DO
     }
 }
 
@@ -128,12 +145,12 @@ extension NotificationsController: NotificationTableViewCellDelegate {
 extension NotificationsController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel?.notifications.count ?? 0
+        return viewModel?.defaultNotifications.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(indexPath: indexPath, type: NotificationTableViewCell.self)
-        cell.setup(viewModel: viewModel?.notifications[indexPath.row],
+        cell.setup(viewModel: viewModel?.defaultNotifications[indexPath.row],
                    index: indexPath.row,
                    delegate: self)
         return cell
@@ -147,7 +164,7 @@ extension NotificationsController: UITableViewDataSource {
 extension NotificationsController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let enabled = viewModel?.notifications[indexPath.row].selectable, enabled else {
+        guard let enabled = viewModel?.defaultNotifications[indexPath.row].selectable, enabled else {
             return
         }
         interactor?.didSelectNotification(Notifications.Request.SelectProfile(index: indexPath.row))
@@ -167,7 +184,7 @@ extension  NotificationsController: NotificationsDisplayLogic {
     
     func displayNotifications(_ viewModel: Notifications.Info.ViewModel.UpcomingNotifications) {
         refreshHeader.endRefreshing()
-        tableView.backgroundView = viewModel.notifications.isEmpty ? EmptyListView(frame: .zero,
+        tableView.backgroundView = viewModel.defaultNotifications.isEmpty ? EmptyListView(frame: .zero,
                                                                                    text: Notifications.Constants.Texts.emptyNotifications) : nil
         self.viewModel = viewModel
         refreshTableView()
@@ -181,10 +198,17 @@ extension  NotificationsController: NotificationsDisplayLogic {
         let cell = tableView.cellForRow(at: IndexPath(row: viewModel.index, section: 0),
                                         type: NotificationTableViewCell.self)
         cell.displayAnswer(viewModel.text)
-        self.viewModel?.notifications[viewModel.index].selectable = false
+        self.viewModel?.defaultNotifications[viewModel.index].selectable = false
     }
     
     func displayProjectDetails() {
         router?.routeToProjectDetails()
+    }
+    
+    func displayNotificationCriterias(_ viewModel: Notifications.Info.ViewModel.UpcomingNotificationCriterias) {
+        for i in 0..<viewModel.criterias.count {
+            criteriaSegmentedControl.insertSegment(withTitle: viewModel.criterias[i].criteria, at: i, animated: false)
+        }
+        criteriaSegmentedControl.selectedSegmentIndex = 0
     }
 }

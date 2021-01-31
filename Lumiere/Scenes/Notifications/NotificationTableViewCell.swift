@@ -91,7 +91,7 @@ class NotificationTableViewCell: UITableViewCell {
     
     private weak var delegate: NotificationTableViewCellDelegate?
     
-    private var viewModel: Notifications.Info.ViewModel.Notification?
+    private var viewModel: Notifications.Info.ViewModel.DefaultNotification?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -101,7 +101,7 @@ class NotificationTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setup(viewModel: Notifications.Info.ViewModel.Notification? = nil,
+    func setup(viewModel: Notifications.Info.ViewModel.DefaultNotification? = nil,
                index: Int,
                delegate: NotificationTableViewCellDelegate? = nil) {
         self.viewModel = viewModel

@@ -42,6 +42,8 @@ struct Notifications {
             static let notificationCellBackground = UIColor(rgb: 0xffffff)
             static let notificationCellLayer = UIColor(rgb: 0xe0e0e0).cgColor
             static let notificationCellAnsweredBackground = UIColor(rgb: 0xededed)
+            static let criteriaSegmentedControlSelected = UIColor(rgb: 0xffffff)
+            static let criteriaSegmentedControlUnselected = UIColor(rgb: 0xc4c4c4)
         }
         
         struct Texts {
@@ -101,6 +103,23 @@ struct Notifications {
                 case sent
                 case logged
                 case nothing
+            }
+            
+            enum NotificationCriteria: String, CaseIterable {
+                case request = "Convites"
+                case acceptance = "Aceites"
+                
+                static func toArray() -> [NotificationCriteria] {
+                    var array: [NotificationCriteria] = []
+                    for value in NotificationCriteria.allCases {
+                        array.append(value)
+                    }
+                    return array
+                }
+            }
+            
+            struct UpcomingCriterias {
+                let criterias: [NotificationCriteria]
             }
             
             struct AllNotifications: Equatable {
@@ -233,10 +252,11 @@ struct Notifications {
             }
             
             struct UpcomingNotifications: Equatable {
-                var notifications: [Notification]
+                var defaultNotifications: [DefaultNotification]
+                var acceptNotifications: [AcceptNotification]
             }
             
-            struct Notification: Equatable {
+            struct DefaultNotification: Equatable {
                 let notificationText: String
                 let image: String?
                 let name: String
@@ -245,8 +265,21 @@ struct Notifications {
                 var selectable: Bool
             }
             
+            struct AcceptNotification: Equatable {
+                let image: String
+                let text: String
+            }
+            
             struct NotificationError: Equatable {
                 let description: String
+            }
+            
+            struct UpcomingNotificationCriterias {
+                let criterias: [NotificationCriteria]
+            }
+            
+            struct NotificationCriteria {
+                let criteria: String
             }
         }
     }
@@ -345,6 +378,10 @@ struct Notifications {
         }
         
         struct AcceptNotifications {
+            
+        }
+        
+        struct NotificationCriterias {
             
         }
     }

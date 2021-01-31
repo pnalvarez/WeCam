@@ -4650,7 +4650,7 @@ extension FirebaseManager {
             .child(type.path)
             .observeSingleEvent(of: .value) { snapshot in
                 guard let notifications = snapshot.value as? [[String : Any]] else {
-                    completion(.error(FirebaseErrors.genericError))
+                    completion(.success(.empty))
                     return
                 }
                 let mappedResponse = Mapper<T>().mapArray(JSONArray: notifications)
