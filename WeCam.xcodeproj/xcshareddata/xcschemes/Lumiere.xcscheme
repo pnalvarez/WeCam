@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "3F95781B24AD6FBC00B79818"
-               BuildableName = "Lumiere.app"
-               BlueprintName = "Lumiere"
+               BuildableName = "WeCam.app"
+               BlueprintName = "WeCam"
                ReferencedContainer = "container:Lumiere.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -33,8 +33,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "3F95781B24AD6FBC00B79818"
-            BuildableName = "Lumiere.app"
-            BlueprintName = "Lumiere"
+            BuildableName = "WeCam.app"
+            BlueprintName = "WeCam"
             ReferencedContainer = "container:Lumiere.xcodeproj">
          </BuildableReference>
       </CodeCoverageTargets>
@@ -44,8 +44,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "3F95783124AD6FBE00B79818"
-               BuildableName = "LumiereTests.xctest"
-               BlueprintName = "LumiereTests"
+               BuildableName = "WeCamTests.xctest"
+               BlueprintName = "WeCamTests"
                ReferencedContainer = "container:Lumiere.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -54,8 +54,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "3F95783C24AD6FBE00B79818"
-               BuildableName = "LumiereUITests.xctest"
-               BlueprintName = "LumiereUITests"
+               BuildableName = "WeCamUITests.xctest"
+               BlueprintName = "WeCamUITests"
                ReferencedContainer = "container:Lumiere.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -76,8 +76,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "3F95781B24AD6FBC00B79818"
-            BuildableName = "Lumiere.app"
-            BlueprintName = "Lumiere"
+            BuildableName = "WeCam.app"
+            BlueprintName = "WeCam"
             ReferencedContainer = "container:Lumiere.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -93,8 +93,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "3F95781B24AD6FBC00B79818"
-            BuildableName = "Lumiere.app"
-            BlueprintName = "Lumiere"
+            BuildableName = "WeCam.app"
+            BlueprintName = "WeCam"
             ReferencedContainer = "container:Lumiere.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

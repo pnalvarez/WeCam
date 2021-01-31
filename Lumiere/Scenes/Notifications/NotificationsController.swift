@@ -117,6 +117,7 @@ extension NotificationsController {
     
     @objc
     private func didChangeSelectedCriteria() {
+        tableView.bounces = !tableView.bounces
         refreshTableView()
     }
 }

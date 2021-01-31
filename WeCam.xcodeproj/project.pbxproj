@@ -560,16 +560,16 @@
 		3F8D13C924DCCD2100AED7EB /* BaseResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseResponse.swift; sourceTree = "<group>"; };
 		3F8D13CB24DE59F700AED7EB /* ConnectUsersRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectUsersRequest.swift; sourceTree = "<group>"; };
 		3F8D13CD24DF388700AED7EB /* FetchUserRelationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchUserRelationRequest.swift; sourceTree = "<group>"; };
-		3F95781C24AD6FBC00B79818 /* Lumiere.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lumiere.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3F95781C24AD6FBC00B79818 /* WeCam.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeCam.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F95781F24AD6FBC00B79818 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3F95782124AD6FBC00B79818 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		3F95782824AD6FBE00B79818 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3F95782B24AD6FBE00B79818 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3F95782D24AD6FBE00B79818 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3F95783224AD6FBE00B79818 /* LumiereTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LumiereTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3F95783224AD6FBE00B79818 /* WeCamTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeCamTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F95783624AD6FBE00B79818 /* LumiereTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LumiereTests.swift; sourceTree = "<group>"; };
 		3F95783824AD6FBE00B79818 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3F95783D24AD6FBE00B79818 /* LumiereUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LumiereUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3F95783D24AD6FBE00B79818 /* WeCamUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeCamUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F95785624AD75E700B79818 /* LaunchScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenView.swift; sourceTree = "<group>"; };
 		3F95785D24AD764700B79818 /* ViewCodeProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewCodeProtocol.swift; sourceTree = "<group>"; };
 		3F95786024AD775D00B79818 /* LaunchScreenController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenController.swift; sourceTree = "<group>"; };
@@ -1366,9 +1366,9 @@
 		3F95781D24AD6FBC00B79818 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				3F95781C24AD6FBC00B79818 /* Lumiere.app */,
-				3F95783224AD6FBE00B79818 /* LumiereTests.xctest */,
-				3F95783D24AD6FBE00B79818 /* LumiereUITests.xctest */,
+				3F95781C24AD6FBC00B79818 /* WeCam.app */,
+				3F95783224AD6FBE00B79818 /* WeCamTests.xctest */,
+				3F95783D24AD6FBE00B79818 /* WeCamUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1756,9 +1756,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		3F95781B24AD6FBC00B79818 /* Lumiere */ = {
+		3F95781B24AD6FBC00B79818 /* WeCam */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 3F95784624AD6FBE00B79818 /* Build configuration list for PBXNativeTarget "Lumiere" */;
+			buildConfigurationList = 3F95784624AD6FBE00B79818 /* Build configuration list for PBXNativeTarget "WeCam" */;
 			buildPhases = (
 				6254D20EA0A62E1B4F3827A8 /* [CP] Check Pods Manifest.lock */,
 				3F95781824AD6FBC00B79818 /* Sources */,
@@ -1770,14 +1770,14 @@
 			);
 			dependencies = (
 			);
-			name = Lumiere;
+			name = WeCam;
 			productName = Lumiere;
-			productReference = 3F95781C24AD6FBC00B79818 /* Lumiere.app */;
+			productReference = 3F95781C24AD6FBC00B79818 /* WeCam.app */;
 			productType = "com.apple.product-type.application";
 		};
-		3F95783124AD6FBE00B79818 /* LumiereTests */ = {
+		3F95783124AD6FBE00B79818 /* WeCamTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 3F95784924AD6FBE00B79818 /* Build configuration list for PBXNativeTarget "LumiereTests" */;
+			buildConfigurationList = 3F95784924AD6FBE00B79818 /* Build configuration list for PBXNativeTarget "WeCamTests" */;
 			buildPhases = (
 				533124280C22ECF6FC177A3E /* [CP] Check Pods Manifest.lock */,
 				3F95782E24AD6FBE00B79818 /* Sources */,
@@ -1789,14 +1789,14 @@
 			dependencies = (
 				3F95783424AD6FBE00B79818 /* PBXTargetDependency */,
 			);
-			name = LumiereTests;
+			name = WeCamTests;
 			productName = LumiereTests;
-			productReference = 3F95783224AD6FBE00B79818 /* LumiereTests.xctest */;
+			productReference = 3F95783224AD6FBE00B79818 /* WeCamTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		3F95783C24AD6FBE00B79818 /* LumiereUITests */ = {
+		3F95783C24AD6FBE00B79818 /* WeCamUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 3F95784C24AD6FBE00B79818 /* Build configuration list for PBXNativeTarget "LumiereUITests" */;
+			buildConfigurationList = 3F95784C24AD6FBE00B79818 /* Build configuration list for PBXNativeTarget "WeCamUITests" */;
 			buildPhases = (
 				682F48511948307BC15CA931 /* [CP] Check Pods Manifest.lock */,
 				3F95783924AD6FBE00B79818 /* Sources */,
@@ -1809,9 +1809,9 @@
 			dependencies = (
 				3F95783F24AD6FBE00B79818 /* PBXTargetDependency */,
 			);
-			name = LumiereUITests;
+			name = WeCamUITests;
 			productName = LumiereUITests;
-			productReference = 3F95783D24AD6FBE00B79818 /* LumiereUITests.xctest */;
+			productReference = 3F95783D24AD6FBE00B79818 /* WeCamUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -1837,7 +1837,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 3F95781724AD6FBC00B79818 /* Build configuration list for PBXProject "Lumiere" */;
+			buildConfigurationList = 3F95781724AD6FBC00B79818 /* Build configuration list for PBXProject "WeCam" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -1850,9 +1850,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				3F95781B24AD6FBC00B79818 /* Lumiere */,
-				3F95783124AD6FBE00B79818 /* LumiereTests */,
-				3F95783C24AD6FBE00B79818 /* LumiereUITests */,
+				3F95781B24AD6FBC00B79818 /* WeCam */,
+				3F95783124AD6FBE00B79818 /* WeCamTests */,
+				3F95783C24AD6FBE00B79818 /* WeCamUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -2322,12 +2322,12 @@
 /* Begin PBXTargetDependency section */
 		3F95783424AD6FBE00B79818 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 3F95781B24AD6FBC00B79818 /* Lumiere */;
+			target = 3F95781B24AD6FBC00B79818 /* WeCam */;
 			targetProxy = 3F95783324AD6FBE00B79818 /* PBXContainerItemProxy */;
 		};
 		3F95783F24AD6FBE00B79818 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 3F95781B24AD6FBC00B79818 /* Lumiere */;
+			target = 3F95781B24AD6FBC00B79818 /* WeCam */;
 			targetProxy = 3F95783E24AD6FBE00B79818 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -2515,7 +2515,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Lumiere.app/Lumiere";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WeCam.app/WeCam";
 			};
 			name = Debug;
 		};
@@ -2538,7 +2538,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Lumiere.app/Lumiere";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WeCam.app/WeCam";
 			};
 			name = Release;
 		};
@@ -2587,7 +2587,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		3F95781724AD6FBC00B79818 /* Build configuration list for PBXProject "Lumiere" */ = {
+		3F95781724AD6FBC00B79818 /* Build configuration list for PBXProject "WeCam" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3F95784424AD6FBE00B79818 /* Debug */,
@@ -2596,7 +2596,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		3F95784624AD6FBE00B79818 /* Build configuration list for PBXNativeTarget "Lumiere" */ = {
+		3F95784624AD6FBE00B79818 /* Build configuration list for PBXNativeTarget "WeCam" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3F95784724AD6FBE00B79818 /* Debug */,
@@ -2605,7 +2605,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		3F95784924AD6FBE00B79818 /* Build configuration list for PBXNativeTarget "LumiereTests" */ = {
+		3F95784924AD6FBE00B79818 /* Build configuration list for PBXNativeTarget "WeCamTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3F95784A24AD6FBE00B79818 /* Debug */,
@@ -2614,7 +2614,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		3F95784C24AD6FBE00B79818 /* Build configuration list for PBXNativeTarget "LumiereUITests" */ = {
+		3F95784C24AD6FBE00B79818 /* Build configuration list for PBXNativeTarget "WeCamUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3F95784D24AD6FBE00B79818 /* Debug */,
