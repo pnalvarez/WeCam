@@ -39,11 +39,12 @@ struct Notifications {
             static let noButtonBackgroundClicked = UIColor(rgb: 0xc4c4c4)
             static let activity = ThemeColors.mainRedColor.rawValue
             static let activityBackground = UIColor.white.withAlphaComponent(0.5)
-            static let notificationCellBackground = UIColor(rgb: 0xffffff)
+            static let notificationCellBackground = UIColor(rgb: 0xededed)
             static let notificationCellLayer = UIColor(rgb: 0xe0e0e0).cgColor
             static let notificationCellAnsweredBackground = UIColor(rgb: 0xededed)
             static let criteriaSegmentedControlSelected = UIColor(rgb: 0xffffff)
             static let criteriaSegmentedControlUnselected = UIColor(rgb: 0xc4c4c4)
+            static let notificationTableViewCellBackground = UIColor(rgb: 0xc4c4c4)
         }
         
         struct Texts {

@@ -18,7 +18,7 @@ class NotificationTableViewCell: UITableViewCell {
     
     private lazy var containerView: UIView = {
         let view = UIView(frame: .zero)
-        view.layer.cornerRadius = 2
+        view.layer.cornerRadius = 5
         view.layer.borderWidth = 1
         view.layer.borderColor = Notifications.Constants.Colors.notificationCellLayer
         view.backgroundColor = Notifications.Constants.Colors.notificationCellBackground

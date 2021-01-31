@@ -65,6 +65,10 @@ class NotificationsController: BaseViewController {
     
     private var viewModel: Notifications.Info.ViewModel.UpcomingNotifications?
     
+    private var isRequestType: Bool {
+        return criteriaSegmentedControl.selectedSegmentIndex == Notifications.Constants.BusinessLogic.SegmentedControlIndexes.request
+    }
+    
     init() {
         super.init(nibName: nil, bundle: nil)
         setup()
@@ -187,10 +191,12 @@ extension NotificationsController: UITableViewDataSource {
 extension NotificationsController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let enabled = viewModel?.defaultNotifications[indexPath.row].selectable, enabled else {
-            return
+        if isRequestType {
+            guard let enabled = viewModel?.defaultNotifications[indexPath.row].selectable, enabled else {
+                return
+            }
+            interactor?.didSelectNotification(Notifications.Request.SelectProfile(index: indexPath.row))
         }
-        interactor?.didSelectNotification(Notifications.Request.SelectProfile(index: indexPath.row))
     }
 }
 
