@@ -66,7 +66,7 @@ extension OnGoingProjectDetailsRouter: OnGoingProjectDetailsRoutingLogic {
     func routeBack() {
         switch dataStore?.routingContext ?? .checkingProject {
         case .justCreatedProject:
-            viewController?.navigationController?.popToRootViewController(animated: true)
+            viewController?.navigationController?.dismiss(animated: true, completion: nil)
         case .checkingProject:
             viewController?.navigationController?.popViewController(animated: true)
         }

@@ -35,6 +35,7 @@ extension SelectProjectImageRouter: BaseRouterProtocol {
         viewController?.present(nextVC, animated: true, completion: {
             if let selectImageVC = self.viewController as? SelectProjectImageController {
                 selectImageVC.clearImage()
+                selectImageVC.navigationController?.tabBarController?.selectedIndex = 0
             }
         })
     }
@@ -49,8 +50,9 @@ extension SelectProjectImageRouter: SelectProjectImageRoutingLogic {
                 return
         }
         transferDataToCathegories(from: source, to: &destination)
-        vc.modalPresentationStyle = .fullScreen
-        routeTo(nextVC: vc)
+        let navigation = UINavigationController(rootViewController: vc)
+        navigation.modalPresentationStyle = .fullScreen
+        routeTo(nextVC: navigation)
     }
 }
 
