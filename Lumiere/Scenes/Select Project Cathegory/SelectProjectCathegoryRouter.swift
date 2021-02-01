@@ -12,7 +12,7 @@ typealias SelectProjectCathegoryRouterProtocol = NSObject & SelectProjectCathego
 
 protocol SelectProjectCathegoryRoutingLogic {
     func routeToProjectProgress()
-    func routeBack()
+    func dismissFlow()
 }
 
 protocol SelectProjectCathegoryDataTransfer {
@@ -56,7 +56,7 @@ extension SelectProjectCathegoryRouter: SelectProjectCathegoryRoutingLogic {
         routeTo(nextVC: vc)
     }
     
-    func routeBack() {
-        viewController?.navigationController?.popViewController(animated: true)
+    func dismissFlow() {
+        viewController?.dismiss(animated: true, completion: nil)
     }
 }

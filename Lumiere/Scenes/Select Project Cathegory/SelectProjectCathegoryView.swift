@@ -10,7 +10,7 @@ import UIKit
 
 class SelectProjectCathegoryView: UIView {
     
-    private unowned var backButton: UIButton
+    private unowned var closeButton: DefaultCloseButton
     private unowned var advanceButton: UIButton
     private unowned var collectionView: UICollectionView
     
@@ -40,10 +40,10 @@ class SelectProjectCathegoryView: UIView {
     }()
     
     init(frame: CGRect,
-         backButton: UIButton,
+         closeButton: DefaultCloseButton,
          advanceButton: UIButton,
          collectionView: UICollectionView) {
-        self.backButton = backButton
+        self.closeButton = closeButton
         self.advanceButton = advanceButton
         self.collectionView = collectionView
         super.init(frame: frame)
@@ -59,7 +59,7 @@ class SelectProjectCathegoryView: UIView {
 extension SelectProjectCathegoryView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
-        mainContainer.addSubview(backButton)
+        mainContainer.addSubview(closeButton)
         mainContainer.addSubview(advanceButton)
         mainContainer.addSubview(collectionView)
         mainContainer.addSubview(titleLbl)
@@ -76,14 +76,14 @@ extension SelectProjectCathegoryView: ViewCodeProtocol {
             make.width.equalToSuperview()
             make.height.equalToSuperview().priority(250)
         }
-        backButton.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(28)
+        closeButton.snp.makeConstraints { make in
+            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(28)
             make.left.equalToSuperview().inset(28)
             make.height.equalTo(31)
             make.width.equalTo(31)
         }
         advanceButton.snp.makeConstraints { make in
-            make.centerY.equalTo(backButton)
+            make.centerY.equalTo(closeButton)
             make.right.equalToSuperview().inset(28)
             make.height.equalTo(19)
             make.width.equalTo(59)

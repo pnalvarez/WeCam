@@ -16,10 +16,9 @@ protocol SelectProjectCathegoryDisplayLogic: class {
 
 class SelectProjectCathegoryController: BaseViewController {
     
-    private lazy var backButton: UIButton = {
-        let view = UIButton(frame: .zero)
+    private lazy var closeButton: DefaultCloseButton = {
+        let view = DefaultCloseButton(frame: .zero)
         view.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
-        view.setImage(SelectProjectCathegory.Constants.Images.backButton, for: .normal)
         return view
     }()
     
@@ -46,7 +45,7 @@ class SelectProjectCathegoryController: BaseViewController {
     
     private lazy var mainView: SelectProjectCathegoryView = {
         let view = SelectProjectCathegoryView(frame: .zero,
-                                              backButton: backButton,
+                                              closeButton: closeButton,
                                               advanceButton: advanceButton,
                                               collectionView: collectionView)
         return view
@@ -105,7 +104,7 @@ extension SelectProjectCathegoryController {
     @objc
     private func didTapBackButton() {
         navigationController?.tabBarController?.tabBar.isHidden = false
-        router?.routeBack()
+        router?.dismissFlow()
     }
     
     @objc

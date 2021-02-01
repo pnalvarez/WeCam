@@ -95,5 +95,9 @@ struct SelectProjectImage {
         struct Advance {
             
         }
+        
+        struct ResetImageLogic {
+            
+        }
     }
 }

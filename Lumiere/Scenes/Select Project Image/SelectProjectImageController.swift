@@ -45,7 +45,7 @@ class SelectProjectImageController: BaseViewController, UINavigationControllerDe
         return view
     }()
     
-    private lazy var imagePicker:UIImagePickerController = {
+    private lazy var imagePicker: UIImagePickerController = {
         let view = UIImagePickerController()
         view.sourceType = .photoLibrary
         view.delegate = self
@@ -89,6 +89,11 @@ class SelectProjectImageController: BaseViewController, UINavigationControllerDe
         viewController.router = router
         router.dataStore = interactor
         router.viewController = viewController
+    }
+    
+    func clearImage() {
+        selectedImageButton.setImage(SelectProjectImage.Constants.Images.camera, for: .normal)
+        interactor?.resetImageLogic(SelectProjectImage.Request.ResetImageLogic())
     }
 }
 
