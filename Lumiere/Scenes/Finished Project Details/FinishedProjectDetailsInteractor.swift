@@ -8,6 +8,7 @@
 import Foundation
 
 protocol FinishedProjectDetailsBusinessLogic {
+    func fetchRoutingModel(_ request: FinishedProjectDetails.Request.FetchRoutingModel)
     func fetchProjectData(_ request: FinishedProjectDetails.Request.FetchProjectData)
     func fetchProjectRelation(_ request: FinishedProjectDetails.Request.ProjectRelation)
     func fetchNotinvitedUsers(_ request: FinishedProjectDetails.Request.FetchNotInvitedUsers)
@@ -64,6 +65,11 @@ extension FinishedProjectDetailsInteractor {
 }
 
 extension FinishedProjectDetailsInteractor: FinishedProjectDetailsBusinessLogic {
+    
+    func fetchRoutingModel(_ request: FinishedProjectDetails.Request.FetchRoutingModel) {
+        let response = FinishedProjectDetails.Info.Model.Routing(method: routingModel?.routingMethod ?? .push)
+        presenter.presentRoutingUI(response)
+    }
 
     func fetchProjectData(_ request: FinishedProjectDetails.Request.FetchProjectData) {
         presenter.presentLoading(true)

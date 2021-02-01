@@ -12,6 +12,7 @@ class FinishedProjectDetailsView: UIView {
     
     private unowned var activityView: UIActivityIndicatorView
     private unowned var closeButton: DefaultCloseButton
+    private unowned var backButton: DefaultBackButton
     private unowned var watchButton: UIButton
     private unowned var interactionButton: UIButton
     private unowned var teamCollectionView: UICollectionView
@@ -80,12 +81,14 @@ class FinishedProjectDetailsView: UIView {
     init(frame: CGRect,
          activityView: UIActivityIndicatorView,
          closeButton: DefaultCloseButton,
+         backButton: DefaultBackButton,
          watchButton: UIButton,
          interactionButton: UIButton,
          teamCollectionView: UICollectionView,
          moreInfoButton: UIButton) {
         self.activityView = activityView
         self.closeButton = closeButton
+        self.backButton = backButton
         self.watchButton = watchButton
         self.interactionButton = interactionButton
         self.teamCollectionView = teamCollectionView
@@ -108,6 +111,7 @@ extension FinishedProjectDetailsView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
         mainContainer.addSubview(closeButton)
+        mainContainer.addSubview(backButton)
         mainContainer.addSubview(photoImageView)
         mainContainer.addSubview(titleLbl)
         containerView.addSubview(sinopsisLbl)
@@ -128,6 +132,10 @@ extension FinishedProjectDetailsView: ViewCodeProtocol {
         }
         closeButton.snp.makeConstraints { make in
             make.top.right.equalToSuperview().inset(28)
+            make.height.width.equalTo(31)
+        }
+        backButton.snp.makeConstraints { make in
+            make.top.left.equalToSuperview().inset(28)
             make.height.width.equalTo(31)
         }
         photoImageView.snp.makeConstraints { make in

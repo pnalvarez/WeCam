@@ -360,7 +360,7 @@ extension ProfileDetailsController: ProfileDetailsDisplayLogic {
     }
     
     func displayProjectDetails() {
-        router?.routeToProjectDetails()
+        router?.routeToOnGoingProjectDetails()
     }
     
     func displayFinishedProjectDetails() {

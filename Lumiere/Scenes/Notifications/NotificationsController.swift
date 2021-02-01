@@ -181,7 +181,7 @@ extension NotificationsController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if criteriaSegmentedControl.selectedSegmentIndex == Notifications.Constants.BusinessLogic.SegmentedControlIndexes.request {
+        if isRequestType {
             return Notifications.Constants.Dimensions.Heights.notificationTableViewCellRequest
         } else {
             return Notifications.Constants.Dimensions.Heights.notificationTableViewCellAcceptance

@@ -60,6 +60,7 @@ extension FinishedProjectDetailsRouter: FinishedProjectDetailsRoutingLogic {
             viewController?.dismiss(animated: true, completion: nil)
         case .push:
             viewController?.navigationController?.popToRootViewController(animated: true)
+            viewController?.navigationController?.tabBarController?.selectedIndex = 0
         }
     }
     

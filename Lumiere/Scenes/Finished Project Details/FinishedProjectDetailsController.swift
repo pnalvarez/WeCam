@@ -36,6 +36,12 @@ class FinishedProjectDetailsController: BaseViewController {
         return view
     }()
     
+    private lazy var backButton: DefaultBackButton = {
+        let view = DefaultBackButton(frame: .zero)
+        view.addTarget(self, action: #selector(didTapBack), for: .touchUpInside)
+        return view
+    }()
+    
     private lazy var watchButton: UIButton = {
         let view = UIButton(frame: .zero)
         view.layer.cornerRadius = 4
@@ -84,6 +90,7 @@ class FinishedProjectDetailsController: BaseViewController {
         let view = FinishedProjectDetailsView(frame: .zero,
                                               activityView: activityView,
                                               closeButton: closeButton,
+                                              backButton: backButton,
                                               watchButton: watchButton,
                                               interactionButton: interactionButton,
                                               teamCollectionView: teamCollectionView,
@@ -115,6 +122,7 @@ class FinishedProjectDetailsController: BaseViewController {
         super.viewDidLoad()
         navigationController?.tabBarController?.tabBar.isHidden = true
         navigationController?.isNavigationBarHidden = true
+        interactor?.fetchRoutingModel(FinishedProjectDetails.Request.FetchRoutingModel())
         interactor?.fetchNotinvitedUsers(FinishedProjectDetails.Request.FetchNotInvitedUsers())
     }
     
@@ -209,6 +217,11 @@ extension FinishedProjectDetailsController {
     private func didTapMoreInfo() {
         
     }
+    
+    @objc
+    private func didTapBack() {
+        router?.dismiss()
+    }
 }
 
 extension FinishedProjectDetailsController: FinishedProjectDetailsDisplayLogic {
@@ -247,7 +260,8 @@ extension FinishedProjectDetailsController: FinishedProjectDetailsDisplayLogic {
     }
     
     func displayRoutingUI(_ viewModel: FinishedProjectDetails.Info.ViewModel.Routing) {
-        
+        backButton.isHidden = viewModel.method == .modal
+        closeButton.isHidden = viewModel.method == .push
     }
     
     func displayError(_ viewModel: FinishedProjectDetails.Info.ViewModel.Error) {

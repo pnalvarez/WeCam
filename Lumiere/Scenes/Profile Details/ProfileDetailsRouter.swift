@@ -14,7 +14,7 @@ protocol ProfileDetailsRoutingLogic {
     func routeToAllConnections()
     func routeToSignIn()
     func routeToEditProfileDetails()
-    func routeToProjectDetails()
+    func routeToOnGoingProjectDetails()
     func routeToInviteToProjects()
     func routeToFinishedProjectsDetails()
 }
@@ -53,20 +53,14 @@ class ProfileDetailsRouter: NSObject, ProfileDetailsDataTransfer {
     private func transferDataToFinishedProjectDetails(from source: ProfileDetailsDataStore,
                                                       to destination: inout FinishedProjectDetailsDataStore) {
         destination.receivedData = FinishedProjectDetails.Info.Received.Project(id: source.selectedProject?.id ?? .empty, userIdsNotInvited: .empty)
-        destination.routingModel = FinishedProjectDetails.Info.Received.Routing(routingMethod: .modal)
+        destination.routingModel = FinishedProjectDetails.Info.Received.Routing(routingMethod: .push)
     }
 }
 
 extension ProfileDetailsRouter: BaseRouterProtocol {
     
     func routeTo(nextVC: UIViewController) {
-        if nextVC is FinishedProjectDetailsController {
-            nextVC.modalPresentationStyle = .fullScreen
-            let newNavigationVC = UINavigationController(rootViewController: nextVC)
-            viewController?.navigationController?.present(newNavigationVC, animated: true, completion: nil)
-        } else {
-            viewController?.navigationController?.pushViewController(nextVC, animated: true)
-        }
+        viewController?.navigationController?.pushViewController(nextVC, animated: true)
     }
 }
 
@@ -96,7 +90,7 @@ extension ProfileDetailsRouter: ProfileDetailsRoutingLogic {
         routeTo(nextVC: vc)
     }
     
-    func routeToProjectDetails() {
+    func routeToOnGoingProjectDetails() {
         let vc = OnGoingProjectDetailsController()
         guard let source = dataStore,
             var destination = vc.router?.dataStore else { return }
