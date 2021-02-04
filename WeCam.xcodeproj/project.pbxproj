@@ -183,6 +183,7 @@
 		3F8116DE24B6AB620083A3DA /* ReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8116DD24B6AB620083A3DA /* ReusableView.swift */; };
 		3F8116E024B6ABEE0083A3DA /* UICollectionView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8116DF24B6ABEE0083A3DA /* UICollectionView+.swift */; };
 		3F8AB7912516DB6100E949F6 /* SearchHeaderTableViewCellBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8AB7902516DB6100E949F6 /* SearchHeaderTableViewCellBuilder.swift */; };
+		3F8BEBEF25CB88870010AC24 /* DefaultInputTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8BEBEE25CB88870010AC24 /* DefaultInputTextField.swift */; };
 		3F8D136724D0ED0D00AED7EB /* SignInInteractor+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D136624D0ED0D00AED7EB /* SignInInteractor+Tests.swift */; };
 		3F8D136924D0ED3A00AED7EB /* SignInPresenter+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D136824D0ED3A00AED7EB /* SignInPresenter+Tests.swift */; };
 		3F8D136D24D0ED5C00AED7EB /* SignUpInteractor+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D136C24D0ED5C00AED7EB /* SignUpInteractor+Tests.swift */; };
@@ -521,6 +522,7 @@
 		3F8116DD24B6AB620083A3DA /* ReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableView.swift; sourceTree = "<group>"; };
 		3F8116DF24B6ABEE0083A3DA /* UICollectionView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+.swift"; sourceTree = "<group>"; };
 		3F8AB7902516DB6100E949F6 /* SearchHeaderTableViewCellBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHeaderTableViewCellBuilder.swift; sourceTree = "<group>"; };
+		3F8BEBEE25CB88870010AC24 /* DefaultInputTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultInputTextField.swift; sourceTree = "<group>"; };
 		3F8D136624D0ED0D00AED7EB /* SignInInteractor+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SignInInteractor+Tests.swift"; sourceTree = "<group>"; };
 		3F8D136824D0ED3A00AED7EB /* SignInPresenter+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SignInPresenter+Tests.swift"; sourceTree = "<group>"; };
 		3F8D136C24D0ED5C00AED7EB /* SignUpInteractor+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SignUpInteractor+Tests.swift"; sourceTree = "<group>"; };
@@ -843,6 +845,7 @@
 				3FB8808D2533FE31003C0D1B /* DefaultBottomSheet.swift */,
 				3FA1C1502536738B00385322 /* OptionFilterButton.swift */,
 				3FA1C166253B88F700385322 /* OnGoingProjectFeedResumeButton.swift */,
+				3F8BEBEE25CB88870010AC24 /* DefaultInputTextField.swift */,
 			);
 			path = Reusable;
 			sourceTree = "<group>";
@@ -2221,6 +2224,7 @@
 				3F01CB072569D48B000833FB /* BaseViewController.swift in Sources */,
 				3FD0EDEF250D5AFD00E22029 /* ProjectInvitesController.swift in Sources */,
 				3FAD1A4C2516BAFB00ED4074 /* SearchHeaderTableViewCell.swift in Sources */,
+				3F8BEBEF25CB88870010AC24 /* DefaultInputTextField.swift in Sources */,
 				3F40A69624EF429E00261161 /* ProjectProgressPresenter.swift in Sources */,
 				3F5B32442531627C004DFBFD /* ProfileSuggestionsModels.swift in Sources */,
 				3F6EEA6F24E5D7550075C500 /* Dictionary+.swift in Sources */,
