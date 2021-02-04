@@ -22,7 +22,6 @@ struct SignIn {
             static let forgetButton = ThemeFonts.RobotoRegular(12).rawValue
             static let signUp = ThemeFonts.RobotoRegular(12).rawValue
             static let enterButton = ThemeFonts.RobotoRegular(12).rawValue
-            static let textFieldText = ThemeFonts.RobotoRegular(12).rawValue
         }
         
         struct Texts {
@@ -34,11 +33,9 @@ struct SignIn {
         }
         
         struct Colors {
-            static let textFieldBackground = UIColor(rgb: 0xededed)
             static let enterButtonBackground = UIColor(rgb: 0xe50c3c)
             static let enterButtonTextColor = UIColor(rgb: 0xffffff)
             static let backgroundColor = UIColor(rgb: 0xffffff)
-            static let textFieldColor = UIColor(rgb: 0x222222)
         }
     }
     

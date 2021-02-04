@@ -87,14 +87,12 @@ extension SignUpView {
     
     func updateAllTextFields() {
         for view in allSubviews {
-            if let textField = view as? UITextField {
+            if let textField = view as? DefaultInputTextField {
                 if let isEmpty = textField.text?.isEmpty {
                     if isEmpty {
-                        textField.layer.borderWidth = 1
-                        textField.layer.borderColor = UIColor.red.cgColor
+                        textField.textFieldState = .error
                     } else {
-                        textField.layer.borderWidth = 0
-                        textField.layer.borderColor = UIColor.clear.cgColor
+                        textField.textFieldState = .normal
                     }
                 }
             }
@@ -240,55 +238,6 @@ extension SignUpView: ViewCodeProtocol {
         imageButton.backgroundColor = .white
         imageButton.imageView?.contentMode = .scaleAspectFill
         
-        nameTextField.backgroundColor = SignUp.Constants.Colors.textFieldBackgroundColor
-        nameTextField.attributedPlaceholder = NSAttributedString(string: SignUp.Constants.Texts.namePlaceholder,
-                                                                 attributes: [NSAttributedString.Key.foregroundColor: SignUp.Constants.Colors.textFieldPlaceHolderColor, NSAttributedString.Key.font: SignUp.Constants.Fonts.placeholderFont])
-        nameTextField.font = SignUp.Constants.Fonts.textFieldFont
-        nameTextField.textColor = SignUp.Constants.Colors.textFieldColor
-        nameTextField.autocapitalizationType = .none
-        nameTextField.autocorrectionType = .no
-        
-        cellphoneTextField.backgroundColor = SignUp.Constants.Colors.textFieldBackgroundColor
-        cellphoneTextField.attributedPlaceholder = NSAttributedString(string: SignUp.Constants.Texts.cellphonePlaceholder,
-                                                                 attributes: [NSAttributedString.Key.foregroundColor: SignUp.Constants.Colors.textFieldPlaceHolderColor, NSAttributedString.Key.font: SignUp.Constants.Fonts.placeholderFont])
-        cellphoneTextField.font = SignUp.Constants.Fonts.textFieldFont
-        cellphoneTextField.textColor = SignUp.Constants.Colors.textFieldColor
-        cellphoneTextField.autocapitalizationType = .none
-        cellphoneTextField.autocorrectionType = .no
-        
-        emailTextField.backgroundColor = SignUp.Constants.Colors.textFieldBackgroundColor
-        emailTextField.attributedPlaceholder = NSAttributedString(string: SignUp.Constants.Texts.emailPlaceholder,
-                                                                  attributes: [NSAttributedString.Key.foregroundColor: SignUp.Constants.Colors.textFieldPlaceHolderColor, NSAttributedString.Key.font: SignUp.Constants.Fonts.placeholderFont])
-        emailTextField.font = SignUp.Constants.Fonts.textFieldFont
-        emailTextField.textColor = SignUp.Constants.Colors.textFieldColor
-        emailTextField.autocapitalizationType = .none
-        emailTextField.autocorrectionType = .no
-        
-        passwordTextField.backgroundColor = SignUp.Constants.Colors.textFieldBackgroundColor
-        passwordTextField.attributedPlaceholder = NSAttributedString(string: SignUp.Constants.Texts.passwordPlaceholder,
-                                                                     attributes: [NSAttributedString.Key.foregroundColor: SignUp.Constants.Colors.textFieldPlaceHolderColor, NSAttributedString.Key.font: SignUp.Constants.Fonts.placeholderFont])
-        passwordTextField.font = SignUp.Constants.Fonts.textFieldFont
-        passwordTextField.textColor = SignUp.Constants.Colors.textFieldColor
-        passwordTextField.autocapitalizationType = .none
-        passwordTextField.autocorrectionType = .no
-        passwordTextField.isSecureTextEntry = true
-        
-        confirmTextField.backgroundColor = SignUp.Constants.Colors.textFieldBackgroundColor
-        confirmTextField.attributedPlaceholder = NSAttributedString(string: SignUp.Constants.Texts.confirmationPlaceholder,
-                                                                    attributes: [NSAttributedString.Key.foregroundColor: SignUp.Constants.Colors.textFieldPlaceHolderColor, NSAttributedString.Key.font: SignUp.Constants.Fonts.placeholderFont])
-        confirmTextField.font = SignUp.Constants.Fonts.textFieldFont
-        confirmTextField.textColor = SignUp.Constants.Colors.textFieldColor
-        confirmTextField.autocapitalizationType = .none
-        confirmTextField.autocorrectionType = .no
-        confirmTextField.isSecureTextEntry = true
-        
-        professionalTextField.backgroundColor = SignUp.Constants.Colors.textFieldBackgroundColor
-        professionalTextField.attributedPlaceholder = NSAttributedString(string: SignUp.Constants.Texts.professionalArea,
-                                                                         attributes: [NSAttributedString.Key.foregroundColor: SignUp.Constants.Colors.textFieldPlaceHolderColor, NSAttributedString.Key.font: SignUp.Constants.Fonts.placeholderFont])
-        professionalTextField.font = SignUp.Constants.Fonts.textFieldFont
-        professionalTextField.textColor = SignUp.Constants.Colors.textFieldColor
-        professionalTextField.autocapitalizationType = .none
-        professionalTextField.autocorrectionType = .no
         
         cathegoriesLbl.attributedText = NSAttributedString(string: SignUp.Constants.Texts.cathegories,
                                                            attributes: [NSAttributedString.Key.font: SignUp.Constants.Fonts.cathegoriesLblFont, NSAttributedString.Key.foregroundColor: SignUp.Constants.Colors.cathegoriesLblColor, NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue])

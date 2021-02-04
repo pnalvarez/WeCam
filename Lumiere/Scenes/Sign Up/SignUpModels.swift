@@ -17,14 +17,12 @@ struct SignUp {
         struct Colors {
             static let backgroundColor = UIColor(rgb: 0xffffff)
             static let imageButtonLayerColor = UIColor(rgb: 0xe0e0e0)
-            static let textFieldBackgroundColor = UIColor(rgb: 0xededed)
             static let textFieldPlaceHolderColor = UIColor(rgb: 0x707070)
             static let cathegoriesLblColor = UIColor(rgb: 0x707070)
             static let signUpButtonBackgroundColor = UIColor(rgb: 0xe50c3c)
             static let signUpButtonDeactivatedColor = UIColor(rgb: 0xe50c3c).withAlphaComponent(0.6)
             static let signUpButtonTextColor = UIColor(rgb: 0xffffff)
             static let signUpCollectionViewCellText = UIColor(rgb: 0xffffff)
-            static let textFieldColor = UIColor(rgb: 0x222222)
             static let chooseImageLbl = UIColor(rgb: 0x707070)
         }
         
@@ -54,7 +52,6 @@ struct SignUp {
             static let placeholderFont = ThemeFonts.RobotoRegular(12).rawValue
             static let cathegoriesLblFont = ThemeFonts.RobotoBold(16).rawValue
             static let signUpButtonFont = ThemeFonts.RobotoRegular(12).rawValue
-            static let textFieldFont = ThemeFonts.RobotoRegular(12).rawValue
             static let chooseImageLbl = ThemeFonts.RobotoRegular(14).rawValue
         }
         

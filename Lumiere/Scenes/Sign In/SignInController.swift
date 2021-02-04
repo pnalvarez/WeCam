@@ -24,15 +24,18 @@ class SignInController: BaseViewController {
         return view
     }()
     
-    private lazy var emailTextField: UITextField = {
-        let view = UITextField(frame: .zero)
+    private lazy var emailTextField: DefaultInputTextField = {
+        let view = DefaultInputTextField(frame: .zero)
         view.delegate = self
+        view.attributedPlaceholder = NSAttributedString(string: SignIn.Constants.Texts.emailTextField, attributes: [NSAttributedString.Key.foregroundColor: UIColor(rgb: 0x707070), NSAttributedString.Key.font: SignIn.Constants.Fonts.textFieldPlaceholder])
         return view
     }()
     
-    private lazy var passwordTextField: UITextField = {
-        let view = UITextField(frame: .zero)
+    private lazy var passwordTextField: DefaultInputTextField = {
+        let view = DefaultInputTextField(frame: .zero)
         view.delegate = self
+        view.attributedPlaceholder = NSAttributedString(string: SignIn.Constants.Texts.passwordTextField, attributes: [NSAttributedString.Key.foregroundColor: UIColor(rgb: 0x707070), NSAttributedString.Key.font: SignIn.Constants.Fonts.textFieldPlaceholder])
+        view.isSecureTextEntry = true
         return view
     }()
     
@@ -75,6 +78,14 @@ class SignInController: BaseViewController {
         super.loadView()
         view = mainView
     }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if let textfield = textField as? DefaultInputTextField {
+            textfield.textFieldState = .normal
+            return true
+        }
+        return false
+    }
 }
 
 extension SignInController {
@@ -111,10 +122,8 @@ extension SignInController {
     }
     
     private func clearErrors() {
-        emailTextField.layer.borderWidth = 0
-        emailTextField.layer.borderColor = UIColor.clear.cgColor
-        passwordTextField.layer.borderWidth = 0
-        passwordTextField.layer.borderColor = UIColor.clear.cgColor
+        emailTextField.textFieldState = .normal
+        passwordTextField.textFieldState = .normal
     }
 }
 
@@ -137,22 +146,17 @@ extension SignInController: SignInDisplayLogic {
     func displayEmailError(_ viewModel: SignIn.ViewModel.SignInError) {
         UIAlertController.displayAlert(in: self, title: "Erro ao inserir dados",
                                        message: viewModel.description)
-        emailTextField.layer.borderWidth = 1
-        emailTextField.layer.borderColor = UIColor.red.cgColor
+        emailTextField.textFieldState = .error
         guard let text = passwordTextField.text, !text.isEmpty else {
-            passwordTextField.layer.borderWidth = 1
-            passwordTextField.layer.borderColor = UIColor.red.cgColor
+            passwordTextField.textFieldState = .error
             return
         }
-        passwordTextField.layer.borderWidth = 0
-        passwordTextField.layer.borderColor = UIColor.clear.cgColor
+        passwordTextField.textFieldState = .normal
     }
     
     func displaypasswordError(_ viewModel: SignIn.ViewModel.SignInError) {
         UIAlertController.displayAlert(in: self, title: "Erro ao inserir dados", message: viewModel.description)
-        passwordTextField.layer.borderWidth = 1
-        passwordTextField.layer.borderColor = UIColor.red.cgColor
-        emailTextField.layer.borderWidth = 0
-        emailTextField.layer.borderColor = UIColor.clear.cgColor
+        passwordTextField.textFieldState = .error
+        emailTextField.textFieldState = .normal
     }
 }

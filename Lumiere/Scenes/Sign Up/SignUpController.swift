@@ -40,40 +40,54 @@ class SignUpController: BaseViewController {
         return view
     }()
     
-    private lazy var nameTextField: UITextField = {
-        let view = UITextField(frame: .zero)
+    private lazy var nameTextField: DefaultInputTextField = {
+        let view = DefaultInputTextField(frame: .zero)
+        view.attributedPlaceholder = NSAttributedString(string: SignUp.Constants.Texts.namePlaceholder,
+                                                        attributes: [NSAttributedString.Key.foregroundColor: SignUp.Constants.Colors.textFieldPlaceHolderColor, NSAttributedString.Key.font: SignUp.Constants.Fonts.placeholderFont])
         view.delegate = self
         view.addTarget(self, action: #selector(didEndTextField(_:)), for: .primaryActionTriggered)
         return view
     }()
     
-    private lazy var cellphoneTextField: UITextField = {
-        let view = UITextField(frame: .zero)
+    private lazy var cellphoneTextField: DefaultInputTextField = {
+        let view = DefaultInputTextField(frame: .zero)
+        view.attributedPlaceholder = NSAttributedString(string: SignUp.Constants.Texts.cellphonePlaceholder,
+                                                        attributes: [NSAttributedString.Key.foregroundColor: SignUp.Constants.Colors.textFieldPlaceHolderColor, NSAttributedString.Key.font: SignUp.Constants.Fonts.placeholderFont])
         view.delegate = self
         view.keyboardType = .numberPad
         return view
     }()
     
-    private lazy var emailTextField: UITextField = {
-        let view = UITextField(frame: .zero)
+    private lazy var emailTextField: DefaultInputTextField = {
+        let view = DefaultInputTextField(frame: .zero)
+        view.attributedPlaceholder = NSAttributedString(string: SignUp.Constants.Texts.emailPlaceholder,
+                                                        attributes: [NSAttributedString.Key.foregroundColor: SignUp.Constants.Colors.textFieldPlaceHolderColor, NSAttributedString.Key.font: SignUp.Constants.Fonts.placeholderFont])
         view.delegate = self
         return view
     }()
     
-    private lazy var passwordTextField: UITextField = {
-        let view = UITextField(frame: .zero)
+    private lazy var passwordTextField: DefaultInputTextField = {
+        let view = DefaultInputTextField(frame: .zero)
+        view.attributedPlaceholder = NSAttributedString(string: SignUp.Constants.Texts.passwordPlaceholder,
+                                                        attributes: [NSAttributedString.Key.foregroundColor: SignUp.Constants.Colors.textFieldPlaceHolderColor, NSAttributedString.Key.font: SignUp.Constants.Fonts.placeholderFont])
+        view.isSecureTextEntry = true
         view.delegate = self
         return view
     }()
     
-    private lazy var confirmTextField: UITextField = {
-        let view = UITextField(frame: .zero)
+    private lazy var confirmTextField: DefaultInputTextField = {
+        let view = DefaultInputTextField(frame: .zero)
+        view.attributedPlaceholder = NSAttributedString(string: SignUp.Constants.Texts.confirmationPlaceholder,
+                                                        attributes: [NSAttributedString.Key.foregroundColor: SignUp.Constants.Colors.textFieldPlaceHolderColor, NSAttributedString.Key.font: SignUp.Constants.Fonts.placeholderFont])
+        view.isSecureTextEntry = true
         view.delegate = self
         return view
     }()
     
-    private lazy var professionalTextField: UITextField = {
-       let view = UITextField(frame: .zero)
+    private lazy var professionalTextField: DefaultInputTextField = {
+       let view = DefaultInputTextField(frame: .zero)
+        view.attributedPlaceholder = NSAttributedString(string: SignUp.Constants.Texts.professionalArea,
+                                                        attributes: [NSAttributedString.Key.foregroundColor: SignUp.Constants.Colors.textFieldPlaceHolderColor, NSAttributedString.Key.font: SignUp.Constants.Fonts.placeholderFont])
         view.delegate = self
         return view
     }()
@@ -152,6 +166,10 @@ extension SignUpController {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let  char = string.cString(using: String.Encoding.utf8)!
         let isBackSpace = strcmp(char, "\\b")
+        
+        if let inputTextField = textField as? DefaultInputTextField {
+            inputTextField.textFieldState = .normal
+        }
 
         if (isBackSpace == -92) && (textField.text?.count)! > 0 {
             if textField == cellphoneTextField {
