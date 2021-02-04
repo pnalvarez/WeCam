@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Photos
 
 protocol EditProfileDetailsDisplayLogic: class {
     func displayUserData(_ viewModel: EditProfileDetails.Info.ViewModel.User,
@@ -296,7 +297,13 @@ extension EditProfileDetailsController {
     @objc
     private func didTapImageButton() {
         imagePicker.allowsEditing = true
-        present(imagePicker, animated: true, completion: nil)
+        PHPhotoLibrary.requestAuthorization { newStatus in
+            if newStatus == .authorized {
+                DispatchQueue.main.async {
+                    self.present(self.imagePicker, animated: true, completion: nil)
+                }
+            }
+        }
     }
 }
 

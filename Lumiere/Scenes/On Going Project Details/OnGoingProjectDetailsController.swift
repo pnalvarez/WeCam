@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Photos
 
 protocol OnGoingProjectDetailsDisplayLogic: class {
     func displayProjectDetails(_ viewModel: OnGoingProjectDetails.Info.ViewModel.Project)
@@ -414,7 +415,13 @@ extension OnGoingProjectDetailsController {
     @objc
     private func didTapImageButton() {
         imagePicker.allowsEditing = true
-        present(imagePicker, animated: true, completion: nil)
+        PHPhotoLibrary.requestAuthorization { newStatus in
+            if newStatus == .authorized {
+                DispatchQueue.main.async {
+                    self.present(self.imagePicker, animated: true, completion: nil)
+                }
+            }
+        }
     }
     
     @objc

@@ -118,7 +118,13 @@ extension SelectProjectImageController {
     
     @objc
     private func didTapSelectImageButton() {
-        present(imagePicker, animated: true, completion: { })
+        PHPhotoLibrary.requestAuthorization { newStatus in
+            if newStatus == .authorized {
+                DispatchQueue.main.async {
+                    self.present(self.imagePicker, animated: true, completion: nil)
+                }
+            }
+        }
     }
 }
 

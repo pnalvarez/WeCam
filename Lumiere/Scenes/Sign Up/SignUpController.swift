@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Photos
 
 protocol SignUpDisplayLogic: class {
     func displayMovieStyles(_ viewModel: [MovieStyle])
@@ -257,7 +258,13 @@ extension SignUpController {
     @objc
     func didTapImageButton() {
         imagePicker.allowsEditing = true
-        present(imagePicker, animated: true, completion: { })
+        PHPhotoLibrary.requestAuthorization { newStatus in
+            if newStatus == .authorized {
+                DispatchQueue.main.async {
+                    self.present(self.imagePicker, animated: true, completion: nil)
+                }
+            }
+        }
     }
     
     @objc

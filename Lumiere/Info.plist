@@ -74,6 +74,6 @@
 	<key>UIUserInterfaceStyle</key>
 	<string>Light</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>O app precisa das suas fotos</string>
+	<string>Por favor autorize o Wecam a ver suas fotos</string>
 </dict>
 </plist>
