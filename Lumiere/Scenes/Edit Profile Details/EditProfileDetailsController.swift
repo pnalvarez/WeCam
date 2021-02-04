@@ -64,39 +64,30 @@ class EditProfileDetailsController: BaseViewController {
         return view
     }()
     
-    private lazy var nameTextField: UITextField = {
-        let view = UITextField(frame: .zero)
+    private lazy var nameTextField: DefaultInputTextField = {
+        let view = DefaultInputTextField(frame: .zero)
         view.delegate = self
-        view.backgroundColor = EditProfileDetails.Constants.Colors.textFieldBackground
-        view.textColor = EditProfileDetails.Constants.Colors.textFieldText
         view.attributedPlaceholder = NSAttributedString(string: EditProfileDetails.Constants.Texts.nameTextFieldPlaceHolder,
                                                         attributes: [NSAttributedString.Key.foregroundColor: EditProfileDetails.Constants.Colors.textFieldPlaceholder,
                                                                      NSAttributedString.Key.font: EditProfileDetails.Constants.Fonts.placeHolderFont])
-        view.font = EditProfileDetails.Constants.Fonts.textFieldFont
         return view
     }()
     
-    private lazy var cellphoneTextField: UITextField = {
-        let view = UITextField(frame: .zero)
+    private lazy var cellphoneTextField: DefaultInputTextField = {
+        let view = DefaultInputTextField(frame: .zero)
         view.delegate = self
-        view.backgroundColor = EditProfileDetails.Constants.Colors.textFieldBackground
-        view.textColor = EditProfileDetails.Constants.Colors.textFieldText
         view.attributedPlaceholder = NSAttributedString(string: EditProfileDetails.Constants.Texts.cellPhoneTextFieldPlaceHolder,
                                                         attributes: [NSAttributedString.Key.foregroundColor: EditProfileDetails.Constants.Colors.textFieldPlaceholder,
                                                                      NSAttributedString.Key.font: EditProfileDetails.Constants.Fonts.placeHolderFont])
-        view.font = EditProfileDetails.Constants.Fonts.textFieldFont
         return view
     }()
     
-    private lazy var ocupationTextField: UITextField = {
-        let view = UITextField(frame: .zero)
+    private lazy var ocupationTextField: DefaultInputTextField = {
+        let view = DefaultInputTextField(frame: .zero)
         view.delegate = self
-        view.backgroundColor = EditProfileDetails.Constants.Colors.textFieldBackground
-        view.textColor = EditProfileDetails.Constants.Colors.textFieldText
         view.attributedPlaceholder = NSAttributedString(string: EditProfileDetails.Constants.Texts.ocupationTextFieldPlaceHolder,
                                                         attributes: [NSAttributedString.Key.foregroundColor: EditProfileDetails.Constants.Colors.textFieldPlaceholder,
                                                                      NSAttributedString.Key.font: EditProfileDetails.Constants.Fonts.placeHolderFont])
-        view.font = EditProfileDetails.Constants.Fonts.textFieldFont
         return view
     }()
     
@@ -183,6 +174,10 @@ extension EditProfileDetailsController {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let  char = string.cString(using: String.Encoding.utf8)!
         let isBackSpace = strcmp(char, "\\b")
+        
+        if let inputTextField = textField as? DefaultInputTextField {
+            inputTextField.textFieldState = .normal
+        }
 
         if (isBackSpace == -92) && (textField.text?.count)! > 0 {
             if textField == cellphoneTextField {
@@ -257,7 +252,7 @@ extension EditProfileDetailsController: UICollectionViewDelegateFlowLayout {
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
 
-        return CGSize(width: collectionView.frame.width / 4, height: view.frame.height * 0.13)
+        return CGSize(width: collectionView.frame.width / 3.7, height: 87)
     }
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,

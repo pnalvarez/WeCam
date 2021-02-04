@@ -33,7 +33,6 @@ class EditProfileDetailsView: UIView {
         view.bounces = false
         view.alwaysBounceVertical = false
         view.backgroundColor = .white
-        view.contentSize = CGSize(width: frame.width, height: 2000)
         return view
     }()
     
@@ -106,14 +105,12 @@ extension EditProfileDetailsView {
     
     func updateAllTextFields() {
         for view in allSubviews {
-            if let textField = view as? UITextField {
+            if let textField = view as? DefaultInputTextField {
                 if let isEmpty = textField.text?.isEmpty {
                     if isEmpty {
-                        textField.layer.borderWidth = 1
-                        textField.layer.borderColor = UIColor.red.cgColor
+                        textField.textFieldState = .error
                     } else {
-                        textField.layer.borderWidth = 0
-                        textField.layer.borderColor = UIColor.clear.cgColor
+                        textField.textFieldState = .normal
                     }
                 }
             }
@@ -216,6 +213,7 @@ extension EditProfileDetailsView: ViewCodeProtocol {
     
     func configureViews() {
         backgroundColor = .white
+        scrollView.contentSize = CGSize(width: frame.width, height: 975)
         nameTextField.text = viewModel?.name
         cellphoneTextField.text = viewModel?.cellphone
         ocupationTextField.text = viewModel?.ocupation

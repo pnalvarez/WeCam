@@ -13,12 +13,12 @@ class SignUpView: UIView {
     private unowned var loadingView: LoadingView
     private unowned var backButton: UIButton
     private unowned var imageButton: UIButton
-    private unowned var nameTextField: UITextField
-    private unowned var cellphoneTextField: UITextField
-    private unowned var emailTextField: UITextField
-    private unowned var passwordTextField: UITextField
-    private unowned var confirmTextField: UITextField
-    private unowned var professionalTextField: UITextField
+    private unowned var nameTextField: DefaultInputTextField
+    private unowned var cellphoneTextField: DefaultInputTextField
+    private unowned var emailTextField: DefaultInputTextField
+    private unowned var passwordTextField: DefaultInputTextField
+    private unowned var confirmTextField: DefaultInputTextField
+    private unowned var professionalTextField: DefaultInputTextField
     private unowned var signUpButton: UIButton
     private unowned var collectionView: UICollectionView
     
@@ -55,12 +55,12 @@ class SignUpView: UIView {
          loadingView: LoadingView,
          backButton: UIButton,
          imageButton: UIButton,
-         nameTextField: UITextField,
-         cellphoneTextField: UITextField,
-         emailTextField: UITextField,
-         passwordTextField: UITextField,
-         confirmTextField: UITextField,
-         professionalTextField: UITextField,
+         nameTextField: DefaultInputTextField,
+         cellphoneTextField: DefaultInputTextField,
+         emailTextField: DefaultInputTextField,
+         passwordTextField: DefaultInputTextField,
+         confirmTextField: DefaultInputTextField,
+         professionalTextField: DefaultInputTextField,
          signUpButton: UIButton,
          collectionView: UICollectionView) {
         self.loadingView = loadingView
@@ -101,15 +101,12 @@ extension SignUpView {
     
     func displayUnmatchedFields() {
         for view in allSubviews {
-            if let textField = view as? UITextField {
-                textField.layer.borderWidth = 0
-                textField.layer.borderColor = UIColor.clear.cgColor
+            if let textField = view as? DefaultInputTextField {
+                textField.textFieldState = .normal
             }
         }
-        passwordTextField.layer.borderWidth = 1
-        passwordTextField.layer.borderColor = UIColor.red.cgColor
-        confirmTextField.layer.borderWidth = 1
-        confirmTextField.layer.borderColor = UIColor.red.cgColor
+        passwordTextField.textFieldState = .error
+        confirmTextField.textFieldState = .error
     }
 }
 
