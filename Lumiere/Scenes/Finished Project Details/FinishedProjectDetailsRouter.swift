@@ -65,7 +65,11 @@ extension FinishedProjectDetailsRouter: FinishedProjectDetailsRoutingLogic {
         case .push:
             switch routingContext {
             case .justCreated:
-                viewController?.navigationController?.dismiss(animated: true, completion: nil)
+                if viewController?.navigationController?.viewControllers[0] is SelectProjectCathegoryController {
+                    viewController?.navigationController?.dismiss(animated: true, completion: nil)
+                } else {
+                    viewController?.navigationController?.popToRootViewController(animated: true)
+                }
             case .checking:
                 viewController?.navigationController?.popViewController(animated: true)
             }
