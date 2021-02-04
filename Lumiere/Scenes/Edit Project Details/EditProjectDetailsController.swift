@@ -33,15 +33,9 @@ class EditProjectDetailsController: BaseViewController {
         return view
     }()
     
-    private lazy var projectTitleTextField: UITextField = {
-        let view = UITextField(frame: .zero)
-        view.textColor = EditProjectDetails.Constants.Colors.projectTitleTextFieldText
-        view.backgroundColor = EditProjectDetails.Constants.Colors.projectTitleTextFieldBackground
-        view.font = EditProjectDetails.Constants.Fonts.projectTitleTextField
-        view.layer.borderWidth = 1
-        view.layer.borderColor = EditProjectDetails.Constants.Colors.projectTitleTextFieldLayer
-        view.layer.cornerRadius = 4
-        view.textAlignment = .left
+    private lazy var projectTitleTextField: ProjectDataTextField = {
+        let view = ProjectDataTextField(frame: .zero)
+        view.delegate = self
         return view
     }()
     
@@ -157,6 +151,14 @@ class EditProjectDetailsController: BaseViewController {
         viewController.router = router
         router.dataStore = interactor
         router.viewController = viewController
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if let inputTextField = textField as? ProjectDataTextField {
+            inputTextField.textFieldState = .normal
+            return true
+        }
+        return false
     }
 }
 

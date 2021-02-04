@@ -29,9 +29,6 @@ struct EditProjectDetails {
             static let needTextFieldLayer = UIColor(rgb: 0xe0e0e0).cgColor
             static let needTextFieldText = UIColor(rgb: 0x000000)
             static let projectTitleFixedLbl = UIColor(rgb: 0x707070)
-            static let projectTitleTextFieldBackground = UIColor(rgb: 0xffffff)
-            static let projectTitleTextFieldLayer = UIColor(rgb: 0xe0e0e0).cgColor
-            static let projectTitleTextFieldText = UIColor(rgb: 0x000000)
             static let inviteFriendsButtonBackground = UIColor(rgb: 0xe3e0e0)
             static let inviteFriendsButtonText = UIColor(rgb: 0x000000)
         }
@@ -45,7 +42,6 @@ struct EditProjectDetails {
             static let needLbl = ThemeFonts.RobotoRegular(16).rawValue
             static let needTextField = ThemeFonts.RobotoRegular(16).rawValue
             static let projectTitleLbl = ThemeFonts.RobotoRegular(16).rawValue
-            static let projectTitleTextField = ThemeFonts.RobotoRegular(16).rawValue
             static let inviteFriendsButton = ThemeFonts.RobotoRegular(16).rawValue
         }
 

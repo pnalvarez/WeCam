@@ -13,7 +13,7 @@ class EditProjectDetailsView: UIView {
     private unowned var activityView: UIActivityIndicatorView
     private unowned var inviteFriendsButton: UIButton
     private unowned var backButton: DefaultBackButton
-    private unowned var projectTitleTextField: UITextField
+    private unowned var projectTitleTextField: ProjectDataTextField
     private unowned var sinopsisTextView: UITextView
     private unowned var needTextView: UITextView
     private unowned var publishButton: UIButton
@@ -108,7 +108,7 @@ class EditProjectDetailsView: UIView {
          activityView: UIActivityIndicatorView,
          inviteFriendsButton: UIButton,
          backButton: DefaultBackButton,
-         projectTitleTextField: UITextField,
+         projectTitleTextField: ProjectDataTextField,
          sinopsisTextView: UITextView,
          needTextView: UITextView,
          publishButton: UIButton,
@@ -144,7 +144,7 @@ class EditProjectDetailsView: UIView {
     
     func cleanTextFields() {
         sinopsisTextView.layer.borderColor = EditProjectDetails.Constants.Colors.sinopsisTextFieldLayer
-        projectTitleTextField.layer.borderColor = EditProjectDetails.Constants.Colors.projectTitleTextFieldLayer
+        projectTitleTextField.textFieldState = .normal
     }
     
     func updateForFinishedProject() {
@@ -182,12 +182,12 @@ extension EditProjectDetailsView {
     
     func updateAllTextFields() {
         for view in allSubviews {
-            if let textField = view as? UITextField {
+            if let textField = view as? ProjectDataTextField {
                 if let isEmpty = textField.text?.isEmpty {
                     if isEmpty {
-                        textField.layer.borderColor = UIColor.red.cgColor
+                        textField.textFieldState = .error
                     } else {
-                        textField.layer.borderColor = EditProjectDetails.Constants.Colors.sinopsisTextFieldLayer
+                        textField.textFieldState = .normal
                     }
                 }
             }
