@@ -76,12 +76,12 @@ extension SignInView: ViewCodeProtocol {
         emailTextField.snp.makeConstraints { make in
             make.top.equalTo(bottomLogoImageView.snp.bottom).offset(2)
             make.height.equalTo(29)
-            make.left.right.equalToSuperview().inset(71)
+            make.left.right.equalToSuperview().inset(40)
         }
         passwordTextField.snp.makeConstraints { make in
             make.top.equalTo(emailTextField.snp.bottom).offset(5)
             make.height.equalTo(29)
-            make.left.right.equalToSuperview().inset(71)
+            make.left.right.equalToSuperview().inset(40)
         }
         forgetButton.snp.makeConstraints { make in
             make.top.equalTo(passwordTextField.snp.bottom).offset(11)

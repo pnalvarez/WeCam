@@ -182,21 +182,18 @@ extension EditProfileDetailsView: ViewCodeProtocol {
         }
         nameTextField.snp.makeConstraints { make in
             make.top.equalTo(changeImageLbl.snp.bottom).offset(26)
-            make.centerX.equalToSuperview()
+            make.left.right.equalToSuperview().inset(40)
             make.height.equalTo(29)
-            make.width.equalTo(232)
         }
         cellphoneTextField.snp.makeConstraints { make in
             make.top.equalTo(nameTextField.snp.bottom).offset(26)
-            make.centerX.equalToSuperview()
+            make.left.right.equalToSuperview().inset(40)
             make.height.equalTo(29)
-            make.width.equalTo(232)
         }
         ocupationTextField.snp.makeConstraints { make in
             make.top.equalTo(cellphoneTextField.snp.bottom).offset(26)
-            make.centerX.equalToSuperview()
+            make.left.right.equalToSuperview().inset(40)
             make.height.equalTo(29)
-            make.width.equalTo(232)
         }
         cathegoriesLbl.snp.makeConstraints { make in
             make.top.equalTo(ocupationTextField.snp.bottom).offset(56)

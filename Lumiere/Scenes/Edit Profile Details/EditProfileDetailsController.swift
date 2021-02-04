@@ -263,7 +263,7 @@ extension EditProfileDetailsController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 10
+        return 4
     }
 
     func collectionView(_ collectionView: UICollectionView,

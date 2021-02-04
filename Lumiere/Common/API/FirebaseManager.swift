@@ -460,6 +460,11 @@ class FirebaseManager: FirebaseManagerProtocol {
                 .observeSingleEvent(of: .value) { snapshot in
                     if var value = snapshot.value as? [String : Any] {
                         value["userId"] = userId
+                        if let connections = value["connections"] as? [String] {
+                            value["connections_count"] = connections.count
+                        } else {
+                            value["connections_count"] = 0
+                        }
                         guard let response = Mapper<T>().map(JSON: value) else {
                             completion(.error(FirebaseErrors.parseError))
                             return

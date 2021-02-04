@@ -167,38 +167,32 @@ extension SignUpView: ViewCodeProtocol {
         }
         nameTextField.snp.makeConstraints { make in
             make.top.equalTo(imageButton.snp.bottom).offset(62)
-            make.centerX.equalToSuperview()
-            make.width.equalTo(300)
+            make.left.right.equalToSuperview().inset(40)
             make.height.equalTo(29)
         }
         cellphoneTextField.snp.makeConstraints { make in
             make.top.equalTo(nameTextField.snp.bottom).offset(17)
-            make.centerX.equalToSuperview()
-            make.width.equalTo(300)
+            make.left.right.equalToSuperview().inset(40)
             make.height.equalTo(29)
         }
         emailTextField.snp.makeConstraints { make in
             make.top.equalTo(cellphoneTextField.snp.bottom).offset(17)
-            make.centerX.equalToSuperview()
-            make.width.equalTo(300)
+            make.left.right.equalToSuperview().inset(40)
             make.height.equalTo(29)
         }
         passwordTextField.snp.makeConstraints { make in
             make.top.equalTo(emailTextField.snp.bottom).offset(17)
-            make.centerX.equalToSuperview()
-            make.width.equalTo(300)
+            make.left.right.equalToSuperview().inset(40)
             make.height.equalTo(29)
         }
         confirmTextField.snp.makeConstraints { make in
             make.top.equalTo(passwordTextField.snp.bottom).offset(17)
-            make.centerX.equalToSuperview()
-            make.width.equalTo(300)
+            make.left.right.equalToSuperview().inset(40)
             make.height.equalTo(29)
         }
         professionalTextField.snp.makeConstraints { make in
             make.top.equalTo(confirmTextField.snp.bottom).offset(17)
-            make.centerX.equalToSuperview()
-            make.width.equalTo(300)
+            make.left.right.equalToSuperview().inset(40)
             make.height.equalTo(29)
         }
         signUpButton.snp.makeConstraints { make in
