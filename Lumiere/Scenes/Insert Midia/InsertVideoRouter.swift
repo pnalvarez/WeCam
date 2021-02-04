@@ -28,9 +28,10 @@ class InsertVideoRouter: NSObject, InsertVideoDataTransfer {
         switch source.finishedProjectToSubmit {
         case .finishing(let data):
             destination.receivedData = FinishedProjectDetails.Info.Received.Project(id: data.id, userIdsNotInvited: .empty)
-            destination.routingModel = FinishedProjectDetails.Info.Received.Routing(routingMethod: .push)
+            destination.routingModel = FinishedProjectDetails.Info.Received.Routing(context: .justCreated, routingMethod: .push)
         case .new(let newProject):
             destination.receivedData = FinishedProjectDetails.Info.Received.Project(id: newProject.id ?? .empty, userIdsNotInvited: source.notInvitedUsers ?? .empty)
+            destination.routingModel = FinishedProjectDetails.Info.Received.Routing(context: .justCreated, routingMethod: .push)
         case .none:
             break
         }

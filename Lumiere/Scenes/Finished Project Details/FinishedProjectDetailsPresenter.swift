@@ -60,7 +60,7 @@ class FinishedProjectDetailsPresenter: FinishedProjectDetailsPresentationLogic {
     }
     
     func presentRoutingUI(_ response: FinishedProjectDetails.Info.Model.Routing) {
-        let viewModel = FinishedProjectDetails.Info.ViewModel.Routing(method: response.method)
+        let viewModel = FinishedProjectDetails.Info.ViewModel.Routing(backButtonVisible: response.context == .checking && response.method == .push, closeButtonVisible: response.context == .justCreated || response.method == .modal, method: response.method)
         viewController.displayRoutingUI(viewModel)
     }
     

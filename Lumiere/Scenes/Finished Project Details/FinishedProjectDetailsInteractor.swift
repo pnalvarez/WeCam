@@ -67,7 +67,7 @@ extension FinishedProjectDetailsInteractor {
 extension FinishedProjectDetailsInteractor: FinishedProjectDetailsBusinessLogic {
     
     func fetchRoutingModel(_ request: FinishedProjectDetails.Request.FetchRoutingModel) {
-        let response = FinishedProjectDetails.Info.Model.Routing(method: routingModel?.routingMethod ?? .push)
+        let response = FinishedProjectDetails.Info.Model.Routing(context: routingModel?.context ?? .checking, method: routingModel?.routingMethod ?? .push)
         presenter.presentRoutingUI(response)
     }
 

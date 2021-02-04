@@ -69,6 +69,7 @@ struct FinishedProjectDetails {
             }
             
             struct Routing {
+                let context: Model.RoutingContext
                 let routingMethod: RoutingMethod
             }
         }
@@ -159,7 +160,13 @@ struct FinishedProjectDetails {
             }
             
             struct Routing {
+                let context: RoutingContext
                 let method: RoutingMethod
+            }
+            
+            enum RoutingContext {
+                case justCreated
+                case checking
             }
         }
         
@@ -184,6 +191,8 @@ struct FinishedProjectDetails {
             }
             
             struct Routing {
+                let backButtonVisible: Bool
+                let closeButtonVisible: Bool
                 let method: RoutingMethod
             }
             

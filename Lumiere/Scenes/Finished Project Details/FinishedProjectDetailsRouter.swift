@@ -26,6 +26,10 @@ class FinishedProjectDetailsRouter: NSObject, FinishedProjectDetailsDataTransfer
         return dataStore?.routingModel?.routingMethod ?? .push
     }
     
+    var routingContext: FinishedProjectDetails.Info.Model.RoutingContext {
+        return dataStore?.routingModel?.context ?? .checking
+    }
+    
     var dataStore: FinishedProjectDetailsDataStore?
     weak var viewController: UIViewController?
     
@@ -59,8 +63,12 @@ extension FinishedProjectDetailsRouter: FinishedProjectDetailsRoutingLogic {
         case .modal:
             viewController?.dismiss(animated: true, completion: nil)
         case .push:
-            viewController?.navigationController?.popToRootViewController(animated: true)
-            viewController?.navigationController?.tabBarController?.selectedIndex = 0
+            switch routingContext {
+            case .justCreated:
+                viewController?.navigationController?.dismiss(animated: true, completion: nil)
+            case .checking:
+                viewController?.navigationController?.popViewController(animated: true)
+            }
         }
     }
     

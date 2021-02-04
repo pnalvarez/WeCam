@@ -260,8 +260,8 @@ extension FinishedProjectDetailsController: FinishedProjectDetailsDisplayLogic {
     }
     
     func displayRoutingUI(_ viewModel: FinishedProjectDetails.Info.ViewModel.Routing) {
-        backButton.isHidden = viewModel.method == .modal
-        closeButton.isHidden = viewModel.method == .push
+        backButton.isHidden = !viewModel.backButtonVisible
+        closeButton.isHidden = !viewModel.closeButtonVisible
     }
     
     func displayError(_ viewModel: FinishedProjectDetails.Info.ViewModel.Error) {

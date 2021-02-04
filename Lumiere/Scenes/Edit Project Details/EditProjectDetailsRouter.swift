@@ -46,12 +46,6 @@ class EditProjectDetailsRouter: NSObject, EditProjectDetailsDataTransfer {
         destination.routingContext = .justCreatedProject
     }
     
-    private func transferDataToFinishedProjectDetails(from source: EditProjectDetailsDataStore, to destination: inout FinishedProjectDetailsDataStore) {
-        guard let project = source.publishedProject else { return }
-        destination.receivedData = FinishedProjectDetails.Info.Received.Project(id: project.id, userIdsNotInvited: project.userIdsNotInvited)
-        destination.routingModel = FinishedProjectDetails.Info.Received.Routing(routingMethod: .modal)
-    }
-    
     private func transferDataToInsertMedia(from source: EditProjectDetailsDataStore,
                                            to destination: inout InsertVideoDataStore) {
         let project = InsertVideo
