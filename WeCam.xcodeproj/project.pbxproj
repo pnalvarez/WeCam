@@ -185,6 +185,7 @@
 		3F8AB7912516DB6100E949F6 /* SearchHeaderTableViewCellBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8AB7902516DB6100E949F6 /* SearchHeaderTableViewCellBuilder.swift */; };
 		3F8BEBEF25CB88870010AC24 /* DefaultInputTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8BEBEE25CB88870010AC24 /* DefaultInputTextField.swift */; };
 		3F8BEBF425CC7A3B0010AC24 /* ProjectDataTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8BEBF325CC7A3B0010AC24 /* ProjectDataTextField.swift */; };
+		3F8BEBF925CC81B30010AC24 /* ProjectDataTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8BEBF825CC81B30010AC24 /* ProjectDataTextView.swift */; };
 		3F8D136724D0ED0D00AED7EB /* SignInInteractor+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D136624D0ED0D00AED7EB /* SignInInteractor+Tests.swift */; };
 		3F8D136924D0ED3A00AED7EB /* SignInPresenter+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D136824D0ED3A00AED7EB /* SignInPresenter+Tests.swift */; };
 		3F8D136D24D0ED5C00AED7EB /* SignUpInteractor+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D136C24D0ED5C00AED7EB /* SignUpInteractor+Tests.swift */; };
@@ -525,6 +526,7 @@
 		3F8AB7902516DB6100E949F6 /* SearchHeaderTableViewCellBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHeaderTableViewCellBuilder.swift; sourceTree = "<group>"; };
 		3F8BEBEE25CB88870010AC24 /* DefaultInputTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultInputTextField.swift; sourceTree = "<group>"; };
 		3F8BEBF325CC7A3B0010AC24 /* ProjectDataTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectDataTextField.swift; sourceTree = "<group>"; };
+		3F8BEBF825CC81B30010AC24 /* ProjectDataTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectDataTextView.swift; sourceTree = "<group>"; };
 		3F8D136624D0ED0D00AED7EB /* SignInInteractor+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SignInInteractor+Tests.swift"; sourceTree = "<group>"; };
 		3F8D136824D0ED3A00AED7EB /* SignInPresenter+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SignInPresenter+Tests.swift"; sourceTree = "<group>"; };
 		3F8D136C24D0ED5C00AED7EB /* SignUpInteractor+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SignUpInteractor+Tests.swift"; sourceTree = "<group>"; };
@@ -849,6 +851,7 @@
 				3FA1C166253B88F700385322 /* OnGoingProjectFeedResumeButton.swift */,
 				3F8BEBEE25CB88870010AC24 /* DefaultInputTextField.swift */,
 				3F8BEBF325CC7A3B0010AC24 /* ProjectDataTextField.swift */,
+				3F8BEBF825CC81B30010AC24 /* ProjectDataTextView.swift */,
 			);
 			path = Reusable;
 			sourceTree = "<group>";
@@ -2220,6 +2223,7 @@
 				3F0129F1252D290A00FF4985 /* RecentSearchTableViewCell.swift in Sources */,
 				3FAD1A182516B5BE00ED4074 /* BaseSection.swift in Sources */,
 				3F42A5332557AB6B0088E232 /* FinishedProjectDetailsView.swift in Sources */,
+				3F8BEBF925CC81B30010AC24 /* ProjectDataTextView.swift in Sources */,
 				3F6EEA3124E0A3720075C500 /* ConnectionsListView.swift in Sources */,
 				3F43311E24E8E8B90082825E /* ConfirmationAlertView.swift in Sources */,
 				3F40A68524EDF68300261161 /* SelectProjectCathegoryPresenter.swift in Sources */,

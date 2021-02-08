@@ -14,8 +14,8 @@ class EditProjectDetailsView: UIView {
     private unowned var inviteFriendsButton: UIButton
     private unowned var backButton: DefaultBackButton
     private unowned var projectTitleTextField: ProjectDataTextField
-    private unowned var sinopsisTextView: UITextView
-    private unowned var needTextView: UITextView
+    private unowned var sinopsisTextView: ProjectDataTextView
+    private unowned var needTextView: ProjectDataTextView
     private unowned var publishButton: UIButton
     private unowned var loadingView: LoadingView
     
@@ -109,8 +109,8 @@ class EditProjectDetailsView: UIView {
          inviteFriendsButton: UIButton,
          backButton: DefaultBackButton,
          projectTitleTextField: ProjectDataTextField,
-         sinopsisTextView: UITextView,
-         needTextView: UITextView,
+         sinopsisTextView: ProjectDataTextView,
+         needTextView: ProjectDataTextView,
          publishButton: UIButton,
          loadingView: LoadingView) {
         self.activityView = activityView
@@ -143,7 +143,7 @@ class EditProjectDetailsView: UIView {
     }
     
     func cleanTextFields() {
-        sinopsisTextView.layer.borderColor = EditProjectDetails.Constants.Colors.sinopsisTextFieldLayer
+        sinopsisTextView.textViewState = .normal
         projectTitleTextField.textFieldState = .normal
     }
     
@@ -191,12 +191,12 @@ extension EditProjectDetailsView {
                     }
                 }
             }
-            if let textView = view as? UITextView, view != needTextView {
+            if let textView = view as? ProjectDataTextView, view != needTextView {
                 if let isEmpty = textView.text?.isEmpty {
                     if isEmpty {
-                        textView.layer.borderColor = UIColor.red.cgColor
+                        textView.textViewState = .error
                     } else {
-                        textView.layer.borderColor = EditProjectDetails.Constants.Colors.sinopsisTextFieldLayer
+                        textView.textViewState = .normal
                     }
                 }
             }

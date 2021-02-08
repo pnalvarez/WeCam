@@ -49,27 +49,14 @@ class EditProjectDetailsController: BaseViewController {
         return view
     }()
     
-    private lazy var sinopsisTextView: UITextView = {
-        let view = UITextView(frame: .zero)
-        view.textColor = EditProjectDetails.Constants.Colors.sinopsisTextFieldText
-        view.font = EditProjectDetails.Constants.Fonts.sinopsisTextField
-        view.backgroundColor = EditProjectDetails.Constants.Colors.sinopsisTextFieldBackground
-        view.layer.borderWidth = 1
-        view.layer.cornerRadius = 4
-        view.layer.borderColor = EditProjectDetails.Constants.Colors.sinopsisTextFieldLayer
-        view.textAlignment = .left
+    private lazy var sinopsisTextView: ProjectDataTextView = {
+        let view = ProjectDataTextView(frame: .zero)
+        view.delegate = self
         return view
     }()
     
-    private lazy var needTextView: UITextView = {
-        let view = UITextView(frame: .zero)
-        view.textColor = EditProjectDetails.Constants.Colors.needTextFieldText
-        view.font = EditProjectDetails.Constants.Fonts.needTextField
-        view.backgroundColor = EditProjectDetails.Constants.Colors.needTextFieldBackground
-        view.layer.borderWidth = 1
-        view.layer.cornerRadius = 4
-        view.layer.borderColor = EditProjectDetails.Constants.Colors.needTextFieldLayer
-        view.textAlignment = .left
+    private lazy var needTextView: ProjectDataTextView = {
+        let view = ProjectDataTextView(frame: .zero)
         return view
     }()
     
@@ -179,6 +166,17 @@ extension EditProjectDetailsController {
     @objc
     private func didTapBack() {
         router?.routeBack()
+    }
+}
+
+extension EditProjectDetailsController: UITextViewDelegate {
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if let inputTextView = textView as? ProjectDataTextView {
+            inputTextView.textViewState = .normal
+            return true
+        }
+        return false
     }
 }
 
