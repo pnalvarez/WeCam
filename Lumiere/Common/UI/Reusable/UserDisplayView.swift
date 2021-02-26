@@ -40,9 +40,9 @@ class UserDisplayView: UIView {
     private var photo: String?
     
     init(frame: CGRect,
-         name: String,
-         ocupation: String,
-         photo: String?) {
+         name: String = .empty,
+         ocupation: String = .empty,
+         photo: String? = nil) {
         self.name = name
         self.ocupation = ocupation
         self.photo = photo
@@ -50,8 +50,24 @@ class UserDisplayView: UIView {
         applyViewCode()
     }
     
+    func setup(name: String,
+               ocupation: String,
+               photo: String) {
+        self.name = name
+        self.ocupation = ocupation
+        self.photo = photo
+        fillInformation()
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func fillInformation() {
+        nameLbl.text = name
+        ocupationLbl.text = ocupation
+        guard let image = photo else { return }
+        photoImageView.sd_setImage(with: URL(string: image), completed: nil)
     }
 }
 

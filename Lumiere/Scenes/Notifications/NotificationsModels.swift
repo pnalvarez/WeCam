@@ -117,7 +117,7 @@ struct Notifications {
             
             enum NotificationCriteria: String, CaseIterable {
                 case request = "Convites"
-                case acceptance = "Aceites"
+                case acceptance = "Histórico"
                 
                 static func toArray() -> [NotificationCriteria] {
                     var array: [NotificationCriteria] = []
