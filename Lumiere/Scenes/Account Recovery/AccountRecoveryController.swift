@@ -10,9 +10,9 @@ import UIKit
 
 protocol AccountRecoveryDisplayLogic: class {
     func displayUserData(_ viewModel: AccountRecovery.Info.ViewModel.Account)
-    func displayEmailFormatError()
-    func displaySearchError()
+    func displayError(_ viewModel: AccountRecovery.Info.ViewModel.Error)
     func displayLoading(_ loading: Bool)
+    func displaySignIn()
 }
 
 class AccountRecoveryController: BaseViewController {
@@ -116,15 +116,17 @@ extension AccountRecoveryController: AccountRecoveryDisplayLogic {
         accountUserDisplayView.isHidden =  false
     }
     
-    func displayEmailFormatError() {
-        
-    }
-    
-    func displaySearchError() {
-        
+    func displayError(_ viewModel: AccountRecovery.Info.ViewModel.Error) {
+        UIAlertController.displayAlert(in: self,
+                                       title: viewModel.title,
+                                       message: viewModel.message)
     }
     
     func displayLoading(_ loading: Bool) {
         activityView.isHidden = !loading
+    }
+    
+    func displaySignIn() {
+        router?.routeToSignIn()
     }
 }

@@ -24,6 +24,8 @@ struct AccountRecovery {
         struct Texts {
             static let messageLblAccountSearch = "Encontre sua conta por e-mail ou telefone"
             static let messageLblSelectMethod = "Como deseja recuperar sua senha?"
+            static let emailFormatErrorTitle = "Email inválido"
+            static let emailFormatErrorMessage = "Por favor, insira um e-mail de formato válido para busca"
         }
         
         struct Images { }
@@ -88,6 +90,11 @@ struct AccountRecovery {
                 let email: String
                 let ocupation: String
             }
+            
+            struct Error {
+                let title: String
+                let message: String
+            }
         }
         
         struct ViewModel {
@@ -112,6 +119,11 @@ struct AccountRecovery {
                 let phone: String
                 let email: String
                 let ocupation: String
+            }
+            
+            struct Error {
+                let title: String
+                let message: String
             }
         }
     }

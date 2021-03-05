@@ -9,7 +9,10 @@
 import UIKit
 
 protocol AccountRecoveryPresentationLogic {
-    
+    func presentLoading(_ loading: Bool)
+    func presentUserResult(_ response: AccountRecovery.Info.Model.Account)
+    func presentSignIn()
+    func presentError(_ response: AccountRecovery.Info.Model.Error)
 }
 
 class AccountRecoveryPresenter: AccountRecoveryPresentationLogic {
@@ -18,5 +21,23 @@ class AccountRecoveryPresenter: AccountRecoveryPresentationLogic {
     
     init(viewController: AccountRecoveryDisplayLogic) {
         self.viewController = viewController
+    }
+    
+    func presentLoading(_ loading: Bool) {
+        viewController.displayLoading(loading)
+    }
+    
+    func presentUserResult(_ response: AccountRecovery.Info.Model.Account) {
+        let viewModel = AccountRecovery.Info.ViewModel.Account(name: response.name, image: response.image, phone: response.phone, email: response.email, ocupation: response.ocupation)
+        viewController.displayUserData(viewModel)
+    }
+    
+    func presentSignIn() {
+
+    }
+    
+    func presentError(_ response: AccountRecovery.Info.Model.Error) {
+        let viewModel = AccountRecovery.Info.ViewModel.Error(title: response.title, message: response.message)
+        viewController.displayError(viewModel)
     }
 }
