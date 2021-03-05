@@ -122,6 +122,8 @@ struct AccountRecovery {
             let email: String
         }
         
-        struct SendRecoveryEmail { }
+        struct SendRecoveryEmail {
+            let email: String
+        }
     }
 }
