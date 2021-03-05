@@ -7,17 +7,20 @@
 //
 
 protocol AccountRecoveryBusinessLogic {
-    
+    func searchUser(_ request: AccountRecovery.Request.SearchAccount)
+    func sendRecoveryEmail(_ request: AccountRecovery.Request.SendRecoveryEmail)
 }
 
 protocol AccountRecoveryDataStore: class {
-    
+    var userData: AccountRecovery.Info.Model.Account? { get }
 }
 
 class AccountRecoveryInteractor: AccountRecoveryDataStore {
     
     private let worker: AccountRecoveryWorkerProtocol
     private let presenter: AccountRecoveryPresentationLogic
+    
+    var userData: AccountRecovery.Info.Model.Account?
     
     init(worker: AccountRecoveryWorkerProtocol = AccountRecoveryWorker(),
          presenter: AccountRecoveryPresentationLogic) {
@@ -27,5 +30,12 @@ class AccountRecoveryInteractor: AccountRecoveryDataStore {
 }
 
 extension AccountRecoveryInteractor: AccountRecoveryBusinessLogic {
+
+    func searchUser(_ request: AccountRecovery.Request.SearchAccount) {
+        
+    }
     
+    func sendRecoveryEmail(_ request: AccountRecovery.Request.SendRecoveryEmail) {
+        
+    }
 }

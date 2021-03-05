@@ -11,7 +11,7 @@ import UIKit
 typealias AccountRecoveryRouterProtocol = NSObject & AccountRecoveryRoutingLogic & AccountRecoveryDataTransfer
 
 protocol AccountRecoveryRoutingLogic {
-    
+    func routeToSignIn()
 }
 
 protocol AccountRecoveryDataTransfer {
@@ -33,4 +33,7 @@ extension AccountRecoveryRouter: BaseRouterProtocol {
 
 extension AccountRecoveryRouter: AccountRecoveryRoutingLogic {
     
+    func routeToSignIn() {
+        
+    }
 }

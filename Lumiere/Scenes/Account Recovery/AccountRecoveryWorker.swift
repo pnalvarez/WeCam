@@ -7,7 +7,8 @@
 //
 
 protocol AccountRecoveryWorkerProtocol {
-    
+    func fetchUserData(_ request: AccountRecovery.Request.SearchAccount)
+    func fetchSendRecoveryEmail(_ request: AccountRecovery.Request.SendRecoveryEmail)
 }
 
 class AccountRecoveryWorker: AccountRecoveryWorkerProtocol {
@@ -16,5 +17,13 @@ class AccountRecoveryWorker: AccountRecoveryWorkerProtocol {
     
     init(builder: FirebaseManagerProtocol = FirebaseManager()) {
         self.builder = builder
+    }
+    
+    func fetchUserData(_ request: AccountRecovery.Request.SearchAccount) {
+
+    }
+    
+    func fetchSendRecoveryEmail(_ request: AccountRecovery.Request.SendRecoveryEmail) {
+        
     }
 }

@@ -161,6 +161,10 @@ protocol FirebaseManagerProtocol {
                                                          completion: @escaping (BaseResponse<[T]>) -> Void)
     func fetchProjectParticipationAcceptNotifications<T: Mappable>(request: [String : Any],
                                                          completion: @escaping (BaseResponse<[T]>) -> Void)
+    func sendPasswordRecoveryEmail(request: [String : Any],
+                                   completion: @escaping (EmptyResponse) -> Void)
+    func fetchUserDataByEmail<T: Mappable>(request: [String : Any],
+                              completion: @escaping (BaseResponse<T>) -> Void)
 }
 
 class FirebaseManager: FirebaseManagerProtocol {
@@ -304,7 +308,14 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                     completion(.error(error))
                                                     return
                                                 }
-                                                completion(.success)
+                                                self.realtimeDB.child(Constants.userEmailPath).updateChildValues([request.email.sha256() : request.userId]) {
+                                                    error, ref in
+                                                    if let error = error {
+                                                        completion(.error(error))
+                                                        return
+                                                    }
+                                                    completion(.success)
+                                                }
                                             }
                                     }
                             }
@@ -4403,6 +4414,48 @@ class FirebaseManager: FirebaseManagerProtocol {
     func fetchProjectParticipationAcceptNotifications<T: Mappable>(request: [String : Any],
                                                                    completion: @escaping (BaseResponse<[T]>) -> Void) {
         fetchAcceptNotifications(type: .projectParticipationRequest(), completion: completion)
+    }
+    
+    func sendPasswordRecoveryEmail(request: [String : Any],
+                                   completion: @escaping (EmptyResponse) -> Void) {
+        guard let email = request["email"] as? String else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        authReference.sendPasswordReset(withEmail: email) { error in
+            if let error = error {
+                completion(.error(error))
+                return
+            }
+            completion(.success)
+        }
+    }
+    
+    func fetchUserDataByEmail<T: Mappable>(request: [String : Any],
+                                           completion: @escaping (BaseResponse<T>) -> Void) {
+        guard let email = request["email"] as? String else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        let hashedEmail = email.sha256()
+        realtimeDB.child(Constants.userEmailPath).child(hashedEmail).observeSingleEvent(of: .value) { snapshot in
+            guard let userId = snapshot.value as? String else {
+                completion(.error(FirebaseErrors.genericError))
+                return
+            }
+            self.realtimeDB.child(Constants.usersPath).child(userId).observeSingleEvent(of: .value) { snapshot in
+                guard var userData = snapshot.value as? [String : Any] else {
+                    completion(.error(FirebaseErrors.genericError))
+                    return
+                }
+                userData["userId"] = userId
+                guard let mappedResponse = Mapper<T>().map(JSON: userData) else {
+                    completion(.error(FirebaseErrors.genericError))
+                    return
+                }
+                completion(.success(mappedResponse))
+            }
+        }
     }
 }
 

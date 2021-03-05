@@ -9,14 +9,17 @@
 import UIKit
 
 protocol AccountRecoveryDisplayLogic: class {
-    
+    func displayUserData(_ viewModel: AccountRecovery.Info.ViewModel.Account)
+    func displayEmailFormatError()
+    func displaySearchError()
+    func displayLoading(_ loading: Bool)
 }
 
 class AccountRecoveryController: BaseViewController {
     
     private lazy var messageLbl: UILabel = {
         let view = UILabel(frame: .zero)
-        view.text = AccountRecovery.Constants.Texts.messageLbl
+        view.text = AccountRecovery.Constants.Texts.messageLblAccountSearch
         view.font = AccountRecovery.Constants.Fonts.messageLbl
         view.textColor = AccountRecovery.Constants.Colors.messageLbl
         view.textAlignment = .center
@@ -36,12 +39,33 @@ class AccountRecoveryController: BaseViewController {
     
     private lazy var accountUserDisplayView: UserDisplayView = {
         let view = UserDisplayView(frame: .zero)
+        view.isHidden = true
         return view
     }()
     
     private lazy var actionButton: DefaultActionButton = {
         let view = DefaultActionButton(frame: .zero)
         view.addTarget(self, action: #selector(didTapActionButton), for: .touchUpInside)
+        return view
+    }()
+    
+    private lazy var activityView: UIActivityIndicatorView = {
+        let view = UIActivityIndicatorView(frame: .zero)
+        view.backgroundColor = .white
+        view.color = ThemeColors.mainRedColor.rawValue
+        view.startAnimating()
+        view.isHidden = true
+        return view
+    }()
+    
+    private lazy var mainView: AccountRecoveryView = {
+        let view = AccountRecoveryView(frame: .zero,
+                                       closeButton: closeButton,
+                                       messageLbl: messageLbl,
+                                       inputTextField: inputTextField,
+                                       userDisplayView: accountUserDisplayView,
+                                       actionButton: actionButton,
+                                       activityView: activityView)
         return view
     }()
     
@@ -55,6 +79,11 @@ class AccountRecoveryController: BaseViewController {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func loadView() {
+        super.loadView()
+        self.view = mainView
     }
     
     override func viewDidLoad() {
@@ -80,4 +109,22 @@ class AccountRecoveryController: BaseViewController {
 
 extension AccountRecoveryController: AccountRecoveryDisplayLogic {
     
+    func displayUserData(_ viewModel: AccountRecovery.Info.ViewModel.Account) {
+        accountUserDisplayView.setup(name: viewModel.name,
+                                     ocupation: viewModel.ocupation,
+                                     photo: viewModel.image)
+        accountUserDisplayView.isHidden =  false
+    }
+    
+    func displayEmailFormatError() {
+        
+    }
+    
+    func displaySearchError() {
+        
+    }
+    
+    func displayLoading(_ loading: Bool) {
+        activityView.isHidden = !loading
+    }
 }

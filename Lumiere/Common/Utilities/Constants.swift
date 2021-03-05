@@ -18,6 +18,7 @@ struct Constants {
     static let allUsersCataloguePath = "all_users"
     static let allProjectsCataloguePath = "all_projects"
     static let finishedProjectsCataloguePath = "finished_projects"
+    static let userEmailPath = "user_email"
 }
 
 extension Constants {
