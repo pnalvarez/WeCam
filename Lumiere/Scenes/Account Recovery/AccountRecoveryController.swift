@@ -12,7 +12,7 @@ protocol AccountRecoveryDisplayLogic: class {
     func displayUserData(_ viewModel: AccountRecovery.Info.ViewModel.Account)
     func displayError(_ viewModel: AccountRecovery.Info.ViewModel.Error)
     func displayLoading(_ loading: Bool)
-    func displaySignIn()
+    func displaySuccessfullySentEmailAlert()
 }
 
 class AccountRecoveryController: BaseViewController {
@@ -43,9 +43,9 @@ class AccountRecoveryController: BaseViewController {
         return view
     }()
     
-    private lazy var actionButton: DefaultActionButton = {
+    private lazy var sendEmailButton: DefaultActionButton = {
         let view = DefaultActionButton(frame: .zero)
-        view.addTarget(self, action: #selector(didTapActionButton), for: .touchUpInside)
+        view.addTarget(self, action: #selector(didTapSendEmailButton), for: .touchUpInside)
         return view
     }()
     
@@ -64,7 +64,7 @@ class AccountRecoveryController: BaseViewController {
                                        messageLbl: messageLbl,
                                        inputTextField: inputTextField,
                                        userDisplayView: accountUserDisplayView,
-                                       actionButton: actionButton,
+                                       sendEmailButton: sendEmailButton,
                                        activityView: activityView)
         return view
     }()
@@ -102,8 +102,13 @@ class AccountRecoveryController: BaseViewController {
     }
     
     @objc
-    private func didTapActionButton() {
-        
+    private func didTapSearchButton() {
+        interactor?.searchUser(AccountRecovery.Request.SearchAccount(email: inputTextField.text ?? .empty))
+    }
+    
+    @objc
+    private func didTapSendEmailButton() {
+        interactor?.sendRecoveryEmail(AccountRecovery.Request.SendEmail())
     }
 }
 
@@ -126,7 +131,11 @@ extension AccountRecoveryController: AccountRecoveryDisplayLogic {
         activityView.isHidden = !loading
     }
     
-    func displaySignIn() {
-        router?.routeToSignIn()
+    func displaySuccessfullySentEmailAlert() {
+        UIAlertController.displayAlert(in: self,
+                                       title: AccountRecovery.Constants.Texts.succefullySentEmailTitle,
+                                       message: AccountRecovery.Constants.Texts.succeffullySentEmailMessage) {
+            self.router?.routeToSignIn()
+        }
     }
 }

@@ -19,7 +19,7 @@ class AccountRecoveryView: UIView {
     private unowned var messageLbl: UILabel
     private unowned var inputTextField: DefaultInputTextField
     private unowned var userDisplayView: UserDisplayView
-    private unowned var actionButton: DefaultActionButton
+    private unowned var sendEmailButton: DefaultActionButton
     private unowned var activityView: UIActivityIndicatorView
     
     init(frame: CGRect,
@@ -27,13 +27,13 @@ class AccountRecoveryView: UIView {
          messageLbl: UILabel,
          inputTextField: DefaultInputTextField,
          userDisplayView: UserDisplayView,
-         actionButton: DefaultActionButton,
+         sendEmailButton: DefaultActionButton,
          activityView: UIActivityIndicatorView) {
         self.closeButton = closeButton
         self.messageLbl = messageLbl
         self.inputTextField = inputTextField
         self.userDisplayView = userDisplayView
-        self.actionButton = actionButton
+        self.sendEmailButton = sendEmailButton
         self.activityView = activityView
         super.init(frame: frame)
         applyViewCode()
@@ -52,7 +52,7 @@ extension AccountRecoveryView: ViewCodeProtocol {
         addSubview(messageLbl)
         addSubview(inputTextField)
         addSubview(userDisplayView)
-        addSubview(actionButton)
+        addSubview(sendEmailButton)
         addSubview(activityView)
     }
     
@@ -83,7 +83,7 @@ extension AccountRecoveryView: ViewCodeProtocol {
             make.width.equalTo(274)
             make.height.equalTo(98)
         }
-        actionButton.snp.makeConstraints { make in
+        sendEmailButton.snp.makeConstraints { make in
             make.top.equalTo(inputTextField.snp.bottom).offset(387)
             make.left.right.equalToSuperview().inset(100)
             make.height.equalTo(30)

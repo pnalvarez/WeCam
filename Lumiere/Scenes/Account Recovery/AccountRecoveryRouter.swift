@@ -24,16 +24,9 @@ class AccountRecoveryRouter: NSObject, AccountRecoveryDataTransfer {
     var dataStore: AccountRecoveryDataStore?
 }
 
-extension AccountRecoveryRouter: BaseRouterProtocol {
-    
-    func routeTo(nextVC: UIViewController) {
-        
-    }
-}
-
 extension AccountRecoveryRouter: AccountRecoveryRoutingLogic {
     
     func routeToSignIn() {
-        
+        viewController?.dismiss(animated: true, completion: nil)
     }
 }

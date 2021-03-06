@@ -46,7 +46,10 @@ class SignInController: BaseViewController {
     }()
     
     private lazy var forgetButton: UIButton = {
-        return UIButton(frame: .zero)
+        let view = UIButton(frame: .zero)
+        view.addTarget(self, action: #selector(forgetButtonTapped), for: .touchUpInside)
+        view.setAttributedTitle(NSAttributedString(string: SignIn.Constants.Texts.forgetButton, attributes: [NSAttributedString.Key.foregroundColor : UIColor(rgb: 0x707070), NSAttributedString.Key.font: SignIn.Constants.Fonts.forgetButton, NSAttributedString.Key.underlineStyle : NSUnderlineStyle.single.rawValue]), for: .normal)
+        return view
     }()
     
     private lazy var signUpButton: UIButton = {
@@ -92,7 +95,7 @@ extension SignInController {
     
     @objc
     private func forgetButtonTapped() {
-        
+        router?.routeToAccountRecovery()
     }
     
     @objc

@@ -114,8 +114,6 @@ extension SignInView: ViewCodeProtocol {
         bottomLogoImageView.contentMode = .scaleAspectFit
         bottomLogoImageView.image = UIImage(named: SignIn.Constants.Images.bottomLogo)
         
-        forgetButton.setAttributedTitle(NSAttributedString(string: SignIn.Constants.Texts.forgetButton, attributes: [NSAttributedString.Key.foregroundColor : UIColor(rgb: 0x707070), NSAttributedString.Key.font: SignIn.Constants.Fonts.forgetButton, NSAttributedString.Key.underlineStyle : NSUnderlineStyle.single.rawValue]), for: .normal)
-        
         enterButton.titleLabel?.font = SignIn.Constants.Fonts.enterButton
         enterButton.backgroundColor = SignIn.Constants.Colors.enterButtonBackground
         enterButton.setTitle(SignIn.Constants.Texts.enterButton.uppercased(), for: .normal)

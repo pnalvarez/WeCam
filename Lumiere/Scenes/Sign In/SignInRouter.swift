@@ -12,6 +12,7 @@ typealias SignInRouterProtocol = NSObject & SignInRoutingLogic & SignInDataTrans
 protocol SignInRoutingLogic {
     func routeToSignUp()
     func routeToHome()
+    func routeToAccountRecovery()
 }
 
 protocol SignInDataTransfer {
@@ -44,7 +45,11 @@ class SignInRouter: NSObject, SignInDataTransfer {
 extension SignInRouter: BaseRouterProtocol {
     
     func routeTo(nextVC: UIViewController) {
-        viewController?.navigationController?.pushViewController(nextVC, animated: true)
+        if nextVC is AccountRecoveryController {
+            viewController?.present(nextVC, animated: true, completion: nil)
+        } else {
+            viewController?.navigationController?.pushViewController(nextVC, animated: true)
+        }
     }
 }
 
@@ -94,5 +99,11 @@ extension SignInRouter: SignInRoutingLogic {
                                          UINavigationController(rootViewController: notificationsVc),
                                          UINavigationController(rootViewController: profileDetailsVc)]
         routeTo(nextVC: tabController)
+    }
+    
+    func routeToAccountRecovery() {
+        let accountRecoveryController = AccountRecoveryController()
+        viewController?.navigationController?.modalPresentationStyle = .fullScreen
+        routeTo(nextVC: accountRecoveryController)
     }
 }

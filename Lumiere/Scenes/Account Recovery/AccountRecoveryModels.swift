@@ -26,6 +26,9 @@ struct AccountRecovery {
             static let messageLblSelectMethod = "Como deseja recuperar sua senha?"
             static let emailFormatErrorTitle = "Email inválido"
             static let emailFormatErrorMessage = "Por favor, insira um e-mail de formato válido para busca"
+            static let genericErrorTitle = "Ocorreu um erro"
+            static let succefullySentEmailTitle = "E-mail enviado"
+            static let succeffullySentEmailMessage = "Um e-mail de mudança de senha foi enviado para o endereço de e-mail da conta em questão"
         }
         
         struct Images { }
@@ -45,6 +48,7 @@ struct AccountRecovery {
                 var image: String?
                 var ocupation: String?
                 var email: String?
+                var phone: String?
                 
                 init?(map: Map) { }
                 
@@ -54,6 +58,7 @@ struct AccountRecovery {
                     image <- map["profile_image_url"]
                     ocupation <- map["professional_area"]
                     email <- map["email"]
+                    phone <- map["phone"]
                 }
             }
         }
@@ -133,6 +138,8 @@ struct AccountRecovery {
         struct SearchAccount {
             let email: String
         }
+        
+        struct SendEmail { }
         
         struct SendRecoveryEmail {
             let email: String

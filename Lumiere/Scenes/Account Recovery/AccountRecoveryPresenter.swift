@@ -11,7 +11,7 @@ import UIKit
 protocol AccountRecoveryPresentationLogic {
     func presentLoading(_ loading: Bool)
     func presentUserResult(_ response: AccountRecovery.Info.Model.Account)
-    func presentSignIn()
+    func presentSuccessfullySentEmailAlert()
     func presentError(_ response: AccountRecovery.Info.Model.Error)
 }
 
@@ -32,8 +32,8 @@ class AccountRecoveryPresenter: AccountRecoveryPresentationLogic {
         viewController.displayUserData(viewModel)
     }
     
-    func presentSignIn() {
-
+    func presentSuccessfullySentEmailAlert() {
+        viewController.displaySuccessfullySentEmailAlert()
     }
     
     func presentError(_ response: AccountRecovery.Info.Model.Error) {
