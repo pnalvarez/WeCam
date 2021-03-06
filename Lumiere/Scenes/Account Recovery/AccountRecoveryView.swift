@@ -17,7 +17,7 @@ class AccountRecoveryView: UIView {
     
     private unowned var closeButton: DefaultCloseButton
     private unowned var messageLbl: UILabel
-    private unowned var inputTextField: DefaultInputTextField
+    private unowned var searchTextField: DefaultSearchTextField
     private unowned var userDisplayView: UserDisplayView
     private unowned var sendEmailButton: DefaultActionButton
     private unowned var activityView: UIActivityIndicatorView
@@ -25,13 +25,13 @@ class AccountRecoveryView: UIView {
     init(frame: CGRect,
          closeButton: DefaultCloseButton,
          messageLbl: UILabel,
-         inputTextField: DefaultInputTextField,
+         searchTextField: DefaultSearchTextField,
          userDisplayView: UserDisplayView,
          sendEmailButton: DefaultActionButton,
          activityView: UIActivityIndicatorView) {
         self.closeButton = closeButton
         self.messageLbl = messageLbl
-        self.inputTextField = inputTextField
+        self.searchTextField = searchTextField
         self.userDisplayView = userDisplayView
         self.sendEmailButton = sendEmailButton
         self.activityView = activityView
@@ -50,7 +50,7 @@ extension AccountRecoveryView: ViewCodeProtocol {
         addSubview(headerView)
         addSubview(closeButton)
         addSubview(messageLbl)
-        addSubview(inputTextField)
+        addSubview(searchTextField)
         addSubview(userDisplayView)
         addSubview(sendEmailButton)
         addSubview(activityView)
@@ -72,19 +72,19 @@ extension AccountRecoveryView: ViewCodeProtocol {
             make.top.equalTo(headerView.snp.bottom).offset(65)
             make.left.right.equalToSuperview().inset(49)
         }
-        inputTextField.snp.makeConstraints { make in
+        searchTextField.snp.makeConstraints { make in
             make.top.equalTo(messageLbl.snp.bottom).offset(36)
             make.left.right.equalToSuperview().inset(60)
             make.height.equalTo(22)
         }
         userDisplayView.snp.makeConstraints { make in
-            make.top.equalTo(inputTextField.snp.bottom).offset(93)
+            make.top.equalTo(searchTextField.snp.bottom).offset(93)
             make.centerX.equalToSuperview()
             make.width.equalTo(274)
             make.height.equalTo(98)
         }
         sendEmailButton.snp.makeConstraints { make in
-            make.top.equalTo(inputTextField.snp.bottom).offset(387)
+            make.top.equalTo(searchTextField.snp.bottom).offset(387)
             make.left.right.equalToSuperview().inset(100)
             make.height.equalTo(30)
         }

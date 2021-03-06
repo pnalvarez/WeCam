@@ -335,6 +335,8 @@
 		3FF286FB25EAE5A1008FD23F /* OptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF286FA25EAE5A1008FD23F /* OptionView.swift */; };
 		3FF2870325ED795C008FD23F /* DeepLinkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF2870225ED795C008FD23F /* DeepLinkManager.swift */; };
 		3FF2872E25F1BCA9008FD23F /* Data+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF2872D25F1BCA9008FD23F /* Data+.swift */; };
+		3FF2873325F412D5008FD23F /* DefaultSearchButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF2873225F412D5008FD23F /* DefaultSearchButton.swift */; };
+		3FF2873825F41455008FD23F /* DefaultSearchTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF2873725F41455008FD23F /* DefaultSearchTextField.swift */; };
 		D062C81E7BCE3C5271E0BD79 /* Pods_WeCam_WeCamUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D52EE0AE0CF5D11C51A0E48 /* Pods_WeCam_WeCamUITests.framework */; };
 		D5939E9BD1F240BC4E6D3400 /* Pods_WeCamTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FFB3AF09B9FD8E43EDCE733 /* Pods_WeCamTests.framework */; };
 /* End PBXBuildFile section */
@@ -698,6 +700,8 @@
 		3FF286FA25EAE5A1008FD23F /* OptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionView.swift; sourceTree = "<group>"; };
 		3FF2870225ED795C008FD23F /* DeepLinkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkManager.swift; sourceTree = "<group>"; };
 		3FF2872D25F1BCA9008FD23F /* Data+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+.swift"; sourceTree = "<group>"; };
+		3FF2873225F412D5008FD23F /* DefaultSearchButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSearchButton.swift; sourceTree = "<group>"; };
+		3FF2873725F41455008FD23F /* DefaultSearchTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSearchTextField.swift; sourceTree = "<group>"; };
 		4B41C3F4A1A94E01091B6522 /* Pods-LumiereTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LumiereTests.release.xcconfig"; path = "Target Support Files/Pods-LumiereTests/Pods-LumiereTests.release.xcconfig"; sourceTree = "<group>"; };
 		65CB1E4FCB852DEA3AE1E784 /* Pods_WeCam.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WeCam.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B815BA02AADF4FBE59DA999 /* Pods-Lumiere-LumiereUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Lumiere-LumiereUITests.release.xcconfig"; path = "Target Support Files/Pods-Lumiere-LumiereUITests/Pods-Lumiere-LumiereUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -888,6 +892,8 @@
 				3FF286F025E883F2008FD23F /* DefaultHeaderView.swift */,
 				3FF286F525EAE4EF008FD23F /* OpionSelectorView.swift */,
 				3FF286FA25EAE5A1008FD23F /* OptionView.swift */,
+				3FF2873225F412D5008FD23F /* DefaultSearchButton.swift */,
+				3FF2873725F41455008FD23F /* DefaultSearchTextField.swift */,
 			);
 			path = Reusable;
 			sourceTree = "<group>";
@@ -2095,6 +2101,7 @@
 				3F40A6CB24F232B600261161 /* EditProfileDetailsInteractor.swift in Sources */,
 				3FAD1A422516B99800ED4074 /* MainFeedModels.swift in Sources */,
 				3F655F702523C592004A1D54 /* SearchResultsRouter.swift in Sources */,
+				3FF2873825F41455008FD23F /* DefaultSearchTextField.swift in Sources */,
 				3F40A68724EDF6DD00261161 /* SelectProjectCathegoryWorker.swift in Sources */,
 				3FAD1A0E2516B53100ED4074 /* MainFeedTableViewFactory.swift in Sources */,
 				3F40A61424EA0E9300261161 /* SelectProjectImageInteractor.swift in Sources */,
@@ -2107,6 +2114,7 @@
 				3F95787524AEA4C900B79818 /* SignInInteractor.swift in Sources */,
 				3F40A6BE24F1CE5100261161 /* DefaultCloseButton.swift in Sources */,
 				3F40A60E24EA0D5700261161 /* SelectProjectImageController.swift in Sources */,
+				3FF2873325F412D5008FD23F /* DefaultSearchButton.swift in Sources */,
 				3F95787724AEA4D100B79818 /* SignInPresenter.swift in Sources */,
 				3FF286EC25E8826F008FD23F /* AccountRecoveryModels.swift in Sources */,
 				3FD96CEF2599581600B1B4EE /* ProfileSuggestionCollectionViewCell.swift in Sources */,

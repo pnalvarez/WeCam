@@ -21,27 +21,9 @@ class SearchHeaderTableViewCell: UITableViewCell {
         return view
     }()
     
-    private lazy var searchTextField: UITextField = {
-        let view = UITextField(frame: .zero)
-        view.layer.cornerRadius = 4
-        view.layer.borderWidth = 1
-        view.layer.borderColor = MainFeed.Constants.Colors.searchTextFieldLayer
-        view.font = MainFeed.Constants.Fonts.searchTextField
-        view.textColor = MainFeed.Constants.Colors.searchTextFieldText
-        view.textAlignment = .left
-        return view
-    }()
-    
-    private lazy var dividerView: UIView = {
-        let view = UIView(frame: .zero)
-        view.backgroundColor = MainFeed.Constants.Colors.dividerView
-        return view
-    }()
-    
-    private lazy var searchButton: UIButton = {
-        let view = UIButton(frame: .zero)
-        view.addTarget(self, action: #selector(didTapSearch), for: .touchUpInside)
-        view.setImage(MainFeed.Constants.Images.search, for: .normal)
+    private lazy var searchTextField: DefaultSearchTextField = {
+        let view = DefaultSearchTextField(frame: .zero)
+        view.searchDelegate = self
         return view
     }()
     
@@ -53,10 +35,9 @@ class SearchHeaderTableViewCell: UITableViewCell {
     }
 }
 
-extension SearchHeaderTableViewCell {
+extension SearchHeaderTableViewCell: DefaultSearchTextFieldDelegate {
     
-    @objc
-    private func didTapSearch() {
+    func didTapSearch(searchTextField: DefaultSearchTextField) {
         delegate?.didTapSearch(withText: searchTextField.text ?? .empty)
     }
 }
@@ -65,8 +46,6 @@ extension SearchHeaderTableViewCell: ViewCodeProtocol {
     
     func buildViewHierarchy() {
         addSubview(lumiereHeader)
-        searchTextField.addSubview(dividerView)
-        searchTextField.addSubview(searchButton)
         addSubview(searchTextField)
     }
     
@@ -82,16 +61,6 @@ extension SearchHeaderTableViewCell: ViewCodeProtocol {
             make.centerX.equalToSuperview()
             make.width.equalTo(242)
             make.height.equalTo(18)
-        }
-        dividerView.snp.makeConstraints { make in
-            make.top.bottom.equalToSuperview()
-            make.right.equalToSuperview().inset(20)
-            make.width.equalTo(1)
-        }
-        searchButton.snp.makeConstraints { make in
-            make.right.equalToSuperview().inset(2)
-            make.width.height.equalTo(15)
-            make.centerY.equalToSuperview()
         }
     }
     

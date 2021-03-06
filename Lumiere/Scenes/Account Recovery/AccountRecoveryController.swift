@@ -26,8 +26,9 @@ class AccountRecoveryController: BaseViewController {
         return view
     }()
     
-    private lazy var inputTextField: DefaultInputTextField = {
-        let view = DefaultInputTextField(frame: .zero)
+    private lazy var searchTextField: DefaultSearchTextField = {
+        let view = DefaultSearchTextField(frame: .zero)
+        view.searchDelegate = self
         return view
     }()
     
@@ -63,7 +64,7 @@ class AccountRecoveryController: BaseViewController {
         let view = AccountRecoveryView(frame: .zero,
                                        closeButton: closeButton,
                                        messageLbl: messageLbl,
-                                       inputTextField: inputTextField,
+                                       searchTextField: searchTextField,
                                        userDisplayView: accountUserDisplayView,
                                        sendEmailButton: sendEmailButton,
                                        activityView: activityView)
@@ -103,13 +104,15 @@ class AccountRecoveryController: BaseViewController {
     }
     
     @objc
-    private func didTapSearchButton() {
-        interactor?.searchUser(AccountRecovery.Request.SearchAccount(email: inputTextField.text ?? .empty))
-    }
-    
-    @objc
     private func didTapSendEmailButton() {
         interactor?.sendRecoveryEmail(AccountRecovery.Request.SendEmail())
+    }
+}
+
+extension AccountRecoveryController: DefaultSearchTextFieldDelegate {
+    
+    func didTapSearch(searchTextField: DefaultSearchTextField) {
+        interactor?.searchUser(AccountRecovery.Request.SearchAccount(email: searchTextField.text ?? .empty))
     }
 }
 

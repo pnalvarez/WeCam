@@ -16,6 +16,7 @@ enum ThemeColors {
     case alertRed
     case normalText
     case black
+    case dividerGray
     
     var rawValue: UIColor {
         switch self {
@@ -35,6 +36,8 @@ enum ThemeColors {
             return UIColor(rgb: 0x222222)
         case .black:
             return UIColor(rgb: 0x000000)
+        case .dividerGray:
+            return UIColor(rgb: 0xc4c4c4)
         }
     }
 }
