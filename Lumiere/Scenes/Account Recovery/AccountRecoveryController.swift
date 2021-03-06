@@ -46,6 +46,7 @@ class AccountRecoveryController: BaseViewController {
     private lazy var sendEmailButton: DefaultActionButton = {
         let view = DefaultActionButton(frame: .zero)
         view.addTarget(self, action: #selector(didTapSendEmailButton), for: .touchUpInside)
+        view.setTitle(AccountRecovery.Constants.Texts.sendEmailText, for: .normal)
         return view
     }()
     

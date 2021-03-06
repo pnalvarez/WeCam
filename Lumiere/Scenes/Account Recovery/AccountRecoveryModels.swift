@@ -29,6 +29,7 @@ struct AccountRecovery {
             static let genericErrorTitle = "Ocorreu um erro"
             static let succefullySentEmailTitle = "E-mail enviado"
             static let succeffullySentEmailMessage = "Um e-mail de mudança de senha foi enviado para o endereço de e-mail da conta em questão"
+            static let sendEmailText = "Enviar e-mail"
         }
         
         struct Images { }

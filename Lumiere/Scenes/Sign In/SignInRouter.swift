@@ -46,7 +46,7 @@ extension SignInRouter: BaseRouterProtocol {
     
     func routeTo(nextVC: UIViewController) {
         if nextVC is AccountRecoveryController {
-            viewController?.present(nextVC, animated: true, completion: nil)
+            viewController?.navigationController?.present(nextVC, animated: true, completion: nil)
         } else {
             viewController?.navigationController?.pushViewController(nextVC, animated: true)
         }
@@ -103,7 +103,7 @@ extension SignInRouter: SignInRoutingLogic {
     
     func routeToAccountRecovery() {
         let accountRecoveryController = AccountRecoveryController()
-        viewController?.navigationController?.modalPresentationStyle = .fullScreen
+        accountRecoveryController.modalPresentationStyle = .fullScreen
         routeTo(nextVC: accountRecoveryController)
     }
 }
