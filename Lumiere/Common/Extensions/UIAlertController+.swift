@@ -13,17 +13,16 @@ extension UIAlertController {
     static func displayAlert(in controller: UIViewController,
                              title: String,
                              message: String,
-                             completion: (() -> Void)? = nil) {
+                             completion: ((UIAlertAction) -> Void)? = nil) {
         let alertController = UIAlertController(title: title,
                                                 message: message,
                                                 preferredStyle: .alert)
-        let alertAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        let alertAction = UIAlertAction(title: "OK", style: .default, handler: completion)
         alertAction.setValue(ThemeColors.mainRedColor.rawValue, forKey: "titleTextColor")
         alertController.addAction(alertAction)
 
         controller.present(alertController,
-                           animated: true,
-                           completion: completion)
+                           animated: true)
     }
     
     static func displayConfirmationDialog(in controller: UIViewController,

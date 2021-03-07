@@ -6,6 +6,7 @@
 //  Copyright © 2020 Pedro Alvarez. All rights reserved.
 //
 import Foundation
+import UIKit
 
 extension String {
     
@@ -23,14 +24,14 @@ extension String {
     
     var youtubeID: String? {
         let pattern = "((?<=(v|V)/)|(?<=be/)|(?<=(\\?|\\&)v=)|(?<=embed/))([\\w-]++)"
-
+        
         let regex = try? NSRegularExpression(pattern: pattern, options: .caseInsensitive)
         let range = NSRange(location: 0, length: count)
-
+        
         guard let result = regex?.firstMatch(in: self, range: range) else {
             return nil
         }
-
+        
         return (self as NSString).substring(with: result.range)
     }
     
@@ -46,13 +47,27 @@ extension String {
     
     func isValidEmail() -> Bool {
         let regex = try! NSRegularExpression(pattern: "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$", options: .caseInsensitive)
-            return regex.firstMatch(in: self, options: [], range: NSRange(location: 0, length: count)) != nil
+        return regex.firstMatch(in: self, options: [], range: NSRange(location: 0, length: count)) != nil
     }
     
     func sha256() -> String{
-            if let stringData = self.data(using: String.Encoding.utf8) {
-                return stringData.sha256()
-            }
-            return ""
+        if let stringData = self.data(using: String.Encoding.utf8) {
+            return stringData.sha256()
         }
+        return ""
+    }
+    
+    func height(constrainedBy width: CGFloat, with font: UIFont) -> CGFloat {
+        let constraintSize = CGSize(width: width, height: .greatestFiniteMagnitude)
+        let boundingBox = self.boundingRect(with: constraintSize, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
+        
+        return boundingBox.height
+    }
+    
+    func width(constrainedBy height: CGFloat, with font: UIFont) -> CGFloat {
+        let constrainedSize = CGSize(width: .greatestFiniteMagnitude, height: height)
+        let boundingBox = self.boundingRect(with: constrainedSize, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
+        
+        return boundingBox.width
+    }
 }

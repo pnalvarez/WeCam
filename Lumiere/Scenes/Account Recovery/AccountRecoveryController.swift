@@ -39,7 +39,7 @@ class AccountRecoveryController: BaseViewController {
     }()
     
     private lazy var accountUserDisplayView: UserDisplayView = {
-        let view = UserDisplayView(frame: .zero)
+        let view = UserDisplayView(frame: .zero, layout: .large)
         view.isHidden = true
         return view
     }()
@@ -138,7 +138,7 @@ extension AccountRecoveryController: AccountRecoveryDisplayLogic {
     func displaySuccessfullySentEmailAlert() {
         UIAlertController.displayAlert(in: self,
                                        title: AccountRecovery.Constants.Texts.succefullySentEmailTitle,
-                                       message: AccountRecovery.Constants.Texts.succeffullySentEmailMessage) {
+                                       message: AccountRecovery.Constants.Texts.succeffullySentEmailMessage) {_ in 
             self.router?.routeToSignIn()
         }
     }
