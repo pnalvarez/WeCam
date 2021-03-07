@@ -15,6 +15,10 @@ enum DefaultInputTextFieldState {
 
 class DefaultInputTextField: UITextField {
     
+    private enum Constants {
+        static let padding = UIEdgeInsets(top: 0, left: 12, bottom: 0, right: 0)
+    }
+    
     var textFieldState: DefaultInputTextFieldState = .normal {
         didSet {
             switch textFieldState {
@@ -35,9 +39,18 @@ class DefaultInputTextField: UITextField {
         autocapitalizationType = .none
         textColor = ThemeColors.normalText.rawValue
         autocorrectionType = .no
+        tintColor = ThemeColors.mainRedColor.rawValue
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override open func placeholderRect(forBounds bounds: CGRect) -> CGRect {
+        return bounds.inset(by: Constants.padding)
+    }
+    
+    override open func editingRect(forBounds bounds: CGRect) -> CGRect {
+        return bounds.inset(by: Constants.padding)
     }
 }

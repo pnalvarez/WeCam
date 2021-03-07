@@ -42,6 +42,7 @@ class DefaultSearchTextField: UITextField {
         textAlignment = .left
         autocapitalizationType = .none
         autocorrectionType = .no
+        tintColor = ThemeColors.mainRedColor.rawValue
         applyViewCode()
     }
     
