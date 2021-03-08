@@ -8,7 +8,7 @@
 import UIKit
 
 enum DeepLink {
-    case passwordChange(email: String)
+    case passwordChange(userId: String)
 }
 
 class DeepLinkManager {
@@ -22,11 +22,16 @@ class DeepLinkManager {
     func genericRoute(withDeeplink deeplink: DeepLink) {
         switch deeplink {
         case .passwordChange(let email):
-            routeToPasswordChange(email: email)
+            routeToPasswordChange(userId: email)
         }
     }
     
-    private func routeToPasswordChange(email: String) {
-        //TO DO
+    private func routeToPasswordChange(userId: String) {
+        let signInVC = SignInController()
+        let createNewPasswordVC = CreateNewPasswordController()
+        createNewPasswordVC.router?.dataStore?.receivedAccount = CreateNewPassword.Info.Received.Account(userId: userId)
+        let navigation = UINavigationController(rootViewController: signInVC)
+        navigation.pushViewController(createNewPasswordVC, animated: false)
+        window?.rootViewController = navigation
     }
 }

@@ -165,6 +165,8 @@ protocol FirebaseManagerProtocol {
                                    completion: @escaping (EmptyResponse) -> Void)
     func fetchUserDataByEmail<T: Mappable>(request: [String : Any],
                               completion: @escaping (BaseResponse<T>) -> Void)
+    func updatePassword(request: [String : Any],
+                        completion: @escaping (EmptyResponse) -> Void)
 }
 
 class FirebaseManager: FirebaseManagerProtocol {
@@ -4455,6 +4457,21 @@ class FirebaseManager: FirebaseManagerProtocol {
                 }
                 completion(.success(mappedResponse))
             }
+        }
+    }
+    
+    func updatePassword(request: [String : Any],
+                        completion: @escaping (EmptyResponse) -> Void) {
+        guard let newPassword = request["password"] as? String else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        authReference.currentUser?.updatePassword(to: newPassword) { error in
+            if let error = error {
+                completion(.error(error))
+                return
+            }
+            completion(.success)
         }
     }
 }

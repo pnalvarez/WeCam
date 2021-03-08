@@ -28,9 +28,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let components = URLComponents(url: url, resolvingAgainstBaseURL: true)
         
         if host == "passwordChange" {
-            if let email = components?.queryItems?.first?.value, let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+            if let userId = components?.queryItems?.first?.value, let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
                 let window = sceneDelegate.window
-                DeepLinkManager(window: window).genericRoute(withDeeplink: .passwordChange(email: email))
+                DeepLinkManager(window: window).genericRoute(withDeeplink: .passwordChange(userId: userId))
             }
         }
         return true
