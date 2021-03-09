@@ -20,20 +20,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UISegmentedControl.setupSegmentedControlUI()
         return true
     }
-    
-    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
-        guard let host = url.host else {
-            return true
-        }
-        let components = URLComponents(url: url, resolvingAgainstBaseURL: true)
-        
-        if host == "passwordChange" {
-            if let userId = components?.queryItems?.first?.value, let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
-                let window = sceneDelegate.window
-                DeepLinkManager(window: window).genericRoute(withDeeplink: .passwordChange(userId: userId))
-            }
-        }
-        return true
-    }
 }
 

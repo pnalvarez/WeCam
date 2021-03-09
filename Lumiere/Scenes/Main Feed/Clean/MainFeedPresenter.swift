@@ -13,6 +13,7 @@ protocol MainFeedPresentationLogic {
     func presentProfileDetails()
     func presentOnGoingProjectDetails()
     func presentFinishedProjectDetails()
+    func presentError(_ response: MainFeed.Info.Model.Error)
     func presentFeedData(_ response: MainFeed.Info.Model.UpcomingFeedData)
 }
 
@@ -66,6 +67,11 @@ class MainFeedPresenter: MainFeedPresentationLogic {
                                                   }) ?? .empty ),
             finishedProjects: mapFinishedProjectsFeeds(response.finishedProjectsFeeds))
         viewController.displayFeedData(viewModel)
+    }
+    
+    func presentError(_ response: MainFeed.Info.Model.Error) {
+        let viewModel = MainFeed.Info.ViewModel.Error(title: response.title, message: response.message)
+        viewController.displayError(viewModel)
     }
     
     func presentFinishedProjectDetails() {

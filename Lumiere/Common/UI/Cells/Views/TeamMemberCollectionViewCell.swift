@@ -46,10 +46,16 @@ class TeamMemberCollectionViewCell: UICollectionViewCell {
         return view
     }()
     
-    private var viewModel: TeamMemberViewModel?
+    private var name: String?
+    private var jobDescription: String?
+    private var image: String?
     
-    func setup(viewModel: TeamMemberViewModel) {
-        self.viewModel = viewModel
+    func setup(name: String,
+               jobDescription: String,
+               image: String?) {
+        self.name = name
+        self.jobDescription = jobDescription
+        self.image = image
         applyViewCode()
     }
 }
@@ -86,9 +92,8 @@ extension TeamMemberCollectionViewCell: ViewCodeProtocol {
     
     func configureViews() {
         backgroundColor = .white
-        nameLbl.text = viewModel?.name
-        ocupationLbl.text = viewModel?.jobDescription
-        guard let image = viewModel?.image else { return }
-        imageView.sd_setImage(with: URL(string: image), completed: nil)
+        nameLbl.text = name
+        ocupationLbl.text = jobDescription
+        imageView.sd_setImage(with: URL(string: image ?? .empty), completed: nil)
     }
 }

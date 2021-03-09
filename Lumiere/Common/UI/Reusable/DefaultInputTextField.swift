@@ -46,6 +46,10 @@ class DefaultInputTextField: UITextField {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override open func textRect(forBounds bounds: CGRect) -> CGRect {
+        return bounds.inset(by: Constants.padding)
+    }
+    
     override open func placeholderRect(forBounds bounds: CGRect) -> CGRect {
         return bounds.inset(by: Constants.padding)
     }

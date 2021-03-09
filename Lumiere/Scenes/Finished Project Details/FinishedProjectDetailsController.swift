@@ -162,9 +162,9 @@ extension FinishedProjectDetailsController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = teamCollectionView.dequeueReusableCell(indexPath: indexPath, type: TeamMemberCollectionViewCell.self)
         guard let viewModel = viewModel?.participants else { return UICollectionViewCell() }
-        cell.setup(viewModel: TeamMemberViewModel(name: viewModel[indexPath.row].name,
-                                                  jobDescription: viewModel[indexPath.row].ocupation,
-                                                  image: viewModel[indexPath.row].image))
+        cell.setup(name: viewModel[indexPath.row].name,
+                   jobDescription: viewModel[indexPath.row].ocupation,
+                   image: viewModel[indexPath.row].image)
         return cell
     }
 }

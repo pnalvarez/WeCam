@@ -188,13 +188,23 @@ extension MainFeedInteractor {
             }
         }
     }
+    
+    private func checkSearchKeyEmpty() -> Bool {
+        if (searchKey?.key.isEmpty ?? true) {
+            presenter.presentError(MainFeed.Info.Model.Error(title: MainFeed.Constants.Texts.emptySearchErrorTitle, message: MainFeed.Constants.Texts.emptySearchErrorMessage))
+            return true
+        }
+        return false
+    }
 }
 
 extension MainFeedInteractor: MainFeedBusinessLogic {
     
     func fetchSearch(_ request: MainFeed.Request.Search) {
         searchKey = MainFeed.Info.Model.SearchKey(key: request.key)
-        presenter.presentSearchResults()
+        if !checkSearchKeyEmpty() {
+            presenter.presentSearchResults()
+        }
     }
     
     func fetchRecentSearches(_ request: MainFeed.Request.RecentSearches) {

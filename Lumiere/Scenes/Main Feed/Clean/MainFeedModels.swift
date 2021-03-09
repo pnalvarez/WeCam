@@ -44,6 +44,8 @@ struct MainFeed {
             static let allCriteria = "Todos"
             static let relativeToConnectionsCriteria = "Conexões"
             static let genericError = "Ocorreu um erro genérico"
+            static let emptySearchErrorTitle = "Busca vazia"
+            static let emptySearchErrorMessage = "Insira alguma palavra a procurar usuários ou projetos"
         }
         
         struct Images {
@@ -199,6 +201,11 @@ struct MainFeed {
                 var selectedCriteria: OnGoingProjectFeedCriteria
                 var criterias: [OnGoingProjectFeedCriteria]
             }
+            
+            struct Error {
+                let title: String
+                let message: String
+            }
         }
         
         struct ViewModel {
@@ -254,6 +261,11 @@ struct MainFeed {
             
             struct FinishedProject: Equatable {
                 let image: String
+            }
+            
+            struct Error {
+                let title: String
+                let message: String
             }
         }
         

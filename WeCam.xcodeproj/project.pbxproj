@@ -309,13 +309,6 @@
 		3FB8BD85250ED55E001954FD /* InviteProfileToProjectsWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB8BD84250ED55E001954FD /* InviteProfileToProjectsWorker.swift */; };
 		3FB8BD87250ED5AE001954FD /* InviteProfileToProjectsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB8BD86250ED5AE001954FD /* InviteProfileToProjectsRouter.swift */; };
 		3FB8BD89250ED673001954FD /* InviteProfileToProjectsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB8BD88250ED673001954FD /* InviteProfileToProjectsModels.swift */; };
-		3FBE1AED25F57B7E00AE67E2 /* CreateNewPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FBE1AEC25F57B7E00AE67E2 /* CreateNewPasswordView.swift */; };
-		3FBE1AF225F581BF00AE67E2 /* CreateNewPasswordModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FBE1AF125F581BF00AE67E2 /* CreateNewPasswordModels.swift */; };
-		3FBE1AF725F5843100AE67E2 /* CreateNewPasswordWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FBE1AF625F5843100AE67E2 /* CreateNewPasswordWorker.swift */; };
-		3FBE1AFC25F586B800AE67E2 /* CreateNewPasswordRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FBE1AFB25F586B800AE67E2 /* CreateNewPasswordRouter.swift */; };
-		3FBE1B0125F5879600AE67E2 /* CreateNewPasswordController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FBE1B0025F5879600AE67E2 /* CreateNewPasswordController.swift */; };
-		3FBE1B0625F58A7100AE67E2 /* CreateNewPasswordPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FBE1B0525F58A7100AE67E2 /* CreateNewPasswordPresenter.swift */; };
-		3FBE1B0B25F58B4A00AE67E2 /* CreateNewPasswordInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FBE1B0A25F58B4A00AE67E2 /* CreateNewPasswordInteractor.swift */; };
 		3FD0EDED250D599300E22029 /* ProjectInvitesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD0EDEC250D599300E22029 /* ProjectInvitesView.swift */; };
 		3FD0EDEF250D5AFD00E22029 /* ProjectInvitesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD0EDEE250D5AFD00E22029 /* ProjectInvitesController.swift */; };
 		3FD0EDF1250D5B8700E22029 /* ProjectInvitesRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD0EDF0250D5B8700E22029 /* ProjectInvitesRouter.swift */; };
@@ -340,7 +333,6 @@
 		3FF286F125E883F2008FD23F /* DefaultHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF286F025E883F2008FD23F /* DefaultHeaderView.swift */; };
 		3FF286F625EAE4EF008FD23F /* OpionSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF286F525EAE4EF008FD23F /* OpionSelectorView.swift */; };
 		3FF286FB25EAE5A1008FD23F /* OptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF286FA25EAE5A1008FD23F /* OptionView.swift */; };
-		3FF2870325ED795C008FD23F /* DeepLinkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF2870225ED795C008FD23F /* DeepLinkManager.swift */; };
 		3FF2872E25F1BCA9008FD23F /* Data+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF2872D25F1BCA9008FD23F /* Data+.swift */; };
 		3FF2873325F412D5008FD23F /* DefaultSearchButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF2873225F412D5008FD23F /* DefaultSearchButton.swift */; };
 		3FF2873825F41455008FD23F /* DefaultSearchTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF2873725F41455008FD23F /* DefaultSearchTextField.swift */; };
@@ -681,13 +673,6 @@
 		3FB8BD84250ED55E001954FD /* InviteProfileToProjectsWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteProfileToProjectsWorker.swift; sourceTree = "<group>"; };
 		3FB8BD86250ED5AE001954FD /* InviteProfileToProjectsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteProfileToProjectsRouter.swift; sourceTree = "<group>"; };
 		3FB8BD88250ED673001954FD /* InviteProfileToProjectsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteProfileToProjectsModels.swift; sourceTree = "<group>"; };
-		3FBE1AEC25F57B7E00AE67E2 /* CreateNewPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewPasswordView.swift; sourceTree = "<group>"; };
-		3FBE1AF125F581BF00AE67E2 /* CreateNewPasswordModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewPasswordModels.swift; sourceTree = "<group>"; };
-		3FBE1AF625F5843100AE67E2 /* CreateNewPasswordWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewPasswordWorker.swift; sourceTree = "<group>"; };
-		3FBE1AFB25F586B800AE67E2 /* CreateNewPasswordRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewPasswordRouter.swift; sourceTree = "<group>"; };
-		3FBE1B0025F5879600AE67E2 /* CreateNewPasswordController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewPasswordController.swift; sourceTree = "<group>"; };
-		3FBE1B0525F58A7100AE67E2 /* CreateNewPasswordPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewPasswordPresenter.swift; sourceTree = "<group>"; };
-		3FBE1B0A25F58B4A00AE67E2 /* CreateNewPasswordInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewPasswordInteractor.swift; sourceTree = "<group>"; };
 		3FD0EDEC250D599300E22029 /* ProjectInvitesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectInvitesView.swift; sourceTree = "<group>"; };
 		3FD0EDEE250D5AFD00E22029 /* ProjectInvitesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectInvitesController.swift; sourceTree = "<group>"; };
 		3FD0EDF0250D5B8700E22029 /* ProjectInvitesRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectInvitesRouter.swift; sourceTree = "<group>"; };
@@ -712,7 +697,6 @@
 		3FF286F025E883F2008FD23F /* DefaultHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultHeaderView.swift; sourceTree = "<group>"; };
 		3FF286F525EAE4EF008FD23F /* OpionSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpionSelectorView.swift; sourceTree = "<group>"; };
 		3FF286FA25EAE5A1008FD23F /* OptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionView.swift; sourceTree = "<group>"; };
-		3FF2870225ED795C008FD23F /* DeepLinkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkManager.swift; sourceTree = "<group>"; };
 		3FF2872D25F1BCA9008FD23F /* Data+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+.swift"; sourceTree = "<group>"; };
 		3FF2873225F412D5008FD23F /* DefaultSearchButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSearchButton.swift; sourceTree = "<group>"; };
 		3FF2873725F41455008FD23F /* DefaultSearchTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSearchTextField.swift; sourceTree = "<group>"; };
@@ -1266,13 +1250,6 @@
 			path = "Connections List";
 			sourceTree = "<group>";
 		};
-		3F8D136024D0EC5F00AED7EB /* Common */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Common;
-			sourceTree = "<group>";
-		};
 		3F8D136124D0EC6700AED7EB /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
@@ -1447,7 +1424,6 @@
 			children = (
 				3F8D137224D0ED7E00AED7EB /* Mocks */,
 				3F8D136124D0EC6700AED7EB /* Scenes */,
-				3F8D136024D0EC5F00AED7EB /* Common */,
 				3F95783624AD6FBE00B79818 /* LumiereTests.swift */,
 				3F95783824AD6FBE00B79818 /* Info.plist */,
 			);
@@ -1513,7 +1489,6 @@
 				3FE8DF5724C7BEE2005DE30D /* Constants.swift */,
 				3F6EEA7224E870AD0075C500 /* InfopListReader.swift */,
 				3F0129F5252D2AF500FF4985 /* LocalSaveManager.swift */,
-				3FF2870225ED795C008FD23F /* DeepLinkManager.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -1554,7 +1529,6 @@
 		3F95786724AD79C900B79818 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
-				3FBE1AEB25F57B6A00AE67E2 /* Create New Password */,
 				3FF286C625E87FAB008FD23F /* Account Recovery */,
 				3F6EEA2D24E0A3550075C500 /* Connections List */,
 				3F40A6C124F2318700261161 /* Edit Profile Details */,
@@ -1755,20 +1729,6 @@
 				3FB8BD88250ED673001954FD /* InviteProfileToProjectsModels.swift */,
 			);
 			path = "Invite Profile To Projects";
-			sourceTree = "<group>";
-		};
-		3FBE1AEB25F57B6A00AE67E2 /* Create New Password */ = {
-			isa = PBXGroup;
-			children = (
-				3FBE1B0025F5879600AE67E2 /* CreateNewPasswordController.swift */,
-				3FBE1B0A25F58B4A00AE67E2 /* CreateNewPasswordInteractor.swift */,
-				3FBE1AF125F581BF00AE67E2 /* CreateNewPasswordModels.swift */,
-				3FBE1B0525F58A7100AE67E2 /* CreateNewPasswordPresenter.swift */,
-				3FBE1AFB25F586B800AE67E2 /* CreateNewPasswordRouter.swift */,
-				3FBE1AEC25F57B7E00AE67E2 /* CreateNewPasswordView.swift */,
-				3FBE1AF625F5843100AE67E2 /* CreateNewPasswordWorker.swift */,
-			);
-			path = "Create New Password";
 			sourceTree = "<group>";
 		};
 		3FD0EDEB250D597800E22029 /* Project Invites */ = {
@@ -2158,7 +2118,6 @@
 				3F42A56E255A14C10088E232 /* WatchVideoPresenter.swift in Sources */,
 				3FE8DF5C24CBD81C005DE30D /* ThemeColors.swift in Sources */,
 				3F40A61A24EA10C300261161 /* SelectProjectImageModels.swift in Sources */,
-				3FBE1B0B25F58B4A00AE67E2 /* CreateNewPasswordInteractor.swift in Sources */,
 				3F655F752523C755004A1D54 /* SearchResultsModels.swift in Sources */,
 				3F655F662523C4AD004A1D54 /* SearchResultsPresenter.swift in Sources */,
 				3F40A68924EDF70700261161 /* SelectProjectCathegoryModels.swift in Sources */,
@@ -2273,7 +2232,6 @@
 				3F8D139724D53AA300AED7EB /* NotificationsController.swift in Sources */,
 				3F6EEA7324E870AD0075C500 /* InfopListReader.swift in Sources */,
 				3F42A54C2557AE0F0088E232 /* FinishedProjectDetailsInteractor.swift in Sources */,
-				3FBE1AED25F57B7E00AE67E2 /* CreateNewPasswordView.swift in Sources */,
 				3F42A5382557AC500088E232 /* FinishedProjectDetailsController.swift in Sources */,
 				3F95786424AD77E200B79818 /* LaunchScreenRouter.swift in Sources */,
 				3F40A6D624F4873F00261161 /* InviteListInteractor.swift in Sources */,
@@ -2294,7 +2252,6 @@
 				3F8D13A124D53C4400AED7EB /* NotificationsModels.swift in Sources */,
 				3F9578C824B0196300B79818 /* SignUpController.swift in Sources */,
 				3F95786A24AEA07100B79818 /* LaunchScreenInteractor.swift in Sources */,
-				3FF2870325ED795C008FD23F /* DeepLinkManager.swift in Sources */,
 				3FE8DF5824C7BEE2005DE30D /* Constants.swift in Sources */,
 				3F9578D424B019BE00B79818 /* MovieStyleButton.swift in Sources */,
 				3F42A49D2553933D0088E232 /* InsertVideoWorker.swift in Sources */,
@@ -2327,7 +2284,6 @@
 				3F42A5332557AB6B0088E232 /* FinishedProjectDetailsView.swift in Sources */,
 				3F8BEBF925CC81B30010AC24 /* ProjectDataTextView.swift in Sources */,
 				3F6EEA3124E0A3720075C500 /* ConnectionsListView.swift in Sources */,
-				3FBE1AF225F581BF00AE67E2 /* CreateNewPasswordModels.swift in Sources */,
 				3F43311E24E8E8B90082825E /* ConfirmationAlertView.swift in Sources */,
 				3F40A68524EDF68300261161 /* SelectProjectCathegoryPresenter.swift in Sources */,
 				3F40A68324EDF61700261161 /* SelectProjectCathegoryInteractor.swift in Sources */,
@@ -2346,7 +2302,6 @@
 				3F6EEA3D24E0A6B10075C500 /* ConnectionsListTableViewCell.swift in Sources */,
 				3F5B32562531642D004DFBFD /* ProfileSuggestionsPresenter.swift in Sources */,
 				3FF286E225E88104008FD23F /* AccountRecoveryInteractor.swift in Sources */,
-				3FBE1B0125F5879600AE67E2 /* CreateNewPasswordController.swift in Sources */,
 				3F8D13BE24D789EF00AED7EB /* UITableView+.swift in Sources */,
 				3F05D19F2515BFF200932FFC /* Float+.swift in Sources */,
 				3F01CB0F2569D6A5000833FB /* SaveUserInfoRequest.swift in Sources */,
@@ -2357,16 +2312,13 @@
 				3F9578CA24B0196C00B79818 /* SignUpInteractor.swift in Sources */,
 				3FB8BD7F250ED47D001954FD /* InviteProfileToProjectsTableViewCell.swift in Sources */,
 				3F5B323F2531622B004DFBFD /* ProfileSuggestionsTableViewCell.swift in Sources */,
-				3FBE1AF725F5843100AE67E2 /* CreateNewPasswordWorker.swift in Sources */,
 				3F012A12252E8EFB00FF4985 /* ProfileResumeButton.swift in Sources */,
 				3F40A6C924F2326700261161 /* EditProfileDetailsWorker.swift in Sources */,
 				3F66CA17250452DC006F6DBD /* ProjectParticipantsListTableViewCell.swift in Sources */,
 				3F5A4236251C145E00F10D63 /* Stubbable.swift in Sources */,
 				3F8D139224D5365700AED7EB /* ProfileDetailsModels.swift in Sources */,
-				3FBE1AFC25F586B800AE67E2 /* CreateNewPasswordRouter.swift in Sources */,
 				3F40A6B824F1CBF400261161 /* OnGoingProjectDetailsWorker.swift in Sources */,
 				3FB8BD89250ED673001954FD /* InviteProfileToProjectsModels.swift in Sources */,
-				3FBE1B0625F58A7100AE67E2 /* CreateNewPasswordPresenter.swift in Sources */,
 				3F9578CC24B0197500B79818 /* SignUpPresenter.swift in Sources */,
 				3F66CA11250451CC006F6DBD /* ProjectParticipantsListPresenter.swift in Sources */,
 				3F655FCD25280656004A1D54 /* ProfileResultTableViewCellBuilder.swift in Sources */,

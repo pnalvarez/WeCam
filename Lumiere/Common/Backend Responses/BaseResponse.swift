@@ -5,6 +5,7 @@
 //  Created by Pedro Alvarez on 06/08/20.
 //  Copyright © 2020 Pedro Alvarez. All rights reserved.
 //
+import ObjectMapper
 
 enum BaseResponse<T> {
     case success(T)
