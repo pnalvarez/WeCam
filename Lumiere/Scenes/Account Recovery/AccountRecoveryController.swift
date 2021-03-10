@@ -48,6 +48,7 @@ class AccountRecoveryController: BaseViewController {
         let view = DefaultActionButton(frame: .zero)
         view.addTarget(self, action: #selector(didTapSendEmailButton), for: .touchUpInside)
         view.setTitle(AccountRecovery.Constants.Texts.sendEmailText, for: .normal)
+        view.isHidden = true
         return view
     }()
     
@@ -123,6 +124,7 @@ extension AccountRecoveryController: AccountRecoveryDisplayLogic {
                                      ocupation: viewModel.ocupation,
                                      photo: viewModel.image)
         accountUserDisplayView.isHidden =  false
+        sendEmailButton.isHidden = false
     }
     
     func displayError(_ viewModel: AccountRecovery.Info.ViewModel.Error) {
