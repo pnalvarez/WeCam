@@ -11,6 +11,8 @@ protocol SearchResultsWorkerProtocol {
                        completion: @escaping (BaseResponse<[SearchResults.Info.Response.Profile]>) -> Void)
     func fetchProjects(_ request: SearchResults.Request.SearchWithPreffix,
                        completion: @escaping (BaseResponse<[SearchResults.Info.Response.Project]>) -> Void)
+    func fetchRegisterSearch(_ request: SearchResults.Request.RegisterSearch,
+                             completion: @escaping (EmptyResponse) -> Void)
 }
 
 class SearchResultsWorker: SearchResultsWorkerProtocol {
@@ -31,5 +33,11 @@ class SearchResultsWorker: SearchResultsWorkerProtocol {
                        completion: @escaping (BaseResponse<[SearchResults.Info.Response.Project]>) -> Void) {
         let headers: [String : Any] = ["preffix": request.preffix]
         builder.fetchSearchProjects(request: headers, completion: completion)
+    }
+    
+    func fetchRegisterSearch(_ request: SearchResults.Request.RegisterSearch,
+                             completion: @escaping (EmptyResponse) -> Void) {
+        let headers: [String : Any] = ["id": request.id, "type": request.type]
+        builder.registerRecentSearch(request: headers, completion: completion)
     }
 }

@@ -256,7 +256,7 @@ extension SearchResultsController: SearchResultsDisplayLogic {
     }
     
     func displayProjectDetails() {
-        router?.routeToProjectDetails()
+        router?.routeToOnGoingProjectDetails()
     }
     
     func displayLoading(_ loading: Bool) {

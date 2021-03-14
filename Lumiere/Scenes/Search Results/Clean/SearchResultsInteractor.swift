@@ -123,10 +123,12 @@ extension SearchResultsInteractor: SearchResultsBusinessLogic {
         switch request.type {
         case .profile:
             guard let user = results?.users[request.index] else { return }
+            worker.fetchRegisterSearch(SearchResults.Request.RegisterSearch(id: user.id, type: SearchResults.Info.Model.SearchType.user.rawValue)) { _ in }
             selectedItem = .profile(user)
             presenter.presentProfileDetails()
         case .project:
             guard let project = results?.projects[request.index] else { return }
+            worker.fetchRegisterSearch(SearchResults.Request.RegisterSearch(id: project.id, type: SearchResults.Info.Model.SearchType.ongoingProject.rawValue)) { _ in }
             selectedItem = .project(project)
             presenter.presentProjectDetails()
         }

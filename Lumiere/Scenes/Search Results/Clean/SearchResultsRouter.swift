@@ -12,8 +12,9 @@ typealias SearchResultsRouterProtocol = NSObject & SearchResultsRoutingLogic & S
 
 protocol SearchResultsRoutingLogic {
     func routeBack()
-    func routeToProjectDetails()
+    func routeToOnGoingProjectDetails()
     func routeToProfileDetails()
+    func routeToFinishedProjectDetails()
 }
 
 protocol SearchResultsDataTransfer {
@@ -52,7 +53,7 @@ extension SearchResultsRouter: SearchResultsRoutingLogic {
         viewController?.navigationController?.popViewController(animated: true)
     }
     
-    func routeToProjectDetails() {
+    func routeToOnGoingProjectDetails() {
         let vc = OnGoingProjectDetailsController()
         guard let source = dataStore,
               var destination = vc.router?.dataStore else { return }
@@ -66,5 +67,9 @@ extension SearchResultsRouter: SearchResultsRoutingLogic {
               var destination = vc.router?.dataStore else { return }
         transferDataToProfileDetails(from: source, to: &destination)
         routeTo(nextVC: vc)
+    }
+    
+    func routeToFinishedProjectDetails() {
+        //TO DO
     }
 }

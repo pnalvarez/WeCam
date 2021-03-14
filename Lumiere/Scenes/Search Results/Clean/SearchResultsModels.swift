@@ -104,6 +104,12 @@ struct SearchResults {
                 }
             }
             
+            enum SearchType: String {
+                case user = "user"
+                case ongoingProject = "ongoing_project"
+                case finishedProject = "finished_project"
+            }
+            
             struct UpcomingTypes: Equatable {
                 let types: [ResultType]
             }
@@ -224,6 +230,11 @@ struct SearchResults {
         struct SelectItem {
             let index: Int
             let type: ResultType
+        }
+        
+        struct RegisterSearch {
+            let id: String
+            let type: String
         }
         
         struct FetchResultTypes {
