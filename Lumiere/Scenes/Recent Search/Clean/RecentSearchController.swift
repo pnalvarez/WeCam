@@ -84,6 +84,11 @@ class RecentSearchController: BaseViewController {
         super.viewDidLoad()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        interactor?.fetchRecentSearches(RecentSearch.Request.FetchRecentSearches())
+    }
+    
     override func loadView() {
         super.loadView()
         self.view = mainView
