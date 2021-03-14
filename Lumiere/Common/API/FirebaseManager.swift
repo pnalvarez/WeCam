@@ -4532,19 +4532,19 @@ class FirebaseManager: FirebaseManagerProtocol {
                     allSearches.append(["id" : searchId, "type": type])
                 } else {
                     if allSearches.count >= self.maxRecentSearches {
-                        allSearches.removeLast()
+                        allSearches.removeFirst()
                     }
                     allSearches.append(["id" : searchId, "type": type])
-                    self.realtimeDB
-                        .child(Constants.usersPath)
-                        .child(currentUser)
-                        .updateChildValues([Constants.recentSearchesPath : allSearches]) { error, ref in
-                            if let error = error {
-                                completion(.error(error))
-                                return
-                            }
-                            completion(.success)
-                    }
+                }
+                self.realtimeDB
+                    .child(Constants.usersPath)
+                    .child(currentUser)
+                    .updateChildValues([Constants.recentSearchesPath : allSearches]) { error, ref in
+                        if let error = error {
+                            completion(.error(error))
+                            return
+                        }
+                        completion(.success)
                 }
         }
     }
