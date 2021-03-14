@@ -9,21 +9,20 @@
 import UIKit
 
 protocol SearchHeaderTableViewCellDelegate: class {
-    func didTapSearch(withText text: String)
+    func didTapSearch()
 }
 
 class SearchHeaderTableViewCell: UITableViewCell {
     
-    private lazy var lumiereHeader: UIImageView = {
-        let view = UIImageView(frame: .zero)
-        view.image = MainFeed.Constants.Images.lumiere
-        view.contentMode = .scaleToFill
+    private lazy var lumiereHeader: DefaultHeaderView = {
+        let view = DefaultHeaderView(frame: .zero)
         return view
     }()
     
-    private lazy var searchTextField: DefaultSearchTextField = {
-        let view = DefaultSearchTextField(frame: .zero)
-        view.searchDelegate = self
+    private lazy var searchButton: UIButton = {
+        let view = UIButton(frame: .zero)
+        view.addTarget(self, action: #selector(didTapSearchButton), for: .touchUpInside)
+        view.setImage(MainFeed.Constants.Images.search, for: .normal)
         return view
     }()
     
@@ -33,12 +32,10 @@ class SearchHeaderTableViewCell: UITableViewCell {
         self.delegate = delegate
         applyViewCode()
     }
-}
-
-extension SearchHeaderTableViewCell: DefaultSearchTextFieldDelegate {
     
-    func didTapSearch(searchTextField: DefaultSearchTextField) {
-        delegate?.didTapSearch(withText: searchTextField.text ?? .empty)
+    @objc
+    private func didTapSearchButton() {
+        delegate?.didTapSearch()
     }
 }
 
@@ -46,21 +43,20 @@ extension SearchHeaderTableViewCell: ViewCodeProtocol {
     
     func buildViewHierarchy() {
         addSubview(lumiereHeader)
-        addSubview(searchTextField)
+        addSubview(searchButton)
     }
     
     func setupConstraints() {
         lumiereHeader.snp.makeConstraints { make in
-            make.top.equalToSuperview()
+            make.centerY.equalToSuperview()
             make.centerX.equalToSuperview()
             make.width.equalTo(100)
             make.height.equalTo(36)
         }
-        searchTextField.snp.makeConstraints { make in
-            make.top.equalTo(lumiereHeader.snp.bottom).offset(5)
-            make.centerX.equalToSuperview()
-            make.width.equalTo(242)
-            make.height.equalTo(18)
+        searchButton.snp.makeConstraints { make in
+            make.top.equalTo(lumiereHeader)
+            make.left.equalTo(lumiereHeader.snp.right).offset(12)
+            make.width.height.equalTo(30)
         }
     }
     

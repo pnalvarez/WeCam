@@ -12,7 +12,7 @@ class DefaultHeaderView: UIImageView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        image = UIImage(named: "tipografia-projeto-2")
+        image = UIImage(named: "tipografia-projeto 2")
     }
     
     required init?(coder: NSCoder) {

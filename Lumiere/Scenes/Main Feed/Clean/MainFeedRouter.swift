@@ -10,7 +10,7 @@ import UIKit
 typealias MainFeedRouterProtocol = NSObject & MainFeedRoutingLogic & MainFeedDataTransfer
 
 protocol MainFeedRoutingLogic {
-    func routeToSearchResults()
+    func routeToRecentSearches()
     func routeToProfileDetails()
     func routeToProfileSuggestions()
     func routeToOnGoingProjectDetails()
@@ -53,18 +53,16 @@ class MainFeedRouter: NSObject, MainFeedDataTransfer {
 extension MainFeedRouter: BaseRouterProtocol {
     
     func routeTo(nextVC: UIViewController) {
-        viewController?.navigationController?.pushViewController(nextVC, animated: true)
+        viewController?.navigationController?.pushViewController(nextVC, animated: !(nextVC is RecentSearchController))
     }
 }
 
 extension MainFeedRouter: MainFeedRoutingLogic {
     
-    func routeToSearchResults() {
-        let vc = SearchResultsController()
-        guard let source = dataStore,
-              var destination = vc.router?.dataStore else { return }
-        transferDataToSearchResults(from: source, to: &destination)
-        routeTo(nextVC: vc)
+    func routeToRecentSearches() {
+        let recentSearcVc = RecentSearchController()
+        recentSearcVc.modalPresentationStyle = .fullScreen
+        routeTo(nextVC: recentSearcVc)
     }
     
     func routeToProfileDetails() {

@@ -9,6 +9,8 @@
 import UIKit
 
 class DefaultBackButton: UIButton {
+    
+    weak var associatedViewController: UIViewController?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -16,9 +18,15 @@ class DefaultBackButton: UIButton {
                          in: ProjectProgress.bundle,
                          compatibleWith: nil),
                  for: .normal)
+        addTarget(self, action: #selector(backAction), for: .touchUpInside)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc
+    private func backAction() {
+        associatedViewController?.navigationController?.popViewController(animated: true)
     }
 }

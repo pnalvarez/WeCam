@@ -15,7 +15,13 @@ class RecentSearchTableViewCell: UITableViewCell {
         return view
     }()
     
-    private var viewModel: RecentSearch.Info.ViewModel.Search?
+    private var viewModel: RecentSearch.Info.ViewModel.Search? {
+        didSet {
+            userDisplayView.setup(name: viewModel?.name ?? .empty,
+                                  ocupation: viewModel?.secondaryInfo ?? .empty,
+                                  photo: viewModel?.image ?? .empty)
+        }
+    }
     
     func setup(viewModel: RecentSearch.Info.ViewModel.Search) {
         self.viewModel = viewModel
@@ -31,8 +37,7 @@ extension RecentSearchTableViewCell: ViewCodeProtocol {
     
     func setupConstraints() {
         userDisplayView.snp.makeConstraints { make in
-            make.left.right.top.equalToSuperview()
-            make.height.equalTo(63)
+            make.edges.equalToSuperview()
         }
     }
 }

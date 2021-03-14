@@ -29,8 +29,8 @@ class RecentSearchController: BaseViewController {
         return view
     }()
     
-    private lazy var closeButton: DefaultCloseButton = {
-        let view = DefaultCloseButton(frame: .zero)
+    private lazy var backButton: DefaultBackButton = {
+        let view = DefaultBackButton(frame: .zero)
         view.associatedViewController = self
         return view
     }()
@@ -44,6 +44,7 @@ class RecentSearchController: BaseViewController {
     private lazy var resultsTableView: UITableView = {
         let view = UITableView(frame: .zero)
         view.separatorStyle = .none
+        view.backgroundColor = ThemeColors.whiteThemeColor.rawValue
         view.registerCell(cellType: RecentSearchTableViewCell.self)
         view.bounces = false
         view.alwaysBounceVertical = false
@@ -54,7 +55,7 @@ class RecentSearchController: BaseViewController {
     private lazy var mainView: RecentSearchView = {
         let view = RecentSearchView(frame: .zero,
                                     activityView: activityView,
-                                    closeButton: closeButton,
+                                    backButton: backButton,
                                     searchTextField: searchTextField,
                                     resultsTableView: resultsTableView)
         return view
@@ -123,6 +124,10 @@ extension RecentSearchController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         interactor?.didSelectSearch(RecentSearch.Request.SelectSearch(index: indexPath.row))
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return RecentSearch.Constants.Dimensions.Heights.recentSearchTableViewCell
     }
 }
 

@@ -9,7 +9,6 @@
 import UIKit
 
 protocol MainFeedDisplayLogic: class {
-    func displaySearchResults()
     func displayProfileDetails()
     func displayOnGoingProjectDetails()
     func displayFinishedProjectDetails()
@@ -99,8 +98,8 @@ extension MainFeedController {
 
 extension MainFeedController: SearchHeaderTableViewCellDelegate {
     
-    func didTapSearch(withText text: String) {
-        interactor?.fetchSearch(MainFeed.Request.Search(key: text))
+    func didTapSearch() {
+        router?.routeToRecentSearches()
     }
 }
 
@@ -166,10 +165,6 @@ extension MainFeedController: UITableViewDataSource {
 extension MainFeedController: UITableViewDelegate { }
 
 extension MainFeedController: MainFeedDisplayLogic {
-    
-    func displaySearchResults() {
-        router?.routeToSearchResults()
-    }
     
     func displayProfileDetails() {
         router?.routeToProfileDetails()

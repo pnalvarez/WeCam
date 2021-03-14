@@ -109,7 +109,9 @@ extension RecentSearchInteractor: RecentSearchBusinessLogic {
     }
     
     func didSelectSearch(_ request: RecentSearch.Request.SelectSearch) {
-        guard let search = searches?.results[request.index] else { return }
+        guard let search = searches?.results[request.index] else {
+            return
+        }
         switch search {
         case .user(let user):
             worker.fetchRegisterRecentSearch(RecentSearch.Request.RegisterSearch(id: user.userId, type: RecentSearch.Info.Model.SearchType.user.rawValue)) { _ in }
@@ -119,11 +121,11 @@ extension RecentSearchInteractor: RecentSearchBusinessLogic {
             if project.finished {
                 worker.fetchRegisterRecentSearch(RecentSearch.Request.RegisterSearch(id: project.projectId, type: RecentSearch.Info.Model.SearchType.ongoingProject.rawValue)) { _ in }
                 selectedFinishedProject = project.projectId
-                presenter.presentOngoingProjectDetails()
+                presenter.presentFinishedProjectDetails()
             } else {
                 worker.fetchRegisterRecentSearch(RecentSearch.Request.RegisterSearch(id: project.projectId, type: RecentSearch.Info.Model.SearchType.finishedProject.rawValue)) { _ in }
                 selectedOngoingProject = project.projectId
-                presenter.presentFinishedProjectDetails()
+                presenter.presentOngoingProjectDetails()
             }
         }
     }

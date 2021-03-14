@@ -9,7 +9,6 @@
 import UIKit
 
 protocol MainFeedPresentationLogic {
-    func presentSearchResults()
     func presentProfileDetails()
     func presentOnGoingProjectDetails()
     func presentFinishedProjectDetails()
@@ -23,10 +22,6 @@ class MainFeedPresenter: MainFeedPresentationLogic {
     
     init(viewController: MainFeedDisplayLogic) {
         self.viewController = viewController
-    }
-    
-    func presentSearchResults() {
-        viewController.displaySearchResults()
     }
     
     func presentProfileDetails() {

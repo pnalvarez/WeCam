@@ -28,6 +28,13 @@ struct RecentSearch {
         
         struct Images { }
         
+        struct Dimensions {
+            
+            struct Heights {
+                static let recentSearchTableViewCell: CGFloat = 63
+            }
+        }
+        
         struct BusinessLogic { }
     }
     

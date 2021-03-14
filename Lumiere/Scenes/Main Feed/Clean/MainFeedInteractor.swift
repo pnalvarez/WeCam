@@ -8,8 +8,6 @@
 import Foundation
 
 protocol MainFeedBusinessLogic {
-    func fetchSearch(_ request: MainFeed.Request.Search)
-    func fetchRecentSearches(_ request: MainFeed.Request.RecentSearches)
     func fetchMainFeed(_ request: MainFeed.Request.MainFeed)
     func didSelectSuggestedProfile(_ request: MainFeed.Request.SelectSuggestedProfile)
     func didSelectOnGoingProject(_ request: MainFeed.Request.SelectOnGoingProject)
@@ -199,17 +197,6 @@ extension MainFeedInteractor {
 }
 
 extension MainFeedInteractor: MainFeedBusinessLogic {
-    
-    func fetchSearch(_ request: MainFeed.Request.Search) {
-        searchKey = MainFeed.Info.Model.SearchKey(key: request.key)
-        if !checkSearchKeyEmpty() {
-            presenter.presentSearchResults()
-        }
-    }
-    
-    func fetchRecentSearches(_ request: MainFeed.Request.RecentSearches) {
-        let searchIds = LocalSaveManager.instance.fetchRecentSearches()
-    }
     
     func fetchMainFeed(_ request: MainFeed.Request.MainFeed) {
         fetchSuggestedProfiles(MainFeed.Request.FetchSuggestedProfiles())

@@ -25,17 +25,17 @@ class RecentSearchView: UIView {
     }()
     
     private unowned var activityView: UIActivityIndicatorView
-    private unowned var closeButton: DefaultCloseButton
+    private unowned var backButton: DefaultBackButton
     private unowned var searchTextField: DefaultSearchTextField
     private unowned var resultsTableView: UITableView
     
     init(frame: CGRect,
          activityView: UIActivityIndicatorView,
-         closeButton: DefaultCloseButton,
+         backButton: DefaultBackButton,
          searchTextField: DefaultSearchTextField,
          resultsTableView: UITableView) {
         self.activityView = activityView
-        self.closeButton = closeButton
+        self.backButton = backButton
         self.searchTextField = searchTextField
         self.resultsTableView = resultsTableView
         super.init(frame: frame)
@@ -52,7 +52,7 @@ class RecentSearchView: UIView {
 extension RecentSearchView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
-        addSubview(closeButton)
+        addSubview(backButton)
         addSubview(headerView)
         addSubview(searchTextField)
         addSubview(searchLbl)
@@ -61,13 +61,13 @@ extension RecentSearchView: ViewCodeProtocol {
     }
     
     func setupConstraints() {
-        closeButton.snp.makeConstraints { make in
+        backButton.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(7)
             make.left.equalToSuperview().inset(28)
             make.height.width.equalTo(31)
         }
         headerView.snp.makeConstraints { make in
-            make.top.equalToSuperview()
+            make.top.equalTo(backButton)
             make.centerX.equalToSuperview()
             make.width.equalTo(100)
             make.height.equalTo(36)
@@ -87,9 +87,9 @@ extension RecentSearchView: ViewCodeProtocol {
             make.top.equalTo(searchLbl.snp.bottom).offset(22)
             make.left.right.bottom.equalToSuperview()
         }
-        activityView.snp.makeConstraints { make in
-            make.edges.equalTo(resultsTableView)
-        }
+//        activityView.snp.makeConstraints { make in
+//            make.edges.equalTo(resultsTableView)
+//        }
     }
     
     func configureViews() {
