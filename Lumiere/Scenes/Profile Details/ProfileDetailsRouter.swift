@@ -60,7 +60,11 @@ class ProfileDetailsRouter: NSObject, ProfileDetailsDataTransfer {
 extension ProfileDetailsRouter: BaseRouterProtocol {
     
     func routeTo(nextVC: UIViewController) {
-        viewController?.navigationController?.pushViewController(nextVC, animated: true)
+        if nextVC is EditProfileDetailsController {
+            viewController?.present(nextVC, animated: true, completion: nil)
+        } else {
+            viewController?.navigationController?.pushViewController(nextVC, animated: true)
+        }
     }
 }
 
@@ -87,6 +91,7 @@ extension ProfileDetailsRouter: ProfileDetailsRoutingLogic {
     func routeToEditProfileDetails() {
         let vc = EditProfileDetailsController()
         viewController?.navigationController?.tabBarController?.tabBar.isHidden = true
+        vc.modalPresentationStyle = .fullScreen
         routeTo(nextVC: vc)
     }
     

@@ -34,7 +34,7 @@ extension EditProfileDetailsRouter: BaseRouterProtocol {
 extension EditProfileDetailsRouter: EditProfileDetailsRoutingLogic {
     
     func routeBack() {
-        viewController?.navigationController?.popViewController(animated: true)
+        viewController?.dismiss(animated: true, completion: nil)
     }
     
     func routeBackSuccess() {

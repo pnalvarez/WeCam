@@ -167,6 +167,10 @@ protocol FirebaseManagerProtocol {
                               completion: @escaping (BaseResponse<T>) -> Void)
     func updatePassword(request: [String : Any],
                         completion: @escaping (EmptyResponse) -> Void)
+    func fetchRecentSearches<T: Mappable>(request: [String : Any],
+                                          completion: @escaping (BaseResponse<[T]>) -> Void)
+    func registerRecentSearch(request: [String : Any],
+                                   completion: @escaping (EmptyResponse) -> Void)
 }
 
 class FirebaseManager: FirebaseManagerProtocol {
@@ -181,6 +185,8 @@ class FirebaseManager: FirebaseManagerProtocol {
     
     private let connectionInProjectScore: Int = 1
     private let projectCathegoriesScore: Int = 3
+    
+    private let maxRecentSearches: Int = 10
     
     private var mutex: Bool = true //Profile details mutex
     
@@ -1360,7 +1366,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                         completion(.error(FirebaseErrors.genericError))
                         return
                     }
-                    projectData["project_id"] = projectId
+                    projectData["projectId"] = projectId
                     if let participants = projectData["participants"] as? Array<Any> {
                         projectData["participants"] = participants
                     } else {
@@ -4472,6 +4478,74 @@ class FirebaseManager: FirebaseManagerProtocol {
                 return
             }
             completion(.success)
+        }
+    }
+    
+    func fetchRecentSearches<T: Mappable>(request: [String : Any],
+                                          completion: @escaping (BaseResponse<[T]>) -> Void) {
+        guard let currentUser = authReference.currentUser?.uid else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        realtimeDB
+            .child(Constants.usersPath)
+            .child(currentUser)
+            .child(Constants.recentSearchesPath)
+            .observeSingleEvent(of: .value) { snapshot in
+                guard let searches = snapshot.value as? [[String : Any]] else {
+                    completion(.success(.empty))
+                    return
+                }
+                let mappedResponse = Mapper<T>().mapArray(JSONArray: searches)
+                completion(.success(mappedResponse))
+        }
+    }
+    
+    func registerRecentSearch(request: [String : Any],
+                                   completion: @escaping (EmptyResponse) -> Void) {
+        var allSearches = [[String : Any]]()
+        
+        guard let searchId = request["id"] as? String,
+              let type = request["type"] as? String else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        guard let currentUser = authReference.currentUser?.uid else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        realtimeDB
+            .child(Constants.usersPath)
+            .child(currentUser)
+            .child(Constants.recentSearchesPath)
+            .observeSingleEvent(of: .value) { snapshot in
+                if let searches = snapshot.value as? [[String : Any]] {
+                    allSearches = searches
+                }
+                if let index = allSearches.firstIndex(where: {
+                    guard let id = $0["id"] as? String else {
+                        return false
+                    }
+                    return id == searchId
+                }) {
+                    allSearches.remove(at: index)
+                    allSearches.append(["id" : searchId, "type": type])
+                } else {
+                    if allSearches.count >= self.maxRecentSearches {
+                        allSearches.removeLast()
+                    }
+                    allSearches.append(["id" : searchId, "type": type])
+                    self.realtimeDB
+                        .child(Constants.usersPath)
+                        .child(currentUser)
+                        .updateChildValues([Constants.recentSearchesPath : allSearches]) { error, ref in
+                            if let error = error {
+                                completion(.error(error))
+                                return
+                            }
+                            completion(.success)
+                    }
+                }
         }
     }
 }

@@ -14,7 +14,9 @@ import ObjectMapper
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        FirebaseApp.configure()
+        let firebaseFile: String! = Bundle.main.path(forResource: "GoogleService-Info", ofType: "plist")
+        let options = FirebaseOptions(contentsOfFile: firebaseFile)!
+        FirebaseApp.configure(options: options)
         Database.database().isPersistenceEnabled = true
         UITabBar.setupTabBarUI()
         UISegmentedControl.setupSegmentedControlUI()

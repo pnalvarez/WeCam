@@ -53,7 +53,7 @@ class MainFeedRouter: NSObject, MainFeedDataTransfer {
 extension MainFeedRouter: BaseRouterProtocol {
     
     func routeTo(nextVC: UIViewController) {
-        viewController?.navigationController?.pushViewController(nextVC, animated: false)
+        viewController?.navigationController?.pushViewController(nextVC, animated: true)
     }
 }
 

@@ -57,7 +57,7 @@ class SignInController: BaseViewController {
         view.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
         return view
     }()
-
+    
     private lazy var mainView: SignInView = {
         return SignInView(frame: .zero,
                           loadingView: loadingView,
@@ -85,7 +85,12 @@ class SignInController: BaseViewController {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if let textfield = textField as? DefaultInputTextField {
             textfield.textFieldState = .normal
-            return true
+            guard range.location == 0 else {
+                return true
+            }
+            
+            let newString = (textField.text! as NSString).replacingCharacters(in: range, with: string) as NSString
+            return newString.rangeOfCharacter(from: CharacterSet.whitespacesAndNewlines).location != 0
         }
         return false
     }

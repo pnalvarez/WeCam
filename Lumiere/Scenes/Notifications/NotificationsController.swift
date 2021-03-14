@@ -135,7 +135,7 @@ extension NotificationsController {
                                                                                        text: Notifications.Constants.Texts.emptyNotifications) : nil
         } else if criteriaSegmentedControl.selectedSegmentIndex == Notifications.Constants.BusinessLogic.SegmentedControlIndexes.acceptance {
             tableView.backgroundView = (viewModel?.acceptNotifications.isEmpty ?? true) ? EmptyListView(frame: .zero,
-                                                                                       text: Notifications.Constants.Texts.emptyNotifications) : nil
+                                                                                       text: Notifications.Constants.Texts.emptyHistory) : nil
         }
         DispatchQueue.main.async {
             self.tableView.reloadData()

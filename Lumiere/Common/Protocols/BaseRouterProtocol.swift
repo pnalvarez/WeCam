@@ -17,3 +17,4 @@ import UIKit
     var viewController: UIViewController? { get set }
     func routeTo(nextVC: UIViewController)
 }
+
