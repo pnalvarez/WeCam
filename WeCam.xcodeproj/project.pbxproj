@@ -315,6 +315,7 @@
 		3FBE1C2A25FD78BD00AE67E2 /* RecentSearchPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FBE1C2925FD78BD00AE67E2 /* RecentSearchPresenter.swift */; };
 		3FBE1C2F25FD791C00AE67E2 /* RecentSearchInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FBE1C2E25FD791C00AE67E2 /* RecentSearchInteractor.swift */; };
 		3FBE1C3425FD79A800AE67E2 /* RecentSearchRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FBE1C3325FD79A800AE67E2 /* RecentSearchRouter.swift */; };
+		3FBE1C3925FEE1D100AE67E2 /* SearchDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FBE1C3825FEE1D100AE67E2 /* SearchDisplayView.swift */; };
 		3FD0EDED250D599300E22029 /* ProjectInvitesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD0EDEC250D599300E22029 /* ProjectInvitesView.swift */; };
 		3FD0EDEF250D5AFD00E22029 /* ProjectInvitesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD0EDEE250D5AFD00E22029 /* ProjectInvitesController.swift */; };
 		3FD0EDF1250D5B8700E22029 /* ProjectInvitesRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD0EDF0250D5B8700E22029 /* ProjectInvitesRouter.swift */; };
@@ -685,6 +686,7 @@
 		3FBE1C2925FD78BD00AE67E2 /* RecentSearchPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchPresenter.swift; sourceTree = "<group>"; };
 		3FBE1C2E25FD791C00AE67E2 /* RecentSearchInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchInteractor.swift; sourceTree = "<group>"; };
 		3FBE1C3325FD79A800AE67E2 /* RecentSearchRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSearchRouter.swift; sourceTree = "<group>"; };
+		3FBE1C3825FEE1D100AE67E2 /* SearchDisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDisplayView.swift; sourceTree = "<group>"; };
 		3FD0EDEC250D599300E22029 /* ProjectInvitesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectInvitesView.swift; sourceTree = "<group>"; };
 		3FD0EDEE250D5AFD00E22029 /* ProjectInvitesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectInvitesController.swift; sourceTree = "<group>"; };
 		3FD0EDF0250D5B8700E22029 /* ProjectInvitesRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectInvitesRouter.swift; sourceTree = "<group>"; };
@@ -883,27 +885,28 @@
 		3F05D1AC2515D14000932FFC /* Reusable */ = {
 			isa = PBXGroup;
 			children = (
-				3F40A6BD24F1CE5100261161 /* DefaultCloseButton.swift */,
-				3F40A69D24F08F7C00261161 /* DefaultBackButton.swift */,
-				3F9578D324B019BE00B79818 /* MovieStyleButton.swift */,
-				3F40A60A24E9CA4D00261161 /* LoadingView.swift */,
-				3F6EEA7624E8D1CE0075C500 /* EmptyListView.swift */,
-				3FEBA85324FF145E0077183F /* OnGoingProjectDisplayView.swift */,
-				3F40A6E124F582EF00261161 /* UserDisplayView.swift */,
-				3F012A11252E8EFB00FF4985 /* ProfileResumeButton.swift */,
-				3FB8806A2533BD2E003C0D1B /* SelectionFilterView.swift */,
-				3FB8808D2533FE31003C0D1B /* DefaultBottomSheet.swift */,
-				3FA1C1502536738B00385322 /* OptionFilterButton.swift */,
-				3FA1C166253B88F700385322 /* OnGoingProjectFeedResumeButton.swift */,
-				3F8BEBEE25CB88870010AC24 /* DefaultInputTextField.swift */,
-				3F8BEBF325CC7A3B0010AC24 /* ProjectDataTextField.swift */,
-				3F8BEBF825CC81B30010AC24 /* ProjectDataTextView.swift */,
 				3F886FE825D20936003C875F /* DefaultActionButton.swift */,
+				3F40A69D24F08F7C00261161 /* DefaultBackButton.swift */,
+				3FB8808D2533FE31003C0D1B /* DefaultBottomSheet.swift */,
+				3F40A6BD24F1CE5100261161 /* DefaultCloseButton.swift */,
 				3FF286F025E883F2008FD23F /* DefaultHeaderView.swift */,
-				3FF286F525EAE4EF008FD23F /* OpionSelectorView.swift */,
-				3FF286FA25EAE5A1008FD23F /* OptionView.swift */,
+				3F8BEBEE25CB88870010AC24 /* DefaultInputTextField.swift */,
 				3FF2873225F412D5008FD23F /* DefaultSearchButton.swift */,
 				3FF2873725F41455008FD23F /* DefaultSearchTextField.swift */,
+				3F6EEA7624E8D1CE0075C500 /* EmptyListView.swift */,
+				3F40A60A24E9CA4D00261161 /* LoadingView.swift */,
+				3F9578D324B019BE00B79818 /* MovieStyleButton.swift */,
+				3FEBA85324FF145E0077183F /* OnGoingProjectDisplayView.swift */,
+				3FA1C166253B88F700385322 /* OnGoingProjectFeedResumeButton.swift */,
+				3FF286F525EAE4EF008FD23F /* OpionSelectorView.swift */,
+				3FA1C1502536738B00385322 /* OptionFilterButton.swift */,
+				3FF286FA25EAE5A1008FD23F /* OptionView.swift */,
+				3F012A11252E8EFB00FF4985 /* ProfileResumeButton.swift */,
+				3F8BEBF325CC7A3B0010AC24 /* ProjectDataTextField.swift */,
+				3F8BEBF825CC81B30010AC24 /* ProjectDataTextView.swift */,
+				3FBE1C3825FEE1D100AE67E2 /* SearchDisplayView.swift */,
+				3FB8806A2533BD2E003C0D1B /* SelectionFilterView.swift */,
+				3F40A6E124F582EF00261161 /* UserDisplayView.swift */,
 			);
 			path = Reusable;
 			sourceTree = "<group>";
@@ -2286,6 +2289,7 @@
 				3FB8BD7D250ED441001954FD /* InviteProfileToProjectsView.swift in Sources */,
 				3F40A69E24F08F7C00261161 /* DefaultBackButton.swift in Sources */,
 				3F5B3232253161B6004DFBFD /* ProfileSuggestionsController.swift in Sources */,
+				3FBE1C3925FEE1D100AE67E2 /* SearchDisplayView.swift in Sources */,
 				3F42A48E255393150088E232 /* InsertVideoModels.swift in Sources */,
 				3F40A61224EA0E4B00261161 /* SelectProjectImageView.swift in Sources */,
 				3F9578CE24B0197F00B79818 /* SignUpProvider.swift in Sources */,

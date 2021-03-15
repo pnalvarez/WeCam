@@ -125,10 +125,6 @@ extension RecentSearchController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         interactor?.didSelectSearch(RecentSearch.Request.SelectSearch(index: indexPath.row))
     }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return RecentSearch.Constants.Dimensions.Heights.recentSearchTableViewCell
-    }
 }
 
 extension RecentSearchController: DefaultSearchTextFieldDelegate {

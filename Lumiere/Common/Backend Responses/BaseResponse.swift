@@ -16,3 +16,14 @@ enum EmptyResponse {
     case success
     case error(Error)
 }
+
+enum CheckEntityResponse {
+    case sucess(type: EntityType)
+    case error
+}
+
+enum EntityType: String {
+    case user = "user"
+    case ongoingProject = "ongoing_project"
+    case finishedProject = "finished_project"
+}

@@ -10,16 +10,14 @@ import UIKit
 
 class RecentSearchTableViewCell: UITableViewCell {
     
-    private lazy var userDisplayView: UserDisplayView = {
-        let view = UserDisplayView(frame: .zero)
+    private lazy var searchDisplayView: SearchDisplayView = {
+        let view = SearchDisplayView(frame: .zero)
         return view
     }()
     
     private var viewModel: RecentSearch.Info.ViewModel.Search? {
         didSet {
-            userDisplayView.setup(name: viewModel?.name ?? .empty,
-                                  ocupation: viewModel?.secondaryInfo ?? .empty,
-                                  photo: viewModel?.image ?? .empty)
+            searchDisplayView.setup(name: viewModel?.name ?? .empty, image: viewModel?.image ?? .empty, secondaryInfo: viewModel?.secondaryInfo ?? .empty)
         }
     }
     
@@ -32,12 +30,14 @@ class RecentSearchTableViewCell: UITableViewCell {
 extension RecentSearchTableViewCell: ViewCodeProtocol {
     
     func buildViewHierarchy() {
-        addSubview(userDisplayView)
+        addSubview(searchDisplayView)
     }
     
     func setupConstraints() {
-        userDisplayView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+        searchDisplayView.snp.makeConstraints { make in
+            make.top.left.right.equalToSuperview()
+            make.height.equalTo(64)
+            make.bottom.equalToSuperview().inset(5)
         }
     }
 }

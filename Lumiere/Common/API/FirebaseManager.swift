@@ -322,7 +322,14 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                         completion(.error(error))
                                                         return
                                                     }
-                                                    completion(.success)
+                                                    self.registerEntity(withId: request.userId, type: .user) { response in
+                                                        switch response {
+                                                        case .error(let error):
+                                                            completion(.error(error))
+                                                        case .success:
+                                                            completion(.success)
+                                                        }
+                                                    }
                                                 }
                                             }
                                     }
@@ -1339,7 +1346,15 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                                         completion(.error(FirebaseErrors.genericError))
                                                                         return
                                                                     }
-                                                                    completion(.success(mappedResponse))
+                                                                    self.registerEntity(withId: projectId, type: .ongoingProject) {
+                                                                        response in
+                                                                        switch response {
+                                                                        case .error(let error):
+                                                                            completion(.error(error))
+                                                                        case .success:
+                                                                            completion(.success(mappedResponse))
+                                                                        }
+                                                                    }
                                                                 }
                                                             }
                                                     }
@@ -3581,7 +3596,23 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                                         }
                                                                 }
                                                                 dispatchGroup.notify(queue: .main) {
-                                                                    completion(.success)
+                                                                    self.removeEntity(withId: projectId) { response in
+                                                                        switch response {
+                                                                        case .error(let error):
+                                                                            completion(.error(error))
+                                                                        case.success:
+                                                                            self.registerEntity(withId: projectId, type: .finishedProject) {
+                                                                                response in
+                                                                                switch response {
+                                                                                case .error(let error):
+                                                                                    completion(.error(error))
+                                                                                case.success:
+                                                                                    completion(.success)
+                                                                                }
+                                                                                }
+                                                                        }
+                                                                        
+                                                                    }
                                                                 }
                                                             }
                                                     }
@@ -3820,7 +3851,15 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                     completion(.error(FirebaseErrors.parseError))
                                                     return
                                                 }
-                                                completion(.success(mappedResponse))
+                                                self.registerEntity(withId: projectId, type: .finishedProject) {
+                                                    response in
+                                                    switch response {
+                                                    case .error(let error):
+                                                        completion(.error(error))
+                                                    case .success:
+                                                        completion(.success(mappedResponse))
+                                                    }
+                                                }
                                             }
                                         }
                                 }
@@ -4492,10 +4531,11 @@ class FirebaseManager: FirebaseManagerProtocol {
             .child(currentUser)
             .child(Constants.recentSearchesPath)
             .observeSingleEvent(of: .value) { snapshot in
-                guard let searches = snapshot.value as? [[String : Any]] else {
+                guard var searches = snapshot.value as? [[String : Any]] else {
                     completion(.success(.empty))
                     return
                 }
+                searches = searches.reversed()
                 let mappedResponse = Mapper<T>().mapArray(JSONArray: searches)
                 completion(.success(mappedResponse))
         }
@@ -4546,6 +4586,40 @@ class FirebaseManager: FirebaseManagerProtocol {
                         }
                         completion(.success)
                 }
+        }
+    }
+}
+
+//MARK: Entities verifier
+extension FirebaseManager {
+    
+    private func registerEntity(withId id: String, type: EntityType, completion: @escaping (EmptyResponse) -> Void) {
+        realtimeDB.child(Constants.entitiesPath).updateChildValues([id : type.rawValue]) { error, ref in
+            if let error = error {
+                completion(.error(error))
+                return
+            }
+            completion(.success)
+        }
+    }
+    
+    private func fetchEntityType(forId id: String, completion: @escaping (CheckEntityResponse) -> Void) {
+        realtimeDB.child(Constants.entitiesPath).observeSingleEvent(of: .value) { snaphot in
+            guard let entities = snaphot.value as? [String : Any], let type = entities[id] as? String, let entityResponse = EntityType(rawValue: type) else {
+                completion(.error)
+                return
+            }
+            completion(.sucess(type: entityResponse))
+        }
+    }
+    
+    private func removeEntity(withId id: String, completion: @escaping (EmptyResponse) -> Void) {
+        realtimeDB.child(Constants.entitiesPath).child(id).removeValue { error, ref in
+            if let error = error {
+                completion(.error(error))
+                return
+            }
+            completion(.success)
         }
     }
 }
