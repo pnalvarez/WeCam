@@ -12,7 +12,8 @@ protocol SearchResultsPresentationLogic {
     func presentLoading(_ loading: Bool)
     func presentResults(_ response: SearchResults.Info.Model.Results)
     func presentProfileDetails()
-    func presentProjectDetails()
+    func presentOnGoingProjectDetails()
+    func presentFinishedProjectDetails()
     func presentError(_ response: SearchResults.Info.Model.ResultError)
     func presentResultTypes(_ response: SearchResults.Info.Model.UpcomingTypes)
 }
@@ -38,8 +39,12 @@ class SearchResultsPresenter: SearchResultsPresentationLogic {
         viewController.displayProfileDetails()
     }
     
-    func presentProjectDetails() {
-        viewController.displayProjectDetails()
+    func presentOnGoingProjectDetails() {
+        viewController.displayOnGoingProjectDetails()
+    }
+    
+    func presentFinishedProjectDetails() {
+        viewController.displayFinishedProjectDetails()
     }
     
     func presentError(_ response: SearchResults.Info.Model.ResultError) {
@@ -78,7 +83,7 @@ extension SearchResultsPresenter {
             viewModel.append(SearchResults.Info.ViewModel.Project(offset: index,
                                                                   title: model[index].title,
                                                                   cathegories: model[index].firstCathegory + secondCathegory,
-                                                                  progress: "\(model[index].progress) %", image: model[index].image))
+                                                                  progress: "\(model[index].progress)  %", image: model[index].image))
         }
         return viewModel
     }

@@ -9,8 +9,10 @@
 protocol SearchResultsWorkerProtocol {
     func fetchProfiles(_ request: SearchResults.Request.SearchWithPreffix,
                        completion: @escaping (BaseResponse<[SearchResults.Info.Response.Profile]>) -> Void)
-    func fetchProjects(_ request: SearchResults.Request.SearchWithPreffix,
+    func fetchOngoingProjects(_ request: SearchResults.Request.SearchWithPreffix,
                        completion: @escaping (BaseResponse<[SearchResults.Info.Response.Project]>) -> Void)
+    func fetchFinishedProjects(_ request: SearchResults.Request.SearchWithPreffix,
+                               completion: @escaping (BaseResponse<[SearchResults.Info.Response.Project]>) -> Void)
     func fetchRegisterSearch(_ request: SearchResults.Request.RegisterSearch,
                              completion: @escaping (EmptyResponse) -> Void)
 }
@@ -29,10 +31,16 @@ class SearchResultsWorker: SearchResultsWorkerProtocol {
         builder.fetchSearchProfiles(request: headers, completion: completion)
     }
     
-    func fetchProjects(_ request: SearchResults.Request.SearchWithPreffix,
+    func fetchOngoingProjects(_ request: SearchResults.Request.SearchWithPreffix,
                        completion: @escaping (BaseResponse<[SearchResults.Info.Response.Project]>) -> Void) {
         let headers: [String : Any] = ["preffix": request.preffix]
-        builder.fetchSearchProjects(request: headers, completion: completion)
+        builder.fetchSearchOngoingProjects(request: headers, completion: completion)
+    }
+    
+    func fetchFinishedProjects(_ request: SearchResults.Request.SearchWithPreffix,
+                               completion: @escaping (BaseResponse<[SearchResults.Info.Response.Project]>) -> Void) {
+        let headers: [String : Any] = ["preffix": request.preffix]
+        builder.fetchSearchFinishedProjects(request: headers, completion: completion)
     }
     
     func fetchRegisterSearch(_ request: SearchResults.Request.RegisterSearch,

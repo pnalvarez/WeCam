@@ -108,8 +108,10 @@ protocol FirebaseManagerProtocol {
                                completion: @escaping (EmptyResponse) -> Void)
     func fetchSearchProfiles<T: Mappable>(request: [String : Any],
                                           completion: @escaping (BaseResponse<[T]>) -> Void)
-    func fetchSearchProjects<T: Mappable>(request: [String : Any],
+    func fetchSearchOngoingProjects<T: Mappable>(request: [String : Any],
                                           completion: @escaping (BaseResponse<[T]>) -> Void)
+    func fetchSearchFinishedProjects<T: Mappable>(request: [String : Any],
+                                                  completion: @escaping (BaseResponse<[T]>) -> Void)
     func fetchDataFromId<T: Mappable>(request: [String : Any],
                                       completion: @escaping (BaseResponse<T>) -> Void)
     func fetchGeneralProfileSuggestions<T: Mappable>(request: [String : Any],
@@ -2764,7 +2766,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             }
     }
     
-    func fetchSearchProjects<T: Mappable>(request: [String : Any],
+    func fetchSearchOngoingProjects<T: Mappable>(request: [String : Any],
                                           completion: @escaping (BaseResponse<[T]>) -> Void) {
         var projectsResponse: [[String : Any]] = .empty
         var allProjects = [String]()
@@ -2796,10 +2798,55 @@ class FirebaseManager: FirebaseManagerProtocol {
                                 completion(.error(FirebaseErrors.genericError))
                                 return
                             }
+                            project["id"] = allProjects[i]
                             if title.hasPrefix(preffix) {
                                 projectsResponse.append(project)
                             }
+                            if i == allProjects.count-1 {
+                                let mappedResponse = Mapper<T>().mapArray(JSONArray: projectsResponse)
+                                completion(.success(mappedResponse))
+                            }
+                        }
+                }
+            }
+    }
+    
+    func fetchSearchFinishedProjects<T: Mappable>(request: [String : Any],
+                                                  completion: @escaping (BaseResponse<[T]>) -> Void) {
+        var projectsResponse: [[String : Any]] = .empty
+        var allProjects = [String]()
+        
+        guard let preffix = request["preffix"] as? String else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        realtimeDB
+            .child(Constants.finishedProjectsCataloguePath)
+            .observeSingleEvent(of: .value) { snapshot in
+                if let projectIds = snapshot.value as? [String] {
+                    allProjects = projectIds
+                } else {
+                    completion(.success(.empty))
+                    return
+                }
+                for i in 0..<allProjects.count {
+                    self.realtimeDB
+                        .child(Constants.projectsPath)
+                        .child(Constants.finishedProjectsPath)
+                        .child(allProjects[i])
+                        .observeSingleEvent(of: .value) { snapshot in
+                            guard var project = snapshot.value as? [String : Any] else {
+                                completion(.error(FirebaseErrors.genericError))
+                                return
+                            }
+                            guard let title = project["title"] as? String else {
+                                completion(.error(FirebaseErrors.genericError))
+                                return
+                            }
                             project["id"] = allProjects[i]
+                            if title.hasPrefix(preffix) {
+                                projectsResponse.append(project)
+                            }
                             if i == allProjects.count-1 {
                                 let mappedResponse = Mapper<T>().mapArray(JSONArray: projectsResponse)
                                 completion(.success(mappedResponse))

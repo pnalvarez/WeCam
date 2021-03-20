@@ -65,7 +65,12 @@ struct FinishedProjectDetails {
             
             struct Project {
                 let id: String
-                let userIdsNotInvited: [String]
+                var userIdsNotInvited: [String]
+                
+                init(id: String, userIdsNotInvited: [String] = .empty) {
+                    self.id = id
+                    self.userIdsNotInvited = userIdsNotInvited
+                }
             }
             
             struct Routing {

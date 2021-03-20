@@ -36,25 +36,38 @@ class SearchResultsInteractor: SearchResultsDataStore {
 
 extension SearchResultsInteractor {
     
+    private func mapJSONProjectsToModel(_ projects: [SearchResults.Info.Response.Project]) -> [SearchResults.Info.Model.Project] {
+        return projects.map({
+            var secondCathegory: String?
+            if $0.cathegories?.count ?? 0 > 1 {
+                secondCathegory = $0.cathegories?[1]
+            }
+            return SearchResults.Info.Model.Project(id: $0.id ?? .empty,
+                                             title: $0.title ?? .empty,
+                                             progress: $0.progress ?? SearchResults.Constants.BusinessLogic.finishedProjectPercentage,
+                                             firstCathegory: $0.cathegories?[0] ?? .empty,
+                                             secondCathegory: secondCathegory,
+                                             image: $0.image ?? .empty)
+        })
+    }
+    
     private func fetchSearchProjects(_ request: SearchResults.Request.SearchWithPreffix) {
-        worker.fetchProjects(request) { response in
+        worker.fetchOngoingProjects(request) { response in
             switch response {
             case .success(let data):
-                self.presenter.presentLoading(false)
-                self.results?.projects = data.map({
-                    var secondCathegory: String?
-                    if $0.cathegories?.count ?? 0 > 1 {
-                        secondCathegory = $0.cathegories?[1]
+                self.results?.projects = self.mapJSONProjectsToModel(data)
+                self.worker.fetchFinishedProjects(request) { response in
+                    switch response {
+                    case .success(let data):
+                        self.presenter.presentLoading(false)
+                        self.results?.projects.append(contentsOf: self.mapJSONProjectsToModel(data))
+                        guard let results = self.results else { return }
+                        self.presenter.presentResults(results)
+                    case .error(let error):
+                        self.presenter.presentLoading(false)
+                        self.presenter.presentError(SearchResults.Info.Model.ResultError(error: error))
                     }
-                    return SearchResults.Info.Model.Project(id: $0.id ?? .empty,
-                                                     title: $0.title ?? .empty,
-                                                     progress: $0.progress ?? 0,
-                                                     firstCathegory: $0.cathegories?[0] ?? .empty,
-                                                     secondCathegory: secondCathegory,
-                                                     image: $0.image ?? .empty)
-                })
-                guard let results = self.results else { return }
-                self.presenter.presentResults(results)
+                }
             case .error(let error):
                 self.presenter.presentLoading(false)
                 self.presenter.presentError(SearchResults.Info.Model.ResultError(error: error))
@@ -103,9 +116,15 @@ extension SearchResultsInteractor: SearchResultsBusinessLogic {
             presenter.presentProfileDetails()
         case .project:
             guard let project = results?.projects[request.index] else { return }
-            worker.fetchRegisterSearch(SearchResults.Request.RegisterSearch(id: project.id, type: SearchResults.Info.Model.SearchType.ongoingProject.rawValue)) { _ in }
-            selectedItem = .project(project)
-            presenter.presentProjectDetails()
+            if project.finished {
+                worker.fetchRegisterSearch(SearchResults.Request.RegisterSearch(id: project.id, type: SearchResults.Info.Model.SearchType.finishedProject.rawValue)) { _ in}
+                selectedItem = .project(project)
+                presenter.presentFinishedProjectDetails()
+            } else {
+                worker.fetchRegisterSearch(SearchResults.Request.RegisterSearch(id: project.id, type: SearchResults.Info.Model.SearchType.ongoingProject.rawValue)) { _ in }
+                selectedItem = .project(project)
+                presenter.presentOnGoingProjectDetails()
+            }
         }
     }
 }

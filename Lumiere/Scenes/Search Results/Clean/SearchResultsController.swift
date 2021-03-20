@@ -11,7 +11,8 @@ import UIKit
 protocol SearchResultsDisplayLogic: class {
     func displaySearchResults(_ viewModel: SearchResults.Info.ViewModel.UpcomingResults)
     func displayProfileDetails()
-    func displayProjectDetails()
+    func displayOnGoingProjectDetails()
+    func displayFinishedProjectDetails()
     func displayLoading(_ loading: Bool)
     func displayError(_ viewModel: SearchResults.Info.ViewModel.ResultError)
     func displayResultTypes(_ viewModel: SearchResults.Info.ViewModel.UpcomingTypes)
@@ -230,8 +231,12 @@ extension SearchResultsController: SearchResultsDisplayLogic {
         router?.routeToProfileDetails()
     }
     
-    func displayProjectDetails() {
+    func displayOnGoingProjectDetails() {
         router?.routeToOnGoingProjectDetails()
+    }
+    
+    func displayFinishedProjectDetails() {
+        router?.routeToFinishedProjectDetails()
     }
     
     func displayLoading(_ loading: Bool) {

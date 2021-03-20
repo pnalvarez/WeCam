@@ -33,6 +33,12 @@ class SearchResultsRouter: NSObject, SearchResultsDataTransfer {
         destination.routingContext = .checkingProject
     }
     
+    private func transferDataToFinishedProjectDetails(from source: SearchResultsDataStore, to destination: inout FinishedProjectDetailsDataStore) {
+        guard let project = source.selectedItem?.getRawValue() as? SearchResults.Info.Model.Project else { return }
+        destination.receivedData = FinishedProjectDetails.Info.Received.Project(id: project.id)
+        destination.routingModel = FinishedProjectDetails.Info.Received.Routing(context: .checking, routingMethod: .push)
+    }
+    
     private func transferDataToProfileDetails(from source: SearchResultsDataStore,
                                               to destination: inout ProfileDetailsDataStore) {
         guard let profile = source.selectedItem?.getRawValue() as? SearchResults.Info.Model.Profile else { return }
@@ -70,6 +76,10 @@ extension SearchResultsRouter: SearchResultsRoutingLogic {
     }
     
     func routeToFinishedProjectDetails() {
-        //TO DO
+        let vc = FinishedProjectDetailsController()
+        guard let source = dataStore, var destination = vc.router?.dataStore else { return }
+        transferDataToFinishedProjectDetails(from: source,
+                                             to: &destination)
+        routeTo(nextVC: vc)
     }
 }

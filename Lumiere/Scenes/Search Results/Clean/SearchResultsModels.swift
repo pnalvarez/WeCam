@@ -64,6 +64,10 @@ struct SearchResults {
                 static let defaultCellHeight: CGFloat = 70
             }
         }
+        
+        struct BusinessLogic {
+            static let finishedProjectPercentage: Int = 100
+        }
     }
     
     struct Info {
@@ -133,6 +137,10 @@ struct SearchResults {
                 let firstCathegory: String
                 let secondCathegory: String?
                 let image: String
+                
+                var finished: Bool {
+                    return progress >= Constants.BusinessLogic.finishedProjectPercentage
+                }
             }
             
             struct ResultError {
