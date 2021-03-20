@@ -8,7 +8,6 @@
 
 protocol SearchResultsBusinessLogic {
     func fetchBeginSearch(_ request: SearchResults.Request.Search)
-    func fetchSearch(_ request: SearchResults.Request.SearchWithPreffix)
     func fetchResultTypes(_ request: SearchResults.Request.FetchResultTypes)
     func fetchSelectItem(_ request: SearchResults.Request.SelectItem)
 }
@@ -69,30 +68,6 @@ extension SearchResultsInteractor: SearchResultsBusinessLogic {
     func fetchBeginSearch(_ request: SearchResults.Request.Search) {
         presenter.presentLoading(true)
         let request = SearchResults.Request.SearchWithPreffix(preffix: searchKey?.key ?? .empty)
-        worker.fetchProfiles(request) { response in
-            switch response {
-            case .success(let data):
-                self.results = SearchResults
-                    .Info
-                    .Model
-                    .Results(users: data.map({ SearchResults
-                                                .Info
-                                                .Model
-                                                .Profile(id: $0.id ?? .empty,
-                                                         name: $0.name ?? .empty,
-                                                         image: $0.image ?? .empty,
-                                                         ocupation: $0.ocupation ?? .empty)}), projects: .empty)
-                self.fetchSearchProjects(request)
-            case .error(let error):
-                self.presenter.presentLoading(false)
-                self.presenter.presentError(SearchResults.Info.Model.ResultError(error: error))
-            }
-        }
-    }
-    
-    func fetchSearch(_ request: SearchResults.Request.SearchWithPreffix) {
-        presenter.presentLoading(true)
-        searchKey = SearchResults.Info.Received.SearchKey(key: request.preffix)
         worker.fetchProfiles(request) { response in
             switch response {
             case .success(let data):

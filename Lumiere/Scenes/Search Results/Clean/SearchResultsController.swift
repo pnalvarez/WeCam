@@ -33,23 +33,6 @@ class SearchResultsController: BaseViewController {
         return view
     }()
     
-    private lazy var searchTextField: UITextField = {
-        let view = UITextField(frame: .zero)
-        view.textColor = SearchResults.Constants.Colors.searchTextFieldText
-        view.font = SearchResults.Constants.Fonts.searchTextField
-        view.layer.cornerRadius = 4
-        view.layer.borderWidth = 1
-        view.layer.borderColor = SearchResults.Constants.Colors.searchTextFieldLayer
-        return view
-    }()
-    
-    private lazy var searchButton: UIButton = {
-        let view = UIButton(frame: .zero)
-        view.addTarget(self, action: #selector(didTapSearch), for: .touchUpInside)
-        view.setImage(SearchResults.Constants.Images.search, for: .normal)
-        return view
-    }()
-    
     private lazy var resultTypeSegmentedControl: UISegmentedControl = {
         let view = UISegmentedControl(frame: .zero)
         view.addTarget(self, action: #selector(didChangeSelectedType), for: .valueChanged)
@@ -82,8 +65,6 @@ class SearchResultsController: BaseViewController {
         let view = SearchResultsView(frame: .zero,
                                      activityView: activityView,
                                      backButton: backButton,
-                                     searchTextField: searchTextField,
-                                     searchButton: searchButton,
                                      resultTypesSegmentedControl: resultTypeSegmentedControl,
                                      resultsQuantityLbl: resultsQuantityLbl,
                                      tableView: tableView)
@@ -211,13 +192,6 @@ extension SearchResultsController {
     @objc
     private func didTapBack() {
         router?.routeBack()
-    }
-    
-    @objc
-    private func didTapSearch() {
-        interactor?.fetchSearch(SearchResults
-                                    .Request
-                                    .SearchWithPreffix(preffix: searchTextField.text ?? .empty))
     }
     
     @objc

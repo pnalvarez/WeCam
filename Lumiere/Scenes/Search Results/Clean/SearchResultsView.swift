@@ -12,8 +12,6 @@ class SearchResultsView: UIView {
     
     private unowned var activityView: UIActivityIndicatorView
     private unowned var backButton: DefaultBackButton
-    private unowned var searchTextField: UITextField
-    private unowned var searchButton: UIButton
     private unowned var resultTypesSegmentedControl: UISegmentedControl
     private unowned var resultsQuantityLbl: UILabel
     private unowned var tableView: UITableView
@@ -25,24 +23,14 @@ class SearchResultsView: UIView {
         return view
     }()
     
-    private lazy var searchDivider: UIView = {
-        let view = UIView(frame: .zero)
-        view.backgroundColor = SearchResults.Constants.Colors.dividerView
-        return view
-    }()
-    
     init(frame: CGRect,
          activityView: UIActivityIndicatorView,
          backButton: DefaultBackButton,
-         searchTextField: UITextField,
-         searchButton: UIButton,
          resultTypesSegmentedControl: UISegmentedControl,
          resultsQuantityLbl: UILabel,
          tableView: UITableView) {
         self.activityView = activityView
         self.backButton = backButton
-        self.searchTextField = searchTextField
-        self.searchButton = searchButton
         self.resultTypesSegmentedControl = resultTypesSegmentedControl
         self.resultsQuantityLbl = resultsQuantityLbl
         self.tableView = tableView
@@ -60,9 +48,6 @@ extension SearchResultsView: ViewCodeProtocol {
     func buildViewHierarchy() {
         addSubview(backButton)
         addSubview(headerImageView)
-        searchTextField.addSubview(searchDivider)
-        searchTextField.addSubview(searchButton)
-        addSubview(searchTextField)
         addSubview(resultTypesSegmentedControl)
         addSubview(resultsQuantityLbl)
         addSubview(tableView)
@@ -81,24 +66,8 @@ extension SearchResultsView: ViewCodeProtocol {
             make.width.equalTo(100)
             make.height.equalTo(36)
         }
-        searchTextField.snp.makeConstraints { make in
-            make.top.equalTo(headerImageView.snp.bottom).offset(5)
-            make.centerX.equalToSuperview()
-            make.width.equalTo(242)
-            make.height.equalTo(18)
-        }
-        searchDivider.snp.makeConstraints { make in
-            make.top.bottom.equalToSuperview()
-            make.right.equalTo(searchButton.snp.left)
-            make.width.equalTo(1)
-        }
-        searchButton.snp.makeConstraints { make in
-            make.right.equalToSuperview().inset(2)
-            make.centerY.equalToSuperview()
-            make.width.height.equalTo(15)
-        }
         resultTypesSegmentedControl.snp.makeConstraints { make in
-            make.top.equalTo(searchTextField.snp.bottom).offset(15)
+            make.top.equalTo(headerImageView.snp.bottom).offset(15)
             make.right.left.equalToSuperview().inset(10)
             make.height.equalTo(32)
         }
