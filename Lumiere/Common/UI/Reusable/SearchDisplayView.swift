@@ -23,7 +23,7 @@ class SearchDisplayView: UIView {
         view.textColor = .black
         view.numberOfLines = 0
         view.textAlignment = .left
-        view.font = ThemeFonts.RobotoBold(10).rawValue
+        view.font = ThemeFonts.RobotoBold(12).rawValue
         return view
     }()
     
@@ -32,7 +32,7 @@ class SearchDisplayView: UIView {
         view.textColor = .black
         view.numberOfLines = 0
         view.textAlignment = .left
-        view.font = ThemeFonts.RobotoRegular(10).rawValue
+        view.font = ThemeFonts.RobotoRegular(12).rawValue
         return view
     }()
     
