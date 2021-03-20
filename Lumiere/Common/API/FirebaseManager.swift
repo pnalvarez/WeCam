@@ -3636,10 +3636,11 @@ class FirebaseManager: FirebaseManagerProtocol {
             .child(Constants.finishedProjectsPath)
             .child(projectId)
             .observeSingleEvent(of: .value) { snapshot in
-                guard let project = snapshot.value as? [String : Any] else {
+                guard var project = snapshot.value as? [String : Any] else {
                     completion(.error(FirebaseErrors.parseError))
                     return
                 }
+                project["projectId"] = projectId
                 guard let mappedResponse = Mapper<T>().map(JSON: project) else {
                     completion(.error(FirebaseErrors.parseError))
                     return
