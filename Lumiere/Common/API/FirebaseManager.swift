@@ -18,6 +18,26 @@ enum FirebaseErrors: String, Error {
     case fetchConnectionsError = "Ocorreu um erro ao buscar as notificações"
     case connectUsersError = "Ocorreu um erro ao aceitar a solicitação"
     case signInError = "Ocorreu um erro ao tentar logar"
+    case createUser = "Ocorreu um erro ao criar o usuário, tente novamente mais tarde"
+    case saveImage = "Ocorreu um erro ao salvar a imagem, tente novamente mais tarde"
+    case userConnectionError = "Ocorreu um erro ao tentar conectar com usuário, tente novamente mais tarde"
+    case removeConnection = "Ocorreu um erro ao tentar remover esta conexão, tente novamente mais tarde"
+    case removePendingConnection = "Ocorreu um erro ao remover essa solicitação, tente novamente mais tarde"
+    case sendConnectionRequest = "Ocorreu um erro ao enviar a solicitação, tente mais tarde"
+    case refuseRequest = "Ocorreu um erro ao recusar a solicitação, tente novamente mais tarde"
+    case signOut = "Erro ao tentar deslogar"
+    case createProject = "Ocorreu um erro ao tentar criar o projeto, tente novamente mais tarde"
+    case updateUser = "Ocorreu um erro ao tentar atualizar as informações deste usuário, tente novamente mais tarde"
+    case inviteUserToProject = "Ocorreu um erro ao convidar o usuário para este projeto, tente novamente mais tarde"
+    case updateProject = "Ocorreu um erro ao tentar atualizar as informações deste projeto, tente novamente mais tarde"
+    case acceptProjectInvite = "Ocorreu um erro ao tentar aceitar a solicitação do usuário neste projeto, tente novamente mais tarde"
+    case sendProjectParticipationRequest = "Ocorreu um erro ao tentar enviar a solicitação a este projeto, tente novamente mais tarde"
+    case removeProjectParticipationRequest = "Ocorreu um erro ao tentar remover a solicitação a este projeto, tente novamente mais tarde"
+    case acceptUserIntoProject = "Ocorreu um erro ao tentar inserir o usário neste projeto, tente novamente mais tarde"
+    case removeProjectInviteToUser = "Ocorreu um erro ao tentar remover a solicitação a este usuário, tente novamente mais tarde"
+    case removeUserFromProject = "Ocorreu um erro ao tentar remover o usuário deste projeto"
+    case removeSuggestion = "Erro ao tentar remover sugestão"
+    case sendEmail = "Ocorreu um erro ao tentar enviar o email de recuperação, tente novamente mais tarde"
 }
 
 protocol FirebaseManagerProtocol {
@@ -27,8 +47,6 @@ protocol FirebaseManagerProtocol {
                           completion: @escaping (SignUp.Response.SaveUserInfo) -> Void)
     func fetchUserConnectNotifications<T: Mappable>(request: GetConnectNotificationRequest,
                                                     completion: @escaping (BaseResponse<[T]>) -> Void)
-    //    func addConnectNotifications(request: SaveNotificationsRequest,
-    //                                 completion: @escaping (EmptyResponse) -> Void)
     func fetchSignInUser<T: Mappable>(request: [String : Any],
                                       completion: @escaping (BaseResponse<T>) -> Void)
     func fetchCurrentUser<T: Mappable>(request: [String : Any],
@@ -37,16 +55,12 @@ protocol FirebaseManagerProtocol {
                                     completion: @escaping (BaseResponse<T>) -> Void)
     func fetchConnectUsers(request: [String : Any],
                            completion: @escaping (EmptyResponse) -> Void)
-    //    func fetchDeleteNotification(request: ConnectUsersRequest,
-    //                                 completion: @escaping (EmptyResponse) -> Void)
     func fetchUserRelation<T: Mappable>(request: [String : Any],
                                         completion: @escaping (BaseResponse<T>) -> Void)
     func fetchRemoveConnection(request: [String : Any],
                                completion: @escaping (EmptyResponse) -> Void)
     func fetchRemovePendingConnection(request: [String : Any],
                                       completion: @escaping (EmptyResponse) -> Void)
-    //    func fetchRemoveSentConnectionRequest(request: [String : Any],
-    //                                          completion: @escaping (EmptyResponse) -> Void)
     func fetchSendConnectionRequest(request: [String : Any],
                                     completion: @escaping (EmptyResponse) -> Void)
     func fetchAcceptConnection(request: [String : Any],
@@ -167,8 +181,6 @@ protocol FirebaseManagerProtocol {
                                    completion: @escaping (EmptyResponse) -> Void)
     func fetchUserDataByEmail<T: Mappable>(request: [String : Any],
                               completion: @escaping (BaseResponse<T>) -> Void)
-    func updatePassword(request: [String : Any],
-                        completion: @escaping (EmptyResponse) -> Void)
     func fetchRecentSearches<T: Mappable>(request: [String : Any],
                                           completion: @escaping (BaseResponse<[T]>) -> Void)
     func registerRecentSearch(request: [String : Any],
@@ -246,8 +258,8 @@ class FirebaseManager: FirebaseManagerProtocol {
         
         authReference.createUser(withEmail: request.email,
                                  password: request.password) { (response, error) in
-            if let error = error {
-                completion(.error(error))
+            if error != nil {
+                completion(.error(FirebaseErrors.createUser))
                 return
             } else {
                 if let result = response {
@@ -263,12 +275,12 @@ class FirebaseManager: FirebaseManagerProtocol {
         if let imageData = request.image {
             let profileImageReference = storage.child(Constants.profileImagesPath).child(request.userId)
             profileImageReference.putData(imageData, metadata: nil) { (metadata, error) in
-                if let error = error {
-                    completion(.error(error))
+                if error != nil {
+                    completion(.error(FirebaseErrors.saveImage))
                 }
                 profileImageReference.downloadURL { (url, error) in
-                    if let error = error {
-                        completion(.error(error))
+                    if error != nil {
+                        completion(.error(FirebaseErrors.saveImage))
                     }
                     guard let url = url else {
                         completion(.genericError)
@@ -291,19 +303,9 @@ class FirebaseManager: FirebaseManagerProtocol {
                         .child(request.userId)
                         .updateChildValues(dictionary) {
                             (error, ref) in
-                            if let error = error {
-                                completion(.error(error))
+                            if error != nil {
+                                completion(.error(FirebaseErrors.createUser))
                             } else {
-                                //                            self.realtimeDB
-                                //                                .child(Constants.allUsersCataloguePath)
-                                //                                .updateChildValues(request.userId) { error, ref in
-                                //                                    if let error = error {
-                                //                                        completion(.error(error))
-                                //                                        return
-                                //                                    } else {
-                                //                                        completion(.success)
-                                //                                    }
-                                //                                }
                                 self.realtimeDB
                                     .child(Constants.allUsersCataloguePath)
                                     .observeSingleEvent(of: .value) { snapshot in
@@ -316,20 +318,20 @@ class FirebaseManager: FirebaseManagerProtocol {
                                         userIdsArray.append(request.userId)
                                         self.realtimeDB
                                             .updateChildValues([Constants.allUsersCataloguePath : userIdsArray]) { error, ref in
-                                                if let error = error {
-                                                    completion(.error(error))
+                                                if error != nil {
+                                                    completion(.error(FirebaseErrors.createUser))
                                                     return
                                                 }
                                                 self.realtimeDB.child(Constants.userEmailPath).updateChildValues([request.email.sha256() : request.userId]) {
                                                     error, ref in
-                                                    if let error = error {
-                                                        completion(.error(error))
+                                                    if error != nil {
+                                                        completion(.error(FirebaseErrors.createUser))
                                                         return
                                                     }
                                                     self.registerEntity(withId: request.userId, type: .user) { response in
                                                         switch response {
                                                         case .error(let error):
-                                                            completion(.error(error))
+                                                            completion(.error(FirebaseErrors.createUser))
                                                         case .success:
                                                             completion(.success)
                                                         }
@@ -372,62 +374,13 @@ class FirebaseManager: FirebaseManagerProtocol {
             }
     }
     
-    //    func addConnectNotifications(request: SaveNotificationsRequest,
-    //                                 completion: @escaping (EmptyResponse) -> Void) {
-    //        var integerDict = [String : Any]()
-    //        for index in 0..<request.notifications.count {
-    //            integerDict["\(index)"] = request.notifications[index]
-    //        }
-    //        realtimeDB
-    //            .child(Constants.usersPath)
-    //            .child(request.toUserId)
-    //            .updateChildValues(["connect_notifications": request.notifications]) { error, ref in
-    //                if let error = error {
-    //                    completion(.error(error))
-    //                }
-    //                self.realtimeDB
-    //                    .child(Constants.usersPath)
-    //                    .child(request.fromUserId)
-    //                    .child("pending_connections").observeSingleEvent(of: .value) { snapshot in
-    //                        guard var pendingConnections = snapshot.value as? Array<Any> else {
-    //                            self.realtimeDB
-    //                                .child(Constants.usersPath)
-    //                                .child(request.fromUserId)
-    //                                .updateChildValues(["pending_connections": [request.toUserId]]) { error, ref in
-    //                                    if let error = error {
-    //                                        completion(.error(error))
-    //                                        return
-    //                                    }
-    //                                    completion(.success)
-    //                                    return
-    //                            }
-    //                            completion(.error(FirebaseErrors.genericError))
-    //                            return
-    //                        }
-    //                        pendingConnections.append(request.toUserId)
-    //                        self.realtimeDB
-    //                            .child(Constants.usersPath)
-    //                            .child(request.fromUserId)
-    //                            .updateChildValues(["pending_connections": pendingConnections]) { error, ref in
-    //                                if let error = error {
-    //                                    completion(.error(error))
-    //                                    return
-    //                                }
-    //                                completion(.success)
-    //                                return
-    //                        }
-    //                }
-    //                completion(.error(FirebaseErrors.genericError))
-    //        }
-    //    }
-    
     func fetchSignInUser<T: Mappable>(request: [String : Any],
                                       completion: @escaping (BaseResponse<T>) -> Void) {
         if let email = request["email"] as? String,
            let password = request["password"] as? String {
             authReference.signIn(withEmail: email, password: password) { (credentials, error) in
-                if let error = error {
-                    completion(.error(error))
+                if error != nil {
+                    completion(.error(FirebaseErrors.signInError))
                     return
                 } else {
                     let userId = self.authReference.currentUser?.uid ?? .empty
@@ -508,7 +461,7 @@ class FirebaseManager: FirebaseManagerProtocol {
     }
     
     //MARK: **** Mehod name: fetchConnectUsers
-    //This method takes to user ids and connect each other in the database
+    //This method takes two user ids and connect each other in the database
     func fetchConnectUsers(request: [String : Any],
                            completion: @escaping (EmptyResponse) -> Void) {
         if let fromUserId = request["fromUserId"] as? String,
@@ -523,16 +476,16 @@ class FirebaseManager: FirebaseManagerProtocol {
             fromUserConnections.child("connections").observeSingleEvent(of: .value) { snapshot in
                 if snapshot.value is NSNull {
                     fromUserConnections.updateChildValues(["connections": [toUserId]]) { error, ref in
-                        if let error = error {
-                            completion(.error(error))
+                        if error != nil {
+                            completion(.error(FirebaseErrors.removeConnection))
                             return
                         }
                     }
                     toUserConnections.child("connections").observeSingleEvent(of: .value) { snapshot in
                         if snapshot.value is NSNull {
                             toUserConnections.updateChildValues(["connections" : [fromUserId]]) { error, ref in
-                                if let error = error {
-                                    completion(.error(error))
+                                if error != nil {
+                                    completion(.error(FirebaseErrors.userConnectionError))
                                     return
                                 }
                                 completion(.success)
@@ -542,8 +495,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                         else if var connections = snapshot.value as? Array<Any> {
                             connections.append(fromUserId)
                             toUserConnections.updateChildValues(["connections": [fromUserId]]) { error, ref in
-                                if let error = error {
-                                    completion(.error(error))
+                                if error != nil {
+                                    completion(.error(FirebaseErrors.userConnectionError))
                                     return
                                 }
                             }
@@ -555,16 +508,16 @@ class FirebaseManager: FirebaseManagerProtocol {
                 else if var connections = snapshot.value as? Array<Any> {
                     connections.append(toUserId)
                     fromUserConnections.updateChildValues(["connections": connections]) { error, ref in
-                        if let error = error {
-                            completion(.error(error))
+                        if error != nil {
+                            completion(.error(FirebaseErrors.userConnectionError))
                             return
                         }
                     }
                     toUserConnections.child("connections").observeSingleEvent(of: .value) { snapshot in
                         if snapshot.value is NSNull {
                             toUserConnections.updateChildValues(["connections" : [fromUserId]]) { error, ref in
-                                if let error = error {
-                                    completion(.error(error))
+                                if error != nil {
+                                    completion(.error(FirebaseErrors.userConnectionError))
                                     return
                                 }
                                 completion(.success)
@@ -574,8 +527,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                         else if var connections = snapshot.value as? Array<Any> {
                             connections.append(fromUserId)
                             toUserConnections.updateChildValues(["connections": connections]) { error, ref in
-                                if let error = error {
-                                    completion(.error(error))
+                                if error != nil {
+                                    completion(.error(FirebaseErrors.userConnectionError))
                                     return
                                 }
                             }
@@ -592,36 +545,6 @@ class FirebaseManager: FirebaseManagerProtocol {
             completion(.error(FirebaseErrors.genericError))
         }
     }
-    
-    //    func fetchDeleteNotification(request: ConnectUsersRequest,
-    //                                 completion: @escaping (EmptyResponse) -> Void) {
-    //        realtimeDB
-    //            .child(Constants.usersPath)
-    //            .child(request.toUserId)
-    //            .child("connect_notifications").observeSingleEvent(of: .value) { snapshot in
-    //                guard var notifications = snapshot.value as? Array<Any> else {
-    //                    completion(.error(FirebaseErrors.parseError))
-    //                    return
-    //                }
-    //                notifications.removeAll {
-    //                    if let notification = $0 as? [String : Any] {
-    //                        if let userId = notification["userId"] as? String {
-    //                            return userId == request.fromUserId
-    //                        }
-    //                    }
-    //                    return false
-    //                }
-    //                self.realtimeDB
-    //                    .child(Constants.usersPath)
-    //                    .child(request.toUserId)
-    //                    .updateChildValues(["connect_notifications": notifications]) { error, ref in
-    //                        if let error = error {
-    //                            completion(.error(error))
-    //                        }
-    //                        completion(.success)
-    //                }
-    //        }
-    //    }
     
     func fetchUserRelation<T>(request: [String : Any],
                               completion: @escaping (BaseResponse<T>) -> Void) where T : Mappable {
@@ -708,8 +631,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                         .child(Constants.usersPath)
                         .child(userId)
                         .updateChildValues(["connections": connections]) { error, ref in
-                            if let error = error {
-                                completion(.error(error))
+                            if error != nil {
+                                completion(.error(FirebaseErrors.userConnectionError))
                                 self.mutex = true
                                 return
                             }
@@ -733,8 +656,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                         .child(Constants.usersPath)
                                         .child(currentUserId)
                                         .updateChildValues(["connections": connections]) { error, ref in
-                                            if let error = error {
-                                                completion(.error(error))
+                                            if error != nil {
+                                                completion(.error(FirebaseErrors.removeConnection))
                                                 self.mutex = true
                                                 return
                                             }
@@ -775,8 +698,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                         .child(Constants.usersPath)
                         .child(currentUserId)
                         .updateChildValues(["pending_connections": pendingConnections]) { error, ref in
-                            if let error = error {
-                                completion(.error(error))
+                            if error != nil {
+                                completion(.error(FirebaseErrors.removePendingConnection))
                                 self.mutex = true
                                 return
                             }
@@ -802,8 +725,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                         .child(Constants.usersPath)
                                         .child(userId)
                                         .updateChildValues(["connect_notifications": notifications]) { error, ref in
-                                            if let error = error {
-                                                completion(.error(error))
+                                            if error != nil {
+                                                completion(.error(FirebaseErrors.removePendingConnection))
                                                 self.mutex = true
                                                 return
                                             }
@@ -817,65 +740,6 @@ class FirebaseManager: FirebaseManagerProtocol {
             self.mutex = true
         }
     }
-    
-    //    func fetchRemoveSentConnectionRequest(request: [String : Any],
-    //                                          completion: @escaping (EmptyResponse) -> Void) {
-    //        if let userId = request["userId"] as? String,
-    //            let currentUserId = authReference.currentUser?.uid {
-    //            realtimeDB
-    //                .child(Constants.usersPath)
-    //                .child(currentUserId)
-    //                .child("connect_notifications")
-    //                .observeSingleEvent(of: .value) { snapshot in
-    //                    guard var notifications = snapshot.value as? Array<Any> else {
-    //                        completion(.error(FirebaseErrors.genericError))
-    //                        return
-    //                    }
-    //                    notifications.removeAll(where: { notification in
-    //                        if let notification = notification as? [String : Any],
-    //                            let id = notification["userId"] as? String{
-    //                            return id == currentUserId
-    //                        }
-    //                        return false
-    //                    })
-    //                    self.realtimeDB
-    //                        .child(Constants.usersPath)
-    //                        .child(currentUserId)
-    //                        .updateChildValues(["connect_notifications": notifications]) { error, ref in
-    //                            if let error = error {
-    //                                completion(.error(error))
-    //                                return
-    //                            }
-    //                            self.realtimeDB
-    //                                .child(Constants.usersPath)
-    //                                .child(userId)
-    //                                .child("pending_connections")
-    //                                .observeSingleEvent(of: .value) { snapshot in
-    //                                    guard var pendingConnections = snapshot.value as? Array<Any> else {
-    //                                        completion(.error(FirebaseErrors.genericError))
-    //                                        return
-    //                                    }
-    //                                    pendingConnections.removeAll(where: { pendingConnection in
-    //                                        if let id = pendingConnection as? String {
-    //                                            return id == currentUserId
-    //                                        }
-    //                                        return false
-    //                                    })
-    //                                    self.realtimeDB
-    //                                        .child(Constants.usersPath)
-    //                                        .child(userId)
-    //                                        .updateChildValues(["pending_connections": pendingConnections]) { error, ref in
-    //                                            if let error = error {
-    //                                                completion(.error(error))
-    //                                                return
-    //                                            }
-    //                                            completion(.success)
-    //                                    }
-    //                            }
-    //                    }
-    //            }
-    //        }
-    //    }
     
     func fetchSendConnectionRequest(request: [String : Any],
                                     completion: @escaping (EmptyResponse) -> Void) {
@@ -901,8 +765,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                         .child(Constants.usersPath)
                         .child(currentUserId)
                         .updateChildValues(["pending_connections": pendingArray]) { error, ref in
-                            if let error = error {
-                                completion(.error(error))
+                            if error != nil {
+                                completion(.error(FirebaseErrors.sendConnectionRequest))
                                 self.mutex = true
                                 return
                             }
@@ -944,8 +808,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                     .child(Constants.usersPath)
                                                     .child(userId)
                                                     .updateChildValues(["connect_notifications": notificationsArray]) { error, ref in
-                                                        if let error = error {
-                                                            completion(.error(error))
+                                                        if error != nil {
+                                                            completion(.error(FirebaseErrors.sendConnectionRequest))
                                                             self.mutex = true
                                                             return
                                                         }
@@ -993,8 +857,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                         .child(Constants.usersPath)
                         .child(currentUserId)
                         .updateChildValues(["connect_notifications": notifications]) { error, ref in
-                            if let error = error {
-                                completion(.error(error))
+                            if error != nil {
+                                completion(.error(FirebaseErrors.userConnectionError))
                                 self.mutex = true
                                 return
                             }
@@ -1018,8 +882,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                         .child(Constants.usersPath)
                                         .child(userId)
                                         .updateChildValues(["pending_connections": pendingConnections]) { error, ref in
-                                            if let error = error {
-                                                completion(.error(error))
+                                            if error != nil {
+                                                completion(.error(FirebaseErrors.userConnectionError))
                                                 self.mutex = true
                                                 return
                                             }
@@ -1042,13 +906,13 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                                     completion(.success)
                                                                     self.mutex = true
                                                                     break
-                                                                case .error(let error):
-                                                                    completion(.error(error))
+                                                                case .error( _):
+                                                                    completion(.error(FirebaseErrors.userConnectionError))
                                                                     self.mutex = true
                                                                 }
                                                             }
-                                                        case .error(let error):
-                                                            completion(.error(error))
+                                                        case .error( _):
+                                                            completion(.error(FirebaseErrors.userConnectionError))
                                                             self.mutex = true
                                                             return
                                                         }
@@ -1185,8 +1049,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                         .child(Constants.usersPath)
                         .child(userId)
                         .updateChildValues(["pending_connections": pendingConnections]) { error, ref in
-                            if let error = error {
-                                completion(.error(error))
+                            if error != nil {
+                                completion(.error(FirebaseErrors.refuseRequest))
                                 return
                             }
                             self.realtimeDB
@@ -1210,8 +1074,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                         .child(Constants.usersPath)
                                         .child(currentUserId)
                                         .updateChildValues(["connect_notifications": notifications]) { error, ref in
-                                            if let error = error {
-                                                completion(.error(error))
+                                            if error != nil {
+                                                completion(.error(FirebaseErrors.refuseRequest))
                                                 return
                                             }
                                             completion(.success)
@@ -1228,7 +1092,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             try authReference.signOut()
             completion(.success)
         } catch {
-            completion(.error(error))
+            completion(.error(FirebaseErrors.signOut))
         }
     }
     
@@ -1253,13 +1117,13 @@ class FirebaseManager: FirebaseManagerProtocol {
             }
             let projectImageReference =  storage.child(Constants.projectsPath).child(projectId)
             projectImageReference.putData(image, metadata: nil) { (metadata, error) in
-                if let error = error {
-                    completion(.error(error))
+                if error != nil {
+                    completion(.error(FirebaseErrors.createProject))
                     return
                 }
                 projectImageReference.downloadURL { (url, error) in
-                    if let error = error {
-                        completion(.error(error))
+                    if error != nil {
+                        completion(.error(FirebaseErrors.createProject))
                         return
                     }
                     guard let url = url else {
@@ -1277,8 +1141,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                        "needing": needing,
                                                        "participants": [currentUser]]
                     projectReference.updateChildValues(projectDict) { (error, ref) in
-                        if let error = error {
-                            completion(.error(error))
+                        if error != nil {
+                            completion(.error(FirebaseErrors.createProject))
                             return
                         }
                         self.realtimeDB
@@ -1302,8 +1166,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                     .child(currentUser)
                                     .child("authoring_project_ids")
                                     .updateChildValues(newDict) { (error, ref) in
-                                        if let error = error {
-                                            completion(.error(error))
+                                        if error != nil {
+                                            completion(.error(FirebaseErrors.createProject))
                                             return
                                         }
                                         self.realtimeDB
@@ -1327,8 +1191,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                     .child(currentUser)
                                                     .child("participating_projects")
                                                     .updateChildValues(newDict) { (error, ref) in
-                                                        if let error = error {
-                                                            completion(.error(error))
+                                                        if error != nil {
+                                                            completion(.error(FirebaseErrors.createProject))
                                                             return
                                                         }
                                                         self.realtimeDB
@@ -1342,8 +1206,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                                 }
                                                                 projectIdsArray.append(projectId)
                                                                 self.realtimeDB.updateChildValues([Constants.allProjectsCataloguePath : projectIdsArray]) { error, ref in
-                                                                    if let error = error {
-                                                                        completion(.error(error))
+                                                                    if error != nil {
+                                                                        completion(.error(FirebaseErrors.createProject))
                                                                         return
                                                                     }
                                                                     guard let mappedResponse = Mapper<T>().map(JSON: projectDict) else {
@@ -1353,8 +1217,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                                     self.registerEntity(withId: projectId, type: .ongoingProject) {
                                                                         response in
                                                                         switch response {
-                                                                        case .error(let error):
-                                                                            completion(.error(error))
+                                                                        case .error( _):
+                                                                            completion(.error(FirebaseErrors.createProject))
                                                                         case .success:
                                                                             completion(.success(mappedResponse))
                                                                         }
@@ -1415,13 +1279,13 @@ class FirebaseManager: FirebaseManagerProtocol {
         }
         let userImageReference =  storage.child(Constants.usersPath).child(id)
         userImageReference.putData(image, metadata: nil) { (metadata, error) in
-            if let error = error {
-                completion(.error(error))
+            if error != nil {
+                completion(.error(FirebaseErrors.updateUser))
                 return
             }
             userImageReference.downloadURL { (url, error) in
-                if let error = error {
-                    completion(.error(error))
+                if error != nil {
+                    completion(.error(FirebaseErrors.saveImage))
                     return
                 }
                 guard let url = url else {
@@ -1434,8 +1298,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                     .child(Constants.usersPath)
                     .child(id)
                     .updateChildValues(payload) { (error, ref) in
-                        if let error = error {
-                            completion(.error(error))
+                        if error != nil {
+                            completion(.error(FirebaseErrors.updateUser))
                             return
                         }
                         completion(.success)
@@ -1480,8 +1344,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                     .child("project_invite_notifications")
                     .updateChildValues(newDict) {
                         (error, ref) in
-                        if let error = error {
-                            completion(.error(error))
+                        if error != nil {
+                            completion(.error(FirebaseErrors.inviteUserToProject))
                             return
                         }
                         self.realtimeDB
@@ -1502,8 +1366,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                     .child(Constants.ongoingProjectsPath)
                                     .child(projectId)
                                     .updateChildValues(["pending_invites": newArray]) { error, ref in
-                                        if let error = error {
-                                            completion(.error(error))
+                                        if error != nil {
+                                            completion(.error(FirebaseErrors.inviteUserToProject))
                                             return
                                         }
                                         completion(.success)
@@ -1624,8 +1488,8 @@ class FirebaseManager: FirebaseManagerProtocol {
             .child(Constants.ongoingProjectsPath)
             .child(projectId)
             .updateChildValues(dict) { (error, ref) in
-                if let error = error {
-                    completion(.error(error))
+                if error != nil {
+                    completion(.error(FirebaseErrors.updateProject))
                     return
                 }
                 completion(.success)
@@ -1645,8 +1509,8 @@ class FirebaseManager: FirebaseManagerProtocol {
             .child(Constants.ongoingProjectsPath)
             .child(projectId)
             .updateChildValues(dict) { (error, ref) in
-                if let error = error {
-                    completion(.error(error))
+                if error != nil {
+                    completion(.error(FirebaseErrors.updateProject))
                 }
                 completion(.success)
             }
@@ -1661,13 +1525,13 @@ class FirebaseManager: FirebaseManagerProtocol {
         }
         let projectImageReference = storage.child(Constants.projectImagesPath).child(projectId)
         projectImageReference.putData(image, metadata: nil) { (metadata, error) in
-            if let error = error {
-                completion(.error(error))
+            if error != nil {
+                completion(.error(FirebaseErrors.saveImage))
                 return
             }
             projectImageReference.downloadURL { (url, error) in
-                if let error = error {
-                    completion(.error(error))
+                if error != nil {
+                    completion(.error(FirebaseErrors.saveImage))
                     return
                 }
                 guard let urlString = url?.absoluteString else {
@@ -1680,8 +1544,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                     .child(Constants.ongoingProjectsPath)
                     .child(projectId)
                     .updateChildValues(dict) { (error, ref) in
-                        if let error = error {
-                            completion(.error(error))
+                        if error != nil {
+                            completion(.error(FirebaseErrors.saveImage))
                             return
                         }
                         guard let mappedResponse = Mapper<T>().map(JSON: dict) else {
@@ -1801,8 +1665,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                     .child(Constants.usersPath)
                     .child(currentUser)
                     .updateChildValues(["project_invite_notifications" : notificationsDict]) { (error, ref) in
-                        if let error = error {
-                            completion(.error(error))
+                        if error != nil {
+                            completion(.error(FirebaseErrors.acceptProjectInvite))
                             return
                         }
                         self.realtimeDB
@@ -1826,8 +1690,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                     .child(currentUser)
                                     .child("participating_projects")
                                     .updateChildValues(projectsDict) { (error, ref) in
-                                        if let error = error {
-                                            completion(.error(error))
+                                        if error != nil {
+                                            completion(.error(FirebaseErrors.acceptProjectInvite))
                                             return
                                         }
                                         self.realtimeDB
@@ -1846,8 +1710,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                     .child(Constants.ongoingProjectsPath)
                                                     .child(projectId)
                                                     .updateChildValues(["pending_invites": pendingInvites]) { (error, ref) in
-                                                        if let error = error {
-                                                            completion(.error(error))
+                                                        if error != nil {
+                                                            completion(.error(FirebaseErrors.acceptProjectInvite))
                                                             return
                                                         }
                                                         self.realtimeDB
@@ -1866,8 +1730,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                                     .child(Constants.ongoingProjectsPath)
                                                                     .child(projectId)
                                                                     .updateChildValues(["participants": participants]) { (error, ref) in
-                                                                        if let error = error {
-                                                                            completion(.error(error))
+                                                                        if error != nil {
+                                                                            completion(.error(FirebaseErrors.acceptProjectInvite))
                                                                             return
                                                                         }
                                                                         self.realtimeDB.child(Constants.usersPath).child(currentUser).observeSingleEvent(of: .value) { snapshot in
@@ -1973,8 +1837,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                     .child(Constants.usersPath)
                     .child(currentUser)
                     .updateChildValues(["project_invite_notifications": notifications]) { (error, ref) in
-                        if let error = error {
-                            completion(.error(error))
+                        if error != nil {
+                            completion(.error(FirebaseErrors.refuseRequest))
                             return
                         }
                         self.realtimeDB
@@ -1995,8 +1859,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                     .child(Constants.ongoingProjectsPath)
                                     .child(projectId)
                                     .updateChildValues(["pending_invites": pendingInvites]) { (error, ref) in
-                                        if let error = error {
-                                            completion(.error(error))
+                                        if error != nil {
+                                            completion(.error(FirebaseErrors.refuseRequest))
                                             return
                                         }
                                         completion(.success)
@@ -2029,8 +1893,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                     .child(Constants.usersPath)
                     .child(currentUser)
                     .updateChildValues(["pending_projects" : pendingArray]) { (error, ref) in
-                        if let error = error {
-                            completion(.error(error))
+                        if error != nil {
+                            completion(.error(FirebaseErrors.sendConnectionRequest))
                             return
                         }
                         self.realtimeDB
@@ -2078,30 +1942,11 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                     .child(Constants.usersPath)
                                                     .child(authorId)
                                                     .updateChildValues(["project_participation_notifications" : notificationsArray]) { (error, ref) in
-                                                        if let error = error {
-                                                            completion(.error(error))
+                                                        if error != nil {
+                                                            completion(.error(FirebaseErrors.sendProjectParticipationRequest))
                                                             return
                                                         }
                                                         completion(.success)
-                                                        //                                                        self.realtimeDB
-                                                        //                                                            .child(Constants.projectsPath)
-                                                        //                                                            .child(Constants.ongoingProjectsPath)
-                                                        //                                                            .child(projectId).child("pending_invites")
-                                                        //                                                            .observeSingleEvent(of: .value) { snapshot in
-                                                        //                                                                var invitesArray: [String] = .empty
-                                                        //                                                                if let pendingInvites = snapshot.value as? [String] {
-                                                        //                                                                    invitesArray.append(contentsOf: pendingInvites)
-                                                        //                                                                } else {
-                                                        //                                                                    invitesArray = [currentUser]
-                                                        //                                                                }
-                                                        //                                                                self.realtimeDB.child(Constants.projectsPath).child(Constants.ongoingProjectsPath).child(projectId).updateChildValues(["pending_invites": invitesArray]) { (error, ref) in
-                                                        //                                                                    if let error = error {
-                                                        //                                                                        completion(.error(error))
-                                                        //                                                                        return
-                                                        //                                                                    }
-                                                        //                                                                    completion(.success)
-                                                        //                                                                }
-                                                        //                                                        }
                                                     }
                                             }
                                     }
@@ -2131,8 +1976,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                     .child(Constants.usersPath)
                     .child(currentUser)
                     .updateChildValues(["pending_projects": pendingProjects]) { (error, ref) in
-                        if let error = error {
-                            completion(.error(error))
+                        if error != nil {
+                            completion(.error(FirebaseErrors.removeProjectParticipationRequest))
                             return
                         }
                         self.realtimeDB
@@ -2151,8 +1996,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                     .child(Constants.ongoingProjectsPath)
                                     .child(projectId)
                                     .updateChildValues(["pending_invites": pendingInvites]) { (error, ref) in
-                                        if let error = error {
-                                            completion(.error(error))
+                                        if error != nil {
+                                            completion(.error(FirebaseErrors.removeProjectParticipationRequest))
                                             return
                                         }
                                         self.realtimeDB
@@ -2184,8 +2029,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                             .child(Constants.usersPath)
                                                             .child(authorId)
                                                             .updateChildValues(["project_participation_notifications": notifications]) { (error, ref) in
-                                                                if let error = error {
-                                                                    completion(.error(error))
+                                                                if error != nil {
+                                                                    completion(.error(FirebaseErrors.removeProjectParticipationRequest))
                                                                     return
                                                                 }
                                                                 completion(.success)
@@ -2219,8 +2064,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                     .child(Constants.usersPath)
                     .child(currentUser)
                     .updateChildValues(["participating_projects": projects]) { (error, ref) in
-                        if let error = error {
-                            completion(.error(error))
+                        if error != nil {
+                            completion(.error(FirebaseErrors.genericError))
                             return
                         }
                         self.realtimeDB
@@ -2239,8 +2084,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                     .child(Constants.ongoingProjectsPath)
                                     .child(projectId)
                                     .updateChildValues(["participants": participants]) { (error, ref) in
-                                        if let error = error {
-                                            completion(.error(error))
+                                        if error != nil {
+                                            completion(.error(FirebaseErrors.genericError))
                                             return
                                         }
                                         completion(.success)
@@ -2333,8 +2178,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                     .child(Constants.ongoingProjectsPath)
                     .child(projectId)
                     .updateChildValues(["participants": participants]) { (error, ref) in
-                        if let error = error {
-                            completion(.error(error))
+                        if error != nil {
+                            completion(.error(FirebaseErrors.acceptUserIntoProject))
                             return
                         }
                         self.realtimeDB
@@ -2356,8 +2201,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                     .child(Constants.usersPath)
                                     .child(currentUser)
                                     .updateChildValues(["project_participation_notifications": notifications]) { (error, ref) in
-                                        if let error = error {
-                                            completion(.error(error))
+                                        if error != nil {
+                                            completion(.error(FirebaseErrors.acceptUserIntoProject))
                                             return
                                         }
                                         self.realtimeDB
@@ -2374,8 +2219,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                     .child(Constants.usersPath)
                                                     .child(userId)
                                                     .updateChildValues( ["pending_projects": pendingProjects]) { (error, ref) in
-                                                        if let error = error {
-                                                            completion(.error(error))
+                                                        if error != nil {
+                                                            completion(.error(FirebaseErrors.acceptUserIntoProject))
                                                             return
                                                         }
                                                         self.realtimeDB
@@ -2397,8 +2242,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                                     .updateChildValues(
                                                                         ["participating_projects":
                                                                             projects]) { (error, ref) in
-                                                                        if let error = error {
-                                                                            completion(.error(error))
+                                                                        if error != nil {
+                                                                            completion(.error(FirebaseErrors.acceptUserIntoProject))
                                                                         }
                                                                         self.realtimeDB
                                                                             .child(Constants.projectsPath)
@@ -2443,8 +2288,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                     .child(Constants.usersPath)
                     .child(userId)
                     .updateChildValues(["pending_projects": pendingProjects]) { (error, ref) in
-                        if let error = error {
-                            completion(.error(error))
+                        if error != nil {
+                            completion(.error(FirebaseErrors.refuseRequest))
                             return
                         }
                         self.realtimeDB
@@ -2467,8 +2312,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                     .child(Constants.usersPath)
                                     .child(currentUser)
                                     .updateChildValues(["project_participation_notifications": notifications]) { (error, ref) in
-                                        if let error = error {
-                                            completion(.error(error))
+                                        if error != nil {
+                                            completion(.error(FirebaseErrors.refuseRequest))
                                             return
                                         }
                                         completion(.success)
@@ -2569,8 +2414,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                     .child(Constants.ongoingProjectsPath)
                     .child(projectId)
                     .updateChildValues(["pending_invites": invites]) { (error, ref) in
-                        if let error = error {
-                            completion(.error(error))
+                        if error != nil {
+                            completion(.error(FirebaseErrors.removeProjectInviteToUser))
                             return
                         }
                         self.realtimeDB
@@ -2592,8 +2437,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                     .child(Constants.usersPath)
                                     .child(userId)
                                     .updateChildValues(["project_invite_notifications": notifications]) { (error, ref) in
-                                        if let error = error {
-                                            completion(.error(error))
+                                        if error != nil {
+                                            completion(.error(FirebaseErrors.removeProjectInviteToUser))
                                             return
                                         }
                                         completion(.success)
@@ -2626,8 +2471,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                     .child(Constants.ongoingProjectsPath)
                     .child(projectId)
                     .updateChildValues(["participants": users]) { (error, ref) in
-                        if let error = error {
-                            completion(.error(error))
+                        if error != nil {
+                            completion(.error(FirebaseErrors.removeUserFromProject))
                             return
                         }
                         self.realtimeDB
@@ -2646,8 +2491,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                     .child(Constants.usersPath)
                                     .child(userId)
                                     .updateChildValues(["participating_projects": projects]) { (error, ref) in
-                                        if let error = error {
-                                            completion(.error(error))
+                                        if error != nil {
+                                            completion(.error(FirebaseErrors.removeUserFromProject))
                                             return
                                         }
                                         completion(.success)
@@ -2707,8 +2552,8 @@ class FirebaseManager: FirebaseManagerProtocol {
             .child(Constants.ongoingProjectsPath)
             .child(projectId)
             .updateChildValues(dict) { (error, ref) in
-                if let error = error {
-                    completion(.error(error))
+                if error != nil {
+                    completion(.error(FirebaseErrors.updateProject))
                     return
                 }
                 completion(.success)
@@ -3408,8 +3253,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                             .child(Constants.usersPath)
                             .child(currentUser)
                             .updateChildValues(["removed_suggestions": removedUsers]) { (error, ref) in
-                                if let error = error {
-                                    completion(.error(error))
+                                if error != nil {
+                                    completion(.error(FirebaseErrors.removeSuggestion))
                                     return
                                 }
                                 completion(.success)
@@ -3564,8 +3409,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                 allProjects.removeAll(where: { $0 == projectId})
                 self.realtimeDB
                     .updateChildValues([Constants.allProjectsCataloguePath : allProjects]) { (error, ref) in
-                        if let error = error {
-                            completion(.error(error))
+                        if error != nil {
+                            completion(.error(FirebaseErrors.genericError))
                             return
                         }
                         self.realtimeDB
@@ -3577,8 +3422,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                 finishedProjects.append(projectId)
                                 self.realtimeDB
                                     .updateChildValues([Constants.finishedProjectsCataloguePath : finishedProjects]) { (error, ref) in
-                                        if let error = error {
-                                            completion(.error(error))
+                                        if error != nil {
+                                            completion(.error(FirebaseErrors.genericError))
                                             return
                                         }
                                         self.realtimeDB
@@ -3586,8 +3431,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                             .child(Constants.ongoingProjectsPath)
                                             .child(projectId)
                                             .removeValue { (error, ref) in
-                                                if let error = error {
-                                                    completion(.error(error))
+                                                if error != nil {
+                                                    completion(.error(FirebaseErrors.genericError))
                                                     return
                                                 }
                                                 let dict: [String : Any] = ["youtube_url": youtubeURL, "title": title, "sinopsis": sinopsis, "cathegories": cathegories, "participants": participants, "author_id": authorId, "image": image, "finish_date": finishDate, "views": 0]
@@ -3596,8 +3441,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                     .child(Constants.finishedProjectsPath)
                                                     .child(projectId)
                                                     .updateChildValues(dict) { (error, ref) in
-                                                        if let error = error {
-                                                            completion(.error(error))
+                                                        if error != nil {
+                                                            completion(.error(FirebaseErrors.genericError))
                                                             return
                                                         }
                                                         let dispatchGroup = DispatchGroup()
@@ -3617,8 +3462,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                                                 if projects.contains(projectId) {
                                                                                     projects.removeAll(where: { $0 == projectId})
                                                                                     self.realtimeDB.child(Constants.usersPath).child(user).updateChildValues(["participating_projects" : projects]) { (error, ref) in
-                                                                                        if let error = error {
-                                                                                            completion(.error(error))
+                                                                                        if error != nil {
+                                                                                            completion(.error(FirebaseErrors.genericError))
                                                                                             return
                                                                                         }
                                                                                         self.realtimeDB.child(Constants.usersPath).child(user).child("finished_projects").observeSingleEvent(of: .value) { snapshot in
@@ -3628,8 +3473,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                                                             }
                                                                                             projects.append(projectId)
                                                                                             self.realtimeDB.child(Constants.usersPath).child(user).updateChildValues(["finished_projects" : projects]) { (error, ref) in
-                                                                                                if let error = error {
-                                                                                                    completion(.error(error))
+                                                                                                if error != nil {
+                                                                                                    completion(.error(FirebaseErrors.genericError))
                                                                                                     return
                                                                                                 }
                                                                                                 dispatchGroup.leave()
@@ -3647,14 +3492,14 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                                 dispatchGroup.notify(queue: .main) {
                                                                     self.removeEntity(withId: projectId) { response in
                                                                         switch response {
-                                                                        case .error(let error):
-                                                                            completion(.error(error))
+                                                                        case .error(let _):
+                                                                            completion(.error(FirebaseErrors.genericError))
                                                                         case.success:
                                                                             self.registerEntity(withId: projectId, type: .finishedProject) {
                                                                                 response in
                                                                                 switch response {
                                                                                 case .error(let error):
-                                                                                    completion(.error(error))
+                                                                                    completion(.error(FirebaseErrors.genericError))
                                                                                 case.success:
                                                                                     completion(.success)
                                                                                 }
@@ -3848,13 +3693,13 @@ class FirebaseManager: FirebaseManagerProtocol {
         }
         let projectImageReference =  storage.child(Constants.projectsPath).child(projectId)
         projectImageReference.putData(image, metadata: nil) { (metadata, error) in
-            if let error = error {
-                completion(.error(error))
+            if error != nil {
+                completion(.error(FirebaseErrors.genericError))
                 return
             }
             projectImageReference.downloadURL { (url, error) in
-                if let error = error {
-                    completion(.error(error))
+                if error != nil {
+                    completion(.error(FirebaseErrors.genericError))
                     return
                 }
                 guard let url = url else {
@@ -3866,8 +3711,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                     .child(Constants.projectsPath)
                     .child(Constants.finishedProjectsPath)
                     .updateChildValues([projectId : dict]) { (error, metadata) in
-                        if let error = error {
-                            completion(.error(error))
+                        if error != nil {
+                            completion(.error(FirebaseErrors.genericError))
                             return
                         }
                         self.realtimeDB
@@ -3878,8 +3723,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                 }
                                 allFinishedProjects.append(projectId)
                                 self.realtimeDB.updateChildValues([Constants.finishedProjectsCataloguePath: allFinishedProjects]) { (error, metadata) in
-                                    if let error = error {
-                                        completion(.error(error))
+                                    if error != nil {
+                                        completion(.error(FirebaseErrors.genericError))
                                         return
                                     }
                                     self.realtimeDB
@@ -3892,8 +3737,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                             }
                                             userProjects.append(projectId)
                                             self.realtimeDB.child(Constants.usersPath).child(currentUser).updateChildValues(["finished_projects": userProjects]) { (error, metadata) in
-                                                if let error = error {
-                                                    completion(.error(error))
+                                                if error != nil {
+                                                    completion(.error(FirebaseErrors.genericError))
                                                     return
                                                 }
                                                 let dict: [String : Any] = ["id": projectId]
@@ -3905,7 +3750,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                     response in
                                                     switch response {
                                                     case .error(let error):
-                                                        completion(.error(error))
+                                                        completion(.error(FirebaseErrors.genericError))
                                                     case .success:
                                                         completion(.success(mappedResponse))
                                                     }
@@ -3942,8 +3787,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                     .child(Constants.finishedProjectsPath)
                     .child(projectId)
                     .updateChildValues(["views": views, "last_view": lastSeenTimestamp]) { (error, ref) in
-                        if let error = error {
-                            completion(.error(error))
+                        if error != nil {
+                            completion(.error(FirebaseErrors.genericError))
                             return
                         }
                     }
@@ -4132,8 +3977,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                 }
                 pendingInvites.append(userId)
                 self.realtimeDB.child(Constants.projectsPath).child(Constants.finishedProjectsPath).child(projectId).updateChildValues(["pending_invites": pendingInvites]) { (error, ref) in
-                    if let error = error {
-                        completion(.error(error))
+                    if error != nil {
+                        completion(.error(FirebaseErrors.inviteUserToProject))
                         return
                     }
                     self.realtimeDB
@@ -4177,8 +4022,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                 .child(Constants.usersPath)
                                                 .child(userId)
                                                 .updateChildValues(["finished_project_invite_notifications" : inviteNotifications]) { (error, ref) in
-                                                    if let error = error {
-                                                        completion(.error(error))
+                                                    if error != nil {
+                                                        completion(.error(FirebaseErrors.inviteUserToProject))
                                                         return
                                                     }
                                                     completion(.success)
@@ -4241,8 +4086,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                     .child(Constants.usersPath)
                     .child(currentUser)
                     .updateChildValues(["finished_project_invite_notifications": notifications]) { (error, ref) in
-                        if let error = error {
-                            completion(.error(error))
+                        if error != nil {
+                            completion(.error(FirebaseErrors.acceptProjectInvite))
                             return
                         }
                         self.realtimeDB
@@ -4258,8 +4103,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                     .child(Constants.usersPath)
                                     .child(currentUser)
                                     .updateChildValues(["finished_projects": finishedProjects]) { (error, ref) in
-                                        if let error = error {
-                                            completion(.error(error))
+                                        if error != nil {
+                                            completion(.error(FirebaseErrors.acceptProjectInvite))
                                             return
                                         }
                                         self.realtimeDB
@@ -4278,8 +4123,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                     .child(Constants.finishedProjectsPath)
                                                     .child(projectId)
                                                     .updateChildValues(["participants": allParticipants]) { (error, ref) in
-                                                        if let error = error {
-                                                            completion(.error(error))
+                                                        if error != nil {
+                                                            completion(.error(FirebaseErrors.acceptProjectInvite))
                                                             return
                                                         }
                                                         self.realtimeDB
@@ -4295,8 +4140,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                                 pendingInvites.removeAll(where: { $0 == currentUser})
                                                                 self.realtimeDB.child(Constants.projectsPath).child(Constants.finishedProjectsPath)
                                                                     .child(projectId).updateChildValues(["pending_invites": pendingInvites]) { (error, ref) in
-                                                                        if let error = error {
-                                                                            completion(.error(error))
+                                                                        if error != nil {
+                                                                            completion(.error(FirebaseErrors.acceptProjectInvite))
                                                                             return
                                                                         }
                                                                         self.realtimeDB
@@ -4363,8 +4208,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                     .child(Constants.usersPath)
                     .child(currentUser)
                     .updateChildValues(["finished_project_invite_notifications": notifications]) { (error, ref) in
-                        if let error = error {
-                            completion(.error(error))
+                        if error != nil {
+                            completion(.error(FirebaseErrors.refuseRequest))
                             return
                         }
                         self.realtimeDB
@@ -4380,8 +4225,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                 pendingInvites.removeAll(where: { $0 == currentUser})
                                 self.realtimeDB.child(Constants.projectsPath).child(Constants.finishedProjectsPath)
                                     .child(projectId).updateChildValues(["pending_invites": pendingInvites]) { (error, ref) in
-                                        if let error = error {
-                                            completion(.error(error))
+                                        if error != nil {
+                                            completion(.error(FirebaseErrors.refuseRequest))
                                             return
                                         }
                                         completion(.success)
@@ -4470,8 +4315,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                     .child(Constants.usersPath)
                     .child(userId)
                     .updateChildValues(["finished_project_invite_notifications": notifications]) { (error, ref) in
-                        if let error = error {
-                            completion(.error(error))
+                        if error != nil {
+                            completion(.error(FirebaseErrors.removeProjectInviteToUser))
                             return
                         }
                         self.realtimeDB
@@ -4487,8 +4332,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                 pendingInvites.removeAll(where: { $0 == userId})
                                 self.realtimeDB.child(Constants.projectsPath).child(Constants.finishedProjectsPath)
                                     .child(projectId).updateChildValues(["pending_invites": pendingInvites]) { (error, ref) in
-                                        if let error = error {
-                                            completion(.error(error))
+                                        if error != nil {
+                                            completion(.error(FirebaseErrors.removeProjectInviteToUser))
                                             return
                                         }
                                         completion(.success)
@@ -4520,8 +4365,8 @@ class FirebaseManager: FirebaseManagerProtocol {
             return
         }
         authReference.sendPasswordReset(withEmail: email) { error in
-            if let error = error {
-                completion(.error(error))
+            if error != nil {
+                completion(.error(FirebaseErrors.sendEmail))
                 return
             }
             completion(.success)
@@ -4552,21 +4397,6 @@ class FirebaseManager: FirebaseManagerProtocol {
                 }
                 completion(.success(mappedResponse))
             }
-        }
-    }
-    
-    func updatePassword(request: [String : Any],
-                        completion: @escaping (EmptyResponse) -> Void) {
-        guard let newPassword = request["password"] as? String else {
-            completion(.error(FirebaseErrors.genericError))
-            return
-        }
-        authReference.currentUser?.updatePassword(to: newPassword) { error in
-            if let error = error {
-                completion(.error(error))
-                return
-            }
-            completion(.success)
         }
     }
     
@@ -4641,8 +4471,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                     .child(Constants.usersPath)
                     .child(currentUser)
                     .updateChildValues([Constants.recentSearchesPath : allSearches]) { error, ref in
-                        if let error = error {
-                            completion(.error(error))
+                        if error != nil {
+                            completion(.error(FirebaseErrors.genericError))
                             return
                         }
                         completion(.success)
@@ -4679,8 +4509,8 @@ extension FirebaseManager {
     
     private func registerEntity(withId id: String, type: EntityType, completion: @escaping (EmptyResponse) -> Void) {
         realtimeDB.child(Constants.entitiesPath).updateChildValues([id : type.rawValue]) { error, ref in
-            if let error = error {
-                completion(.error(error))
+            if error != nil {
+                completion(.error(FirebaseErrors.genericError))
                 return
             }
             completion(.success)
@@ -4699,8 +4529,8 @@ extension FirebaseManager {
     
     private func removeEntity(withId id: String, completion: @escaping (EmptyResponse) -> Void) {
         realtimeDB.child(Constants.entitiesPath).child(id).removeValue { error, ref in
-            if let error = error {
-                completion(.error(error))
+            if error != nil {
+                completion(.error(FirebaseErrors.genericError))
                 return
             }
             completion(.success)
@@ -4936,8 +4766,8 @@ extension FirebaseManager {
                     .child(Constants.usersPath)
                     .child(userId)
                     .updateChildValues([type.path : allNotifications]) { (error, ref) in
-                        if let error = error {
-                            completion(.error(error))
+                        if error != nil {
+                            completion(.error(FirebaseErrors.genericError))
                             return
                         }
                         completion(.success)
