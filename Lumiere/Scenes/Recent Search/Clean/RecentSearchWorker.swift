@@ -54,7 +54,7 @@ class RecentSearchWorker: RecentSearchWorkerProtocol {
     
     func fetchRegisterRecentSearch(_ request: RecentSearch.Request.RegisterSearch,
                                    completion: @escaping (EmptyResponse) -> Void) {
-        let headers: [String : Any] = ["id": request.id, "type": request.type]
+        let headers: [String : Any] = ["id": request.id]
         builder.registerRecentSearch(request: headers,
                                      completion: completion)
     }

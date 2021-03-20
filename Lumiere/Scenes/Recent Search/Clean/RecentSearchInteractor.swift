@@ -114,16 +114,16 @@ extension RecentSearchInteractor: RecentSearchBusinessLogic {
         }
         switch search {
         case .user(let user):
-            worker.fetchRegisterRecentSearch(RecentSearch.Request.RegisterSearch(id: user.userId, type: RecentSearch.Info.Model.SearchType.user.rawValue)) { _ in }
+            worker.fetchRegisterRecentSearch(RecentSearch.Request.RegisterSearch(id: user.userId)) { _ in }
             selectedUser = user.userId
             presenter.presentProfileDetails()
         case .project(let project):
             if project.finished {
-                worker.fetchRegisterRecentSearch(RecentSearch.Request.RegisterSearch(id: project.projectId, type: RecentSearch.Info.Model.SearchType.finishedProject.rawValue)) { _ in }
+                worker.fetchRegisterRecentSearch(RecentSearch.Request.RegisterSearch(id: project.projectId)) { _ in }
                 selectedFinishedProject = project.projectId
                 presenter.presentFinishedProjectDetails()
             } else {
-                worker.fetchRegisterRecentSearch(RecentSearch.Request.RegisterSearch(id: project.projectId, type: RecentSearch.Info.Model.SearchType.ongoingProject.rawValue)) { _ in }
+                worker.fetchRegisterRecentSearch(RecentSearch.Request.RegisterSearch(id: project.projectId)) { _ in }
                 selectedOngoingProject = project.projectId
                 presenter.presentOngoingProjectDetails()
             }

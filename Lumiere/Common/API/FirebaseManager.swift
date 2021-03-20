@@ -171,6 +171,8 @@ protocol FirebaseManagerProtocol {
                                           completion: @escaping (BaseResponse<[T]>) -> Void)
     func registerRecentSearch(request: [String : Any],
                                    completion: @escaping (EmptyResponse) -> Void)
+    func fetchEntityType<T: Mappable>(request: [String : Any],
+                         completion: @escaping (BaseResponse<T>) -> Void)
 }
 
 class FirebaseManager: FirebaseManagerProtocol {
@@ -4522,6 +4524,9 @@ class FirebaseManager: FirebaseManagerProtocol {
     
     func fetchRecentSearches<T: Mappable>(request: [String : Any],
                                           completion: @escaping (BaseResponse<[T]>) -> Void) {
+        var searchIds = [String]()
+        var allSearches = [[String : Any]]()
+        
         guard let currentUser = authReference.currentUser?.uid else {
             completion(.error(FirebaseErrors.genericError))
             return
@@ -4531,22 +4536,35 @@ class FirebaseManager: FirebaseManagerProtocol {
             .child(currentUser)
             .child(Constants.recentSearchesPath)
             .observeSingleEvent(of: .value) { snapshot in
-                guard var searches = snapshot.value as? [[String : Any]] else {
-                    completion(.success(.empty))
-                    return
+                if let searches = snapshot.value as? [String] {
+                    searchIds = searches
                 }
-                searches = searches.reversed()
-                let mappedResponse = Mapper<T>().mapArray(JSONArray: searches)
-                completion(.success(mappedResponse))
+                searchIds = searchIds.reversed()
+                let dispatchGroup = DispatchGroup()
+                for searchId in searchIds {
+                    dispatchGroup.enter()
+                    self.fetchEntityType(forId: searchId) { response in
+                        switch response {
+                        case .sucess(let type):
+                            allSearches.append(["id" : searchId, "type": type.rawValue])
+                        case .error:
+                            completion(.error(FirebaseErrors.genericError))
+                        }
+                        dispatchGroup.leave()
+                    }
+                }
+                dispatchGroup.notify(queue: .main) {
+                    let mappedResponse = Mapper<T>().mapArray(JSONArray: allSearches)
+                    completion(.success(mappedResponse))
+                }
         }
     }
     
     func registerRecentSearch(request: [String : Any],
                                    completion: @escaping (EmptyResponse) -> Void) {
-        var allSearches = [[String : Any]]()
+        var allSearches = [String]()
         
-        guard let searchId = request["id"] as? String,
-              let type = request["type"] as? String else {
+        guard let searchId = request["id"] as? String else {
             completion(.error(FirebaseErrors.genericError))
             return
         }
@@ -4559,22 +4577,17 @@ class FirebaseManager: FirebaseManagerProtocol {
             .child(currentUser)
             .child(Constants.recentSearchesPath)
             .observeSingleEvent(of: .value) { snapshot in
-                if let searches = snapshot.value as? [[String : Any]] {
+                if let searches = snapshot.value as? [String] {
                     allSearches = searches
                 }
-                if let index = allSearches.firstIndex(where: {
-                    guard let id = $0["id"] as? String else {
-                        return false
-                    }
-                    return id == searchId
-                }) {
+                if let index = allSearches.firstIndex(where: { $0 == searchId }) {
                     allSearches.remove(at: index)
-                    allSearches.append(["id" : searchId, "type": type])
+                    allSearches.append(searchId)
                 } else {
                     if allSearches.count >= self.maxRecentSearches {
                         allSearches.removeFirst()
                     }
-                    allSearches.append(["id" : searchId, "type": type])
+                    allSearches.append(searchId)
                 }
                 self.realtimeDB
                     .child(Constants.usersPath)
@@ -4586,6 +4599,29 @@ class FirebaseManager: FirebaseManagerProtocol {
                         }
                         completion(.success)
                 }
+        }
+    }
+    
+    func fetchEntityType<T: Mappable>(request: [String : Any],
+                                      completion: @escaping (BaseResponse<T>) -> Void) {
+        guard let id = request["id"] as? String else {
+            completion(.error(FirebaseErrors.genericError))
+            return
+        }
+        realtimeDB
+            .child(Constants.entitiesPath)
+            .child(id)
+            .observeSingleEvent(of: .value) { snapshot in
+                guard let type = snapshot.value as? String else {
+                    completion(.error(FirebaseErrors.genericError))
+                    return
+                }
+                let response: [String : Any] = ["type" : type]
+                guard let mappedResponse = Mapper<T>().map(JSON: response) else {
+                    completion(.error(FirebaseErrors.parseError))
+                    return
+                }
+                completion(.success(mappedResponse))
         }
     }
 }

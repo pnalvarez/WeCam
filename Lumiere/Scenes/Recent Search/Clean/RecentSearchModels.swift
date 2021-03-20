@@ -44,6 +44,17 @@ struct RecentSearch {
         
         struct Response {
             
+            final class UpcomingSearches: Mappable {
+                
+                var searchList: [String]?
+                
+                init?(map: Map) { }
+                
+                func mapping(map: Map) {
+                    searchList <- map["searchIds"]
+                }
+            }
+            
             final class Search: Mappable {
                 
                 var id: String?
@@ -172,7 +183,6 @@ struct RecentSearch {
         
         struct RegisterSearch {
             let id: String
-            let type: String
         }
     }
 }
