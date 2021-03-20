@@ -64,7 +64,7 @@ struct InsertVideo {
                 init?(map: Map) { }
                 
                 func mapping(map: Map) {
-                    id <- map["project_id"]
+                    id <- map["projectId"]
                     title <- map["title"]
                     cathegories <- map["cathegories"]
                     sinopsis <- map["sinopsis"]
