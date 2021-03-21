@@ -21,6 +21,22 @@ class BaseViewController: UIViewController {
         gesture.cancelsTouchesInView = false
         view.addGestureRecognizer(gesture)
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        InternetManager.shared.delegate = self
+    }
+}
+
+extension BaseViewController: InternetManagerDelegate {
+    
+    func networkAvailable() {
+        //TO DO
+    }
+    
+    func networktUnavailable() {
+        //TO DO
+    }
 }
 
 extension BaseViewController {

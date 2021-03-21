@@ -343,6 +343,7 @@
 		3FF2872E25F1BCA9008FD23F /* Data+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF2872D25F1BCA9008FD23F /* Data+.swift */; };
 		3FF2873325F412D5008FD23F /* DefaultSearchButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF2873225F412D5008FD23F /* DefaultSearchButton.swift */; };
 		3FF2873825F41455008FD23F /* DefaultSearchTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF2873725F41455008FD23F /* DefaultSearchTextField.swift */; };
+		3FF72BB92606BE5D0064B96A /* InternetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF72BB82606BE5D0064B96A /* InternetManager.swift */; };
 		D062C81E7BCE3C5271E0BD79 /* Pods_WeCam_WeCamUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D52EE0AE0CF5D11C51A0E48 /* Pods_WeCam_WeCamUITests.framework */; };
 		D5939E9BD1F240BC4E6D3400 /* Pods_WeCamTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FFB3AF09B9FD8E43EDCE733 /* Pods_WeCamTests.framework */; };
 /* End PBXBuildFile section */
@@ -714,6 +715,7 @@
 		3FF2872D25F1BCA9008FD23F /* Data+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+.swift"; sourceTree = "<group>"; };
 		3FF2873225F412D5008FD23F /* DefaultSearchButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSearchButton.swift; sourceTree = "<group>"; };
 		3FF2873725F41455008FD23F /* DefaultSearchTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSearchTextField.swift; sourceTree = "<group>"; };
+		3FF72BB82606BE5D0064B96A /* InternetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternetManager.swift; sourceTree = "<group>"; };
 		4B41C3F4A1A94E01091B6522 /* Pods-LumiereTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LumiereTests.release.xcconfig"; path = "Target Support Files/Pods-LumiereTests/Pods-LumiereTests.release.xcconfig"; sourceTree = "<group>"; };
 		65CB1E4FCB852DEA3AE1E784 /* Pods_WeCam.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WeCam.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B815BA02AADF4FBE59DA999 /* Pods-Lumiere-LumiereUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Lumiere-LumiereUITests.release.xcconfig"; path = "Target Support Files/Pods-Lumiere-LumiereUITests/Pods-Lumiere-LumiereUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -1504,6 +1506,7 @@
 				3FE8DF5724C7BEE2005DE30D /* Constants.swift */,
 				3F6EEA7224E870AD0075C500 /* InfopListReader.swift */,
 				3F0129F5252D2AF500FF4985 /* LocalSaveManager.swift */,
+				3FF72BB82606BE5D0064B96A /* InternetManager.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -2247,6 +2250,7 @@
 				3F6EEA7524E87EE10075C500 /* UIAlertController+.swift in Sources */,
 				3F40A6DE24F4899500261161 /* InviteListModels.swift in Sources */,
 				3F9578D024B0198700B79818 /* SignUpRouter.swift in Sources */,
+				3FF72BB92606BE5D0064B96A /* InternetManager.swift in Sources */,
 				3F40A68D24EDFE1F00261161 /* CathegoryCollectionViewCell.swift in Sources */,
 				3F40A6D824F4879D00261161 /* InviteListPresenter.swift in Sources */,
 				3FBE1C1C25FB000500AE67E2 /* RecentSearchController.swift in Sources */,

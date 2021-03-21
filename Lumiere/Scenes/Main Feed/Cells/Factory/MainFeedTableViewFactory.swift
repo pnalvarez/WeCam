@@ -37,10 +37,13 @@ class MainFeedTableViewFactory: TableViewFactory {
     }
     
     private var firstSection: TableViewSectionProtocol {
-        return BaseSection(builders: [headerBuilder,
-                                      profileSuggestionsBuilder,
-                                      ongoingProjectsFeedBuilder],
-                           tableView: tableView)
+        let section = BaseSection(tableView: tableView)
+        section.builders.append(headerBuilder)
+        section.builders.append(profileSuggestionsBuilder)
+        if shouldHaveOngoingProjectsFeed() {
+            section.builders.append(ongoingProjectsFeedBuilder)
+        }
+        return section
     }
     
     private var headerBuilder: TableViewCellBuilderProtocol {
@@ -62,12 +65,18 @@ class MainFeedTableViewFactory: TableViewFactory {
         var builders = [TableViewCellBuilderProtocol]()
         guard let feeds = viewModel?.finishedProjects.feeds else { return .empty }
         for index in 0..<feeds.count {
-            builders.append(FinishedProjectFeedTableViewCellBuilder(delegate: finishedProjectsFeedDelegate, index: index, viewModel: feeds[index]))
+            if !feeds[index].projects.isEmpty {
+                builders.append(FinishedProjectFeedTableViewCellBuilder(delegate: finishedProjectsFeedDelegate, index: index, viewModel: feeds[index]))
+            }
         }
         return builders
     }
     
     private func finishedProjectsSection() -> TableViewSectionProtocol {
         return BaseSection(builders: finishedProjectsFeedsBuilder, tableView: tableView)
+    }
+    
+    private func shouldHaveOngoingProjectsFeed() -> Bool {
+        return !(viewModel?.ongoingProjects.projects.isEmpty ?? false)
     }
 }

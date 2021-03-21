@@ -10,11 +10,18 @@ import UIKit
 
 class BaseSection: TableViewSectionProtocol {
     
-    var builders: [TableViewCellBuilderProtocol]
+    var builders: [TableViewCellBuilderProtocol] {
+        didSet {
+            registerCells(in: tableView)
+        }
+    }
     
-    init(builders: [TableViewCellBuilderProtocol],
+    private var tableView: UITableView
+    
+    init(builders: [TableViewCellBuilderProtocol] = .empty,
          tableView: UITableView) {
         self.builders = builders
+        self.tableView = tableView
         registerCells(in: tableView)
     }
     

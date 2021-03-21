@@ -25,6 +25,25 @@ extension UIAlertController {
                            animated: true)
     }
     
+    static func displayAlert(title: String,
+                             message: String,
+                             completion: ((UIAlertAction) -> Void)? = nil) {
+        let alertController = UIAlertController(title: title,
+                                                message: message,
+                                                preferredStyle: .alert)
+        let alertAction = UIAlertAction(title: "OK", style: .default, handler: completion)
+        alertAction.setValue(ThemeColors.mainRedColor.rawValue, forKey: "titleTextColor")
+        alertController.addAction(alertAction)
+        
+        let win = UIWindow(frame: UIScreen.main.bounds)
+        let vc = UIViewController()
+        vc.view.backgroundColor = .clear
+        win.rootViewController = vc
+        win.windowLevel = UIWindow.Level.alert + 1
+        win.makeKeyAndVisible()
+        vc.present(alertController, animated: true, completion: nil)
+    }
+    
     static func displayConfirmationDialog(in controller: UIViewController,
                                           title: String,
                                           message: String,
