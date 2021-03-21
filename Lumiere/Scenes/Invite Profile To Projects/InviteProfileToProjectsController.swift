@@ -44,12 +44,6 @@ class InviteProfileToProjectsController: BaseViewController {
         return view
     }()
     
-    private lazy var backButton: DefaultBackButton = {
-        let view = DefaultBackButton(frame: .zero)
-        view.addTarget(self, action: #selector(didTapBack), for: .touchUpInside)
-        return view
-    }()
-    
     private lazy var mainLbl: UILabel = {
         let view = UILabel(frame: .zero)
         view.text = InviteProfileToProjects.Constants.Texts.mainLbl

@@ -41,7 +41,15 @@ class OnGoingProjectDetailsInteractor: OnGoingProjectDetailsDataStore {
     var projectData: OnGoingProjectDetails.Info.Model.Project?
     var projectRelation: OnGoingProjectDetails.Info.Model.ProjectRelation?
     var selectedTeamMemberId: String?
-    var routingContext: OnGoingProjectDetails.Info.Received.RoutingContext?
+    
+    var routingContext: OnGoingProjectDetails.Info.Received.RoutingContext? {
+        didSet {
+            if let context = routingContext?.context {
+                presenter.presentRoutingContextUI(context)
+            }
+        }
+    }
+    
     var selectedProgress: OnGoingProjectDetails.Info.Model.SavedProgress?
     
     init(worker: OnGoingProjectDetailsWorkerProtocol = OnGoingProjectDetailsWorker(),

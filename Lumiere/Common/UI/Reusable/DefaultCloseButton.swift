@@ -27,6 +27,10 @@ class DefaultCloseButton: UIButton {
     
     @objc
     private func closeAction() {
-        associatedViewController?.dismiss(animated: true, completion: nil)
+        if let navigationController = associatedViewController?.navigationController {
+            navigationController.dismiss(animated: true, completion: nil)
+        } else {
+            associatedViewController?.dismiss(animated: true, completion: nil)
+        }
     }
 }

@@ -24,6 +24,7 @@ protocol OnGoingProjectDetailsDisplayLogic: class {
     func hideEditProgressModal()
     func displayConfirmFinishedProjectAlert()
     func displayInsertMediaScreen()
+    func displayRoutingContextUI(_ viewModel: OnGoingProjectDetails.Info.ViewModel.RoutingContext)
 }
 
 class OnGoingProjectDetailsController: BaseViewController, UINavigationControllerDelegate {
@@ -56,12 +57,6 @@ class OnGoingProjectDetailsController: BaseViewController, UINavigationControlle
         view.backgroundColor = UIColor(rgb: 0xededed).withAlphaComponent(0.8)
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(closeModal)))
         view.isHidden = true
-        return view
-    }()
-    
-    private lazy var closeButton: DefaultCloseButton = {
-        let view = DefaultCloseButton(frame: .zero)
-        view.addTarget(self, action: #selector(didTapClose), for: .touchUpInside)
         return view
     }()
     
@@ -210,6 +205,7 @@ class OnGoingProjectDetailsController: BaseViewController, UINavigationControlle
     
     private lazy var mainView: OnGoingProjectDetailsView = {
         let view = OnGoingProjectDetailsView(frame: .zero,
+                                             backButton: backButton,
                                              editProgressView: editProgressView,
                                              editProgressTranslucentView: editProgressTranslucentView,
                                              titleTextField: titleTextField,
@@ -403,11 +399,6 @@ extension OnGoingProjectDetailsController {
     }
     
     @objc
-    private func didTapClose() {
-        router?.routeBack()
-    }
-    
-    @objc
     private func didTapMoreInfo() {
         router?.routeToProjectParticipantsList()
     }
@@ -562,5 +553,10 @@ extension OnGoingProjectDetailsController: OnGoingProjectDetailsDisplayLogic {
     
     func displayInsertMediaScreen() {
         router?.routeToInsertMedia()
+    }
+    
+    func displayRoutingContextUI(_ viewModel: OnGoingProjectDetails.Info.ViewModel.RoutingContext) {
+        backButton.isHidden = viewModel.context == .justCreatedProject
+        closeButton.isHidden = viewModel.context == .checkingProject
     }
 }

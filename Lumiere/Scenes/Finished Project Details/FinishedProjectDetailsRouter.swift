@@ -13,6 +13,7 @@ typealias FinishedProjectDetailsRouterProtocol = NSObject & FinishedProjectDetai
 protocol FinishedProjectDetailsRoutingLogic {
     func routeToWatchVideo()
     func routeToProjectInvites()
+    func routeToProfileDetails()
     func dismiss()
 }
 
@@ -43,6 +44,10 @@ class FinishedProjectDetailsRouter: NSObject, FinishedProjectDetailsDataTransfer
         destination.projectReceivedModel = ProjectInvites.Info.Received.Project(projectId: source.projectData?.id ?? .empty)
         destination.receivedContext = .finished
     }
+    
+    private func transferDataToProfileDetails(from source: FinishedProjectDetailsDataStore, to destination: inout ProfileDetailsDataStore) {
+        destination.receivedUserData = ProfileDetails.Info.Received.User(userId: source.selectedTeamMember ?? .empty)
+    }
 }
 
 extension FinishedProjectDetailsRouter: BaseRouterProtocol {
@@ -50,7 +55,7 @@ extension FinishedProjectDetailsRouter: BaseRouterProtocol {
     func routeTo(nextVC: UIViewController) {
         if nextVC is WatchVideoController {
             viewController?.present(nextVC, animated: true, completion: nil)
-        } else if nextVC is ProjectInvitesController {
+        } else {
             viewController?.navigationController?.pushViewController(nextVC, animated: true)
         }
     }
@@ -90,6 +95,15 @@ extension FinishedProjectDetailsRouter: FinishedProjectDetailsRoutingLogic {
         guard let source = dataStore,
               var destination = vc.router?.dataStore else { return }
         transferDataToWatchVideo(from: source, to: &destination)
+        routeTo(nextVC: vc)
+    }
+    
+    func routeToProfileDetails() {
+        let vc = ProfileDetailsController()
+        guard let source = dataStore,
+              var destination = vc.router?.dataStore else { return }
+        transferDataToProfileDetails(from: source,
+                                     to: &destination)
         routeTo(nextVC: vc)
     }
 }

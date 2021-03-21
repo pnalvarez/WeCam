@@ -11,6 +11,7 @@ import SDWebImage
 
 class OnGoingProjectDetailsView: UIView {
     
+    private unowned var backButton: DefaultBackButton
     private unowned var editProgressView: EditProgressView
     private unowned var editProgressTranslucentView: UIView
     private unowned var confirmationModalView: ConfirmationAlertView
@@ -136,6 +137,7 @@ class OnGoingProjectDetailsView: UIView {
     private var viewModel: OnGoingProjectDetails.Info.ViewModel.Project?
     
     init(frame: CGRect,
+         backButton: DefaultBackButton,
          editProgressView: EditProgressView,
          editProgressTranslucentView: UIView,
          titleTextField: UITextField,
@@ -155,6 +157,7 @@ class OnGoingProjectDetailsView: UIView {
          cancelEditingNeedingButton: DefaultCloseButton,
          needValueTextfield: UITextField,
          activityView: UIActivityIndicatorView) {
+        self.backButton = backButton
         self.editProgressView = editProgressView
         self.editProgressTranslucentView = editProgressTranslucentView
         self.confirmationModalView = confirmationModalView
@@ -292,6 +295,7 @@ class OnGoingProjectDetailsView: UIView {
 extension OnGoingProjectDetailsView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
+        mainContainer.addSubview(backButton)
         mainContainer.addSubview(closeButton)
         mainContainer.addSubview(cathegoryLbl)
         imageStackView.addArrangedSubview(imageButton)
@@ -340,6 +344,10 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
             make.edges.equalToSuperview()
             make.width.equalToSuperview()
             make.height.equalToSuperview().priority(250)
+        }
+        backButton.snp.makeConstraints { make in
+            make.top.left.equalToSuperview().inset(31)
+            make.height.width.equalTo(31)
         }
         closeButton.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(28)

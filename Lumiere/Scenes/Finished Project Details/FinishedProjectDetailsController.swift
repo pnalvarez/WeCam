@@ -30,17 +30,6 @@ class FinishedProjectDetailsController: BaseViewController {
         return view
     }()
     
-    private lazy var closeButton: DefaultCloseButton = {
-        let view = DefaultCloseButton(frame: .zero)
-        view.addTarget(self, action: #selector(didTapClose), for: .touchUpInside)
-        return view
-    }()
-    
-    private lazy var backButton: DefaultBackButton = {
-        let view = DefaultBackButton(frame: .zero)
-        view.addTarget(self, action: #selector(didTapBack), for: .touchUpInside)
-        return view
-    }()
     
     private lazy var watchButton: UIButton = {
         let view = UIButton(frame: .zero)
@@ -167,6 +156,10 @@ extension FinishedProjectDetailsController: UICollectionViewDataSource {
                    image: viewModel[indexPath.row].image)
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        interactor?.didSelectTeamMember(FinishedProjectDetails.Request.SelectTeamMember(index: indexPath.row))
+    }
 }
 
 extension FinishedProjectDetailsController: UICollectionViewDelegateFlowLayout {
@@ -231,7 +224,7 @@ extension FinishedProjectDetailsController: FinishedProjectDetailsDisplayLogic {
     }
     
     func displayProfileDetails() {
-        
+        router?.routeToProfileDetails()
     }
     
     func displayInviteUsers() {

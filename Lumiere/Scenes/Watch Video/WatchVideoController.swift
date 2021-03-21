@@ -25,12 +25,6 @@ class WatchVideoController: BaseViewController {
         return view
     }()
     
-    private lazy var closeButton: DefaultCloseButton = {
-        let view = DefaultCloseButton(frame: .zero)
-        view.addTarget(self, action: #selector(didTapClose), for: .touchUpInside)
-        return view
-    }()
-    
     private lazy var playerView: WKYTPlayerView = {
         let view = WKYTPlayerView(frame: .zero)
         view.delegate = self

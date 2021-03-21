@@ -28,12 +28,6 @@ class SearchResultsController: BaseViewController {
         return view
     }()
     
-    private lazy var backButton: DefaultBackButton = {
-        let view = DefaultBackButton(frame: .zero)
-        view.addTarget(self, action: #selector(didTapBack), for: .touchUpInside)
-        return view
-    }()
-    
     private lazy var resultTypeSegmentedControl: UISegmentedControl = {
         let view = UISegmentedControl(frame: .zero)
         view.addTarget(self, action: #selector(didChangeSelectedType), for: .valueChanged)

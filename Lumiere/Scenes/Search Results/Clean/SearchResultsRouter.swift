@@ -30,7 +30,7 @@ class SearchResultsRouter: NSObject, SearchResultsDataTransfer {
                                               to destination: inout OnGoingProjectDetailsDataStore) {
         guard let project = source.selectedItem?.getRawValue() as? SearchResults.Info.Model.Project else { return }
         destination.receivedData = OnGoingProjectDetails.Info.Received.Project(projectId: project.id, notInvitedUsers: .empty)
-        destination.routingContext = .checkingProject
+        destination.routingContext = OnGoingProjectDetails.Info.Received.RoutingContext(context: .checkingProject)
     }
     
     private func transferDataToFinishedProjectDetails(from source: SearchResultsDataStore, to destination: inout FinishedProjectDetailsDataStore) {

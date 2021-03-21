@@ -32,12 +32,6 @@ class AccountRecoveryController: BaseViewController {
         return view
     }()
     
-    private lazy var closeButton: DefaultCloseButton = {
-        let view = DefaultCloseButton(frame: .zero)
-        view.associatedViewController = self
-        return view
-    }()
-    
     private lazy var accountUserDisplayView: UserDisplayView = {
         let view = UserDisplayView(frame: .zero, layout: .large)
         view.isHidden = true

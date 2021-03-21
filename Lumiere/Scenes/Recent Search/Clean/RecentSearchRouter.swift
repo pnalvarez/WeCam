@@ -34,7 +34,7 @@ class RecentSearchRouter: NSObject, RecentSearchDataTransfer {
     private func transferDataToOngoingProjectDetails(from source: RecentSearchDataStore, to destination: inout OnGoingProjectDetailsDataStore) {
         let project = OnGoingProjectDetails.Info.Received.Project(projectId: source.selectedOngoingProject ?? .empty, notInvitedUsers: .empty)
         destination.receivedData = project
-        destination.routingContext = .checkingProject
+        destination.routingContext = OnGoingProjectDetails.Info.Received.RoutingContext(context: .checkingProject)
     }
     
     private func transferDataToFinishedProjectDetails(from source: RecentSearchDataStore, to destination: inout FinishedProjectDetailsDataStore) {

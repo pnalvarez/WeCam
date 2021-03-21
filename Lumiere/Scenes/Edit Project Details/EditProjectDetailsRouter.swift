@@ -43,7 +43,7 @@ class EditProjectDetailsRouter: NSObject, EditProjectDetailsDataTransfer {
         guard let project = source.publishedProject else { return }
         destination.receivedData = OnGoingProjectDetails.Info.Received.Project(projectId: project.id,
                                                                                notInvitedUsers: project.userIdsNotInvited)
-        destination.routingContext = .justCreatedProject
+        destination.routingContext = OnGoingProjectDetails.Info.Received.RoutingContext(context: .justCreatedProject)
     }
     
     private func transferDataToInsertMedia(from source: EditProjectDetailsDataStore,

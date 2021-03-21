@@ -15,12 +15,6 @@ protocol ProjectProgressDisplayLogic: class {
 
 class ProjectProgressController: BaseViewController {
     
-    private lazy var backButton: DefaultBackButton = {
-        let view = DefaultBackButton(frame: .zero)
-        view.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
-        return view
-    }()
-    
     private lazy var advanceButton: UIButton = {
         let view = UIButton(frame: .zero)
         view.setTitle(ProjectProgress.Constants.Texts.advanceButton, for: .normal)
@@ -81,12 +75,7 @@ class ProjectProgressController: BaseViewController {
 }
 
 extension ProjectProgressController {
-    
-    @objc
-    private func didTapBackButton() {
-        router?.routeBack()
-    }
-    
+
     @objc
     private func didTapAdvanceButton() {
         let percentage = progressSlider.value / progressSlider.maximumValue

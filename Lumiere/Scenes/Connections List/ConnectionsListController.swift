@@ -17,13 +17,6 @@ protocol ConnectionsListDisplayLogic: class {
 
 class ConnectionsListController: BaseViewController {
     
-    private lazy var backButton: UIButton = {
-        let view = UIButton(frame: .zero)
-        view.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
-        view.setImage(ConnectionsList.Constants.Images.back, for: .normal)
-        return view
-    }()
-    
     private lazy var activityView: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView(frame: .zero)
         view.backgroundColor = .white

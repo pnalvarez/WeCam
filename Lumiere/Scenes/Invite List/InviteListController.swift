@@ -43,13 +43,6 @@ class InviteListController: BaseViewController {
         return view
     }()
     
-    private lazy var closeButton: UIButton = {
-        let view = UIButton(frame: .zero)
-        view.addTarget(self, action: #selector(didTapClose), for: .touchUpInside)
-        view.setImage(InviteList.Constants.Images.closeButton, for: .normal)
-        return view
-    }()
-    
     private lazy var tableView: UITableView = {
         let view = UITableView(frame: .zero)
         view.assignProtocols(to: self)

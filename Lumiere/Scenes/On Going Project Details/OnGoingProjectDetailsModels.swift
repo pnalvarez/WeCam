@@ -105,9 +105,8 @@ struct OnGoingProjectDetails {
                 let notInvitedUsers: [String]
             }
             
-            enum RoutingContext {
-                case justCreatedProject
-                case checkingProject
+            struct RoutingContext {
+                let context: Model.RoutingContext
             }
         }
         
@@ -115,6 +114,11 @@ struct OnGoingProjectDetails {
             
             struct Progress: Equatable {
                 let percentage: Int
+            }
+            
+            enum RoutingContext {
+                case justCreatedProject
+                case checkingProject
             }
             
             enum ProjectRelation {
@@ -159,6 +163,10 @@ struct OnGoingProjectDetails {
         }
         
         struct ViewModel {
+            
+            struct RoutingContext {
+                var context: Model.RoutingContext
+            }
             
             struct Progress: Equatable {
                 let percentage: Float

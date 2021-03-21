@@ -210,6 +210,10 @@ struct FinishedProjectDetails {
     
     struct Request {
         
+        struct SelectTeamMember {
+            let index: Int
+        }
+        
         struct FetchProjectData {
             
         }

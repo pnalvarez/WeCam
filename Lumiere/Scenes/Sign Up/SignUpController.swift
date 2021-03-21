@@ -27,12 +27,6 @@ class SignUpController: BaseViewController {
         return view
     }()
     
-    private lazy var backButton: UIButton = {
-        let view = UIButton(frame: .zero)
-        view.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
-        return view
-    }()
-    
     private lazy var imageButton: UIButton = {
         let view = UIButton(frame: .zero)
         view.addTarget(self, action: #selector(didTapImageButton), for: .touchUpInside)

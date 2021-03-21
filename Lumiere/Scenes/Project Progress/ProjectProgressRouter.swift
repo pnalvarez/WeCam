@@ -11,7 +11,6 @@ import UIKit
 typealias ProjectProgressRouterProtocol = NSObject & ProjectProgressRoutingLogic & ProjectProgressDataTransfer
 
 protocol ProjectProgressRoutingLogic {
-    func routeBack()
     func routeToEditProjectDetails()
 }
 
@@ -48,10 +47,6 @@ extension ProjectProgressRouter: BaseRouterProtocol {
 }
 
 extension ProjectProgressRouter: ProjectProgressRoutingLogic {
-    
-    func routeBack() {
-        viewController?.navigationController?.popViewController(animated: true)
-    }
     
     func routeToEditProjectDetails() {
         let vc = EditProjectDetailsController()

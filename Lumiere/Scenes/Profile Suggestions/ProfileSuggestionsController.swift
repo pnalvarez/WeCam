@@ -27,12 +27,6 @@ class ProfileSuggestionsController: BaseViewController {
         return view
     }()
     
-    private lazy var backButton: DefaultBackButton = {
-        let view = DefaultBackButton(frame: .zero)
-        view.addTarget(self, action: #selector(didTapBack), for: .touchUpInside)
-        return view
-    }()
-    
     private lazy var filterButton: SelectionFilterView = {
         let view = SelectionFilterView(frame: .zero,
                                        selectedItem: criteriaViewModel?.selectedCriteria ?? .empty,

@@ -28,13 +28,7 @@ class RecentSearchController: BaseViewController {
         view.isHidden = true
         return view
     }()
-    
-    private lazy var backButton: DefaultBackButton = {
-        let view = DefaultBackButton(frame: .zero)
-        view.associatedViewController = self
-        return view
-    }()
-    
+
     private lazy var searchTextField: DefaultSearchTextField = {
         let view = DefaultSearchTextField(frame: .zero)
         view.searchDelegate = self

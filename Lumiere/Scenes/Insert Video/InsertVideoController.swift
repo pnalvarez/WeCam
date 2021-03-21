@@ -50,12 +50,6 @@ class InsertVideoController: BaseViewController {
         return view
     }()
     
-    private lazy var backButton: DefaultBackButton = {
-        let view = DefaultBackButton(frame: .zero)
-        view.addTarget(self, action: #selector(didTapBack), for: .touchUpInside)
-        return view
-    }()
-    
     private lazy var inputTextField: UITextField = {
         let view = UITextField(frame: .zero)
         view.addTarget(self, action: #selector(didChangeInputTextField), for: .editingChanged)

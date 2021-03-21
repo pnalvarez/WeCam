@@ -44,12 +44,6 @@ class ProjectInvitesController: BaseViewController {
         return view
     }()
     
-    private lazy var closeButton: DefaultCloseButton = {
-        let view = DefaultCloseButton(frame: .zero)
-        view.addTarget(self, action: #selector(didTapClose), for: .touchUpInside)
-        return view
-    }()
-    
     private lazy var searchTextField: UITextField = {
         let view = UITextField(frame: .zero)
         view.layer.cornerRadius = 4

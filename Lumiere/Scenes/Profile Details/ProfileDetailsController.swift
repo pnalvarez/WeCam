@@ -69,15 +69,6 @@ class ProfileDetailsController: BaseViewController {
         return view
     }()
     
-    private lazy var backButton: UIButton = {
-        let view = UIButton(frame: .zero)
-        view.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
-        view.layer.cornerRadius = 16
-        view.clipsToBounds = true
-        view.setImage(ProfileDetails.Constants.Images.backButton, for: .normal)
-        return view
-    }()
-    
     private lazy var addConnectionButton: UIButton = {
         let view = UIButton(frame: .zero)
         view.addTarget(self, action: #selector(didTapAddInteractButton), for: .touchUpInside)
@@ -162,6 +153,7 @@ class ProfileDetailsController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.setNavigationBarHidden(true, animated: true)
+        backButton.isHidden = navigationController?.viewControllers.count == 1
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -341,7 +333,6 @@ extension ProfileDetailsController: ProfileDetailsDisplayLogic {
     }
     
     func displayInterfaceForLogged() {
-        backButton.isHidden = true
         inviteToProjectButton.isHidden = true
         editProfileButton.isHidden = false
     }

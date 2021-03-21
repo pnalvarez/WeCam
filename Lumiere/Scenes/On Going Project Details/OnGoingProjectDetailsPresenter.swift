@@ -22,6 +22,7 @@ protocol OnGoingProjectDetailsPresentationLogic {
     func presentConfirmFinishedProjectAlert()
     func hideEditProgressModal()
     func presentInsertMediaScreen()
+    func presentRoutingContextUI(_ response: OnGoingProjectDetails.Info.Model.RoutingContext)
 }
 
 class OnGoingProjectDetailsPresenter: OnGoingProjectDetailsPresentationLogic {
@@ -109,5 +110,10 @@ class OnGoingProjectDetailsPresenter: OnGoingProjectDetailsPresentationLogic {
     
     func presentInsertMediaScreen() {
         viewController.displayInsertMediaScreen()
+    }
+    
+    func presentRoutingContextUI(_ response: OnGoingProjectDetails.Info.Model.RoutingContext) {
+        let viewModel = OnGoingProjectDetails.Info.ViewModel.RoutingContext(context: response)
+        viewController.displayRoutingContextUI(viewModel)
     }
 }

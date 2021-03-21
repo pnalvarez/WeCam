@@ -27,12 +27,6 @@ class EditProjectDetailsController: BaseViewController {
         return view
     }()
     
-    private lazy var backButton: DefaultBackButton = {
-        let view = DefaultBackButton(frame: .zero)
-        view.addTarget(self, action: #selector(didTapBack), for: .touchUpInside)
-        return view
-    }()
-    
     private lazy var projectTitleTextField: ProjectDataTextField = {
         let view = ProjectDataTextField(frame: .zero)
         view.delegate = self

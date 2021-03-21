@@ -37,12 +37,6 @@ class ProjectParticipantsListController: BaseViewController {
         return view
     }()
     
-    private lazy var closeButton: DefaultCloseButton = {
-        let view = DefaultCloseButton(frame: .zero)
-        view.addTarget(self, action: #selector(didTapClose), for: .touchUpInside)
-        return view
-    }()
-    
     private lazy var mainView: ProjectParticipantsListView = {
         let view = ProjectParticipantsListView(frame: .zero,
                                                activityView: activityView,

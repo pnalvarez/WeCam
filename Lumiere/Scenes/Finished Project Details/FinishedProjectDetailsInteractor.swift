@@ -12,6 +12,7 @@ protocol FinishedProjectDetailsBusinessLogic {
     func fetchProjectData(_ request: FinishedProjectDetails.Request.FetchProjectData)
     func fetchProjectRelation(_ request: FinishedProjectDetails.Request.ProjectRelation)
     func fetchNotinvitedUsers(_ request: FinishedProjectDetails.Request.FetchNotInvitedUsers)
+    func didSelectTeamMember(_ request: FinishedProjectDetails.Request.SelectTeamMember)
 }
 
 protocol FinishedProjectDetailsDataStore {
@@ -19,6 +20,7 @@ protocol FinishedProjectDetailsDataStore {
     var routingModel: FinishedProjectDetails.Info.Received.Routing? { get set }
     var projectData: FinishedProjectDetails.Info.Model.Project? { get }
     var projectRelation: FinishedProjectDetails.Info.Model.Relation? { get }
+    var selectedTeamMember: String? { get }
 }
 
 class FinishedProjectDetailsInteractor: FinishedProjectDetailsDataStore {
@@ -30,6 +32,7 @@ class FinishedProjectDetailsInteractor: FinishedProjectDetailsDataStore {
     var routingModel: FinishedProjectDetails.Info.Received.Routing?
     var projectData: FinishedProjectDetails.Info.Model.Project?
     var projectRelation: FinishedProjectDetails.Info.Model.Relation?
+    var selectedTeamMember: String?
     
     init(worker: FinishedProjectDetailsWorkerProtocol = FinishedProjectDetailsWorker(),
          presenter: FinishedProjectDetailsPresentationLogic) {
@@ -121,5 +124,10 @@ extension FinishedProjectDetailsInteractor: FinishedProjectDetailsBusinessLogic 
         if !(receivedData?.userIdsNotInvited.isEmpty ?? true) {
             
         }
+    }
+    
+    func didSelectTeamMember(_ request: FinishedProjectDetails.Request.SelectTeamMember) {
+        selectedTeamMember = projectData?.participants[request.index].id
+        presenter.presentProfileDetails()
     }
 }

@@ -16,12 +16,6 @@ protocol SelectProjectCathegoryDisplayLogic: class {
 
 class SelectProjectCathegoryController: BaseViewController {
     
-    private lazy var closeButton: DefaultCloseButton = {
-        let view = DefaultCloseButton(frame: .zero)
-        view.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
-        return view
-    }()
-    
     private lazy var advanceButton: UIButton = {
         let view = UIButton(frame: .zero)
         view.addTarget(self, action: #selector(didTapAdvance), for: .touchUpInside)
