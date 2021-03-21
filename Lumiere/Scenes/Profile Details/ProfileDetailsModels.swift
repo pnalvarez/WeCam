@@ -357,7 +357,7 @@ struct ProfileDetails {
         
         enum AddConnection {
             case success
-            case error(Error)
+            case error(WCError)
         }
         
         struct NotificationsResponseData {

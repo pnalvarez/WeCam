@@ -115,7 +115,7 @@ struct SignUp {
         }
         
         struct ServerError {
-            let error: Error
+            let error: WCError
         }
     }
     
@@ -123,12 +123,12 @@ struct SignUp {
         
         enum RegisterUser {
             case success(UserResponse)
-            case error(Error)
+            case error(WCError)
         }
         
         enum SaveUserInfo {
             case success
-            case error(Error)
+            case error(WCError)
             case genericError
         }
         

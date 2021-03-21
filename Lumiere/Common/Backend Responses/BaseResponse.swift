@@ -9,12 +9,12 @@ import ObjectMapper
 
 enum BaseResponse<T> {
     case success(T)
-    case error(Error)
+    case error(WCError)
 }
 
 enum EmptyResponse {
     case success
-    case error(Error)
+    case error(WCError)
 }
 
 enum CheckEntityResponse {

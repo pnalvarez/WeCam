@@ -56,7 +56,7 @@ extension ProfileDetailsInteractor {
                     .NewConnectionType(connectionType: .nothing))
                 self.presenter.presentError(ProfileDetails
                     .Errors
-                    .ProfileDetailsError(description: error.localizedDescription))
+                    .ProfileDetailsError(description: error.description))
             }
         }
     }
@@ -74,7 +74,7 @@ extension ProfileDetailsInteractor {
                 .NewConnectionType(connectionType: .sent))
                 self.presenter.presentError(ProfileDetails
                 .Errors
-                .ProfileDetailsError(description: error.localizedDescription))
+                .ProfileDetailsError(description: error.description))
             }
         }
     }
@@ -92,7 +92,7 @@ extension ProfileDetailsInteractor {
                 .NewConnectionType(connectionType: .contact))
                 self.presenter.presentError(ProfileDetails
                     .Errors
-                    .ProfileDetailsError(description: error.localizedDescription))
+                    .ProfileDetailsError(description: error.description))
             }
         }
     }
@@ -111,7 +111,7 @@ extension ProfileDetailsInteractor {
                 .NewConnectionType(connectionType: .pending))
                 self.presenter.presentError(ProfileDetails
                     .Errors
-                    .ProfileDetailsError(description: error.localizedDescription))
+                    .ProfileDetailsError(description: error.description))
             }
         }
     }
@@ -126,7 +126,7 @@ extension ProfileDetailsInteractor {
                 break
             case .error(let error):
                 self.presenter.presentLoading(false)
-                self.presenter.presentError(ProfileDetails.Errors.ProfileDetailsError(description: error.localizedDescription))
+                self.presenter.presentError(ProfileDetails.Errors.ProfileDetailsError(description: error.description))
             }
         }
     }
@@ -211,7 +211,7 @@ extension ProfileDetailsInteractor: ProfileDetailsBusinessLogic {
                 self.fetchUserRelation()
             case .error(let error):
                 self.presenter.presentLoading(false)
-                self.presenter.presentError(ProfileDetails.Errors.ProfileDetailsError(description: error.localizedDescription))
+                self.presenter.presentError(ProfileDetails.Errors.ProfileDetailsError(description: error.description))
             }
         }
     }

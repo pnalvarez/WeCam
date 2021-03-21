@@ -53,7 +53,7 @@ extension ProjectParticipantsListInteractor: ProjectParticipantsListBusinessLogi
                 self.presenter.presentParticipants(participants)
             case .error(let error):
                 self.presenter.presentLoading(false)
-                self.presenter.presentError(error.localizedDescription)
+                self.presenter.presentError(error.description)
             }
         }
     }

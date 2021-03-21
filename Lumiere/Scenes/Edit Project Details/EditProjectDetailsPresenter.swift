@@ -45,7 +45,7 @@ class EditProjectDetailsPresenter: EditProjectDetailsPresentationLogic {
     }
     
     func presentServerError(_ response: EditProjectDetails.Info.Model.ServerError) {
-        let viewModel = EditProjectDetails.Info.ViewModel.DisplayError(description: response.error.localizedDescription)
+        let viewModel = EditProjectDetails.Info.ViewModel.DisplayError(description: response.error.description)
         viewController.displayError(viewModel)
     }
     

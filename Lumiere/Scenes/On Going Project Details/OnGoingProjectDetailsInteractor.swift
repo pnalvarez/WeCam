@@ -75,7 +75,7 @@ extension OnGoingProjectDetailsInteractor {
                 break
             case .error(let error):
                 self.presenter.presentLoading(false)
-                self.presenter.presentError(error.localizedDescription)
+                self.presenter.presentError(error.description)
             }
         }
     }
@@ -103,7 +103,7 @@ extension OnGoingProjectDetailsInteractor {
                 .Info
                 .Model
                 .Feedback(title: "Erro",
-                          message: error.localizedDescription))
+                          message: error.description))
             }
         }
     }
@@ -120,7 +120,7 @@ extension OnGoingProjectDetailsInteractor {
                               .Info
                               .Model
                               .Feedback(title: "Erro",
-                                        message: error.localizedDescription))
+                                        message: error.description))
             }
         }
     }
@@ -134,7 +134,7 @@ extension OnGoingProjectDetailsInteractor {
             case .error(let error):
                 self.presenter.presentLoading(false)
                 self.presenter.presentFeedback(OnGoingProjectDetails.Info.Model.Feedback(title: "Erro",
-                                                                                         message: error.localizedDescription))
+                                                                                         message: error.description))
             }
         }
     }
@@ -147,7 +147,7 @@ extension OnGoingProjectDetailsInteractor {
                 self.presenter.presentInteractionEffectivated()
             case .error(let error):
                 self.presenter.presentLoading(false)
-                self.presenter.presentFeedback(OnGoingProjectDetails.Info.Model.Feedback(title: "Erro", message: error.localizedDescription))
+                self.presenter.presentFeedback(OnGoingProjectDetails.Info.Model.Feedback(title: "Erro", message: error.description))
             }
         }
     }
@@ -164,7 +164,7 @@ extension OnGoingProjectDetailsInteractor {
                     .Info
                     .Model
                     .Feedback(title: "Erro",
-                message: error.localizedDescription))
+                message: error.description))
             }
         }
     }
@@ -178,7 +178,7 @@ extension OnGoingProjectDetailsInteractor {
                 guard let project = self.projectData else { return }
                 self.presenter.presentProjectDetails(project)
             case .error(let error):
-                self.presenter.presentError(error.localizedDescription)
+                self.presenter.presentError(error.description)
             }
         }
     }
@@ -226,7 +226,7 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
                     }
                 case .error(let error):
                     self.presenter.presentLoading(false)
-                    self.presenter.presentError(error.localizedDescription)
+                    self.presenter.presentError(error.description)
                 }
         }
     }
@@ -263,7 +263,7 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
                     .RelationModel(relation: self.projectRelation ?? .nothing))
             case .error(let error):
                 self.presenter.presentLoading(false)
-                self.presenter.presentError(error.localizedDescription)
+                self.presenter.presentError(error.description)
             }
         }
     }
@@ -282,7 +282,7 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
                     self.presenter.presentFeedback(OnGoingProjectDetails.Info.Model.Feedback(title: "Alteração realizada", message: "Imagem do projeto foi alterada com sucesso"))
                 case .error(let error):
                     self.presenter.presentLoading(false)
-                    self.presenter.presentError(error.localizedDescription)
+                    self.presenter.presentError(error.description)
                 }
         }
     }
@@ -304,7 +304,7 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
                                     self.presenter.presentFeedback(OnGoingProjectDetails.Info.Model.Feedback(title: "Alteração realizada", message: "O título e a sinopse do projeto foram alterados com sucesso"))
                                 case .error(let error):
                                     self.presenter.presentLoading(false)
-                                    self.presenter.presentError(error.localizedDescription)
+                                    self.presenter.presentError(error.description)
                                     guard let project = self.projectData else { return }
                                     self.presenter.presentProjectDetails(project)
                                 }
@@ -327,7 +327,7 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
                                         self.presenter.presentFeedback(OnGoingProjectDetails.Info.Model.Feedback(title: "Alteração realizada", message: "Alteração do que o projeto precisa foi realizada com sucesso"))
                                     case .error(let error):
                                         self.presenter.presentLoading(false)
-                                        self.presenter.presentError(error.localizedDescription)
+                                        self.presenter.presentError(error.description)
                                     }
         }
     }

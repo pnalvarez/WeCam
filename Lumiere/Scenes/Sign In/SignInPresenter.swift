@@ -30,7 +30,7 @@ class SignInPresenter: SignInPresentationLogic {
     }
     
     func didFetchServerError(_ error: SignIn.Errors.ServerError) {
-        let viewModel = SignIn.ViewModel.SignInError(description: error.error.localizedDescription)
+        let viewModel = SignIn.ViewModel.SignInError(description: error.error.description)
         viewController.displayServerError(viewModel)
     }
 

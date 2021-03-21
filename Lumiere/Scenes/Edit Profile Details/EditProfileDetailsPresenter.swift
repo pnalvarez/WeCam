@@ -12,7 +12,7 @@ protocol EditProfileDetailsPresentationLogic {
     func presentUserData(_ response: EditProfileDetails.Info.Model.User)
     func didUpdateUser()
     func presentLoading(_ loading: Bool)
-    func presentServerError(_ response: Error)
+    func presentServerError(_ response: WCError)
     func presentInputError(_ response: EditProfileDetails.Errors.InputErrors)
     func presentCathegories(_ response: EditProfileDetails.Info.Model.InterestCathegories)
 }
@@ -43,8 +43,8 @@ class EditProfileDetailsPresenter: EditProfileDetailsPresentationLogic {
         viewController.displayLoading(loading)
     }
     
-    func presentServerError(_ response: Error) {
-        viewController.displayError(response.localizedDescription)
+    func presentServerError(_ response: WCError) {
+        viewController.displayError(response.description)
     }
     
     func presentInputError(_ response: EditProfileDetails.Errors.InputErrors) {

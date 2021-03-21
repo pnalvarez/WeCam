@@ -15,7 +15,7 @@ protocol ProjectInvitesPresentationLogic {
     func hideModalAlert()
     func presentLoading(_ loading: Bool)
     func presentProfileDetails()
-    func presentError(_ response: Error)
+    func presentError(_ response: WCError)
     func presentRelationUpdate(_ response: ProjectInvites.Info.Model.RelationUpdate)
 }
 
@@ -78,8 +78,8 @@ class ProjectInvitesPresenter: ProjectInvitesPresentationLogic {
         viewController.displayProfileDetails()
     }
     
-    func presentError(_ response: Error) {
-        viewController.displayError(ProjectInvites.Info.ViewModel.ErrorViewModel(title: "Erro", message: response.localizedDescription))
+    func presentError(_ response: WCError) {
+        viewController.displayError(ProjectInvites.Info.ViewModel.ErrorViewModel(title: "Erro", message: response.description))
     }
     
     func presentRelationUpdate(_ response: ProjectInvites.Info.Model.RelationUpdate) {

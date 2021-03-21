@@ -129,7 +129,7 @@ struct ProfileSuggestions {
             }
             
             struct ProfileSuggestionsError {
-                let error: Error
+                let error: WCError
             }
         }
         

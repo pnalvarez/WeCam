@@ -48,7 +48,7 @@ class SearchResultsPresenter: SearchResultsPresentationLogic {
     }
     
     func presentError(_ response: SearchResults.Info.Model.ResultError) {
-        let viewModel = SearchResults.Info.ViewModel.ResultError(error: response.error.localizedDescription)
+        let viewModel = SearchResults.Info.ViewModel.ResultError(error: response.error.description)
         viewController.displayError(viewModel)
     }
     

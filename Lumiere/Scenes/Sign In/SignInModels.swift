@@ -91,7 +91,7 @@ struct SignIn {
     struct Errors {
         
         struct ServerError {
-            let error: Error
+            let error: WCError
         }
         
         enum InputError: String {

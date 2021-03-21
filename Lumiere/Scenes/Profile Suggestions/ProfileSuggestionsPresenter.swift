@@ -48,7 +48,7 @@ class ProfileSuggestionsPresenter: ProfileSuggestionsPresentationLogic {
     }
     
     func presentError(_ response: ProfileSuggestions.Info.Model.ProfileSuggestionsError) {
-        let viewModel = ProfileSuggestions.Info.ViewModel.ProfileSuggestionsError(error: response.error.localizedDescription)
+        let viewModel = ProfileSuggestions.Info.ViewModel.ProfileSuggestionsError(error: response.error.description)
         viewController.displayError(viewModel)
     }
     

@@ -212,7 +212,7 @@ struct ConnectionsList {
     struct Errors {
         
         struct Model {
-            let error: Error
+            let error: WCError
         }
         
         struct ViewModel {

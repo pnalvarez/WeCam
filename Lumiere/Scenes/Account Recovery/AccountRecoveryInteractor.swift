@@ -51,7 +51,7 @@ extension AccountRecoveryInteractor: AccountRecoveryBusinessLogic {
                 self.presenter.presentUserResult(user)
             case .error(let error):
                 self.presenter.presentLoading(false)
-                self.presenter.presentError(AccountRecovery.Info.Model.Error(title: AccountRecovery.Constants.Texts.genericErrorTitle, message: error.localizedDescription))
+                self.presenter.presentError(AccountRecovery.Info.Model.Error(title: AccountRecovery.Constants.Texts.genericErrorTitle, message: error.description))
             }
         }
     }
@@ -65,7 +65,7 @@ extension AccountRecoveryInteractor: AccountRecoveryBusinessLogic {
                 self.presenter.presentSuccessfullySentEmailAlert()
             case .error(let error):
                 self.presenter.presentLoading(false)
-                self.presenter.presentError(AccountRecovery.Info.Model.Error(title: AccountRecovery.Constants.Texts.genericErrorTitle, message: error.localizedDescription))
+                self.presenter.presentError(AccountRecovery.Info.Model.Error(title: AccountRecovery.Constants.Texts.genericErrorTitle, message: error.description))
             }
         }
     }

@@ -114,7 +114,7 @@ struct EditProjectDetails {
             }
             
             struct ServerError {
-                let error: Error
+                let error: WCError
             }
             
             struct LocalError {

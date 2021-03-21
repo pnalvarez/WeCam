@@ -58,7 +58,7 @@ class SignUpPresenter: SignUpPresentationLogic {
     }
     
     func didFetchServerError(_ error: SignUp.Errors.ServerError) {
-        let viewModel = SignUp.Info.ViewModel.Error(description: error.error.localizedDescription)
+        let viewModel = SignUp.Info.ViewModel.Error(description: error.error.description)
         viewController.displayServerError(viewModel)
     }
     

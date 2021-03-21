@@ -56,6 +56,6 @@ extension ConnectionsListPresenter {
     }
     
     func presentError(_ response: ConnectionsList.Errors.Model) {
-        viewController.displayError(ConnectionsList.Errors.ViewModel(description: response.error.localizedDescription))
+        viewController.displayError(ConnectionsList.Errors.ViewModel(description: response.error.description))
     }
 }

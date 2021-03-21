@@ -144,7 +144,7 @@ struct SearchResults {
             }
             
             struct ResultError {
-                let error: Error
+                let error: WCError
             }
         }
         

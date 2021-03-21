@@ -12,34 +12,6 @@ import FirebaseDatabase
 import FirebaseStorage
 import ObjectMapper
 
-enum FirebaseErrors: String, Error {
-    case parseError = "Ocorreu um erro"
-    case genericError = "Ocorreu um erro genérico"
-    case fetchConnectionsError = "Ocorreu um erro ao buscar as notificações"
-    case connectUsersError = "Ocorreu um erro ao aceitar a solicitação"
-    case signInError = "Ocorreu um erro ao tentar logar"
-    case createUser = "Ocorreu um erro ao criar o usuário, tente novamente mais tarde"
-    case saveImage = "Ocorreu um erro ao salvar a imagem, tente novamente mais tarde"
-    case userConnectionError = "Ocorreu um erro ao tentar conectar com usuário, tente novamente mais tarde"
-    case removeConnection = "Ocorreu um erro ao tentar remover esta conexão, tente novamente mais tarde"
-    case removePendingConnection = "Ocorreu um erro ao remover essa solicitação, tente novamente mais tarde"
-    case sendConnectionRequest = "Ocorreu um erro ao enviar a solicitação, tente mais tarde"
-    case refuseRequest = "Ocorreu um erro ao recusar a solicitação, tente novamente mais tarde"
-    case signOut = "Erro ao tentar deslogar"
-    case createProject = "Ocorreu um erro ao tentar criar o projeto, tente novamente mais tarde"
-    case updateUser = "Ocorreu um erro ao tentar atualizar as informações deste usuário, tente novamente mais tarde"
-    case inviteUserToProject = "Ocorreu um erro ao convidar o usuário para este projeto, tente novamente mais tarde"
-    case updateProject = "Ocorreu um erro ao tentar atualizar as informações deste projeto, tente novamente mais tarde"
-    case acceptProjectInvite = "Ocorreu um erro ao tentar aceitar a solicitação do usuário neste projeto, tente novamente mais tarde"
-    case sendProjectParticipationRequest = "Ocorreu um erro ao tentar enviar a solicitação a este projeto, tente novamente mais tarde"
-    case removeProjectParticipationRequest = "Ocorreu um erro ao tentar remover a solicitação a este projeto, tente novamente mais tarde"
-    case acceptUserIntoProject = "Ocorreu um erro ao tentar inserir o usário neste projeto, tente novamente mais tarde"
-    case removeProjectInviteToUser = "Ocorreu um erro ao tentar remover a solicitação a este usuário, tente novamente mais tarde"
-    case removeUserFromProject = "Ocorreu um erro ao tentar remover o usuário deste projeto"
-    case removeSuggestion = "Erro ao tentar remover sugestão"
-    case sendEmail = "Ocorreu um erro ao tentar enviar o email de recuperação, tente novamente mais tarde"
-}
-
 protocol FirebaseManagerProtocol {
     func createUser(request: CreateUserRequest,
                     completion: @escaping (SignUp.Response.RegisterUser) -> Void)
@@ -259,7 +231,7 @@ class FirebaseManager: FirebaseManagerProtocol {
         authReference.createUser(withEmail: request.email,
                                  password: request.password) { (response, error) in
             if error != nil {
-                completion(.error(FirebaseErrors.createUser))
+                completion(.error(WCError.createUser))
                 return
             } else {
                 if let result = response {
@@ -276,11 +248,11 @@ class FirebaseManager: FirebaseManagerProtocol {
             let profileImageReference = storage.child(Constants.profileImagesPath).child(request.userId)
             profileImageReference.putData(imageData, metadata: nil) { (metadata, error) in
                 if error != nil {
-                    completion(.error(FirebaseErrors.saveImage))
+                    completion(.error(WCError.saveImage))
                 }
                 profileImageReference.downloadURL { (url, error) in
                     if error != nil {
-                        completion(.error(FirebaseErrors.saveImage))
+                        completion(.error(WCError.saveImage))
                     }
                     guard let url = url else {
                         completion(.genericError)
@@ -304,7 +276,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                         .updateChildValues(dictionary) {
                             (error, ref) in
                             if error != nil {
-                                completion(.error(FirebaseErrors.createUser))
+                                completion(.error(WCError.createUser))
                             } else {
                                 self.realtimeDB
                                     .child(Constants.allUsersCataloguePath)
@@ -319,19 +291,19 @@ class FirebaseManager: FirebaseManagerProtocol {
                                         self.realtimeDB
                                             .updateChildValues([Constants.allUsersCataloguePath : userIdsArray]) { error, ref in
                                                 if error != nil {
-                                                    completion(.error(FirebaseErrors.createUser))
+                                                    completion(.error(WCError.createUser))
                                                     return
                                                 }
                                                 self.realtimeDB.child(Constants.userEmailPath).updateChildValues([request.email.sha256() : request.userId]) {
                                                     error, ref in
                                                     if error != nil {
-                                                        completion(.error(FirebaseErrors.createUser))
+                                                        completion(.error(WCError.createUser))
                                                         return
                                                     }
                                                     self.registerEntity(withId: request.userId, type: .user) { response in
                                                         switch response {
                                                         case .error(let error):
-                                                            completion(.error(FirebaseErrors.createUser))
+                                                            completion(.error(WCError.createUser))
                                                         case .success:
                                                             completion(.success)
                                                         }
@@ -361,14 +333,14 @@ class FirebaseManager: FirebaseManagerProtocol {
                 } else if let values = snapshot.value as? Array<Any> {
                     notifications = values
                     guard let notificationsArray = notifications as? Array<[String : Any]> else {
-                        completion(.error(FirebaseErrors.parseError))
+                        completion(.error(WCError.parseError))
                         return
                     }
                     let response = Mapper<T>().mapArray(JSONArray: notificationsArray)
                     completion(.success(response))
                     return
                 } else {
-                    completion(.error(FirebaseErrors.fetchConnectionsError))
+                    completion(.error(WCError.fetchConnectionsError))
                     return
                 }
             }
@@ -380,7 +352,7 @@ class FirebaseManager: FirebaseManagerProtocol {
            let password = request["password"] as? String {
             authReference.signIn(withEmail: email, password: password) { (credentials, error) in
                 if error != nil {
-                    completion(.error(FirebaseErrors.signInError))
+                    completion(.error(WCError.signInError))
                     return
                 } else {
                     let userId = self.authReference.currentUser?.uid ?? .empty
@@ -389,7 +361,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                         .child(userId)
                         .observeSingleEvent(of: .value) { snapshot in
                             guard var loggedUser = snapshot.value as? [String : Any] else {
-                                completion(.error(FirebaseErrors.genericError))
+                                completion(.error(WCError.genericError))
                                 return
                             }
                             if let connections = loggedUser["connections"] as? Array<Any> {
@@ -399,7 +371,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                             }
                             loggedUser["id"] = userId
                             guard let signInResponse = Mapper<T>().map(JSON: loggedUser) else {
-                                completion(.error(FirebaseErrors.genericError))
+                                completion(.error(WCError.genericError))
                                 return
                             }
                             completion(.success(signInResponse))
@@ -407,14 +379,14 @@ class FirebaseManager: FirebaseManagerProtocol {
                 }
             }
         } else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
         }
     }
     
     func fetchCurrentUser<T: Mappable>(request: [String : Any],
                                        completion: @escaping (BaseResponse<T>) -> Void) {
         guard let id = Auth.auth().currentUser?.uid else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         realtimeDB
@@ -424,13 +396,13 @@ class FirebaseManager: FirebaseManagerProtocol {
                 if var value = snapshot.value as? [String : Any] {
                     value["id"] = id
                     guard let response = Mapper<T>().map(JSON: value) else {
-                        completion(.error(FirebaseErrors.parseError))
+                        completion(.error(WCError.parseError))
                         return
                     }
                     completion(.success(response))
                     return
                 }
-                completion(.error(FirebaseErrors.genericError))
+                completion(.error(WCError.genericError))
             }
     }
     
@@ -449,13 +421,13 @@ class FirebaseManager: FirebaseManagerProtocol {
                             value["connections_count"] = 0
                         }
                         guard let response = Mapper<T>().map(JSON: value) else {
-                            completion(.error(FirebaseErrors.parseError))
+                            completion(.error(WCError.parseError))
                             return
                         }
                         completion(.success(response))
                         return
                     }
-                    completion(.error(FirebaseErrors.genericError))
+                    completion(.error(WCError.genericError))
                 }
         }
     }
@@ -477,7 +449,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                 if snapshot.value is NSNull {
                     fromUserConnections.updateChildValues(["connections": [toUserId]]) { error, ref in
                         if error != nil {
-                            completion(.error(FirebaseErrors.removeConnection))
+                            completion(.error(WCError.removeConnection))
                             return
                         }
                     }
@@ -485,7 +457,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                         if snapshot.value is NSNull {
                             toUserConnections.updateChildValues(["connections" : [fromUserId]]) { error, ref in
                                 if error != nil {
-                                    completion(.error(FirebaseErrors.userConnectionError))
+                                    completion(.error(WCError.userConnectionError))
                                     return
                                 }
                                 completion(.success)
@@ -496,7 +468,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                             connections.append(fromUserId)
                             toUserConnections.updateChildValues(["connections": [fromUserId]]) { error, ref in
                                 if error != nil {
-                                    completion(.error(FirebaseErrors.userConnectionError))
+                                    completion(.error(WCError.userConnectionError))
                                     return
                                 }
                             }
@@ -509,7 +481,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                     connections.append(toUserId)
                     fromUserConnections.updateChildValues(["connections": connections]) { error, ref in
                         if error != nil {
-                            completion(.error(FirebaseErrors.userConnectionError))
+                            completion(.error(WCError.userConnectionError))
                             return
                         }
                     }
@@ -517,7 +489,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                         if snapshot.value is NSNull {
                             toUserConnections.updateChildValues(["connections" : [fromUserId]]) { error, ref in
                                 if error != nil {
-                                    completion(.error(FirebaseErrors.userConnectionError))
+                                    completion(.error(WCError.userConnectionError))
                                     return
                                 }
                                 completion(.success)
@@ -528,7 +500,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                             connections.append(fromUserId)
                             toUserConnections.updateChildValues(["connections": connections]) { error, ref in
                                 if error != nil {
-                                    completion(.error(FirebaseErrors.userConnectionError))
+                                    completion(.error(WCError.userConnectionError))
                                     return
                                 }
                             }
@@ -538,28 +510,28 @@ class FirebaseManager: FirebaseManagerProtocol {
                     }
                 }
                 else {
-                    completion(.error(FirebaseErrors.genericError))
+                    completion(.error(WCError.genericError))
                 }
             }
         } else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
         }
     }
     
     func fetchUserRelation<T>(request: [String : Any],
                               completion: @escaping (BaseResponse<T>) -> Void) where T : Mappable {
         guard let currentUser = authReference.currentUser?.uid else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         guard let userId = request["userId"] as? String else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         if currentUser == userId {
             let response: [String : Any] = ["relation" : "LOGGED"]
             guard let mappedResponse = Mapper<T>().map(JSON: response) else {
-                completion(.error(FirebaseErrors.parseError))
+                completion(.error(WCError.parseError))
                 return
             }
             completion(.success(mappedResponse))
@@ -570,7 +542,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             if result {
                 let response: [String : Any] = ["relation" : "CONNECTED"]
                 guard let mappedResponse = Mapper<T>().map(JSON: response) else {
-                    completion(.error(FirebaseErrors.parseError))
+                    completion(.error(WCError.parseError))
                     return
                 }
                 completion(.success(mappedResponse))
@@ -580,7 +552,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                 if result {
                     let response: [String : Any] = ["relation" : "PENDING"]
                     guard let mappedResponse = Mapper<T>().map(JSON: response) else {
-                        completion(.error(FirebaseErrors.parseError))
+                        completion(.error(WCError.parseError))
                         return
                     }
                     completion(.success(mappedResponse))
@@ -590,7 +562,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                     if result {
                         let response: [String : Any] = ["relation" : "SENT"]
                         guard let mappedResponse = Mapper<T>().map(JSON: response) else {
-                            completion(.error(FirebaseErrors.parseError))
+                            completion(.error(WCError.parseError))
                             return
                         }
                         completion(.success(mappedResponse))
@@ -598,7 +570,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                     }
                     let response: [String : Any] = ["relation" : "NOTHING"]
                     guard let mappedResponse = Mapper<T>().map(JSON: response) else {
-                        completion(.error(FirebaseErrors.parseError))
+                        completion(.error(WCError.parseError))
                         return
                     }
                     completion(.success(mappedResponse))
@@ -617,7 +589,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                 .child("connections")
                 .observeSingleEvent(of: .value) { snapshot in
                     guard var connections = snapshot.value as? Array<Any> else {
-                        completion(.error(FirebaseErrors.genericError))
+                        completion(.error(WCError.genericError))
                         self.mutex = true
                         return
                     }
@@ -632,7 +604,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                         .child(userId)
                         .updateChildValues(["connections": connections]) { error, ref in
                             if error != nil {
-                                completion(.error(FirebaseErrors.userConnectionError))
+                                completion(.error(WCError.userConnectionError))
                                 self.mutex = true
                                 return
                             }
@@ -642,7 +614,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                 .child("connections")
                                 .observeSingleEvent(of: .value) { snapshot in
                                     guard var connections = snapshot.value as? Array<Any> else {
-                                        completion(.error(FirebaseErrors.genericError))
+                                        completion(.error(WCError.genericError))
                                         self.mutex = true
                                         return
                                     }
@@ -657,7 +629,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                         .child(currentUserId)
                                         .updateChildValues(["connections": connections]) { error, ref in
                                             if error != nil {
-                                                completion(.error(FirebaseErrors.removeConnection))
+                                                completion(.error(WCError.removeConnection))
                                                 self.mutex = true
                                                 return
                                             }
@@ -684,7 +656,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                 .child("pending_connections")
                 .observeSingleEvent(of: .value) { snapshot in
                     guard var pendingConnections = snapshot.value as? Array<Any> else {
-                        completion(.error(FirebaseErrors.genericError))
+                        completion(.error(WCError.genericError))
                         self.mutex = true
                         return
                     }
@@ -699,7 +671,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                         .child(currentUserId)
                         .updateChildValues(["pending_connections": pendingConnections]) { error, ref in
                             if error != nil {
-                                completion(.error(FirebaseErrors.removePendingConnection))
+                                completion(.error(WCError.removePendingConnection))
                                 self.mutex = true
                                 return
                             }
@@ -709,7 +681,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                 .child("connect_notifications")
                                 .observeSingleEvent(of: .value) { snapshot in
                                     guard var notifications = snapshot.value as? Array<Any> else {
-                                        completion(.error(FirebaseErrors.genericError))
+                                        completion(.error(WCError.genericError))
                                         self.mutex = true
                                         return
                                     }
@@ -726,7 +698,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                         .child(userId)
                                         .updateChildValues(["connect_notifications": notifications]) { error, ref in
                                             if error != nil {
-                                                completion(.error(FirebaseErrors.removePendingConnection))
+                                                completion(.error(WCError.removePendingConnection))
                                                 self.mutex = true
                                                 return
                                             }
@@ -766,7 +738,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                         .child(currentUserId)
                         .updateChildValues(["pending_connections": pendingArray]) { error, ref in
                             if error != nil {
-                                completion(.error(FirebaseErrors.sendConnectionRequest))
+                                completion(.error(WCError.sendConnectionRequest))
                                 self.mutex = true
                                 return
                             }
@@ -809,7 +781,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                     .child(userId)
                                                     .updateChildValues(["connect_notifications": notificationsArray]) { error, ref in
                                                         if error != nil {
-                                                            completion(.error(FirebaseErrors.sendConnectionRequest))
+                                                            completion(.error(WCError.sendConnectionRequest))
                                                             self.mutex = true
                                                             return
                                                         }
@@ -819,7 +791,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                     }
                                             }
                                     } else {
-                                        completion(.error(FirebaseErrors.parseError))
+                                        completion(.error(WCError.parseError))
                                         self.mutex = true
                                     }
                                 }
@@ -842,7 +814,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                 .child("connect_notifications")
                 .observeSingleEvent(of: .value) { snapshot in
                     guard var notifications = snapshot.value as? Array<Any> else {
-                        completion(.error(FirebaseErrors.genericError))
+                        completion(.error(WCError.genericError))
                         self.mutex = true
                         return
                     }
@@ -858,7 +830,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                         .child(currentUserId)
                         .updateChildValues(["connect_notifications": notifications]) { error, ref in
                             if error != nil {
-                                completion(.error(FirebaseErrors.userConnectionError))
+                                completion(.error(WCError.userConnectionError))
                                 self.mutex = true
                                 return
                             }
@@ -868,7 +840,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                 .child("pending_connections")
                                 .observeSingleEvent(of: .value) { snapshot in
                                     guard var pendingConnections = snapshot.value as? Array<Any> else {
-                                        completion(.error(FirebaseErrors.genericError))
+                                        completion(.error(WCError.genericError))
                                         self.mutex = true
                                         return
                                     }
@@ -883,7 +855,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                         .child(userId)
                                         .updateChildValues(["pending_connections": pendingConnections]) { error, ref in
                                             if error != nil {
-                                                completion(.error(FirebaseErrors.userConnectionError))
+                                                completion(.error(WCError.userConnectionError))
                                                 self.mutex = true
                                                 return
                                             }
@@ -892,7 +864,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                 .child(currentUserId)
                                                 .observeSingleEvent(of: .value) { snapshot in
                                                     guard let data = snapshot.value as? [String : Any], let name = data["name"] as? String, let image = data["profile_image_url"] as? String else {
-                                                        completion(.error(FirebaseErrors.genericError))
+                                                        completion(.error(WCError.genericError))
                                                         self.mutex = true
                                                         return
                                                     }
@@ -907,12 +879,12 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                                     self.mutex = true
                                                                     break
                                                                 case .error( _):
-                                                                    completion(.error(FirebaseErrors.userConnectionError))
+                                                                    completion(.error(WCError.userConnectionError))
                                                                     self.mutex = true
                                                                 }
                                                             }
                                                         case .error( _):
-                                                            completion(.error(FirebaseErrors.userConnectionError))
+                                                            completion(.error(WCError.userConnectionError))
                                                             self.mutex = true
                                                             return
                                                         }
@@ -942,7 +914,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                     }
                     for i in 0..<connections.count {
                         guard let connectionId = connections[i] as? String else {
-                            completion(.error(FirebaseErrors.parseError))
+                            completion(.error(WCError.parseError))
                             return
                         }
                         self.realtimeDB
@@ -950,7 +922,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                             .child(connectionId)
                             .observeSingleEvent(of: .value) { snapshot in
                                 guard let response = snapshot.value as? [String : Any] else {
-                                    completion(.error(FirebaseErrors.genericError))
+                                    completion(.error(WCError.genericError))
                                     return
                                 }
                                 if let name = response["name"] as? String,
@@ -972,7 +944,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                     }
                 }
         } else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
         }
     }
     
@@ -992,7 +964,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                     }
                     for i in 0..<connections.count {
                         guard let connectionId = connections[i] as? String else {
-                            completion(.error(FirebaseErrors.parseError))
+                            completion(.error(WCError.parseError))
                             return
                         }
                         self.realtimeDB
@@ -1000,7 +972,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                             .child(connectionId)
                             .observeSingleEvent(of: .value) { snapshot in
                                 guard let response = snapshot.value as? [String : Any] else {
-                                    completion(.error(FirebaseErrors.genericError))
+                                    completion(.error(WCError.genericError))
                                     return
                                 }
                                 if let name = response["name"] as? String,
@@ -1022,7 +994,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                     }
                 }
         } else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
         }
     }
     
@@ -1036,7 +1008,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                 .child("pending_connections")
                 .observeSingleEvent(of: .value) { snapshot in
                     guard var pendingConnections = snapshot.value as? Array<Any> else {
-                        completion(.error(FirebaseErrors.genericError))
+                        completion(.error(WCError.genericError))
                         return
                     }
                     pendingConnections.removeAll(where: { pendingConnection in
@@ -1050,7 +1022,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                         .child(userId)
                         .updateChildValues(["pending_connections": pendingConnections]) { error, ref in
                             if error != nil {
-                                completion(.error(FirebaseErrors.refuseRequest))
+                                completion(.error(WCError.refuseRequest))
                                 return
                             }
                             self.realtimeDB
@@ -1059,7 +1031,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                 .child("connect_notifications")
                                 .observeSingleEvent(of: .value) { snapshot in
                                     guard var notifications = snapshot.value as? Array<Any> else {
-                                        completion(.error(FirebaseErrors.genericError))
+                                        completion(.error(WCError.genericError))
                                         return
                                     }
                                     notifications.removeAll(where: { notification in
@@ -1075,7 +1047,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                         .child(currentUserId)
                                         .updateChildValues(["connect_notifications": notifications]) { error, ref in
                                             if error != nil {
-                                                completion(.error(FirebaseErrors.refuseRequest))
+                                                completion(.error(WCError.refuseRequest))
                                                 return
                                             }
                                             completion(.success)
@@ -1092,7 +1064,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             try authReference.signOut()
             completion(.success)
         } catch {
-            completion(.error(FirebaseErrors.signOut))
+            completion(.error(WCError.signOut))
         }
     }
     
@@ -1112,22 +1084,22 @@ class FirebaseManager: FirebaseManagerProtocol {
                 .childByAutoId()
             guard let projectId = projectReference.key,
                   let image = image else {
-                completion(.error(FirebaseErrors.genericError))
+                completion(.error(WCError.genericError))
                 return
             }
             let projectImageReference =  storage.child(Constants.projectsPath).child(projectId)
             projectImageReference.putData(image, metadata: nil) { (metadata, error) in
                 if error != nil {
-                    completion(.error(FirebaseErrors.createProject))
+                    completion(.error(WCError.createProject))
                     return
                 }
                 projectImageReference.downloadURL { (url, error) in
                     if error != nil {
-                        completion(.error(FirebaseErrors.createProject))
+                        completion(.error(WCError.createProject))
                         return
                     }
                     guard let url = url else {
-                        completion(.error(FirebaseErrors.genericError))
+                        completion(.error(WCError.genericError))
                         return
                     }
                     let urlString = url.absoluteString
@@ -1142,7 +1114,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                        "participants": [currentUser]]
                     projectReference.updateChildValues(projectDict) { (error, ref) in
                         if error != nil {
-                            completion(.error(FirebaseErrors.createProject))
+                            completion(.error(WCError.createProject))
                             return
                         }
                         self.realtimeDB
@@ -1167,7 +1139,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                     .child("authoring_project_ids")
                                     .updateChildValues(newDict) { (error, ref) in
                                         if error != nil {
-                                            completion(.error(FirebaseErrors.createProject))
+                                            completion(.error(WCError.createProject))
                                             return
                                         }
                                         self.realtimeDB
@@ -1192,7 +1164,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                     .child("participating_projects")
                                                     .updateChildValues(newDict) { (error, ref) in
                                                         if error != nil {
-                                                            completion(.error(FirebaseErrors.createProject))
+                                                            completion(.error(WCError.createProject))
                                                             return
                                                         }
                                                         self.realtimeDB
@@ -1207,18 +1179,18 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                                 projectIdsArray.append(projectId)
                                                                 self.realtimeDB.updateChildValues([Constants.allProjectsCataloguePath : projectIdsArray]) { error, ref in
                                                                     if error != nil {
-                                                                        completion(.error(FirebaseErrors.createProject))
+                                                                        completion(.error(WCError.createProject))
                                                                         return
                                                                     }
                                                                     guard let mappedResponse = Mapper<T>().map(JSON: projectDict) else {
-                                                                        completion(.error(FirebaseErrors.genericError))
+                                                                        completion(.error(WCError.genericError))
                                                                         return
                                                                     }
                                                                     self.registerEntity(withId: projectId, type: .ongoingProject) {
                                                                         response in
                                                                         switch response {
                                                                         case .error( _):
-                                                                            completion(.error(FirebaseErrors.createProject))
+                                                                            completion(.error(WCError.createProject))
                                                                         case .success:
                                                                             completion(.success(mappedResponse))
                                                                         }
@@ -1233,7 +1205,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                 }
             }
         } else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
         }
     }
     
@@ -1246,7 +1218,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                 .child(projectId)
                 .observeSingleEvent(of: .value) { snapshot in
                     guard var projectData = snapshot.value as? [String : Any] else {
-                        completion(.error(FirebaseErrors.genericError))
+                        completion(.error(WCError.genericError))
                         return
                     }
                     projectData["projectId"] = projectId
@@ -1256,13 +1228,13 @@ class FirebaseManager: FirebaseManagerProtocol {
                         projectData["participants"] = []
                     }
                     guard let mappedResponse = Mapper<T>().map(JSON: projectData) else {
-                        completion(.error(FirebaseErrors.parseError))
+                        completion(.error(WCError.parseError))
                         return
                     }
                     completion(.success(mappedResponse))
                 }
         } else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
         }
     }
     
@@ -1270,26 +1242,26 @@ class FirebaseManager: FirebaseManagerProtocol {
                         completion: @escaping (EmptyResponse) -> Void) {
         guard var payload = request["payload"] as? [String : Any],
               let image = request["image"] as? Data else {
-            completion(.error(FirebaseErrors.parseError))
+            completion(.error(WCError.parseError))
             return
         }
         guard let id = authReference.currentUser?.uid else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         let userImageReference =  storage.child(Constants.usersPath).child(id)
         userImageReference.putData(image, metadata: nil) { (metadata, error) in
             if error != nil {
-                completion(.error(FirebaseErrors.updateUser))
+                completion(.error(WCError.updateUser))
                 return
             }
             userImageReference.downloadURL { (url, error) in
                 if error != nil {
-                    completion(.error(FirebaseErrors.saveImage))
+                    completion(.error(WCError.saveImage))
                     return
                 }
                 guard let url = url else {
-                    completion(.error(FirebaseErrors.genericError))
+                    completion(.error(WCError.genericError))
                     return
                 }
                 let urlString = url.absoluteString
@@ -1299,7 +1271,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                     .child(id)
                     .updateChildValues(payload) { (error, ref) in
                         if error != nil {
-                            completion(.error(FirebaseErrors.updateUser))
+                            completion(.error(WCError.updateUser))
                             return
                         }
                         completion(.success)
@@ -1315,7 +1287,7 @@ class FirebaseManager: FirebaseManagerProtocol {
               let projectImage = request["image"] as? String,
               let title = request["project_title"] as? String,
               let authorId = request["author_id"] as? String else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         realtimeDB
@@ -1345,7 +1317,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                     .updateChildValues(newDict) {
                         (error, ref) in
                         if error != nil {
-                            completion(.error(FirebaseErrors.inviteUserToProject))
+                            completion(.error(WCError.inviteUserToProject))
                             return
                         }
                         self.realtimeDB
@@ -1367,7 +1339,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                     .child(projectId)
                                     .updateChildValues(["pending_invites": newArray]) { error, ref in
                                         if error != nil {
-                                            completion(.error(FirebaseErrors.inviteUserToProject))
+                                            completion(.error(WCError.inviteUserToProject))
                                             return
                                         }
                                         completion(.success)
@@ -1380,11 +1352,11 @@ class FirebaseManager: FirebaseManagerProtocol {
     func fetchProjectRelation<T: Mappable>(request: [String : Any],
                                            completion: @escaping (BaseResponse<T>) -> Void) {
         guard let projectId = request["projectId"] as? String else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         guard let currentUser = authReference.currentUser?.uid else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         realtimeDB
@@ -1394,13 +1366,13 @@ class FirebaseManager: FirebaseManagerProtocol {
             .child("author_id")
             .observeSingleEvent(of: .value) { snapshot in
                 guard let authorId = snapshot.value as? String else {
-                    completion(.error(FirebaseErrors.genericError))
+                    completion(.error(WCError.genericError))
                     return
                 }
                 if authorId == currentUser {
                     let response: [String : Any] = ["relation": "AUTHOR"]
                     guard let mappedResponse = Mapper<T>().map(JSON: response) else {
-                        completion(.error(FirebaseErrors.parseError))
+                        completion(.error(WCError.parseError))
                         return
                     }
                     completion(.success(mappedResponse))
@@ -1413,7 +1385,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                         .child("participants")
                         .observeSingleEvent(of: .value) { snapshot in
                             guard let participants = snapshot.value as? Array<Any> else {
-                                completion(.error(FirebaseErrors.genericError))
+                                completion(.error(WCError.genericError))
                                 return
                             }
                             let participantStringArray = participants.map({ "\($0)" })
@@ -1421,7 +1393,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                             if participantStringArray.contains(currentUser) {
                                 let response: [String : Any] = ["relation": "PARTICIPATING"]
                                 guard let mappedResponse = Mapper<T>().map(JSON: response) else {
-                                    completion(.error(FirebaseErrors.parseError))
+                                    completion(.error(WCError.parseError))
                                     return
                                 }
                                 completion(.success(mappedResponse))
@@ -1436,7 +1408,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                            pendingProjects.contains(projectId) {
                                             let response: [String : Any] = ["relation": "PENDING"]
                                             guard let mappedResponse = Mapper<T>().map(JSON: response) else {
-                                                completion(.error(FirebaseErrors.parseError))
+                                                completion(.error(WCError.parseError))
                                                 return
                                             }
                                             completion(.success(mappedResponse))
@@ -1452,14 +1424,14 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                        pendingInvites.contains(currentUser) {
                                                         let response: [String : Any] = ["relation": "INVITED"]
                                                         guard let mappedResponse = Mapper<T>().map(JSON: response) else {
-                                                            completion(.error(FirebaseErrors.parseError))
+                                                            completion(.error(WCError.parseError))
                                                             return
                                                         }
                                                         completion(.success(mappedResponse))
                                                     } else {
                                                         let response: [String : Any] = ["relation": "NOTHING"]
                                                         guard let mappedResponse = Mapper<T>().map(JSON: response) else {
-                                                            completion(.error(FirebaseErrors.parseError))
+                                                            completion(.error(WCError.parseError))
                                                             return
                                                         }
                                                         completion(.success(mappedResponse))
@@ -1478,7 +1450,7 @@ class FirebaseManager: FirebaseManagerProtocol {
         guard let projectId = request["projectId"] as? String,
               let title = request["title"] as? String,
               let sinopsis = request["sinopsis"] as? String else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         let dict: [String : Any] = ["title": title,
@@ -1489,7 +1461,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             .child(projectId)
             .updateChildValues(dict) { (error, ref) in
                 if error != nil {
-                    completion(.error(FirebaseErrors.updateProject))
+                    completion(.error(WCError.updateProject))
                     return
                 }
                 completion(.success)
@@ -1500,7 +1472,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                    completion: @escaping (EmptyResponse) -> Void) {
         guard let needing = request["needing"] as? String,
               let projectId = request["projectId"] as? String else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         let dict: [String : Any] = ["needing": needing]
@@ -1510,7 +1482,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             .child(projectId)
             .updateChildValues(dict) { (error, ref) in
                 if error != nil {
-                    completion(.error(FirebaseErrors.updateProject))
+                    completion(.error(WCError.updateProject))
                 }
                 completion(.success)
             }
@@ -1520,22 +1492,22 @@ class FirebaseManager: FirebaseManagerProtocol {
                                          completion: @escaping (BaseResponse<T>) -> Void) {
         guard let projectId = request["projectId"] as? String,
               let image = request["image"] as? Data else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         let projectImageReference = storage.child(Constants.projectImagesPath).child(projectId)
         projectImageReference.putData(image, metadata: nil) { (metadata, error) in
             if error != nil {
-                completion(.error(FirebaseErrors.saveImage))
+                completion(.error(WCError.saveImage))
                 return
             }
             projectImageReference.downloadURL { (url, error) in
                 if error != nil {
-                    completion(.error(FirebaseErrors.saveImage))
+                    completion(.error(WCError.saveImage))
                     return
                 }
                 guard let urlString = url?.absoluteString else {
-                    completion(.error(FirebaseErrors.genericError))
+                    completion(.error(WCError.genericError))
                     return
                 }
                 let dict: [String : Any] = ["image": urlString]
@@ -1545,11 +1517,11 @@ class FirebaseManager: FirebaseManagerProtocol {
                     .child(projectId)
                     .updateChildValues(dict) { (error, ref) in
                         if error != nil {
-                            completion(.error(FirebaseErrors.saveImage))
+                            completion(.error(WCError.saveImage))
                             return
                         }
                         guard let mappedResponse = Mapper<T>().map(JSON: dict) else {
-                            completion(.error(FirebaseErrors.parseError))
+                            completion(.error(WCError.parseError))
                             return
                         }
                         completion(.success(mappedResponse))
@@ -1562,7 +1534,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                      completion: @escaping (BaseResponse<[T]>) -> Void) {
         var responseProjects = [[String : Any]]()
         guard let userId = request["userId"] as? String else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         realtimeDB
@@ -1577,7 +1549,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                 
                 for i in 0..<projectIds.count {
                     guard let projectId = projectIds[i] as? String else {
-                        completion(.error(FirebaseErrors.genericError))
+                        completion(.error(WCError.genericError))
                         return
                     }
                     self.realtimeDB
@@ -1586,7 +1558,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                         .child(projectId)
                         .observeSingleEvent(of: .value) { snapshot in
                             guard var projectData = snapshot.value as? [String : Any] else {
-                                completion(.error(FirebaseErrors.parseError))
+                                completion(.error(WCError.parseError))
                                 return
                             }
                             projectData["projectId"] = projectId
@@ -1604,7 +1576,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                           completion: @escaping (BaseResponse<[T]>) -> Void) {
         var responseArray: [[String : Any]] = []
         guard let currentUser = authReference.currentUser?.uid else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         realtimeDB
@@ -1618,7 +1590,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                 }
                 for i in 0..<notifications.count {
                     guard let notification = notifications[i] as? [String : Any] else {
-                        completion(.error(FirebaseErrors.genericError))
+                        completion(.error(WCError.genericError))
                         return
                     }
                     responseArray.append(notification)
@@ -1634,7 +1606,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                              completion: @escaping (EmptyResponse) -> Void) {
         guard let projectId = request["projectId"] as? String,
               let currentUser = authReference.currentUser?.uid else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         realtimeDB
@@ -1643,7 +1615,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             .child("project_invite_notifications")
             .observeSingleEvent(of: .value) { snapshot in
                 guard var notifications = snapshot.value as? Array<Any> else {
-                    completion(.error(FirebaseErrors.genericError))
+                    completion(.error(WCError.genericError))
                     return
                 }
                 notifications.removeAll(where: {
@@ -1666,7 +1638,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                     .child(currentUser)
                     .updateChildValues(["project_invite_notifications" : notificationsDict]) { (error, ref) in
                         if error != nil {
-                            completion(.error(FirebaseErrors.acceptProjectInvite))
+                            completion(.error(WCError.acceptProjectInvite))
                             return
                         }
                         self.realtimeDB
@@ -1691,7 +1663,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                     .child("participating_projects")
                                     .updateChildValues(projectsDict) { (error, ref) in
                                         if error != nil {
-                                            completion(.error(FirebaseErrors.acceptProjectInvite))
+                                            completion(.error(WCError.acceptProjectInvite))
                                             return
                                         }
                                         self.realtimeDB
@@ -1701,7 +1673,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                             .child("pending_invites")
                                             .observeSingleEvent(of: .value) { snapshot in
                                                 guard var pendingInvites = snapshot.value as? [String] else {
-                                                    completion(.error(FirebaseErrors.genericError))
+                                                    completion(.error(WCError.genericError))
                                                     return
                                                 }
                                                 pendingInvites.removeAll(where: { $0 == currentUser })
@@ -1711,7 +1683,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                     .child(projectId)
                                                     .updateChildValues(["pending_invites": pendingInvites]) { (error, ref) in
                                                         if error != nil {
-                                                            completion(.error(FirebaseErrors.acceptProjectInvite))
+                                                            completion(.error(WCError.acceptProjectInvite))
                                                             return
                                                         }
                                                         self.realtimeDB
@@ -1721,7 +1693,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                             .child("participants")
                                                             .observeSingleEvent(of: .value) { snapshot in
                                                                 guard var participants = snapshot.value as? [String] else {
-                                                                    completion(.error(FirebaseErrors.genericError))
+                                                                    completion(.error(WCError.genericError))
                                                                     return
                                                                 }
                                                                 participants.append(currentUser)
@@ -1731,12 +1703,12 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                                     .child(projectId)
                                                                     .updateChildValues(["participants": participants]) { (error, ref) in
                                                                         if error != nil {
-                                                                            completion(.error(FirebaseErrors.acceptProjectInvite))
+                                                                            completion(.error(WCError.acceptProjectInvite))
                                                                             return
                                                                         }
                                                                         self.realtimeDB.child(Constants.usersPath).child(currentUser).observeSingleEvent(of: .value) { snapshot in
                                                                             guard let data = snapshot.value as? [String : Any], let name = data["name"] as? String, let image = data["profile_image_url"] as? String else {
-                                                                                completion(.error(FirebaseErrors.genericError))
+                                                                                completion(.error(WCError.genericError))
                                                                                 return
                                                                             }
                                                                             self.realtimeDB
@@ -1745,7 +1717,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                                                 .child(projectId).child("title")
                                                                                 .observeSingleEvent(of: .value) { snapshot in
                                                                                     guard let projectName = snapshot.value as? String else {
-                                                                                        completion(.error(FirebaseErrors.genericError))
+                                                                                        completion(.error(WCError.genericError))
                                                                                         return
                                                                                     }
                                                                                     self.realtimeDB
@@ -1754,7 +1726,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                                                         .child(projectId).child("author_id")
                                                                                         .observeSingleEvent(of: .value) { snapshot in
                                                                                             guard let authorId = snapshot.value as? String else {
-                                                                                                completion(.error(FirebaseErrors.genericError))
+                                                                                                completion(.error(WCError.genericError))
                                                                 return                            }
                                                                                             self.sendAcceptNotification(type: .projectInvite(username: name, projectName: projectName, image: image), userId: authorId, completion: completion)                     }
 
@@ -1774,7 +1746,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                completion: @escaping (BaseResponse<[T]>) -> Void) {
         var responseArray: [[String : Any]] = .empty
         guard let projectId = request["projectId"] as? String else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         realtimeDB
@@ -1789,7 +1761,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                 }
                 for i in 0..<participants.count {
                     guard let participant = participants[i] as? String else {
-                        completion(.error(FirebaseErrors.genericError))
+                        completion(.error(WCError.genericError))
                         return
                     }
                     self.realtimeDB
@@ -1797,7 +1769,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                         .child(participant)
                         .observeSingleEvent(of: .value) { snapshot in
                             guard var user = snapshot.value as? [String : Any] else {
-                                completion(.error(FirebaseErrors.genericError))
+                                completion(.error(WCError.genericError))
                                 return
                             }
                             user["id"] = participant
@@ -1815,7 +1787,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                              completion: @escaping (EmptyResponse) -> Void) {
         guard let projectId = request["projectId"] as? String,
               let currentUser = authReference.currentUser?.uid else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         realtimeDB
@@ -1824,7 +1796,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             .child("project_invite_notifications")
             .observeSingleEvent(of: .value) { snapshot in
                 guard var notifications = snapshot.value as? [[String : Any]] else {
-                    completion(.error(FirebaseErrors.genericError))
+                    completion(.error(WCError.genericError))
                     return
                 }
                 notifications.removeAll(where: {
@@ -1838,7 +1810,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                     .child(currentUser)
                     .updateChildValues(["project_invite_notifications": notifications]) { (error, ref) in
                         if error != nil {
-                            completion(.error(FirebaseErrors.refuseRequest))
+                            completion(.error(WCError.refuseRequest))
                             return
                         }
                         self.realtimeDB
@@ -1848,7 +1820,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                             .child("pending_invites")
                             .observeSingleEvent(of: .value) { snapshot in
                                 guard var pendingInvites = snapshot.value as? [String] else {
-                                    completion(.error(FirebaseErrors.genericError))
+                                    completion(.error(WCError.genericError))
                                     return
                                 }
                                 pendingInvites.removeAll(where: {
@@ -1860,7 +1832,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                     .child(projectId)
                                     .updateChildValues(["pending_invites": pendingInvites]) { (error, ref) in
                                         if error != nil {
-                                            completion(.error(FirebaseErrors.refuseRequest))
+                                            completion(.error(WCError.refuseRequest))
                                             return
                                         }
                                         completion(.success)
@@ -1874,7 +1846,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                          completion: @escaping (EmptyResponse) -> Void) {
         guard let projectId = request["projectId"] as? String,
               let currentUser = authReference.currentUser?.uid else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         realtimeDB
@@ -1894,7 +1866,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                     .child(currentUser)
                     .updateChildValues(["pending_projects" : pendingArray]) { (error, ref) in
                         if error != nil {
-                            completion(.error(FirebaseErrors.sendConnectionRequest))
+                            completion(.error(WCError.sendConnectionRequest))
                             return
                         }
                         self.realtimeDB
@@ -1904,7 +1876,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                             .child("author_id")
                             .observeSingleEvent(of: .value) { snapshot in
                                 guard let authorId = snapshot.value as? String else {
-                                    completion(.error(FirebaseErrors.genericError))
+                                    completion(.error(WCError.genericError))
                                     return
                                 }
                                 self.realtimeDB
@@ -1916,7 +1888,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                               let userEmail = userData["email"] as? String,
                                               let image = userData["profile_image_url"] as? String,
                                               let ocupation = userData["professional_area"] as? String else {
-                                            completion(.error(FirebaseErrors.genericError))
+                                            completion(.error(WCError.genericError))
                                             return
                                         }
                                         self.realtimeDB
@@ -1943,7 +1915,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                     .child(authorId)
                                                     .updateChildValues(["project_participation_notifications" : notificationsArray]) { (error, ref) in
                                                         if error != nil {
-                                                            completion(.error(FirebaseErrors.sendProjectParticipationRequest))
+                                                            completion(.error(WCError.sendProjectParticipationRequest))
                                                             return
                                                         }
                                                         completion(.success)
@@ -1959,7 +1931,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                            completion: @escaping (EmptyResponse) -> Void) {
         guard let projectId = request["projectId"] as? String,
               let currentUser = authReference.currentUser?.uid else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         realtimeDB
@@ -1968,7 +1940,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             .child("pending_projects")
             .observeSingleEvent(of: .value) { snapshot in
                 guard var pendingProjects = snapshot.value as? [String] else {
-                    completion(.error(FirebaseErrors.genericError))
+                    completion(.error(WCError.genericError))
                     return
                 }
                 pendingProjects.removeAll(where: { $0 == projectId })
@@ -1977,7 +1949,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                     .child(currentUser)
                     .updateChildValues(["pending_projects": pendingProjects]) { (error, ref) in
                         if error != nil {
-                            completion(.error(FirebaseErrors.removeProjectParticipationRequest))
+                            completion(.error(WCError.removeProjectParticipationRequest))
                             return
                         }
                         self.realtimeDB
@@ -1987,7 +1959,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                             .child("pending_invites")
                             .observeSingleEvent(of: .value) { snapshot in
                                 guard var pendingInvites = snapshot.value as? [String] else {
-                                    completion(.error(FirebaseErrors.genericError))
+                                    completion(.error(WCError.genericError))
                                     return
                                 }
                                 pendingInvites.removeAll(where: { $0 == currentUser})
@@ -1997,7 +1969,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                     .child(projectId)
                                     .updateChildValues(["pending_invites": pendingInvites]) { (error, ref) in
                                         if error != nil {
-                                            completion(.error(FirebaseErrors.removeProjectParticipationRequest))
+                                            completion(.error(WCError.removeProjectParticipationRequest))
                                             return
                                         }
                                         self.realtimeDB
@@ -2007,7 +1979,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                             .child("author_id")
                                             .observeSingleEvent(of: .value) { snapshot in
                                                 guard let authorId = snapshot.value as? String else {
-                                                    completion(.error(FirebaseErrors.genericError))
+                                                    completion(.error(WCError.genericError))
                                                     return
                                                 }
                                                 self.realtimeDB
@@ -2016,7 +1988,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                     .child("project_participation_notifications")
                                                     .observeSingleEvent(of: .value) { snapshot in
                                                         guard var notifications = snapshot.value as? [[String : Any]] else {
-                                                            completion(.error(FirebaseErrors.genericError))
+                                                            completion(.error(WCError.genericError))
                                                             return
                                                         }
                                                         notifications.removeAll(where: {
@@ -2030,7 +2002,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                             .child(authorId)
                                                             .updateChildValues(["project_participation_notifications": notifications]) { (error, ref) in
                                                                 if error != nil {
-                                                                    completion(.error(FirebaseErrors.removeProjectParticipationRequest))
+                                                                    completion(.error(WCError.removeProjectParticipationRequest))
                                                                     return
                                                                 }
                                                                 completion(.success)
@@ -2047,7 +2019,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                      completion: @escaping (EmptyResponse) -> Void) {
         guard let projectId = request["projectId"] as? String,
               let currentUser = authReference.currentUser?.uid else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         realtimeDB
@@ -2056,7 +2028,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             .child("participating_projects")
             .observeSingleEvent(of: .value) { snapshot in
                 guard var projects = snapshot.value as? [String] else {
-                    completion(.error(FirebaseErrors.genericError))
+                    completion(.error(WCError.genericError))
                     return
                 }
                 projects.removeAll(where: { $0 == projectId })
@@ -2065,7 +2037,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                     .child(currentUser)
                     .updateChildValues(["participating_projects": projects]) { (error, ref) in
                         if error != nil {
-                            completion(.error(FirebaseErrors.genericError))
+                            completion(.error(WCError.genericError))
                             return
                         }
                         self.realtimeDB
@@ -2075,7 +2047,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                             .child("participants")
                             .observeSingleEvent(of: .value) { snapshot in
                                 guard var participants = snapshot.value as? [String] else {
-                                    completion(.error(FirebaseErrors.genericError))
+                                    completion(.error(WCError.genericError))
                                     return
                                 }
                                 participants.removeAll(where: { $0 == currentUser })
@@ -2085,7 +2057,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                     .child(projectId)
                                     .updateChildValues(["participants": participants]) { (error, ref) in
                                         if error != nil {
-                                            completion(.error(FirebaseErrors.genericError))
+                                            completion(.error(WCError.genericError))
                                             return
                                         }
                                         completion(.success)
@@ -2099,7 +2071,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                                     completion: @escaping (BaseResponse<[T]>) -> Void)  {
         var responseArray: [[String : Any]] = .empty
         guard let currentUser = authReference.currentUser?.uid else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         realtimeDB
@@ -2113,7 +2085,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                 }
                 for i in 0..<notifications.count {
                     guard let projectId = notifications[i]["projectId"] as? String else {
-                        completion(.error(FirebaseErrors.genericError))
+                        completion(.error(WCError.genericError))
                         return
                     }
                     self.realtimeDB
@@ -2123,12 +2095,12 @@ class FirebaseManager: FirebaseManagerProtocol {
                         .child("title")
                         .observeSingleEvent(of: .value) { snapshot in
                             guard let title = snapshot.value as? String else {
-                                completion(.error(FirebaseErrors.genericError))
+                                completion(.error(WCError.genericError))
                                 return
                             }
                             notifications[i]["projectName"] = title
                             guard let userId = notifications[i]["userId"] as? String else {
-                                completion(.error(FirebaseErrors.genericError))
+                                completion(.error(WCError.genericError))
                                 return
                             }
                             self.realtimeDB
@@ -2138,7 +2110,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                     guard let user = snapshot.value as? [String : Any],
                                           let email = user["email"] as? String,
                                           let ocupation = user["professional_area"] as? String else {
-                                        completion(.error(FirebaseErrors.genericError))
+                                        completion(.error(WCError.genericError))
                                         return
                                     }
                                     notifications[i]["userEmail"] = email
@@ -2159,7 +2131,7 @@ class FirebaseManager: FirebaseManagerProtocol {
         guard let userId = request["userId"] as? String,
               let projectId = request["projectId"] as? String,
               let currentUser = authReference.currentUser?.uid else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         realtimeDB
@@ -2169,7 +2141,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             .child("participants")
             .observeSingleEvent(of: .value) { snapshot in
                 guard var participants = snapshot.value as? [String] else {
-                    completion(.error(FirebaseErrors.genericError))
+                    completion(.error(WCError.genericError))
                     return
                 }
                 participants.append(userId)
@@ -2179,7 +2151,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                     .child(projectId)
                     .updateChildValues(["participants": participants]) { (error, ref) in
                         if error != nil {
-                            completion(.error(FirebaseErrors.acceptUserIntoProject))
+                            completion(.error(WCError.acceptUserIntoProject))
                             return
                         }
                         self.realtimeDB
@@ -2188,7 +2160,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                             .child("project_participation_notifications")
                             .observeSingleEvent(of: .value) { snapshot in
                                 guard var notifications = snapshot.value as? [[String : Any]] else {
-                                    completion(.error(FirebaseErrors.genericError))
+                                    completion(.error(WCError.genericError))
                                     return
                                 }
                                 notifications.removeAll(where: {
@@ -2202,7 +2174,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                     .child(currentUser)
                                     .updateChildValues(["project_participation_notifications": notifications]) { (error, ref) in
                                         if error != nil {
-                                            completion(.error(FirebaseErrors.acceptUserIntoProject))
+                                            completion(.error(WCError.acceptUserIntoProject))
                                             return
                                         }
                                         self.realtimeDB
@@ -2211,7 +2183,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                             .child("pending_projects")
                                             .observeSingleEvent(of: .value) { snapshot in
                                                 guard var pendingProjects = snapshot.value as? [String] else {
-                                                    completion(.error(FirebaseErrors.genericError))
+                                                    completion(.error(WCError.genericError))
                                                     return
                                                 }
                                                 pendingProjects.removeAll(where: { $0 == projectId})
@@ -2220,7 +2192,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                     .child(userId)
                                                     .updateChildValues( ["pending_projects": pendingProjects]) { (error, ref) in
                                                         if error != nil {
-                                                            completion(.error(FirebaseErrors.acceptUserIntoProject))
+                                                            completion(.error(WCError.acceptUserIntoProject))
                                                             return
                                                         }
                                                         self.realtimeDB
@@ -2243,7 +2215,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                                         ["participating_projects":
                                                                             projects]) { (error, ref) in
                                                                         if error != nil {
-                                                                            completion(.error(FirebaseErrors.acceptUserIntoProject))
+                                                                            completion(.error(WCError.acceptUserIntoProject))
                                                                         }
                                                                         self.realtimeDB
                                                                             .child(Constants.projectsPath)
@@ -2251,7 +2223,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                                             .child(projectId)
                                                                             .observeSingleEvent(of: .value) { snapshot in
                                                                                 guard let data = snapshot.value as? [String : Any], let name = data["title"] as? String, let image = data["image"] as? String else {
-                                                                                    completion(.error(FirebaseErrors.genericError))
+                                                                                    completion(.error(WCError.genericError))
                                                                                     return
                                                                                 }
                                                                                 self.sendAcceptNotification(type: .projectParticipationRequest(projectName: name, image: image), userId: userId, completion: completion)
@@ -2271,7 +2243,7 @@ class FirebaseManager: FirebaseManagerProtocol {
         guard let userId = request["userId"] as? String,
               let projectId = request["projectId"] as? String,
               let currentUser = authReference.currentUser?.uid else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         realtimeDB
@@ -2280,7 +2252,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             .child("pending_projects")
             .observeSingleEvent(of: .value) { snapshot in
                 guard var pendingProjects = snapshot.value as? [String] else {
-                    completion(.error(FirebaseErrors.genericError))
+                    completion(.error(WCError.genericError))
                     return
                 }
                 pendingProjects.removeAll(where: { $0 == projectId })
@@ -2289,7 +2261,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                     .child(userId)
                     .updateChildValues(["pending_projects": pendingProjects]) { (error, ref) in
                         if error != nil {
-                            completion(.error(FirebaseErrors.refuseRequest))
+                            completion(.error(WCError.refuseRequest))
                             return
                         }
                         self.realtimeDB
@@ -2298,7 +2270,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                             .child("project_participation_notifications")
                             .observeSingleEvent(of: .value) { snapshot in
                                 guard var notifications = snapshot.value as? [[String : Any]] else {
-                                    completion(.error(FirebaseErrors.genericError))
+                                    completion(.error(WCError.genericError))
                                     return
                                 }
                                 notifications.removeAll(where: {
@@ -2313,7 +2285,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                     .child(currentUser)
                                     .updateChildValues(["project_participation_notifications": notifications]) { (error, ref) in
                                         if error != nil {
-                                            completion(.error(FirebaseErrors.refuseRequest))
+                                            completion(.error(WCError.refuseRequest))
                                             return
                                         }
                                         completion(.success)
@@ -2328,7 +2300,7 @@ class FirebaseManager: FirebaseManagerProtocol {
         var responseDict: [String : Any] = .empty
         guard let userId = request["userId"] as? String,
               let projectId = request["projectId"] as? String else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         realtimeDB
@@ -2338,13 +2310,13 @@ class FirebaseManager: FirebaseManagerProtocol {
             .child("participants")
             .observeSingleEvent(of: .value) { snapshot in
                 guard let participants = snapshot.value as? [String] else {
-                    completion(.error(FirebaseErrors.genericError))
+                    completion(.error(WCError.genericError))
                     return
                 }
                 if participants.contains(userId) {
                     responseDict["relation"] = "SIMPLE PARTICIPANT"
                     guard let mappedResponse = Mapper<T>().map(JSON: responseDict) else {
-                        completion(.error(FirebaseErrors.parseError))
+                        completion(.error(WCError.parseError))
                         return
                     }
                     completion(.success(mappedResponse))
@@ -2358,7 +2330,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                         if let projects = snapshot.value as? [String], projects.contains(projectId) {
                             responseDict["relation"] = "SENT REQUEST"
                             guard let mappedResponse = Mapper<T>().map(JSON: responseDict) else {
-                                completion(.error(FirebaseErrors.parseError))
+                                completion(.error(WCError.parseError))
                                 return
                             }
                             completion(.success(mappedResponse))
@@ -2374,7 +2346,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                    invites.contains(userId) {
                                     responseDict["relation"] = "RECEIVED REQUEST"
                                     guard let mappedResponse = Mapper<T>().map(JSON: responseDict) else {
-                                        completion(.error(FirebaseErrors.parseError))
+                                        completion(.error(WCError.parseError))
                                         return
                                     }
                                     completion(.success(mappedResponse))
@@ -2382,7 +2354,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                 }
                                 responseDict["relation"] = "NOTHING"
                                 guard let mappedResponse = Mapper<T>().map(JSON: responseDict) else {
-                                    completion(.error(FirebaseErrors.parseError))
+                                    completion(.error(WCError.parseError))
                                     return
                                 }
                                 completion(.success(mappedResponse))
@@ -2395,7 +2367,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                    completion: @escaping (EmptyResponse) -> Void) {
         guard let userId = request["userId"] as? String,
               let projectId = request["projectId"] as? String else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         realtimeDB
@@ -2405,7 +2377,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             .child("pending_invites")
             .observeSingleEvent(of: .value) { snapshot in
                 guard var invites = snapshot.value as? [String] else {
-                    completion(.error(FirebaseErrors.genericError))
+                    completion(.error(WCError.genericError))
                     return
                 }
                 invites.removeAll(where: { $0 == userId })
@@ -2415,7 +2387,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                     .child(projectId)
                     .updateChildValues(["pending_invites": invites]) { (error, ref) in
                         if error != nil {
-                            completion(.error(FirebaseErrors.removeProjectInviteToUser))
+                            completion(.error(WCError.removeProjectInviteToUser))
                             return
                         }
                         self.realtimeDB
@@ -2424,7 +2396,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                             .child("project_invite_notifications")
                             .observeSingleEvent(of: .value) { snapshot in
                                 guard var notifications = snapshot.value as? [[String : Any]] else {
-                                    completion(.error(FirebaseErrors.genericError))
+                                    completion(.error(WCError.genericError))
                                     return
                                 }
                                 notifications.removeAll(where: {
@@ -2438,7 +2410,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                     .child(userId)
                                     .updateChildValues(["project_invite_notifications": notifications]) { (error, ref) in
                                         if error != nil {
-                                            completion(.error(FirebaseErrors.removeProjectInviteToUser))
+                                            completion(.error(WCError.removeProjectInviteToUser))
                                             return
                                         }
                                         completion(.success)
@@ -2452,7 +2424,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                completion: @escaping (EmptyResponse) -> Void) {
         guard let userId = request["userId"] as? String,
               let projectId = request["projectId"] as? String else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         realtimeDB
@@ -2462,7 +2434,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             .child("participants")
             .observeSingleEvent(of: .value) { snapshot in
                 guard var users = snapshot.value as? [String] else {
-                    completion(.error(FirebaseErrors.genericError))
+                    completion(.error(WCError.genericError))
                     return
                 }
                 users.removeAll(where: { $0 == userId })
@@ -2472,7 +2444,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                     .child(projectId)
                     .updateChildValues(["participants": users]) { (error, ref) in
                         if error != nil {
-                            completion(.error(FirebaseErrors.removeUserFromProject))
+                            completion(.error(WCError.removeUserFromProject))
                             return
                         }
                         self.realtimeDB
@@ -2481,7 +2453,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                             .child("participating_projects")
                             .observeSingleEvent(of: .value) { snapshot in
                                 guard var projects = snapshot.value as? [String] else {
-                                    completion(.error(FirebaseErrors.genericError))
+                                    completion(.error(WCError.genericError))
                                     return
                                 }
                                 projects.removeAll(where: {
@@ -2492,7 +2464,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                     .child(userId)
                                     .updateChildValues(["participating_projects": projects]) { (error, ref) in
                                         if error != nil {
-                                            completion(.error(FirebaseErrors.removeUserFromProject))
+                                            completion(.error(WCError.removeUserFromProject))
                                             return
                                         }
                                         completion(.success)
@@ -2506,7 +2478,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                         completion: @escaping (BaseResponse<[T]>) -> Void) {
         var responseArray: [[String : Any]] = .empty
         guard let currentUser = authReference.currentUser?.uid else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         realtimeDB
@@ -2525,7 +2497,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                         .child(ids[i])
                         .observeSingleEvent(of: .value) { snapshot in
                             guard var project = snapshot.value as? [String : Any] else {
-                                completion(.error(FirebaseErrors.genericError))
+                                completion(.error(WCError.genericError))
                                 return
                             }
                             project["id"] = ids[i]
@@ -2543,7 +2515,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                completion: @escaping (EmptyResponse) -> Void) {
         guard let projectId = request["projectId"] as? String,
               let progress = request["progress"] as? Int else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         let dict: [String : Any] = ["progress": progress]
@@ -2553,7 +2525,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             .child(projectId)
             .updateChildValues(dict) { (error, ref) in
                 if error != nil {
-                    completion(.error(FirebaseErrors.updateProject))
+                    completion(.error(WCError.updateProject))
                     return
                 }
                 completion(.success)
@@ -2565,18 +2537,18 @@ class FirebaseManager: FirebaseManagerProtocol {
         var usersResponse: [[String : Any]] = .empty
         
         guard let preffix = request["preffix"] as? String else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         guard let currentUser = authReference.currentUser?.uid else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         realtimeDB
             .child(Constants.allUsersCataloguePath)
             .observeSingleEvent(of: .value) { snapshot in
                 guard var userIds = snapshot.value as? [String] else {
-                    completion(.error(FirebaseErrors.genericError))
+                    completion(.error(WCError.genericError))
                     return
                 }
                 userIds.removeAll(where: { $0 == currentUser })
@@ -2590,11 +2562,11 @@ class FirebaseManager: FirebaseManagerProtocol {
                         .child(userIds[i])
                         .observeSingleEvent(of: .value) { snapshot in
                             guard var user = snapshot.value as? [String : Any] else {
-                                completion(.error(FirebaseErrors.genericError))
+                                completion(.error(WCError.genericError))
                                 return
                             }
                             guard let name = user["name"] as? String else {
-                                completion(.error(FirebaseErrors.genericError))
+                                completion(.error(WCError.genericError))
                                 return
                             }
                             user["id"] = userIds[i]
@@ -2617,7 +2589,7 @@ class FirebaseManager: FirebaseManagerProtocol {
         var allProjects = [String]()
         
         guard let preffix = request["preffix"] as? String else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         realtimeDB
@@ -2636,11 +2608,11 @@ class FirebaseManager: FirebaseManagerProtocol {
                         .child(allProjects[i])
                         .observeSingleEvent(of: .value) { snapshot in
                             guard var project = snapshot.value as? [String : Any] else {
-                                completion(.error(FirebaseErrors.genericError))
+                                completion(.error(WCError.genericError))
                                 return
                             }
                             guard let title = project["title"] as? String else {
-                                completion(.error(FirebaseErrors.genericError))
+                                completion(.error(WCError.genericError))
                                 return
                             }
                             project["id"] = allProjects[i]
@@ -2662,7 +2634,7 @@ class FirebaseManager: FirebaseManagerProtocol {
         var allProjects = [String]()
         
         guard let preffix = request["preffix"] as? String else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         realtimeDB
@@ -2681,11 +2653,11 @@ class FirebaseManager: FirebaseManagerProtocol {
                         .child(allProjects[i])
                         .observeSingleEvent(of: .value) { snapshot in
                             guard var project = snapshot.value as? [String : Any] else {
-                                completion(.error(FirebaseErrors.genericError))
+                                completion(.error(WCError.genericError))
                                 return
                             }
                             guard let title = project["title"] as? String else {
-                                completion(.error(FirebaseErrors.genericError))
+                                completion(.error(WCError.genericError))
                                 return
                             }
                             project["id"] = allProjects[i]
@@ -2704,7 +2676,7 @@ class FirebaseManager: FirebaseManagerProtocol {
     func fetchDataFromId<T: Mappable>(request: [String : Any],
                                       completion: @escaping (BaseResponse<T>) -> Void) {
         guard let id = request["id"] as? String else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         realtimeDB
@@ -2714,12 +2686,12 @@ class FirebaseManager: FirebaseManagerProtocol {
                 if let user = snapshot.value as? [String : Any] {
                     guard let title = user["name"] as? String,
                           let image = user["profile_image_url"] as? String else {
-                        completion(.error(FirebaseErrors.genericError))
+                        completion(.error(WCError.genericError))
                         return
                     }
                     let response: [String : Any] = ["image": image, "name": title]
                     guard let mappedResponse = Mapper<T>().map(JSON: response) else {
-                        completion(.error(FirebaseErrors.parseError))
+                        completion(.error(WCError.parseError))
                         return
                     }
                     completion(.success(mappedResponse))
@@ -2730,17 +2702,17 @@ class FirebaseManager: FirebaseManagerProtocol {
                         .child(id)
                         .observeSingleEvent(of: .value) { snpashot in
                             guard let project = snapshot.value as? [String : Any] else {
-                                completion(.error(FirebaseErrors.genericError))
+                                completion(.error(WCError.genericError))
                                 return
                             }
                             guard let title = project["title"] as? String,
                                   let image = project["image"] as? String else {
-                                completion(.error(FirebaseErrors.genericError))
+                                completion(.error(WCError.genericError))
                                 return
                             }
                             let response: [String : Any] = ["image": image, "title": title]
                             guard let mappedResponse = Mapper<T>().map(JSON: response) else {
-                                completion(.error(FirebaseErrors.parseError))
+                                completion(.error(WCError.parseError))
                                 return
                             }
                             completion(.success(mappedResponse))
@@ -2759,11 +2731,11 @@ class FirebaseManager: FirebaseManagerProtocol {
         var removedUserSuggestions = [String]()
         
         guard let limit = request["limit"] as? Int else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         guard let currentUser = authReference.currentUser?.uid else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         realtimeDB
@@ -2801,7 +2773,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                             .child(Constants.allUsersCataloguePath)
                                             .observeSingleEvent(of: .value) { snapshot in
                                                 guard let allUsers = snapshot.value as? [String] else {
-                                                    completion(.error(FirebaseErrors.genericError))
+                                                    completion(.error(WCError.genericError))
                                                     return
                                                 }
                                                 let noRelationUsersDispatchGroup = DispatchGroup()
@@ -2841,7 +2813,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                             .child(user)
                                                             .observeSingleEvent(of: .value) { snapshot in
                                                                 guard var userData = snapshot.value as? [String : Any] else {
-                                                                    completion(.error(FirebaseErrors.genericError))
+                                                                    completion(.error(WCError.genericError))
                                                                     return
                                                                 }
                                                                 userData["id"] = user
@@ -2896,11 +2868,11 @@ class FirebaseManager: FirebaseManagerProtocol {
         var removedSuggestedUsers = [String]()
         
         guard let limit = request["limit"] as? Int else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         guard let currentUser = authReference.currentUser?.uid else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         realtimeDB
@@ -2925,7 +2897,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                             .child(Constants.allUsersCataloguePath)
                             .observeSingleEvent(of: .value) { snapshot in
                                 guard let allUsers = snapshot.value as? [String] else {
-                                    completion(.error(FirebaseErrors.genericError))
+                                    completion(.error(WCError.genericError))
                                     return
                                 }
                                 let dispatchGroup = DispatchGroup()
@@ -2967,7 +2939,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                             .observeSingleEvent(of: .value) { snapshot in
                                                 guard var userData = snapshot.value as? [String
                                                         : Any] else {
-                                                    completion(.error(FirebaseErrors.genericError))
+                                                    completion(.error(WCError.genericError))
                                                     return
                                                 }
                                                 var userConnections: [String] = .empty
@@ -3006,11 +2978,11 @@ class FirebaseManager: FirebaseManagerProtocol {
         var removedSuggestedUsers = [String]()
         
         guard let limit = request["limit"] as? Int else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         guard let currentUser = authReference.currentUser?.uid else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         realtimeDB
@@ -3035,7 +3007,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                             .child(Constants.allUsersCataloguePath)
                             .observeSingleEvent(of: .value) { snapshot in
                                 guard let allUsers = snapshot.value as? [String] else {
-                                    completion(.error(FirebaseErrors.genericError))
+                                    completion(.error(WCError.genericError))
                                     return
                                 }
                                 let dispatchGroup = DispatchGroup()
@@ -3077,7 +3049,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                             .observeSingleEvent(of: .value) { snapshot in
                                                 guard var userData = snapshot.value as? [String
                                                         : Any] else {
-                                                    completion(.error(FirebaseErrors.genericError))
+                                                    completion(.error(WCError.genericError))
                                                     return
                                                 }
                                                 var userProjects: [String] = .empty
@@ -3116,11 +3088,11 @@ class FirebaseManager: FirebaseManagerProtocol {
         var removedSuggestedUsers = [String]()
         
         guard let limit = request["limit"] as? Int else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         guard let currentUser = authReference.currentUser?.uid else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         realtimeDB
@@ -3145,7 +3117,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                             .child(Constants.allUsersCataloguePath)
                             .observeSingleEvent(of: .value) { snapshot in
                                 guard let allUsers = snapshot.value as? [String] else {
-                                    completion(.error(FirebaseErrors.genericError))
+                                    completion(.error(WCError.genericError))
                                     return
                                 }
                                 let dispatchGroup = DispatchGroup()
@@ -3187,7 +3159,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                             .observeSingleEvent(of: .value) { snapshot in
                                                 guard var userData = snapshot.value as? [String
                                                         : Any] else {
-                                                    completion(.error(FirebaseErrors.genericError))
+                                                    completion(.error(WCError.genericError))
                                                     return
                                                 }
                                                 var userCathegories: [String] = .empty
@@ -3221,22 +3193,22 @@ class FirebaseManager: FirebaseManagerProtocol {
     func removeProfileSuggestion(request: [String : Any],
                                  completion: @escaping (EmptyResponse) -> Void) {
         guard let userId = request["userId"] as? String else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         guard let currentUser = authReference.currentUser?.uid else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         realtimeDB
             .child(Constants.allUsersCataloguePath)
             .observeSingleEvent(of: .value) { snapshot in
                 guard let allUsers = snapshot.value as? [String] else {
-                    completion(.error(FirebaseErrors.genericError))
+                    completion(.error(WCError.genericError))
                     return
                 }
                 guard allUsers.contains(userId) else {
-                    completion(.error(FirebaseErrors.genericError))
+                    completion(.error(WCError.genericError))
                     return
                 }
                 self.realtimeDB
@@ -3254,7 +3226,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                             .child(currentUser)
                             .updateChildValues(["removed_suggestions": removedUsers]) { (error, ref) in
                                 if error != nil {
-                                    completion(.error(FirebaseErrors.removeSuggestion))
+                                    completion(.error(WCError.removeSuggestion))
                                     return
                                 }
                                 completion(.success)
@@ -3273,11 +3245,11 @@ class FirebaseManager: FirebaseManagerProtocol {
         guard let limits = request["limits"] as? Int,
               let fromConnections = request["fromConnections"] as? Bool,
               let cathegory = request["cathegory"] as? String else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         guard let currentUser = authReference.currentUser?.uid else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         realtimeDB
@@ -3286,7 +3258,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             .child("interest_cathegories")
             .observeSingleEvent(of: .value) { snapshot in
                 guard let cathegories = snapshot.value as? [String] else {
-                    completion(.error(FirebaseErrors.genericError))
+                    completion(.error(WCError.genericError))
                     return
                 }
                 currentUserInterestCathegories = cathegories
@@ -3317,12 +3289,12 @@ class FirebaseManager: FirebaseManagerProtocol {
                                         .child(project)
                                         .observeSingleEvent(of: .value) { snapshot in
                                             guard var projectData = snapshot.value as? [String : Any] else {
-                                                completion(.error(FirebaseErrors.genericError))
+                                                completion(.error(WCError.genericError))
                                                 return
                                             }
                                             guard let participants = projectData["participants"] as? [String],
                                                   let cathegories = projectData["cathegories"] as? [String] else {
-                                                completion(.error(FirebaseErrors.genericError))
+                                                completion(.error(WCError.genericError))
                                                 return
                                             }
                                             let connectionsCount = participants.filter({currentUserconnections.contains($0)}).count
@@ -3392,25 +3364,25 @@ class FirebaseManager: FirebaseManagerProtocol {
               let participants = request["participants"] as? [String],
               let image = request["image"] as? String,
               let finishDate = request["finish_date"] as? Int else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         guard let authorId = authReference.currentUser?.uid else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         realtimeDB
             .child(Constants.allProjectsCataloguePath)
             .observeSingleEvent(of: .value) { snapshot in
                 guard var allProjects = snapshot.value as? [String] else {
-                    completion(.error(FirebaseErrors.genericError))
+                    completion(.error(WCError.genericError))
                     return
                 }
                 allProjects.removeAll(where: { $0 == projectId})
                 self.realtimeDB
                     .updateChildValues([Constants.allProjectsCataloguePath : allProjects]) { (error, ref) in
                         if error != nil {
-                            completion(.error(FirebaseErrors.genericError))
+                            completion(.error(WCError.genericError))
                             return
                         }
                         self.realtimeDB
@@ -3423,7 +3395,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                 self.realtimeDB
                                     .updateChildValues([Constants.finishedProjectsCataloguePath : finishedProjects]) { (error, ref) in
                                         if error != nil {
-                                            completion(.error(FirebaseErrors.genericError))
+                                            completion(.error(WCError.genericError))
                                             return
                                         }
                                         self.realtimeDB
@@ -3432,7 +3404,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                             .child(projectId)
                                             .removeValue { (error, ref) in
                                                 if error != nil {
-                                                    completion(.error(FirebaseErrors.genericError))
+                                                    completion(.error(WCError.genericError))
                                                     return
                                                 }
                                                 let dict: [String : Any] = ["youtube_url": youtubeURL, "title": title, "sinopsis": sinopsis, "cathegories": cathegories, "participants": participants, "author_id": authorId, "image": image, "finish_date": finishDate, "views": 0]
@@ -3442,7 +3414,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                     .child(projectId)
                                                     .updateChildValues(dict) { (error, ref) in
                                                         if error != nil {
-                                                            completion(.error(FirebaseErrors.genericError))
+                                                            completion(.error(WCError.genericError))
                                                             return
                                                         }
                                                         let dispatchGroup = DispatchGroup()
@@ -3450,7 +3422,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                             .child(Constants.allUsersCataloguePath)
                                                             .observeSingleEvent(of: .value) { snapshot in
                                                                 guard let users = snapshot.value as? [String] else {
-                                                                    completion(.error(FirebaseErrors.genericError))
+                                                                    completion(.error(WCError.genericError))
                                                                     return
                                                                 }
                                                                 allUsers = users
@@ -3463,7 +3435,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                                                     projects.removeAll(where: { $0 == projectId})
                                                                                     self.realtimeDB.child(Constants.usersPath).child(user).updateChildValues(["participating_projects" : projects]) { (error, ref) in
                                                                                         if error != nil {
-                                                                                            completion(.error(FirebaseErrors.genericError))
+                                                                                            completion(.error(WCError.genericError))
                                                                                             return
                                                                                         }
                                                                                         self.realtimeDB.child(Constants.usersPath).child(user).child("finished_projects").observeSingleEvent(of: .value) { snapshot in
@@ -3474,7 +3446,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                                                             projects.append(projectId)
                                                                                             self.realtimeDB.child(Constants.usersPath).child(user).updateChildValues(["finished_projects" : projects]) { (error, ref) in
                                                                                                 if error != nil {
-                                                                                                    completion(.error(FirebaseErrors.genericError))
+                                                                                                    completion(.error(WCError.genericError))
                                                                                                     return
                                                                                                 }
                                                                                                 dispatchGroup.leave()
@@ -3493,13 +3465,13 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                                     self.removeEntity(withId: projectId) { response in
                                                                         switch response {
                                                                         case .error(let _):
-                                                                            completion(.error(FirebaseErrors.genericError))
+                                                                            completion(.error(WCError.genericError))
                                                                         case.success:
                                                                             self.registerEntity(withId: projectId, type: .finishedProject) {
                                                                                 response in
                                                                                 switch response {
                                                                                 case .error(let error):
-                                                                                    completion(.error(FirebaseErrors.genericError))
+                                                                                    completion(.error(WCError.genericError))
                                                                                 case.success:
                                                                                     completion(.success)
                                                                                 }
@@ -3520,7 +3492,7 @@ class FirebaseManager: FirebaseManagerProtocol {
     func fetchFinishedProjectData<T: Mappable>(request: [String : Any],
                                                completion: @escaping (BaseResponse<T>) -> Void) {
         guard let projectId = request["projectId"] as? String else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         realtimeDB
@@ -3529,12 +3501,12 @@ class FirebaseManager: FirebaseManagerProtocol {
             .child(projectId)
             .observeSingleEvent(of: .value) { snapshot in
                 guard var project = snapshot.value as? [String : Any] else {
-                    completion(.error(FirebaseErrors.parseError))
+                    completion(.error(WCError.parseError))
                     return
                 }
                 project["projectId"] = projectId
                 guard let mappedResponse = Mapper<T>().map(JSON: project) else {
-                    completion(.error(FirebaseErrors.parseError))
+                    completion(.error(WCError.parseError))
                     return
                 }
                 completion(.success(mappedResponse))
@@ -3544,11 +3516,11 @@ class FirebaseManager: FirebaseManagerProtocol {
     func fetchFinishedProjectRelation<T: Mappable>(request: [String : Any],
                                                    completion: @escaping (BaseResponse<T>) -> Void) {
         guard let projectId = request["projectId"] as? String else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         guard let currentUser = authReference.currentUser?.uid else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         realtimeDB
@@ -3558,13 +3530,13 @@ class FirebaseManager: FirebaseManagerProtocol {
             .child("author_id")
             .observeSingleEvent(of: .value) { snapshot in
                 guard let authorId = snapshot.value as? String else {
-                    completion(.error(FirebaseErrors.genericError))
+                    completion(.error(WCError.genericError))
                     return
                 }
                 if authorId == currentUser {
                     let dict: [String : Any] = ["relation": "AUTHOR"]
                     guard let mappedResponse = Mapper<T>().map(JSON: dict) else {
-                        completion(.error(FirebaseErrors.parseError))
+                        completion(.error(WCError.parseError))
                         return
                     }
                     completion(.success(mappedResponse))
@@ -3577,13 +3549,13 @@ class FirebaseManager: FirebaseManagerProtocol {
                     .child("participants")
                     .observeSingleEvent(of: .value) { snapshot in
                         guard let participants = snapshot.value as? [String] else {
-                            completion(.error(FirebaseErrors.genericError))
+                            completion(.error(WCError.genericError))
                             return
                         }
                         if participants.contains(currentUser) {
                             let dict: [String : Any] = ["relation": "SIMPLE_PARTICIPANT"]
                             guard let mappedResponse = Mapper<T>().map(JSON: dict) else {
-                                completion(.error(FirebaseErrors.parseError))
+                                completion(.error(WCError.parseError))
                                 return
                             }
                             completion(.success(mappedResponse))
@@ -3604,7 +3576,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                 if invitedUsers.contains(currentUser) {
                                     let dict: [String : Any] = ["relation": "PENDING"]
                                     guard let mappedResponse = Mapper<T>().map(JSON: dict) else {
-                                        completion(.error(FirebaseErrors.parseError))
+                                        completion(.error(WCError.parseError))
                                         return
                                     }
                                     completion(.success(mappedResponse))
@@ -3612,7 +3584,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                 }
                                 let dict: [String : Any] = ["relation": "NOTHING"]
                                 guard let mappedResponse = Mapper<T>().map(JSON: dict) else {
-                                    completion(.error(FirebaseErrors.parseError))
+                                    completion(.error(WCError.parseError))
                                     return
                                 }
                                 completion(.success(mappedResponse))
@@ -3627,7 +3599,7 @@ class FirebaseManager: FirebaseManagerProtocol {
         var finishedProjects = [String]()
         var finishedProjectsData = [[String : Any]]()
         guard let userId = request["userId"] as? String else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         realtimeDB
@@ -3651,7 +3623,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                         .child(project)
                         .observeSingleEvent(of: .value) { snapshot in
                             guard var projectData = snapshot.value as? [String : Any] else {
-                                completion(.error(FirebaseErrors.genericError))
+                                completion(.error(WCError.genericError))
                                 return
                             }
                             projectData["projectId"] = project
@@ -3676,11 +3648,11 @@ class FirebaseManager: FirebaseManagerProtocol {
               let cathegories = request["cathegories"] as? [String],
               let video = request["youtube_url"] as? String,
               let image = request["image"] as? Data else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         guard let currentUser = authReference.currentUser?.uid else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         let projectReference = realtimeDB
@@ -3688,22 +3660,22 @@ class FirebaseManager: FirebaseManagerProtocol {
             .child(Constants.finishedProjectsPath)
             .childByAutoId()
         guard let projectId = projectReference.key else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         let projectImageReference =  storage.child(Constants.projectsPath).child(projectId)
         projectImageReference.putData(image, metadata: nil) { (metadata, error) in
             if error != nil {
-                completion(.error(FirebaseErrors.genericError))
+                completion(.error(WCError.genericError))
                 return
             }
             projectImageReference.downloadURL { (url, error) in
                 if error != nil {
-                    completion(.error(FirebaseErrors.genericError))
+                    completion(.error(WCError.genericError))
                     return
                 }
                 guard let url = url else {
-                    completion(.error(FirebaseErrors.genericError))
+                    completion(.error(WCError.genericError))
                     return
                 }
                 let dict: [String : Any] = ["title": title, "sinopsis": sinopsis, "cathegories": cathegories, "youtube_url": video, "image": url.absoluteString, "views": 0, "finish_date": Date().timeIntervalSince1970, "participants": [currentUser], "author_id": currentUser]
@@ -3712,7 +3684,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                     .child(Constants.finishedProjectsPath)
                     .updateChildValues([projectId : dict]) { (error, metadata) in
                         if error != nil {
-                            completion(.error(FirebaseErrors.genericError))
+                            completion(.error(WCError.genericError))
                             return
                         }
                         self.realtimeDB
@@ -3724,7 +3696,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                 allFinishedProjects.append(projectId)
                                 self.realtimeDB.updateChildValues([Constants.finishedProjectsCataloguePath: allFinishedProjects]) { (error, metadata) in
                                     if error != nil {
-                                        completion(.error(FirebaseErrors.genericError))
+                                        completion(.error(WCError.genericError))
                                         return
                                     }
                                     self.realtimeDB
@@ -3738,19 +3710,19 @@ class FirebaseManager: FirebaseManagerProtocol {
                                             userProjects.append(projectId)
                                             self.realtimeDB.child(Constants.usersPath).child(currentUser).updateChildValues(["finished_projects": userProjects]) { (error, metadata) in
                                                 if error != nil {
-                                                    completion(.error(FirebaseErrors.genericError))
+                                                    completion(.error(WCError.genericError))
                                                     return
                                                 }
                                                 let dict: [String : Any] = ["id": projectId]
                                                 guard let mappedResponse = Mapper<T>().map(JSON: dict) else {
-                                                    completion(.error(FirebaseErrors.parseError))
+                                                    completion(.error(WCError.parseError))
                                                     return
                                                 }
                                                 self.registerEntity(withId: projectId, type: .finishedProject) {
                                                     response in
                                                     switch response {
                                                     case .error(let error):
-                                                        completion(.error(FirebaseErrors.genericError))
+                                                        completion(.error(WCError.genericError))
                                                     case .success:
                                                         completion(.success(mappedResponse))
                                                     }
@@ -3767,7 +3739,7 @@ class FirebaseManager: FirebaseManagerProtocol {
     func addViewToProject(request: [String : Any],
                           completion: @escaping (EmptyResponse) -> Void) {
         guard let projectId = request["projectId"] as? String else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         realtimeDB
@@ -3777,7 +3749,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             .child("views")
             .observeSingleEvent(of: .value) { snapshot in
                 guard var views = snapshot.value as? Int else {
-                    completion(.error(FirebaseErrors.genericError))
+                    completion(.error(WCError.genericError))
                     return
                 }
                 views+=1
@@ -3788,7 +3760,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                     .child(projectId)
                     .updateChildValues(["views": views, "last_view": lastSeenTimestamp]) { (error, ref) in
                         if error != nil {
-                            completion(.error(FirebaseErrors.genericError))
+                            completion(.error(WCError.genericError))
                             return
                         }
                     }
@@ -3798,11 +3770,11 @@ class FirebaseManager: FirebaseManagerProtocol {
     func fetchFinishedProjectsLogicFeed<T: Mappable>(request: [String : Any],
                                                      completion: @escaping (BaseResponse<[T]>) -> Void) {
         guard let criteria = request["criteria"] as? String else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         guard let currentUser = authReference.currentUser?.uid else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         let newCriteria = FinishedProjectsLogicCriteria(rawValue: criteria)
@@ -3814,7 +3786,7 @@ class FirebaseManager: FirebaseManagerProtocol {
         case .recent:
             fetchFinishedRecentFeed(currentUser: currentUser, completion: completion)
         case .none:
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
         }
     }
     
@@ -3825,11 +3797,11 @@ class FirebaseManager: FirebaseManagerProtocol {
         var finishedProjectsData = [[String: Any]]()
         
         guard let cathegory = request["cathegory"] as? String else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         guard let currentUser = authReference.currentUser?.uid else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         realtimeDB
@@ -3859,7 +3831,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                 .child("cathegories")
                                 .observeSingleEvent(of: .value) { snapshot in
                                     guard let cathegories = snapshot.value as? [String] else {
-                                        completion(.error(FirebaseErrors.genericError))
+                                        completion(.error(WCError.genericError))
                                         return
                                     }
                                     if !cathegories.contains(cathegory) {
@@ -3878,7 +3850,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                     .child(projectId)
                                     .observeSingleEvent(of: .value) { snapshot in
                                         guard var project = snapshot.value as? [String: Any] else {
-                                            completion(.error(FirebaseErrors.genericError))
+                                            completion(.error(WCError.genericError))
                                             return
                                         }
                                         project["id"] = projectId
@@ -3902,7 +3874,7 @@ class FirebaseManager: FirebaseManagerProtocol {
         var finishedProjectsData = [[String: Any]]()
         
         guard let currentUser = authReference.currentUser?.uid else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         
@@ -3932,7 +3904,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                 .child(project)
                                 .observeSingleEvent(of: .value) { snapshot in
                                     guard var projectData = snapshot.value as? [String : Any] else {
-                                        completion(.error(FirebaseErrors.genericError))
+                                        completion(.error(WCError.genericError))
                                         return
                                     }
                                     projectData["id"] = project
@@ -3963,7 +3935,7 @@ class FirebaseManager: FirebaseManagerProtocol {
         guard let projectId = request["projectId"] as? String,
               let userId = request["userId"] as? String,
               let currentUser = authReference.currentUser?.uid else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         realtimeDB
@@ -3978,7 +3950,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                 pendingInvites.append(userId)
                 self.realtimeDB.child(Constants.projectsPath).child(Constants.finishedProjectsPath).child(projectId).updateChildValues(["pending_invites": pendingInvites]) { (error, ref) in
                     if error != nil {
-                        completion(.error(FirebaseErrors.inviteUserToProject))
+                        completion(.error(WCError.inviteUserToProject))
                         return
                     }
                     self.realtimeDB
@@ -3987,7 +3959,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                         .child(projectId)
                         .observeSingleEvent(of: .value) { snapshot in
                             guard let projectData = snapshot.value as? [String : Any] else {
-                                completion(.error(FirebaseErrors.genericError))
+                                completion(.error(WCError.genericError))
                                 return
                             }
                             self.realtimeDB
@@ -4001,7 +3973,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                     guard
                                         let image = projectData["image"],
                                         let projectTitle = projectData["title"] as? String else {
-                                        completion(.error(FirebaseErrors.genericError))
+                                        completion(.error(WCError.genericError))
                                         return
                                     }
                                     self.realtimeDB
@@ -4009,7 +3981,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                         .child(currentUser)
                                         .observeSingleEvent(of: .value) { snapshot in
                                             guard let data = snapshot.value as? [String : Any], let authorName = data["name"] as? String else {
-                                                completion(.error(FirebaseErrors.genericError))
+                                                completion(.error(WCError.genericError))
                                                 return
                                             }
                                             inviteNotifications.append(["projectId": projectId,
@@ -4023,7 +3995,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                 .child(userId)
                                                 .updateChildValues(["finished_project_invite_notifications" : inviteNotifications]) { (error, ref) in
                                                     if error != nil {
-                                                        completion(.error(FirebaseErrors.inviteUserToProject))
+                                                        completion(.error(WCError.inviteUserToProject))
                                                         return
                                                     }
                                                     completion(.success)
@@ -4038,7 +4010,7 @@ class FirebaseManager: FirebaseManagerProtocol {
     func fetchFinishedProjectInviteNotifications<T: Mappable>(request: [String : Any],
                                                               completion: @escaping (BaseResponse<[T]>) -> Void) {
         guard let currentUser = authReference.currentUser?.uid else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         realtimeDB
@@ -4060,11 +4032,11 @@ class FirebaseManager: FirebaseManagerProtocol {
         var finishedProjects = [String]()
         var allParticipants = [String]()
         guard let currentUser = authReference.currentUser?.uid else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         guard let projectId = request["projectId"] as? String else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         realtimeDB
@@ -4073,7 +4045,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             .child("finished_project_invite_notifications")
             .observeSingleEvent(of: .value) { snapshot in
                 guard var notifications = snapshot.value as? [[String : Any]] else {
-                    completion(.error(FirebaseErrors.genericError))
+                    completion(.error(WCError.genericError))
                     return
                 }
                 notifications.removeAll(where: {
@@ -4087,7 +4059,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                     .child(currentUser)
                     .updateChildValues(["finished_project_invite_notifications": notifications]) { (error, ref) in
                         if error != nil {
-                            completion(.error(FirebaseErrors.acceptProjectInvite))
+                            completion(.error(WCError.acceptProjectInvite))
                             return
                         }
                         self.realtimeDB
@@ -4104,7 +4076,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                     .child(currentUser)
                                     .updateChildValues(["finished_projects": finishedProjects]) { (error, ref) in
                                         if error != nil {
-                                            completion(.error(FirebaseErrors.acceptProjectInvite))
+                                            completion(.error(WCError.acceptProjectInvite))
                                             return
                                         }
                                         self.realtimeDB
@@ -4113,7 +4085,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                             .child(projectId).child("participants")
                                             .observeSingleEvent(of: .value) { snapshot in
                                                 guard let participants = snapshot.value as? [String] else {
-                                                    completion(.error(FirebaseErrors.genericError))
+                                                    completion(.error(WCError.genericError))
                                                     return
                                                 }
                                                 allParticipants = participants
@@ -4124,7 +4096,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                     .child(projectId)
                                                     .updateChildValues(["participants": allParticipants]) { (error, ref) in
                                                         if error != nil {
-                                                            completion(.error(FirebaseErrors.acceptProjectInvite))
+                                                            completion(.error(WCError.acceptProjectInvite))
                                                             return
                                                         }
                                                         self.realtimeDB
@@ -4134,14 +4106,14 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                             .child("pending_invites")
                                                             .observeSingleEvent(of: .value) { snapshot in
                                                                 guard var pendingInvites = snapshot.value as? [String] else {
-                                                                    completion(.error(FirebaseErrors.genericError))
+                                                                    completion(.error(WCError.genericError))
                                                                     return
                                                                 }
                                                                 pendingInvites.removeAll(where: { $0 == currentUser})
                                                                 self.realtimeDB.child(Constants.projectsPath).child(Constants.finishedProjectsPath)
                                                                     .child(projectId).updateChildValues(["pending_invites": pendingInvites]) { (error, ref) in
                                                                         if error != nil {
-                                                                            completion(.error(FirebaseErrors.acceptProjectInvite))
+                                                                            completion(.error(WCError.acceptProjectInvite))
                                                                             return
                                                                         }
                                                                         self.realtimeDB
@@ -4149,13 +4121,13 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                                             .child(currentUser)
                                                                             .observeSingleEvent(of: .value) { snapshot in
                                                                                 guard let data = snapshot.value as? [String : Any], let name = data["name"] as? String, let image = data["profile_image_url"] as? String else {
-                                                                                    completion(.error(FirebaseErrors.genericError))
+                                                                                    completion(.error(WCError.genericError))
                                                                                     return
                                                                                 }
                                                                                 self.realtimeDB.child(Constants.projectsPath).child(Constants.finishedProjectsPath).child(projectId).child("title").observeSingleEvent(of: .value) {
                                                                                     snapshot in
                                                                                     guard let title = snapshot.value as? String else {
-                                                                                        completion(.error(FirebaseErrors.genericError))
+                                                                                        completion(.error(WCError.genericError))
                                                                                         return
                                                                                     }
                                                                                     self.realtimeDB
@@ -4164,7 +4136,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                                                         .child(projectId).child("author_id")
                                                                                         .observeSingleEvent(of: .value) { snapshot in
                                                                                             guard let authorId = snapshot.value as? String else {
-                                                                                                completion(.error(FirebaseErrors.genericError))
+                                                                                                completion(.error(WCError.genericError))
                                                                    return                         }
                                                                                             self.sendAcceptNotification(type: .projectInvite(username: name, projectName: title, image: image), userId: authorId, completion: completion)                      }
                                                                                 }
@@ -4182,11 +4154,11 @@ class FirebaseManager: FirebaseManagerProtocol {
     func refuseFinishedProjectInvite(request: [String : Any],
                                      completion: @escaping (EmptyResponse) -> Void) {
         guard let currentUser = authReference.currentUser?.uid else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         guard let projectId = request["projectId"] as? String else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         realtimeDB
@@ -4195,7 +4167,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             .child("finished_project_invite_notifications")
             .observeSingleEvent(of: .value) { snapshot in
                 guard var notifications = snapshot.value as? [[String : Any]] else {
-                    completion(.error(FirebaseErrors.genericError))
+                    completion(.error(WCError.genericError))
                     return
                 }
                 notifications.removeAll(where: {
@@ -4209,7 +4181,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                     .child(currentUser)
                     .updateChildValues(["finished_project_invite_notifications": notifications]) { (error, ref) in
                         if error != nil {
-                            completion(.error(FirebaseErrors.refuseRequest))
+                            completion(.error(WCError.refuseRequest))
                             return
                         }
                         self.realtimeDB
@@ -4219,14 +4191,14 @@ class FirebaseManager: FirebaseManagerProtocol {
                             .child("pending_invites")
                             .observeSingleEvent(of: .value) { snapshot in
                                 guard var pendingInvites = snapshot.value as? [String] else {
-                                    completion(.error(FirebaseErrors.genericError))
+                                    completion(.error(WCError.genericError))
                                     return
                                 }
                                 pendingInvites.removeAll(where: { $0 == currentUser})
                                 self.realtimeDB.child(Constants.projectsPath).child(Constants.finishedProjectsPath)
                                     .child(projectId).updateChildValues(["pending_invites": pendingInvites]) { (error, ref) in
                                         if error != nil {
-                                            completion(.error(FirebaseErrors.refuseRequest))
+                                            completion(.error(WCError.refuseRequest))
                                             return
                                         }
                                         completion(.success)
@@ -4241,7 +4213,7 @@ class FirebaseManager: FirebaseManagerProtocol {
         var responseDict: [String : Any] = .empty
         guard let userId = request["userId"] as? String,
               let projectId = request["projectId"] as? String else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         realtimeDB
@@ -4251,13 +4223,13 @@ class FirebaseManager: FirebaseManagerProtocol {
             .child("participants")
             .observeSingleEvent(of: .value) { snapshot in
                 guard let participants = snapshot.value as? [String] else {
-                    completion(.error(FirebaseErrors.genericError))
+                    completion(.error(WCError.genericError))
                     return
                 }
                 if participants.contains(userId) {
                     responseDict["relation"] = "SIMPLE PARTICIPANT"
                     guard let mappedResponse = Mapper<T>().map(JSON: responseDict) else {
-                        completion(.error(FirebaseErrors.parseError))
+                        completion(.error(WCError.parseError))
                         return
                     }
                     completion(.success(mappedResponse))
@@ -4273,7 +4245,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                            invites.contains(userId) {
                             responseDict["relation"] = "RECEIVED REQUEST"
                             guard let mappedResponse = Mapper<T>().map(JSON: responseDict) else {
-                                completion(.error(FirebaseErrors.parseError))
+                                completion(.error(WCError.parseError))
                                 return
                             }
                             completion(.success(mappedResponse))
@@ -4281,7 +4253,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                         }
                         responseDict["relation"] = "NOTHING"
                         guard let mappedResponse = Mapper<T>().map(JSON: responseDict) else {
-                            completion(.error(FirebaseErrors.parseError))
+                            completion(.error(WCError.parseError))
                             return
                         }
                         completion(.success(mappedResponse))
@@ -4293,7 +4265,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                completion: @escaping (EmptyResponse) -> Void) {
         guard let projectId = request["projectId"] as? String,
               let userId = request["userId"] as? String else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         realtimeDB
@@ -4302,7 +4274,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             .child("finished_project_invite_notifications")
             .observeSingleEvent(of: .value) { snapshot in
                 guard var notifications = snapshot.value as? [[String : Any]] else {
-                    completion(.error(FirebaseErrors.genericError))
+                    completion(.error(WCError.genericError))
                     return
                 }
                 notifications.removeAll(where: {
@@ -4316,7 +4288,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                     .child(userId)
                     .updateChildValues(["finished_project_invite_notifications": notifications]) { (error, ref) in
                         if error != nil {
-                            completion(.error(FirebaseErrors.removeProjectInviteToUser))
+                            completion(.error(WCError.removeProjectInviteToUser))
                             return
                         }
                         self.realtimeDB
@@ -4326,14 +4298,14 @@ class FirebaseManager: FirebaseManagerProtocol {
                             .child("pending_invites")
                             .observeSingleEvent(of: .value) { snapshot in
                                 guard var pendingInvites = snapshot.value as? [String] else {
-                                    completion(.error(FirebaseErrors.genericError))
+                                    completion(.error(WCError.genericError))
                                     return
                                 }
                                 pendingInvites.removeAll(where: { $0 == userId})
                                 self.realtimeDB.child(Constants.projectsPath).child(Constants.finishedProjectsPath)
                                     .child(projectId).updateChildValues(["pending_invites": pendingInvites]) { (error, ref) in
                                         if error != nil {
-                                            completion(.error(FirebaseErrors.removeProjectInviteToUser))
+                                            completion(.error(WCError.removeProjectInviteToUser))
                                             return
                                         }
                                         completion(.success)
@@ -4361,12 +4333,12 @@ class FirebaseManager: FirebaseManagerProtocol {
     func sendPasswordRecoveryEmail(request: [String : Any],
                                    completion: @escaping (EmptyResponse) -> Void) {
         guard let email = request["email"] as? String else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         authReference.sendPasswordReset(withEmail: email) { error in
             if error != nil {
-                completion(.error(FirebaseErrors.sendEmail))
+                completion(.error(WCError.sendEmail))
                 return
             }
             completion(.success)
@@ -4376,23 +4348,23 @@ class FirebaseManager: FirebaseManagerProtocol {
     func fetchUserDataByEmail<T: Mappable>(request: [String : Any],
                                            completion: @escaping (BaseResponse<T>) -> Void) {
         guard let email = request["email"] as? String else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         let hashedEmail = email.sha256()
         realtimeDB.child(Constants.userEmailPath).child(hashedEmail).observeSingleEvent(of: .value) { snapshot in
             guard let userId = snapshot.value as? String else {
-                completion(.error(FirebaseErrors.genericError))
+                completion(.error(WCError.genericError))
                 return
             }
             self.realtimeDB.child(Constants.usersPath).child(userId).observeSingleEvent(of: .value) { snapshot in
                 guard var userData = snapshot.value as? [String : Any] else {
-                    completion(.error(FirebaseErrors.genericError))
+                    completion(.error(WCError.genericError))
                     return
                 }
                 userData["userId"] = userId
                 guard let mappedResponse = Mapper<T>().map(JSON: userData) else {
-                    completion(.error(FirebaseErrors.genericError))
+                    completion(.error(WCError.genericError))
                     return
                 }
                 completion(.success(mappedResponse))
@@ -4406,7 +4378,7 @@ class FirebaseManager: FirebaseManagerProtocol {
         var allSearches = [[String : Any]]()
         
         guard let currentUser = authReference.currentUser?.uid else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         realtimeDB
@@ -4426,7 +4398,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                         case .sucess(let type):
                             allSearches.append(["id" : searchId, "type": type.rawValue])
                         case .error:
-                            completion(.error(FirebaseErrors.genericError))
+                            completion(.error(WCError.genericError))
                         }
                         dispatchGroup.leave()
                     }
@@ -4443,11 +4415,11 @@ class FirebaseManager: FirebaseManagerProtocol {
         var allSearches = [String]()
         
         guard let searchId = request["id"] as? String else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         guard let currentUser = authReference.currentUser?.uid else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         realtimeDB
@@ -4472,7 +4444,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                     .child(currentUser)
                     .updateChildValues([Constants.recentSearchesPath : allSearches]) { error, ref in
                         if error != nil {
-                            completion(.error(FirebaseErrors.genericError))
+                            completion(.error(WCError.genericError))
                             return
                         }
                         completion(.success)
@@ -4483,7 +4455,7 @@ class FirebaseManager: FirebaseManagerProtocol {
     func fetchEntityType<T: Mappable>(request: [String : Any],
                                       completion: @escaping (BaseResponse<T>) -> Void) {
         guard let id = request["id"] as? String else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         realtimeDB
@@ -4491,12 +4463,12 @@ class FirebaseManager: FirebaseManagerProtocol {
             .child(id)
             .observeSingleEvent(of: .value) { snapshot in
                 guard let type = snapshot.value as? String else {
-                    completion(.error(FirebaseErrors.genericError))
+                    completion(.error(WCError.genericError))
                     return
                 }
                 let response: [String : Any] = ["type" : type]
                 guard let mappedResponse = Mapper<T>().map(JSON: response) else {
-                    completion(.error(FirebaseErrors.parseError))
+                    completion(.error(WCError.parseError))
                     return
                 }
                 completion(.success(mappedResponse))
@@ -4510,7 +4482,7 @@ extension FirebaseManager {
     private func registerEntity(withId id: String, type: EntityType, completion: @escaping (EmptyResponse) -> Void) {
         realtimeDB.child(Constants.entitiesPath).updateChildValues([id : type.rawValue]) { error, ref in
             if error != nil {
-                completion(.error(FirebaseErrors.genericError))
+                completion(.error(WCError.genericError))
                 return
             }
             completion(.success)
@@ -4530,7 +4502,7 @@ extension FirebaseManager {
     private func removeEntity(withId id: String, completion: @escaping (EmptyResponse) -> Void) {
         realtimeDB.child(Constants.entitiesPath).child(id).removeValue { error, ref in
             if error != nil {
-                completion(.error(FirebaseErrors.genericError))
+                completion(.error(WCError.genericError))
                 return
             }
             completion(.success)
@@ -4586,12 +4558,12 @@ extension FirebaseManager {
                                         .child(project)
                                         .observeSingleEvent(of: .value) { snapshot in
                                             guard let projectData = snapshot.value as? [String : Any] else {
-                                                completion(.error(FirebaseErrors.genericError))
+                                                completion(.error(WCError.genericError))
                                                 return
                                             }
                                             guard let participants = projectData["participants"] as? [String],
                                                   let image = projectData["image"] as? String else {
-                                                completion(.error(FirebaseErrors.genericError))
+                                                completion(.error(WCError.genericError))
                                                 return
                                             }
                                             let score = userConnections.filter({ participants.contains($0)}).count
@@ -4642,7 +4614,7 @@ extension FirebaseManager {
                         .child("participants")
                         .observeSingleEvent(of: .value) { snapshot in
                             guard let participants = snapshot.value as? [String] else {
-                                completion(.error(FirebaseErrors.genericError))
+                                completion(.error(WCError.genericError))
                                 return
                             }
                             if participants.contains(currentUser) {
@@ -4661,7 +4633,7 @@ extension FirebaseManager {
                             .child(project)
                             .observeSingleEvent(of: .value) { snapshot in
                                 guard var projectData = snapshot.value as? [String : Any] else {
-                                    completion(.error(FirebaseErrors.genericError))
+                                    completion(.error(WCError.genericError))
                                     return
                                 }
                                 projectData["id"] = project
@@ -4707,7 +4679,7 @@ extension FirebaseManager {
                         .child("participants")
                         .observeSingleEvent(of: .value) { snapshot in
                             guard let participants = snapshot.value as? [String] else {
-                                completion(.error(FirebaseErrors.genericError))
+                                completion(.error(WCError.genericError))
                                 return
                             }
                             if participants.contains(currentUser) {
@@ -4726,7 +4698,7 @@ extension FirebaseManager {
                             .child(project)
                             .observeSingleEvent(of: .value) { snapshot in
                                 guard var projectData = snapshot.value as? [String : Any] else {
-                                    completion(.error(FirebaseErrors.genericError))
+                                    completion(.error(WCError.genericError))
                                     return
                                 }
                                 projectData["id"] = project
@@ -4767,7 +4739,7 @@ extension FirebaseManager {
                     .child(userId)
                     .updateChildValues([type.path : allNotifications]) { (error, ref) in
                         if error != nil {
-                            completion(.error(FirebaseErrors.genericError))
+                            completion(.error(WCError.genericError))
                             return
                         }
                         completion(.success)
@@ -4778,7 +4750,7 @@ extension FirebaseManager {
     private func fetchAcceptNotifications<T: Mappable>(type: AcceptNotificationType,
                                                        completion: @escaping (BaseResponse<[T]>) -> Void) {
         guard let currentUser = authReference.currentUser?.uid else {
-            completion(.error(FirebaseErrors.genericError))
+            completion(.error(WCError.genericError))
             return
         }
         realtimeDB

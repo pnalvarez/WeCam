@@ -103,7 +103,7 @@ extension RecentSearchInteractor: RecentSearchBusinessLogic {
                 }
             case .error(let error):
                 self.presenter.presentLoading(false)
-                self.presenter.presentError(RecentSearch.Info.Model.Error(title: RecentSearch.Constants.Texts.errorDefaultTitle, message: error.localizedDescription))
+                self.presenter.presentError(RecentSearch.Info.Model.Error(title: RecentSearch.Constants.Texts.errorDefaultTitle, message: error.description))
             }
         }
     }

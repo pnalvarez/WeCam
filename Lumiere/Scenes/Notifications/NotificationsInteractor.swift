@@ -90,14 +90,14 @@ extension NotificationsInteractor {
                             }
                         case .error(let error):
                             self.presenter.presentLoading(false)
-                            self.presenter.presentError(error.localizedDescription)
+                            self.presenter.presentError(error.description)
                         }
                     }
                 }
                 break
             case .error(let error):
                 self.presenter.presentLoading(false)
-                self.presenter.presentError(error.localizedDescription)
+                self.presenter.presentError(error.description)
             }
         }
     }
@@ -131,7 +131,7 @@ extension NotificationsInteractor {
                 }
             case .error(let error):
                 self.presenter.presentLoading(false)
-                self.presenter.presentError(error.localizedDescription)
+                self.presenter.presentError(error.description)
             }
         }
     }
@@ -198,7 +198,7 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
                 break
             case .error(let error):
                 self.presenter.presentLoading(false)
-                self.presenter.presentError(error.localizedDescription)
+                self.presenter.presentError(error.description)
                 break
             }
         }
@@ -239,7 +239,7 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
                     self.presenter.presentAnsweredConnectNotification(index: index, answer: .accepted)
                 case .error(let error):
                     self.presenter.presentLoading(false)
-                    self.presenter.presentError(error.localizedDescription)
+                    self.presenter.presentError(error.description)
                 }
             }
         } else if let projectInviteNotification = notification as? Notifications.Info.Model.OnGoingProjectInviteNotification {
@@ -260,7 +260,7 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
                                                                             answer: .accepted)
                 case .error(let error):
                     self.presenter.presentLoading(false)
-                    self.presenter.presentError(error.localizedDescription)
+                    self.presenter.presentError(error.description)
                 }
             }
         } else if let projectParticipationRequest = notification as? Notifications.Info.Model.OnGoingProjectParticipationRequestNotification {
@@ -283,7 +283,7 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
                                                                               answer: .accepted)
                 case .error(let error):
                     self.presenter.presentLoading(false)
-                    self.presenter.presentError(error.localizedDescription)
+                    self.presenter.presentError(error.description)
                 }
             }
         } else if let finishedProjectInviteNotification = notification as? Notifications.Info.Model.FinishedProjectInviteNotification {
@@ -307,7 +307,7 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
                     self.presenter.presentAnsweredFinishedProjectInviteNotifications(index: index, answer: .accepted)
                 case .error(let error):
                     self.presenter.presentLoading(false)
-                    self.presenter.presentError(error.localizedDescription)
+                    self.presenter.presentError(error.description)
                 }
             }
         }
@@ -330,7 +330,7 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
                     self.presenter.presentAnsweredConnectNotification(index: index, answer: .refused)
                 case .error(let error):
                     self.presenter.presentLoading(false)
-                    self.presenter.presentError(error.localizedDescription)
+                    self.presenter.presentError(error.description)
                     break
                 }
             }
@@ -357,7 +357,7 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
                     self.presenter.presentAnsweredProjectInviteNotification(index: index, answer: .refused)
                 case .error(let error):
                     self.presenter.presentLoading(false)
-                    self.presenter.presentError(error.localizedDescription)
+                    self.presenter.presentError(error.description)
                 }
             }
         } else if let projectParticipationRequest = notification as? Notifications.Info.Model.OnGoingProjectParticipationRequestNotification {
@@ -392,7 +392,7 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
                                                                               answer: .refused)
                 case .error(let error):
                     self.presenter.presentLoading(false)
-                    self.presenter.presentError(error.localizedDescription)
+                    self.presenter.presentError(error.description)
                 }
             }
         } else if let finishedProjectNotification = notification as? Notifications.Info.Model.FinishedProjectInviteNotification {
@@ -416,7 +416,7 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
                     self.presenter.presentAnsweredFinishedProjectInviteNotifications(index: index, answer: .refused)
                 case .error(let error):
                     self.presenter.presentLoading(false)
-                    self.presenter.presentError(error.localizedDescription)
+                    self.presenter.presentError(error.description)
                 }
             }
         }
