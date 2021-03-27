@@ -33,9 +33,9 @@ enum NetworkStatusViewState {
     var backgroundColor: UIColor {
         switch self {
         case .connected:
-            return ThemeColors.connectedGreen.rawValue
+            return ThemeColors.connectedGreen.rawValue.withAlphaComponent(0.4)
         case .disconnected:
-            return ThemeColors.disconnectedRed.rawValue
+            return ThemeColors.disconnectedRed.rawValue.withAlphaComponent(0.4)
         }
     }
 }

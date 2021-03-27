@@ -52,6 +52,11 @@ class BaseViewController: UIViewController {
         InternetManager.shared.delegate = self
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        networkStatusView.status = InternetManager.shared.isNetworkAvailable ? .connected : .disconnected
+    }
+    
     private func configureAuxiliarComponentsVisibility() {
         backButton.isHidden = navigationController?.viewControllers.count == Constants.navigationHiddenViewControllersCount
         closeButton.isHidden = navigationController != nil
