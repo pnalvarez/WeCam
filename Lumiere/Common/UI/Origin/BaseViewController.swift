@@ -32,7 +32,6 @@ class BaseViewController: UIViewController {
     
     private lazy var networkStatusView: NetworkStatusView = {
         let view = NetworkStatusView(frame: .zero)
-        view.status = .disconnected
         return view
     }()
     
@@ -54,7 +53,9 @@ class BaseViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        networkStatusView.status = InternetManager.shared.isNetworkAvailable ? .connected : .disconnected
+        if !InternetManager.shared.isNetworkAvailable {
+            networkStatusView.status = .disconnected
+        }
     }
     
     private func configureAuxiliarComponentsVisibility() {
@@ -71,46 +72,16 @@ class BaseViewController: UIViewController {
             make.left.right.equalToSuperview()
         }
     }
-    
-    private func displayInternetUnavailable() {
-        DispatchQueue.main.async {
-            self.networkStatusView.status = .disconnected
-            self.networkStatusView.snp.remakeConstraints { make in
-                make.left.right.equalToSuperview()
-                make.height.equalTo(Constants.networkStatusViewHeight)
-                make.top.equalToSuperview()
-            }
-            UIView.animate(withDuration: 0.5, animations: {
-                self.view.layoutIfNeeded()
-            })
-        }
-    }
-    
-    private func displayInternetAvailable() {
-        DispatchQueue.main.async {
-            self.networkStatusView.status = .connected
-            self.networkStatusView.snp.remakeConstraints { make in
-                make.left.right.equalToSuperview()
-                make.height.equalTo(Constants.networkStatusViewHeight)
-                make.top.equalToSuperview().offset(-Constants.networkStatusViewHeight)
-            }
-            UIView.animate(withDuration: 0.5, delay: 2, animations: {
-                self.view.layoutIfNeeded()
-            })
-        }
-    }
 }
 
 extension BaseViewController: InternetManagerDelegate {
     
     func networkAvailable() {
-        displayInternetAvailable()
-        print("Teste - Conectado")
+        networkStatusView.status = .connected
     }
     
     func networktUnavailable() {
-        displayInternetUnavailable()
-        print("Teste - Desconectado")
+        networkStatusView.status = .disconnected
     }
 }
 
