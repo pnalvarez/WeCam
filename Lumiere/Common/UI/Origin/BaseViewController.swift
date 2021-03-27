@@ -12,6 +12,7 @@ class BaseViewController: UIViewController {
     
     private enum Constants {
         static let navigationHiddenViewControllersCount = 1
+        static let networkStatusViewHeight: CGFloat = 96
     }
     
     private let backButtonImage: UIImage = UIImage(named: "voltar 1") ?? UIImage()
@@ -29,9 +30,16 @@ class BaseViewController: UIViewController {
         return view
     }()
     
+    private lazy var networkStatusView: NetworkStatusView = {
+        let view = NetworkStatusView(frame: .zero)
+        view.status = .disconnected
+        return view
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureAuxiliarComponentsVisibility()
+        setupUI()
         navigationItem.backBarButtonItem = UIBarButtonItem(image: backButtonImage, style: .plain, target: nil, action: nil)
         navigationItem.titleView = UIImageView(image: titleViewImage)
         let gesture = UITapGestureRecognizer(target: self, action: #selector(didTap))
@@ -48,16 +56,56 @@ class BaseViewController: UIViewController {
         backButton.isHidden = navigationController?.viewControllers.count == Constants.navigationHiddenViewControllersCount
         closeButton.isHidden = navigationController != nil
     }
+    
+    private func setupUI() {
+        view.addSubview(networkStatusView)
+        
+        networkStatusView.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(-Constants.networkStatusViewHeight)
+            make.height.equalTo(Constants.networkStatusViewHeight)
+            make.left.right.equalToSuperview()
+        }
+    }
+    
+    private func displayInternetUnavailable() {
+        DispatchQueue.main.async {
+            self.networkStatusView.status = .disconnected
+            self.networkStatusView.snp.remakeConstraints { make in
+                make.left.right.equalToSuperview()
+                make.height.equalTo(Constants.networkStatusViewHeight)
+                make.top.equalToSuperview()
+            }
+            UIView.animate(withDuration: 0.5, animations: {
+                self.view.layoutIfNeeded()
+            })
+        }
+    }
+    
+    private func displayInternetAvailable() {
+        DispatchQueue.main.async {
+            self.networkStatusView.status = .connected
+            self.networkStatusView.snp.remakeConstraints { make in
+                make.left.right.equalToSuperview()
+                make.height.equalTo(Constants.networkStatusViewHeight)
+                make.top.equalToSuperview().offset(-Constants.networkStatusViewHeight)
+            }
+            UIView.animate(withDuration: 0.5, delay: 2, animations: {
+                self.view.layoutIfNeeded()
+            })
+        }
+    }
 }
 
 extension BaseViewController: InternetManagerDelegate {
     
     func networkAvailable() {
-        //TO DO
+        displayInternetAvailable()
+        print("Teste - Conectado")
     }
     
     func networktUnavailable() {
-        //TO DO
+        displayInternetUnavailable()
+        print("Teste - Desconectado")
     }
 }
 

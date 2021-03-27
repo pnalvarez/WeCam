@@ -22,7 +22,15 @@ open class InternetManager {
     
     weak var delegate: InternetManagerDelegate?
     
-    private(set) var isNetworkAvailable: Bool = false
+    private(set) var isNetworkAvailable: Bool = false {
+        didSet {
+            if isNetworkAvailable {
+                delegate?.networkAvailable()
+            } else {
+                delegate?.networktUnavailable()
+            }
+        }
+    }
     
     private init() { }
     

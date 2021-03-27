@@ -47,7 +47,7 @@ enum WCError: Error {
         case .connectUsersError:
             return "Ocorreu um erro ao aceitar a solicitação"
         case .signInError:
-            return "Ocorreu um erro ao tentar logar"
+            return "Usuário não existente ou senha não correspondente"
         case .createUser:
             return "Ocorreu um erro ao criar o usuário, tente novamente mais tarde"
         case .saveImage:

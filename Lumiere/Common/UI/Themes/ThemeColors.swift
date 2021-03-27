@@ -17,27 +17,33 @@ enum ThemeColors {
     case normalText
     case black
     case dividerGray
+    case connectedGreen
+    case disconnectedRed
     
     var rawValue: UIColor {
         switch self {
         case .mainRedColor:
-            return UIColor(rgb: 0xe50c3c)
+            return #colorLiteral(red: 0.8980392157, green: 0.04705882353, blue: 0.2352941176, alpha: 1)
         case .emptyRedColor:
-            return UIColor(rgb: 0xe50c3c).withAlphaComponent(0.6)
+            return #colorLiteral(red: 0.8980392157, green: 0.04705882353, blue: 0.2352941176, alpha: 0.6)
         case .whiteThemeColor:
-            return UIColor(rgb: 0xffffff)
+            return #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         case .alertGray:
-            return UIColor(rgb: 0x969494)
+            return #colorLiteral(red: 0.5882352941, green: 0.5803921569, blue: 0.5803921569, alpha: 1)
         case .backgroundGray:
-            return UIColor(rgb: 0xededed)
+            return #colorLiteral(red: 0.9294117647, green: 0.9294117647, blue: 0.9294117647, alpha: 1)
         case .alertRed:
-            return .red
+            return #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1)
         case .normalText:
-            return UIColor(rgb: 0x222222)
+            return #colorLiteral(red: 0.1333333333, green: 0.1333333333, blue: 0.1333333333, alpha: 1)
         case .black:
-            return UIColor(rgb: 0x000000)
+            return #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         case .dividerGray:
-            return UIColor(rgb: 0xc4c4c4)
+            return #colorLiteral(red: 0.768627451, green: 0.768627451, blue: 0.768627451, alpha: 1)
+        case .connectedGreen:
+            return #colorLiteral(red: 0.1764705882, green: 0.5176470588, blue: 0, alpha: 1)
+        case .disconnectedRed:
+            return #colorLiteral(red: 0.5058823529, green: 0, blue: 0, alpha: 1)
         }
     }
 }

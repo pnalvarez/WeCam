@@ -182,6 +182,7 @@
 		3F8116DE24B6AB620083A3DA /* ReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8116DD24B6AB620083A3DA /* ReusableView.swift */; };
 		3F8116E024B6ABEE0083A3DA /* UICollectionView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8116DF24B6ABEE0083A3DA /* UICollectionView+.swift */; };
 		3F886FE925D20936003C875F /* DefaultActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F886FE825D20936003C875F /* DefaultActionButton.swift */; };
+		3F88DDED260C1FAB00E7B1AA /* NetworkStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F88DDEC260C1FAB00E7B1AA /* NetworkStatusView.swift */; };
 		3F8AB7912516DB6100E949F6 /* SearchHeaderTableViewCellBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8AB7902516DB6100E949F6 /* SearchHeaderTableViewCellBuilder.swift */; };
 		3F8BEBEF25CB88870010AC24 /* DefaultInputTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8BEBEE25CB88870010AC24 /* DefaultInputTextField.swift */; };
 		3F8BEBF425CC7A3B0010AC24 /* ProjectDataTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8BEBF325CC7A3B0010AC24 /* ProjectDataTextField.swift */; };
@@ -547,6 +548,7 @@
 		3F8116DD24B6AB620083A3DA /* ReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableView.swift; sourceTree = "<group>"; };
 		3F8116DF24B6ABEE0083A3DA /* UICollectionView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+.swift"; sourceTree = "<group>"; };
 		3F886FE825D20936003C875F /* DefaultActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultActionButton.swift; sourceTree = "<group>"; };
+		3F88DDEC260C1FAB00E7B1AA /* NetworkStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkStatusView.swift; sourceTree = "<group>"; };
 		3F8AB7902516DB6100E949F6 /* SearchHeaderTableViewCellBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHeaderTableViewCellBuilder.swift; sourceTree = "<group>"; };
 		3F8BEBEE25CB88870010AC24 /* DefaultInputTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultInputTextField.swift; sourceTree = "<group>"; };
 		3F8BEBF325CC7A3B0010AC24 /* ProjectDataTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectDataTextField.swift; sourceTree = "<group>"; };
@@ -911,6 +913,7 @@
 				3FBE1C3825FEE1D100AE67E2 /* SearchDisplayView.swift */,
 				3FB8806A2533BD2E003C0D1B /* SelectionFilterView.swift */,
 				3F40A6E124F582EF00261161 /* UserDisplayView.swift */,
+				3F88DDEC260C1FAB00E7B1AA /* NetworkStatusView.swift */,
 			);
 			path = Reusable;
 			sourceTree = "<group>";
@@ -2252,6 +2255,7 @@
 				3F2FD838257D8BC3003D93BF /* UITableViewCell+.swift in Sources */,
 				3F6EEA7524E87EE10075C500 /* UIAlertController+.swift in Sources */,
 				3F40A6DE24F4899500261161 /* InviteListModels.swift in Sources */,
+				3F88DDED260C1FAB00E7B1AA /* NetworkStatusView.swift in Sources */,
 				3F9578D024B0198700B79818 /* SignUpRouter.swift in Sources */,
 				3FF72BB92606BE5D0064B96A /* InternetManager.swift in Sources */,
 				3F40A68D24EDFE1F00261161 /* CathegoryCollectionViewCell.swift in Sources */,

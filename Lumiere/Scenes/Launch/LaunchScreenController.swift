@@ -1,3 +1,4 @@
+
 //
 //  LaunchController.swift
 //  Lumiere
@@ -12,7 +13,7 @@ protocol LaunchScreenDisplayLogic: class {
     func displayLaunchImage()
 }
 
-class LaunchScreenController: BaseViewController {
+class LaunchScreenController: UIViewController {
     
     private lazy var iconView: UIImageView = {
         let iconView = UIImageView(frame: .zero)
