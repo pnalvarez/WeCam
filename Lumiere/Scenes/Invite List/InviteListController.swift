@@ -56,6 +56,7 @@ class InviteListController: BaseViewController {
     
     private lazy var mainView: InviteListView = {
         let view = InviteListView(frame: .zero,
+                                  backButton: backButton,
                                   loadingView: loadingView,
                                   activityView: activityView,
                                   closeButton: closeButton,
@@ -145,12 +146,8 @@ extension InviteListController {
     private func didChangeSearchValue() {
         interactor?.fetchSearch(InviteList.Request.Search(preffix: searchTextField.text ?? .empty))
     }
-    
-    @objc
-    private func didTapClose() {
-        router?.routeBack()
-    }
 }
+
 extension InviteListController: InviteListDisplayLogic {
     
     func displayConnections(_ viewModel: InviteList.Info.ViewModel.Connections) {

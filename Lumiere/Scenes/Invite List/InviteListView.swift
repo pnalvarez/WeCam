@@ -10,6 +10,7 @@ import UIKit
 
 class InviteListView: UIView {
     
+    private unowned var backButton: DefaultBackButton
     private unowned var loadingView: LoadingView
     private unowned var activityView: UIActivityIndicatorView
     private unowned var closeButton: UIButton
@@ -26,11 +27,13 @@ class InviteListView: UIView {
     }()
     
     init(frame: CGRect,
+         backButton: DefaultBackButton,
          loadingView: LoadingView,
          activityView: UIActivityIndicatorView,
          closeButton: UIButton,
          searchTextField: UITextField,
          tableView: UITableView) {
+        self.backButton = backButton
         self.loadingView = loadingView
         self.activityView = activityView
         self.closeButton = closeButton
@@ -41,13 +44,14 @@ class InviteListView: UIView {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError("Error")
     }
 }
 
 extension InviteListView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
+        addSubview(backButton)
         addSubview(closeButton)
         addSubview(inviteLbl)
         addSubview(searchTextField)
@@ -57,6 +61,11 @@ extension InviteListView: ViewCodeProtocol {
     }
     
     func setupConstraints() {
+        backButton.snp.makeConstraints { make in
+            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(28)
+            make.left.equalToSuperview().inset(31)
+            make.size.equalTo(31)
+        }
         closeButton.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(28)
             make.right.equalToSuperview().inset(33)

@@ -235,7 +235,7 @@ extension EditProjectDetailsView: ViewCodeProtocol {
             make.height.equalToSuperview().priority(250)
         }
         backButton.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(28)
+            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(28)
             make.left.equalToSuperview().inset(28)
             make.height.width.equalTo(31)
         }
