@@ -78,7 +78,7 @@ class EditProgressView: UIView {
     
     init(frame: CGRect,
          delegate: EditProgressViewDelegate? = nil,
-         progress: Float) {
+         progress: Float = 0.0) {
         self.delegate = delegate
         self.progress = progress
         super.init(frame: frame)

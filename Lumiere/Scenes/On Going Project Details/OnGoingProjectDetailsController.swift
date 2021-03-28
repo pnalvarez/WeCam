@@ -31,8 +31,7 @@ class OnGoingProjectDetailsController: BaseViewController, UINavigationControlle
     
     private lazy var editProgressView: EditProgressView = {
         let view = EditProgressView(frame: .zero,
-                                    delegate: self,
-                                    progress: 0.0)
+                                    delegate: self)
         return view
     }()
     
@@ -292,6 +291,7 @@ class OnGoingProjectDetailsController: BaseViewController, UINavigationControlle
         super.viewDidLoad()
         navigationController?.tabBarController?.tabBar.isHidden = true
         navigationController?.isNavigationBarHidden = true
+        interactor?.fetchContext(OnGoingProjectDetails.Request.FetchContext())
         interactor?.fetchProjectRelation(OnGoingProjectDetails.Request.ProjectRelation())
     }
     
@@ -543,7 +543,6 @@ extension OnGoingProjectDetailsController: OnGoingProjectDetailsDisplayLogic {
     func displayConfirmFinishedProjectAlert() {
             UIAlertController.displayConfirmationDialog(in: self,
                                                         title: OnGoingProjectDetails.Constants.Texts.finishConfirmationTitle, message: OnGoingProjectDetails.Constants.Texts.finishConfirmationMessage, confirmationCallback: {
-                                                            self.interactor?.fetchFinishProject(OnGoingProjectDetails.Request.Finish())
                                                             self.mainView.hideEditProgressView()
                                                         }, refuseCallback: {
                                                             self.interactor?.fetchConfirmNewProgress(OnGoingProjectDetails.Request.ConfirmProgress())
@@ -556,7 +555,7 @@ extension OnGoingProjectDetailsController: OnGoingProjectDetailsDisplayLogic {
     }
     
     func displayRoutingContextUI(_ viewModel: OnGoingProjectDetails.Info.ViewModel.RoutingContext) {
-        backButton.isHidden = viewModel.context == .justCreatedProject
+         backButton.isHidden = viewModel.context == .justCreatedProject
         closeButton.isHidden = viewModel.context == .checkingProject
     }
 }

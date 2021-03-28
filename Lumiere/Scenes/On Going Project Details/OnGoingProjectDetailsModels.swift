@@ -267,6 +267,10 @@ struct OnGoingProjectDetails {
     
     struct Request {
         
+        struct FetchContext {
+            
+        }
+        
         struct UpdateProgress {
             let newProgress: Float
         }

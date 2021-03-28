@@ -245,7 +245,7 @@ class FirebaseManager: FirebaseManagerProtocol {
     func registerUserData(request: SaveUserInfoRequest,
                           completion: @escaping (SignUp.Response.SaveUserInfo) -> Void) {
         if let imageData = request.image {
-            let profileImageReference = storage.child(Constants.profileImagesPath).child(request.userId)
+            let profileImageReference = storage.child(Paths.profileImagesPath).child(request.userId)
             profileImageReference.putData(imageData, metadata: nil) { (metadata, error) in
                 if error != nil {
                     completion(.error(WCError.saveImage))
@@ -271,7 +271,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                       "finished_project_invite_notifications": []]
                     
                     self.realtimeDB
-                        .child(Constants.usersPath)
+                        .child(Paths.usersPath)
                         .child(request.userId)
                         .updateChildValues(dictionary) {
                             (error, ref) in
@@ -279,7 +279,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                 completion(.error(WCError.createUser))
                             } else {
                                 self.realtimeDB
-                                    .child(Constants.allUsersCataloguePath)
+                                    .child(Paths.allUsersCataloguePath)
                                     .observeSingleEvent(of: .value) { snapshot in
                                         var userIdsArray: [String]
                                         if let userIds = snapshot.value as? [String] {
@@ -289,12 +289,12 @@ class FirebaseManager: FirebaseManagerProtocol {
                                         }
                                         userIdsArray.append(request.userId)
                                         self.realtimeDB
-                                            .updateChildValues([Constants.allUsersCataloguePath : userIdsArray]) { error, ref in
+                                            .updateChildValues([Paths.allUsersCataloguePath : userIdsArray]) { error, ref in
                                                 if error != nil {
                                                     completion(.error(WCError.createUser))
                                                     return
                                                 }
-                                                self.realtimeDB.child(Constants.userEmailPath).updateChildValues([request.email.sha256() : request.userId]) {
+                                                self.realtimeDB.child(Paths.userEmailPath).updateChildValues([request.email.sha256() : request.userId]) {
                                                     error, ref in
                                                     if error != nil {
                                                         completion(.error(WCError.createUser))
@@ -322,7 +322,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                     completion: @escaping (BaseResponse<Array<T>>) -> Void) {
         var notifications: Array<Any> = .empty
         realtimeDB
-            .child(Constants.usersPath)
+            .child(Paths.usersPath)
             .child(request.userId)
             .child("connect_notifications")
             .observeSingleEvent(of: .value) { snapshot in
@@ -357,7 +357,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                 } else {
                     let userId = self.authReference.currentUser?.uid ?? .empty
                     self.realtimeDB
-                        .child(Constants.usersPath)
+                        .child(Paths.usersPath)
                         .child(userId)
                         .observeSingleEvent(of: .value) { snapshot in
                             guard var loggedUser = snapshot.value as? [String : Any] else {
@@ -390,7 +390,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             return
         }
         realtimeDB
-            .child(Constants.usersPath)
+            .child(Paths.usersPath)
             .child(id)
             .observeSingleEvent(of: .value) { snapshot in
                 if var value = snapshot.value as? [String : Any] {
@@ -410,7 +410,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                     completion: @escaping (BaseResponse<T>) -> Void) {
         if let userId = request["userId"] as? String {
             realtimeDB
-                .child(Constants.usersPath)
+                .child(Paths.usersPath)
                 .child(userId)
                 .observeSingleEvent(of: .value) { snapshot in
                     if var value = snapshot.value as? [String : Any] {
@@ -439,10 +439,10 @@ class FirebaseManager: FirebaseManagerProtocol {
         if let fromUserId = request["fromUserId"] as? String,
            let toUserId = request["toUserId"] as? String {
             let fromUserConnections = realtimeDB
-                .child(Constants.usersPath)
+                .child(Paths.usersPath)
                 .child(fromUserId)
             let toUserConnections = realtimeDB
-                .child(Constants.usersPath)
+                .child(Paths.usersPath)
                 .child(toUserId)
             
             fromUserConnections.child("connections").observeSingleEvent(of: .value) { snapshot in
@@ -584,7 +584,7 @@ class FirebaseManager: FirebaseManagerProtocol {
         if let userId = request["userId"] as? String,
            let currentUserId = authReference.currentUser?.uid {
             realtimeDB
-                .child(Constants.usersPath)
+                .child(Paths.usersPath)
                 .child(userId)
                 .child("connections")
                 .observeSingleEvent(of: .value) { snapshot in
@@ -600,7 +600,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                         return false
                     })
                     self.realtimeDB
-                        .child(Constants.usersPath)
+                        .child(Paths.usersPath)
                         .child(userId)
                         .updateChildValues(["connections": connections]) { error, ref in
                             if error != nil {
@@ -609,7 +609,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                 return
                             }
                             self.realtimeDB
-                                .child(Constants.usersPath)
+                                .child(Paths.usersPath)
                                 .child(currentUserId)
                                 .child("connections")
                                 .observeSingleEvent(of: .value) { snapshot in
@@ -625,7 +625,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                         return false
                                     })
                                     self.realtimeDB
-                                        .child(Constants.usersPath)
+                                        .child(Paths.usersPath)
                                         .child(currentUserId)
                                         .updateChildValues(["connections": connections]) { error, ref in
                                             if error != nil {
@@ -651,7 +651,7 @@ class FirebaseManager: FirebaseManagerProtocol {
         if let userId = request["userId"] as? String,
            let currentUserId = authReference.currentUser?.uid {
             realtimeDB
-                .child(Constants.usersPath)
+                .child(Paths.usersPath)
                 .child(currentUserId)
                 .child("pending_connections")
                 .observeSingleEvent(of: .value) { snapshot in
@@ -667,7 +667,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                         return false
                     })
                     self.realtimeDB
-                        .child(Constants.usersPath)
+                        .child(Paths.usersPath)
                         .child(currentUserId)
                         .updateChildValues(["pending_connections": pendingConnections]) { error, ref in
                             if error != nil {
@@ -676,7 +676,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                 return
                             }
                             self.realtimeDB
-                                .child(Constants.usersPath)
+                                .child(Paths.usersPath)
                                 .child(userId)
                                 .child("connect_notifications")
                                 .observeSingleEvent(of: .value) { snapshot in
@@ -694,7 +694,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                         return false
                                     })
                                     self.realtimeDB
-                                        .child(Constants.usersPath)
+                                        .child(Paths.usersPath)
                                         .child(userId)
                                         .updateChildValues(["connect_notifications": notifications]) { error, ref in
                                             if error != nil {
@@ -722,7 +722,7 @@ class FirebaseManager: FirebaseManagerProtocol {
         if let userId = request["userId"] as? String,
            let currentUserId = authReference.currentUser?.uid {
             realtimeDB
-                .child(Constants.usersPath)
+                .child(Paths.usersPath)
                 .child(currentUserId)
                 .child("pending_connections")
                 .observeSingleEvent(of: .value) { snapshot in
@@ -734,7 +734,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                         pendingArray = [userId]
                     }
                     self.realtimeDB
-                        .child(Constants.usersPath)
+                        .child(Paths.usersPath)
                         .child(currentUserId)
                         .updateChildValues(["pending_connections": pendingArray]) { error, ref in
                             if error != nil {
@@ -743,7 +743,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                 return
                             }
                             self.realtimeDB
-                                .child(Constants.usersPath)
+                                .child(Paths.usersPath)
                                 .child(currentUserId)
                                 .observeSingleEvent(of: .value) { snapshot in
                                     if let user = snapshot.value as? [String : Any],
@@ -752,7 +752,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                        let name = user["name"] as? String,
                                        let ocupation = user["professional_area"] as? String {
                                         self.realtimeDB
-                                            .child(Constants.usersPath)
+                                            .child(Paths.usersPath)
                                             .child(userId)
                                             .child("connect_notifications")
                                             .observeSingleEvent(of: .value) { snapshot in
@@ -777,7 +777,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                     ]
                                                 }
                                                 self.realtimeDB
-                                                    .child(Constants.usersPath)
+                                                    .child(Paths.usersPath)
                                                     .child(userId)
                                                     .updateChildValues(["connect_notifications": notificationsArray]) { error, ref in
                                                         if error != nil {
@@ -809,7 +809,7 @@ class FirebaseManager: FirebaseManagerProtocol {
         if let userId = request["userId"] as? String,
            let currentUserId = authReference.currentUser?.uid {
             realtimeDB
-                .child(Constants.usersPath)
+                .child(Paths.usersPath)
                 .child(currentUserId)
                 .child("connect_notifications")
                 .observeSingleEvent(of: .value) { snapshot in
@@ -826,7 +826,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                         return false
                     })
                     self.realtimeDB
-                        .child(Constants.usersPath)
+                        .child(Paths.usersPath)
                         .child(currentUserId)
                         .updateChildValues(["connect_notifications": notifications]) { error, ref in
                             if error != nil {
@@ -835,7 +835,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                 return
                             }
                             self.realtimeDB
-                                .child(Constants.usersPath)
+                                .child(Paths.usersPath)
                                 .child(userId)
                                 .child("pending_connections")
                                 .observeSingleEvent(of: .value) { snapshot in
@@ -851,7 +851,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                         return false
                                     })
                                     self.realtimeDB
-                                        .child(Constants.usersPath)
+                                        .child(Paths.usersPath)
                                         .child(userId)
                                         .updateChildValues(["pending_connections": pendingConnections]) { error, ref in
                                             if error != nil {
@@ -860,7 +860,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                 return
                                             }
                                             self.realtimeDB
-                                                .child(Constants.usersPath)
+                                                .child(Paths.usersPath)
                                                 .child(currentUserId)
                                                 .observeSingleEvent(of: .value) { snapshot in
                                                     guard let data = snapshot.value as? [String : Any], let name = data["name"] as? String, let image = data["profile_image_url"] as? String else {
@@ -903,7 +903,7 @@ class FirebaseManager: FirebaseManagerProtocol {
         var responseConnections = [[String : Any]]()
         if let currentUserId = authReference.currentUser?.uid {
             realtimeDB
-                .child(Constants.usersPath)
+                .child(Paths.usersPath)
                 .child(currentUserId)
                 .child("connections")
                 .observeSingleEvent(of: .value) { snapshot in
@@ -918,7 +918,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                             return
                         }
                         self.realtimeDB
-                            .child(Constants.usersPath)
+                            .child(Paths.usersPath)
                             .child(connectionId)
                             .observeSingleEvent(of: .value) { snapshot in
                                 guard let response = snapshot.value as? [String : Any] else {
@@ -953,7 +953,7 @@ class FirebaseManager: FirebaseManagerProtocol {
         var responseConnections = [[String : Any]]()
         if let userId =  request["userId"] as? String {
             realtimeDB
-                .child(Constants.usersPath)
+                .child(Paths.usersPath)
                 .child(userId)
                 .child("connections")
                 .observeSingleEvent(of: .value) { snapshot in
@@ -968,7 +968,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                             return
                         }
                         self.realtimeDB
-                            .child(Constants.usersPath)
+                            .child(Paths.usersPath)
                             .child(connectionId)
                             .observeSingleEvent(of: .value) { snapshot in
                                 guard let response = snapshot.value as? [String : Any] else {
@@ -1003,7 +1003,7 @@ class FirebaseManager: FirebaseManagerProtocol {
         if let userId = request["userId"] as? String,
            let currentUserId = authReference.currentUser?.uid {
             realtimeDB
-                .child(Constants.usersPath)
+                .child(Paths.usersPath)
                 .child(userId)
                 .child("pending_connections")
                 .observeSingleEvent(of: .value) { snapshot in
@@ -1018,7 +1018,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                         return false
                     })
                     self.realtimeDB
-                        .child(Constants.usersPath)
+                        .child(Paths.usersPath)
                         .child(userId)
                         .updateChildValues(["pending_connections": pendingConnections]) { error, ref in
                             if error != nil {
@@ -1026,7 +1026,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                 return
                             }
                             self.realtimeDB
-                                .child(Constants.usersPath)
+                                .child(Paths.usersPath)
                                 .child(currentUserId)
                                 .child("connect_notifications")
                                 .observeSingleEvent(of: .value) { snapshot in
@@ -1043,7 +1043,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                         return false
                                     })
                                     self.realtimeDB
-                                        .child(Constants.usersPath)
+                                        .child(Paths.usersPath)
                                         .child(currentUserId)
                                         .updateChildValues(["connect_notifications": notifications]) { error, ref in
                                             if error != nil {
@@ -1079,15 +1079,15 @@ class FirebaseManager: FirebaseManagerProtocol {
            let needing = payload["needing"] as? String,
            let currentUser = authReference.currentUser?.uid {
             let projectReference = realtimeDB
-                .child(Constants.projectsPath)
-                .child(Constants.ongoingProjectsPath)
+                .child(Paths.projectsPath)
+                .child(Paths.ongoingProjectsPath)
                 .childByAutoId()
             guard let projectId = projectReference.key,
                   let image = image else {
                 completion(.error(WCError.genericError))
                 return
             }
-            let projectImageReference =  storage.child(Constants.projectsPath).child(projectId)
+            let projectImageReference =  storage.child(Paths.projectsPath).child(projectId)
             projectImageReference.putData(image, metadata: nil) { (metadata, error) in
                 if error != nil {
                     completion(.error(WCError.createProject))
@@ -1118,7 +1118,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                             return
                         }
                         self.realtimeDB
-                            .child(Constants.usersPath)
+                            .child(Paths.usersPath)
                             .child(currentUser)
                             .child("authoring_project_ids")
                             .observeSingleEvent(of: .value) { snapshot in
@@ -1134,7 +1134,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                     newDict["\(i)"] = newArray[i]
                                 }
                                 self.realtimeDB
-                                    .child(Constants.usersPath)
+                                    .child(Paths.usersPath)
                                     .child(currentUser)
                                     .child("authoring_project_ids")
                                     .updateChildValues(newDict) { (error, ref) in
@@ -1143,7 +1143,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                             return
                                         }
                                         self.realtimeDB
-                                            .child(Constants.usersPath)
+                                            .child(Paths.usersPath)
                                             .child(currentUser)
                                             .child("participating_projects")
                                             .observeSingleEvent(of: .value) { snapshot in
@@ -1159,7 +1159,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                     newDict["\(i)"] = newArray[i]
                                                 }
                                                 self.realtimeDB
-                                                    .child(Constants.usersPath)
+                                                    .child(Paths.usersPath)
                                                     .child(currentUser)
                                                     .child("participating_projects")
                                                     .updateChildValues(newDict) { (error, ref) in
@@ -1168,7 +1168,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                             return
                                                         }
                                                         self.realtimeDB
-                                                            .child(Constants.allProjectsCataloguePath)
+                                                            .child(Paths.allProjectsCataloguePath)
                                                             .observeSingleEvent(of: .value) { snapshot in
                                                                 var projectIdsArray: [String]
                                                                 if let projectIds = snapshot.value as? [String] {
@@ -1177,7 +1177,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                                     projectIdsArray = .empty
                                                                 }
                                                                 projectIdsArray.append(projectId)
-                                                                self.realtimeDB.updateChildValues([Constants.allProjectsCataloguePath : projectIdsArray]) { error, ref in
+                                                                self.realtimeDB.updateChildValues([Paths.allProjectsCataloguePath : projectIdsArray]) { error, ref in
                                                                     if error != nil {
                                                                         completion(.error(WCError.createProject))
                                                                         return
@@ -1213,8 +1213,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                           completion: @escaping (BaseResponse<T>) -> Void) {
         if let projectId = request["projectId"] as? String {
             realtimeDB
-                .child(Constants.projectsPath)
-                .child(Constants.ongoingProjectsPath)
+                .child(Paths.projectsPath)
+                .child(Paths.ongoingProjectsPath)
                 .child(projectId)
                 .observeSingleEvent(of: .value) { snapshot in
                     guard var projectData = snapshot.value as? [String : Any] else {
@@ -1249,7 +1249,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             completion(.error(WCError.genericError))
             return
         }
-        let userImageReference =  storage.child(Constants.usersPath).child(id)
+        let userImageReference =  storage.child(Paths.usersPath).child(id)
         userImageReference.putData(image, metadata: nil) { (metadata, error) in
             if error != nil {
                 completion(.error(WCError.updateUser))
@@ -1267,7 +1267,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                 let urlString = url.absoluteString
                 payload["profile_image_url"] = urlString
                 self.realtimeDB
-                    .child(Constants.usersPath)
+                    .child(Paths.usersPath)
                     .child(id)
                     .updateChildValues(payload) { (error, ref) in
                         if error != nil {
@@ -1291,7 +1291,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             return
         }
         realtimeDB
-            .child(Constants.usersPath)
+            .child(Paths.usersPath)
             .child(userId)
             .child("project_invite_notifications")
             .observeSingleEvent(of: .value) { snapshot in
@@ -1311,7 +1311,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                     newDict["\(i)"] = newArray[i]
                 }
                 self.realtimeDB
-                    .child(Constants.usersPath)
+                    .child(Paths.usersPath)
                     .child(userId)
                     .child("project_invite_notifications")
                     .updateChildValues(newDict) {
@@ -1321,8 +1321,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                             return
                         }
                         self.realtimeDB
-                            .child(Constants.projectsPath)
-                            .child(Constants.ongoingProjectsPath)
+                            .child(Paths.projectsPath)
+                            .child(Paths.ongoingProjectsPath)
                             .child(projectId)
                             .child("pending_invites")
                             .observeSingleEvent(of: .value) { snapshot in
@@ -1334,8 +1334,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                     newArray = [userId]
                                 }
                                 self.realtimeDB
-                                    .child(Constants.projectsPath)
-                                    .child(Constants.ongoingProjectsPath)
+                                    .child(Paths.projectsPath)
+                                    .child(Paths.ongoingProjectsPath)
                                     .child(projectId)
                                     .updateChildValues(["pending_invites": newArray]) { error, ref in
                                         if error != nil {
@@ -1360,8 +1360,8 @@ class FirebaseManager: FirebaseManagerProtocol {
             return
         }
         realtimeDB
-            .child(Constants.projectsPath)
-            .child(Constants.ongoingProjectsPath)
+            .child(Paths.projectsPath)
+            .child(Paths.ongoingProjectsPath)
             .child(projectId)
             .child("author_id")
             .observeSingleEvent(of: .value) { snapshot in
@@ -1379,8 +1379,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                     return
                 } else {
                     self.realtimeDB
-                        .child(Constants.projectsPath)
-                        .child(Constants.ongoingProjectsPath)
+                        .child(Paths.projectsPath)
+                        .child(Paths.ongoingProjectsPath)
                         .child(projectId)
                         .child("participants")
                         .observeSingleEvent(of: .value) { snapshot in
@@ -1400,7 +1400,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                 return
                             } else {
                                 self.realtimeDB
-                                    .child(Constants.usersPath)
+                                    .child(Paths.usersPath)
                                     .child(currentUser)
                                     .child("pending_projects")
                                     .observeSingleEvent(of: .value) { snapshot in
@@ -1415,8 +1415,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                             return
                                         } else {
                                             self.realtimeDB
-                                                .child(Constants.projectsPath)
-                                                .child(Constants.ongoingProjectsPath)
+                                                .child(Paths.projectsPath)
+                                                .child(Paths.ongoingProjectsPath)
                                                 .child(projectId)
                                                 .child("pending_invites")
                                                 .observeSingleEvent(of: .value) { snapshot in
@@ -1456,8 +1456,8 @@ class FirebaseManager: FirebaseManagerProtocol {
         let dict: [String : Any] = ["title": title,
                                     "sinopsis": sinopsis]
         realtimeDB
-            .child(Constants.projectsPath)
-            .child(Constants.ongoingProjectsPath)
+            .child(Paths.projectsPath)
+            .child(Paths.ongoingProjectsPath)
             .child(projectId)
             .updateChildValues(dict) { (error, ref) in
                 if error != nil {
@@ -1477,8 +1477,8 @@ class FirebaseManager: FirebaseManagerProtocol {
         }
         let dict: [String : Any] = ["needing": needing]
         realtimeDB
-            .child(Constants.projectsPath)
-            .child(Constants.ongoingProjectsPath)
+            .child(Paths.projectsPath)
+            .child(Paths.ongoingProjectsPath)
             .child(projectId)
             .updateChildValues(dict) { (error, ref) in
                 if error != nil {
@@ -1495,7 +1495,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             completion(.error(WCError.genericError))
             return
         }
-        let projectImageReference = storage.child(Constants.projectImagesPath).child(projectId)
+        let projectImageReference = storage.child(Paths.projectImagesPath).child(projectId)
         projectImageReference.putData(image, metadata: nil) { (metadata, error) in
             if error != nil {
                 completion(.error(WCError.saveImage))
@@ -1512,8 +1512,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                 }
                 let dict: [String : Any] = ["image": urlString]
                 self.realtimeDB
-                    .child(Constants.projectsPath)
-                    .child(Constants.ongoingProjectsPath)
+                    .child(Paths.projectsPath)
+                    .child(Paths.ongoingProjectsPath)
                     .child(projectId)
                     .updateChildValues(dict) { (error, ref) in
                         if error != nil {
@@ -1538,7 +1538,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             return
         }
         realtimeDB
-            .child(Constants.usersPath)
+            .child(Paths.usersPath)
             .child(userId)
             .child("participating_projects")
             .observeSingleEvent(of: .value) { snapshot in
@@ -1553,8 +1553,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                         return
                     }
                     self.realtimeDB
-                        .child(Constants.projectsPath)
-                        .child(Constants.ongoingProjectsPath)
+                        .child(Paths.projectsPath)
+                        .child(Paths.ongoingProjectsPath)
                         .child(projectId)
                         .observeSingleEvent(of: .value) { snapshot in
                             guard var projectData = snapshot.value as? [String : Any] else {
@@ -1580,7 +1580,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             return
         }
         realtimeDB
-            .child(Constants.usersPath)
+            .child(Paths.usersPath)
             .child(currentUser)
             .child("project_invite_notifications")
             .observeSingleEvent(of: .value) { snapshot in
@@ -1610,7 +1610,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             return
         }
         realtimeDB
-            .child(Constants.usersPath)
+            .child(Paths.usersPath)
             .child(currentUser)
             .child("project_invite_notifications")
             .observeSingleEvent(of: .value) { snapshot in
@@ -1634,7 +1634,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                     }
                 }
                 self.realtimeDB
-                    .child(Constants.usersPath)
+                    .child(Paths.usersPath)
                     .child(currentUser)
                     .updateChildValues(["project_invite_notifications" : notificationsDict]) { (error, ref) in
                         if error != nil {
@@ -1642,7 +1642,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                             return
                         }
                         self.realtimeDB
-                            .child(Constants.usersPath)
+                            .child(Paths.usersPath)
                             .child(currentUser)
                             .child("participating_projects")
                             .observeSingleEvent(of: .value) { snapshot in
@@ -1658,7 +1658,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                     projectsDict["\(i)"] = projectsArray[i]
                                 }
                                 self.realtimeDB
-                                    .child(Constants.usersPath)
+                                    .child(Paths.usersPath)
                                     .child(currentUser)
                                     .child("participating_projects")
                                     .updateChildValues(projectsDict) { (error, ref) in
@@ -1667,8 +1667,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                             return
                                         }
                                         self.realtimeDB
-                                            .child(Constants.projectsPath)
-                                            .child(Constants.ongoingProjectsPath)
+                                            .child(Paths.projectsPath)
+                                            .child(Paths.ongoingProjectsPath)
                                             .child(projectId)
                                             .child("pending_invites")
                                             .observeSingleEvent(of: .value) { snapshot in
@@ -1678,8 +1678,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                 }
                                                 pendingInvites.removeAll(where: { $0 == currentUser })
                                                 self.realtimeDB
-                                                    .child(Constants.projectsPath)
-                                                    .child(Constants.ongoingProjectsPath)
+                                                    .child(Paths.projectsPath)
+                                                    .child(Paths.ongoingProjectsPath)
                                                     .child(projectId)
                                                     .updateChildValues(["pending_invites": pendingInvites]) { (error, ref) in
                                                         if error != nil {
@@ -1687,8 +1687,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                             return
                                                         }
                                                         self.realtimeDB
-                                                            .child(Constants.projectsPath)
-                                                            .child(Constants.ongoingProjectsPath)
+                                                            .child(Paths.projectsPath)
+                                                            .child(Paths.ongoingProjectsPath)
                                                             .child(projectId)
                                                             .child("participants")
                                                             .observeSingleEvent(of: .value) { snapshot in
@@ -1698,22 +1698,22 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                                 }
                                                                 participants.append(currentUser)
                                                                 self.realtimeDB
-                                                                    .child(Constants.projectsPath)
-                                                                    .child(Constants.ongoingProjectsPath)
+                                                                    .child(Paths.projectsPath)
+                                                                    .child(Paths.ongoingProjectsPath)
                                                                     .child(projectId)
                                                                     .updateChildValues(["participants": participants]) { (error, ref) in
                                                                         if error != nil {
                                                                             completion(.error(WCError.acceptProjectInvite))
                                                                             return
                                                                         }
-                                                                        self.realtimeDB.child(Constants.usersPath).child(currentUser).observeSingleEvent(of: .value) { snapshot in
+                                                                        self.realtimeDB.child(Paths.usersPath).child(currentUser).observeSingleEvent(of: .value) { snapshot in
                                                                             guard let data = snapshot.value as? [String : Any], let name = data["name"] as? String, let image = data["profile_image_url"] as? String else {
                                                                                 completion(.error(WCError.genericError))
                                                                                 return
                                                                             }
                                                                             self.realtimeDB
-                                                                                .child(Constants.projectsPath)
-                                                                                .child(Constants.ongoingProjectsPath)
+                                                                                .child(Paths.projectsPath)
+                                                                                .child(Paths.ongoingProjectsPath)
                                                                                 .child(projectId).child("title")
                                                                                 .observeSingleEvent(of: .value) { snapshot in
                                                                                     guard let projectName = snapshot.value as? String else {
@@ -1721,8 +1721,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                                                         return
                                                                                     }
                                                                                     self.realtimeDB
-                                                                                        .child(Constants.projectsPath)
-                                                                                        .child(Constants.ongoingProjectsPath)
+                                                                                        .child(Paths.projectsPath)
+                                                                                        .child(Paths.ongoingProjectsPath)
                                                                                         .child(projectId).child("author_id")
                                                                                         .observeSingleEvent(of: .value) { snapshot in
                                                                                             guard let authorId = snapshot.value as? String else {
@@ -1750,8 +1750,8 @@ class FirebaseManager: FirebaseManagerProtocol {
             return
         }
         realtimeDB
-            .child(Constants.projectsPath)
-            .child(Constants.ongoingProjectsPath)
+            .child(Paths.projectsPath)
+            .child(Paths.ongoingProjectsPath)
             .child(projectId)
             .child("participants")
             .observeSingleEvent(of: .value) { snapshot in
@@ -1765,7 +1765,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                         return
                     }
                     self.realtimeDB
-                        .child(Constants.usersPath)
+                        .child(Paths.usersPath)
                         .child(participant)
                         .observeSingleEvent(of: .value) { snapshot in
                             guard var user = snapshot.value as? [String : Any] else {
@@ -1791,7 +1791,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             return
         }
         realtimeDB
-            .child(Constants.usersPath)
+            .child(Paths.usersPath)
             .child(currentUser)
             .child("project_invite_notifications")
             .observeSingleEvent(of: .value) { snapshot in
@@ -1806,7 +1806,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                     return project == projectId
                 })
                 self.realtimeDB
-                    .child(Constants.usersPath)
+                    .child(Paths.usersPath)
                     .child(currentUser)
                     .updateChildValues(["project_invite_notifications": notifications]) { (error, ref) in
                         if error != nil {
@@ -1814,8 +1814,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                             return
                         }
                         self.realtimeDB
-                            .child(Constants.projectsPath)
-                            .child(Constants.ongoingProjectsPath)
+                            .child(Paths.projectsPath)
+                            .child(Paths.ongoingProjectsPath)
                             .child(projectId)
                             .child("pending_invites")
                             .observeSingleEvent(of: .value) { snapshot in
@@ -1827,8 +1827,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                     $0 == currentUser
                                 })
                                 self.realtimeDB
-                                    .child(Constants.projectsPath)
-                                    .child(Constants.ongoingProjectsPath)
+                                    .child(Paths.projectsPath)
+                                    .child(Paths.ongoingProjectsPath)
                                     .child(projectId)
                                     .updateChildValues(["pending_invites": pendingInvites]) { (error, ref) in
                                         if error != nil {
@@ -1850,7 +1850,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             return
         }
         realtimeDB
-            .child(Constants.usersPath)
+            .child(Paths.usersPath)
             .child(currentUser)
             .child("pending_projects")
             .observeSingleEvent(of: .value) { snapshot in
@@ -1862,7 +1862,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                     pendingArray = [projectId]
                 }
                 self.realtimeDB
-                    .child(Constants.usersPath)
+                    .child(Paths.usersPath)
                     .child(currentUser)
                     .updateChildValues(["pending_projects" : pendingArray]) { (error, ref) in
                         if error != nil {
@@ -1870,8 +1870,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                             return
                         }
                         self.realtimeDB
-                            .child(Constants.projectsPath)
-                            .child(Constants.ongoingProjectsPath)
+                            .child(Paths.projectsPath)
+                            .child(Paths.ongoingProjectsPath)
                             .child(projectId)
                             .child("author_id")
                             .observeSingleEvent(of: .value) { snapshot in
@@ -1880,7 +1880,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                     return
                                 }
                                 self.realtimeDB
-                                    .child(Constants.usersPath)
+                                    .child(Paths.usersPath)
                                     .child(currentUser)
                                     .observeSingleEvent(of: .value) { snapshot in
                                         guard let userData = snapshot.value as? [String : Any],
@@ -1892,7 +1892,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                             return
                                         }
                                         self.realtimeDB
-                                            .child(Constants.usersPath)
+                                            .child(Paths.usersPath)
                                             .child(authorId)
                                             .child("project_participation_notifications")
                                             .observeSingleEvent(of: .value) { snapshot in
@@ -1911,7 +1911,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                     notificationsArray = [notificationDict]
                                                 }
                                                 self.realtimeDB
-                                                    .child(Constants.usersPath)
+                                                    .child(Paths.usersPath)
                                                     .child(authorId)
                                                     .updateChildValues(["project_participation_notifications" : notificationsArray]) { (error, ref) in
                                                         if error != nil {
@@ -1935,7 +1935,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             return
         }
         realtimeDB
-            .child(Constants.usersPath)
+            .child(Paths.usersPath)
             .child(currentUser)
             .child("pending_projects")
             .observeSingleEvent(of: .value) { snapshot in
@@ -1945,7 +1945,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                 }
                 pendingProjects.removeAll(where: { $0 == projectId })
                 self.realtimeDB
-                    .child(Constants.usersPath)
+                    .child(Paths.usersPath)
                     .child(currentUser)
                     .updateChildValues(["pending_projects": pendingProjects]) { (error, ref) in
                         if error != nil {
@@ -1953,8 +1953,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                             return
                         }
                         self.realtimeDB
-                            .child(Constants.projectsPath)
-                            .child(Constants.ongoingProjectsPath)
+                            .child(Paths.projectsPath)
+                            .child(Paths.ongoingProjectsPath)
                             .child(projectId)
                             .child("pending_invites")
                             .observeSingleEvent(of: .value) { snapshot in
@@ -1964,8 +1964,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                 }
                                 pendingInvites.removeAll(where: { $0 == currentUser})
                                 self.realtimeDB
-                                    .child(Constants.projectsPath)
-                                    .child(Constants.ongoingProjectsPath)
+                                    .child(Paths.projectsPath)
+                                    .child(Paths.ongoingProjectsPath)
                                     .child(projectId)
                                     .updateChildValues(["pending_invites": pendingInvites]) { (error, ref) in
                                         if error != nil {
@@ -1973,8 +1973,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                             return
                                         }
                                         self.realtimeDB
-                                            .child(Constants.projectsPath)
-                                            .child(Constants.ongoingProjectsPath)
+                                            .child(Paths.projectsPath)
+                                            .child(Paths.ongoingProjectsPath)
                                             .child(projectId)
                                             .child("author_id")
                                             .observeSingleEvent(of: .value) { snapshot in
@@ -1983,7 +1983,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                     return
                                                 }
                                                 self.realtimeDB
-                                                    .child(Constants.usersPath)
+                                                    .child(Paths.usersPath)
                                                     .child(authorId)
                                                     .child("project_participation_notifications")
                                                     .observeSingleEvent(of: .value) { snapshot in
@@ -1998,7 +1998,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                             return userId == currentUser
                                                         })
                                                         self.realtimeDB
-                                                            .child(Constants.usersPath)
+                                                            .child(Paths.usersPath)
                                                             .child(authorId)
                                                             .updateChildValues(["project_participation_notifications": notifications]) { (error, ref) in
                                                                 if error != nil {
@@ -2023,7 +2023,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             return
         }
         realtimeDB
-            .child(Constants.usersPath)
+            .child(Paths.usersPath)
             .child(currentUser)
             .child("participating_projects")
             .observeSingleEvent(of: .value) { snapshot in
@@ -2033,7 +2033,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                 }
                 projects.removeAll(where: { $0 == projectId })
                 self.realtimeDB
-                    .child(Constants.usersPath)
+                    .child(Paths.usersPath)
                     .child(currentUser)
                     .updateChildValues(["participating_projects": projects]) { (error, ref) in
                         if error != nil {
@@ -2041,8 +2041,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                             return
                         }
                         self.realtimeDB
-                            .child(Constants.projectsPath)
-                            .child(Constants.ongoingProjectsPath)
+                            .child(Paths.projectsPath)
+                            .child(Paths.ongoingProjectsPath)
                             .child(projectId)
                             .child("participants")
                             .observeSingleEvent(of: .value) { snapshot in
@@ -2052,8 +2052,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                 }
                                 participants.removeAll(where: { $0 == currentUser })
                                 self.realtimeDB
-                                    .child(Constants.projectsPath)
-                                    .child(Constants.ongoingProjectsPath)
+                                    .child(Paths.projectsPath)
+                                    .child(Paths.ongoingProjectsPath)
                                     .child(projectId)
                                     .updateChildValues(["participants": participants]) { (error, ref) in
                                         if error != nil {
@@ -2075,7 +2075,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             return
         }
         realtimeDB
-            .child(Constants.usersPath)
+            .child(Paths.usersPath)
             .child(currentUser)
             .child("project_participation_notifications")
             .observeSingleEvent(of: .value) { snapshot in
@@ -2089,8 +2089,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                         return
                     }
                     self.realtimeDB
-                        .child(Constants.projectsPath)
-                        .child(Constants.ongoingProjectsPath)
+                        .child(Paths.projectsPath)
+                        .child(Paths.ongoingProjectsPath)
                         .child(projectId)
                         .child("title")
                         .observeSingleEvent(of: .value) { snapshot in
@@ -2104,7 +2104,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                 return
                             }
                             self.realtimeDB
-                                .child(Constants.usersPath)
+                                .child(Paths.usersPath)
                                 .child(userId)
                                 .observeSingleEvent(of: .value) { snapshot in
                                     guard let user = snapshot.value as? [String : Any],
@@ -2135,8 +2135,8 @@ class FirebaseManager: FirebaseManagerProtocol {
             return
         }
         realtimeDB
-            .child(Constants.projectsPath)
-            .child(Constants.ongoingProjectsPath)
+            .child(Paths.projectsPath)
+            .child(Paths.ongoingProjectsPath)
             .child(projectId)
             .child("participants")
             .observeSingleEvent(of: .value) { snapshot in
@@ -2146,8 +2146,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                 }
                 participants.append(userId)
                 self.realtimeDB
-                    .child(Constants.projectsPath)
-                    .child(Constants.ongoingProjectsPath)
+                    .child(Paths.projectsPath)
+                    .child(Paths.ongoingProjectsPath)
                     .child(projectId)
                     .updateChildValues(["participants": participants]) { (error, ref) in
                         if error != nil {
@@ -2155,7 +2155,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                             return
                         }
                         self.realtimeDB
-                            .child(Constants.usersPath)
+                            .child(Paths.usersPath)
                             .child(currentUser)
                             .child("project_participation_notifications")
                             .observeSingleEvent(of: .value) { snapshot in
@@ -2170,7 +2170,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                     return id == userId
                                 })
                                 self.realtimeDB
-                                    .child(Constants.usersPath)
+                                    .child(Paths.usersPath)
                                     .child(currentUser)
                                     .updateChildValues(["project_participation_notifications": notifications]) { (error, ref) in
                                         if error != nil {
@@ -2178,7 +2178,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                             return
                                         }
                                         self.realtimeDB
-                                            .child(Constants.usersPath)
+                                            .child(Paths.usersPath)
                                             .child(userId)
                                             .child("pending_projects")
                                             .observeSingleEvent(of: .value) { snapshot in
@@ -2188,7 +2188,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                 }
                                                 pendingProjects.removeAll(where: { $0 == projectId})
                                                 self.realtimeDB
-                                                    .child(Constants.usersPath)
+                                                    .child(Paths.usersPath)
                                                     .child(userId)
                                                     .updateChildValues( ["pending_projects": pendingProjects]) { (error, ref) in
                                                         if error != nil {
@@ -2196,7 +2196,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                             return
                                                         }
                                                         self.realtimeDB
-                                                            .child(Constants.usersPath)
+                                                            .child(Paths.usersPath)
                                                             .child(userId)
                                                             .child("participating_projects")
                                                             .observeSingleEvent(of: .value) {
@@ -2209,7 +2209,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                                     projects = [projectId]
                                                                 }
                                                                 self.realtimeDB
-                                                                    .child(Constants.usersPath)
+                                                                    .child(Paths.usersPath)
                                                                     .child(userId)
                                                                     .updateChildValues(
                                                                         ["participating_projects":
@@ -2218,8 +2218,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                                             completion(.error(WCError.acceptUserIntoProject))
                                                                         }
                                                                         self.realtimeDB
-                                                                            .child(Constants.projectsPath)
-                                                                            .child(Constants.ongoingProjectsPath)
+                                                                            .child(Paths.projectsPath)
+                                                                            .child(Paths.ongoingProjectsPath)
                                                                             .child(projectId)
                                                                             .observeSingleEvent(of: .value) { snapshot in
                                                                                 guard let data = snapshot.value as? [String : Any], let name = data["title"] as? String, let image = data["image"] as? String else {
@@ -2247,7 +2247,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             return
         }
         realtimeDB
-            .child(Constants.usersPath)
+            .child(Paths.usersPath)
             .child(userId)
             .child("pending_projects")
             .observeSingleEvent(of: .value) { snapshot in
@@ -2257,7 +2257,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                 }
                 pendingProjects.removeAll(where: { $0 == projectId })
                 self.realtimeDB
-                    .child(Constants.usersPath)
+                    .child(Paths.usersPath)
                     .child(userId)
                     .updateChildValues(["pending_projects": pendingProjects]) { (error, ref) in
                         if error != nil {
@@ -2265,7 +2265,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                             return
                         }
                         self.realtimeDB
-                            .child(Constants.usersPath)
+                            .child(Paths.usersPath)
                             .child(currentUser)
                             .child("project_participation_notifications")
                             .observeSingleEvent(of: .value) { snapshot in
@@ -2281,7 +2281,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                     return projectId == project && userId == user
                                 })
                                 self.realtimeDB
-                                    .child(Constants.usersPath)
+                                    .child(Paths.usersPath)
                                     .child(currentUser)
                                     .updateChildValues(["project_participation_notifications": notifications]) { (error, ref) in
                                         if error != nil {
@@ -2304,8 +2304,8 @@ class FirebaseManager: FirebaseManagerProtocol {
             return
         }
         realtimeDB
-            .child(Constants.projectsPath)
-            .child(Constants.ongoingProjectsPath)
+            .child(Paths.projectsPath)
+            .child(Paths.ongoingProjectsPath)
             .child(projectId)
             .child("participants")
             .observeSingleEvent(of: .value) { snapshot in
@@ -2323,7 +2323,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                     return
                 }
                 self.realtimeDB
-                    .child(Constants.usersPath)
+                    .child(Paths.usersPath)
                     .child(userId)
                     .child("pending_projects")
                     .observeSingleEvent(of: .value) { snapshot in
@@ -2337,8 +2337,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                             return
                         }
                         self.realtimeDB
-                            .child(Constants.projectsPath)
-                            .child(Constants.ongoingProjectsPath)
+                            .child(Paths.projectsPath)
+                            .child(Paths.ongoingProjectsPath)
                             .child(projectId)
                             .child("pending_invites")
                             .observeSingleEvent(of: .value) { snapshot in
@@ -2371,8 +2371,8 @@ class FirebaseManager: FirebaseManagerProtocol {
             return
         }
         realtimeDB
-            .child(Constants.projectsPath)
-            .child(Constants.ongoingProjectsPath)
+            .child(Paths.projectsPath)
+            .child(Paths.ongoingProjectsPath)
             .child(projectId)
             .child("pending_invites")
             .observeSingleEvent(of: .value) { snapshot in
@@ -2382,8 +2382,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                 }
                 invites.removeAll(where: { $0 == userId })
                 self.realtimeDB
-                    .child(Constants.projectsPath)
-                    .child(Constants.ongoingProjectsPath)
+                    .child(Paths.projectsPath)
+                    .child(Paths.ongoingProjectsPath)
                     .child(projectId)
                     .updateChildValues(["pending_invites": invites]) { (error, ref) in
                         if error != nil {
@@ -2391,7 +2391,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                             return
                         }
                         self.realtimeDB
-                            .child(Constants.usersPath)
+                            .child(Paths.usersPath)
                             .child(userId)
                             .child("project_invite_notifications")
                             .observeSingleEvent(of: .value) { snapshot in
@@ -2406,7 +2406,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                     return project == projectId
                                 })
                                 self.realtimeDB
-                                    .child(Constants.usersPath)
+                                    .child(Paths.usersPath)
                                     .child(userId)
                                     .updateChildValues(["project_invite_notifications": notifications]) { (error, ref) in
                                         if error != nil {
@@ -2428,8 +2428,8 @@ class FirebaseManager: FirebaseManagerProtocol {
             return
         }
         realtimeDB
-            .child(Constants.projectsPath)
-            .child(Constants.ongoingProjectsPath)
+            .child(Paths.projectsPath)
+            .child(Paths.ongoingProjectsPath)
             .child(projectId)
             .child("participants")
             .observeSingleEvent(of: .value) { snapshot in
@@ -2439,8 +2439,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                 }
                 users.removeAll(where: { $0 == userId })
                 self.realtimeDB
-                    .child(Constants.projectsPath)
-                    .child(Constants.ongoingProjectsPath)
+                    .child(Paths.projectsPath)
+                    .child(Paths.ongoingProjectsPath)
                     .child(projectId)
                     .updateChildValues(["participants": users]) { (error, ref) in
                         if error != nil {
@@ -2448,7 +2448,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                             return
                         }
                         self.realtimeDB
-                            .child(Constants.usersPath)
+                            .child(Paths.usersPath)
                             .child(userId)
                             .child("participating_projects")
                             .observeSingleEvent(of: .value) { snapshot in
@@ -2460,7 +2460,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                     $0 == projectId
                                 })
                                 self.realtimeDB
-                                    .child(Constants.usersPath)
+                                    .child(Paths.usersPath)
                                     .child(userId)
                                     .updateChildValues(["participating_projects": projects]) { (error, ref) in
                                         if error != nil {
@@ -2482,7 +2482,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             return
         }
         realtimeDB
-            .child(Constants.usersPath)
+            .child(Paths.usersPath)
             .child(currentUser)
             .child("authoring_project_ids")
             .observeSingleEvent(of: .value) { snapshot in
@@ -2492,8 +2492,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                 }
                 for i in 0..<ids.count {
                     self.realtimeDB
-                        .child(Constants.projectsPath)
-                        .child(Constants.ongoingProjectsPath)
+                        .child(Paths.projectsPath)
+                        .child(Paths.ongoingProjectsPath)
                         .child(ids[i])
                         .observeSingleEvent(of: .value) { snapshot in
                             guard var project = snapshot.value as? [String : Any] else {
@@ -2520,8 +2520,8 @@ class FirebaseManager: FirebaseManagerProtocol {
         }
         let dict: [String : Any] = ["progress": progress]
         realtimeDB
-            .child(Constants.projectsPath)
-            .child(Constants.ongoingProjectsPath)
+            .child(Paths.projectsPath)
+            .child(Paths.ongoingProjectsPath)
             .child(projectId)
             .updateChildValues(dict) { (error, ref) in
                 if error != nil {
@@ -2545,7 +2545,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             return
         }
         realtimeDB
-            .child(Constants.allUsersCataloguePath)
+            .child(Paths.allUsersCataloguePath)
             .observeSingleEvent(of: .value) { snapshot in
                 guard var userIds = snapshot.value as? [String] else {
                     completion(.error(WCError.genericError))
@@ -2558,7 +2558,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                 }
                 for i in 0..<userIds.count {
                     self.realtimeDB
-                        .child(Constants.usersPath)
+                        .child(Paths.usersPath)
                         .child(userIds[i])
                         .observeSingleEvent(of: .value) { snapshot in
                             guard var user = snapshot.value as? [String : Any] else {
@@ -2593,7 +2593,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             return
         }
         realtimeDB
-            .child(Constants.allProjectsCataloguePath)
+            .child(Paths.allProjectsCataloguePath)
             .observeSingleEvent(of: .value) { snapshot in
                 if let projectIds = snapshot.value as? [String] {
                     allProjects = projectIds
@@ -2603,8 +2603,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                 }
                 for i in 0..<allProjects.count {
                     self.realtimeDB
-                        .child(Constants.projectsPath)
-                        .child(Constants.ongoingProjectsPath)
+                        .child(Paths.projectsPath)
+                        .child(Paths.ongoingProjectsPath)
                         .child(allProjects[i])
                         .observeSingleEvent(of: .value) { snapshot in
                             guard var project = snapshot.value as? [String : Any] else {
@@ -2638,7 +2638,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             return
         }
         realtimeDB
-            .child(Constants.finishedProjectsCataloguePath)
+            .child(Paths.finishedProjectsCataloguePath)
             .observeSingleEvent(of: .value) { snapshot in
                 if let projectIds = snapshot.value as? [String] {
                     allProjects = projectIds
@@ -2648,8 +2648,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                 }
                 for i in 0..<allProjects.count {
                     self.realtimeDB
-                        .child(Constants.projectsPath)
-                        .child(Constants.finishedProjectsPath)
+                        .child(Paths.projectsPath)
+                        .child(Paths.finishedProjectsPath)
                         .child(allProjects[i])
                         .observeSingleEvent(of: .value) { snapshot in
                             guard var project = snapshot.value as? [String : Any] else {
@@ -2680,7 +2680,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             return
         }
         realtimeDB
-            .child(Constants.usersPath)
+            .child(Paths.usersPath)
             .child(id)
             .observeSingleEvent(of: .value) { snapshot in
                 if let user = snapshot.value as? [String : Any] {
@@ -2697,8 +2697,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                     completion(.success(mappedResponse))
                 } else {
                     self.realtimeDB
-                        .child(Constants.projectsPath)
-                        .child(Constants.ongoingProjectsPath)
+                        .child(Paths.projectsPath)
+                        .child(Paths.ongoingProjectsPath)
                         .child(id)
                         .observeSingleEvent(of: .value) { snpashot in
                             guard let project = snapshot.value as? [String : Any] else {
@@ -2739,7 +2739,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             return
         }
         realtimeDB
-            .child(Constants.usersPath)
+            .child(Paths.usersPath)
             .child(currentUser)
             .child("removed_suggestions")
             .observeSingleEvent(of: .value) { snapshot in
@@ -2747,7 +2747,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                     removedUserSuggestions = removedUsers
                 }
                 self.realtimeDB
-                    .child(Constants.usersPath)
+                    .child(Paths.usersPath)
                     .child(currentUser)
                     .child("interest_cathegories")
                     .observeSingleEvent(of: .value) { snapshot in
@@ -2755,7 +2755,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                             currentUserCathegories = cathegories
                         }
                         self.realtimeDB
-                            .child(Constants.usersPath)
+                            .child(Paths.usersPath)
                             .child(currentUser)
                             .child("participating_projects")
                             .observeSingleEvent(of: .value) { snapshot in
@@ -2770,7 +2770,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                             currentUserConnections = connections
                                         }
                                         self.realtimeDB
-                                            .child(Constants.allUsersCataloguePath)
+                                            .child(Paths.allUsersCataloguePath)
                                             .observeSingleEvent(of: .value) { snapshot in
                                                 guard let allUsers = snapshot.value as? [String] else {
                                                     completion(.error(WCError.genericError))
@@ -2809,7 +2809,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                     for user in userSuggestions {
                                                         usersDataQueryDispatchGroup.enter()
                                                         self.realtimeDB
-                                                            .child(Constants.usersPath)
+                                                            .child(Paths.usersPath)
                                                             .child(user)
                                                             .observeSingleEvent(of: .value) { snapshot in
                                                                 guard var userData = snapshot.value as? [String : Any] else {
@@ -2876,7 +2876,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             return
         }
         realtimeDB
-            .child(Constants.usersPath)
+            .child(Paths.usersPath)
             .child(currentUser)
             .child("removed_suggestions")
             .observeSingleEvent(of: .value) { snapshot in
@@ -2884,7 +2884,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                     removedSuggestedUsers = removedUsers
                 }
                 self.realtimeDB
-                    .child(Constants.usersPath)
+                    .child(Paths.usersPath)
                     .child(currentUser)
                     .child("connections")
                     .observeSingleEvent(of: .value) { snapshot in
@@ -2894,7 +2894,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                             currentUserConnections = .empty
                         }
                         self.realtimeDB
-                            .child(Constants.allUsersCataloguePath)
+                            .child(Paths.allUsersCataloguePath)
                             .observeSingleEvent(of: .value) { snapshot in
                                 guard let allUsers = snapshot.value as? [String] else {
                                     completion(.error(WCError.genericError))
@@ -2934,7 +2934,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                     for user in noRelationUsers {
                                         userDataDispatchGroup.enter()
                                         self.realtimeDB
-                                            .child(Constants.usersPath)
+                                            .child(Paths.usersPath)
                                             .child(user)
                                             .observeSingleEvent(of: .value) { snapshot in
                                                 guard var userData = snapshot.value as? [String
@@ -2986,7 +2986,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             return
         }
         realtimeDB
-            .child(Constants.usersPath)
+            .child(Paths.usersPath)
             .child(currentUser)
             .child("removed_suggestions")
             .observeSingleEvent(of: .value) { snapshot in
@@ -2994,7 +2994,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                     removedSuggestedUsers = removedUsers
                 }
                 self.realtimeDB
-                    .child(Constants.usersPath)
+                    .child(Paths.usersPath)
                     .child(currentUser)
                     .child("participating_projects")
                     .observeSingleEvent(of: .value) { snapshot in
@@ -3004,7 +3004,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                             currentUserProjects = .empty
                         }
                         self.realtimeDB
-                            .child(Constants.allUsersCataloguePath)
+                            .child(Paths.allUsersCataloguePath)
                             .observeSingleEvent(of: .value) { snapshot in
                                 guard let allUsers = snapshot.value as? [String] else {
                                     completion(.error(WCError.genericError))
@@ -3044,7 +3044,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                     for user in noRelationUsers {
                                         userDataDispatchGroup.enter()
                                         self.realtimeDB
-                                            .child(Constants.usersPath)
+                                            .child(Paths.usersPath)
                                             .child(user)
                                             .observeSingleEvent(of: .value) { snapshot in
                                                 guard var userData = snapshot.value as? [String
@@ -3096,7 +3096,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             return
         }
         realtimeDB
-            .child(Constants.usersPath)
+            .child(Paths.usersPath)
             .child(currentUser)
             .child("removed_suggestions")
             .observeSingleEvent(of: .value) { snapshot in
@@ -3104,7 +3104,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                     removedSuggestedUsers = removedUsers
                 }
                 self.realtimeDB
-                    .child(Constants.usersPath)
+                    .child(Paths.usersPath)
                     .child(currentUser)
                     .child("interest_cathegories")
                     .observeSingleEvent(of: .value) { snapshot in
@@ -3114,7 +3114,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                             currentUserCathegories = .empty
                         }
                         self.realtimeDB
-                            .child(Constants.allUsersCataloguePath)
+                            .child(Paths.allUsersCataloguePath)
                             .observeSingleEvent(of: .value) { snapshot in
                                 guard let allUsers = snapshot.value as? [String] else {
                                     completion(.error(WCError.genericError))
@@ -3154,7 +3154,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                     for user in noRelationUsers {
                                         userDataDispatchGroup.enter()
                                         self.realtimeDB
-                                            .child(Constants.usersPath)
+                                            .child(Paths.usersPath)
                                             .child(user)
                                             .observeSingleEvent(of: .value) { snapshot in
                                                 guard var userData = snapshot.value as? [String
@@ -3201,7 +3201,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             return
         }
         realtimeDB
-            .child(Constants.allUsersCataloguePath)
+            .child(Paths.allUsersCataloguePath)
             .observeSingleEvent(of: .value) { snapshot in
                 guard let allUsers = snapshot.value as? [String] else {
                     completion(.error(WCError.genericError))
@@ -3212,7 +3212,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                     return
                 }
                 self.realtimeDB
-                    .child(Constants.usersPath)
+                    .child(Paths.usersPath)
                     .child(currentUser)
                     .child("removed_suggestions")
                     .observeSingleEvent(of: .value) { snapshot in
@@ -3222,7 +3222,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                         }
                         removedUsers.append(userId)
                         self.realtimeDB
-                            .child(Constants.usersPath)
+                            .child(Paths.usersPath)
                             .child(currentUser)
                             .updateChildValues(["removed_suggestions": removedUsers]) { (error, ref) in
                                 if error != nil {
@@ -3253,7 +3253,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             return
         }
         realtimeDB
-            .child(Constants.usersPath)
+            .child(Paths.usersPath)
             .child(currentUser)
             .child("interest_cathegories")
             .observeSingleEvent(of: .value) { snapshot in
@@ -3263,7 +3263,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                 }
                 currentUserInterestCathegories = cathegories
                 self.realtimeDB
-                    .child(Constants.usersPath)
+                    .child(Paths.usersPath)
                     .child(currentUser)
                     .child("connections")
                     .observeSingleEvent(of: .value) { snapshot in
@@ -3273,7 +3273,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                             currentUserconnections = .empty
                         }
                         self.realtimeDB
-                            .child(Constants.allProjectsCataloguePath)
+                            .child(Paths.allProjectsCataloguePath)
                             .observeSingleEvent(of: .value) { snapshot in
                                 if let projects = snapshot.value as? [String] {
                                     allProjects = projects
@@ -3284,8 +3284,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                 for project in allProjects {
                                     projectsDetailsDispatchGroup.enter()
                                     self.realtimeDB
-                                        .child(Constants.projectsPath)
-                                        .child(Constants.ongoingProjectsPath)
+                                        .child(Paths.projectsPath)
+                                        .child(Paths.ongoingProjectsPath)
                                         .child(project)
                                         .observeSingleEvent(of: .value) { snapshot in
                                             guard var projectData = snapshot.value as? [String : Any] else {
@@ -3372,7 +3372,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             return
         }
         realtimeDB
-            .child(Constants.allProjectsCataloguePath)
+            .child(Paths.allProjectsCataloguePath)
             .observeSingleEvent(of: .value) { snapshot in
                 guard var allProjects = snapshot.value as? [String] else {
                     completion(.error(WCError.genericError))
@@ -3380,27 +3380,27 @@ class FirebaseManager: FirebaseManagerProtocol {
                 }
                 allProjects.removeAll(where: { $0 == projectId})
                 self.realtimeDB
-                    .updateChildValues([Constants.allProjectsCataloguePath : allProjects]) { (error, ref) in
+                    .updateChildValues([Paths.allProjectsCataloguePath : allProjects]) { (error, ref) in
                         if error != nil {
                             completion(.error(WCError.genericError))
                             return
                         }
                         self.realtimeDB
-                            .child(Constants.finishedProjectsCataloguePath)
+                            .child(Paths.finishedProjectsCataloguePath)
                             .observeSingleEvent(of: .value) { snapshot in
                                 if let projects = snapshot.value as? [String] {
                                     finishedProjects = projects
                                 }
                                 finishedProjects.append(projectId)
                                 self.realtimeDB
-                                    .updateChildValues([Constants.finishedProjectsCataloguePath : finishedProjects]) { (error, ref) in
+                                    .updateChildValues([Paths.finishedProjectsCataloguePath : finishedProjects]) { (error, ref) in
                                         if error != nil {
                                             completion(.error(WCError.genericError))
                                             return
                                         }
                                         self.realtimeDB
-                                            .child(Constants.projectsPath)
-                                            .child(Constants.ongoingProjectsPath)
+                                            .child(Paths.projectsPath)
+                                            .child(Paths.ongoingProjectsPath)
                                             .child(projectId)
                                             .removeValue { (error, ref) in
                                                 if error != nil {
@@ -3409,8 +3409,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                 }
                                                 let dict: [String : Any] = ["youtube_url": youtubeURL, "title": title, "sinopsis": sinopsis, "cathegories": cathegories, "participants": participants, "author_id": authorId, "image": image, "finish_date": finishDate, "views": 0]
                                                 self.realtimeDB
-                                                    .child(Constants.projectsPath)
-                                                    .child(Constants.finishedProjectsPath)
+                                                    .child(Paths.projectsPath)
+                                                    .child(Paths.finishedProjectsPath)
                                                     .child(projectId)
                                                     .updateChildValues(dict) { (error, ref) in
                                                         if error != nil {
@@ -3419,7 +3419,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                         }
                                                         let dispatchGroup = DispatchGroup()
                                                         self.realtimeDB
-                                                            .child(Constants.allUsersCataloguePath)
+                                                            .child(Paths.allUsersCataloguePath)
                                                             .observeSingleEvent(of: .value) { snapshot in
                                                                 guard let users = snapshot.value as? [String] else {
                                                                     completion(.error(WCError.genericError))
@@ -3428,23 +3428,23 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                                 allUsers = users
                                                                 for user in allUsers {
                                                                     dispatchGroup.enter()
-                                                                    self.realtimeDB.child(Constants.usersPath).child(user)
+                                                                    self.realtimeDB.child(Paths.usersPath).child(user)
                                                                         .child("participating_projects").observeSingleEvent(of: .value) { snapshot in
                                                                             if var projects = snapshot.value as? [String] {
                                                                                 if projects.contains(projectId) {
                                                                                     projects.removeAll(where: { $0 == projectId})
-                                                                                    self.realtimeDB.child(Constants.usersPath).child(user).updateChildValues(["participating_projects" : projects]) { (error, ref) in
+                                                                                    self.realtimeDB.child(Paths.usersPath).child(user).updateChildValues(["participating_projects" : projects]) { (error, ref) in
                                                                                         if error != nil {
                                                                                             completion(.error(WCError.genericError))
                                                                                             return
                                                                                         }
-                                                                                        self.realtimeDB.child(Constants.usersPath).child(user).child("finished_projects").observeSingleEvent(of: .value) { snapshot in
+                                                                                        self.realtimeDB.child(Paths.usersPath).child(user).child("finished_projects").observeSingleEvent(of: .value) { snapshot in
                                                                                             var projects = [String]()
                                                                                             if let finishedProjects = snapshot.value as? [String] {
                                                                                                 projects = finishedProjects
                                                                                             }
                                                                                             projects.append(projectId)
-                                                                                            self.realtimeDB.child(Constants.usersPath).child(user).updateChildValues(["finished_projects" : projects]) { (error, ref) in
+                                                                                            self.realtimeDB.child(Paths.usersPath).child(user).updateChildValues(["finished_projects" : projects]) { (error, ref) in
                                                                                                 if error != nil {
                                                                                                     completion(.error(WCError.genericError))
                                                                                                     return
@@ -3496,8 +3496,8 @@ class FirebaseManager: FirebaseManagerProtocol {
             return
         }
         realtimeDB
-            .child(Constants.projectsPath)
-            .child(Constants.finishedProjectsPath)
+            .child(Paths.projectsPath)
+            .child(Paths.finishedProjectsPath)
             .child(projectId)
             .observeSingleEvent(of: .value) { snapshot in
                 guard var project = snapshot.value as? [String : Any] else {
@@ -3524,8 +3524,8 @@ class FirebaseManager: FirebaseManagerProtocol {
             return
         }
         realtimeDB
-            .child(Constants.projectsPath)
-            .child(Constants.finishedProjectsPath)
+            .child(Paths.projectsPath)
+            .child(Paths.finishedProjectsPath)
             .child(projectId)
             .child("author_id")
             .observeSingleEvent(of: .value) { snapshot in
@@ -3543,8 +3543,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                     return
                 }
                 self.realtimeDB
-                    .child(Constants.projectsPath)
-                    .child(Constants.finishedProjectsPath)
+                    .child(Paths.projectsPath)
+                    .child(Paths.finishedProjectsPath)
                     .child(projectId)
                     .child("participants")
                     .observeSingleEvent(of: .value) { snapshot in
@@ -3562,8 +3562,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                             return
                         }
                         self.realtimeDB
-                            .child(Constants.projectsPath)
-                            .child(Constants.finishedProjectsPath)
+                            .child(Paths.projectsPath)
+                            .child(Paths.finishedProjectsPath)
                             .child(projectId)
                             .child("pending_invites")
                             .observeSingleEvent(of: .value) { snapshot in
@@ -3603,7 +3603,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             return
         }
         realtimeDB
-            .child(Constants.usersPath)
+            .child(Paths.usersPath)
             .child(userId)
             .child("finished_projects")
             .observeSingleEvent(of: .value) { snapshot in
@@ -3618,8 +3618,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                 for project in finishedProjects {
                     dispatchGroup.enter()
                     self.realtimeDB
-                        .child(Constants.projectsPath)
-                        .child(Constants.finishedProjectsPath)
+                        .child(Paths.projectsPath)
+                        .child(Paths.finishedProjectsPath)
                         .child(project)
                         .observeSingleEvent(of: .value) { snapshot in
                             guard var projectData = snapshot.value as? [String : Any] else {
@@ -3656,14 +3656,14 @@ class FirebaseManager: FirebaseManagerProtocol {
             return
         }
         let projectReference = realtimeDB
-            .child(Constants.projectsPath)
-            .child(Constants.finishedProjectsPath)
+            .child(Paths.projectsPath)
+            .child(Paths.finishedProjectsPath)
             .childByAutoId()
         guard let projectId = projectReference.key else {
             completion(.error(WCError.genericError))
             return
         }
-        let projectImageReference =  storage.child(Constants.projectsPath).child(projectId)
+        let projectImageReference =  storage.child(Paths.projectsPath).child(projectId)
         projectImageReference.putData(image, metadata: nil) { (metadata, error) in
             if error != nil {
                 completion(.error(WCError.genericError))
@@ -3680,27 +3680,27 @@ class FirebaseManager: FirebaseManagerProtocol {
                 }
                 let dict: [String : Any] = ["title": title, "sinopsis": sinopsis, "cathegories": cathegories, "youtube_url": video, "image": url.absoluteString, "views": 0, "finish_date": Date().timeIntervalSince1970, "participants": [currentUser], "author_id": currentUser]
                 self.realtimeDB
-                    .child(Constants.projectsPath)
-                    .child(Constants.finishedProjectsPath)
+                    .child(Paths.projectsPath)
+                    .child(Paths.finishedProjectsPath)
                     .updateChildValues([projectId : dict]) { (error, metadata) in
                         if error != nil {
                             completion(.error(WCError.genericError))
                             return
                         }
                         self.realtimeDB
-                            .child(Constants.finishedProjectsCataloguePath)
+                            .child(Paths.finishedProjectsCataloguePath)
                             .observeSingleEvent(of: .value) { snapshot in
                                 if let projects = snapshot.value as? [String] {
                                     allFinishedProjects = projects
                                 }
                                 allFinishedProjects.append(projectId)
-                                self.realtimeDB.updateChildValues([Constants.finishedProjectsCataloguePath: allFinishedProjects]) { (error, metadata) in
+                                self.realtimeDB.updateChildValues([Paths.finishedProjectsCataloguePath: allFinishedProjects]) { (error, metadata) in
                                     if error != nil {
                                         completion(.error(WCError.genericError))
                                         return
                                     }
                                     self.realtimeDB
-                                        .child(Constants.usersPath)
+                                        .child(Paths.usersPath)
                                         .child(currentUser)
                                         .child("finished_projects")
                                         .observeSingleEvent(of: .value) { snapshot in
@@ -3708,7 +3708,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                 userProjects = projects
                                             }
                                             userProjects.append(projectId)
-                                            self.realtimeDB.child(Constants.usersPath).child(currentUser).updateChildValues(["finished_projects": userProjects]) { (error, metadata) in
+                                            self.realtimeDB.child(Paths.usersPath).child(currentUser).updateChildValues(["finished_projects": userProjects]) { (error, metadata) in
                                                 if error != nil {
                                                     completion(.error(WCError.genericError))
                                                     return
@@ -3743,8 +3743,8 @@ class FirebaseManager: FirebaseManagerProtocol {
             return
         }
         realtimeDB
-            .child(Constants.projectsPath)
-            .child(Constants.finishedProjectsPath)
+            .child(Paths.projectsPath)
+            .child(Paths.finishedProjectsPath)
             .child(projectId)
             .child("views")
             .observeSingleEvent(of: .value) { snapshot in
@@ -3755,8 +3755,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                 views+=1
                 let lastSeenTimestamp = Date().timeIntervalSince1970
                 self.realtimeDB
-                    .child(Constants.projectsPath)
-                    .child(Constants.finishedProjectsPath)
+                    .child(Paths.projectsPath)
+                    .child(Paths.finishedProjectsPath)
                     .child(projectId)
                     .updateChildValues(["views": views, "last_view": lastSeenTimestamp]) { (error, ref) in
                         if error != nil {
@@ -3805,7 +3805,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             return
         }
         realtimeDB
-            .child(Constants.finishedProjectsCataloguePath)
+            .child(Paths.finishedProjectsCataloguePath)
             .observeSingleEvent(of: .value) { snapshot in
                 guard let projects = snapshot.value as? [String] else {
                     completion(.success(.empty))
@@ -3813,7 +3813,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                 }
                 finishedProjects = projects
                 self.realtimeDB
-                    .child(Constants.usersPath)
+                    .child(Paths.usersPath)
                     .child(currentUser)
                     .child("finished_projects")
                     .observeSingleEvent(of: .value) { snapshot in
@@ -3825,8 +3825,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                         for project in finishedProjects {
                             dispatchGroup.enter()
                             self.realtimeDB
-                                .child(Constants.projectsPath)
-                                .child(Constants.finishedProjectsPath)
+                                .child(Paths.projectsPath)
+                                .child(Paths.finishedProjectsPath)
                                 .child(project)
                                 .child("cathegories")
                                 .observeSingleEvent(of: .value) { snapshot in
@@ -3845,8 +3845,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                             for projectId in finishedProjects {
                                 newDispatchGroup.enter()
                                 self.realtimeDB
-                                    .child(Constants.projectsPath)
-                                    .child(Constants.finishedProjectsPath)
+                                    .child(Paths.projectsPath)
+                                    .child(Paths.finishedProjectsPath)
                                     .child(projectId)
                                     .observeSingleEvent(of: .value) { snapshot in
                                         guard var project = snapshot.value as? [String: Any] else {
@@ -3879,7 +3879,7 @@ class FirebaseManager: FirebaseManagerProtocol {
         }
         
         realtimeDB
-            .child(Constants.finishedProjectsCataloguePath)
+            .child(Paths.finishedProjectsCataloguePath)
             .observeSingleEvent(of: .value) { snapshot in
                 guard let projects = snapshot.value as? [String] else {
                     completion(.success(.empty))
@@ -3887,7 +3887,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                 }
                 finishedProjects = projects
                 self.realtimeDB
-                    .child(Constants.usersPath)
+                    .child(Paths.usersPath)
                     .child(currentUser)
                     .child("finished_projects")
                     .observeSingleEvent(of: .value) { snapshot in
@@ -3899,8 +3899,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                         for project in finishedProjects {
                             dispatchGroup.enter()
                             self.realtimeDB
-                                .child(Constants.projectsPath)
-                                .child(Constants.finishedProjectsPath)
+                                .child(Paths.projectsPath)
+                                .child(Paths.finishedProjectsPath)
                                 .child(project)
                                 .observeSingleEvent(of: .value) { snapshot in
                                     guard var projectData = snapshot.value as? [String : Any] else {
@@ -3939,8 +3939,8 @@ class FirebaseManager: FirebaseManagerProtocol {
             return
         }
         realtimeDB
-            .child(Constants.projectsPath)
-            .child(Constants.finishedProjectsPath)
+            .child(Paths.projectsPath)
+            .child(Paths.finishedProjectsPath)
             .child(projectId)
             .child("pending_invites")
             .observeSingleEvent(of: .value) { snapshot in
@@ -3948,14 +3948,14 @@ class FirebaseManager: FirebaseManagerProtocol {
                     pendingInvites = pendingUsers
                 }
                 pendingInvites.append(userId)
-                self.realtimeDB.child(Constants.projectsPath).child(Constants.finishedProjectsPath).child(projectId).updateChildValues(["pending_invites": pendingInvites]) { (error, ref) in
+                self.realtimeDB.child(Paths.projectsPath).child(Paths.finishedProjectsPath).child(projectId).updateChildValues(["pending_invites": pendingInvites]) { (error, ref) in
                     if error != nil {
                         completion(.error(WCError.inviteUserToProject))
                         return
                     }
                     self.realtimeDB
-                        .child(Constants.projectsPath)
-                        .child(Constants.finishedProjectsPath)
+                        .child(Paths.projectsPath)
+                        .child(Paths.finishedProjectsPath)
                         .child(projectId)
                         .observeSingleEvent(of: .value) { snapshot in
                             guard let projectData = snapshot.value as? [String : Any] else {
@@ -3963,7 +3963,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                 return
                             }
                             self.realtimeDB
-                                .child(Constants.usersPath)
+                                .child(Paths.usersPath)
                                 .child(userId)
                                 .child("finished_project_invite_notifications")
                                 .observeSingleEvent(of: .value) { snapshot in
@@ -3977,7 +3977,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                         return
                                     }
                                     self.realtimeDB
-                                        .child(Constants.usersPath)
+                                        .child(Paths.usersPath)
                                         .child(currentUser)
                                         .observeSingleEvent(of: .value) { snapshot in
                                             guard let data = snapshot.value as? [String : Any], let authorName = data["name"] as? String else {
@@ -3991,7 +3991,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                                         "image": image,
                                                                         "projectTitle": projectTitle])
                                             self.realtimeDB
-                                                .child(Constants.usersPath)
+                                                .child(Paths.usersPath)
                                                 .child(userId)
                                                 .updateChildValues(["finished_project_invite_notifications" : inviteNotifications]) { (error, ref) in
                                                     if error != nil {
@@ -4014,7 +4014,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             return
         }
         realtimeDB
-            .child(Constants.usersPath)
+            .child(Paths.usersPath)
             .child(currentUser)
             .child("finished_project_invite_notifications")
             .observeSingleEvent(of: .value) { snapshot in
@@ -4040,7 +4040,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             return
         }
         realtimeDB
-            .child(Constants.usersPath)
+            .child(Paths.usersPath)
             .child(currentUser)
             .child("finished_project_invite_notifications")
             .observeSingleEvent(of: .value) { snapshot in
@@ -4055,7 +4055,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                     return id == projectId
                 })
                 self.realtimeDB
-                    .child(Constants.usersPath)
+                    .child(Paths.usersPath)
                     .child(currentUser)
                     .updateChildValues(["finished_project_invite_notifications": notifications]) { (error, ref) in
                         if error != nil {
@@ -4063,7 +4063,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                             return
                         }
                         self.realtimeDB
-                            .child(Constants.usersPath)
+                            .child(Paths.usersPath)
                             .child(currentUser)
                             .child("finished_projects")
                             .observeSingleEvent(of: .value) { snapshot in
@@ -4072,7 +4072,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                 }
                                 finishedProjects.append(projectId)
                                 self.realtimeDB
-                                    .child(Constants.usersPath)
+                                    .child(Paths.usersPath)
                                     .child(currentUser)
                                     .updateChildValues(["finished_projects": finishedProjects]) { (error, ref) in
                                         if error != nil {
@@ -4080,8 +4080,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                             return
                                         }
                                         self.realtimeDB
-                                            .child(Constants.projectsPath)
-                                            .child(Constants.finishedProjectsPath)
+                                            .child(Paths.projectsPath)
+                                            .child(Paths.finishedProjectsPath)
                                             .child(projectId).child("participants")
                                             .observeSingleEvent(of: .value) { snapshot in
                                                 guard let participants = snapshot.value as? [String] else {
@@ -4091,8 +4091,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                 allParticipants = participants
                                                 allParticipants.append(currentUser)
                                                 self.realtimeDB
-                                                    .child(Constants.projectsPath)
-                                                    .child(Constants.finishedProjectsPath)
+                                                    .child(Paths.projectsPath)
+                                                    .child(Paths.finishedProjectsPath)
                                                     .child(projectId)
                                                     .updateChildValues(["participants": allParticipants]) { (error, ref) in
                                                         if error != nil {
@@ -4100,8 +4100,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                             return
                                                         }
                                                         self.realtimeDB
-                                                            .child(Constants.projectsPath)
-                                                            .child(Constants.finishedProjectsPath)
+                                                            .child(Paths.projectsPath)
+                                                            .child(Paths.finishedProjectsPath)
                                                             .child(projectId)
                                                             .child("pending_invites")
                                                             .observeSingleEvent(of: .value) { snapshot in
@@ -4110,29 +4110,29 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                                     return
                                                                 }
                                                                 pendingInvites.removeAll(where: { $0 == currentUser})
-                                                                self.realtimeDB.child(Constants.projectsPath).child(Constants.finishedProjectsPath)
+                                                                self.realtimeDB.child(Paths.projectsPath).child(Paths.finishedProjectsPath)
                                                                     .child(projectId).updateChildValues(["pending_invites": pendingInvites]) { (error, ref) in
                                                                         if error != nil {
                                                                             completion(.error(WCError.acceptProjectInvite))
                                                                             return
                                                                         }
                                                                         self.realtimeDB
-                                                                            .child(Constants.usersPath)
+                                                                            .child(Paths.usersPath)
                                                                             .child(currentUser)
                                                                             .observeSingleEvent(of: .value) { snapshot in
                                                                                 guard let data = snapshot.value as? [String : Any], let name = data["name"] as? String, let image = data["profile_image_url"] as? String else {
                                                                                     completion(.error(WCError.genericError))
                                                                                     return
                                                                                 }
-                                                                                self.realtimeDB.child(Constants.projectsPath).child(Constants.finishedProjectsPath).child(projectId).child("title").observeSingleEvent(of: .value) {
+                                                                                self.realtimeDB.child(Paths.projectsPath).child(Paths.finishedProjectsPath).child(projectId).child("title").observeSingleEvent(of: .value) {
                                                                                     snapshot in
                                                                                     guard let title = snapshot.value as? String else {
                                                                                         completion(.error(WCError.genericError))
                                                                                         return
                                                                                     }
                                                                                     self.realtimeDB
-                                                                                        .child(Constants.projectsPath)
-                                                                                        .child(Constants.finishedProjectsPath)
+                                                                                        .child(Paths.projectsPath)
+                                                                                        .child(Paths.finishedProjectsPath)
                                                                                         .child(projectId).child("author_id")
                                                                                         .observeSingleEvent(of: .value) { snapshot in
                                                                                             guard let authorId = snapshot.value as? String else {
@@ -4162,7 +4162,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             return
         }
         realtimeDB
-            .child(Constants.usersPath)
+            .child(Paths.usersPath)
             .child(currentUser)
             .child("finished_project_invite_notifications")
             .observeSingleEvent(of: .value) { snapshot in
@@ -4177,7 +4177,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                     return id == projectId
                 })
                 self.realtimeDB
-                    .child(Constants.usersPath)
+                    .child(Paths.usersPath)
                     .child(currentUser)
                     .updateChildValues(["finished_project_invite_notifications": notifications]) { (error, ref) in
                         if error != nil {
@@ -4185,8 +4185,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                             return
                         }
                         self.realtimeDB
-                            .child(Constants.projectsPath)
-                            .child(Constants.finishedProjectsPath)
+                            .child(Paths.projectsPath)
+                            .child(Paths.finishedProjectsPath)
                             .child(projectId)
                             .child("pending_invites")
                             .observeSingleEvent(of: .value) { snapshot in
@@ -4195,7 +4195,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                     return
                                 }
                                 pendingInvites.removeAll(where: { $0 == currentUser})
-                                self.realtimeDB.child(Constants.projectsPath).child(Constants.finishedProjectsPath)
+                                self.realtimeDB.child(Paths.projectsPath).child(Paths.finishedProjectsPath)
                                     .child(projectId).updateChildValues(["pending_invites": pendingInvites]) { (error, ref) in
                                         if error != nil {
                                             completion(.error(WCError.refuseRequest))
@@ -4217,8 +4217,8 @@ class FirebaseManager: FirebaseManagerProtocol {
             return
         }
         realtimeDB
-            .child(Constants.projectsPath)
-            .child(Constants.finishedProjectsPath)
+            .child(Paths.projectsPath)
+            .child(Paths.finishedProjectsPath)
             .child(projectId)
             .child("participants")
             .observeSingleEvent(of: .value) { snapshot in
@@ -4236,8 +4236,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                     return
                 }
                 self.realtimeDB
-                    .child(Constants.projectsPath)
-                    .child(Constants.finishedProjectsPath)
+                    .child(Paths.projectsPath)
+                    .child(Paths.finishedProjectsPath)
                     .child(projectId)
                     .child("pending_invites")
                     .observeSingleEvent(of: .value) { snapshot in
@@ -4269,7 +4269,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             return
         }
         realtimeDB
-            .child(Constants.usersPath)
+            .child(Paths.usersPath)
             .child(userId)
             .child("finished_project_invite_notifications")
             .observeSingleEvent(of: .value) { snapshot in
@@ -4284,7 +4284,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                     return id == projectId
                 })
                 self.realtimeDB
-                    .child(Constants.usersPath)
+                    .child(Paths.usersPath)
                     .child(userId)
                     .updateChildValues(["finished_project_invite_notifications": notifications]) { (error, ref) in
                         if error != nil {
@@ -4292,8 +4292,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                             return
                         }
                         self.realtimeDB
-                            .child(Constants.projectsPath)
-                            .child(Constants.finishedProjectsPath)
+                            .child(Paths.projectsPath)
+                            .child(Paths.finishedProjectsPath)
                             .child(projectId)
                             .child("pending_invites")
                             .observeSingleEvent(of: .value) { snapshot in
@@ -4302,7 +4302,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                     return
                                 }
                                 pendingInvites.removeAll(where: { $0 == userId})
-                                self.realtimeDB.child(Constants.projectsPath).child(Constants.finishedProjectsPath)
+                                self.realtimeDB.child(Paths.projectsPath).child(Paths.finishedProjectsPath)
                                     .child(projectId).updateChildValues(["pending_invites": pendingInvites]) { (error, ref) in
                                         if error != nil {
                                             completion(.error(WCError.removeProjectInviteToUser))
@@ -4352,12 +4352,12 @@ class FirebaseManager: FirebaseManagerProtocol {
             return
         }
         let hashedEmail = email.sha256()
-        realtimeDB.child(Constants.userEmailPath).child(hashedEmail).observeSingleEvent(of: .value) { snapshot in
+        realtimeDB.child(Paths.userEmailPath).child(hashedEmail).observeSingleEvent(of: .value) { snapshot in
             guard let userId = snapshot.value as? String else {
                 completion(.error(WCError.genericError))
                 return
             }
-            self.realtimeDB.child(Constants.usersPath).child(userId).observeSingleEvent(of: .value) { snapshot in
+            self.realtimeDB.child(Paths.usersPath).child(userId).observeSingleEvent(of: .value) { snapshot in
                 guard var userData = snapshot.value as? [String : Any] else {
                     completion(.error(WCError.genericError))
                     return
@@ -4382,9 +4382,9 @@ class FirebaseManager: FirebaseManagerProtocol {
             return
         }
         realtimeDB
-            .child(Constants.usersPath)
+            .child(Paths.usersPath)
             .child(currentUser)
-            .child(Constants.recentSearchesPath)
+            .child(Paths.recentSearchesPath)
             .observeSingleEvent(of: .value) { snapshot in
                 if let searches = snapshot.value as? [String] {
                     searchIds = searches
@@ -4423,9 +4423,9 @@ class FirebaseManager: FirebaseManagerProtocol {
             return
         }
         realtimeDB
-            .child(Constants.usersPath)
+            .child(Paths.usersPath)
             .child(currentUser)
-            .child(Constants.recentSearchesPath)
+            .child(Paths.recentSearchesPath)
             .observeSingleEvent(of: .value) { snapshot in
                 if let searches = snapshot.value as? [String] {
                     allSearches = searches
@@ -4440,9 +4440,9 @@ class FirebaseManager: FirebaseManagerProtocol {
                     allSearches.append(searchId)
                 }
                 self.realtimeDB
-                    .child(Constants.usersPath)
+                    .child(Paths.usersPath)
                     .child(currentUser)
-                    .updateChildValues([Constants.recentSearchesPath : allSearches]) { error, ref in
+                    .updateChildValues([Paths.recentSearchesPath : allSearches]) { error, ref in
                         if error != nil {
                             completion(.error(WCError.genericError))
                             return
@@ -4459,7 +4459,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             return
         }
         realtimeDB
-            .child(Constants.entitiesPath)
+            .child(Paths.entitiesPath)
             .child(id)
             .observeSingleEvent(of: .value) { snapshot in
                 guard let type = snapshot.value as? String else {
@@ -4480,7 +4480,7 @@ class FirebaseManager: FirebaseManagerProtocol {
 extension FirebaseManager {
     
     private func registerEntity(withId id: String, type: EntityType, completion: @escaping (EmptyResponse) -> Void) {
-        realtimeDB.child(Constants.entitiesPath).updateChildValues([id : type.rawValue]) { error, ref in
+        realtimeDB.child(Paths.entitiesPath).updateChildValues([id : type.rawValue]) { error, ref in
             if error != nil {
                 completion(.error(WCError.genericError))
                 return
@@ -4490,7 +4490,7 @@ extension FirebaseManager {
     }
     
     private func fetchEntityType(forId id: String, completion: @escaping (CheckEntityResponse) -> Void) {
-        realtimeDB.child(Constants.entitiesPath).observeSingleEvent(of: .value) { snaphot in
+        realtimeDB.child(Paths.entitiesPath).observeSingleEvent(of: .value) { snaphot in
             guard let entities = snaphot.value as? [String : Any], let type = entities[id] as? String, let entityResponse = EntityType(rawValue: type) else {
                 completion(.error)
                 return
@@ -4500,7 +4500,7 @@ extension FirebaseManager {
     }
     
     private func removeEntity(withId id: String, completion: @escaping (EmptyResponse) -> Void) {
-        realtimeDB.child(Constants.entitiesPath).child(id).removeValue { error, ref in
+        realtimeDB.child(Paths.entitiesPath).child(id).removeValue { error, ref in
             if error != nil {
                 completion(.error(WCError.genericError))
                 return
@@ -4521,7 +4521,7 @@ extension FirebaseManager {
         var responseProjects = [[String : Any]]()
         
         realtimeDB
-            .child(Constants.finishedProjectsCataloguePath)
+            .child(Paths.finishedProjectsCataloguePath)
             .observeSingleEvent(of: .value) { snapshot in
                 guard let projects = snapshot.value as? [String] else {
                     completion(.success(.empty))
@@ -4529,7 +4529,7 @@ extension FirebaseManager {
                 }
                 finishedProjects = projects
                 self.realtimeDB
-                    .child(Constants.usersPath)
+                    .child(Paths.usersPath)
                     .child(currentUser)
                     .child("connections")
                     .observeSingleEvent(of: .value) { snapshot in
@@ -4537,7 +4537,7 @@ extension FirebaseManager {
                             userConnections = connections
                         }
                         self.realtimeDB
-                            .child(Constants.usersPath)
+                            .child(Paths.usersPath)
                             .child(currentUser)
                             .child("finished_projects")
                             .observeSingleEvent(of: .value) { snapshot in
@@ -4553,8 +4553,8 @@ extension FirebaseManager {
                                 for project in finishedProjects {
                                     dispatchGroup.enter()
                                     self.realtimeDB
-                                        .child(Constants.projectsPath)
-                                        .child(Constants.finishedProjectsPath)
+                                        .child(Paths.projectsPath)
+                                        .child(Paths.finishedProjectsPath)
                                         .child(project)
                                         .observeSingleEvent(of: .value) { snapshot in
                                             guard let projectData = snapshot.value as? [String : Any] else {
@@ -4597,7 +4597,7 @@ extension FirebaseManager {
         var responseProjects = [[String : Any]]()
         
         realtimeDB
-            .child(Constants.finishedProjectsCataloguePath)
+            .child(Paths.finishedProjectsCataloguePath)
             .observeSingleEvent(of: .value) { snapshot in
                 guard let projects = snapshot.value as? [String] else {
                     completion(.success(.empty))
@@ -4608,8 +4608,8 @@ extension FirebaseManager {
                 for project in finishedProjects {
                     dispatchGroup.enter()
                     self.realtimeDB
-                        .child(Constants.projectsPath)
-                        .child(Constants.finishedProjectsPath)
+                        .child(Paths.projectsPath)
+                        .child(Paths.finishedProjectsPath)
                         .child(project)
                         .child("participants")
                         .observeSingleEvent(of: .value) { snapshot in
@@ -4628,8 +4628,8 @@ extension FirebaseManager {
                     for project in finishedProjects {
                         newDispatchGroup.enter()
                         self.realtimeDB
-                            .child(Constants.projectsPath)
-                            .child(Constants.finishedProjectsPath)
+                            .child(Paths.projectsPath)
+                            .child(Paths.finishedProjectsPath)
                             .child(project)
                             .observeSingleEvent(of: .value) { snapshot in
                                 guard var projectData = snapshot.value as? [String : Any] else {
@@ -4662,7 +4662,7 @@ extension FirebaseManager {
         var responseProjects = [[String : Any]]()
         
         realtimeDB
-            .child(Constants.finishedProjectsCataloguePath)
+            .child(Paths.finishedProjectsCataloguePath)
             .observeSingleEvent(of: .value) { snapshot in
                 guard let projects = snapshot.value as? [String] else {
                     completion(.success(.empty))
@@ -4673,8 +4673,8 @@ extension FirebaseManager {
                 for project in finishedProjects {
                     dispatchGroup.enter()
                     self.realtimeDB
-                        .child(Constants.projectsPath)
-                        .child(Constants.finishedProjectsPath)
+                        .child(Paths.projectsPath)
+                        .child(Paths.finishedProjectsPath)
                         .child(project)
                         .child("participants")
                         .observeSingleEvent(of: .value) { snapshot in
@@ -4693,8 +4693,8 @@ extension FirebaseManager {
                     for project in finishedProjects {
                         dispatchGroup.enter()
                         self.realtimeDB
-                            .child(Constants.projectsPath)
-                            .child(Constants.finishedProjectsPath)
+                            .child(Paths.projectsPath)
+                            .child(Paths.finishedProjectsPath)
                             .child(project)
                             .observeSingleEvent(of: .value) { snapshot in
                                 guard var projectData = snapshot.value as? [String : Any] else {
@@ -4726,7 +4726,7 @@ extension FirebaseManager {
                                         completion: @escaping (EmptyResponse) -> Void) {
         var allNotifications = [[String : Any]]()
         realtimeDB
-            .child(Constants.usersPath)
+            .child(Paths.usersPath)
             .child(userId)
             .child(type.path)
             .observeSingleEvent(of: .value) { snapshot in
@@ -4735,7 +4735,7 @@ extension FirebaseManager {
                 }
                 allNotifications.append(["image": type.image, "text": type.notificationText])
                 self.realtimeDB
-                    .child(Constants.usersPath)
+                    .child(Paths.usersPath)
                     .child(userId)
                     .updateChildValues([type.path : allNotifications]) { (error, ref) in
                         if error != nil {
@@ -4754,7 +4754,7 @@ extension FirebaseManager {
             return
         }
         realtimeDB
-            .child(Constants.usersPath)
+            .child(Paths.usersPath)
             .child(currentUser)
             .child(type.path)
             .observeSingleEvent(of: .value) { snapshot in
@@ -4774,7 +4774,7 @@ extension FirebaseManager {
     private func checkConnected(request: FetchUserRelationRequest,
                                 completion: @escaping (Bool) -> Void) {
         realtimeDB
-            .child(Constants.usersPath)
+            .child(Paths.usersPath)
             .child(request.fromUserId)
             .child("connections").observeSingleEvent(of: .value) { snapshot in
                 guard let connections = snapshot.value as? Array<Any> else {
@@ -4797,7 +4797,7 @@ extension FirebaseManager {
     private func checkPending(request: FetchUserRelationRequest,
                               completion: @escaping (Bool) -> Void) {
         realtimeDB
-            .child(Constants.usersPath)
+            .child(Paths.usersPath)
             .child(request.fromUserId)
             .child("pending_connections").observeSingleEvent(of: .value) { snapshot in
                 guard let pendingConnections = snapshot.value as? Array<Any> else {
@@ -4820,7 +4820,7 @@ extension FirebaseManager {
     private func checkSent(request: FetchUserRelationRequest,
                            completion: @escaping (Bool) -> Void) {
         realtimeDB
-            .child(Constants.usersPath)
+            .child(Paths.usersPath)
             .child(request.toUserId)
             .child("pending_connections").observeSingleEvent(of: .value) { snapshot in
                 guard let pendingConnections = snapshot.value as? Array<Any> else {

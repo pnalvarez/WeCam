@@ -60,7 +60,7 @@ class BaseViewController: UIViewController {
     
     private func configureAuxiliarComponentsVisibility() {
         backButton.isHidden = navigationController?.viewControllers.count == Constants.navigationHiddenViewControllersCount
-        closeButton.isHidden = navigationController != nil
+//        closeButton.isHidden = navigationController != nil
     }
     
     private func setupUI() {

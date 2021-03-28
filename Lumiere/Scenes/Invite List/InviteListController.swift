@@ -59,7 +59,6 @@ class InviteListController: BaseViewController {
                                   backButton: backButton,
                                   loadingView: loadingView,
                                   activityView: activityView,
-                                  closeButton: closeButton,
                                   searchTextField: searchTextField,
                                   tableView: tableView)
         return view

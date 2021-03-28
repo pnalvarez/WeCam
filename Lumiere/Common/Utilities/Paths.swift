@@ -7,8 +7,7 @@
 //
 import UIKit
 
-struct Constants {
-    
+enum Paths {
     static let usersPath = "users"
     static let profileImagesPath = "profile_images"
     static let projectsPath = "projects"
@@ -23,7 +22,21 @@ struct Constants {
     static let entitiesPath = "entities_identifiers"
 }
 
-extension Constants {
+enum Dimens {
+    
+    enum Margins {
+        static let smallestMargin: CGFloat = 4
+        static let smallMargin: CGFloat = 8
+        static let defaultMargin: CGFloat = 12
+        static let mediumMargin: CGFloat = 16
+        static let bigMargin: CGFloat = 24
+        static let biggestMargin: CGFloat = 32
+    }
+}
+
+extension Paths {
     
     static let testImage = UIImage(named: "tipografia-projeto 1")
 }
+
+

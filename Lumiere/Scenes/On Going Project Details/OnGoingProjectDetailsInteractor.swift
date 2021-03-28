@@ -8,6 +8,7 @@
 
 protocol OnGoingProjectDetailsBusinessLogic {
     func fetchProjectDetails(_ request: OnGoingProjectDetails.Request.FetchProject)
+    func fetchContext(_ request: OnGoingProjectDetails.Request.FetchContext)
     func didSelectTeamMember(_ request: OnGoingProjectDetails.Request.SelectedTeamMember)
     func fetchProjectRelation(_ request: OnGoingProjectDetails.Request.ProjectRelation)
     func fetchUpdateProjectImage(_ request: OnGoingProjectDetails.Request.UpdateImage)
@@ -19,7 +20,6 @@ protocol OnGoingProjectDetailsBusinessLogic {
     func fetchRefuseInteraction(_ request: OnGoingProjectDetails.Request.RefuseInteraction)
     func fetchProgressPercentage(_ request: OnGoingProjectDetails.Request.FetchProgress)
     func fetchUpdateProgress(_ request: OnGoingProjectDetails.Request.UpdateProgress)
-    func fetchFinishProject(_ request: OnGoingProjectDetails.Request.Finish)
     func fetchConfirmNewProgress(_ request: OnGoingProjectDetails.Request.ConfirmProgress)
 }
 
@@ -41,15 +41,7 @@ class OnGoingProjectDetailsInteractor: OnGoingProjectDetailsDataStore {
     var projectData: OnGoingProjectDetails.Info.Model.Project?
     var projectRelation: OnGoingProjectDetails.Info.Model.ProjectRelation?
     var selectedTeamMemberId: String?
-    
-    var routingContext: OnGoingProjectDetails.Info.Received.RoutingContext? {
-        didSet {
-            if let context = routingContext?.context {
-                presenter.presentRoutingContextUI(context)
-            }
-        }
-    }
-    
+    var routingContext: OnGoingProjectDetails.Info.Received.RoutingContext?
     var selectedProgress: OnGoingProjectDetails.Info.Model.SavedProgress?
     
     init(worker: OnGoingProjectDetailsWorkerProtocol = OnGoingProjectDetailsWorker(),
@@ -231,6 +223,12 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
         }
     }
     
+    func fetchContext(_ request: OnGoingProjectDetails.Request.FetchContext) {
+        if let context = routingContext?.context {
+            presenter.presentRoutingContextUI(context)
+        }
+    }
+    
     func didSelectTeamMember(_ request: OnGoingProjectDetails.Request.SelectedTeamMember) {
         guard let teamMemberId = projectData?.teamMembers[request.index].id else { return }
         selectedTeamMemberId = teamMemberId
@@ -401,11 +399,6 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
             presenter.hideEditProgressModal()
             fetchUpdateProgress(progress: request.newProgress)
         }
-    }
-    
-    func fetchFinishProject(_ request: OnGoingProjectDetails.Request.Finish) {
-//        presenter.hideEditProgressModal()
-//        presenter.presentInsertMediaScreen()
     }
     
     func fetchConfirmNewProgress(_ request: OnGoingProjectDetails.Request.ConfirmProgress) {

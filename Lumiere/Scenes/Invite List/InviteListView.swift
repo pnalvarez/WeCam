@@ -13,7 +13,6 @@ class InviteListView: UIView {
     private unowned var backButton: DefaultBackButton
     private unowned var loadingView: LoadingView
     private unowned var activityView: UIActivityIndicatorView
-    private unowned var closeButton: UIButton
     private unowned var searchTextField: UITextField
     private unowned var tableView: UITableView
     
@@ -30,13 +29,11 @@ class InviteListView: UIView {
          backButton: DefaultBackButton,
          loadingView: LoadingView,
          activityView: UIActivityIndicatorView,
-         closeButton: UIButton,
          searchTextField: UITextField,
          tableView: UITableView) {
         self.backButton = backButton
         self.loadingView = loadingView
         self.activityView = activityView
-        self.closeButton = closeButton
         self.searchTextField = searchTextField
         self.tableView = tableView
         super.init(frame: frame)
@@ -52,7 +49,6 @@ extension InviteListView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
         addSubview(backButton)
-        addSubview(closeButton)
         addSubview(inviteLbl)
         addSubview(searchTextField)
         addSubview(tableView)
@@ -66,13 +62,8 @@ extension InviteListView: ViewCodeProtocol {
             make.left.equalToSuperview().inset(31)
             make.size.equalTo(31)
         }
-        closeButton.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(28)
-            make.right.equalToSuperview().inset(33)
-            make.height.width.equalTo(37)
-        }
         inviteLbl.snp.makeConstraints { make in
-            make.top.equalTo(closeButton.snp.bottom).offset(17)
+            make.top.equalTo(backButton.snp.bottom).offset(17)
             make.left.equalToSuperview().inset(46)
             make.width.equalTo(191)
         }

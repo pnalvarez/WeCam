@@ -327,7 +327,7 @@
 		3FE8DF4324C3FA51005DE30D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3FE8DF4224C3FA51005DE30D /* GoogleService-Info.plist */; };
 		3FE8DF5424C52F72005DE30D /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE8DF5324C52F72005DE30D /* FirebaseManager.swift */; };
 		3FE8DF5624C7BE0B005DE30D /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE8DF5524C7BE0B005DE30D /* UserModel.swift */; };
-		3FE8DF5824C7BEE2005DE30D /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE8DF5724C7BEE2005DE30D /* Constants.swift */; };
+		3FE8DF5824C7BEE2005DE30D /* Paths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE8DF5724C7BEE2005DE30D /* Paths.swift */; };
 		3FE8DF5A24CBD271005DE30D /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE8DF5924CBD271005DE30D /* UIView+.swift */; };
 		3FE8DF5C24CBD81C005DE30D /* ThemeColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE8DF5B24CBD81C005DE30D /* ThemeColors.swift */; };
 		3FEBA85424FF145E0077183F /* OnGoingProjectDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FEBA85324FF145E0077183F /* OnGoingProjectDisplayView.swift */; };
@@ -701,7 +701,7 @@
 		3FE8DF4224C3FA51005DE30D /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		3FE8DF5324C52F72005DE30D /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		3FE8DF5524C7BE0B005DE30D /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
-		3FE8DF5724C7BEE2005DE30D /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		3FE8DF5724C7BEE2005DE30D /* Paths.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Paths.swift; sourceTree = "<group>"; };
 		3FE8DF5924CBD271005DE30D /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		3FE8DF5B24CBD81C005DE30D /* ThemeColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeColors.swift; sourceTree = "<group>"; };
 		3FEBA85324FF145E0077183F /* OnGoingProjectDisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnGoingProjectDisplayView.swift; sourceTree = "<group>"; };
@@ -1509,7 +1509,7 @@
 		3F95785A24AD760D00B79818 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				3FE8DF5724C7BEE2005DE30D /* Constants.swift */,
+				3FE8DF5724C7BEE2005DE30D /* Paths.swift */,
 				3F6EEA7224E870AD0075C500 /* InfopListReader.swift */,
 				3F0129F5252D2AF500FF4985 /* LocalSaveManager.swift */,
 				3FF72BB82606BE5D0064B96A /* InternetManager.swift */,
@@ -2315,7 +2315,7 @@
 				3F8D13A124D53C4400AED7EB /* NotificationsModels.swift in Sources */,
 				3F9578C824B0196300B79818 /* SignUpController.swift in Sources */,
 				3F95786A24AEA07100B79818 /* LaunchScreenInteractor.swift in Sources */,
-				3FE8DF5824C7BEE2005DE30D /* Constants.swift in Sources */,
+				3FE8DF5824C7BEE2005DE30D /* Paths.swift in Sources */,
 				3F9578D424B019BE00B79818 /* MovieStyleButton.swift in Sources */,
 				3F42A49D2553933D0088E232 /* InsertVideoWorker.swift in Sources */,
 				3F012A06252E8C4100FF4985 /* ProfileSuggestionsFeedTableViewCell.swift in Sources */,
