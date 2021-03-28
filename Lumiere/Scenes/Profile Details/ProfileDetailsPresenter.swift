@@ -28,9 +28,7 @@ class ProfileDetailsPresenter: ProfileDetailsPresentationLogic {
     init(viewController: ProfileDetailsDisplayLogic) {
         self.viewController = viewController
     }
-    
-    /// <#Description#>
-    /// - Parameter response: <#response description#>
+
     func presentUserInfo(_ response: ProfileDetails.Info.Model.User) {
         let progressingProjects = response.progressingProjects.map({ ProfileDetails.Info.ViewModel.Project(image: $0.image)})
         let finishedProjects = response.finishedProjects.map({ ProfileDetails.Info.ViewModel.Project(image: $0.image)})
@@ -88,8 +86,7 @@ class ProfileDetailsPresenter: ProfileDetailsPresentationLogic {
                                                         .Constants
                                                         .Colors
                                                         .phoneNumberLbl]),
-                  connectionsCount: NSAttributedString(string: response.connectionsCount != "1" ?
-                    "\(response.connectionsCount) Conexões" : "\(response.connectionsCount) Conexão",
+                  connectionsCount: NSAttributedString(string:"Conexões (\(response.connectionsCount))",
                     attributes: [NSAttributedString.Key.font: ProfileDetails
                         .Constants
                         .Fonts

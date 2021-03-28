@@ -125,7 +125,7 @@ struct ProfileDetails {
                 let occupation: String
                 let email: String
                 let phoneNumber: String
-                let connectionsCount: String
+                let connectionsCount: Int
                 var progressingProjects: [Project]
                 var finishedProjects: [Project]
             }
@@ -282,6 +282,7 @@ struct ProfileDetails {
             var ocupation: String?
             var phoneNumber: String?
             var image: String?
+            var connectionsCount: Int?
             
             init?(map: Map) {}
                        
@@ -292,6 +293,7 @@ struct ProfileDetails {
                 ocupation <- map["professional_area"]
                 phoneNumber <- map["phone_number"]
                 image <- map["profile_image_url"]
+                connectionsCount <- map["connections_count"]
             }
         }
         
@@ -462,7 +464,7 @@ extension ProfileDetails.Info.Model.User: Stubbable {
                                               occupation: "Artista",
                                               email: "user_test@hotmail.com",
                                               phoneNumber: "(20)3938-3948",
-                                              connectionsCount: "0",
+                                              connectionsCount: 10,
                                               progressingProjects: ProfileDetails.Info.Model.Project.stubArray, finishedProjects: .empty)
     }
 }
@@ -509,7 +511,7 @@ extension ProfileDetails.Info.ViewModel.User: Stubbable {
                                                                                                                                                                                                                                                                                                                                             .phoneNumberLbl, NSAttributedString.Key.foregroundColor: ProfileDetails
                                                                                                                                                                                                                                                                                                                                                 .Constants
                                                                                                                                                                                                                                                                                                                                                 .Colors
-                                                                                                                                                                                                                                                                                                                                                .phoneNumberLbl]), connectionsCount: NSAttributedString(string: "0 Conexões",
+                                                                                                                                                                                                                                                                                                                                                .phoneNumberLbl]), connectionsCount: NSAttributedString(string: "10 Conexões",
                                                                                                                                                                                                                                                                                                                                                                                                             attributes: [NSAttributedString.Key.font: ProfileDetails
                                                                                                                                                                                                                                                                                                                                                                                                                 .Constants
                                                                                                                                                                                                                                                                                                                                                                                                                 .Fonts

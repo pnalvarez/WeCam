@@ -207,7 +207,7 @@ extension ProfileDetailsInteractor: ProfileDetailsBusinessLogic {
                                                                     name: data.name ?? .empty,
                                                                     occupation: data.ocupation ?? .empty,
                                                                     email: data.email ?? .empty,
-                                                                    phoneNumber: data.phoneNumber ?? .empty, connectionsCount: "0", progressingProjects: .empty, finishedProjects: .empty)
+                                                                    phoneNumber: data.phoneNumber ?? .empty, connectionsCount: data.connectionsCount ?? 0, progressingProjects: .empty, finishedProjects: .empty)
                 self.fetchUserRelation()
             case .error(let error):
                 self.presenter.presentLoading(false)
