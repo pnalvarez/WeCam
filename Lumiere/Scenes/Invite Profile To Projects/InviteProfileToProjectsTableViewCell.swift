@@ -112,8 +112,7 @@ extension InviteProfileToProjectsTableViewCell: ViewCodeProtocol {
         }
         progressLbl.snp.makeConstraints { make in
             make.top.equalTo(cathegoriesLbl.snp.bottom).offset(6)
-            make.left.equalTo(cathegoriesLbl)
-            make.width.equalTo(50)
+            make.left.right.equalTo(cathegoriesLbl)
         }
     }
     

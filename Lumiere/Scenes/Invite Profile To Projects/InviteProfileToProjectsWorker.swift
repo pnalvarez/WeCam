@@ -7,9 +7,11 @@
 //
 
 protocol InviteProfileToProjectsWorkerProtocol {
-    func fetchProjects(request: InviteProfileToProjects.Request.FetchProjects,
-                       completion: @escaping (BaseResponse<[InviteProfileToProjects.Info.Response.Project]>) -> Void)
-    func fetchUserProjectRelation(request: InviteProfileToProjects.Request.FetchUserProjectRelation,
+    func fetchOngoingProjects(request: InviteProfileToProjects.Request.FetchProjects,
+                       completion: @escaping (BaseResponse<[InviteProfileToProjects.Info.Response.OngoingProject]>) -> Void)
+    func fetchUserOnGoingProjectRelation(request: InviteProfileToProjects.Request.FetchUserProjectRelation,
+                                  completion: @escaping (BaseResponse<InviteProfileToProjects.Info.Response.ProjectRelation>) -> Void)
+    func fetchUserFinishedProjectRelation(request: InviteProfileToProjects.Request.FetchUserProjectRelation,
                                   completion: @escaping (BaseResponse<InviteProfileToProjects.Info.Response.ProjectRelation>) -> Void)
     func fetchInviteUserToProject(request: InviteProfileToProjects.Request.InviteUser,
                                   completion: @escaping (EmptyResponse) -> Void)
@@ -31,17 +33,23 @@ class InviteProfileToProjectsWorker: InviteProfileToProjectsWorkerProtocol {
         self.builder = builder
     }
     
-    func fetchProjects(request: InviteProfileToProjects.Request.FetchProjects,
-                       completion: @escaping (BaseResponse<[InviteProfileToProjects.Info.Response.Project]>) -> Void) {
+    func fetchOngoingProjects(request: InviteProfileToProjects.Request.FetchProjects,
+                       completion: @escaping (BaseResponse<[InviteProfileToProjects.Info.Response.OngoingProject]>) -> Void) {
         let headers: [String : Any] = .empty
         builder.fetchCurrentUserAuthoringProjects(request: headers,
                                                   completion: completion)
     }
     
-    func fetchUserProjectRelation(request: InviteProfileToProjects.Request.FetchUserProjectRelation,
+    func fetchUserOnGoingProjectRelation(request: InviteProfileToProjects.Request.FetchUserProjectRelation,
                                   completion: @escaping (BaseResponse<InviteProfileToProjects.Info.Response.ProjectRelation>) -> Void) {
         let headers: [String : Any] = ["userId": request.userId, "projectId": request.projectId]
         builder.fetchUserRelationToOnGoingProject(request: headers, completion: completion)
+    }
+    
+    func fetchUserFinishedProjectRelation(request: InviteProfileToProjects.Request.FetchUserProjectRelation,
+                                          completion: @escaping (BaseResponse<InviteProfileToProjects.Info.Response.ProjectRelation>) -> Void) {
+        let headers: [String : Any] = ["userId": request.userId, "projectId": request.projectId]
+        builder.fetchUserRelationToFinishedProject(request: headers, completion: completion)
     }
     
     func fetchInviteUserToProject(request: InviteProfileToProjects.Request.InviteUser,

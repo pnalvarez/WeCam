@@ -15,6 +15,7 @@ enum WCError: Error {
     case fetchConnectionsError
     case connectUsersError 
     case signInError
+    case unloggedUser
     case createUser
     case saveImage
     case userConnectionError
@@ -42,6 +43,8 @@ enum WCError: Error {
             return "Ocorreu um erro"
         case .genericError:
             return "Ocorreu um erro genérico"
+        case .unloggedUser:
+            return "Ocorreu um erro de autenticação"
         case .fetchConnectionsError:
             return "Ocorreu um erro ao buscar as notificações"
         case .connectUsersError:

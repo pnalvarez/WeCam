@@ -94,6 +94,10 @@ struct InviteProfileToProjects {
                 let secondCathegory: String?
                 let progress: Int
                 var relation: Relation?
+                
+                var finished: Bool {
+                    return progress >= 100
+                }
             }
         }
         
@@ -128,10 +132,10 @@ struct InviteProfileToProjects {
         
         struct Response {
             
-            final class Project: Mappable {
+            final class OngoingProject: Mappable {
                 
                 var id: String?
-                var name: String?
+                var title: String?
                 var cathegories: [String]?
                 var progress: Int?
                 var image: String?
@@ -141,9 +145,28 @@ struct InviteProfileToProjects {
                 
                 func mapping(map: Map) {
                     id <- map["id"]
-                    name <- map["title"]
+                    title <- map["title"]
                     cathegories <- map["cathegories"]
                     progress <- map["progress"]
+                    image <- map["image"]
+                    authorId <- map["author_id"]
+                }
+            }
+            
+            final class FinishedProject: Mappable {
+                
+                var id: String?
+                var title: String?
+                var cathegories: [String]?
+                var image: String?
+                var authorId: String?
+                
+                init?(map: Map) { }
+                
+                func mapping(map: Map) {
+                    id <- map["id"]
+                    title <- map["title"]
+                    cathegories <- map["cathegories"]
                     image <- map["image"]
                     authorId <- map["author_id"]
                 }

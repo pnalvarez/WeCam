@@ -39,7 +39,38 @@ class InviteProfileToProjectsInteractor: InviteProfileToProjectsDataStore {
 extension InviteProfileToProjectsInteractor {
     
     private func fetchUserToProjectRelation(request: InviteProfileToProjects.Request.FetchRelation) {
-        worker.fetchUserProjectRelation(request: InviteProfileToProjects.Request.FetchUserProjectRelation(userId: request.userId, projectId: request.projectId)) { response in
+        worker.fetchUserOnGoingProjectRelation(request: InviteProfileToProjects.Request.FetchUserProjectRelation(userId: request.userId, projectId: request.projectId)) { response in
+            switch response {
+            case .success(let data):
+                guard let relation = data.relation else { return }
+                var newRelation: InviteProfileToProjects.Info.Model.Relation
+                if relation == "SIMPLE PARTICIPANT" {
+                    newRelation = .participating
+                } else if relation == "SENT REQUEST" {
+                    newRelation = .sentRequest
+                } else if relation == "RECEIVED REQUEST" {
+                    newRelation = .receivedRequest
+                } else {
+                    newRelation = .nothing
+                }
+                guard let index = self.projectsModel?.projects.firstIndex(where: { $0.id == request.projectId }) else { return }
+                self.projectsModel?.projects[index].relation = newRelation
+                if self.allRelationsFetched() {
+                    self.presenter.presentLoading(false)
+                    guard let projectsModel = self.projectsModel else {
+                        return
+                    }
+                    self.presenter.presentProjects(projectsModel)
+                }
+            case .error(let error):
+                self.presenter.presentLoading(false)
+                self.presenter.presenterError(error)
+            }
+        }
+    }
+    
+    private func fetchUserToFinishedProjectRelation(request: InviteProfileToProjects.Request.FetchRelation) {
+        worker.fetchUserFinishedProjectRelation(request: InviteProfileToProjects.Request.FetchUserProjectRelation(userId: request.userId, projectId: request.projectId)) { response in
             switch response {
             case .success(let data):
                 guard let relation = data.relation else { return }
@@ -132,7 +163,7 @@ extension InviteProfileToProjectsInteractor: InviteProfileToProjectsBusinessLogi
     
     func fetchProjects(_ request: InviteProfileToProjects.Request.FetchProjects) {
         presenter.presentLoading(true)
-        worker.fetchProjects(request: request) { response in
+        worker.fetchOngoingProjects(request: request) { response in
             switch response {
             case .success(let data):
                 self.projectsModel = InviteProfileToProjects.Info.Model.UpcomingProjects(projects: data.map({
@@ -145,7 +176,7 @@ extension InviteProfileToProjectsInteractor: InviteProfileToProjectsBusinessLogi
                         }
                     }
                     return InviteProfileToProjects.Info.Model.Project(id: $0.id ?? .empty,
-                                                               name: $0.name ?? .empty,
+                                                               name: $0.title ?? .empty,
                                                                image: $0.image ?? .empty,
                                                                authorId: $0.authorId ?? .empty,
                                                                firstCathegory: firstCathegory ?? .empty,
@@ -154,10 +185,15 @@ extension InviteProfileToProjectsInteractor: InviteProfileToProjectsBusinessLogi
                                                                relation: nil)
                 }))
                 for i in 0..<data.count {
-                    self.fetchUserToProjectRelation(request: InviteProfileToProjects.Request.FetchRelation(userId: self.receivedUser?.userId ?? .empty, projectId: data[i].id ?? .empty, index: i))
+                    if data[i].progress ?? 0 < 100 {
+                        self.fetchUserToProjectRelation(request: InviteProfileToProjects.Request.FetchRelation(userId: self.receivedUser?.userId ?? .empty, projectId: data[i].id ?? .empty, index: i))
+                    } else {
+                        self.fetchUserToFinishedProjectRelation(request: InviteProfileToProjects.Request.FetchRelation(userId: self.receivedUser?.userId ?? .empty, projectId: data[i].id ?? .empty, index: i))
+                    }
                 }
             case .error(let error):
                 self.presenter.presentLoading(false)
+                self.presenter.presenterError(error)
             }
         }
     }

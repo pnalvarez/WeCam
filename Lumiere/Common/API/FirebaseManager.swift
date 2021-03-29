@@ -90,6 +90,8 @@ protocol FirebaseManagerProtocol {
                                completion: @escaping (EmptyResponse) -> Void)
     func fetchCurrentUserAuthoringProjects<T: Mappable>(request: [String : Any],
                                                         completion: @escaping (BaseResponse<[T]>) -> Void)
+    func fetchCurrentUserAuthoringFinishedProjects<T: Mappable>(request: [String : Any],
+                                                                completion: @escaping (BaseResponse<[T]>) -> Void)
     func updateProjectProgress(request: [String : Any],
                                completion: @escaping (EmptyResponse) -> Void)
     func fetchSearchProfiles<T: Mappable>(request: [String : Any],
@@ -2490,25 +2492,69 @@ class FirebaseManager: FirebaseManagerProtocol {
                 if let projectIds = snapshot.value as? [String] {
                     ids.append(contentsOf: projectIds)
                 }
-                for i in 0..<ids.count {
-                    self.realtimeDB
-                        .child(Paths.projectsPath)
-                        .child(Paths.ongoingProjectsPath)
-                        .child(ids[i])
-                        .observeSingleEvent(of: .value) { snapshot in
-                            guard var project = snapshot.value as? [String : Any] else {
-                                completion(.error(WCError.genericError))
-                                return
+                let dispatchGroup = DispatchGroup()
+                for id in ids {
+                    dispatchGroup.enter()
+                    self.fetchEntityType(forId: id) { response in
+                        switch response {
+                        case .sucess(let type):
+                            switch type {
+                            case .user:
+                                dispatchGroup.leave()
+                                completion(.error(.genericError))
+                            case .ongoingProject:
+                                self.realtimeDB
+                                    .child(Paths.projectsPath)
+                                    .child(Paths.ongoingProjectsPath)
+                                    .child(id)
+                                    .observeSingleEvent(of: .value) { snapshot in
+                                        guard var project = snapshot.value as? [String : Any] else {
+                                            dispatchGroup.leave()
+                                            completion(.error(WCError.genericError))
+                                            return
+                                        }
+                                        project["id"] = id
+                                        responseArray.append(project)
+                                        dispatchGroup.leave()
+                                    }
+                            case .finishedProject:
+                                self.realtimeDB
+                                    .child(Paths.projectsPath)
+                                    .child(Paths.finishedProjectsPath)
+                                    .child(id)
+                                    .observeSingleEvent(of: .value) { snapshot in
+                                        guard var project = snapshot.value as? [String : Any] else {
+                                            dispatchGroup.leave()
+                                            completion(.error(.genericError))
+                                            return
+                                        }
+                                        project["id"] = id
+                                        project["progress"] = 100
+                                        responseArray.append(project)
+                                        dispatchGroup.leave()
+                                }
                             }
-                            project["id"] = ids[i]
-                            responseArray.append(project)
-                            if i == ids.count-1 {
-                                let mappedResponse = Mapper<T>().mapArray(JSONArray: responseArray)
-                                completion(.success(mappedResponse))
-                            }
+                        case .error:
+                            dispatchGroup.leave()
+                            completion(.error(.genericError))
                         }
+                    }
+                }
+                dispatchGroup.notify(queue: .main) {
+                    let mappedResponse = Mapper<T>().mapArray(JSONArray: responseArray)
+                    completion(.success(mappedResponse))
                 }
             }
+    }
+    
+    func fetchCurrentUserAuthoringFinishedProjects<T: Mappable>(request: [String : Any],
+                                                                completion: @escaping (BaseResponse<[T]>) -> Void) {
+        var responseArray: [[String : Any]] = .empty
+        guard let currentUser = authReference.currentUser?.uid else {
+            completion(.error(WCError.unloggedUser))
+            return
+        }
+        
     }
     
     func updateProjectProgress(request: [String : Any],
