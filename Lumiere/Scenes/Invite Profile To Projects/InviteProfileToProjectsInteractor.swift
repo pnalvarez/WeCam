@@ -107,7 +107,7 @@ extension InviteProfileToProjectsInteractor {
             .Model
             .RelationUpdate(index: index,
                             relation: .participating))
-        worker.fetchAcceptUserIntoProject(request: request) { response in
+        worker.fetchAcceptUserIntoOngoingProject(request: request) { response in
             switch response {
             case .success:
                 self.projectsModel?.projects[index].relation = .participating
@@ -125,7 +125,7 @@ extension InviteProfileToProjectsInteractor {
         .Model
         .RelationUpdate(index: index,
                         relation: .nothing))
-        worker.fetchRefuseUserIntoProject(request: request) { response in
+        worker.fetchRefuseUserIntoOngoingProject(request: request) { response in
             switch response {
             case .success:
                 self.projectsModel?.projects[index].relation = .nothing
@@ -143,7 +143,7 @@ extension InviteProfileToProjectsInteractor {
         .Model
         .RelationUpdate(index: index,
                         relation: .nothing))
-        worker.fetchRemoveUserFromProject(request: request) { response in
+        worker.fetchRemoveUserFromOngoingProject(request: request) { response in
             switch response {
             case .success:
                 self.projectsModel?.projects[index].relation = .nothing
@@ -214,7 +214,7 @@ extension InviteProfileToProjectsInteractor: InviteProfileToProjectsBusinessLogi
                 .Alert(text: InviteProfileToProjects.Constants.Texts.sentRequestAlert))
         case .receivedRequest:
             presenter.presentRelationUpdate(InviteProfileToProjects.Info.Model.RelationUpdate(index: request.index, relation: .nothing))
-            worker.fetchRemoveInvite(request: InviteProfileToProjects.Request.RemoveInvite(userId: receivedUser?.userId ?? .empty, projectId: interactingProject?.id ?? .empty)) { response in
+            worker.fetchRemoveInviteToOngoingProject(request: InviteProfileToProjects.Request.RemoveInvite(userId: receivedUser?.userId ?? .empty, projectId: interactingProject?.id ?? .empty)) { response in
                 switch response {
                 case .success:
                     self.projectsModel?.projects[request.index].relation = .nothing
@@ -225,9 +225,9 @@ extension InviteProfileToProjectsInteractor: InviteProfileToProjectsBusinessLogi
             }
         case .nothing:
             presenter.presentRelationUpdate(InviteProfileToProjects.Info.Model.RelationUpdate(index: request.index, relation: .receivedRequest))
-            worker.fetchInviteUserToProject(request: InviteProfileToProjects
+            worker.fetchInviteUserToOngoingProject(request: InviteProfileToProjects
                 .Request
-                .InviteUser(userId: receivedUser?.userId ?? .empty,
+                .InviteUserToOngoingProject(userId: receivedUser?.userId ?? .empty,
                             projectId: interactingProject?.id ?? .empty,
                             projectTitle: interactingProject?.name ?? .empty,
                             projectImage: interactingProject?.image ?? .empty,

@@ -193,12 +193,17 @@ struct InviteProfileToProjects {
             let index: Int
         }
         
-        struct InviteUser {
+        struct InviteUserToOngoingProject {
             let userId: String
             let projectId: String
             let projectTitle: String
             let projectImage: String
             let authorId: String
+        }
+        
+        struct InviteUserToFinishedProject {
+            let userId: String
+            let projectId: String
         }
         
         struct RemoveInvite {
