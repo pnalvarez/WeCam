@@ -3687,6 +3687,7 @@ class FirebaseManager: FirebaseManagerProtocol {
     func publishNewProject<T: Mappable>(request: [String : Any],
                                         completion: @escaping (BaseResponse<T>) -> Void) {
         var allFinishedProjects = [String]()
+        var authoringProjectIds = [String]()
         var userProjects = [String]()
         
         guard let title = request["title"] as? String,
@@ -3754,26 +3755,44 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                 userProjects = projects
                                             }
                                             userProjects.append(projectId)
-                                            self.realtimeDB.child(Paths.usersPath).child(currentUser).updateChildValues(["finished_projects": userProjects]) { (error, metadata) in
-                                                if error != nil {
-                                                    completion(.error(WCError.genericError))
-                                                    return
-                                                }
-                                                let dict: [String : Any] = ["id": projectId]
-                                                guard let mappedResponse = Mapper<T>().map(JSON: dict) else {
-                                                    completion(.error(WCError.parseError))
-                                                    return
-                                                }
-                                                self.registerEntity(withId: projectId, type: .finishedProject) {
-                                                    response in
-                                                    switch response {
-                                                    case .error(let error):
-                                                        completion(.error(WCError.genericError))
-                                                    case .success:
-                                                        completion(.success(mappedResponse))
+                                            self.realtimeDB
+                                                .child(Paths.usersPath)
+                                                .child(currentUser)
+                                                .child("authoring_project_ids")
+                                                .observeSingleEvent(of: .value) {
+                                                    snapshot in
+                                                    if let projectIds = snapshot.value as? [String] {
+                                                        authoringProjectIds = projectIds
+                                                    }
+                                                    authoringProjectIds.append(projectId)
+                                                    self.realtimeDB.child(Paths.usersPath).child(currentUser).updateChildValues(["authoring_project_ids": authoringProjectIds]) {
+                                                        error, ref in
+                                                        if let _ = error {
+                                                            completion(.error(.genericError))
+                                                            return
+                                                        }
+                                                        self.realtimeDB.child(Paths.usersPath).child(currentUser).updateChildValues(["finished_projects": userProjects]) { (error, metadata) in
+                                                            if error != nil {
+                                                                completion(.error(WCError.genericError))
+                                                                return
+                                                            }
+                                                            let dict: [String : Any] = ["id": projectId]
+                                                            guard let mappedResponse = Mapper<T>().map(JSON: dict) else {
+                                                                completion(.error(WCError.parseError))
+                                                                return
+                                                            }
+                                                            self.registerEntity(withId: projectId, type: .finishedProject) {
+                                                                response in
+                                                                switch response {
+                                                                case .error:
+                                                                    completion(.error(WCError.genericError))
+                                                                case .success:
+                                                                    completion(.success(mappedResponse))
+                                                                }
+                                                            }
+                                                        }
                                                     }
                                                 }
-                                            }
                                         }
                                 }
                             }
