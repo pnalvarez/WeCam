@@ -11,6 +11,7 @@ import YoutubePlayer_in_WKWebView
 
 class InsertVideoView: UIView {
     
+    private unowned var closeButton: DefaultCloseButton
     private unowned var loadingView: LoadingView
     private unowned var confirmationAlertView: ConfirmationAlertView
     private unowned var translucentView: UIView
@@ -54,6 +55,7 @@ class InsertVideoView: UIView {
     }()
     
     init(frame: CGRect,
+         closeButton: DefaultCloseButton,
          loadingView: LoadingView,
          confirmationAlertView: ConfirmationAlertView,
          translucentView: UIView,
@@ -63,6 +65,7 @@ class InsertVideoView: UIView {
          urlErrorView: EmptyListView,
          playerView: WKYTPlayerView,
          submitButton: UIButton) {
+        self.closeButton = closeButton
         self.loadingView = loadingView
         self.confirmationAlertView = confirmationAlertView
         self.translucentView = translucentView
@@ -109,6 +112,7 @@ class InsertVideoView: UIView {
 extension InsertVideoView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
+        mainContainer.addSubview(closeButton)
         mainContainer.addSubview(backButton)
         mainContainer.addSubview(insertUrlLbl)
         mainContainer.addSubview(inputTextField)
@@ -125,6 +129,11 @@ extension InsertVideoView: ViewCodeProtocol {
     }
     
     func setupConstraints() {
+        closeButton.snp.makeConstraints { make in
+            make.top.equalToSuperview().inset(28)
+            make.right.equalToSuperview().inset(28)
+            make.height.width.equalTo(31)
+        }
         backButton.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(28)
             make.left.equalToSuperview().inset(28)

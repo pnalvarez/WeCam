@@ -56,7 +56,13 @@ class OnGoingProjectDetailsRouter: NSObject, OnGoingProjectDetailsDataTransfer {
 extension OnGoingProjectDetailsRouter: BaseRouterProtocol {
     
     func routeTo(nextVC: UIViewController) {
-        viewController?.navigationController?.pushViewController(nextVC, animated: true)
+        if nextVC is UINavigationController {
+            viewController?.present(nextVC, animated: true) {
+                self.viewController?.navigationController?.popViewController(animated: false)
+            }
+        } else {
+            viewController?.navigationController?.pushViewController(nextVC, animated: true)
+        }
     }
 }
 
@@ -91,6 +97,8 @@ extension OnGoingProjectDetailsRouter: OnGoingProjectDetailsRoutingLogic {
         guard let source = dataStore,
               var destination = vc.router?.dataStore else { return }
         transferDataToInsertMedia(from: source, to: &destination)
-        routeTo(nextVC: vc)
+        let navigation = UINavigationController(rootViewController: vc)
+        navigation.modalPresentationStyle = .fullScreen
+        routeTo(nextVC: navigation)
     }
 }

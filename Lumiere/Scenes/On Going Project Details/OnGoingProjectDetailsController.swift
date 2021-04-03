@@ -555,7 +555,8 @@ extension OnGoingProjectDetailsController: OnGoingProjectDetailsDisplayLogic {
     }
     
     func displayRoutingContextUI(_ viewModel: OnGoingProjectDetails.Info.ViewModel.RoutingContext) {
-         backButton.isHidden = viewModel.context == .justCreatedProject
+        backButton.isHidden = viewModel.context == .justCreatedProject
         closeButton.isHidden = viewModel.context == .checkingProject
+        interactionButton.isHidden = viewModel.context == .justCreatedProject
     }
 }

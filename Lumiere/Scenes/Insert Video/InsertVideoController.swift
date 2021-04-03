@@ -88,6 +88,7 @@ class InsertVideoController: BaseViewController {
     
     private lazy var mainView: InsertVideoView = {
         let view = InsertVideoView(frame: .zero,
+                                   closeButton: closeButton,
                                    loadingView: loadingView,
                                    confirmationAlertView: confirmationAlertView,
                                    translucentView: translucentView,
@@ -156,11 +157,6 @@ extension InsertVideoController {
 }
 
 extension InsertVideoController {
-    
-    @objc
-    private func didTapBack() {
-        router?.routeBack()
-    }
     
     @objc
     private func didChangeInputTextField() {

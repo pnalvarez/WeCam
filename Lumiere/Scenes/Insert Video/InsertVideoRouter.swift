@@ -11,7 +11,6 @@ typealias InsertVideoRouterProtocol = NSObject & InsertVideoRoutingLogic & Inser
 
 protocol InsertVideoRoutingLogic {
     func routeToFinishedProjectDetails()
-    func routeBack()
 }
 
 protocol InsertVideoDataTransfer {
@@ -47,13 +46,8 @@ extension InsertVideoRouter: BaseRouterProtocol {
 
 extension InsertVideoRouter: InsertVideoRoutingLogic {
     
-    func routeBack() {
-        viewController?.navigationController?.popViewController(animated: true)
-    }
-    
     func routeToFinishedProjectDetails() {
         let vc = FinishedProjectDetailsController()
-        vc.modalPresentationStyle = .fullScreen
         guard let source = dataStore,
               var destination = vc.router?.dataStore else { return }
         transferDataToFinishedProjectDetails(from: source,

@@ -39,6 +39,7 @@ class BaseViewController: UIViewController {
         super.viewDidLoad()
         configureAuxiliarComponentsVisibility()
         setupUI()
+        navigationController?.isNavigationBarHidden = true
         navigationItem.backBarButtonItem = UIBarButtonItem(image: backButtonImage, style: .plain, target: nil, action: nil)
         navigationItem.titleView = UIImageView(image: titleViewImage)
         let gesture = UITapGestureRecognizer(target: self, action: #selector(didTap))

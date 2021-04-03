@@ -50,7 +50,7 @@ extension SelectProjectImageRouter: SelectProjectImageRoutingLogic {
                 return
         }
         transferDataToCathegories(from: source, to: &destination)
-        let navigation = UINavigationController(rootViewController: vc)
+        let navigation = NestedNavigationController(rootViewController: vc)
         navigation.modalPresentationStyle = .fullScreen
         routeTo(nextVC: navigation)
     }
