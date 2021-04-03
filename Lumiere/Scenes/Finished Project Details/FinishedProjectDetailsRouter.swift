@@ -14,7 +14,6 @@ protocol FinishedProjectDetailsRoutingLogic {
     func routeToWatchVideo()
     func routeToProjectInvites()
     func routeToProfileDetails()
-    func dismiss()
 }
 
 protocol FinishedProjectDetailsDataTransfer {
@@ -62,24 +61,6 @@ extension FinishedProjectDetailsRouter: BaseRouterProtocol {
 }
 
 extension FinishedProjectDetailsRouter: FinishedProjectDetailsRoutingLogic {
-    
-    func dismiss() {
-        switch routingMethod {
-        case .modal:
-            viewController?.dismiss(animated: true, completion: nil)
-        case .push:
-            switch routingContext {
-            case .justCreated:
-                if viewController?.navigationController?.viewControllers[0] is SelectProjectCathegoryController {
-                    viewController?.navigationController?.dismiss(animated: true, completion: nil)
-                } else {
-                    viewController?.navigationController?.popToRootViewController(animated: true)
-                }
-            case .checking:
-                viewController?.navigationController?.popViewController(animated: true)
-            }
-        }
-    }
     
     func routeToProjectInvites() {
         let vc = ProjectInvitesController()

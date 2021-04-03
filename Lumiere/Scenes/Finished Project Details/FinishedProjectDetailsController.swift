@@ -31,14 +31,11 @@ class FinishedProjectDetailsController: BaseViewController {
     }()
     
     
-    private lazy var watchButton: UIButton = {
-        let view = UIButton(frame: .zero)
-        view.layer.cornerRadius = 4
+    private lazy var watchButton: DefaultActionButton = {
+        let view = DefaultActionButton(frame: .zero)
         view.addTarget(self, action: #selector(didTapWatch), for: .touchUpInside)
         view.backgroundColor = FinishedProjectDetails.Constants.Colors.watchButtonBackground
         view.setTitle(FinishedProjectDetails.Constants.Texts.watchButton, for: .normal)
-        view.setTitleColor(FinishedProjectDetails.Constants.Colors.watchButtonText, for: .normal)
-        view.titleLabel?.font = FinishedProjectDetails.Constants.Fonts.watchButton
         return view
     }()
     
@@ -192,28 +189,18 @@ extension FinishedProjectDetailsController: UICollectionViewDelegateFlowLayout {
 extension FinishedProjectDetailsController {
     
     @objc
-    private func didTapClose() {
-        router?.dismiss()
-    }
-    
-    @objc
     private func didTapWatch() {
         router?.routeToWatchVideo()
     }
     
     @objc
     private func didTapInteraction() {
-        router?.routeToProjectInvites()
+        interactor?.didTapInteractionButton(FinishedProjectDetails.Request.Interaction())
     }
     
     @objc
     private func didTapMoreInfo() {
         
-    }
-    
-    @objc
-    private func didTapBack() {
-        router?.dismiss()
     }
 }
 

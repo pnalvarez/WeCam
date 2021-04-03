@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		18339D21EE039C238056C132 /* Pods_WeCam.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65CB1E4FCB852DEA3AE1E784 /* Pods_WeCam.framework */; };
-		3F00E8842618108E001B3463 /* NestedNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F00E8832618108E001B3463 /* NestedNavigationController.swift */; };
 		3F0129C4252A510800FF4985 /* OnGoingProjectDetailsInteractor+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0129C3252A510800FF4985 /* OnGoingProjectDetailsInteractor+Tests.swift */; };
 		3F0129CD252A524100FF4985 /* OnGoingProjectDetailsWorkerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0129CC252A524100FF4985 /* OnGoingProjectDetailsWorkerMock.swift */; };
 		3F0129D5252A809100FF4985 /* OnGoingProjectDetailsPresenter+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0129D4252A809100FF4985 /* OnGoingProjectDetailsPresenter+Tests.swift */; };
@@ -375,7 +374,6 @@
 		2A4F5DF811C771F695392D14 /* Pods-Lumiere-LumiereUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Lumiere-LumiereUITests.debug.xcconfig"; path = "Target Support Files/Pods-Lumiere-LumiereUITests/Pods-Lumiere-LumiereUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		365E450F7ADFAE55955B6BE6 /* Pods-WeCam-WeCamUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeCam-WeCamUITests.debug.xcconfig"; path = "Target Support Files/Pods-WeCam-WeCamUITests/Pods-WeCam-WeCamUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		3BBBDDB5B9387B8B127F9474 /* Pods-Lumiere.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Lumiere.debug.xcconfig"; path = "Target Support Files/Pods-Lumiere/Pods-Lumiere.debug.xcconfig"; sourceTree = "<group>"; };
-		3F00E8832618108E001B3463 /* NestedNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NestedNavigationController.swift; sourceTree = "<group>"; };
 		3F0129C3252A510800FF4985 /* OnGoingProjectDetailsInteractor+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OnGoingProjectDetailsInteractor+Tests.swift"; sourceTree = "<group>"; };
 		3F0129CC252A524100FF4985 /* OnGoingProjectDetailsWorkerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnGoingProjectDetailsWorkerMock.swift; sourceTree = "<group>"; };
 		3F0129D4252A809100FF4985 /* OnGoingProjectDetailsPresenter+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OnGoingProjectDetailsPresenter+Tests.swift"; sourceTree = "<group>"; };
@@ -799,7 +797,6 @@
 			isa = PBXGroup;
 			children = (
 				3F01CB062569D48B000833FB /* BaseViewController.swift */,
-				3F00E8832618108E001B3463 /* NestedNavigationController.swift */,
 			);
 			path = Origin;
 			sourceTree = "<group>";
@@ -2264,7 +2261,6 @@
 				3F40A68D24EDFE1F00261161 /* CathegoryCollectionViewCell.swift in Sources */,
 				3F40A6D824F4879D00261161 /* InviteListPresenter.swift in Sources */,
 				3FBE1C1C25FB000500AE67E2 /* RecentSearchController.swift in Sources */,
-				3F00E8842618108E001B3463 /* NestedNavigationController.swift in Sources */,
 				3F655F7A2523C7E0004A1D54 /* ProfileResultTableViewCell.swift in Sources */,
 				3F8D139D24D53B7B00AED7EB /* NotificationsPresenter.swift in Sources */,
 				3F95787324AEA4C000B79818 /* SignInView.swift in Sources */,

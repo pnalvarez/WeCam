@@ -68,12 +68,12 @@ class ProjectInvitesController: BaseViewController {
     
     private lazy var mainView: ProjectInvitesView = {
         let view = ProjectInvitesView(frame: .zero,
-                                             activityView: activityView,
-                                             modalAlertView: modalAlertView,
-                                             translucentView: translucentView,
-                                             closeButton: closeButton,
-                                             searchTextField: searchTextField,
-                                             tableView: tableView)
+                                      activityView: activityView,
+                                      modalAlertView: modalAlertView,
+                                      translucentView: translucentView,
+                                      backButton: backButton,
+                                      searchTextField: searchTextField,
+                                      tableView: tableView)
         return view
     }()
     

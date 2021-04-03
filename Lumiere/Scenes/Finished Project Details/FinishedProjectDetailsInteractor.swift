@@ -13,6 +13,7 @@ protocol FinishedProjectDetailsBusinessLogic {
     func fetchProjectRelation(_ request: FinishedProjectDetails.Request.ProjectRelation)
     func fetchNotinvitedUsers(_ request: FinishedProjectDetails.Request.FetchNotInvitedUsers)
     func didSelectTeamMember(_ request: FinishedProjectDetails.Request.SelectTeamMember)
+    func didTapInteractionButton(_ request: FinishedProjectDetails.Request.Interaction)
 }
 
 protocol FinishedProjectDetailsDataStore {
@@ -129,5 +130,9 @@ extension FinishedProjectDetailsInteractor: FinishedProjectDetailsBusinessLogic 
     func didSelectTeamMember(_ request: FinishedProjectDetails.Request.SelectTeamMember) {
         selectedTeamMember = projectData?.participants[request.index].id
         presenter.presentProfileDetails()
+    }
+    
+    func didTapInteractionButton(_ request: FinishedProjectDetails.Request.Interaction) {
+        //TO DO
     }
 }

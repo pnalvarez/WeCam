@@ -13,7 +13,7 @@ class ProjectInvitesView: UIView {
     private unowned var activityView: UIActivityIndicatorView
     private unowned var modalAlertView: ConfirmationAlertView
     private unowned var translucentView: UIView
-    private unowned var closeButton: DefaultCloseButton
+    private unowned var backButton: DefaultBackButton
     private unowned var searchTextField: UITextField
     private unowned var tableView: UITableView
     
@@ -32,13 +32,13 @@ class ProjectInvitesView: UIView {
          activityView: UIActivityIndicatorView,
          modalAlertView: ConfirmationAlertView,
          translucentView: UIView,
-         closeButton: DefaultCloseButton,
+         backButton: DefaultBackButton,
          searchTextField: UITextField,
          tableView: UITableView) {
         self.activityView = activityView
         self.modalAlertView = modalAlertView
         self.translucentView = translucentView
-        self.closeButton = closeButton
+        self.backButton = backButton
         self.searchTextField = searchTextField
         self.tableView = tableView
         super.init(frame: frame)
@@ -83,7 +83,7 @@ extension ProjectInvitesView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
         addSubview(projectTitleLbl)
-        addSubview(closeButton)
+        addSubview(backButton)
         addSubview(searchTextField)
         addSubview(tableView)
         addSubview(activityView)
@@ -95,20 +95,20 @@ extension ProjectInvitesView: ViewCodeProtocol {
         activityView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-        closeButton.snp.makeConstraints { make in
+        backButton.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(28)
-            make.right.equalToSuperview().inset(30)
+            make.left.equalToSuperview().inset(30)
             make.height.width.equalTo(31)
         }
         projectTitleLbl.snp.makeConstraints { make in
-            make.centerY.equalTo(closeButton)
-            make.left.equalToSuperview().inset(46)
+            make.centerY.equalTo(backButton)
+            make.left.equalTo(backButton.snp.right).offset(16)
             make.width.equalTo(200)
         }
         searchTextField.snp.makeConstraints { make in
             make.top.equalTo(projectTitleLbl.snp.bottom).offset(24)
             make.left.equalTo(projectTitleLbl)
-            make.right.equalTo(closeButton.snp.right)
+            make.right.equalToSuperview().inset(64)
             make.height.equalTo(24)
         }
         tableView.snp.makeConstraints { make in
