@@ -255,13 +255,13 @@ class OnGoingProjectDetailsView: UIView {
     }
     
     func hideConfirmationModal() {
+        self.translucentView.isHidden = true
+        self.confirmationModalView.snp.remakeConstraints { make in
+            make.top.equalTo(self.translucentView.snp.bottom)
+            make.left.right.equalToSuperview()
+            make.height.equalTo(self.translucentView)
+        }
         UIView.animate(withDuration: 0.2, animations: {
-            self.translucentView.isHidden = true
-            self.confirmationModalView.snp.remakeConstraints { make in
-                make.top.equalTo(self.translucentView.snp.bottom)
-                make.left.right.equalToSuperview()
-                make.height.equalTo(self.translucentView)
-            }
             self.layoutIfNeeded()
         })
     }

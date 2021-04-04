@@ -11,6 +11,8 @@ import UIKit
 class FinishedProjectDetailsView: UIView {
     
     private unowned var activityView: UIActivityIndicatorView
+    private unowned var confirmationAlertView: ConfirmationAlertView
+    private unowned var translucentView: UIView
     private unowned var closeButton: DefaultCloseButton
     private unowned var backButton: DefaultBackButton
     private unowned var watchButton: UIButton
@@ -80,6 +82,8 @@ class FinishedProjectDetailsView: UIView {
     
     init(frame: CGRect,
          activityView: UIActivityIndicatorView,
+         confirmationAlertView: ConfirmationAlertView,
+         translucentView: UIView,
          closeButton: DefaultCloseButton,
          backButton: DefaultBackButton,
          watchButton: UIButton,
@@ -87,6 +91,8 @@ class FinishedProjectDetailsView: UIView {
          teamCollectionView: UICollectionView,
          moreInfoButton: UIButton) {
         self.activityView = activityView
+        self.confirmationAlertView = confirmationAlertView
+        self.translucentView = translucentView
         self.closeButton = closeButton
         self.backButton = backButton
         self.watchButton = watchButton
@@ -104,6 +110,31 @@ class FinishedProjectDetailsView: UIView {
     func setup(viewModel: FinishedProjectDetails.Info.ViewModel.Project?) {
         self.viewModel = viewModel
         applyViewCode()
+    }
+    
+    func displayConfirmationModal(forRelation relation: FinishedProjectDetails.Info.ViewModel.Relation) {
+        confirmationAlertView.setupText(relation.relation.confirmationAlertDescription)
+        UIView.animate(withDuration: 0.2, animations: {
+            self.translucentView.isHidden = false
+            self.confirmationAlertView.snp.remakeConstraints { make in
+                make.top.equalTo(self.translucentView.snp.centerY)
+                make.left.right.equalToSuperview()
+                make.height.equalTo(self.translucentView)
+            }
+            self.layoutIfNeeded()
+        })
+    }
+    
+    func hideConfirmationModal() {
+        self.translucentView.isHidden = true
+        self.confirmationAlertView.snp.remakeConstraints { make in
+            make.top.equalTo(self.translucentView.snp.bottom)
+            make.left.right.equalToSuperview()
+            make.height.equalTo(self.translucentView)
+        }
+        UIView.animate(withDuration: 0.2, animations: {
+            self.layoutIfNeeded()
+        })
     }
 }
 
@@ -123,11 +154,20 @@ extension FinishedProjectDetailsView: ViewCodeProtocol {
         mainContainer.addSubview(watchButton)
         scrollView.addSubview(mainContainer)
         addSubview(scrollView)
+        addSubview(translucentView)
+        addSubview(confirmationAlertView)
         addSubview(activityView)
     }
     
     func setupConstraints() {
         activityView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        confirmationAlertView.snp.makeConstraints { make in
+            make.top.equalTo(translucentView.snp.bottom)
+            make.size.equalTo(translucentView)
+        }
+        translucentView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
         closeButton.snp.makeConstraints { make in

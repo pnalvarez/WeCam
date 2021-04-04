@@ -15,8 +15,11 @@ protocol FinishedProjectDetailsDisplayLogic: class {
     func displayLoading(_ loading: Bool)
     func displayRelationUI(_ viewModel: FinishedProjectDetails.Info.ViewModel.Relation)
     func displayAllParticipants()
+    func displayProjectInvites()
+    func displayInteractionConfirmationModal(forRelation viewModel: FinishedProjectDetails.Info.ViewModel.Relation)
     func displayRoutingUI(_ viewModel: FinishedProjectDetails.Info.ViewModel.Routing)
     func displayError(_ viewModel: FinishedProjectDetails.Info.ViewModel.Error)
+    func displayAlert(_ viewModel: FinishedProjectDetails.Info.ViewModel.Alert)
 }
 
 class FinishedProjectDetailsController: BaseViewController {
@@ -30,6 +33,20 @@ class FinishedProjectDetailsController: BaseViewController {
         return view
     }()
     
+    private lazy var confirmationModalView: ConfirmationAlertView = {
+        let view = ConfirmationAlertView(frame: .zero,
+                                         delegate: self,
+                                         text: .empty)
+        return view
+    }()
+    
+    private lazy var translucentView: UIView = {
+        let view = UIView(frame: .zero)
+        view.backgroundColor = UIColor(rgb: 0xededed).withAlphaComponent(0.8)
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(closeModal)))
+        view.isHidden = true
+        return view
+    }()
     
     private lazy var watchButton: DefaultActionButton = {
         let view = DefaultActionButton(frame: .zero)
@@ -75,6 +92,8 @@ class FinishedProjectDetailsController: BaseViewController {
     private lazy var mainView: FinishedProjectDetailsView = {
         let view = FinishedProjectDetailsView(frame: .zero,
                                               activityView: activityView,
+                                              confirmationAlertView: confirmationModalView,
+                                              translucentView: translucentView,
                                               closeButton: closeButton,
                                               backButton: backButton,
                                               watchButton: watchButton,
@@ -202,6 +221,29 @@ extension FinishedProjectDetailsController {
     private func didTapMoreInfo() {
         
     }
+    
+    @objc
+    private func closeModal() {
+        mainView.hideConfirmationModal()
+    }
+}
+
+extension FinishedProjectDetailsController: ConfirmationAlertViewDelegate {
+    
+    func didTapAccept() {
+        DispatchQueue.main.async {
+            self.mainView.hideConfirmationModal()
+        }
+        mainView.hideConfirmationModal()
+        interactor?.didAcceptInteraction(FinishedProjectDetails.Request.AcceptInteraction())
+    }
+    
+    func didTapRefuse() {
+        DispatchQueue.main.async {
+            self.mainView.hideConfirmationModal()
+        }
+        interactor?.didRefuseInteraction(FinishedProjectDetails.Request.RefuseInteraction())
+    }
 }
 
 extension FinishedProjectDetailsController: FinishedProjectDetailsDisplayLogic {
@@ -215,7 +257,7 @@ extension FinishedProjectDetailsController: FinishedProjectDetailsDisplayLogic {
     }
     
     func displayInviteUsers() {
-        
+        router?.routeToProjectInvites()
     }
     
     func displayLoading(_ loading: Bool) {
@@ -239,12 +281,24 @@ extension FinishedProjectDetailsController: FinishedProjectDetailsDisplayLogic {
         
     }
     
+    func displayProjectInvites() {
+        router?.routeToProjectInvites()
+    }
+    
+    func displayInteractionConfirmationModal(forRelation viewModel: FinishedProjectDetails.Info.ViewModel.Relation) {
+        mainView.displayConfirmationModal(forRelation: viewModel)
+    }
+    
     func displayRoutingUI(_ viewModel: FinishedProjectDetails.Info.ViewModel.Routing) {
         backButton.isHidden = !viewModel.backButtonVisible
         closeButton.isHidden = !viewModel.closeButtonVisible
     }
     
     func displayError(_ viewModel: FinishedProjectDetails.Info.ViewModel.Error) {
+        UIAlertController.displayAlert(in: self, title: viewModel.title, message: viewModel.description)
+    }
+    
+    func displayAlert(_ viewModel: FinishedProjectDetails.Info.ViewModel.Alert) {
         UIAlertController.displayAlert(in: self, title: viewModel.title, message: viewModel.description)
     }
 }

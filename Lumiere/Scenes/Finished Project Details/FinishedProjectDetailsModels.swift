@@ -44,6 +44,12 @@ struct FinishedProjectDetails {
             static let interactionExit = "Sair do projeto"
             static let interactionAcceptInvite = "Responder convite"
             static let moreInfoButton = "+ informações"
+            static let acceptProjectInviteTitle = "Solicitação aceita com sucesso"
+            static let acceptProjectInviteDescription = "Você agora faz parte deste projeto"
+            static let refuseProjectInviteTitle = "Você recusou fazer parte deste projeto"
+            static let exitProjectTitle = "Você saiu deste projeto"
+            static let notInvitedUsersErrorTitle = "Erro ao convidar contatos"
+            static let notInvitedUsersErrorDescription = "Nem todos os seus contatos WeCam puderam ser convidados. Você pode tentar mais tarde enviar novamente os convites."
         }
         
         struct Images {
@@ -158,6 +164,37 @@ struct FinishedProjectDetails {
                 case simpleParticipant
                 case receivedInvite
                 case nothing
+                
+                var confirmationAlertTitle: String {
+                    switch self {
+                    case .author:
+                        return .empty
+                    case .receivedInvite:
+                        return "Deseja confirmar sua participação neste projeto?"
+                    case .nothing:
+                        return .empty
+                    case .simpleParticipant:
+                        return "Deseja sair do projeto?"
+                    }
+                }
+                
+                var confirmationAlertDescription: String {
+                    switch self {
+                    case .author:
+                        return .empty
+                    case .receivedInvite:
+                        return "Ao confirmar, você aparecerá como usuário participante deste projeto já finalizado. Você ainda poderá cancelar sua participação posteriormente."
+                    case .nothing:
+                        return .empty
+                    case .simpleParticipant:
+                        return "Se você confirmar sua saída deste projeto, você só poderá retornar caso o autor o convide novamente. Tem certeza de que deseja sair?"
+                    }
+                }
+            }
+            
+            struct Alert {
+                let title: String
+                let description: String
             }
             
             struct Relation {
@@ -205,6 +242,11 @@ struct FinishedProjectDetails {
                 let title: String
                 let description: String
             }
+            
+            struct Alert {
+                let title: String
+                let description: String
+            }
         }
     }
     
@@ -215,6 +257,14 @@ struct FinishedProjectDetails {
         }
         
         struct FetchProjectData {
+            
+        }
+        
+        struct AcceptInteraction {
+            
+        }
+        
+        struct RefuseInteraction {
             
         }
         
@@ -256,6 +306,10 @@ struct FinishedProjectDetails {
         
         struct FetchRoutingModel {
             
+        }
+        
+        struct ExitProject {
+            let projectId: String
         }
     }
 }

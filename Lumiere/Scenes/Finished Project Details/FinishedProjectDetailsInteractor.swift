@@ -14,6 +14,8 @@ protocol FinishedProjectDetailsBusinessLogic {
     func fetchNotinvitedUsers(_ request: FinishedProjectDetails.Request.FetchNotInvitedUsers)
     func didSelectTeamMember(_ request: FinishedProjectDetails.Request.SelectTeamMember)
     func didTapInteractionButton(_ request: FinishedProjectDetails.Request.Interaction)
+    func didAcceptInteraction(_ request: FinishedProjectDetails.Request.AcceptInteraction)
+    func didRefuseInteraction(_ request: FinishedProjectDetails.Request.RefuseInteraction)
 }
 
 protocol FinishedProjectDetailsDataStore {
@@ -40,9 +42,6 @@ class FinishedProjectDetailsInteractor: FinishedProjectDetailsDataStore {
         self.worker = worker
         self.presenter = presenter
     }
-}
-
-extension FinishedProjectDetailsInteractor {
     
     private func fetchParticipantsDetails(ids: [String]) {
         let dispatchGroup = DispatchGroup()
@@ -54,7 +53,7 @@ extension FinishedProjectDetailsInteractor {
                 case .success(let data):
                     participants.append(FinishedProjectDetails.Info.Model.TeamMember(id: id, name: data.name ?? .empty, ocupation: data.ocupation ?? .empty, image: data.image ?? .empty))
                     dispatchGroup.leave()
-                case .error(let error):
+                case .error:
                     dispatchGroup.leave()
                 }
             }
@@ -64,6 +63,47 @@ extension FinishedProjectDetailsInteractor {
             self.projectData?.participants = participants
             guard let project = self.projectData else { return }
             self.presenter.presentProjectData(project)
+        }
+    }
+    
+    private func acceptProjectInvite(request: FinishedProjectDetails.Request.AcceptInvite) {
+        worker.fetchAcceptProjectInvite(request) {
+            response in
+            self.presenter.presentLoading(false)
+            switch response {
+            case .success:
+                self.presenter.presentRelationUI(FinishedProjectDetails.Info.Model.Relation(relation: .simpleParticipant))
+                self.presenter.presentAlert(FinishedProjectDetails.Info.Model.Alert(title: FinishedProjectDetails.Constants.Texts.acceptProjectInviteTitle, description: FinishedProjectDetails.Constants.Texts.acceptProjectInviteDescription))
+            case .error(let error):
+                self.presenter.presentAlert(FinishedProjectDetails.Info.Model.Alert(title: "Ocorreu um erro", description: error.description))
+            }
+        }
+    }
+    
+    private func exitProject(request: FinishedProjectDetails.Request.ExitProject) {
+        worker.exitProject(request) {
+            response in
+            self.presenter.presentLoading(false)
+            switch response {
+            case .success:
+                self.presenter.presentRelationUI(FinishedProjectDetails.Info.Model.Relation(relation: .nothing))
+                self.presenter.presentAlert(FinishedProjectDetails.Info.Model.Alert(title: FinishedProjectDetails.Constants.Texts.exitProjectTitle, description: .empty))
+            case .error(let error):
+                self.presenter.presentAlert(FinishedProjectDetails.Info.Model.Alert(title: "Ocorreu um erro", description: error.description))
+            }
+        }
+    }
+    
+    private func refuseProjectInvite(request: FinishedProjectDetails.Request.RefuseInvite) {
+        worker.fetchRefuseProjectInvite(request) {
+            response in
+            self.presenter.presentLoading(false)
+            switch response {
+            case .success:
+                self.presenter.presentAlert(FinishedProjectDetails.Info.Model.Alert(title: FinishedProjectDetails.Constants.Texts.refuseProjectInviteTitle, description: .empty))
+            case .error(let error):
+                self.presenter.presentAlert(FinishedProjectDetails.Info.Model.Alert(title: "Ocorreu um erro", description: error.description))
+            }
         }
     }
 }
@@ -90,7 +130,8 @@ extension FinishedProjectDetailsInteractor: FinishedProjectDetailsBusinessLogic 
                              participants: .empty)
                 self.fetchParticipantsDetails(ids: data.participants ?? .empty)
             case .error(let error):
-                break
+                self.presenter.presentLoading(false)
+                self.presenter.presentAlert(FinishedProjectDetails.Info.Model.Alert(title: "Ocorreu um erro", description: error.description))
             }
         }
     }
@@ -105,7 +146,7 @@ extension FinishedProjectDetailsInteractor: FinishedProjectDetailsBusinessLogic 
                 guard let relationResponse = data.relation else { return }
                 if relationResponse == "AUTHOR" {
                     relation = .author
-                } else if relationResponse == "SIMPLE_PARTICIPATING" {
+                } else if relationResponse == "SIMPLE_PARTICIPANT" {
                     relation = .simpleParticipant
                 } else if relationResponse == "PENDING" {
                     relation = .receivedInvite
@@ -116,14 +157,15 @@ extension FinishedProjectDetailsInteractor: FinishedProjectDetailsBusinessLogic 
                 guard let projectRelation = self.projectRelation else { return }
                 self.presenter.presentRelationUI(projectRelation)
             case .error(let error):
-                break
+                self.presenter.presentLoading(false)
+                self.presenter.presentAlert(FinishedProjectDetails.Info.Model.Alert(title: "Ocorreu um erro", description: error.description))
             }
         }
     }
     
     func fetchNotinvitedUsers(_ request: FinishedProjectDetails.Request.FetchNotInvitedUsers) {
         if !(receivedData?.userIdsNotInvited.isEmpty ?? true) {
-            
+            self.presenter.presentAlert(FinishedProjectDetails.Info.Model.Alert(title: FinishedProjectDetails.Constants.Texts.notInvitedUsersErrorTitle, description: FinishedProjectDetails.Constants.Texts.notInvitedUsersErrorDescription))
         }
     }
     
@@ -133,6 +175,37 @@ extension FinishedProjectDetailsInteractor: FinishedProjectDetailsBusinessLogic 
     }
     
     func didTapInteractionButton(_ request: FinishedProjectDetails.Request.Interaction) {
-        //TO DO
+        switch projectRelation?.relation {
+        case .author:
+            presenter.presentProjectInvites()
+        case .receivedInvite, .simpleParticipant:
+            guard let projectRelation = projectRelation else { return }
+            presenter.presentInteractionConfirmationModal(forRelation: projectRelation)
+        case .nothing, .none:
+            break
+        }
+    }
+    
+    func didAcceptInteraction(_ request: FinishedProjectDetails.Request.AcceptInteraction) {
+        switch projectRelation?.relation {
+        case .author, .nothing, .none:
+            break
+        case .receivedInvite:
+            presenter.presentLoading(true)
+            acceptProjectInvite(request: FinishedProjectDetails.Request.AcceptInvite(projectId: receivedData?.id ?? .empty))
+        case .simpleParticipant:
+            presenter.presentLoading(true)
+            exitProject(request: FinishedProjectDetails.Request.ExitProject(projectId: receivedData?.id ?? .empty))
+        }
+    }
+    
+    func didRefuseInteraction(_ request: FinishedProjectDetails.Request.RefuseInteraction) {
+        switch projectRelation?.relation {
+        case .author, .nothing, .none, .simpleParticipant:
+            break
+        case .receivedInvite:
+            presenter.presentLoading(true)
+            refuseProjectInvite(request: FinishedProjectDetails.Request.RefuseInvite(projectId: receivedData?.id ?? .empty))
+        }
     }
 }

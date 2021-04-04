@@ -12,7 +12,7 @@ extension UIAlertController {
     
     static func displayAlert(in controller: UIViewController,
                              title: String,
-                             message: String,
+                             message: String = .empty,
                              completion: ((UIAlertAction) -> Void)? = nil) {
         let alertController = UIAlertController(title: title,
                                                 message: message,

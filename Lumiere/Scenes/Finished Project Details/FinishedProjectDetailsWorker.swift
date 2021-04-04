@@ -17,6 +17,8 @@ protocol FinishedProjectDetailsWorkerProtocol {
                                   completion: @escaping (EmptyResponse) -> Void)
     func fetchProjectRelation(_ request: FinishedProjectDetails.Request.ProjectRelationWithId,
                               completion: @escaping (BaseResponse<FinishedProjectDetails.Info.Response.ProjectRelation>) -> Void)
+    func exitProject(_ request: FinishedProjectDetails.Request.ExitProject,
+                     completion: @escaping (EmptyResponse) -> Void)
 }
 
 class FinishedProjectDetailsWorker: FinishedProjectDetailsWorkerProtocol {
@@ -43,7 +45,8 @@ class FinishedProjectDetailsWorker: FinishedProjectDetailsWorkerProtocol {
     
     func fetchAcceptProjectInvite(_ request: FinishedProjectDetails.Request.AcceptInvite,
                                   completion: @escaping (EmptyResponse) -> Void) {
-        
+        let headers: [String : Any] = ["projectId": request.projectId]
+        builder.acceptFinishedProjectInvite(request: headers, completion: completion)
     }
     
     func fetchRefuseProjectInvite(_ request: FinishedProjectDetails.Request.RefuseInvite,
@@ -56,5 +59,11 @@ class FinishedProjectDetailsWorker: FinishedProjectDetailsWorkerProtocol {
         let headers: [String : Any] = ["projectId" : request.projectId]
         builder.fetchFinishedProjectRelation(request: headers,
                                              completion: completion)
+    }
+    
+    func exitProject(_ request: FinishedProjectDetails.Request.ExitProject,
+                     completion: @escaping (EmptyResponse) -> Void) {
+        let headers: [String : Any] = ["projectId" : request.projectId]
+        builder.exitFinishedProject(request: headers, completion: completion)
     }
 }

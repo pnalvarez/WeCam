@@ -74,8 +74,10 @@ protocol FirebaseManagerProtocol {
                                          completion: @escaping (EmptyResponse) -> Void)
     func removeProjectParticipationRequest(request: [String : Any],
                                            completion: @escaping (EmptyResponse) -> Void)
-    func exitProject(request: [String : Any],
+    func exitOngoingProject(request: [String : Any],
                      completion: @escaping (EmptyResponse) -> Void)
+    func exitFinishedProject(request: [String : Any],
+                             completion: @escaping (EmptyResponse) -> Void)
     func fetchProjectParticipationRequestNotifications<T: Mappable>(request: [String : Any],
                                                                     completion: @escaping (BaseResponse<[T]>) -> Void)
     func acceptUserIntoProject(request: [String : Any],
@@ -2017,7 +2019,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             }
     }
     
-    func exitProject(request: [String : Any],
+    func exitOngoingProject(request: [String : Any],
                      completion: @escaping (EmptyResponse) -> Void) {
         guard let projectId = request["projectId"] as? String,
               let currentUser = authReference.currentUser?.uid else {
@@ -2056,6 +2058,58 @@ class FirebaseManager: FirebaseManagerProtocol {
                                 self.realtimeDB
                                     .child(Paths.projectsPath)
                                     .child(Paths.ongoingProjectsPath)
+                                    .child(projectId)
+                                    .updateChildValues(["participants": participants]) { (error, ref) in
+                                        if error != nil {
+                                            completion(.error(WCError.genericError))
+                                            return
+                                        }
+                                        completion(.success)
+                                    }
+                            }
+                    }
+            }
+    }
+    
+    func exitFinishedProject(request: [String : Any],
+                             completion: @escaping (EmptyResponse) -> Void) {
+        guard let projectId = request["projectId"] as? String,
+              let currentUser = authReference.currentUser?.uid else {
+            completion(.error(WCError.genericError))
+            return
+        }
+        realtimeDB
+            .child(Paths.usersPath)
+            .child(currentUser)
+            .child("finished_projects")
+            .observeSingleEvent(of: .value) { snapshot in
+                guard var projects = snapshot.value as? [String] else {
+                    completion(.error(WCError.genericError))
+                    return
+                }
+                projects.removeAll(where: { $0 == projectId })
+                self.realtimeDB
+                    .child(Paths.usersPath)
+                    .child(currentUser)
+                    .updateChildValues(["finished_projects": projects]) { (error, ref) in
+                        if error != nil {
+                            completion(.error(WCError.genericError))
+                            return
+                        }
+                        self.realtimeDB
+                            .child(Paths.projectsPath)
+                            .child(Paths.finishedProjectsPath)
+                            .child(projectId)
+                            .child("participants")
+                            .observeSingleEvent(of: .value) { snapshot in
+                                guard var participants = snapshot.value as? [String] else {
+                                    completion(.error(WCError.genericError))
+                                    return
+                                }
+                                participants.removeAll(where: { $0 == currentUser })
+                                self.realtimeDB
+                                    .child(Paths.projectsPath)
+                                    .child(Paths.finishedProjectsPath)
                                     .child(projectId)
                                     .updateChildValues(["participants": participants]) { (error, ref) in
                                         if error != nil {
@@ -4097,7 +4151,7 @@ class FirebaseManager: FirebaseManagerProtocol {
         var finishedProjects = [String]()
         var allParticipants = [String]()
         guard let currentUser = authReference.currentUser?.uid else {
-            completion(.error(WCError.genericError))
+            completion(.error(WCError.unloggedUser))
             return
         }
         guard let projectId = request["projectId"] as? String else {

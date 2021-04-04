@@ -15,8 +15,11 @@ protocol FinishedProjectDetailsPresentationLogic {
     func presentLoading(_ loading: Bool)
     func presentRelationUI(_ response: FinishedProjectDetails.Info.Model.Relation)
     func presentAllParticipants()
+    func presentProjectInvites()
+    func presentInteractionConfirmationModal(forRelation relation: FinishedProjectDetails.Info.Model.Relation)
     func presentRoutingUI(_ response: FinishedProjectDetails.Info.Model.Routing)
     func presentNotInvitedUsersErrorAlert(_ response: FinishedProjectDetails.Info.Model.NotInvitedUsers)
+    func presentAlert(_ response: FinishedProjectDetails.Info.Model.Alert)
 }
 
 class FinishedProjectDetailsPresenter: FinishedProjectDetailsPresentationLogic {
@@ -59,12 +62,26 @@ class FinishedProjectDetailsPresenter: FinishedProjectDetailsPresentationLogic {
         viewController.displayAllParticipants()
     }
     
+    func presentProjectInvites() {
+        viewController.displayProjectInvites()
+    }
+    
+    func presentInteractionConfirmationModal(forRelation relation: FinishedProjectDetails.Info.Model.Relation) {
+        let viewModel = FinishedProjectDetails.Info.ViewModel.Relation(relation: relation.relation)
+        viewController.displayInteractionConfirmationModal(forRelation: viewModel)
+    }
+    
     func presentRoutingUI(_ response: FinishedProjectDetails.Info.Model.Routing) {
         let viewModel = FinishedProjectDetails.Info.ViewModel.Routing(backButtonVisible: response.context == .checking && response.method == .push, closeButtonVisible: response.context == .justCreated || response.method == .modal, method: response.method)
         viewController.displayRoutingUI(viewModel)
     }
     
     func presentNotInvitedUsersErrorAlert(_ response: FinishedProjectDetails.Info.Model.NotInvitedUsers) {
-        //TO DO
+        
+    }
+    
+    func presentAlert(_ response: FinishedProjectDetails.Info.Model.Alert) {
+        let viewModel = FinishedProjectDetails.Info.ViewModel.Alert(title: response.title, description: response.description)
+        viewController.displayAlert(viewModel)
     }
 }

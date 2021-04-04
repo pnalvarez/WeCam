@@ -106,7 +106,7 @@ class OnGoingProjectDetailsWorker: OnGoingProjectDetailsWorkerProtocol {
     func fetchExitProject(_ request: OnGoingProjectDetails.Request.ExitProject,
                           completion: @escaping (EmptyResponse) -> Void) {
         let headers: [String : Any] = ["projectId": request.projectId]
-        builder.exitProject(request: headers, completion: completion)
+        builder.exitOngoingProject(request: headers, completion: completion)
     }
     
     func fetchUpdateProgress(_ request: OnGoingProjectDetails.Request.UpdateProgressToInteger,
