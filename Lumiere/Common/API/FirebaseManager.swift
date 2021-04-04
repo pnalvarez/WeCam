@@ -116,7 +116,7 @@ protocol FirebaseManagerProtocol {
                                  completion: @escaping (EmptyResponse) -> Void)
     func fetchOnGoingProjectsFeed<T: Mappable>(request: [String : Any],
                                                completion: @escaping (BaseResponse<[T]>) -> Void)
-    func publishProject(request: [String : Any],
+    func publishOngoingProject(request: [String : Any],
                         completion: @escaping (EmptyResponse) -> Void)
     func fetchFinishedProjectData<T: Mappable>(request: [String : Any],
                                                completion: @escaping (BaseResponse<T>) -> Void)
@@ -3451,7 +3451,7 @@ class FirebaseManager: FirebaseManagerProtocol {
             }
     }
     
-    func publishProject(request: [String : Any],
+    func publishOngoingProject(request: [String : Any],
                         completion: @escaping (EmptyResponse) -> Void) {
         var finishedProjects = [String]()
         var allUsers = [String]()
@@ -3498,91 +3498,95 @@ class FirebaseManager: FirebaseManagerProtocol {
                                             completion(.error(WCError.genericError))
                                             return
                                         }
-                                        self.realtimeDB
-                                            .child(Paths.projectsPath)
-                                            .child(Paths.ongoingProjectsPath)
-                                            .child(projectId)
-                                            .removeValue { (error, ref) in
-                                                if error != nil {
-                                                    completion(.error(WCError.genericError))
-                                                    return
-                                                }
-                                                let dict: [String : Any] = ["youtube_url": youtubeURL, "title": title, "sinopsis": sinopsis, "cathegories": cathegories, "participants": participants, "author_id": authorId, "image": image, "finish_date": finishDate, "views": 0]
-                                                self.realtimeDB
-                                                    .child(Paths.projectsPath)
-                                                    .child(Paths.finishedProjectsPath)
-                                                    .child(projectId)
-                                                    .updateChildValues(dict) { (error, ref) in
-                                                        if error != nil {
-                                                            completion(.error(WCError.genericError))
-                                                            return
-                                                        }
-                                                        let dispatchGroup = DispatchGroup()
-                                                        self.realtimeDB
-                                                            .child(Paths.allUsersCataloguePath)
-                                                            .observeSingleEvent(of: .value) { snapshot in
-                                                                guard let users = snapshot.value as? [String] else {
-                                                                    completion(.error(WCError.genericError))
-                                                                    return
-                                                                }
-                                                                allUsers = users
-                                                                for user in allUsers {
-                                                                    dispatchGroup.enter()
-                                                                    self.realtimeDB.child(Paths.usersPath).child(user)
-                                                                        .child("participating_projects").observeSingleEvent(of: .value) { snapshot in
-                                                                            if var projects = snapshot.value as? [String] {
-                                                                                if projects.contains(projectId) {
-                                                                                    projects.removeAll(where: { $0 == projectId})
-                                                                                    self.realtimeDB.child(Paths.usersPath).child(user).updateChildValues(["participating_projects" : projects]) { (error, ref) in
-                                                                                        if error != nil {
-                                                                                            completion(.error(WCError.genericError))
-                                                                                            return
-                                                                                        }
-                                                                                        self.realtimeDB.child(Paths.usersPath).child(user).child("finished_projects").observeSingleEvent(of: .value) { snapshot in
-                                                                                            var projects = [String]()
-                                                                                            if let finishedProjects = snapshot.value as? [String] {
-                                                                                                projects = finishedProjects
+                                        APINotificationManager.shared.cleanOngoingProjectInvites(projecId: projectId, successCallback: {
+                                            self.realtimeDB
+                                                .child(Paths.projectsPath)
+                                                .child(Paths.ongoingProjectsPath)
+                                                .child(projectId)
+                                                .removeValue { (error, ref) in
+                                                    if error != nil {
+                                                        completion(.error(WCError.genericError))
+                                                        return
+                                                    }
+                                                    let dict: [String : Any] = ["youtube_url": youtubeURL, "title": title, "sinopsis": sinopsis, "cathegories": cathegories, "participants": participants, "author_id": authorId, "image": image, "finish_date": finishDate, "views": 0]
+                                                    self.realtimeDB
+                                                        .child(Paths.projectsPath)
+                                                        .child(Paths.finishedProjectsPath)
+                                                        .child(projectId)
+                                                        .updateChildValues(dict) { (error, ref) in
+                                                            if error != nil {
+                                                                completion(.error(WCError.genericError))
+                                                                return
+                                                            }
+                                                            let dispatchGroup = DispatchGroup()
+                                                            self.realtimeDB
+                                                                .child(Paths.allUsersCataloguePath)
+                                                                .observeSingleEvent(of: .value) { snapshot in
+                                                                    guard let users = snapshot.value as? [String] else {
+                                                                        completion(.error(WCError.genericError))
+                                                                        return
+                                                                    }
+                                                                    allUsers = users
+                                                                    for user in allUsers {
+                                                                        dispatchGroup.enter()
+                                                                        self.realtimeDB.child(Paths.usersPath).child(user)
+                                                                            .child("participating_projects").observeSingleEvent(of: .value) { snapshot in
+                                                                                if var projects = snapshot.value as? [String] {
+                                                                                    if projects.contains(projectId) {
+                                                                                        projects.removeAll(where: { $0 == projectId})
+                                                                                        self.realtimeDB.child(Paths.usersPath).child(user).updateChildValues(["participating_projects" : projects]) { (error, ref) in
+                                                                                            if error != nil {
+                                                                                                completion(.error(WCError.genericError))
+                                                                                                return
                                                                                             }
-                                                                                            projects.append(projectId)
-                                                                                            self.realtimeDB.child(Paths.usersPath).child(user).updateChildValues(["finished_projects" : projects]) { (error, ref) in
-                                                                                                if error != nil {
-                                                                                                    completion(.error(WCError.genericError))
-                                                                                                    return
+                                                                                            self.realtimeDB.child(Paths.usersPath).child(user).child("finished_projects").observeSingleEvent(of: .value) { snapshot in
+                                                                                                var projects = [String]()
+                                                                                                if let finishedProjects = snapshot.value as? [String] {
+                                                                                                    projects = finishedProjects
                                                                                                 }
-                                                                                                dispatchGroup.leave()
+                                                                                                projects.append(projectId)
+                                                                                                self.realtimeDB.child(Paths.usersPath).child(user).updateChildValues(["finished_projects" : projects]) { (error, ref) in
+                                                                                                    if error != nil {
+                                                                                                        completion(.error(WCError.genericError))
+                                                                                                        return
+                                                                                                    }
+                                                                                                    dispatchGroup.leave()
+                                                                                                }
                                                                                             }
                                                                                         }
+                                                                                    } else {
+                                                                                        dispatchGroup.leave()
                                                                                     }
                                                                                 } else {
                                                                                     dispatchGroup.leave()
                                                                                 }
-                                                                            } else {
-                                                                                dispatchGroup.leave()
                                                                             }
+                                                                    }
+                                                                    dispatchGroup.notify(queue: .main) {
+                                                                        self.removeEntity(withId: projectId) { response in
+                                                                            switch response {
+                                                                            case .error:
+                                                                                completion(.error(WCError.genericError))
+                                                                            case.success:
+                                                                                self.registerEntity(withId: projectId, type: .finishedProject) {
+                                                                                    response in
+                                                                                    switch response {
+                                                                                    case .error:
+                                                                                        completion(.error(WCError.genericError))
+                                                                                    case.success:
+                                                                                        completion(.success)
+                                                                                    }
+                                                                                    }
+                                                                            }
+                                                                            
                                                                         }
-                                                                }
-                                                                dispatchGroup.notify(queue: .main) {
-                                                                    self.removeEntity(withId: projectId) { response in
-                                                                        switch response {
-                                                                        case .error(let _):
-                                                                            completion(.error(WCError.genericError))
-                                                                        case.success:
-                                                                            self.registerEntity(withId: projectId, type: .finishedProject) {
-                                                                                response in
-                                                                                switch response {
-                                                                                case .error(let error):
-                                                                                    completion(.error(WCError.genericError))
-                                                                                case.success:
-                                                                                    completion(.success)
-                                                                                }
-                                                                                }
-                                                                        }
-                                                                        
                                                                     }
                                                                 }
-                                                            }
-                                                    }
-                                            }
+                                                        }
+                                                }
+                                        }, failureCallback: { error in
+                                            completion(.error(.createProject))
+                                        })
                                     }
                             }
                     }

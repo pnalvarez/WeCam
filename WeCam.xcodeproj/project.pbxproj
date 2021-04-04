@@ -45,6 +45,7 @@
 		3F1158AF24C3F0EC00075C73 /* TeamMemberViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1158AE24C3F0EC00075C73 /* TeamMemberViewModel.swift */; };
 		3F2FD833257D8B7D003D93BF /* Resettable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2FD832257D8B7C003D93BF /* Resettable.swift */; };
 		3F2FD838257D8BC3003D93BF /* UITableViewCell+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2FD837257D8BC3003D93BF /* UITableViewCell+.swift */; };
+		3F339B27261A7BA900360D96 /* APINotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F339B26261A7BA900360D96 /* APINotificationManager.swift */; };
 		3F40A60B24E9CA4D00261161 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A60A24E9CA4D00261161 /* LoadingView.swift */; };
 		3F40A60E24EA0D5700261161 /* SelectProjectImageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A60D24EA0D5700261161 /* SelectProjectImageController.swift */; };
 		3F40A61024EA0D9B00261161 /* SelectProjectImageRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A60F24EA0D9B00261161 /* SelectProjectImageRouter.swift */; };
@@ -411,6 +412,7 @@
 		3F1158AE24C3F0EC00075C73 /* TeamMemberViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamMemberViewModel.swift; sourceTree = "<group>"; };
 		3F2FD832257D8B7C003D93BF /* Resettable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resettable.swift; sourceTree = "<group>"; };
 		3F2FD837257D8BC3003D93BF /* UITableViewCell+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+.swift"; sourceTree = "<group>"; };
+		3F339B26261A7BA900360D96 /* APINotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APINotificationManager.swift; sourceTree = "<group>"; };
 		3F40A60A24E9CA4D00261161 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		3F40A60D24EA0D5700261161 /* SelectProjectImageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectProjectImageController.swift; sourceTree = "<group>"; };
 		3F40A60F24EA0D9B00261161 /* SelectProjectImageRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectProjectImageRouter.swift; sourceTree = "<group>"; };
@@ -1521,6 +1523,7 @@
 			isa = PBXGroup;
 			children = (
 				3FE8DF5324C52F72005DE30D /* FirebaseManager.swift */,
+				3F339B26261A7BA900360D96 /* APINotificationManager.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -2146,6 +2149,7 @@
 				3F40A6E224F582EF00261161 /* UserDisplayView.swift in Sources */,
 				3F40A6C524F231DB00261161 /* EditProfileDetailsView.swift in Sources */,
 				3F40A6CB24F232B600261161 /* EditProfileDetailsInteractor.swift in Sources */,
+				3F339B27261A7BA900360D96 /* APINotificationManager.swift in Sources */,
 				3FAD1A422516B99800ED4074 /* MainFeedModels.swift in Sources */,
 				3F655F702523C592004A1D54 /* SearchResultsRouter.swift in Sources */,
 				3FF2873825F41455008FD23F /* DefaultSearchTextField.swift in Sources */,
