@@ -1933,6 +1933,7 @@ class FirebaseManager: FirebaseManagerProtocol {
     
     func removeProjectParticipationRequest(request: [String : Any],
                                            completion: @escaping (EmptyResponse) -> Void) {
+        var allPending = [String]()
         guard let projectId = request["projectId"] as? String,
               let currentUser = authReference.currentUser?.uid else {
             completion(.error(WCError.genericError))
@@ -1962,16 +1963,15 @@ class FirebaseManager: FirebaseManagerProtocol {
                             .child(projectId)
                             .child("pending_invites")
                             .observeSingleEvent(of: .value) { snapshot in
-                                guard var pendingInvites = snapshot.value as? [String] else {
-                                    completion(.error(WCError.genericError))
-                                    return
+                                if let pendingInvites = snapshot.value as? [String] {
+                                    allPending = pendingInvites
                                 }
-                                pendingInvites.removeAll(where: { $0 == currentUser})
+                                allPending.removeAll(where: { $0 == currentUser})
                                 self.realtimeDB
                                     .child(Paths.projectsPath)
                                     .child(Paths.ongoingProjectsPath)
                                     .child(projectId)
-                                    .updateChildValues(["pending_invites": pendingInvites]) { (error, ref) in
+                                    .updateChildValues(["pending_invites": allPending]) { (error, ref) in
                                         if error != nil {
                                             completion(.error(WCError.removeProjectParticipationRequest))
                                             return

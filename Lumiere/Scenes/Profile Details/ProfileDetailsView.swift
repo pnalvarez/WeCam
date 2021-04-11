@@ -6,6 +6,7 @@
 //  Copyright © 2020 Pedro Alvarez. All rights reserved.
 //
 import UIKit
+import SDWebImage
 
 class ProfileDetailsView: UIView {
     
@@ -30,11 +31,8 @@ class ProfileDetailsView: UIView {
         return view
     }()
     
-    private lazy var photoImageView: UIImageView = {
-        let view = UIImageView(frame: .zero)
-        view.layer.cornerRadius = 42.75
-        view.clipsToBounds = true
-        view.contentMode = .scaleAspectFill
+    private lazy var photoImageView: WCListItemImageView = {
+        let view = WCListItemImageView(frame: .zero)
         return view
     }()
     
@@ -212,7 +210,7 @@ extension ProfileDetailsView: ViewCodeProtocol {
         photoImageView.snp.makeConstraints { make in
             make.top.equalTo(backButton.snp.bottom).offset(25)
             make.left.equalToSuperview().inset(37)
-            make.height.width.equalTo(84)
+            make.width.equalTo(84)
         }
         nameLbl.snp.makeConstraints { make in
             make.left.equalTo(photoImageView.snp.right).offset(14)
@@ -286,9 +284,6 @@ extension ProfileDetailsView: ViewCodeProtocol {
         emailLbl.attributedText = viewModel?.email
         phoneNumberLbl.attributedText = viewModel?.phoneNumber
         addConnectionButton.setImage(viewModel?.connectionTypeImage, for: .normal)
-        guard let image = viewModel?.image else {
-            return
-        }
-        photoImageView.sd_setImage(with: URL(string: image), completed: nil)
+        photoImageView.setImage(withURL: viewModel?.image ?? .empty)
     }
 }

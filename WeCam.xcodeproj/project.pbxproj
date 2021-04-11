@@ -273,6 +273,7 @@
 		3F9578D424B019BE00B79818 /* MovieStyleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9578D324B019BE00B79818 /* MovieStyleButton.swift */; };
 		3F9578D724B01A0600B79818 /* MovieStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9578D624B01A0600B79818 /* MovieStyle.swift */; };
 		3F9578DB24B0240C00B79818 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9578DA24B0240C00B79818 /* String+.swift */; };
+		3F9844E3262288C6000BE5BC /* WCListItemImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9844E2262288C6000BE5BC /* WCListItemImageView.swift */; };
 		3FA1C1512536738B00385322 /* OptionFilterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA1C1502536738B00385322 /* OptionFilterButton.swift */; };
 		3FA1C1562536817500385322 /* UIStackView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA1C1552536817500385322 /* UIStackView+.swift */; };
 		3FA1C162253B851100385322 /* OnGoingProjectsFeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA1C161253B851000385322 /* OnGoingProjectsFeedTableViewCell.swift */; };
@@ -648,6 +649,7 @@
 		3F9578D324B019BE00B79818 /* MovieStyleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieStyleButton.swift; sourceTree = "<group>"; };
 		3F9578D624B01A0600B79818 /* MovieStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieStyle.swift; sourceTree = "<group>"; };
 		3F9578DA24B0240C00B79818 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
+		3F9844E2262288C6000BE5BC /* WCListItemImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCListItemImageView.swift; sourceTree = "<group>"; };
 		3FA1C1502536738B00385322 /* OptionFilterButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionFilterButton.swift; sourceTree = "<group>"; };
 		3FA1C1552536817500385322 /* UIStackView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+.swift"; sourceTree = "<group>"; };
 		3FA1C161253B851000385322 /* OnGoingProjectsFeedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnGoingProjectsFeedTableViewCell.swift; sourceTree = "<group>"; };
@@ -916,6 +918,7 @@
 				3FB8806A2533BD2E003C0D1B /* SelectionFilterView.swift */,
 				3F40A6E124F582EF00261161 /* UserDisplayView.swift */,
 				3F88DDEC260C1FAB00E7B1AA /* NetworkStatusView.swift */,
+				3F9844E2262288C6000BE5BC /* WCListItemImageView.swift */,
 			);
 			path = Reusable;
 			sourceTree = "<group>";
@@ -2320,6 +2323,7 @@
 				3F9578C824B0196300B79818 /* SignUpController.swift in Sources */,
 				3F95786A24AEA07100B79818 /* LaunchScreenInteractor.swift in Sources */,
 				3FE8DF5824C7BEE2005DE30D /* Paths.swift in Sources */,
+				3F9844E3262288C6000BE5BC /* WCListItemImageView.swift in Sources */,
 				3F9578D424B019BE00B79818 /* MovieStyleButton.swift in Sources */,
 				3F42A49D2553933D0088E232 /* InsertVideoWorker.swift in Sources */,
 				3F012A06252E8C4100FF4985 /* ProfileSuggestionsFeedTableViewCell.swift in Sources */,
