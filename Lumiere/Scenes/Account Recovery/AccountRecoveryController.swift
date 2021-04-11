@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import WCUIKit
 
 protocol AccountRecoveryDisplayLogic: class {
     func displayUserData(_ viewModel: AccountRecovery.Info.ViewModel.Account)

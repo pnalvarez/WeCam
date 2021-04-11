@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import WCUIKit
 
 protocol InviteProfileToProjectsDisplayLogic: class {
     func displayProjects(_ viewModel: InviteProfileToProjects.Info.ViewModel.UpcomingProjects)

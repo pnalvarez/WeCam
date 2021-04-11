@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import WCUIKit
 
 protocol OnGoingProjectsFeedTableViewCellDelegate: class {
     func didSelectProject(index: Int)

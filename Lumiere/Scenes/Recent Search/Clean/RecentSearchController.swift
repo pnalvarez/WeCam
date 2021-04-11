@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import WCUIKit
 
 protocol RecentSearchDisplayLogic: class {
     func displayRecentSearches(_ viewModel: RecentSearch.Info.ViewModel.UpcomingResults)

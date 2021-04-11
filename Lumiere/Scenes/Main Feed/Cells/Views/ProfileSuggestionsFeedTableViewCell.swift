@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import WCUIKit
 
 protocol ProfileSuggestionsFeedTableViewCellDelegate: class {
     func didTapProfileSuggestion(index: Int)

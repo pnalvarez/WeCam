@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import WCUIKit
 
 protocol SelectProjectCathegoryDisplayLogic: class {
     func displayAllCathegories(_ viewModel: SelectProjectCathegory.Info.Model.InterestCathegories)

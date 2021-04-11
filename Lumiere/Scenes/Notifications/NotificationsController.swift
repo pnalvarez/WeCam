@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import WCUIKit
 
 protocol NotificationsDisplayLogic: class {
     func displayLoading(_ loading: Bool)

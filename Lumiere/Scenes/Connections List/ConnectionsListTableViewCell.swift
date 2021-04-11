@@ -7,6 +7,7 @@
 //
 
 import SDWebImage
+import WCUIKit
 
 protocol ConnectionsListTableViewCellDelegate: class {
     func didTapRemoveButton(index: Int?)

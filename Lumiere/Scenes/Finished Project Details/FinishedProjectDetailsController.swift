@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import WCUIKit
 
 protocol FinishedProjectDetailsDisplayLogic: class {
     func displayProjectData(_ viewModel: FinishedProjectDetails.Info.ViewModel.Project)

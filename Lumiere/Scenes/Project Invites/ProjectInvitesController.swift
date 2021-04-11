@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import WCUIKit
 
 protocol ProjectInvitesDisplayLogic: class {
     func displayUsers(_ viewModel: ProjectInvites.Info.ViewModel.UpcomingUsers)

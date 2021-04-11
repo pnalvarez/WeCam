@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import WCUIKit
 import SnapKit
 
 class LaunchScreenView: UIView {

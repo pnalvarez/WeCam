@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import WCUIKit
 
 protocol SearchResultsDisplayLogic: class {
     func displaySearchResults(_ viewModel: SearchResults.Info.ViewModel.UpcomingResults)

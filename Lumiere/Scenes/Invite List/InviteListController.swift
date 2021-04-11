@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import WCUIKit
 
 protocol InviteListDisplayLogic: class {
     func displayConnections(_ viewModel: InviteList.Info.ViewModel.Connections)

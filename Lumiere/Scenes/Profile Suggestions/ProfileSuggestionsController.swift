@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import WCUIKit
 
 protocol ProfileSuggestionsDisplayLogic: class {
     func displayProfileSuggestions(_ viewModel: ProfileSuggestions.Info.ViewModel.UpcomingSuggestions)

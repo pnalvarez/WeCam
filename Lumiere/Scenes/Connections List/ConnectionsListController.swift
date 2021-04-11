@@ -6,6 +6,7 @@
 //  Copyright © 2020 Pedro Alvarez. All rights reserved.
 //
 import UIKit
+import WCUIKit
 
 protocol ConnectionsListDisplayLogic: class {
     func displayCurrentUser(_ viewModel: ConnectionsList.Info.ViewModel.CurrentUser)

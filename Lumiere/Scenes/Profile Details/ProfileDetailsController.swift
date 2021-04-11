@@ -6,6 +6,7 @@
 //  Copyright © 2020 Pedro Alvarez. All rights reserved.
 //
 import UIKit
+import WCUIKit
 
 protocol ProfileDetailsDisplayLogic: class {
     func displayUserInfo(_ viewModel: ProfileDetails.Info.ViewModel.User)

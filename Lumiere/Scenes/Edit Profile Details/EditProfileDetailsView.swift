@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import WCUIKit
 import SDWebImage
 
 class EditProfileDetailsView: UIView {

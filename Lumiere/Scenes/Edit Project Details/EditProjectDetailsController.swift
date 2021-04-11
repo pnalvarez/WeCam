@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import WCUIKit
 
 protocol EditProjectDetailsDisplayLogic: class {
     func displayPublishedProjectDetails()

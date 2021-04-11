@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import WCUIKit
 
 protocol SignInDisplayLogic: class {
     func displaySuccessfulLogin()

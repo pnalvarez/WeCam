@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import WCUIKit
 
 protocol ProjectParticipantsListDisplayLogic: class {
     func displayParticipants(_ viewModel: ProjectParticipantsList.Info.ViewModel.UpcomingParticipants)

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import WCUIKit
 
 class FinishedProjectDetailsView: UIView {
     

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import WCUIKit
 import YoutubePlayer_in_WKWebView
 
 class WatchVideoView: UIView {

@@ -7,7 +7,6 @@ target 'WeCam' do
 
   # Pods for Lumiere
 	pod 'SDWebImage', '~> 5.0.2'
-	pod 'SnapKit', '~> 5.0.1'
 	pod 'ObjectMapper', '~> 4.2.0'
   pod 'CommonCrypto', '~> 1.1'
   pod 'Firebase/Core'
@@ -16,6 +15,7 @@ target 'WeCam' do
   pod 'Firebase/Firestore'
   pod 'Firebase/Storage'
   pod 'YoutubePlayer-in-WKWebView'
+  pod 'WCUIKit', :path => '../../Desktop/iOS/WCUIKit'
 
   target 'WeCamTests' do
     inherit! :search_paths
