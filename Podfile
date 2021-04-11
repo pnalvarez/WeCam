@@ -15,7 +15,7 @@ target 'WeCam' do
   pod 'Firebase/Firestore'
   pod 'Firebase/Storage'
   pod 'YoutubePlayer-in-WKWebView'
-  pod 'WCUIKit', :path => '../../Desktop/iOS/WCUIKit'
+  pod 'WCUIKit', :git => 'https://github.com/pnalvarez/WCUIKit', :branch => 'master'
 
   target 'WeCamTests' do
     inherit! :search_paths
