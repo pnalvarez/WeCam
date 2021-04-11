@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MovieStyleButton: UIButton {
+class WCMovieStyleButton: UIButton {
     
     private let disableColor = UIColor(rgb: 0xe50c3c)
     private let enableColor = UIColor(rgb: 0xe50c3c)

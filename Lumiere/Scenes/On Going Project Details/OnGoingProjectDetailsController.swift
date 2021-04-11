@@ -120,8 +120,8 @@ class OnGoingProjectDetailsController: BaseViewController, UINavigationControlle
         return view
     }()
     
-    private lazy var cancelEditingDetailsButton: DefaultCloseButton = {
-        let view = DefaultCloseButton(frame: .zero)
+    private lazy var cancelEditingDetailsButton: WCCloseButton = {
+        let view = WCCloseButton(frame: .zero)
         view.addTarget(self,
                        action: #selector(didTapCancelEditing),
                        for: .touchUpInside)
@@ -129,8 +129,8 @@ class OnGoingProjectDetailsController: BaseViewController, UINavigationControlle
         return view
     }()
     
-    private lazy var cancelEditingNeedingButton: DefaultCloseButton = {
-        let view = DefaultCloseButton(frame: .zero)
+    private lazy var cancelEditingNeedingButton: WCCloseButton = {
+        let view = WCCloseButton(frame: .zero)
         view.addTarget(self,
                        action: #selector(didTapCancelEditing),
                        for: .touchUpInside)

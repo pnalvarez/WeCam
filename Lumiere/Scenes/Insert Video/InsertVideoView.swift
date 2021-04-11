@@ -11,14 +11,14 @@ import YoutubePlayer_in_WKWebView
 
 class InsertVideoView: UIView {
     
-    private unowned var closeButton: DefaultCloseButton
-    private unowned var loadingView: LoadingView
+    private unowned var closeButton: WCCloseButton
+    private unowned var loadingView: WCLoadingView
     private unowned var confirmationAlertView: ConfirmationAlertView
     private unowned var translucentView: UIView
     private unowned var activityView: UIActivityIndicatorView
-    private unowned var backButton: DefaultBackButton
+    private unowned var backButton: WCBackButton
     private unowned var inputTextField: UITextField
-    private unowned var urlErrorView: EmptyListView
+    private unowned var urlErrorView: WCEmptyListView
     private unowned var playerView: WKYTPlayerView
     private unowned var submitButton: UIButton
     
@@ -55,14 +55,14 @@ class InsertVideoView: UIView {
     }()
     
     init(frame: CGRect,
-         closeButton: DefaultCloseButton,
-         loadingView: LoadingView,
+         closeButton: WCCloseButton,
+         loadingView: WCLoadingView,
          confirmationAlertView: ConfirmationAlertView,
          translucentView: UIView,
          activityView: UIActivityIndicatorView,
-         backButton: DefaultBackButton,
+         backButton: WCBackButton,
          inputTextField: UITextField,
-         urlErrorView: EmptyListView,
+         urlErrorView: WCEmptyListView,
          playerView: WKYTPlayerView,
          submitButton: UIButton) {
         self.closeButton = closeButton

@@ -29,8 +29,8 @@ class EditProfileDetailsController: BaseViewController {
         return view
     }()
     
-    private lazy var loadingView: LoadingView = {
-        let view = LoadingView(frame: .zero)
+    private lazy var loadingView: WCLoadingView = {
+        let view = WCLoadingView(frame: .zero)
         view.animateRotate()
         view.isHidden = true
         return view
@@ -64,8 +64,8 @@ class EditProfileDetailsController: BaseViewController {
         return view
     }()
     
-    private lazy var nameTextField: DefaultInputTextField = {
-        let view = DefaultInputTextField(frame: .zero)
+    private lazy var nameTextField: WCInputTextField = {
+        let view = WCInputTextField(frame: .zero)
         view.delegate = self
         view.attributedPlaceholder = NSAttributedString(string: EditProfileDetails.Constants.Texts.nameTextFieldPlaceHolder,
                                                         attributes: [NSAttributedString.Key.foregroundColor: EditProfileDetails.Constants.Colors.textFieldPlaceholder,
@@ -73,8 +73,8 @@ class EditProfileDetailsController: BaseViewController {
         return view
     }()
     
-    private lazy var cellphoneTextField: DefaultInputTextField = {
-        let view = DefaultInputTextField(frame: .zero)
+    private lazy var cellphoneTextField: WCInputTextField = {
+        let view = WCInputTextField(frame: .zero)
         view.delegate = self
         view.attributedPlaceholder = NSAttributedString(string: EditProfileDetails.Constants.Texts.cellPhoneTextFieldPlaceHolder,
                                                         attributes: [NSAttributedString.Key.foregroundColor: EditProfileDetails.Constants.Colors.textFieldPlaceholder,
@@ -82,8 +82,8 @@ class EditProfileDetailsController: BaseViewController {
         return view
     }()
     
-    private lazy var ocupationTextField: DefaultInputTextField = {
-        let view = DefaultInputTextField(frame: .zero)
+    private lazy var ocupationTextField: WCInputTextField = {
+        let view = WCInputTextField(frame: .zero)
         view.delegate = self
         view.attributedPlaceholder = NSAttributedString(string: EditProfileDetails.Constants.Texts.ocupationTextFieldPlaceHolder,
                                                         attributes: [NSAttributedString.Key.foregroundColor: EditProfileDetails.Constants.Colors.textFieldPlaceholder,
@@ -175,7 +175,7 @@ extension EditProfileDetailsController {
         let  char = string.cString(using: String.Encoding.utf8)!
         let isBackSpace = strcmp(char, "\\b")
         
-        if let inputTextField = textField as? DefaultInputTextField {
+        if let inputTextField = textField as? WCInputTextField {
             inputTextField.textFieldState = .normal
         }
 

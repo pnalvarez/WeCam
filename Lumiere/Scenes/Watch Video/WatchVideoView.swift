@@ -12,14 +12,14 @@ import YoutubePlayer_in_WKWebView
 class WatchVideoView: UIView {
     
     private unowned var activityView: UIActivityIndicatorView
-    private unowned var closeButton: DefaultCloseButton
+    private unowned var closeButton: WCCloseButton
     private unowned var playerView: WKYTPlayerView
     
     private var viewModel: WatchVideo.Info.ViewModel.Video?
     
     init(frame: CGRect,
          activityView: UIActivityIndicatorView,
-         closeButton: DefaultCloseButton,
+         closeButton: WCCloseButton,
          playerView: WKYTPlayerView) {
         self.activityView = activityView
         self.closeButton = closeButton

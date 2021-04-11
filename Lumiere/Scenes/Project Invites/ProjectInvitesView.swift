@@ -13,7 +13,7 @@ class ProjectInvitesView: UIView {
     private unowned var activityView: UIActivityIndicatorView
     private unowned var modalAlertView: ConfirmationAlertView
     private unowned var translucentView: UIView
-    private unowned var backButton: DefaultBackButton
+    private unowned var backButton: WCBackButton
     private unowned var searchTextField: UITextField
     private unowned var tableView: UITableView
     
@@ -32,7 +32,7 @@ class ProjectInvitesView: UIView {
          activityView: UIActivityIndicatorView,
          modalAlertView: ConfirmationAlertView,
          translucentView: UIView,
-         backButton: DefaultBackButton,
+         backButton: WCBackButton,
          searchTextField: UITextField,
          tableView: UITableView) {
         self.activityView = activityView

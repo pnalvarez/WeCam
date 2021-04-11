@@ -12,12 +12,12 @@ class EditProjectDetailsView: UIView {
     
     private unowned var activityView: UIActivityIndicatorView
     private unowned var inviteFriendsButton: UIButton
-    private unowned var backButton: DefaultBackButton
+    private unowned var backButton: WCBackButton
     private unowned var projectTitleTextField: ProjectDataTextField
     private unowned var sinopsisTextView: ProjectDataTextView
     private unowned var needTextView: ProjectDataTextView
     private unowned var publishButton: UIButton
-    private unowned var loadingView: LoadingView
+    private unowned var loadingView: WCLoadingView
     
     private lazy var mainScrollView: UIScrollView = {
         let view = UIScrollView(frame: .zero)
@@ -107,12 +107,12 @@ class EditProjectDetailsView: UIView {
     init(frame: CGRect,
          activityView: UIActivityIndicatorView,
          inviteFriendsButton: UIButton,
-         backButton: DefaultBackButton,
+         backButton: WCBackButton,
          projectTitleTextField: ProjectDataTextField,
          sinopsisTextView: ProjectDataTextView,
          needTextView: ProjectDataTextView,
          publishButton: UIButton,
-         loadingView: LoadingView) {
+         loadingView: WCLoadingView) {
         self.activityView = activityView
         self.inviteFriendsButton = inviteFriendsButton
         self.backButton = backButton

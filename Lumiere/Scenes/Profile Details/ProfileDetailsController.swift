@@ -308,6 +308,12 @@ extension ProfileDetailsController: ConfirmationAlertViewDelegate {
 extension ProfileDetailsController: ProfileDetailsDisplayLogic {
     
     func displayUserInfo(_ viewModel: ProfileDetails.Info.ViewModel.User) {
+        if viewModel.progressingProjects.isEmpty {
+            ongoingProjectsCollectionView.backgroundView = WCEmptyListView(frame: .zero, layout: .small, text: ProfileDetails.Constants.Texts.emptyOngoingProjectsList)
+        }
+        if viewModel.finishedProjects.isEmpty {
+            finishedProjectsCollectionView.backgroundView = WCEmptyListView(frame: .zero, text: ProfileDetails.Constants.Texts.emptyFinishedProjectsList)
+        }
         ongoingProjects = viewModel.progressingProjects
         finishedProjects = viewModel.finishedProjects
         mainView.setup(viewModel: viewModel)

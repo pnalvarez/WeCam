@@ -11,7 +11,7 @@ import SDWebImage
 
 class OnGoingProjectDetailsView: UIView {
     
-    private unowned var backButton: DefaultBackButton
+    private unowned var backButton: WCBackButton
     private unowned var editProgressView: EditProgressView
     private unowned var editProgressTranslucentView: UIView
     private unowned var confirmationModalView: ConfirmationAlertView
@@ -25,10 +25,10 @@ class OnGoingProjectDetailsView: UIView {
     private unowned var imageButton: UIButton
     private unowned var inviteContactsButton: UIButton
     private unowned var editButton: UIButton
-    private unowned var cancelEditingDetailsButton: DefaultCloseButton
+    private unowned var cancelEditingDetailsButton: WCCloseButton
     private unowned var interactionButton: UIButton
     private unowned var editNeedingButton: UIButton
-    private unowned var cancelEditingNeedingButton: DefaultCloseButton
+    private unowned var cancelEditingNeedingButton: WCCloseButton
     private unowned var needValueTextfield: UITextField
     private unowned var activityView: UIActivityIndicatorView
     
@@ -137,7 +137,7 @@ class OnGoingProjectDetailsView: UIView {
     private var viewModel: OnGoingProjectDetails.Info.ViewModel.Project?
     
     init(frame: CGRect,
-         backButton: DefaultBackButton,
+         backButton: WCBackButton,
          editProgressView: EditProgressView,
          editProgressTranslucentView: UIView,
          titleTextField: UITextField,
@@ -151,10 +151,10 @@ class OnGoingProjectDetailsView: UIView {
          imageButton: UIButton,
          inviteContactsButton: UIButton,
          editButton: UIButton,
-         cancelEditingDetailsButton: DefaultCloseButton,
+         cancelEditingDetailsButton: WCCloseButton,
          interactionButton: UIButton,
          editNeedingButton: UIButton,
-         cancelEditingNeedingButton: DefaultCloseButton,
+         cancelEditingNeedingButton: WCCloseButton,
          needValueTextfield: UITextField,
          activityView: UIActivityIndicatorView) {
         self.backButton = backButton

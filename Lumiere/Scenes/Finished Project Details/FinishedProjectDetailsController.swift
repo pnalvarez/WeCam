@@ -48,8 +48,8 @@ class FinishedProjectDetailsController: BaseViewController {
         return view
     }()
     
-    private lazy var watchButton: DefaultActionButton = {
-        let view = DefaultActionButton(frame: .zero)
+    private lazy var watchButton: WCActionButton = {
+        let view = WCActionButton(frame: .zero)
         view.addTarget(self, action: #selector(didTapWatch), for: .touchUpInside)
         view.backgroundColor = FinishedProjectDetails.Constants.Colors.watchButtonBackground
         view.setTitle(FinishedProjectDetails.Constants.Texts.watchButton, for: .normal)

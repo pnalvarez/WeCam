@@ -10,24 +10,24 @@ import UIKit
 
 class AccountRecoveryView: UIView {
     
-    private lazy var headerView: DefaultHeaderView = {
-        let view = DefaultHeaderView(frame: .zero)
+    private lazy var headerView: WCHeaderView = {
+        let view = WCHeaderView(frame: .zero)
         return view
     }()
     
-    private unowned var closeButton: DefaultCloseButton
+    private unowned var closeButton: WCCloseButton
     private unowned var messageLbl: UILabel
-    private unowned var searchTextField: DefaultSearchTextField
+    private unowned var searchTextField: WCSearchTextField
     private unowned var userDisplayView: UserDisplayView
-    private unowned var sendEmailButton: DefaultActionButton
+    private unowned var sendEmailButton: WCActionButton
     private unowned var activityView: UIActivityIndicatorView
     
     init(frame: CGRect,
-         closeButton: DefaultCloseButton,
+         closeButton: WCCloseButton,
          messageLbl: UILabel,
-         searchTextField: DefaultSearchTextField,
+         searchTextField: WCSearchTextField,
          userDisplayView: UserDisplayView,
-         sendEmailButton: DefaultActionButton,
+         sendEmailButton: WCActionButton,
          activityView: UIActivityIndicatorView) {
         self.closeButton = closeButton
         self.messageLbl = messageLbl

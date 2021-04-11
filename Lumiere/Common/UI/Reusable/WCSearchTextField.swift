@@ -8,11 +8,11 @@
 
 import UIKit
 
-protocol DefaultSearchTextFieldDelegate: class {
-    func didTapSearch(searchTextField: DefaultSearchTextField)
+protocol WCSearchTextFieldDelegate: class {
+    func didTapSearch(searchTextField: WCSearchTextField)
 }
 
-class DefaultSearchTextField: UITextField {
+class WCSearchTextField: UITextField {
     
     private enum Constants {
         static let padding = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 20)
@@ -24,13 +24,13 @@ class DefaultSearchTextField: UITextField {
         return view
     }()
     
-    private lazy var searchButton: DefaultSearchButton = {
-        let view = DefaultSearchButton(frame: .zero)
+    private lazy var searchButton: WCSearchButton = {
+        let view = WCSearchButton(frame: .zero)
         view.addTarget(self, action: #selector(didTapSearch), for: .touchUpInside)
         return view
     }()
     
-    weak var searchDelegate: DefaultSearchTextFieldDelegate?
+    weak var searchDelegate: WCSearchTextFieldDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -68,7 +68,7 @@ class DefaultSearchTextField: UITextField {
     }
 }
 
-extension DefaultSearchTextField: ViewCodeProtocol {
+extension WCSearchTextField: ViewCodeProtocol {
     
     func buildViewHierarchy() {
         addSubview(dividerView)

@@ -18,14 +18,14 @@ class BaseViewController: UIViewController {
     private let backButtonImage: UIImage = UIImage(named: "voltar 1") ?? UIImage()
     private let titleViewImage: UIImage = UIImage(named: "tipografia-projeto 2") ?? UIImage()
     
-    open lazy var backButton: DefaultBackButton = {
-        let view = DefaultBackButton(frame: .zero)
+    open lazy var backButton: WCBackButton = {
+        let view = WCBackButton(frame: .zero)
         view.addTarget(self, action: #selector(didTapBack), for: .touchUpInside)
         return view
     }()
     
-    open lazy var closeButton: DefaultCloseButton = {
-        let view = DefaultCloseButton(frame: .zero)
+    open lazy var closeButton: WCCloseButton = {
+        let view = WCCloseButton(frame: .zero)
         view.associatedViewController = self
         return view
     }()

@@ -11,7 +11,7 @@ import UIKit
 class SearchResultsView: UIView {
     
     private unowned var activityView: UIActivityIndicatorView
-    private unowned var backButton: DefaultBackButton
+    private unowned var backButton: WCBackButton
     private unowned var resultTypesSegmentedControl: UISegmentedControl
     private unowned var resultsQuantityLbl: UILabel
     private unowned var tableView: UITableView
@@ -25,7 +25,7 @@ class SearchResultsView: UIView {
     
     init(frame: CGRect,
          activityView: UIActivityIndicatorView,
-         backButton: DefaultBackButton,
+         backButton: WCBackButton,
          resultTypesSegmentedControl: UISegmentedControl,
          resultsQuantityLbl: UILabel,
          tableView: UITableView) {

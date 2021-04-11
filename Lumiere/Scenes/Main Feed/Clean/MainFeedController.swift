@@ -19,8 +19,8 @@ protocol MainFeedDisplayLogic: class {
 
 class MainFeedController: BaseViewController {
     
-    private lazy var errorView: EmptyListView = {
-        let view = EmptyListView(frame: .zero, text: MainFeed.Constants.Texts.genericError)
+    private lazy var errorView: WCEmptyListView = {
+        let view = WCEmptyListView(frame: .zero, text: MainFeed.Constants.Texts.genericError)
         return view
     }()
     

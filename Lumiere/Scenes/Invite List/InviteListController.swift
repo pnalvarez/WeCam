@@ -15,8 +15,8 @@ protocol InviteListDisplayLogic: class {
 
 class InviteListController: BaseViewController {
     
-    private lazy var loadingView: LoadingView = {
-        let view = LoadingView(frame: .zero)
+    private lazy var loadingView: WCLoadingView = {
+        let view = WCLoadingView(frame: .zero)
         view.animateRotate()
         view.isHidden = true
         return view

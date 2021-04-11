@@ -14,8 +14,8 @@ protocol SearchHeaderTableViewCellDelegate: class {
 
 class SearchHeaderTableViewCell: UITableViewCell {
     
-    private lazy var lumiereHeader: DefaultHeaderView = {
-        let view = DefaultHeaderView(frame: .zero)
+    private lazy var lumiereHeader: WCHeaderView = {
+        let view = WCHeaderView(frame: .zero)
         return view
     }()
     

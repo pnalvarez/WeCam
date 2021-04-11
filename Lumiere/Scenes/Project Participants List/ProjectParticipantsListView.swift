@@ -11,7 +11,7 @@ import UIKit
 class ProjectParticipantsListView: UIView {
     
     private unowned var activityView: UIActivityIndicatorView
-    private unowned var closeButton: DefaultCloseButton
+    private unowned var closeButton: WCCloseButton
     private unowned var tableView: UITableView
     
     private lazy var participantsFixedLbl: UILabel = {
@@ -26,7 +26,7 @@ class ProjectParticipantsListView: UIView {
     
     init(frame: CGRect,
          activityView: UIActivityIndicatorView,
-         closeButton: DefaultCloseButton,
+         closeButton: WCCloseButton,
          tableView: UITableView) {
         self.activityView = activityView
         self.closeButton = closeButton

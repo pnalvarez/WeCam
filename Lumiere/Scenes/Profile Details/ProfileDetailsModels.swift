@@ -67,6 +67,8 @@ struct ProfileDetails {
             static let onGoingProjectsLbl = "Projetos em andamento"
             static let inviteToProjectButton = "Convidar para projeto"
             static let finishedProjectsLbl = "Projetos Finalizados"
+            static let emptyOngoingProjectsList = "Nenhum projeto em andamento no momento"
+            static let emptyFinishedProjectsList = "Nenhum projeto já finalizado no portfolio"
         }
         
         struct Dimensions {

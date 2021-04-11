@@ -23,7 +23,7 @@ class EditProgressView: UIView {
     }()
     
     private lazy var closeButton: UIButton = {
-        let view = DefaultCloseButton(frame: .zero)
+        let view = WCCloseButton(frame: .zero)
         view.addTarget(self, action: #selector(didTapClose), for: .touchUpInside)
         return view
     }()

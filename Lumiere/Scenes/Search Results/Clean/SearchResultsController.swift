@@ -175,9 +175,9 @@ extension SearchResultsController {
     private func checkEmptyList(withType type: SearchResults.Info.ViewModel.SelectedType) {
         switch type {
         case .profile:
-            tableView.backgroundView = viewModel?.users.isEmpty ?? true ? EmptyListView(frame: .zero, text: SearchResults.Constants.Texts.emptyListResult) : nil
+            tableView.backgroundView = viewModel?.users.isEmpty ?? true ? WCEmptyListView(frame: .zero, text: SearchResults.Constants.Texts.emptyListResult) : nil
         case .project:
-            tableView.backgroundView = viewModel?.projects.isEmpty ?? true ? EmptyListView(frame: .zero, text: SearchResults.Constants.Texts.emptyListResult) : nil
+            tableView.backgroundView = viewModel?.projects.isEmpty ?? true ? WCEmptyListView(frame: .zero, text: SearchResults.Constants.Texts.emptyListResult) : nil
         }
     }
 }

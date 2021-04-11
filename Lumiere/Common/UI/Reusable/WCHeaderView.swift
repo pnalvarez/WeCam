@@ -1,18 +1,18 @@
 //
-//  DefaultSearchButton.swift
+//  DefaultHeaderView.swift
 //  WeCam
 //
-//  Created by Pedro Alvarez on 06/03/21.
+//  Created by Pedro Alvarez on 25/02/21.
 //  Copyright © 2021 Pedro Alvarez. All rights reserved.
 //
 
 import UIKit
 
-class DefaultSearchButton: UIButton {
+class WCHeaderView: UIImageView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setImage(UIImage(named: "lupa"), for: .normal)
+        image = UIImage(named: "tipografia-projeto 2")
     }
     
     required init?(coder: NSCoder) {

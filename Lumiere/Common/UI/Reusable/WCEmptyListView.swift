@@ -8,7 +8,26 @@
 
 import UIKit
 
-class EmptyListView: UIView {
+class WCEmptyListView: UIView {
+    
+    enum Layout {
+        case small
+        case large
+        
+        var centralContainerYOffset: CGFloat {
+            switch self {
+            case .small:
+                return Constants.smallContainerYOffset
+            case .large:
+                return Constants.largeContainerYOffset
+            }
+        }
+    }
+    
+    private enum Constants {
+        static let smallContainerYOffset: CGFloat = -10
+        static let largeContainerYOffset: CGFloat = -40
+    }
     
     private lazy var centralContainer: UIView = {
         let view = UIView(frame: .zero)
@@ -37,11 +56,20 @@ class EmptyListView: UIView {
         return view
     }()
     
+    private lazy var smallestCircleView: UIView = {
+        let view = UIView(frame: .zero)
+        view.backgroundColor = ThemeColors.emptyRedColor.rawValue
+        return view
+    }()
+    
+    private var layout: Layout
     private var text: String
     
     init(frame: CGRect,
+         layout: Layout = .large,
          text: String) {
         self.text = text
+        self.layout = layout
         super.init(frame: frame)
         applyViewCode()
     }
@@ -56,21 +84,24 @@ class EmptyListView: UIView {
         topCircleView.clipsToBounds = true
         bottomCircleView.layer.cornerRadius = bottomCircleView.frame.height / 2
         bottomCircleView.clipsToBounds = true
+        smallestCircleView.layer.cornerRadius = smallestCircleView.frame.width / 2
+        smallestCircleView.clipsToBounds = true
     }
 }
 
-extension EmptyListView: ViewCodeProtocol {
+extension WCEmptyListView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
         centralContainer.addSubview(centralLbl)
         addSubview(centralContainer)
         addSubview(topCircleView)
+        addSubview(smallestCircleView)
         addSubview(bottomCircleView)
     }
     
     func setupConstraints() {
         centralContainer.snp.makeConstraints { make in
-            make.centerY.equalToSuperview().offset(-40)
+            make.centerY.equalToSuperview().offset(layout.centralContainerYOffset)
             make.centerX.equalToSuperview()
             make.width.equalTo(301)
             make.height.equalTo(46)
@@ -84,6 +115,11 @@ extension EmptyListView: ViewCodeProtocol {
             make.right.equalTo(centralContainer.snp.right).offset(-36)
             make.height.width.equalTo(31)
         }
+        smallestCircleView.snp.makeConstraints { make in
+            make.top.equalTo(centralContainer.snp.bottom).offset(6)
+            make.right.equalTo(centralContainer.snp.right).offset(-30)
+            make.height.width.equalTo(20)
+        }
         bottomCircleView.snp.makeConstraints { make in
             make.top.equalTo(topCircleView.snp.bottom).offset(6)
             make.centerX.equalTo(topCircleView.snp.centerX).offset(16)
@@ -93,5 +129,8 @@ extension EmptyListView: ViewCodeProtocol {
     
     func configureViews() {
         centralLbl.text = text
+        topCircleView.isHidden = layout == .small
+        bottomCircleView.isHidden = layout == .small
+        smallestCircleView.isHidden = layout == .large
     }
 }

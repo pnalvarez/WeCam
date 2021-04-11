@@ -10,7 +10,7 @@ import UIKit
 
 class SignInView: UIView {
     
-    private unowned var loadingView: LoadingView
+    private unowned var loadingView: WCLoadingView
     private unowned var emailTextField: UITextField
     private unowned var passwordTextField: UITextField
     private unowned var enterButton: UIButton
@@ -26,7 +26,7 @@ class SignInView: UIView {
     }()
     
     init(frame: CGRect,
-         loadingView: LoadingView,
+         loadingView: WCLoadingView,
          emailTextField: UITextField,
          passwordTextField: UITextField,
          enterButton: UIButton,

@@ -14,6 +14,51 @@ class UserDisplayView: UIView {
     enum LayoutType {
         case small
         case large
+        
+        var photoMargin: CGFloat {
+            switch self {
+            case .small:
+                return Constants.photoMarginSmall
+            case .large:
+                return Constants.photoMarginLarge
+            }
+        }
+        
+        var fontSize: CGFloat {
+            switch self {
+            case .small:
+                return Constants.smallFontSize
+            case .large:
+                return Constants.largeFontSize
+            }
+        }
+        
+        var spaceBetweenPhotoInfo: CGFloat {
+            switch self {
+            case .small:
+                return Constants.spaceBetweenPhotoInfoSmall
+            case .large:
+                return Constants.spaceBetweenPhotoInfoLarge
+            }
+        }
+        
+        var photoLeftMargin: CGFloat {
+            switch self {
+            case .small:
+                return Constants.photoLeftMarginSmall
+            case .large:
+                return Constants.photoLeftMarginLarge
+            }
+        }
+        
+        var infoTopMargin: CGFloat {
+            switch self {
+            case .small:
+                return Constants.infoTopMarginSmall
+            case .large:
+                return Constants.infoTopMarginLarge
+            }
+        }
     }
     
     private enum Constants {
@@ -56,39 +101,23 @@ class UserDisplayView: UIView {
     private var layout: LayoutType = .small
     
     private var photoMargin: CGFloat {
-        if layout == .small {
-            return Constants.photoMarginSmall
-        } else {
-            return Constants.photoMarginLarge
-        }
+        return layout.photoMargin
     }
     
     private var fontSize: CGFloat {
-        if layout == .small {
-            return Constants.smallFontSize
-        }
-        return Constants.largeFontSize
+        return layout.fontSize
     }
     
     private var spaceBetweenPhotoInfo: CGFloat {
-        if layout == .small {
-            return Constants.spaceBetweenPhotoInfoSmall
-        }
-        return Constants.spaceBetweenPhotoInfoLarge
+        return layout.spaceBetweenPhotoInfo
     }
     
     private var photoLeftMargin: CGFloat {
-        if layout == .small {
-            return Constants.photoLeftMarginSmall
-        }
-        return Constants.photoLeftMarginLarge
+        return layout.photoLeftMargin
     }
     
     private var infoTopMargin: CGFloat {
-        if layout == .small {
-            return Constants.infoTopMarginSmall
-        }
-        return Constants.infoTopMarginLarge
+        return layout.infoTopMargin
     }
     
     init(frame: CGRect,

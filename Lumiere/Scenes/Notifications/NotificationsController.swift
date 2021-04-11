@@ -131,10 +131,10 @@ extension NotificationsController {
     
     private func refreshTableView() {
         if criteriaSegmentedControl.selectedSegmentIndex == Notifications.Constants.BusinessLogic.SegmentedControlIndexes.request {
-            tableView.backgroundView = (viewModel?.defaultNotifications.isEmpty ?? true) ? EmptyListView(frame: .zero,
+            tableView.backgroundView = (viewModel?.defaultNotifications.isEmpty ?? true) ? WCEmptyListView(frame: .zero,
                                                                                        text: Notifications.Constants.Texts.emptyNotifications) : nil
         } else if criteriaSegmentedControl.selectedSegmentIndex == Notifications.Constants.BusinessLogic.SegmentedControlIndexes.acceptance {
-            tableView.backgroundView = (viewModel?.acceptNotifications.isEmpty ?? true) ? EmptyListView(frame: .zero,
+            tableView.backgroundView = (viewModel?.acceptNotifications.isEmpty ?? true) ? WCEmptyListView(frame: .zero,
                                                                                        text: Notifications.Constants.Texts.emptyHistory) : nil
         }
         DispatchQueue.main.async {

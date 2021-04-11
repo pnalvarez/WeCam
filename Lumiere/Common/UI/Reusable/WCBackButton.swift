@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DefaultBackButton: UIButton {
+class WCBackButton: UIButton {
     
     weak var associatedViewController: UIViewController?
 

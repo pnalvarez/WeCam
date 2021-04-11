@@ -13,7 +13,7 @@ enum DefaultInputTextFieldState {
     case error
 }
 
-class DefaultInputTextField: UITextField {
+class WCInputTextField: UITextField {
     
     private enum Constants {
         static let padding = UIEdgeInsets(top: 0, left: 12, bottom: 0, right: 0)

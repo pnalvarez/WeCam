@@ -13,8 +13,8 @@ class FinishedProjectDetailsView: UIView {
     private unowned var activityView: UIActivityIndicatorView
     private unowned var confirmationAlertView: ConfirmationAlertView
     private unowned var translucentView: UIView
-    private unowned var closeButton: DefaultCloseButton
-    private unowned var backButton: DefaultBackButton
+    private unowned var closeButton: WCCloseButton
+    private unowned var backButton: WCBackButton
     private unowned var watchButton: UIButton
     private unowned var interactionButton: UIButton
     private unowned var teamCollectionView: UICollectionView
@@ -84,8 +84,8 @@ class FinishedProjectDetailsView: UIView {
          activityView: UIActivityIndicatorView,
          confirmationAlertView: ConfirmationAlertView,
          translucentView: UIView,
-         closeButton: DefaultCloseButton,
-         backButton: DefaultBackButton,
+         closeButton: WCCloseButton,
+         backButton: WCBackButton,
          watchButton: UIButton,
          interactionButton: UIButton,
          teamCollectionView: UICollectionView,

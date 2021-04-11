@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DefaultCloseButton: UIButton {
+class WCCloseButton: UIButton {
     
     var associatedViewController: UIViewController?
     

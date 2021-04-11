@@ -10,7 +10,7 @@ import UIKit
 
 class SelectProjectCathegoryView: UIView {
     
-    private unowned var closeButton: DefaultCloseButton
+    private unowned var closeButton: WCCloseButton
     private unowned var advanceButton: UIButton
     private unowned var collectionView: UICollectionView
     
@@ -40,7 +40,7 @@ class SelectProjectCathegoryView: UIView {
     }()
     
     init(frame: CGRect,
-         closeButton: DefaultCloseButton,
+         closeButton: WCCloseButton,
          advanceButton: UIButton,
          collectionView: UICollectionView) {
         self.closeButton = closeButton

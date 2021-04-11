@@ -18,21 +18,21 @@ protocol SignInDisplayLogic: class {
 
 class SignInController: BaseViewController {
     
-    private lazy var loadingView: LoadingView = {
-        let view = LoadingView(frame: .zero)
+    private lazy var loadingView: WCLoadingView = {
+        let view = WCLoadingView(frame: .zero)
         view.isHidden = true
         return view
     }()
     
-    private lazy var emailTextField: DefaultInputTextField = {
-        let view = DefaultInputTextField(frame: .zero)
+    private lazy var emailTextField: WCInputTextField = {
+        let view = WCInputTextField(frame: .zero)
         view.delegate = self
         view.attributedPlaceholder = NSAttributedString(string: SignIn.Constants.Texts.emailTextField, attributes: [NSAttributedString.Key.foregroundColor: UIColor(rgb: 0x707070), NSAttributedString.Key.font: SignIn.Constants.Fonts.textFieldPlaceholder])
         return view
     }()
     
-    private lazy var passwordTextField: DefaultInputTextField = {
-        let view = DefaultInputTextField(frame: .zero)
+    private lazy var passwordTextField: WCInputTextField = {
+        let view = WCInputTextField(frame: .zero)
         view.delegate = self
         view.attributedPlaceholder = NSAttributedString(string: SignIn.Constants.Texts.passwordTextField, attributes: [NSAttributedString.Key.foregroundColor: UIColor(rgb: 0x707070), NSAttributedString.Key.font: SignIn.Constants.Fonts.textFieldPlaceholder])
         view.isSecureTextEntry = true
@@ -83,7 +83,7 @@ class SignInController: BaseViewController {
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if let textfield = textField as? DefaultInputTextField {
+        if let textfield = textField as? WCInputTextField {
             textfield.textFieldState = .normal
             guard range.location == 0 else {
                 return true

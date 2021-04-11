@@ -10,11 +10,11 @@ import UIKit
 
 class MainFeedTableView: UITableView {
     
-    private unowned var errorView: EmptyListView
+    private unowned var errorView: WCEmptyListView
     
     init(frame: CGRect,
          style: UITableView.Style = .plain,
-         errorView: EmptyListView) {
+         errorView: WCEmptyListView) {
         self.errorView = errorView
         super.init(frame: frame, style: style)
         separatorStyle = .none

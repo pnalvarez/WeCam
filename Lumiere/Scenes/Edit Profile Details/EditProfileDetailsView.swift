@@ -12,7 +12,7 @@ import SDWebImage
 class EditProfileDetailsView: UIView {
     
     private unowned var activityView: UIActivityIndicatorView
-    private unowned var loadingView: LoadingView
+    private unowned var loadingView: WCLoadingView
     private unowned var cancelButton: UIButton
     private unowned var finishButton: UIButton
     private unowned var imageButton: UIButton
@@ -70,7 +70,7 @@ class EditProfileDetailsView: UIView {
     
     init(frame: CGRect,
          activityView: UIActivityIndicatorView,
-         loadingView: LoadingView,
+         loadingView: WCLoadingView,
          cancelButton: UIButton,
          finishButton: UIButton,
          imageButton: UIButton,
@@ -105,7 +105,7 @@ extension EditProfileDetailsView {
     
     func updateAllTextFields() {
         for view in allSubviews {
-            if let textField = view as? DefaultInputTextField {
+            if let textField = view as? WCInputTextField {
                 if let isEmpty = textField.text?.isEmpty {
                     if isEmpty {
                         textField.textFieldState = .error

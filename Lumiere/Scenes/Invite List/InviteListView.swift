@@ -10,8 +10,8 @@ import UIKit
 
 class InviteListView: UIView {
     
-    private unowned var backButton: DefaultBackButton
-    private unowned var loadingView: LoadingView
+    private unowned var backButton: WCBackButton
+    private unowned var loadingView: WCLoadingView
     private unowned var activityView: UIActivityIndicatorView
     private unowned var searchTextField: UITextField
     private unowned var tableView: UITableView
@@ -26,8 +26,8 @@ class InviteListView: UIView {
     }()
     
     init(frame: CGRect,
-         backButton: DefaultBackButton,
-         loadingView: LoadingView,
+         backButton: WCBackButton,
+         loadingView: WCLoadingView,
          activityView: UIActivityIndicatorView,
          searchTextField: UITextField,
          tableView: UITableView) {

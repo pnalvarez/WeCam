@@ -46,7 +46,7 @@
 		3F2FD833257D8B7D003D93BF /* Resettable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2FD832257D8B7C003D93BF /* Resettable.swift */; };
 		3F2FD838257D8BC3003D93BF /* UITableViewCell+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2FD837257D8BC3003D93BF /* UITableViewCell+.swift */; };
 		3F339B27261A7BA900360D96 /* APINotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F339B26261A7BA900360D96 /* APINotificationManager.swift */; };
-		3F40A60B24E9CA4D00261161 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A60A24E9CA4D00261161 /* LoadingView.swift */; };
+		3F40A60B24E9CA4D00261161 /* WCLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A60A24E9CA4D00261161 /* WCLoadingView.swift */; };
 		3F40A60E24EA0D5700261161 /* SelectProjectImageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A60D24EA0D5700261161 /* SelectProjectImageController.swift */; };
 		3F40A61024EA0D9B00261161 /* SelectProjectImageRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A60F24EA0D9B00261161 /* SelectProjectImageRouter.swift */; };
 		3F40A61224EA0E4B00261161 /* SelectProjectImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A61124EA0E4B00261161 /* SelectProjectImageView.swift */; };
@@ -69,7 +69,7 @@
 		3F40A69824EF42EA00261161 /* ProjectProgressWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A69724EF42EA00261161 /* ProjectProgressWorker.swift */; };
 		3F40A69A24EF430B00261161 /* ProjectProgressRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A69924EF430B00261161 /* ProjectProgressRouter.swift */; };
 		3F40A69C24EF439E00261161 /* ProjectProgressModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A69B24EF439E00261161 /* ProjectProgressModels.swift */; };
-		3F40A69E24F08F7C00261161 /* DefaultBackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A69D24F08F7C00261161 /* DefaultBackButton.swift */; };
+		3F40A69E24F08F7C00261161 /* WCBackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A69D24F08F7C00261161 /* WCBackButton.swift */; };
 		3F40A6A124F0914400261161 /* EditProjectDetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A6A024F0914400261161 /* EditProjectDetailsController.swift */; };
 		3F40A6A324F091BB00261161 /* EditProjectDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A6A224F091BB00261161 /* EditProjectDetailsView.swift */; };
 		3F40A6A524F091EC00261161 /* EditProjectDetailsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A6A424F091EC00261161 /* EditProjectDetailsInteractor.swift */; };
@@ -84,7 +84,7 @@
 		3F40A6B824F1CBF400261161 /* OnGoingProjectDetailsWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A6B724F1CBF400261161 /* OnGoingProjectDetailsWorker.swift */; };
 		3F40A6BA24F1CC9200261161 /* OnGoingProjectDetailsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A6B924F1CC9200261161 /* OnGoingProjectDetailsRouter.swift */; };
 		3F40A6BC24F1CD4400261161 /* OnGoingProjectDetailsModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A6BB24F1CD4400261161 /* OnGoingProjectDetailsModels.swift */; };
-		3F40A6BE24F1CE5100261161 /* DefaultCloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A6BD24F1CE5100261161 /* DefaultCloseButton.swift */; };
+		3F40A6BE24F1CE5100261161 /* WCCloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A6BD24F1CE5100261161 /* WCCloseButton.swift */; };
 		3F40A6C024F1DF3900261161 /* TeamMemberCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A6BF24F1DF3900261161 /* TeamMemberCollectionViewCell.swift */; };
 		3F40A6C324F231A000261161 /* EditProfileDetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A6C224F231A000261161 /* EditProfileDetailsController.swift */; };
 		3F40A6C524F231DB00261161 /* EditProfileDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A6C424F231DB00261161 /* EditProfileDetailsView.swift */; };
@@ -179,13 +179,13 @@
 		3F6EEA7124E5DEEC0075C500 /* UITabBar+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6EEA7024E5DEEC0075C500 /* UITabBar+.swift */; };
 		3F6EEA7324E870AD0075C500 /* InfopListReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6EEA7224E870AD0075C500 /* InfopListReader.swift */; };
 		3F6EEA7524E87EE10075C500 /* UIAlertController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6EEA7424E87EE10075C500 /* UIAlertController+.swift */; };
-		3F6EEA7724E8D1CE0075C500 /* EmptyListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6EEA7624E8D1CE0075C500 /* EmptyListView.swift */; };
+		3F6EEA7724E8D1CE0075C500 /* WCEmptyListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F6EEA7624E8D1CE0075C500 /* WCEmptyListView.swift */; };
 		3F8116DE24B6AB620083A3DA /* ReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8116DD24B6AB620083A3DA /* ReusableView.swift */; };
 		3F8116E024B6ABEE0083A3DA /* UICollectionView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8116DF24B6ABEE0083A3DA /* UICollectionView+.swift */; };
-		3F886FE925D20936003C875F /* DefaultActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F886FE825D20936003C875F /* DefaultActionButton.swift */; };
+		3F886FE925D20936003C875F /* WCActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F886FE825D20936003C875F /* WCActionButton.swift */; };
 		3F88DDED260C1FAB00E7B1AA /* NetworkStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F88DDEC260C1FAB00E7B1AA /* NetworkStatusView.swift */; };
 		3F8AB7912516DB6100E949F6 /* SearchHeaderTableViewCellBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8AB7902516DB6100E949F6 /* SearchHeaderTableViewCellBuilder.swift */; };
-		3F8BEBEF25CB88870010AC24 /* DefaultInputTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8BEBEE25CB88870010AC24 /* DefaultInputTextField.swift */; };
+		3F8BEBEF25CB88870010AC24 /* WCInputTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8BEBEE25CB88870010AC24 /* WCInputTextField.swift */; };
 		3F8BEBF425CC7A3B0010AC24 /* ProjectDataTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8BEBF325CC7A3B0010AC24 /* ProjectDataTextField.swift */; };
 		3F8BEBF925CC81B30010AC24 /* ProjectDataTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8BEBF825CC81B30010AC24 /* ProjectDataTextView.swift */; };
 		3F8D136724D0ED0D00AED7EB /* SignInInteractor+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8D136624D0ED0D00AED7EB /* SignInInteractor+Tests.swift */; };
@@ -270,10 +270,11 @@
 		3F9578CE24B0197F00B79818 /* SignUpProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9578CD24B0197F00B79818 /* SignUpProvider.swift */; };
 		3F9578D024B0198700B79818 /* SignUpRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9578CF24B0198700B79818 /* SignUpRouter.swift */; };
 		3F9578D224B0198F00B79818 /* SignUpModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9578D124B0198F00B79818 /* SignUpModels.swift */; };
-		3F9578D424B019BE00B79818 /* MovieStyleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9578D324B019BE00B79818 /* MovieStyleButton.swift */; };
+		3F9578D424B019BE00B79818 /* WCMovieStyleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9578D324B019BE00B79818 /* WCMovieStyleButton.swift */; };
 		3F9578D724B01A0600B79818 /* MovieStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9578D624B01A0600B79818 /* MovieStyle.swift */; };
 		3F9578DB24B0240C00B79818 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9578DA24B0240C00B79818 /* String+.swift */; };
 		3F9844E3262288C6000BE5BC /* WCListItemImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9844E2262288C6000BE5BC /* WCListItemImageView.swift */; };
+		3F9845092622A317000BE5BC /* WCProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9845082622A317000BE5BC /* WCProgressView.swift */; };
 		3FA1C1512536738B00385322 /* OptionFilterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA1C1502536738B00385322 /* OptionFilterButton.swift */; };
 		3FA1C1562536817500385322 /* UIStackView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA1C1552536817500385322 /* UIStackView+.swift */; };
 		3FA1C162253B851100385322 /* OnGoingProjectsFeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA1C161253B851000385322 /* OnGoingProjectsFeedTableViewCell.swift */; };
@@ -340,12 +341,12 @@
 		3FF286E225E88104008FD23F /* AccountRecoveryInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF286E125E88104008FD23F /* AccountRecoveryInteractor.swift */; };
 		3FF286E725E881A6008FD23F /* AccountRecoveryRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF286E625E881A6008FD23F /* AccountRecoveryRouter.swift */; };
 		3FF286EC25E8826F008FD23F /* AccountRecoveryModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF286EB25E8826F008FD23F /* AccountRecoveryModels.swift */; };
-		3FF286F125E883F2008FD23F /* DefaultHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF286F025E883F2008FD23F /* DefaultHeaderView.swift */; };
+		3FF286F125E883F2008FD23F /* WCHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF286F025E883F2008FD23F /* WCHeaderView.swift */; };
 		3FF286F625EAE4EF008FD23F /* OpionSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF286F525EAE4EF008FD23F /* OpionSelectorView.swift */; };
 		3FF286FB25EAE5A1008FD23F /* OptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF286FA25EAE5A1008FD23F /* OptionView.swift */; };
 		3FF2872E25F1BCA9008FD23F /* Data+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF2872D25F1BCA9008FD23F /* Data+.swift */; };
-		3FF2873325F412D5008FD23F /* DefaultSearchButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF2873225F412D5008FD23F /* DefaultSearchButton.swift */; };
-		3FF2873825F41455008FD23F /* DefaultSearchTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF2873725F41455008FD23F /* DefaultSearchTextField.swift */; };
+		3FF2873325F412D5008FD23F /* WCSearchButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF2873225F412D5008FD23F /* WCSearchButton.swift */; };
+		3FF2873825F41455008FD23F /* WCSearchTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF2873725F41455008FD23F /* WCSearchTextField.swift */; };
 		3FF72BB92606BE5D0064B96A /* InternetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF72BB82606BE5D0064B96A /* InternetManager.swift */; };
 		3FF72BC4260802D20064B96A /* WCError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF72BC3260802D20064B96A /* WCError.swift */; };
 		D062C81E7BCE3C5271E0BD79 /* Pods_WeCam_WeCamUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D52EE0AE0CF5D11C51A0E48 /* Pods_WeCam_WeCamUITests.framework */; };
@@ -414,7 +415,7 @@
 		3F2FD832257D8B7C003D93BF /* Resettable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resettable.swift; sourceTree = "<group>"; };
 		3F2FD837257D8BC3003D93BF /* UITableViewCell+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+.swift"; sourceTree = "<group>"; };
 		3F339B26261A7BA900360D96 /* APINotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APINotificationManager.swift; sourceTree = "<group>"; };
-		3F40A60A24E9CA4D00261161 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		3F40A60A24E9CA4D00261161 /* WCLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCLoadingView.swift; sourceTree = "<group>"; };
 		3F40A60D24EA0D5700261161 /* SelectProjectImageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectProjectImageController.swift; sourceTree = "<group>"; };
 		3F40A60F24EA0D9B00261161 /* SelectProjectImageRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectProjectImageRouter.swift; sourceTree = "<group>"; };
 		3F40A61124EA0E4B00261161 /* SelectProjectImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectProjectImageView.swift; sourceTree = "<group>"; };
@@ -437,7 +438,7 @@
 		3F40A69724EF42EA00261161 /* ProjectProgressWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectProgressWorker.swift; sourceTree = "<group>"; };
 		3F40A69924EF430B00261161 /* ProjectProgressRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectProgressRouter.swift; sourceTree = "<group>"; };
 		3F40A69B24EF439E00261161 /* ProjectProgressModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectProgressModels.swift; sourceTree = "<group>"; };
-		3F40A69D24F08F7C00261161 /* DefaultBackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultBackButton.swift; sourceTree = "<group>"; };
+		3F40A69D24F08F7C00261161 /* WCBackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCBackButton.swift; sourceTree = "<group>"; };
 		3F40A6A024F0914400261161 /* EditProjectDetailsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProjectDetailsController.swift; sourceTree = "<group>"; };
 		3F40A6A224F091BB00261161 /* EditProjectDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProjectDetailsView.swift; sourceTree = "<group>"; };
 		3F40A6A424F091EC00261161 /* EditProjectDetailsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProjectDetailsInteractor.swift; sourceTree = "<group>"; };
@@ -452,7 +453,7 @@
 		3F40A6B724F1CBF400261161 /* OnGoingProjectDetailsWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnGoingProjectDetailsWorker.swift; sourceTree = "<group>"; };
 		3F40A6B924F1CC9200261161 /* OnGoingProjectDetailsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnGoingProjectDetailsRouter.swift; sourceTree = "<group>"; };
 		3F40A6BB24F1CD4400261161 /* OnGoingProjectDetailsModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnGoingProjectDetailsModels.swift; sourceTree = "<group>"; };
-		3F40A6BD24F1CE5100261161 /* DefaultCloseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultCloseButton.swift; sourceTree = "<group>"; };
+		3F40A6BD24F1CE5100261161 /* WCCloseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCCloseButton.swift; sourceTree = "<group>"; };
 		3F40A6BF24F1DF3900261161 /* TeamMemberCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamMemberCollectionViewCell.swift; sourceTree = "<group>"; };
 		3F40A6C224F231A000261161 /* EditProfileDetailsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileDetailsController.swift; sourceTree = "<group>"; };
 		3F40A6C424F231DB00261161 /* EditProfileDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileDetailsView.swift; sourceTree = "<group>"; };
@@ -547,13 +548,13 @@
 		3F6EEA7024E5DEEC0075C500 /* UITabBar+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITabBar+.swift"; sourceTree = "<group>"; };
 		3F6EEA7224E870AD0075C500 /* InfopListReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfopListReader.swift; sourceTree = "<group>"; };
 		3F6EEA7424E87EE10075C500 /* UIAlertController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+.swift"; sourceTree = "<group>"; };
-		3F6EEA7624E8D1CE0075C500 /* EmptyListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyListView.swift; sourceTree = "<group>"; };
+		3F6EEA7624E8D1CE0075C500 /* WCEmptyListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCEmptyListView.swift; sourceTree = "<group>"; };
 		3F8116DD24B6AB620083A3DA /* ReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableView.swift; sourceTree = "<group>"; };
 		3F8116DF24B6ABEE0083A3DA /* UICollectionView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+.swift"; sourceTree = "<group>"; };
-		3F886FE825D20936003C875F /* DefaultActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultActionButton.swift; sourceTree = "<group>"; };
+		3F886FE825D20936003C875F /* WCActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCActionButton.swift; sourceTree = "<group>"; };
 		3F88DDEC260C1FAB00E7B1AA /* NetworkStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkStatusView.swift; sourceTree = "<group>"; };
 		3F8AB7902516DB6100E949F6 /* SearchHeaderTableViewCellBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHeaderTableViewCellBuilder.swift; sourceTree = "<group>"; };
-		3F8BEBEE25CB88870010AC24 /* DefaultInputTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultInputTextField.swift; sourceTree = "<group>"; };
+		3F8BEBEE25CB88870010AC24 /* WCInputTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCInputTextField.swift; sourceTree = "<group>"; };
 		3F8BEBF325CC7A3B0010AC24 /* ProjectDataTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectDataTextField.swift; sourceTree = "<group>"; };
 		3F8BEBF825CC81B30010AC24 /* ProjectDataTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectDataTextView.swift; sourceTree = "<group>"; };
 		3F8D136624D0ED0D00AED7EB /* SignInInteractor+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SignInInteractor+Tests.swift"; sourceTree = "<group>"; };
@@ -646,10 +647,11 @@
 		3F9578CD24B0197F00B79818 /* SignUpProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpProvider.swift; sourceTree = "<group>"; };
 		3F9578CF24B0198700B79818 /* SignUpRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpRouter.swift; sourceTree = "<group>"; };
 		3F9578D124B0198F00B79818 /* SignUpModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpModels.swift; sourceTree = "<group>"; };
-		3F9578D324B019BE00B79818 /* MovieStyleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieStyleButton.swift; sourceTree = "<group>"; };
+		3F9578D324B019BE00B79818 /* WCMovieStyleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCMovieStyleButton.swift; sourceTree = "<group>"; };
 		3F9578D624B01A0600B79818 /* MovieStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieStyle.swift; sourceTree = "<group>"; };
 		3F9578DA24B0240C00B79818 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		3F9844E2262288C6000BE5BC /* WCListItemImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCListItemImageView.swift; sourceTree = "<group>"; };
+		3F9845082622A317000BE5BC /* WCProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCProgressView.swift; sourceTree = "<group>"; };
 		3FA1C1502536738B00385322 /* OptionFilterButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionFilterButton.swift; sourceTree = "<group>"; };
 		3FA1C1552536817500385322 /* UIStackView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+.swift"; sourceTree = "<group>"; };
 		3FA1C161253B851000385322 /* OnGoingProjectsFeedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnGoingProjectsFeedTableViewCell.swift; sourceTree = "<group>"; };
@@ -716,12 +718,12 @@
 		3FF286E125E88104008FD23F /* AccountRecoveryInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountRecoveryInteractor.swift; sourceTree = "<group>"; };
 		3FF286E625E881A6008FD23F /* AccountRecoveryRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountRecoveryRouter.swift; sourceTree = "<group>"; };
 		3FF286EB25E8826F008FD23F /* AccountRecoveryModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountRecoveryModels.swift; sourceTree = "<group>"; };
-		3FF286F025E883F2008FD23F /* DefaultHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultHeaderView.swift; sourceTree = "<group>"; };
+		3FF286F025E883F2008FD23F /* WCHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCHeaderView.swift; sourceTree = "<group>"; };
 		3FF286F525EAE4EF008FD23F /* OpionSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpionSelectorView.swift; sourceTree = "<group>"; };
 		3FF286FA25EAE5A1008FD23F /* OptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionView.swift; sourceTree = "<group>"; };
 		3FF2872D25F1BCA9008FD23F /* Data+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+.swift"; sourceTree = "<group>"; };
-		3FF2873225F412D5008FD23F /* DefaultSearchButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSearchButton.swift; sourceTree = "<group>"; };
-		3FF2873725F41455008FD23F /* DefaultSearchTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSearchTextField.swift; sourceTree = "<group>"; };
+		3FF2873225F412D5008FD23F /* WCSearchButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCSearchButton.swift; sourceTree = "<group>"; };
+		3FF2873725F41455008FD23F /* WCSearchTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCSearchTextField.swift; sourceTree = "<group>"; };
 		3FF72BB82606BE5D0064B96A /* InternetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternetManager.swift; sourceTree = "<group>"; };
 		3FF72BC3260802D20064B96A /* WCError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCError.swift; sourceTree = "<group>"; };
 		4B41C3F4A1A94E01091B6522 /* Pods-LumiereTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LumiereTests.release.xcconfig"; path = "Target Support Files/Pods-LumiereTests/Pods-LumiereTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -895,17 +897,17 @@
 		3F05D1AC2515D14000932FFC /* Reusable */ = {
 			isa = PBXGroup;
 			children = (
-				3F886FE825D20936003C875F /* DefaultActionButton.swift */,
-				3F40A69D24F08F7C00261161 /* DefaultBackButton.swift */,
+				3F886FE825D20936003C875F /* WCActionButton.swift */,
+				3F40A69D24F08F7C00261161 /* WCBackButton.swift */,
 				3FB8808D2533FE31003C0D1B /* DefaultBottomSheet.swift */,
-				3F40A6BD24F1CE5100261161 /* DefaultCloseButton.swift */,
-				3FF286F025E883F2008FD23F /* DefaultHeaderView.swift */,
-				3F8BEBEE25CB88870010AC24 /* DefaultInputTextField.swift */,
-				3FF2873225F412D5008FD23F /* DefaultSearchButton.swift */,
-				3FF2873725F41455008FD23F /* DefaultSearchTextField.swift */,
-				3F6EEA7624E8D1CE0075C500 /* EmptyListView.swift */,
-				3F40A60A24E9CA4D00261161 /* LoadingView.swift */,
-				3F9578D324B019BE00B79818 /* MovieStyleButton.swift */,
+				3F40A6BD24F1CE5100261161 /* WCCloseButton.swift */,
+				3FF286F025E883F2008FD23F /* WCHeaderView.swift */,
+				3F8BEBEE25CB88870010AC24 /* WCInputTextField.swift */,
+				3FF2873225F412D5008FD23F /* WCSearchButton.swift */,
+				3FF2873725F41455008FD23F /* WCSearchTextField.swift */,
+				3F6EEA7624E8D1CE0075C500 /* WCEmptyListView.swift */,
+				3F40A60A24E9CA4D00261161 /* WCLoadingView.swift */,
+				3F9578D324B019BE00B79818 /* WCMovieStyleButton.swift */,
 				3FEBA85324FF145E0077183F /* OnGoingProjectDisplayView.swift */,
 				3FA1C166253B88F700385322 /* OnGoingProjectFeedResumeButton.swift */,
 				3FF286F525EAE4EF008FD23F /* OpionSelectorView.swift */,
@@ -919,6 +921,7 @@
 				3F40A6E124F582EF00261161 /* UserDisplayView.swift */,
 				3F88DDEC260C1FAB00E7B1AA /* NetworkStatusView.swift */,
 				3F9844E2262288C6000BE5BC /* WCListItemImageView.swift */,
+				3F9845082622A317000BE5BC /* WCProgressView.swift */,
 			);
 			path = Reusable;
 			sourceTree = "<group>";
@@ -2155,7 +2158,7 @@
 				3F339B27261A7BA900360D96 /* APINotificationManager.swift in Sources */,
 				3FAD1A422516B99800ED4074 /* MainFeedModels.swift in Sources */,
 				3F655F702523C592004A1D54 /* SearchResultsRouter.swift in Sources */,
-				3FF2873825F41455008FD23F /* DefaultSearchTextField.swift in Sources */,
+				3FF2873825F41455008FD23F /* WCSearchTextField.swift in Sources */,
 				3F40A68724EDF6DD00261161 /* SelectProjectCathegoryWorker.swift in Sources */,
 				3FAD1A0E2516B53100ED4074 /* MainFeedTableViewFactory.swift in Sources */,
 				3F40A61424EA0E9300261161 /* SelectProjectImageInteractor.swift in Sources */,
@@ -2166,9 +2169,9 @@
 				3FD0EDF1250D5B8700E22029 /* ProjectInvitesRouter.swift in Sources */,
 				3FE8DF5424C52F72005DE30D /* FirebaseManager.swift in Sources */,
 				3F95787524AEA4C900B79818 /* SignInInteractor.swift in Sources */,
-				3F40A6BE24F1CE5100261161 /* DefaultCloseButton.swift in Sources */,
+				3F40A6BE24F1CE5100261161 /* WCCloseButton.swift in Sources */,
 				3F40A60E24EA0D5700261161 /* SelectProjectImageController.swift in Sources */,
-				3FF2873325F412D5008FD23F /* DefaultSearchButton.swift in Sources */,
+				3FF2873325F412D5008FD23F /* WCSearchButton.swift in Sources */,
 				3F95787724AEA4D100B79818 /* SignInPresenter.swift in Sources */,
 				3FF286EC25E8826F008FD23F /* AccountRecoveryModels.swift in Sources */,
 				3FD96CEF2599581600B1B4EE /* ProfileSuggestionCollectionViewCell.swift in Sources */,
@@ -2219,7 +2222,7 @@
 				3F40A6BA24F1CC9200261161 /* OnGoingProjectDetailsRouter.swift in Sources */,
 				3F40A6AD24F0932800261161 /* EditProjectDetailsRouter.swift in Sources */,
 				3FB8BD87250ED5AE001954FD /* InviteProfileToProjectsRouter.swift in Sources */,
-				3F40A60B24E9CA4D00261161 /* LoadingView.swift in Sources */,
+				3F40A60B24E9CA4D00261161 /* WCLoadingView.swift in Sources */,
 				3F42A5422557AD130088E232 /* FinishedProjectDetailsRouter.swift in Sources */,
 				3F40A6C324F231A000261161 /* EditProfileDetailsController.swift in Sources */,
 				3F5B324E253163C8004DFBFD /* ProfileSuggestionsWorker.swift in Sources */,
@@ -2232,7 +2235,7 @@
 				3F40A6B424F1CB5A00261161 /* OnGoingProjectDetailsInteractor.swift in Sources */,
 				3F66CA0B250450A1006F6DBD /* ProjectParticipantsListRouter.swift in Sources */,
 				3F655F8B2523C91F004A1D54 /* SearchResultsFactory.swift in Sources */,
-				3F886FE925D20936003C875F /* DefaultActionButton.swift in Sources */,
+				3F886FE925D20936003C875F /* WCActionButton.swift in Sources */,
 				3F95787924AEA4DE00B79818 /* SignInRouter.swift in Sources */,
 				3F40A6A524F091EC00261161 /* EditProjectDetailsInteractor.swift in Sources */,
 				3FB8BD6F250D5FBD001954FD /* ProjectInvitesInteractor.swift in Sources */,
@@ -2258,7 +2261,7 @@
 				3F40A69424EF426500261161 /* ProjectProgressInteractor.swift in Sources */,
 				3F40A6A324F091BB00261161 /* EditProjectDetailsView.swift in Sources */,
 				3FA7DE2825ABD808000356D2 /* ProfileDetailsOnGoingProjectCollectionViewCell.swift in Sources */,
-				3F6EEA7724E8D1CE0075C500 /* EmptyListView.swift in Sources */,
+				3F6EEA7724E8D1CE0075C500 /* WCEmptyListView.swift in Sources */,
 				3F2FD838257D8BC3003D93BF /* UITableViewCell+.swift in Sources */,
 				3F6EEA7524E87EE10075C500 /* UIAlertController+.swift in Sources */,
 				3F40A6DE24F4899500261161 /* InviteListModels.swift in Sources */,
@@ -2272,7 +2275,7 @@
 				3F8D139D24D53B7B00AED7EB /* NotificationsPresenter.swift in Sources */,
 				3F95787324AEA4C000B79818 /* SignInView.swift in Sources */,
 				3F40A6B624F1CBA500261161 /* OnGoingProjectDetailsPresenter.swift in Sources */,
-				3FF286F125E883F2008FD23F /* DefaultHeaderView.swift in Sources */,
+				3FF286F125E883F2008FD23F /* WCHeaderView.swift in Sources */,
 				3F40A61824EA0F4000261161 /* SelectProjectImageWorker.swift in Sources */,
 				3FB8BD85250ED55E001954FD /* InviteProfileToProjectsWorker.swift in Sources */,
 				3F655F542523C3BB004A1D54 /* SearchResultsController.swift in Sources */,
@@ -2305,13 +2308,14 @@
 				3F40A6D624F4873F00261161 /* InviteListInteractor.swift in Sources */,
 				3F9578D724B01A0600B79818 /* MovieStyle.swift in Sources */,
 				3FB8BD7D250ED441001954FD /* InviteProfileToProjectsView.swift in Sources */,
-				3F40A69E24F08F7C00261161 /* DefaultBackButton.swift in Sources */,
+				3F40A69E24F08F7C00261161 /* WCBackButton.swift in Sources */,
 				3F5B3232253161B6004DFBFD /* ProfileSuggestionsController.swift in Sources */,
 				3FBE1C3925FEE1D100AE67E2 /* SearchDisplayView.swift in Sources */,
 				3F42A48E255393150088E232 /* InsertVideoModels.swift in Sources */,
 				3F40A61224EA0E4B00261161 /* SelectProjectImageView.swift in Sources */,
 				3F9578CE24B0197F00B79818 /* SignUpProvider.swift in Sources */,
 				3F40A6A124F0914400261161 /* EditProjectDetailsController.swift in Sources */,
+				3F9845092622A317000BE5BC /* WCProgressView.swift in Sources */,
 				3F8D13CA24DCCD2100AED7EB /* BaseResponse.swift in Sources */,
 				3F8D13C024D78CBF00AED7EB /* NotificationTableViewCell.swift in Sources */,
 				3F6EEA3924E0A3A50075C500 /* ConnectionsListRouter.swift in Sources */,
@@ -2324,7 +2328,7 @@
 				3F95786A24AEA07100B79818 /* LaunchScreenInteractor.swift in Sources */,
 				3FE8DF5824C7BEE2005DE30D /* Paths.swift in Sources */,
 				3F9844E3262288C6000BE5BC /* WCListItemImageView.swift in Sources */,
-				3F9578D424B019BE00B79818 /* MovieStyleButton.swift in Sources */,
+				3F9578D424B019BE00B79818 /* WCMovieStyleButton.swift in Sources */,
 				3F42A49D2553933D0088E232 /* InsertVideoWorker.swift in Sources */,
 				3F012A06252E8C4100FF4985 /* ProfileSuggestionsFeedTableViewCell.swift in Sources */,
 				3F42A573255A15150088E232 /* WatchVideoWorker.swift in Sources */,
@@ -2363,7 +2367,7 @@
 				3FD0EDEF250D5AFD00E22029 /* ProjectInvitesController.swift in Sources */,
 				3FAD1A4C2516BAFB00ED4074 /* SearchHeaderTableViewCell.swift in Sources */,
 				3FF72BC4260802D20064B96A /* WCError.swift in Sources */,
-				3F8BEBEF25CB88870010AC24 /* DefaultInputTextField.swift in Sources */,
+				3F8BEBEF25CB88870010AC24 /* WCInputTextField.swift in Sources */,
 				3F40A69624EF429E00261161 /* ProjectProgressPresenter.swift in Sources */,
 				3F5B32442531627C004DFBFD /* ProfileSuggestionsModels.swift in Sources */,
 				3F6EEA6F24E5D7550075C500 /* Dictionary+.swift in Sources */,

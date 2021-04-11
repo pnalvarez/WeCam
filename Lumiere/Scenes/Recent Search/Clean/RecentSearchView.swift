@@ -10,8 +10,8 @@ import UIKit
 
 class RecentSearchView: UIView {
     
-    private lazy var headerView: DefaultHeaderView = {
-        let view = DefaultHeaderView(frame: .zero)
+    private lazy var headerView: WCHeaderView = {
+        let view = WCHeaderView(frame: .zero)
         return view
     }()
     
@@ -25,14 +25,14 @@ class RecentSearchView: UIView {
     }()
     
     private unowned var activityView: UIActivityIndicatorView
-    private unowned var backButton: DefaultBackButton
-    private unowned var searchTextField: DefaultSearchTextField
+    private unowned var backButton: WCBackButton
+    private unowned var searchTextField: WCSearchTextField
     private unowned var resultsTableView: UITableView
     
     init(frame: CGRect,
          activityView: UIActivityIndicatorView,
-         backButton: DefaultBackButton,
-         searchTextField: DefaultSearchTextField,
+         backButton: WCBackButton,
+         searchTextField: WCSearchTextField,
          resultsTableView: UITableView) {
         self.activityView = activityView
         self.backButton = backButton

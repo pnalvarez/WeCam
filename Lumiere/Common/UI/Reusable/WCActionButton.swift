@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DefaultActionButton: UIButton {
+class WCActionButton: UIButton {
     
     var text: String? {
         didSet {

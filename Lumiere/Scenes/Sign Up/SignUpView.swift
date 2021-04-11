@@ -10,15 +10,15 @@ import UIKit
 
 class SignUpView: UIView {
     
-    private unowned var loadingView: LoadingView
+    private unowned var loadingView: WCLoadingView
     private unowned var backButton: UIButton
     private unowned var imageButton: UIButton
-    private unowned var nameTextField: DefaultInputTextField
-    private unowned var cellphoneTextField: DefaultInputTextField
-    private unowned var emailTextField: DefaultInputTextField
-    private unowned var passwordTextField: DefaultInputTextField
-    private unowned var confirmTextField: DefaultInputTextField
-    private unowned var professionalTextField: DefaultInputTextField
+    private unowned var nameTextField: WCInputTextField
+    private unowned var cellphoneTextField: WCInputTextField
+    private unowned var emailTextField: WCInputTextField
+    private unowned var passwordTextField: WCInputTextField
+    private unowned var confirmTextField: WCInputTextField
+    private unowned var professionalTextField: WCInputTextField
     private unowned var signUpButton: UIButton
     private unowned var collectionView: UICollectionView
     
@@ -52,15 +52,15 @@ class SignUpView: UIView {
     private lazy var titleHeaderIcon: UIImageView = { return UIImageView(frame: .zero) }()
     
     init(frame: CGRect,
-         loadingView: LoadingView,
+         loadingView: WCLoadingView,
          backButton: UIButton,
          imageButton: UIButton,
-         nameTextField: DefaultInputTextField,
-         cellphoneTextField: DefaultInputTextField,
-         emailTextField: DefaultInputTextField,
-         passwordTextField: DefaultInputTextField,
-         confirmTextField: DefaultInputTextField,
-         professionalTextField: DefaultInputTextField,
+         nameTextField: WCInputTextField,
+         cellphoneTextField: WCInputTextField,
+         emailTextField: WCInputTextField,
+         passwordTextField: WCInputTextField,
+         confirmTextField: WCInputTextField,
+         professionalTextField: WCInputTextField,
          signUpButton: UIButton,
          collectionView: UICollectionView) {
         self.loadingView = loadingView
@@ -87,7 +87,7 @@ extension SignUpView {
     
     func updateAllTextFields() {
         for view in allSubviews {
-            if let textField = view as? DefaultInputTextField {
+            if let textField = view as? WCInputTextField {
                 if let isEmpty = textField.text?.isEmpty {
                     if isEmpty {
                         textField.textFieldState = .error
@@ -101,7 +101,7 @@ extension SignUpView {
     
     func displayUnmatchedFields() {
         for view in allSubviews {
-            if let textField = view as? DefaultInputTextField {
+            if let textField = view as? WCInputTextField {
                 textField.textFieldState = .normal
             }
         }

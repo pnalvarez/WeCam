@@ -29,8 +29,8 @@ class RecentSearchController: BaseViewController {
         return view
     }()
 
-    private lazy var searchTextField: DefaultSearchTextField = {
-        let view = DefaultSearchTextField(frame: .zero)
+    private lazy var searchTextField: WCSearchTextField = {
+        let view = WCSearchTextField(frame: .zero)
         view.searchDelegate = self
         return view
     }()
@@ -121,9 +121,9 @@ extension RecentSearchController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
-extension RecentSearchController: DefaultSearchTextFieldDelegate {
+extension RecentSearchController: WCSearchTextFieldDelegate {
     
-    func didTapSearch(searchTextField: DefaultSearchTextField) {
+    func didTapSearch(searchTextField: WCSearchTextField) {
         interactor?.didTapSearchAction(RecentSearch.Request.SearchAction(text: searchTextField.text ?? .empty))
     }
 }

@@ -20,8 +20,8 @@ protocol SignUpDisplayLogic: class {
 
 class SignUpController: BaseViewController {
     
-    private lazy var loadingView: LoadingView = {
-        let view = LoadingView(frame: .zero)
+    private lazy var loadingView: WCLoadingView = {
+        let view = WCLoadingView(frame: .zero)
         view.animateRotate()
         view.isHidden = true
         return view
@@ -34,8 +34,8 @@ class SignUpController: BaseViewController {
         return view
     }()
     
-    private lazy var nameTextField: DefaultInputTextField = {
-        let view = DefaultInputTextField(frame: .zero)
+    private lazy var nameTextField: WCInputTextField = {
+        let view = WCInputTextField(frame: .zero)
         view.attributedPlaceholder = NSAttributedString(string: SignUp.Constants.Texts.namePlaceholder,
                                                         attributes: [NSAttributedString.Key.foregroundColor: SignUp.Constants.Colors.textFieldPlaceHolderColor, NSAttributedString.Key.font: SignUp.Constants.Fonts.placeholderFont])
         view.delegate = self
@@ -43,8 +43,8 @@ class SignUpController: BaseViewController {
         return view
     }()
     
-    private lazy var cellphoneTextField: DefaultInputTextField = {
-        let view = DefaultInputTextField(frame: .zero)
+    private lazy var cellphoneTextField: WCInputTextField = {
+        let view = WCInputTextField(frame: .zero)
         view.attributedPlaceholder = NSAttributedString(string: SignUp.Constants.Texts.cellphonePlaceholder,
                                                         attributes: [NSAttributedString.Key.foregroundColor: SignUp.Constants.Colors.textFieldPlaceHolderColor, NSAttributedString.Key.font: SignUp.Constants.Fonts.placeholderFont])
         view.delegate = self
@@ -52,16 +52,16 @@ class SignUpController: BaseViewController {
         return view
     }()
     
-    private lazy var emailTextField: DefaultInputTextField = {
-        let view = DefaultInputTextField(frame: .zero)
+    private lazy var emailTextField: WCInputTextField = {
+        let view = WCInputTextField(frame: .zero)
         view.attributedPlaceholder = NSAttributedString(string: SignUp.Constants.Texts.emailPlaceholder,
                                                         attributes: [NSAttributedString.Key.foregroundColor: SignUp.Constants.Colors.textFieldPlaceHolderColor, NSAttributedString.Key.font: SignUp.Constants.Fonts.placeholderFont])
         view.delegate = self
         return view
     }()
     
-    private lazy var passwordTextField: DefaultInputTextField = {
-        let view = DefaultInputTextField(frame: .zero)
+    private lazy var passwordTextField: WCInputTextField = {
+        let view = WCInputTextField(frame: .zero)
         view.attributedPlaceholder = NSAttributedString(string: SignUp.Constants.Texts.passwordPlaceholder,
                                                         attributes: [NSAttributedString.Key.foregroundColor: SignUp.Constants.Colors.textFieldPlaceHolderColor, NSAttributedString.Key.font: SignUp.Constants.Fonts.placeholderFont])
         view.isSecureTextEntry = true
@@ -69,8 +69,8 @@ class SignUpController: BaseViewController {
         return view
     }()
     
-    private lazy var confirmTextField: DefaultInputTextField = {
-        let view = DefaultInputTextField(frame: .zero)
+    private lazy var confirmTextField: WCInputTextField = {
+        let view = WCInputTextField(frame: .zero)
         view.attributedPlaceholder = NSAttributedString(string: SignUp.Constants.Texts.confirmationPlaceholder,
                                                         attributes: [NSAttributedString.Key.foregroundColor: SignUp.Constants.Colors.textFieldPlaceHolderColor, NSAttributedString.Key.font: SignUp.Constants.Fonts.placeholderFont])
         view.isSecureTextEntry = true
@@ -78,8 +78,8 @@ class SignUpController: BaseViewController {
         return view
     }()
     
-    private lazy var professionalTextField: DefaultInputTextField = {
-       let view = DefaultInputTextField(frame: .zero)
+    private lazy var professionalTextField: WCInputTextField = {
+       let view = WCInputTextField(frame: .zero)
         view.attributedPlaceholder = NSAttributedString(string: SignUp.Constants.Texts.professionalArea,
                                                         attributes: [NSAttributedString.Key.foregroundColor: SignUp.Constants.Colors.textFieldPlaceHolderColor, NSAttributedString.Key.font: SignUp.Constants.Fonts.placeholderFont])
         view.delegate = self
@@ -161,7 +161,7 @@ extension SignUpController {
         let  char = string.cString(using: String.Encoding.utf8)!
         let isBackSpace = strcmp(char, "\\b")
         
-        if let inputTextField = textField as? DefaultInputTextField {
+        if let inputTextField = textField as? WCInputTextField {
             inputTextField.textFieldState = .normal
         }
 

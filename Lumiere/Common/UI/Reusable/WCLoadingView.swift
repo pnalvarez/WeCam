@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LoadingView: UIView {
+class WCLoadingView: UIView {
     
     private let movieLogo = UIImage(named: "logo-apenas")
     private let loadingLogo = UIImage(named: "Loading...")
@@ -53,7 +53,7 @@ class LoadingView: UIView {
     }
 }
 
-extension LoadingView: ViewCodeProtocol {
+extension WCLoadingView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
         addSubview(movieImageView)

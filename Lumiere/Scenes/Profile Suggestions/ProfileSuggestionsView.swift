@@ -11,7 +11,7 @@ import UIKit
 class ProfileSuggestionsView: UIView {
     
     private unowned var activityView: UIActivityIndicatorView
-    private unowned var backButton: DefaultBackButton
+    private unowned var backButton: WCBackButton
     private unowned var filterButton: SelectionFilterView
     private unowned var optionsStackView: UIStackView
     private unowned var tableView: UITableView
@@ -35,7 +35,7 @@ class ProfileSuggestionsView: UIView {
     
     init(frame: CGRect,
          activityView: UIActivityIndicatorView,
-         backButton: DefaultBackButton,
+         backButton: WCBackButton,
          filterButton: SelectionFilterView,
          optionsStackView: UIStackView,
          tableView: UITableView) {

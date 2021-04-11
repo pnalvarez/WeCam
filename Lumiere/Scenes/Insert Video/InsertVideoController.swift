@@ -19,8 +19,8 @@ protocol InsertVideoDisplayLogic: class {
 
 class InsertVideoController: BaseViewController {
     
-    private lazy var loadingView: LoadingView = {
-        let view = LoadingView(frame: .zero)
+    private lazy var loadingView: WCLoadingView = {
+        let view = WCLoadingView(frame: .zero)
         view.isHidden = true
         return view
     }()
@@ -63,8 +63,8 @@ class InsertVideoController: BaseViewController {
         return view
     }()
     
-    private lazy var urlErrorView: EmptyListView = {
-        let view = EmptyListView(frame: .zero, text: InsertVideo.Constants.Texts.urlNotFound)
+    private lazy var urlErrorView: WCEmptyListView = {
+        let view = WCEmptyListView(frame: .zero, text: InsertVideo.Constants.Texts.urlNotFound)
         view.isHidden = true
         return view
     }()

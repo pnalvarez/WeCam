@@ -26,8 +26,8 @@ class AccountRecoveryController: BaseViewController {
         return view
     }()
     
-    private lazy var searchTextField: DefaultSearchTextField = {
-        let view = DefaultSearchTextField(frame: .zero)
+    private lazy var searchTextField: WCSearchTextField = {
+        let view = WCSearchTextField(frame: .zero)
         view.searchDelegate = self
         return view
     }()
@@ -38,8 +38,8 @@ class AccountRecoveryController: BaseViewController {
         return view
     }()
     
-    private lazy var sendEmailButton: DefaultActionButton = {
-        let view = DefaultActionButton(frame: .zero)
+    private lazy var sendEmailButton: WCActionButton = {
+        let view = WCActionButton(frame: .zero)
         view.addTarget(self, action: #selector(didTapSendEmailButton), for: .touchUpInside)
         view.setTitle(AccountRecovery.Constants.Texts.sendEmailText, for: .normal)
         view.isHidden = true
@@ -104,9 +104,9 @@ class AccountRecoveryController: BaseViewController {
     }
 }
 
-extension AccountRecoveryController: DefaultSearchTextFieldDelegate {
+extension AccountRecoveryController: WCSearchTextFieldDelegate {
     
-    func didTapSearch(searchTextField: DefaultSearchTextField) {
+    func didTapSearch(searchTextField: WCSearchTextField) {
         interactor?.searchUser(AccountRecovery.Request.SearchAccount(email: searchTextField.text ?? .empty))
     }
 }

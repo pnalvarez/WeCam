@@ -156,7 +156,7 @@ extension ConnectionsListController: ConnectionsListDisplayLogic {
     
     func displayConnections(_ viewModel: ConnectionsList.Info.ViewModel.UpcomingConnections) {
         if viewModel.connections.isEmpty {
-            tableView.backgroundView = EmptyListView(frame: .zero, text: "Você ainda não possui conexões!")
+            tableView.backgroundView = WCEmptyListView(frame: .zero, text: "Você ainda não possui conexões!")
         }
         self.connectionsViewModel = viewModel
     }
