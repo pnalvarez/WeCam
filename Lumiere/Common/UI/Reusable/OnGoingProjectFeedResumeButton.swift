@@ -10,11 +10,8 @@ import UIKit
 
 class OnGoingProjectFeedResumeButton: UIButton {
     
-    private lazy var photoImageView: UIImageView = {
-        let view = UIImageView(frame: .zero)
-        view.contentMode = .scaleToFill
-        view.layer.cornerRadius = 42
-        view.clipsToBounds = true
+    private lazy var photoImageView: WCListItemImageView = {
+        let view = WCListItemImageView(frame: .zero)
         return view
     }()
     
@@ -53,7 +50,7 @@ extension OnGoingProjectFeedResumeButton: ViewCodeProtocol {
         photoImageView.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.centerX.equalToSuperview()
-            make.height.width.equalTo(84)
+            make.width.equalTo(84)
         }
         progressView.snp.makeConstraints { make in
             make.top.equalTo(photoImageView.snp.bottom).offset(5)
@@ -65,7 +62,7 @@ extension OnGoingProjectFeedResumeButton: ViewCodeProtocol {
     func configureViews() {
         backgroundColor = .white
         clipsToBounds = true
-        photoImageView.sd_setImage(with: URL(string: image), completed: nil)
+        photoImageView.setImage(withURL: image)
         progressView.progress = progress
     }
 }

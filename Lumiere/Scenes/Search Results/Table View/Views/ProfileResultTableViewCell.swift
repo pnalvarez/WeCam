@@ -10,11 +10,8 @@ import UIKit
 
 class ProfileResultTableViewCell: UITableViewCell {
     
-    private lazy var photoImageView: UIImageView = {
-        let view = UIImageView(frame: .zero)
-        view.layer.cornerRadius = 28
-        view.clipsToBounds = true
-        view.contentMode = .scaleToFill
+    private lazy var photoImageView: WCListItemImageView = {
+        let view = WCListItemImageView(frame: .zero)
         return view
     }()
     
@@ -84,7 +81,7 @@ extension ProfileResultTableViewCell: ViewCodeProtocol {
     
     func configureViews() {
         backgroundColor = SearchResults.Constants.Colors.resultBackground
-        photoImageView.sd_setImage(with: URL(string: viewModel?.image ?? .empty), completed: nil)
+        photoImageView.setImage(withURL: viewModel?.image ?? .empty)
         nameLbl.text = viewModel?.name
         ocupationLbl.text = viewModel?.ocupation
     }

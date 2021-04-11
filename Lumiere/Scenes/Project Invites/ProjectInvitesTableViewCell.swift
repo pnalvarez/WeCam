@@ -15,11 +15,8 @@ protocol ProjectInvitesTableViewCellDelegate: class {
 
 class ProjectInvitesTableViewCell: UITableViewCell {
     
-    private lazy var photoImageView: UIImageView = {
-        let view = UIImageView(frame: .zero)
-        view.layer.cornerRadius = 42
-        view.clipsToBounds = true
-        view.contentMode = .scaleToFill
+    private lazy var photoImageView: WCListItemImageView = {
+        let view = WCListItemImageView(frame: .zero)
         return view
     }()
     
@@ -94,7 +91,7 @@ extension ProjectInvitesTableViewCell: ViewCodeProtocol {
         photoImageView.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.left.equalToSuperview().inset(20)
-            make.height.width.equalTo(84)
+            make.width.equalTo(84)
         }
         interactButton.snp.makeConstraints { make in
             make.centerY.equalTo(nameLbl)
@@ -124,7 +121,7 @@ extension ProjectInvitesTableViewCell: ViewCodeProtocol {
         nameLbl.text = viewModel?.name
         ocupationLbl.text = viewModel?.ocupation
         emailLbl.attributedText = viewModel?.email
-        photoImageView.sd_setImage(with: URL(string: viewModel?.image ?? .empty), completed: nil)
+        photoImageView.setImage(withURL: viewModel?.image ?? .empty)
         interactButton.setImage(viewModel?.relation, for: .normal)
     }
 }

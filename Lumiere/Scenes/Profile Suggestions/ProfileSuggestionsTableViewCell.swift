@@ -16,11 +16,8 @@ protocol ProfileSuggestionsTableViewCellDelegate: class {
 
 class ProfileSuggestionsTableViewCell: UITableViewCell {
     
-    private lazy var photoImageView: UIImageView = {
-        let view = UIImageView(frame: .zero)
-        view.contentMode = .scaleToFill
-        view.layer.cornerRadius = 41
-        view.clipsToBounds = true
+    private lazy var photoImageView: WCListItemImageView = {
+        let view = WCListItemImageView(frame: .zero)
         return view
     }()
     
@@ -117,7 +114,7 @@ extension ProfileSuggestionsTableViewCell: ViewCodeProtocol {
     func setupConstraints() {
         photoImageView.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.width.height.equalTo(84)
+            make.height.equalTo(84)
             make.left.equalToSuperview().inset(16)
         }
         nameLbl.snp.makeConstraints { make in
@@ -145,7 +142,7 @@ extension ProfileSuggestionsTableViewCell: ViewCodeProtocol {
     func configureViews() {
         backgroundColor = .white
         selectionStyle = .none
-        photoImageView.sd_setImage(with: URL(string: viewModel?.image ?? .empty), completed: nil)
+        photoImageView.setImage(withURL: viewModel?.image ?? .empty)
         nameLbl.text = viewModel?.name
         ocupationLbl.text = viewModel?.ocupation
     }

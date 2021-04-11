@@ -10,11 +10,8 @@ import UIKit
 
 class OnGoingProjectResultTableViewCell: UITableViewCell {
     
-    private lazy var photoImageView: UIImageView = {
-        let view = UIImageView(frame: .zero)
-        view.contentMode = .scaleToFill
-        view.layer.cornerRadius = 28
-        view.clipsToBounds = true
+    private lazy var photoImageView: WCListItemImageView = {
+        let view = WCListItemImageView(frame: .zero)
         return view
     }()
     
@@ -70,7 +67,7 @@ extension OnGoingProjectResultTableViewCell: ViewCodeProtocol {
     func setupConstraints() {
         photoImageView.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.height.width.equalTo(56)
+            make.width.equalTo(56)
             make.left.equalToSuperview().inset(28)
         }
         titleLbl.snp.makeConstraints { make in
@@ -97,7 +94,7 @@ extension OnGoingProjectResultTableViewCell: ViewCodeProtocol {
     func configureViews() {
         backgroundColor = SearchResults.Constants.Colors.resultBackground
         selectionStyle = .none
-        photoImageView.sd_setImage(with: URL(string: viewModel?.image ?? .empty), completed: nil)
+        photoImageView.setImage(withURL: viewModel?.image ?? .empty)
         titleLbl.text = viewModel?.title
         cathegoriesLbl.text = viewModel?.cathegories
         progressLbl.text = viewModel?.progress

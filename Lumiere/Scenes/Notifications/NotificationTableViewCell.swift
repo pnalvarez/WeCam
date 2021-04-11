@@ -25,11 +25,8 @@ class NotificationTableViewCell: UITableViewCell {
         return view
     }()
     
-    private lazy var profileImageView: UIImageView = {
-        let view = UIImageView(frame: .zero)
-        view.contentMode = .scaleAspectFill
-        view.layer.cornerRadius = 45
-        view.clipsToBounds = true
+    private lazy var profileImageView: WCListItemImageView = {
+        let view = WCListItemImageView(frame: .zero)
         return view
     }()
     
@@ -161,7 +158,7 @@ extension NotificationTableViewCell: ViewCodeProtocol {
         profileImageView.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(10)
             make.left.equalToSuperview().inset(11)
-            make.height.width.equalTo(90)
+            make.width.equalTo(90)
         }
         nameLbl.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(9)
@@ -207,9 +204,9 @@ extension NotificationTableViewCell: ViewCodeProtocol {
         yesButton.isHidden = !choosable
         noButton.isHidden = !choosable
         if let imageStr = defaultViewModel?.image {
-            profileImageView.sd_setImage(with: URL(string: imageStr), completed: nil)
+            profileImageView.setImage(withURL: imageStr)
         } else if let imageStr = acceptanceViewModel?.image {
-            profileImageView.sd_setImage(with: URL(string: imageStr), completed: nil)
+            profileImageView.setImage(withURL: imageStr)
         }
     }
 }

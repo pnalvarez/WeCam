@@ -14,13 +14,10 @@ protocol ConnectionsListTableViewCellDelegate: class {
 
 class ConnectionsListTableViewCell: UITableViewCell {
     
-    private lazy var photoImageView: UIImageView = {
-        let view = UIImageView(frame: .zero)
-        view.layer.cornerRadius = 49
-        view.clipsToBounds = true
+    private lazy var photoImageView: WCListItemImageView = {
+        let view = WCListItemImageView(frame: .zero)
         view.layer.borderColor = ConnectionsList.Constants.Colors.photoImageView
         view.layer.borderWidth = 1
-        view.contentMode = .scaleAspectFill
         return view
     }()
     
@@ -122,7 +119,7 @@ extension ConnectionsListTableViewCell: ViewCodeProtocol {
         selectionStyle = .none
         nameLbl.text = viewModel?.name
         ocupationLbl.text = viewModel?.ocupation
-        photoImageView.sd_setImage(with: URL(string: viewModel?.image ?? .empty))
+        photoImageView.setImage(withURL: viewModel?.image ?? .empty)
         removeButton.isHidden = !(removeOptionActive ?? true)
     }
 }

@@ -20,11 +20,8 @@ class TeamMemberCollectionViewCell: UICollectionViewCell {
         return view
     }()
     
-    private lazy var imageView: UIImageView = {
-        let view = UIImageView(frame: .zero)
-        view.contentMode = .scaleAspectFill
-        view.layer.cornerRadius = 18
-        view.clipsToBounds = true
+    private lazy var imageView: WCListItemImageView = {
+        let view = WCListItemImageView(frame: .zero)
         return view
     }()
     

@@ -15,11 +15,8 @@ protocol InviteListTableViewCellDelegate: class {
 
 class InviteListTableViewCell: UITableViewCell {
     
-    private lazy var photoImageView: UIImageView = {
-        let view = UIImageView(frame: .zero)
-        view.contentMode = .scaleToFill
-        view.layer.cornerRadius = 50
-        view.clipsToBounds = true
+    private lazy var photoImageView: WCListItemImageView = {
+        let view = WCListItemImageView(frame: .zero)
         return view
     }()
     
@@ -91,7 +88,7 @@ extension InviteListTableViewCell: ViewCodeProtocol {
         photoImageView.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.left.equalToSuperview().inset(20)
-            make.height.width.equalTo(96)
+            make.width.equalTo(96)
         }
         nameLbl.snp.makeConstraints { make in
             make.top.equalTo(photoImageView)
@@ -131,6 +128,6 @@ extension InviteListTableViewCell: ViewCodeProtocol {
         } else {
             checkButton.setImage(InviteList.Constants.Images.checkButtonUnselected, for: .normal)
         }
-        photoImageView.sd_setImage(with: URL(string: image), completed: nil)
+        photoImageView.setImage(withURL: image)
     }
 }

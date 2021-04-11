@@ -11,11 +11,8 @@ import SDWebImage
 
 class ProfileDetailsOnGoingProjectCollectionViewCell: UICollectionViewCell {
     
-    private lazy var imageView: UIImageView = {
-        let view = UIImageView(frame: .zero)
-        view.contentMode = .scaleToFill
-        view.layer.cornerRadius = 42
-        view.clipsToBounds = true
+    private lazy var imageView: WCListItemImageView = {
+        let view = WCListItemImageView(frame: .zero)
         view.layer.borderWidth = 1
         view.layer.borderColor = UIColor.black.cgColor
         return view
@@ -44,6 +41,6 @@ extension ProfileDetailsOnGoingProjectCollectionViewCell: ViewCodeProtocol {
     func configureViews() {
         backgroundColor = .white
         clipsToBounds = true
-        imageView.sd_setImage(with: URL(string: viewModel?.image ?? .empty), completed: nil)
+        imageView.setImage(withURL: viewModel?.image ?? .empty)
     }
 }

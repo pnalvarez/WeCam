@@ -10,11 +10,8 @@ import UIKit
 
 class ProfileResumeButton: UIButton {
     
-    private lazy var photoImageView: UIImageView = {
-        let view = UIImageView(frame: .zero)
-        view.contentMode = .scaleToFill
-        view.layer.cornerRadius = 15
-        view.clipsToBounds = true
+    private lazy var photoImageView: WCListItemImageView = {
+        let view = WCListItemImageView(frame: .zero)
         return view
     }()
     
@@ -88,7 +85,7 @@ extension ProfileResumeButton: ViewCodeProtocol {
         layer.borderColor = UIColor(rgb: 0xe5dfdf).cgColor
         clipsToBounds = true
         
-        photoImageView.sd_setImage(with: URL(string: image ?? .empty), completed: nil)
+        photoImageView.setImage(withURL: image ?? .empty)
         nameLbl.text = name
         ocupationLbl.text = ocupation
     }
