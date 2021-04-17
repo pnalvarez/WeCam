@@ -20,7 +20,7 @@ class EditProfileDetailsView: UIView {
     private unowned var nameTextField: UITextField
     private unowned var cellphoneTextField: UITextField
     private unowned var ocupationTextField: UITextField
-    private unowned var collectionView: UICollectionView
+    private unowned var cathegoryListView: WCCathegoryListView
     
     private lazy var containerView: UIView = {
         let view = UIView(frame: .zero)
@@ -78,7 +78,7 @@ class EditProfileDetailsView: UIView {
          nameTextField: UITextField,
          cellphoneTextField: UITextField,
          ocupationTextField: UITextField,
-         collectionView: UICollectionView) {
+         cathegoryListView: WCCathegoryListView) {
         self.activityView = activityView
         self.loadingView = loadingView
         self.cancelButton = cancelButton
@@ -87,7 +87,7 @@ class EditProfileDetailsView: UIView {
         self.nameTextField = nameTextField
         self.cellphoneTextField = cellphoneTextField
         self.ocupationTextField = ocupationTextField
-        self.collectionView = collectionView
+        self.cathegoryListView = cathegoryListView
         super.init(frame: frame)
         applyViewCode()
     }
@@ -131,7 +131,7 @@ extension EditProfileDetailsView: ViewCodeProtocol {
         containerView.addSubview(cellphoneTextField)
         containerView.addSubview(ocupationTextField)
         containerView.addSubview(cathegoriesLbl)
-        containerView.addSubview(collectionView)
+        containerView.addSubview(cathegoryListView)
         containerView.addSubview(bottomView)
         scrollView.addSubview(containerView)
         addSubview(scrollView)
@@ -201,9 +201,8 @@ extension EditProfileDetailsView: ViewCodeProtocol {
             make.centerX.equalToSuperview()
             make.width.equalTo(176)
         }
-        collectionView.snp.makeConstraints { make in
+        cathegoryListView.snp.makeConstraints { make in
             make.top.equalTo(titleLbl.snp.bottom).offset(450)
-            make.height.equalTo(650)
             make.left.right.equalToSuperview()
             make.bottom.equalToSuperview().inset(30)
         }

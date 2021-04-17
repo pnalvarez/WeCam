@@ -92,15 +92,9 @@ class EditProfileDetailsController: BaseViewController {
         return view
     }()
     
-    private lazy var collectionView: UICollectionView = {
-        let view = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-        view.registerCell(cellType: CathegoryCollectionViewCell.self)
-        view.assignProtocols(to: self)
-        view.bounces = false
-        view.alwaysBounceVertical = false
-        view.alwaysBounceHorizontal = false
-        view.backgroundColor = .white
-        view.isScrollEnabled = false
+    private lazy var cathegoryListView: WCCathegoryListView = {
+        let view = WCCathegoryListView(frame: .zero)
+        view.delegate = self
         return view
     }()
     
@@ -114,7 +108,7 @@ class EditProfileDetailsController: BaseViewController {
                                           nameTextField: nameTextField,
                                           cellphoneTextField: cellphoneTextField,
                                           ocupationTextField: ocupationTextField,
-                                          collectionView: collectionView)
+                                          cathegoryListView: cathegoryListView)
         return view
     }()
     
@@ -129,9 +123,7 @@ class EditProfileDetailsController: BaseViewController {
     
     private var cathegories: EditProfileDetails.Info.ViewModel.Cathegories? {
         didSet {
-            DispatchQueue.main.async {
-                self.collectionView.reloadData()
-            }
+            cathegoryListView.setup(cathegories: cathegories?.cathegories.cathegories.map({ $0.style.rawValue }) ?? .empty)
         }
     }
     
@@ -179,7 +171,7 @@ extension EditProfileDetailsController {
         if let inputTextField = textField as? WCInputTextField {
             inputTextField.textFieldState = .normal
         }
-
+        
         if (isBackSpace == -92) && (textField.text?.count)! > 0 {
             if textField == cellphoneTextField {
                 textField.text!.removeAll()
@@ -188,7 +180,7 @@ extension EditProfileDetailsController {
             }
             return false
         }
-
+        
         if textField == cellphoneTextField
         {
             if (textField.text?.count)! == 2
@@ -219,61 +211,6 @@ extension EditProfileDetailsController: UIImagePickerControllerDelegate, UINavig
     }
 }
 
-extension EditProfileDetailsController: UICollectionViewDelegate {
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let request = EditProfileDetails.Request.SelectCathegory(index: indexPath.row)
-        interactor?.didSelectCathegory(request)
-    }
-}
-
-extension EditProfileDetailsController: UICollectionViewDataSource {
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return cathegories?.cathegories.cathegories.count ?? 0
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(indexPath: indexPath, type: CathegoryCollectionViewCell.self)
-        guard let movieStyle = cathegories?.cathegories.cathegories[indexPath.row].style,
-            let selected = cathegories?.cathegories.cathegories[indexPath.row].selected else { return UICollectionViewCell() }
-        cell.setup(movieStyle: movieStyle.rawValue)
-        cell.state = selected ? .enable : .disable
-        return cell
-    }
-}
-
-extension EditProfileDetailsController: UICollectionViewDelegateFlowLayout {
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAt indexPath: IndexPath) -> CGSize {
-
-        return CGSize(width: collectionView.frame.width / 3.7, height: 87)
-    }
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 10
-    }
-
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 4
-    }
-
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets.init(top: 0, left: 26, bottom: 0, right: 26)
-    }
-}
-
 extension EditProfileDetailsController {
     
     @objc
@@ -300,6 +237,14 @@ extension EditProfileDetailsController {
                 }
             }
         }
+    }
+}
+
+extension EditProfileDetailsController: WCCathegoryListViewDelegate {
+    
+    func didSelectCathegory(atIndex index: Int) {
+        let request = EditProfileDetails.Request.SelectCathegory(index: index)
+        interactor?.didSelectCathegory(request)
     }
 }
 

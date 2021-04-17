@@ -168,44 +168,49 @@ extension SignUpView: ViewCodeProtocol {
         }
         nameTextField.snp.makeConstraints { make in
             make.top.equalTo(imageButton.snp.bottom).offset(62)
-            make.left.right.equalToSuperview().inset(40)
+            make.centerX.equalToSuperview()
+            make.width.equalTo(232)
             make.height.equalTo(29)
         }
         cellphoneTextField.snp.makeConstraints { make in
             make.top.equalTo(nameTextField.snp.bottom).offset(17)
-            make.left.right.equalToSuperview().inset(40)
+            make.centerX.equalToSuperview()
+            make.width.equalTo(232)
             make.height.equalTo(29)
         }
         emailTextField.snp.makeConstraints { make in
             make.top.equalTo(cellphoneTextField.snp.bottom).offset(17)
-            make.left.right.equalToSuperview().inset(40)
+            make.centerX.equalToSuperview()
+            make.width.equalTo(232)
             make.height.equalTo(29)
         }
         passwordTextField.snp.makeConstraints { make in
             make.top.equalTo(emailTextField.snp.bottom).offset(17)
-            make.left.right.equalToSuperview().inset(40)
+            make.centerX.equalToSuperview()
+            make.width.equalTo(232)
             make.height.equalTo(29)
         }
         confirmTextField.snp.makeConstraints { make in
             make.top.equalTo(passwordTextField.snp.bottom).offset(17)
-            make.left.right.equalToSuperview().inset(40)
+            make.centerX.equalToSuperview()
+            make.width.equalTo(232)
             make.height.equalTo(29)
         }
         professionalTextField.snp.makeConstraints { make in
             make.top.equalTo(confirmTextField.snp.bottom).offset(17)
-            make.left.right.equalToSuperview().inset(40)
+            make.centerX.equalToSuperview()
+            make.width.equalTo(232)
             make.height.equalTo(29)
         }
         signUpButton.snp.makeConstraints { make in
             make.bottom.equalToSuperview().inset(10)
-            make.top.equalTo(titleHeaderIcon.snp.bottom).offset(1020)
+            make.top.equalTo(cathegoryListView.snp.bottom).offset(48)
             make.height.equalTo(30)
             make.width.equalTo(99)
             make.centerX.equalToSuperview()
         }
         cathegoryListView.snp.makeConstraints { make in
             make.top.equalTo(cathegoriesLbl.snp.bottom).offset(36)
-            make.height.equalTo(501)
             make.left.right.equalToSuperview()
         }
         cathegoriesLbl.snp.makeConstraints { make in
