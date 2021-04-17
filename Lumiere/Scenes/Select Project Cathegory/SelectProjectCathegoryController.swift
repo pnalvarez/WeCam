@@ -125,7 +125,7 @@ extension SelectProjectCathegoryController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(indexPath: indexPath, type: CathegoryCollectionViewCell.self)
         guard let cathegory = cathegories?.cathegories[indexPath.row] else { return UICollectionViewCell() }
-        cell.setup(movieStyle: cathegory.cathegory)
+        cell.setup(movieStyle: cathegory.cathegory.rawValue)
         cell.state = cathegory.selected ? .enable : .disable
         return cell
     }

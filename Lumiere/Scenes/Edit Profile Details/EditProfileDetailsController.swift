@@ -241,7 +241,7 @@ extension EditProfileDetailsController: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(indexPath: indexPath, type: CathegoryCollectionViewCell.self)
         guard let movieStyle = cathegories?.cathegories.cathegories[indexPath.row].style,
             let selected = cathegories?.cathegories.cathegories[indexPath.row].selected else { return UICollectionViewCell() }
-        cell.setup(movieStyle: movieStyle)
+        cell.setup(movieStyle: movieStyle.rawValue)
         cell.state = selected ? .enable : .disable
         return cell
     }

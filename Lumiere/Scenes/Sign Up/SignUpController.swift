@@ -206,7 +206,7 @@ extension SignUpController: UICollectionViewDataSource, UICollectionViewDelegate
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(indexPath: indexPath, type: CathegoryCollectionViewCell.self)
-        cell.setup(movieStyle: movieStyles[indexPath.row])
+        cell.setup(movieStyle: movieStyles[indexPath.row].rawValue)
         return cell
     }
     
