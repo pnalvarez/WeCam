@@ -117,14 +117,12 @@ extension EditProfileDetailsInteractor: EditProfileDetailsBusinessLogic {
         guard !checkErrors(request) else {
             return
         }
-        guard let cathegories = userData?.interestCathegories.cathegories else {
-            return
-        }
+        let cathegories = userData?.interestCathegories.cathegories
         let request = EditProfileDetails.Request.UpdateUser(image: request.image,
                                                             name: request.name,
                                                             cellphone: request.cellphone,
                                                             ocupation: request.ocupation,
-                                                            interestCathegories: cathegories.filter({ $0.selected }).map({$0.style.rawValue}))
+                                                            interestCathegories: cathegories?.filter({ $0.selected }).map({$0.style.rawValue}) ?? .empty)
         worker.fetchUpdateUserDetails(request: request) { response in
             switch response {
             case .success:

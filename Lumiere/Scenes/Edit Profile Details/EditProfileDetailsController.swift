@@ -37,15 +37,6 @@ class EditProfileDetailsController: BaseViewController {
         return view
     }()
     
-    private lazy var cancelButton: UIButton = {
-        let view = UIButton(frame: .zero)
-        view.addTarget(self, action: #selector(didTapCancel), for: .touchUpInside)
-        view.setTitle(EditProfileDetails.Constants.Texts.cancelButton, for: .normal)
-        view.setTitleColor(EditProfileDetails.Constants.Colors.cancelButton, for: .normal)
-        view.titleLabel?.font = EditProfileDetails.Constants.Fonts.cancelButton
-        return view
-    }()
-    
     private lazy var finishButton: UIButton = {
         let view = UIButton(frame: .zero)
         view.addTarget(self, action: #selector(didTapFinish), for: .touchUpInside)
@@ -106,9 +97,9 @@ class EditProfileDetailsController: BaseViewController {
     
     private lazy var mainView: EditProfileDetailsView = {
         let view = EditProfileDetailsView(frame: .zero,
+                                          backButton: backButton,
                                           activityView: activityView,
                                           loadingView: loadingView,
-                                          cancelButton: cancelButton,
                                           finishButton: finishButton,
                                           imageButton: imageButton,
                                           nameTextField: nameTextField,
@@ -124,8 +115,6 @@ class EditProfileDetailsController: BaseViewController {
         controller.sourceType = .photoLibrary
         return controller
     }()
-    
-//    private var indicatedActivityView: UIView?
     
     private var cathegories: EditProfileDetails.Info.ViewModel.Cathegories? {
         didSet {
@@ -149,7 +138,6 @@ class EditProfileDetailsController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        indicatedActivityView = activityView
         interactor?.fetchUserData(EditProfileDetails.Request.UserData())
     }
     
@@ -308,7 +296,6 @@ extension EditProfileDetailsController: EditProfileDetailsDisplayLogic {
     func displayUserData(_ viewModel: EditProfileDetails.Info.ViewModel.User,
                          cathegories: EditProfileDetails.Info.ViewModel.Cathegories) {
         self.cathegories = cathegories
-//        indicatedActivityView = loadingView
         mainView.setup(viewModel: viewModel)
     }
     

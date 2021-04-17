@@ -13,8 +13,8 @@ import SDWebImage
 class EditProfileDetailsView: UIView {
     
     private unowned var activityView: UIActivityIndicatorView
+    private unowned var backButton: WCBackButton
     private unowned var loadingView: WCLoadingView
-    private unowned var cancelButton: UIButton
     private unowned var finishButton: UIButton
     private unowned var imageButton: UIButton
     private unowned var nameTextField: UITextField
@@ -70,18 +70,18 @@ class EditProfileDetailsView: UIView {
     private var viewModel: EditProfileDetails.Info.ViewModel.User?
     
     init(frame: CGRect,
+         backButton: WCBackButton,
          activityView: UIActivityIndicatorView,
          loadingView: WCLoadingView,
-         cancelButton: UIButton,
          finishButton: UIButton,
          imageButton: UIButton,
          nameTextField: UITextField,
          cellphoneTextField: UITextField,
          ocupationTextField: UITextField,
          collectionView: UICollectionView) {
+        self.backButton = backButton
         self.activityView = activityView
         self.loadingView = loadingView
-        self.cancelButton = cancelButton
         self.finishButton = finishButton
         self.imageButton = imageButton
         self.nameTextField = nameTextField
@@ -122,7 +122,7 @@ extension EditProfileDetailsView {
 extension EditProfileDetailsView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
-        containerView.addSubview(cancelButton)
+        containerView.addSubview(backButton)
         containerView.addSubview(titleLbl)
         containerView.addSubview(finishButton)
         containerView.addSubview(imageButton)
@@ -154,14 +154,14 @@ extension EditProfileDetailsView: ViewCodeProtocol {
             make.width.equalToSuperview()
             make.height.equalToSuperview().priority(250)
         }
-        cancelButton.snp.makeConstraints { make in
+        backButton.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(34)
             make.left.equalToSuperview().inset(31)
-            make.height.equalTo(19)
-            make.width.equalTo(64)
+            make.height.equalTo(31)
+            make.width.equalTo(31)
         }
         titleLbl.snp.makeConstraints { make in
-            make.top.equalTo(cancelButton)
+            make.top.equalTo(backButton)
             make.centerX.equalToSuperview()
             make.width.equalTo(84)
         }
