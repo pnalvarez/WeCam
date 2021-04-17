@@ -125,7 +125,7 @@ class EditProfileDetailsController: BaseViewController {
         return controller
     }()
     
-    private var indicatedActivityView: UIView?
+//    private var indicatedActivityView: UIView?
     
     private var cathegories: EditProfileDetails.Info.ViewModel.Cathegories? {
         didSet {
@@ -149,7 +149,7 @@ class EditProfileDetailsController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        indicatedActivityView = activityView
+//        indicatedActivityView = activityView
         interactor?.fetchUserData(EditProfileDetails.Request.UserData())
     }
     
@@ -308,7 +308,7 @@ extension EditProfileDetailsController: EditProfileDetailsDisplayLogic {
     func displayUserData(_ viewModel: EditProfileDetails.Info.ViewModel.User,
                          cathegories: EditProfileDetails.Info.ViewModel.Cathegories) {
         self.cathegories = cathegories
-        indicatedActivityView = loadingView
+//        indicatedActivityView = loadingView
         mainView.setup(viewModel: viewModel)
     }
     
@@ -317,7 +317,8 @@ extension EditProfileDetailsController: EditProfileDetailsDisplayLogic {
     }
     
     func displayLoading(_ loading: Bool) {
-        indicatedActivityView?.isHidden = !loading
+        loadingView.isHidden = !loading
+        loadingView.animateRotate()
     }
     
     func displayError(_ viewModel: String) {
