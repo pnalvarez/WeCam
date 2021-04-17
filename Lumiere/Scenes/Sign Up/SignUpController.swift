@@ -86,6 +86,12 @@ class SignUpController: BaseViewController {
         view.delegate = self
         return view
     }()
+    
+    private lazy var cathegoryListView: WCCathegoryListView = {
+        let view = WCCathegoryListView(frame: .zero)
+        view.delegate = self
+        return view
+    }()
 
     private lazy var collectionView: UICollectionView = {
         let view = UICollectionView(frame: .zero,
@@ -112,7 +118,7 @@ class SignUpController: BaseViewController {
                           confirmTextField: confirmTextField,
                           professionalTextField: professionalTextField,
                           signUpButton: signUpButton,
-                          collectionView: collectionView)
+                          cathegoryListView: cathegoryListView)
     }()
     
     private var movieStyles: [MovieStyle] = []
@@ -134,10 +140,9 @@ class SignUpController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.setNavigationBarHidden(true, animated: true)
-        setupCollectionView()
-        interactor?.fetchMovieStyles()
         cellphoneTextField.delegate = self
         imagePicker.delegate = self
+        interactor?.fetchMovieStyles()
     }
     
     override func loadView() {
@@ -194,35 +199,6 @@ extension SignUpController {
     }
 }
 
-extension SignUpController: UICollectionViewDataSource, UICollectionViewDelegate {
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return movieStyles.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(indexPath: indexPath, type: CathegoryCollectionViewCell.self)
-        cell.setup(movieStyle: movieStyles[indexPath.row].rawValue)
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath, type: CathegoryCollectionViewCell.self)
-        let state = cell.state
-        switch state {
-        case .enable:
-            cell.state = .disable
-            break
-        case .disable:
-            cell.state = .enable
-        }
-        interactor?.didSelectCathegory(SignUp.Request.SelectedCathegory(cathegory: movieStyles[indexPath.row]))
-    }
-}
 
 extension SignUpController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
@@ -231,33 +207,6 @@ extension SignUpController: UIImagePickerControllerDelegate, UINavigationControl
             imageButton.setImage(image, for: .normal)
         }
         self.dismiss(animated: true, completion: nil)
-    }
-}
-
-extension SignUpController: UICollectionViewDelegateFlowLayout {
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAt indexPath: IndexPath) -> CGSize {
-
-        return CGSize(width: collectionView.frame.width / 3.7, height: 87)
-    }
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 10
-    }
-
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 4
-    }
-
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets.init(top: 0, left: 26, bottom: 0, right: 26)
     }
 }
 
@@ -296,22 +245,19 @@ extension SignUpController {
                                             professionalArea: professionalTextField.text ?? .empty)
         interactor?.fetchSignUp(request)
     }
+}
+
+extension SignUpController: WCCathegoryListViewDelegate {
     
-    private func setupCollectionView() {
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        collectionView.backgroundColor = .white
-        collectionView.registerCell(cellType: CathegoryCollectionViewCell.self)
+    func didSelectCathegory(atIndex index: Int) {
+        interactor?.didSelectCathegory(SignUp.Request.SelectedCathegory(index: index))
     }
 }
 
 extension SignUpController: SignUpDisplayLogic {
     
     func displayMovieStyles(_ viewModel: [MovieStyle]) {
-        movieStyles = viewModel
-        DispatchQueue.main.async {
-            self.collectionView.reloadData()
-        }
+        cathegoryListView.setup(cathegories: viewModel.map({ $0.rawValue }))
     }
     
     func displayInformationError(_ viewModel: SignUp.Info.ViewModel.Error) {

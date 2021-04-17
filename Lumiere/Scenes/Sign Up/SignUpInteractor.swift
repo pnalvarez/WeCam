@@ -26,6 +26,8 @@ class SignUpInteractor: SignUpDataStore {
     var userData: SignUp.Info.Model.UserData?
     var interestCathegories: SignUp.Info.Model.InterestCathegories = SignUp.Info.Model.InterestCathegories(cathegories: [])
     
+    private let allCathegories = MovieStyle.toArray()
+    
     init(viewController: SignUpDisplayLogic,
          provider: SignUpProviderProtocol = SignUpProvider()) {
         self.presenter = SignUpPresenter(viewController: viewController)
@@ -110,8 +112,9 @@ extension SignUpInteractor: SignUpBusinessLogic {
        }
     
     func didSelectCathegory(_ request: SignUp.Request.SelectedCathegory) {
-        guard let index = interestCathegories.cathegories.firstIndex(where:{ $0 == request.cathegory }) else  {
-            interestCathegories.cathegories.append(request.cathegory)
+        let selectedCathegory = allCathegories[request.index]
+        guard let index = interestCathegories.cathegories.firstIndex(where:{ $0 == selectedCathegory }) else  {
+            interestCathegories.cathegories.append(selectedCathegory)
             return
         }
         interestCathegories.cathegories.remove(at: index)

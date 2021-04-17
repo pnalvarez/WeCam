@@ -8,7 +8,7 @@ target 'WeCam' do
   # Pods for Lumiere
   pod 'SDWebImage', '~> 5.0.2'
   pod 'ObjectMapper', '~> 4.2.0'
-  pod 'CommonCrypto', '~> 1.1'
+  pod 'CommonCrypto'
   pod 'YoutubePlayer-in-WKWebView'
   pod 'Firebase/Core'
   pod 'Firebase/Database'

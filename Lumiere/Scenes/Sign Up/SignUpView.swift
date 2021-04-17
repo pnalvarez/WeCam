@@ -21,7 +21,7 @@ class SignUpView: UIView {
     private unowned var confirmTextField: WCInputTextField
     private unowned var professionalTextField: WCInputTextField
     private unowned var signUpButton: UIButton
-    private unowned var collectionView: UICollectionView
+    private unowned var cathegoryListView: WCCathegoryListView
     
     private lazy var cathegoriesLbl: UILabel = { return UILabel(frame: .zero) }()
     
@@ -63,7 +63,7 @@ class SignUpView: UIView {
          confirmTextField: WCInputTextField,
          professionalTextField: WCInputTextField,
          signUpButton: UIButton,
-         collectionView: UICollectionView) {
+         cathegoryListView: WCCathegoryListView) {
         self.loadingView = loadingView
         self.backButton = backButton
         self.imageButton = imageButton
@@ -74,7 +74,7 @@ class SignUpView: UIView {
         self.confirmTextField = confirmTextField
         self.professionalTextField = professionalTextField
         self.signUpButton = signUpButton
-        self.collectionView = collectionView
+        self.cathegoryListView = cathegoryListView
         super.init(frame: frame)
         applyViewCode()
     }
@@ -125,7 +125,7 @@ extension SignUpView: ViewCodeProtocol {
         containerView.addSubview(confirmTextField)
         containerView.addSubview(professionalTextField)
         containerView.addSubview(cathegoriesLbl)
-        containerView.addSubview(collectionView)
+        containerView.addSubview(cathegoryListView)
         containerView.addSubview(signUpButton)
         scrollView.addSubview(containerView)
         addSubview(scrollView)
@@ -203,7 +203,7 @@ extension SignUpView: ViewCodeProtocol {
             make.width.equalTo(99)
             make.centerX.equalToSuperview()
         }
-        collectionView.snp.makeConstraints { make in
+        cathegoryListView.snp.makeConstraints { make in
             make.top.equalTo(cathegoriesLbl.snp.bottom).offset(36)
             make.height.equalTo(501)
             make.left.right.equalToSuperview()
@@ -239,8 +239,5 @@ extension SignUpView: ViewCodeProtocol {
                                                            attributes: [NSAttributedString.Key.font: SignUp.Constants.Fonts.signUpButtonFont, NSAttributedString.Key.foregroundColor: SignUp.Constants.Colors.signUpButtonTextColor]),
                                                             for: .normal)
         
-        collectionView.bounces = false
-        collectionView.alwaysBounceVertical = false
-        collectionView.alwaysBounceHorizontal = false
     }
 }

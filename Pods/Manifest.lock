@@ -361,7 +361,7 @@ PODS:
   - YoutubePlayer-in-WKWebView (0.3.4)
 
 DEPENDENCIES:
-  - CommonCrypto (~> 1.1)
+  - CommonCrypto
   - Firebase/Auth
   - Firebase/Core
   - Firebase/Database
@@ -438,6 +438,6 @@ SPEC CHECKSUMS:
   WCUIKit: 567010ce07e484d0c29561fb9f213a66476ea7d6
   YoutubePlayer-in-WKWebView: af2f5929fc78882d94bfdfeea999b661b78d9717
 
-PODFILE CHECKSUM: 8143c69cef4b5324fc14b31c438c320eb2e4e6f6
+PODFILE CHECKSUM: ad1e98e1a900b6284624c49c2a5089852e4d2945
 
 COCOAPODS: 1.9.3

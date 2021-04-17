@@ -72,7 +72,7 @@ struct SignUp {
     struct Request {
         
         struct SelectedCathegory {
-            let cathegory: MovieStyle
+            let index: Int
         }
         
         struct UserData {
