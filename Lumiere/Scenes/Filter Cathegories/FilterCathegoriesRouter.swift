@@ -11,7 +11,7 @@ import UIKit
 typealias FilterCathegoriesRouterProtocol = NSObject & FilterCathegoriesRoutingLogic & FilterCathegoriesDataTransfer
 
 protocol FilterCathegoriesRoutingLogic {
-    
+    func routeToMainFeed()
 }
 
 protocol FilterCathegoriesDataTransfer {
@@ -33,4 +33,7 @@ extension FilterCathegoriesRouter: BaseRouterProtocol {
 
 extension FilterCathegoriesRouter: FilterCathegoriesRoutingLogic {
     
+    func routeToMainFeed() {
+        viewController?.navigationController?.popViewController(animated: true)
+    }
 }

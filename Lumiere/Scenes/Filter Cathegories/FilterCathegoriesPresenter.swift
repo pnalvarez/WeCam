@@ -27,22 +27,33 @@ class FilterCathegoriesPresenter: FilterCathegoriesPresentationLogic {
     }
     
     func presentLoading(_ loading: Bool) {
-        
+        viewController.displayLoading(loading)
     }
     
     func presentAlert(_ response: FilterCathegories.Info.Model.Alert) {
-        
+        let viewModel = FilterCathegories.Info.ViewModel.Alert(title: response.title,
+                                                               description: response.description)
+        viewController.displayAlert(viewModel)
     }
     
     func presentAllCathegories(_ response: FilterCathegories.Info.Model.CathegoryList) {
-        
+        self.allInterestCathegories = response
+        let viewModel = FilterCathegories.Info.ViewModel.InterestCathegoryList(cathegories: response.cathegories.map({ $0.rawValue }))
+        viewController.displayAllCathegories(viewModel)
     }
     
     func presentSelectedCathegories(_ response: FilterCathegories.Info.Model.CathegoryList) {
-        
+        var indexes = [Int]()
+        for cathegory in response.cathegories {
+            if let index = allInterestCathegories?.cathegories.firstIndex(where: { $0 == cathegory}) {
+                indexes.append(index)
+            }
+        }
+        let viewModel = FilterCathegories.Info.ViewModel.SelectedCathegoryList(indexes: indexes)
+        viewController.displaySelectedCathegories(viewModel)
     }
     
     func presentMainFeed() {
-        
+        viewController.displayMainFeed()
     }
 }
