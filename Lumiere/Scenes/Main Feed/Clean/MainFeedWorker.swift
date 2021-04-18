@@ -12,7 +12,9 @@ protocol MainFeedWorkerProtocol {
     func fetchOnGoingProjects(_ request: MainFeed.Request.FetchOnGoingProjects,
                               completion: @escaping (BaseResponse<[MainFeed.Info.Response.OnGoingProject]>) -> Void)
     func fetchInterestCathegories(_ request: MainFeed.Request.FetchInterestCathegories,
-                                  completion: @escaping (BaseResponse<MainFeed.Info.Response.InterestCathegories>) -> Void)
+                                  completion: @escaping (BaseResponse<MainFeed.Info.Response.CathegoryList>) -> Void)
+    func fetchSelectedCathegories(_ request: MainFeed.Request.FetchSelectedCathegories,
+                                  completion: @escaping (BaseResponse<MainFeed.Info.Response.CathegoryList>) -> Void)
     func fetchFinishedProjectsLogicFeed(_ request: MainFeed.Request.FinishedProjectsLogicFeed,
                                         completion: @escaping (BaseResponse<[MainFeed.Info.Response.FinishedProject]>) -> Void)
     func fetchFinishedProjectsCathegoryFeed(_ request: MainFeed.Request.FinishedProjectsCathegoryFeed,
@@ -44,9 +46,15 @@ class MainFeedWorker: MainFeedWorkerProtocol {
     }
     
     func fetchInterestCathegories(_ request: MainFeed.Request.FetchInterestCathegories,
-                                  completion: @escaping (BaseResponse<MainFeed.Info.Response.InterestCathegories>) -> Void) {
+                                  completion: @escaping (BaseResponse<MainFeed.Info.Response.CathegoryList>) -> Void) {
         let headers: [String : Any] = .empty
         builder.fetchCurrentUser(request: headers, completion: completion)
+    }
+    
+    func fetchSelectedCathegories(_ request: MainFeed.Request.FetchSelectedCathegories,
+                                  completion: @escaping (BaseResponse<MainFeed.Info.Response.CathegoryList>) -> Void) {
+        let headers: [String : Any] = .empty
+        builder.fetchSelectedCathegories(request: headers, completion: completion)
     }
     
     func fetchFinishedProjectsLogicFeed(_ request: MainFeed.Request.FinishedProjectsLogicFeed,

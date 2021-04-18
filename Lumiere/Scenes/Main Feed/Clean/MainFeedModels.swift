@@ -318,7 +318,7 @@ struct MainFeed {
                 }
             }
             
-            final class InterestCathegories: Mappable {
+            final class CathegoryList: Mappable {
                 
                 var cathegories: [String]?
                 
@@ -407,6 +407,10 @@ struct MainFeed {
         struct FinishedProjectsNewFeed {
             
         }
+        
+        struct FetchSelectedCathegories {
+            
+        }
     }
 }
 
@@ -486,9 +490,9 @@ extension MainFeed.Info.Response.ProfileSuggestion: MultipleStubbable {
     ]
 }
 
-extension MainFeed.Info.Response.InterestCathegories: Stubbable {
-    static var stub: MainFeed.Info.Response.InterestCathegories =
-        MainFeed.Info.Response.InterestCathegories(JSON: ["interest_cathegories": ["Ação", "Animação", "Aventura"]])!
+extension MainFeed.Info.Response.CathegoryList: Stubbable {
+    static var stub: MainFeed.Info.Response.CathegoryList =
+        MainFeed.Info.Response.CathegoryList(JSON: ["interest_cathegories": ["Ação", "Animação", "Aventura"]])!
 }
 
 extension MainFeed.Info.Model.UpcomingFeedData: Stubbable {
