@@ -24,6 +24,7 @@ enum FilterCathegories {
         
         enum Texts {
             static let titleLbl = "Categorias"
+            static let filterButton = "Filtrar"
         }
         
         enum BusinessLogic {
@@ -39,7 +40,7 @@ enum FilterCathegories {
         
         enum Response {
             
-            final class SelectedCathegories: Mappable {
+            final class CathegoryList: Mappable {
                 
                 var cathegories: [String]?
                 
@@ -53,14 +54,38 @@ enum FilterCathegories {
         
         enum Model {
             
+            struct CathegoryList {
+                var cathegories: [MovieStyle]
+            }
+            
+            struct Alert {
+                let title: String
+                let description: String
+            }
         }
         
         enum ViewModel {
             
+            struct SelectedCathegoryList {
+                var indexes: [Int]
+            }
+            
+            struct InterestCathegoryList {
+                var cathegories: [String]
+            }
+            
+            struct Alert {
+                let title: String
+                let description: String
+            }
         }
     }
     
     enum Request {
+        
+        struct FetchInterestCathegories {
+            
+        }
         
         struct FetchSelectedCathegories {
             

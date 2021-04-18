@@ -7,8 +7,10 @@
 //
 
 protocol FilterCathegoriesWorkerProtocol {
+    func fetchInterestCathegories(_ request: FilterCathegories.Request.FetchInterestCathegories,
+                                  completion: @escaping (BaseResponse<FilterCathegories.Info.Response.CathegoryList>) -> Void)
     func fetchSelectedCathegories(_ request: FilterCathegories.Request.FetchSelectedCathegories,
-                                  completion: @escaping (BaseResponse<FilterCathegories.Info.Response.SelectedCathegories>) -> Void)
+                                  completion: @escaping (BaseResponse<FilterCathegories.Info.Response.CathegoryList>) -> Void)
     func filterCathegories(_ request: FilterCathegories.Request.FilterCathegories,
                            completion: @escaping (EmptyResponse) -> Void)
 }
@@ -21,8 +23,13 @@ class FilterCathegoriesWorker: FilterCathegoriesWorkerProtocol {
         self.builder = builder
     }
     
+    func fetchInterestCathegories(_ request: FilterCathegories.Request.FetchInterestCathegories,
+                                  completion: @escaping (BaseResponse<FilterCathegories.Info.Response.CathegoryList>) -> Void) {
+        
+    }
+    
     func fetchSelectedCathegories(_ request: FilterCathegories.Request.FetchSelectedCathegories,
-                                  completion: @escaping (BaseResponse<FilterCathegories.Info.Response.SelectedCathegories>) -> Void) {
+                                  completion: @escaping (BaseResponse<FilterCathegories.Info.Response.CathegoryList>) -> Void) {
         
     }
     

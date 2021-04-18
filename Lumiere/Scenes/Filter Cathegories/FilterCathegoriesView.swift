@@ -69,5 +69,8 @@ extension FilterCathegoriesView: ViewCodeProtocol {
             make.centerX.equalToSuperview()
             make.width.equalTo(80)
         }
+        activityView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
     }
 }
