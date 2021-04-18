@@ -58,8 +58,7 @@ class MainFeedTableViewFactory: TableViewFactory {
     
     private var ongoingProjectsFeedBuilder: TableViewCellBuilderProtocol {
         return OnGoingProjectsFeedTableViewCellBuilder(delegate: ongoingProjectsFeedDelegate,
-                                                       viewModel: viewModel?.ongoingProjects,
-                                                       criteriasViewModel: viewModel?.interestCathegories)
+                                                       viewModel: viewModel?.ongoingProjects)
     }
     
     private var finishedProjectsFeedsBuilder: [TableViewCellBuilderProtocol] {

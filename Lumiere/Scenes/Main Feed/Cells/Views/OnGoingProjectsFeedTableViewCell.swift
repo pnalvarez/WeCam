@@ -37,28 +37,12 @@ class OnGoingProjectsFeedTableViewCell: UITableViewCell {
         return view
     }()
     
-    private lazy var selectionFilter: SelectionFilterView = {
-        let view = SelectionFilterView(frame: .zero,
-                                       selectedItem: MainFeed.Constants.Texts.allCriteria,
-                                       delegate: self)
+    private lazy var filterButton: WCActionButton = {
+        let view = WCActionButton(frame: .zero)
+        view.text = MainFeed.Constants.Texts.filterCathegories
+        view.addTarget(self, action: #selector(didTapFilterCathegories), for: .touchUpInside)
         return view
     }()
-    
-    private lazy var optionsStackView: UIStackView = {
-        let view = UIStackView(frame: .zero)
-        view.distribution = .fillEqually
-        view.spacing = 0
-        view.alignment = .center
-        view.axis = .vertical
-        view.isHidden = true
-        return view
-    }()
-    
-    private var criteriasViewModel: MainFeed.Info.ViewModel.UpcomingOnGoingProjectsCriterias? {
-        didSet {
-            buildOptionFilters()
-        }
-    }
     
     private var projectsViewModel: MainFeed.Info.ViewModel.UpcomingProjects? {
         didSet {
@@ -69,17 +53,10 @@ class OnGoingProjectsFeedTableViewCell: UITableViewCell {
     private weak var delegate: OnGoingProjectsFeedTableViewCellDelegate?
 
     func setup(viewModel: MainFeed.Info.ViewModel.UpcomingProjects?,
-               delegate: OnGoingProjectsFeedTableViewCellDelegate? = nil,
-               criteriasViewModel: MainFeed.Info.ViewModel.UpcomingOnGoingProjectsCriterias? = nil) {
+               delegate: OnGoingProjectsFeedTableViewCellDelegate? = nil) {
         self.projectsViewModel = viewModel
         self.delegate = delegate
-        self.criteriasViewModel = criteriasViewModel
         applyViewCode()
-    }
-    
-    func resetSelectionFilter() {
-        selectionFilter.selectedItem = MainFeed.Constants.Texts.allCriteria
-        optionsStackView.subviews[0].backgroundColor = MainFeed.Constants.Colors.optionButtonSelected
     }
     
     func setProjects(viewModel: MainFeed.Info.ViewModel.UpcomingProjects?) {
@@ -90,6 +67,16 @@ class OnGoingProjectsFeedTableViewCell: UITableViewCell {
         DispatchQueue.main.async {
             self.collectionView.reloadData()
         }
+    }
+    
+    @objc
+    private func didTapFilterCathegories() {
+        
+    }
+    
+    @objc
+    private func didTapOnGoingProject(_ sender: UIButton) {
+        delegate?.didSelectProject(index: sender.tag)
     }
 }
 
@@ -143,65 +130,12 @@ extension OnGoingProjectsFeedTableViewCell: UICollectionViewDelegateFlowLayout {
     }
 }
 
-extension OnGoingProjectsFeedTableViewCell {
-    
-    private func buildOptionFilters() {
-        guard let criterias = criteriasViewModel?.criterias else { return }
-        let selectedIndex = criterias.firstIndex(where: { criteriasViewModel?.selectedCriteria == $0 })
-        selectionFilter.selectedItem = criteriasViewModel?.selectedCriteria.criteria ?? .empty
-        for index in 0..<criterias.count {
-            let button = OptionFilterButton(frame: .zero, option: criterias[index].criteria)
-            button.addTarget(self, action: #selector(didSelectOption(_:)), for: .touchUpInside)
-            button.tag = index
-            if selectedIndex == index {
-                button.backgroundColor = ProfileSuggestions.Constants.Colors.optionButtonSelected
-            }
-            optionsStackView.addArrangedSubview(button)
-            button.snp.makeConstraints { make in
-                make.left.right.equalToSuperview()
-                make.height.equalTo(20)
-            }
-        }
-    }
-}
-
-extension OnGoingProjectsFeedTableViewCell {
-    
-    @objc
-    private func didTapOnGoingProject(_ sender: UIButton) {
-        delegate?.didSelectProject(index: sender.tag)
-    }
-    
-    @objc
-    private func didSelectOption(_ sender: UIButton) {
-        guard let text = criteriasViewModel?.criterias[sender.tag].criteria else { return }
-        selectionFilter.selectedItem = text
-        optionsStackView.isHidden = true
-        optionsStackView.arrangedSubviews.forEach({
-            if $0 == sender {
-                $0.backgroundColor = MainFeed.Constants.Colors.optionButtonSelected
-            } else {
-                $0.backgroundColor = MainFeed.Constants.Colors.optionButtonUnselected
-            }
-        })
-        delegate?.didSelectedNewCriteria(text: text)
-    }
-}
-
-extension OnGoingProjectsFeedTableViewCell: SelectionFilterViewDelegate {
-    
-    func didTapBottomSheetButton() {
-        optionsStackView.isHidden = !optionsStackView.isHidden
-    }
-}
-
 extension OnGoingProjectsFeedTableViewCell: ViewCodeProtocol {
     
     func buildViewHierarchy() {
         addSubview(headerLbl)
+        addSubview(filterButton)
         addSubview(collectionView)
-        addSubview(selectionFilter)
-        addSubview(optionsStackView)
     }
     
     func setupConstraints() {
@@ -210,16 +144,11 @@ extension OnGoingProjectsFeedTableViewCell: ViewCodeProtocol {
             make.left.equalToSuperview().inset(22)
             make.width.equalTo(180)
         }
-        selectionFilter.snp.makeConstraints { make in
+        filterButton.snp.makeConstraints { make in
             make.centerY.equalTo(headerLbl)
-            make.left.equalTo(headerLbl.snp.right).offset(2)
-            make.height.equalTo(18)
-            make.right.equalToSuperview().inset(11)
-        }
-        optionsStackView.snp.makeConstraints { make in
-            make.top.equalTo(selectionFilter.snp.bottom)
-            make.width.equalTo(selectionFilter)
-            make.centerX.equalTo(selectionFilter)
+            make.right.equalToSuperview().inset(18)
+            make.height.equalTo(30)
+            make.left.equalTo(headerLbl.snp.right).offset(12)
         }
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(headerLbl.snp.bottom).offset(12)

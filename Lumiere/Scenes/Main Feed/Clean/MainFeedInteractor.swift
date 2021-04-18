@@ -102,7 +102,7 @@ extension MainFeedInteractor {
         }
     }
     
-    private func buildMainFeedCathegory() -> MainFeed.Info.Model.OnGoingProjectFeedCriteria{
+    private func buildMainFeedCathegory() -> MainFeed.Info.Model.OnGoingProjectFeedCriteria {
         var criteria: MainFeed.Info.Model.OnGoingProjectFeedCriteria
         if selectedCathegory == MainFeed.Constants.Texts.allCriteria {
             criteria = .all

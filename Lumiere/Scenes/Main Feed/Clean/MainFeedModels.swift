@@ -47,6 +47,7 @@ struct MainFeed {
             static let genericError = "Ocorreu um erro genérico"
             static let emptySearchErrorTitle = "Busca vazia"
             static let emptySearchErrorMessage = "Insira alguma palavra a procurar usuários ou projetos"
+            static let filterCathegories = "Filtrar categorias"
         }
         
         struct Images {
