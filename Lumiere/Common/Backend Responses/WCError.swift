@@ -36,6 +36,7 @@ enum WCError: Error {
     case removeUserFromProject
     case removeSuggestion
     case sendEmail
+    case filterProjects
     
     var description: String {
         switch self {
@@ -91,6 +92,8 @@ enum WCError: Error {
             return "Ocorreu um erro ao tentar enviar o email de recuperação, tente novamente mais tarde"
         case .removeProjectParticipationRequest:
             return "Ocorreu um erro ao tentar remover a solicitação a este projeto, tente novamente mais tarde"
+        case .filterProjects:
+            return "Ocorreu um erro ao filtrar os projetos do feed"
         }
     }
 }

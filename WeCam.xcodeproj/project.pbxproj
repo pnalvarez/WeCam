@@ -276,6 +276,7 @@
 		3FB7D607262CC8A70041D5F0 /* FilterCathegoriesPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB7D606262CC8A70041D5F0 /* FilterCathegoriesPresenter.swift */; };
 		3FB7D60C262CC8F50041D5F0 /* FilterCathegoriesInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB7D60B262CC8F50041D5F0 /* FilterCathegoriesInteractor.swift */; };
 		3FB7D611262CCA5E0041D5F0 /* FilterCathegoriesRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB7D610262CCA5E0041D5F0 /* FilterCathegoriesRouter.swift */; };
+		3FB7D616262CD7DA0041D5F0 /* APICathegoryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB7D615262CD7DA0041D5F0 /* APICathegoryManager.swift */; };
 		3FB880A22534070F003C0D1B /* UISegmentedControl+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB880A12534070F003C0D1B /* UISegmentedControl+.swift */; };
 		3FB8BD6F250D5FBD001954FD /* ProjectInvitesInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB8BD6E250D5FBD001954FD /* ProjectInvitesInteractor.swift */; };
 		3FB8BD71250D602B001954FD /* ProjectInvitesWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB8BD70250D602B001954FD /* ProjectInvitesWorker.swift */; };
@@ -617,6 +618,7 @@
 		3FB7D606262CC8A70041D5F0 /* FilterCathegoriesPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCathegoriesPresenter.swift; sourceTree = "<group>"; };
 		3FB7D60B262CC8F50041D5F0 /* FilterCathegoriesInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCathegoriesInteractor.swift; sourceTree = "<group>"; };
 		3FB7D610262CCA5E0041D5F0 /* FilterCathegoriesRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCathegoriesRouter.swift; sourceTree = "<group>"; };
+		3FB7D615262CD7DA0041D5F0 /* APICathegoryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICathegoryManager.swift; sourceTree = "<group>"; };
 		3FB880A12534070F003C0D1B /* UISegmentedControl+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISegmentedControl+.swift"; sourceTree = "<group>"; };
 		3FB8BD6E250D5FBD001954FD /* ProjectInvitesInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectInvitesInteractor.swift; sourceTree = "<group>"; };
 		3FB8BD70250D602B001954FD /* ProjectInvitesWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectInvitesWorker.swift; sourceTree = "<group>"; };
@@ -1422,6 +1424,7 @@
 			children = (
 				3FE8DF5324C52F72005DE30D /* FirebaseManager.swift */,
 				3F339B26261A7BA900360D96 /* APINotificationManager.swift */,
+				3FB7D615262CD7DA0041D5F0 /* APICathegoryManager.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -2057,6 +2060,7 @@
 				3F66CA0625017C14006F6DBD /* NSAttributedString+.swift in Sources */,
 				3F8D13C424D79FE100AED7EB /* GetAllNotificationsRequest.swift in Sources */,
 				3F40A61024EA0D9B00261161 /* SelectProjectImageRouter.swift in Sources */,
+				3FB7D616262CD7DA0041D5F0 /* APICathegoryManager.swift in Sources */,
 				3F655F6B2523C4F5004A1D54 /* SearchResultsInteractor.swift in Sources */,
 				3FAD1A332516B81B00ED4074 /* MainFeedPresenter.swift in Sources */,
 				3F42A56E255A14C10088E232 /* WatchVideoPresenter.swift in Sources */,

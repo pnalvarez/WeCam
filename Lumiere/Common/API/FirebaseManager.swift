@@ -75,7 +75,7 @@ protocol FirebaseManagerProtocol {
     func removeProjectParticipationRequest(request: [String : Any],
                                            completion: @escaping (EmptyResponse) -> Void)
     func exitOngoingProject(request: [String : Any],
-                     completion: @escaping (EmptyResponse) -> Void)
+                            completion: @escaping (EmptyResponse) -> Void)
     func exitFinishedProject(request: [String : Any],
                              completion: @escaping (EmptyResponse) -> Void)
     func fetchProjectParticipationRequestNotifications<T: Mappable>(request: [String : Any],
@@ -85,7 +85,7 @@ protocol FirebaseManagerProtocol {
     func refuseUserIntoProject(request: [String : Any],
                                completion: @escaping (EmptyResponse) -> Void)
     func fetchUserRelationToOnGoingProject<T: Mappable>(request: [String : Any],
-                                                 completion: @escaping (BaseResponse<T>) -> Void)
+                                                        completion: @escaping (BaseResponse<T>) -> Void)
     func removeProjectInviteToUser(request: [String : Any],
                                    completion: @escaping (EmptyResponse) -> Void)
     func removeUserFromProject(request: [String : Any],
@@ -99,7 +99,7 @@ protocol FirebaseManagerProtocol {
     func fetchSearchProfiles<T: Mappable>(request: [String : Any],
                                           completion: @escaping (BaseResponse<[T]>) -> Void)
     func fetchSearchOngoingProjects<T: Mappable>(request: [String : Any],
-                                          completion: @escaping (BaseResponse<[T]>) -> Void)
+                                                 completion: @escaping (BaseResponse<[T]>) -> Void)
     func fetchSearchFinishedProjects<T: Mappable>(request: [String : Any],
                                                   completion: @escaping (BaseResponse<[T]>) -> Void)
     func fetchDataFromId<T: Mappable>(request: [String : Any],
@@ -117,7 +117,7 @@ protocol FirebaseManagerProtocol {
     func fetchOnGoingProjectsFeed<T: Mappable>(request: [String : Any],
                                                completion: @escaping (BaseResponse<[T]>) -> Void)
     func publishOngoingProject(request: [String : Any],
-                        completion: @escaping (EmptyResponse) -> Void)
+                               completion: @escaping (EmptyResponse) -> Void)
     func fetchFinishedProjectData<T: Mappable>(request: [String : Any],
                                                completion: @escaping (BaseResponse<T>) -> Void)
     func fetchFinishedProjectRelation<T: Mappable>(request: [String : Any],
@@ -150,19 +150,25 @@ protocol FirebaseManagerProtocol {
     func fetchConnectionAcceptNotifications<T: Mappable>(request: [String : Any],
                                                          completion: @escaping (BaseResponse<[T]>) -> Void)
     func fetchProjectInviteAcceptNotifications<T: Mappable>(request: [String : Any],
-                                                         completion: @escaping (BaseResponse<[T]>) -> Void)
+                                                            completion: @escaping (BaseResponse<[T]>) -> Void)
     func fetchProjectParticipationAcceptNotifications<T: Mappable>(request: [String : Any],
-                                                         completion: @escaping (BaseResponse<[T]>) -> Void)
+                                                                   completion: @escaping (BaseResponse<[T]>) -> Void)
     func sendPasswordRecoveryEmail(request: [String : Any],
                                    completion: @escaping (EmptyResponse) -> Void)
     func fetchUserDataByEmail<T: Mappable>(request: [String : Any],
-                              completion: @escaping (BaseResponse<T>) -> Void)
+                                           completion: @escaping (BaseResponse<T>) -> Void)
     func fetchRecentSearches<T: Mappable>(request: [String : Any],
                                           completion: @escaping (BaseResponse<[T]>) -> Void)
     func registerRecentSearch(request: [String : Any],
-                                   completion: @escaping (EmptyResponse) -> Void)
+                              completion: @escaping (EmptyResponse) -> Void)
     func fetchEntityType<T: Mappable>(request: [String : Any],
-                         completion: @escaping (BaseResponse<T>) -> Void)
+                                      completion: @escaping (BaseResponse<T>) -> Void)
+    func fetchInterestCathegories<T: Mappable>(request: [String: Any],
+                                               completion: @escaping (BaseResponse<T>) -> Void)
+    func fetchSelectedCathegories<T: Mappable>(request: [String : Any],
+                                               completion: @escaping (BaseResponse<T>) -> Void)
+    func saveSelectedCathegories(request: [String : Any],
+                                 completion: @escaping (EmptyResponse) -> Void)
 }
 
 class FirebaseManager: FirebaseManagerProtocol {
@@ -893,7 +899,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                             return
                                                         }
                                                     }
-                                            }
+                                                }
                                         }
                                 }
                         }
@@ -1731,10 +1737,10 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                                                         .observeSingleEvent(of: .value) { snapshot in
                                                                                             guard let authorId = snapshot.value as? String else {
                                                                                                 completion(.error(WCError.genericError))
-                                                                return                            }
+                                                                                                return                            }
                                                                                             self.sendAcceptNotification(type: .projectInvite(username: name, projectName: projectName, image: image), userId: authorId, completion: completion)                     }
-
-                                                                            }
+                                                                                    
+                                                                                }
                                                                         }
                                                                     }
                                                             }
@@ -2020,7 +2026,7 @@ class FirebaseManager: FirebaseManagerProtocol {
     }
     
     func exitOngoingProject(request: [String : Any],
-                     completion: @escaping (EmptyResponse) -> Void) {
+                            completion: @escaping (EmptyResponse) -> Void) {
         guard let projectId = request["projectId"] as? String,
               let currentUser = authReference.currentUser?.uid else {
             completion(.error(WCError.genericError))
@@ -2283,7 +2289,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                                                     return
                                                                                 }
                                                                                 self.sendAcceptNotification(type: .projectParticipationRequest(projectName: name, image: image), userId: userId, completion: completion)
-                                                                        }
+                                                                            }
                                                                     }
                                                             }
                                                     }
@@ -2352,7 +2358,7 @@ class FirebaseManager: FirebaseManagerProtocol {
     }
     
     func fetchUserRelationToOnGoingProject<T: Mappable>(request: [String : Any],
-                                                 completion: @escaping (BaseResponse<T>) -> Void) {
+                                                        completion: @escaping (BaseResponse<T>) -> Void) {
         var responseDict: [String : Any] = .empty
         guard let userId = request["userId"] as? String,
               let projectId = request["projectId"] as? String else {
@@ -2586,7 +2592,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                         project["progress"] = 100
                                         responseArray.append(project)
                                         dispatchGroup.leave()
-                                }
+                                    }
                             }
                         case .error:
                             dispatchGroup.leave()
@@ -2684,7 +2690,7 @@ class FirebaseManager: FirebaseManagerProtocol {
     }
     
     func fetchSearchOngoingProjects<T: Mappable>(request: [String : Any],
-                                          completion: @escaping (BaseResponse<[T]>) -> Void) {
+                                                 completion: @escaping (BaseResponse<[T]>) -> Void) {
         var projectsResponse: [[String : Any]] = .empty
         var allProjects = [String]()
         
@@ -3452,7 +3458,7 @@ class FirebaseManager: FirebaseManagerProtocol {
     }
     
     func publishOngoingProject(request: [String : Any],
-                        completion: @escaping (EmptyResponse) -> Void) {
+                               completion: @escaping (EmptyResponse) -> Void) {
         var finishedProjects = [String]()
         var allUsers = [String]()
         
@@ -3576,7 +3582,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                                                     case.success:
                                                                                         completion(.success)
                                                                                     }
-                                                                                    }
+                                                                                }
                                                                             }
                                                                             
                                                                         }
@@ -4260,10 +4266,10 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                                                         .observeSingleEvent(of: .value) { snapshot in
                                                                                             guard let authorId = snapshot.value as? String else {
                                                                                                 completion(.error(WCError.genericError))
-                                                                   return                         }
+                                                                                                return                         }
                                                                                             self.sendAcceptNotification(type: .projectInvite(username: name, projectName: title, image: image), userId: authorId, completion: completion)                      }
                                                                                 }
-                                                                        }
+                                                                            }
                                                                     }
                                                             }
                                                     }
@@ -4530,11 +4536,11 @@ class FirebaseManager: FirebaseManagerProtocol {
                     let mappedResponse = Mapper<T>().mapArray(JSONArray: allSearches)
                     completion(.success(mappedResponse))
                 }
-        }
+            }
     }
     
     func registerRecentSearch(request: [String : Any],
-                                   completion: @escaping (EmptyResponse) -> Void) {
+                              completion: @escaping (EmptyResponse) -> Void) {
         var allSearches = [String]()
         
         guard let searchId = request["id"] as? String else {
@@ -4571,8 +4577,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                             return
                         }
                         completion(.success)
-                }
-        }
+                    }
+            }
     }
     
     func fetchEntityType<T: Mappable>(request: [String : Any],
@@ -4595,7 +4601,60 @@ class FirebaseManager: FirebaseManagerProtocol {
                     return
                 }
                 completion(.success(mappedResponse))
+            }
+    }
+    
+    func fetchInterestCathegories<T: Mappable>(request: [String: Any],
+                                               completion: @escaping (BaseResponse<T>) -> Void) {
+        guard let currentUser = authReference.currentUser?.uid else {
+            completion(.error(.unloggedUser))
+            return
         }
+        APICathegoryManager.shared.fetchInterestCathegories(userId: currentUser, successCallback: { cathegories in
+            let response: [String : Any] = ["cathegories": cathegories]
+            guard let mappedResponse = Mapper<T>().map(JSON: response) else {
+                completion(.error(.parseError))
+                return
+            }
+            completion(.success(mappedResponse))
+        }, failureCallback: { error in
+            completion(.error(error))
+        })
+    }
+    
+    func fetchSelectedCathegories<T: Mappable>(request: [String : Any],
+                                               completion: @escaping (BaseResponse<T>) -> Void) {
+        guard let currentUser = authReference.currentUser?.uid else {
+            completion(.error(.unloggedUser))
+            return
+        }
+        APICathegoryManager.shared.fetchFilterCathegories(userId: currentUser, successCallback: { cathegories in
+            let response: [String : Any] = ["cathegories": cathegories]
+            guard let mappedResponse = Mapper<T>().map(JSON: response) else {
+                completion(.error(.parseError))
+                return
+            }
+            completion(.success(mappedResponse))
+        }, failureCallback: { error in
+            completion(.error(error))
+        })
+    }
+    
+    func saveSelectedCathegories(request: [String : Any],
+                                 completion: @escaping (EmptyResponse) -> Void) {
+        guard let currentUser = authReference.currentUser?.uid else {
+            completion(.error(.unloggedUser))
+            return
+        }
+        guard let cathegories = request["cathegories"] as? [String] else {
+            completion(.error(.genericError))
+            return
+        }
+        APICathegoryManager.shared.saveFilterCathegories(userId: currentUser, cathegories: cathegories, successCallback: {
+            completion(.success)
+        }, failureCallback: { error in
+            completion(.error(error))
+        })
     }
 }
 
@@ -4843,7 +4902,7 @@ extension FirebaseManager {
                 }
             }
     }
-
+    
     private func sendAcceptNotification(type: AcceptNotificationType,
                                         userId: String,
                                         completion: @escaping (EmptyResponse) -> Void) {
@@ -4866,8 +4925,8 @@ extension FirebaseManager {
                             return
                         }
                         completion(.success)
-                }
-        }
+                    }
+            }
     }
     
     private func fetchAcceptNotifications<T: Mappable>(type: AcceptNotificationType,
@@ -4887,7 +4946,7 @@ extension FirebaseManager {
                 }
                 let mappedResponse = Mapper<T>().mapArray(JSONArray: notifications)
                 completion(.success(mappedResponse))
-        }
+            }
     }
 }
 

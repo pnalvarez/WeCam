@@ -25,16 +25,19 @@ class FilterCathegoriesWorker: FilterCathegoriesWorkerProtocol {
     
     func fetchInterestCathegories(_ request: FilterCathegories.Request.FetchInterestCathegories,
                                   completion: @escaping (BaseResponse<FilterCathegories.Info.Response.CathegoryList>) -> Void) {
-        
+        let headers: [String : Any] = .empty
+        builder.fetchInterestCathegories(request: headers, completion: completion)
     }
     
     func fetchSelectedCathegories(_ request: FilterCathegories.Request.FetchSelectedCathegories,
                                   completion: @escaping (BaseResponse<FilterCathegories.Info.Response.CathegoryList>) -> Void) {
-        
+        let headers: [String : Any] = .empty
+        builder.fetchSelectedCathegories(request: headers, completion: completion)
     }
     
     func filterCathegories(_ request: FilterCathegories.Request.FilterCathegories,
                            completion: @escaping (EmptyResponse) -> Void) {
-        
+        let headers: [String : Any] = ["cathegories": request.cathegories]
+        builder.saveSelectedCathegories(request: headers, completion: completion)
     }
 }
