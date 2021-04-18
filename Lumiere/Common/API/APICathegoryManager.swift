@@ -43,7 +43,7 @@ final class APICathegoryManager {
             .child("filtered_cathegories")
             .observeSingleEvent(of: .value) { snapshot in
                 guard let cathegories = snapshot.value as? [String] else {
-                    failureCallback(.genericError)
+                    successCallback(.empty)
                     return
                 }
                 successCallback(cathegories)

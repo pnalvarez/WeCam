@@ -8,7 +8,6 @@
 
 protocol FilterCathegoriesBusinessLogic {
     func fetchInterestCathegories(_ request: FilterCathegories.Request.FetchInterestCathegories)
-    func fetchSelectedCathegories(_ request: FilterCathegories.Request.FetchSelectedCathegories)
     func selectCathegory(_ request: FilterCathegories.Request.SelectCathegory)
     func filterCathegories(_ request: FilterCathegories.Request.Filter)
 }
@@ -31,30 +30,9 @@ class FilterCathegoriesInteractor: FilterCathegoriesDataStore {
         self.worker = worker
         self.presenter = presenter
     }
-}
-
-extension FilterCathegoriesInteractor: FilterCathegoriesBusinessLogic {
     
-    func fetchInterestCathegories(_ request: FilterCathegories.Request.FetchInterestCathegories) {
-        presenter.presentLoading(true)
-        worker.fetchInterestCathegories(request) { response in
-            self.presenter.presentLoading(false)
-            switch response {
-            case .success(let data):
-                guard let cathegories = data.cathegories else { return }
-                self.interestCathegories = FilterCathegories.Info.Model.CathegoryList(cathegories: cathegories.map({ (MovieStyle(rawValue: $0) ?? .action)}))
-                guard let allCathegories = self.interestCathegories else { return }
-                self.presenter.presentAllCathegories(allCathegories)
-            case .error(let error):
-                self.presenter.presentAlert(FilterCathegories.Info.Model.Alert(title: "Erro",
-                                                                               description: error.description))
-            }
-        }
-    }
-    
-    func fetchSelectedCathegories(_ request: FilterCathegories.Request.FetchSelectedCathegories) {
-        presenter.presentLoading(true)
-        worker.fetchSelectedCathegories(request) { response in
+    private func fetchSelectedCathegories() {
+        worker.fetchSelectedCathegories(FilterCathegories.Request.FetchSelectedCathegories()) { response in
             self.presenter.presentLoading(false)
             switch response {
             case .success(let data):
@@ -68,15 +46,36 @@ extension FilterCathegoriesInteractor: FilterCathegoriesBusinessLogic {
             }
         }
     }
+}
+
+extension FilterCathegoriesInteractor: FilterCathegoriesBusinessLogic {
+    
+    func fetchInterestCathegories(_ request: FilterCathegories.Request.FetchInterestCathegories) {
+        presenter.presentLoading(true)
+        worker.fetchInterestCathegories(request) { response in
+            switch response {
+            case .success(let data):
+                guard let cathegories = data.cathegories else { return }
+                self.interestCathegories = FilterCathegories.Info.Model.CathegoryList(cathegories: cathegories.map({ (MovieStyle(rawValue: $0) ?? .action)}))
+                guard let allCathegories = self.interestCathegories else { return }
+                self.presenter.presentAllCathegories(allCathegories)
+                self.fetchSelectedCathegories()
+            case .error(let error):
+                self.presenter.presentLoading(false)
+                self.presenter.presentAlert(FilterCathegories.Info.Model.Alert(title: "Erro",
+                                                                               description: error.description))
+            }
+        }
+    }
     
     func selectCathegory(_ request: FilterCathegories.Request.SelectCathegory) {
         guard let interestCathegories = interestCathegories,
               let selectedCathegories = selectedCathegories else { return }
         let cathegory = interestCathegories.cathegories[request.index]
         if selectedCathegories.cathegories.contains(cathegory) {
-            self.interestCathegories?.cathegories.removeAll(where: { $0 == cathegory })
+            self.selectedCathegories?.cathegories.removeAll(where: { $0 == cathegory })
         } else {
-            self.interestCathegories?.cathegories.append(cathegory)
+            self.selectedCathegories?.cathegories.append(cathegory)
         }
     }
     

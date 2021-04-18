@@ -15,6 +15,7 @@ protocol MainFeedRoutingLogic {
     func routeToProfileSuggestions()
     func routeToOnGoingProjectDetails()
     func routeToFinishedProjectDetails()
+    func routeToFilterCathegories()
 }
 
 protocol MainFeedDataTransfer {
@@ -91,6 +92,11 @@ extension MainFeedRouter: MainFeedRoutingLogic {
         guard let source = dataStore,
               var destination = vc.router?.dataStore else { return }
         transferDataToFinishedProjectDetails(from: source, to: &destination)
+        routeTo(nextVC: vc)
+    }
+    
+    func routeToFilterCathegories() {
+        let vc = FilterCathegoriesController()
         routeTo(nextVC: vc)
     }
 }

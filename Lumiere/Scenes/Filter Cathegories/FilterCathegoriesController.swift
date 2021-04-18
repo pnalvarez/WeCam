@@ -72,7 +72,6 @@ class FilterCathegoriesController: BaseViewController {
         super.viewDidLoad()
         navigationController?.tabBarController?.tabBar.isHidden = true
         interactor?.fetchInterestCathegories(FilterCathegories.Request.FetchInterestCathegories())
-        interactor?.fetchSelectedCathegories(FilterCathegories.Request.FetchSelectedCathegories())
     }
     
     private func setup() {

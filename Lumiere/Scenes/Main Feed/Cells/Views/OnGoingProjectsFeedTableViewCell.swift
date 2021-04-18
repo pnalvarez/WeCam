@@ -11,7 +11,7 @@ import WCUIKit
 
 protocol OnGoingProjectsFeedTableViewCellDelegate: class {
     func didSelectProject(index: Int)
-    func didSelectedNewCriteria(text: String)
+    func didTapFilterCathegories()
 }
 
 class OnGoingProjectsFeedTableViewCell: UITableViewCell {
@@ -71,7 +71,7 @@ class OnGoingProjectsFeedTableViewCell: UITableViewCell {
     
     @objc
     private func didTapFilterCathegories() {
-        
+        delegate?.didTapFilterCathegories()
     }
     
     @objc

@@ -33,6 +33,7 @@ class FilterCathegoriesView: UIView {
         self.filterButton = filterButton
         self.activityView = activityView
         super.init(frame: frame)
+        applyViewCode()
     }
     
     required init?(coder: NSCoder) {

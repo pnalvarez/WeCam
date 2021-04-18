@@ -11,7 +11,6 @@ protocol MainFeedBusinessLogic {
     func fetchMainFeed(_ request: MainFeed.Request.MainFeed)
     func didSelectSuggestedProfile(_ request: MainFeed.Request.SelectSuggestedProfile)
     func didSelectOnGoingProject(_ request: MainFeed.Request.SelectOnGoingProject)
-    func didSelectOnGoingProjectCathegory(_ request: MainFeed.Request.SelectOnGoingProjectCathegory)
     func didSelectFinishedProject(_ request: MainFeed.Request.SelectFinishedProject)
 }
 
@@ -210,25 +209,6 @@ extension MainFeedInteractor: MainFeedBusinessLogic {
     func didSelectOnGoingProject(_ request: MainFeed.Request.SelectOnGoingProject) {
         selectedProject = mainFeedData?.ongoingProjects?.projects[request.index].id
         presenter.presentOnGoingProjectDetails()
-    }
-    
-    func didSelectOnGoingProjectCathegory(_ request: MainFeed.Request.SelectOnGoingProjectCathegory) {
-        let newRequest = MainFeed.Request.FetchOnGoingProjects(fromConnections: request.text == MainFeed.Constants.Texts.relativeToConnectionsCriteria, cathegory: request.text)
-        worker.fetchOnGoingProjects(newRequest) { response in
-            switch response {
-            case .success(let data):
-                self.selectedCathegory = request.text
-                self.mainFeedData?.ongoingProjects = MainFeed.Info.Model.UpcomingProjects(projects: data.map({
-                    MainFeed.Info.Model.OnGoingProject(id: $0.id ?? .empty,
-                                                       image: $0.image ?? .empty,
-                                                       progress: $0.progress ?? 0)
-                }))
-                guard let data = self.mainFeedData else { return }
-                self.presenter.presentFeedData(data)
-            case .error(let error):
-                break
-            }
-        }
     }
     
     func didSelectFinishedProject(_ request: MainFeed.Request.SelectFinishedProject) {

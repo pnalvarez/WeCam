@@ -121,8 +121,8 @@ extension MainFeedController: OnGoingProjectsFeedTableViewCellDelegate {
         interactor?.didSelectOnGoingProject(MainFeed.Request.SelectOnGoingProject(index: index))
     }
     
-    func didSelectedNewCriteria(text: String) {
-        interactor?.didSelectOnGoingProjectCathegory(MainFeed.Request.SelectOnGoingProjectCathegory(text: text))
+    func didTapFilterCathegories() {
+        router?.routeToFilterCathegories()
     }
 }
 
