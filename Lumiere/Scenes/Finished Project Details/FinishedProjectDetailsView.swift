@@ -173,7 +173,6 @@ extension FinishedProjectDetailsView: ViewCodeProtocol {
         }
         closeButton.snp.makeConstraints { make in
             make.top.right.equalToSuperview().inset(28)
-            make.height.width.equalTo(31)
         }
         backButton.snp.makeConstraints { make in
             make.top.left.equalToSuperview().inset(28)

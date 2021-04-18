@@ -353,7 +353,6 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
         closeButton.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(28)
             make.right.equalToSuperview().inset(35)
-            make.height.width.equalTo(31)
         }
         cathegoryLbl.snp.makeConstraints { make in
             make.centerY.equalTo(closeButton)

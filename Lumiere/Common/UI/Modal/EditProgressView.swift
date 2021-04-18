@@ -130,7 +130,6 @@ extension EditProgressView: ViewCodeProtocol {
         closeButton.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(32)
             make.right.equalToSuperview().inset(56)
-            make.height.width.equalTo(31)
         }
         mainLbl.snp.makeConstraints { make in
             make.top.equalTo(closeButton.snp.bottom).offset(11)

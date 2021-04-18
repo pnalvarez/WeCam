@@ -133,7 +133,6 @@ extension InsertVideoView: ViewCodeProtocol {
         closeButton.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(28)
             make.right.equalToSuperview().inset(28)
-            make.height.width.equalTo(31)
         }
         backButton.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(28)

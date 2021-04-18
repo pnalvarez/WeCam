@@ -54,7 +54,6 @@ extension WatchVideoView: ViewCodeProtocol {
         closeButton.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(28)
             make.left.equalToSuperview().inset(28)
-            make.height.width.equalTo(32)
         }
         playerView.snp.makeConstraints { make in
             make.center.equalToSuperview()

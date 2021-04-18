@@ -54,8 +54,6 @@ extension ProjectParticipantsListView: ViewCodeProtocol {
         closeButton.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide.snp.top).inset(30)
             make.right.equalToSuperview().inset(54)
-            make.height.equalTo(31)
-            make.width.equalTo(32)
         }
         participantsFixedLbl.snp.makeConstraints { make in
             make.top.equalTo(closeButton.snp.bottom).offset(40)

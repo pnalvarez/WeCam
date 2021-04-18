@@ -67,7 +67,6 @@ extension AccountRecoveryView: ViewCodeProtocol {
         closeButton.snp.makeConstraints { make in
             make.top.equalTo(headerView)
             make.right.equalToSuperview().inset(30)
-            make.height.width.equalTo(31)
         }
         messageLbl.snp.makeConstraints { make in
             make.top.equalTo(headerView.snp.bottom).offset(65)
