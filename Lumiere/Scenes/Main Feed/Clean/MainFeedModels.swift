@@ -144,7 +144,12 @@ struct MainFeed {
                 var profileSuggestions: UpcomingProfiles?
                 var ongoingProjects: UpcomingProjects?
                 var interestCathegories: UpcomingOnGoingProjectCriterias?
+                var selectedCathegories: CathegoryList?
                 var finishedProjectsFeeds: UpcomingFinishedProjectsFeeds?
+            }
+            
+            struct CathegoryList: Equatable {
+                let cathegories: [MovieStyle]
             }
             
             struct UpcomingProfiles: Equatable {

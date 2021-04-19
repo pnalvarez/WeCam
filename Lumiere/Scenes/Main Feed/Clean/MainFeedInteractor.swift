@@ -101,6 +101,19 @@ extension MainFeedInteractor {
         }
     }
     
+    private func fetchSelectedCathegories() {
+        worker.fetchSelectedCathegories(MainFeed.Request.FetchSelectedCathegories()) { response in
+            switch response {
+            case .success(let data):
+                guard let cathegories = data.cathegories else { return }
+                self.mainFeedData?.selectedCathegories = MainFeed.Info.Model.CathegoryList(cathegories: cathegories.map({ (MovieStyle(rawValue: $0) ?? .action) }))
+//                self.fetchOnGoingProjectsFeed(.i)
+            case .error(let error):
+                break
+            }
+        }
+    }
+    
     private func buildMainFeedCathegory() -> MainFeed.Info.Model.OnGoingProjectFeedCriteria {
         var criteria: MainFeed.Info.Model.OnGoingProjectFeedCriteria
         if selectedCathegory == MainFeed.Constants.Texts.allCriteria {
