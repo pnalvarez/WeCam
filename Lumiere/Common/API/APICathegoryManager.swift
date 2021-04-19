@@ -40,7 +40,7 @@ final class APICathegoryManager {
         realtimeDB
             .child(Paths.usersPath)
             .child(userId)
-            .child("filtered_cathegories")
+            .child("filtered_ongoing_project_cathegories")
             .observeSingleEvent(of: .value) { snapshot in
                 guard let cathegories = snapshot.value as? [String] else {
                     successCallback(.empty)
@@ -57,7 +57,7 @@ final class APICathegoryManager {
         realtimeDB
             .child(Paths.usersPath)
             .child(userId)
-            .updateChildValues(["filtered_cathegories": cathegories]) { error, ref in
+            .updateChildValues(["filtered_ongoing_project_cathegories": cathegories]) { error, ref in
                 if error != nil {
                     failureCallback(.filterProjects)
                     return

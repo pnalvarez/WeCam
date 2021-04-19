@@ -11,7 +11,7 @@ import WCUIKit
 
 class FilterCathegoriesView: UIView {
 
-    private unowned var closeButton: WCCloseButton
+    private unowned var backButton: WCBackButton
     private unowned var cathegoryListView: WCCathegoryListView
     private unowned var filterButton: WCActionButton
     private unowned var activityView: UIActivityIndicatorView
@@ -24,11 +24,11 @@ class FilterCathegoriesView: UIView {
     }()
     
     init(frame: CGRect,
-         closeButton: WCCloseButton,
+         backButton: WCBackButton,
          cathegoryListView: WCCathegoryListView,
          filterButton: WCActionButton,
          activityView: UIActivityIndicatorView) {
-        self.closeButton = closeButton
+        self.backButton = backButton
         self.cathegoryListView = cathegoryListView
         self.filterButton = filterButton
         self.activityView = activityView
@@ -45,7 +45,7 @@ extension FilterCathegoriesView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
         addSubview(titleLbl)
-        addSubview(closeButton)
+        addSubview(backButton)
         addSubview(cathegoryListView)
         addSubview(filterButton)
         addSubview(activityView)
@@ -57,9 +57,9 @@ extension FilterCathegoriesView: ViewCodeProtocol {
             make.centerX.equalToSuperview()
             make.width.equalTo(88)
         }
-        closeButton.snp.makeConstraints { make in
+        backButton.snp.makeConstraints { make in
             make.centerY.equalTo(titleLbl)
-            make.right.equalToSuperview().inset(38)
+            make.left.equalToSuperview().inset(38)
         }
         cathegoryListView.snp.makeConstraints { make in
             make.top.equalTo(titleLbl.snp.bottom).offset(51)

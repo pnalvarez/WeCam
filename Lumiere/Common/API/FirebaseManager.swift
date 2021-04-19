@@ -274,6 +274,7 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                       "email" : request.email,
                                                       "phone_number": request.phoneNumber,
                                                       "professional_area": request.professionalArea,
+                                                      "filtered_ongoing_project_cathegories": request.interestCathegories,
                                                       "interest_cathegories": request.interestCathegories,
                                                       "connect_notifications": [],
                                                       "project_notifications": [],

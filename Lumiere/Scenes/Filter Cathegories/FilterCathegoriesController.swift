@@ -43,7 +43,7 @@ class FilterCathegoriesController: BaseViewController {
     
     private lazy var mainView: FilterCathegoriesView = {
         let view = FilterCathegoriesView(frame: .zero,
-                                         closeButton: closeButton,
+                                         backButton: backButton,
                                          cathegoryListView: cathegoryListView,
                                          filterButton: filterButton,
                                          activityView: activityView)
