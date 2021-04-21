@@ -25,6 +25,8 @@ class FilterCathegoriesInteractor: FilterCathegoriesDataStore {
     var interestCathegories: FilterCathegories.Info.Model.CathegoryList?
     var selectedCathegories: FilterCathegories.Info.Model.CathegoryList?
     
+    private var initialSelectedCathegories: FilterCathegories.Info.Model.CathegoryList?
+    
     init(worker: FilterCathegoriesWorkerProtocol = FilterCathegoriesWorker(),
          presenter: FilterCathegoriesPresentationLogic) {
         self.worker = worker
@@ -37,7 +39,9 @@ class FilterCathegoriesInteractor: FilterCathegoriesDataStore {
             switch response {
             case .success(let data):
                 guard let cathegories = data.cathegories else { return }
-                self.selectedCathegories = FilterCathegories.Info.Model.CathegoryList(cathegories: cathegories.map({ (MovieStyle(rawValue: $0) ?? .action)}))
+                let parsedCathegories = FilterCathegories.Info.Model.CathegoryList(cathegories: cathegories.map({ (MovieStyle(rawValue: $0) ?? .action)}))
+                self.selectedCathegories = parsedCathegories
+                self.initialSelectedCathegories = parsedCathegories
                 guard let selectedCathegories = self.selectedCathegories else { return }
                 self.presenter.presentSelectedCathegories(selectedCathegories)
             case .error(let error):
@@ -77,6 +81,9 @@ extension FilterCathegoriesInteractor: FilterCathegoriesBusinessLogic {
         } else {
             self.selectedCathegories?.cathegories.append(cathegory)
         }
+        self.initialSelectedCathegories?.cathegories.sort(by: { $0.rawValue > $1.rawValue })
+        self.selectedCathegories?.cathegories.sort(by: { $0.rawValue > $1.rawValue })
+        presenter.presentLayoutFilterButton(self.selectedCathegories != self.initialSelectedCathegories)
     }
     
     func filterCathegories(_ request: FilterCathegories.Request.Filter) {

@@ -15,6 +15,7 @@ protocol FilterCathegoriesDisplayLogic: class {
     func displayAllCathegories(_ viewModel: FilterCathegories.Info.ViewModel.InterestCathegoryList)
     func displaySelectedCathegories(_ viewModel: FilterCathegories.Info.ViewModel.SelectedCathegoryList)
     func displayMainFeed()
+    func displayLayoutFilterButton(_ enabled: Bool)
 }
 
 class FilterCathegoriesController: BaseViewController {
@@ -28,6 +29,7 @@ class FilterCathegoriesController: BaseViewController {
     private lazy var filterButton: WCActionButton = {
         let view = WCActionButton(frame: .zero)
         view.text = FilterCathegories.Constants.Texts.filterButton
+        view.enableState = .disabled
         view.addTarget(self, action: #selector(didTapFilter), for: .touchUpInside)
         return view
     }()
@@ -118,5 +120,13 @@ extension FilterCathegoriesController: FilterCathegoriesDisplayLogic {
     
     func displayMainFeed() {
         router?.routeToMainFeed()
+    }
+    
+    func displayLayoutFilterButton(_ enabled: Bool) {
+        if enabled {
+            filterButton.enableState = .enabled
+        } else {
+            filterButton.enableState = .disabled
+        }
     }
 }

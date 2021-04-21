@@ -14,6 +14,7 @@ protocol FilterCathegoriesPresentationLogic {
     func presentAllCathegories(_ response: FilterCathegories.Info.Model.CathegoryList)
     func presentSelectedCathegories(_ response: FilterCathegories.Info.Model.CathegoryList)
     func presentMainFeed()
+    func presentLayoutFilterButton(_ enabled: Bool)
 }
 
 class FilterCathegoriesPresenter: FilterCathegoriesPresentationLogic {
@@ -55,5 +56,9 @@ class FilterCathegoriesPresenter: FilterCathegoriesPresentationLogic {
     
     func presentMainFeed() {
         viewController.displayMainFeed()
+    }
+    
+    func presentLayoutFilterButton(_ enabled: Bool) {
+        viewController.displayLayoutFilterButton(enabled)
     }
 }

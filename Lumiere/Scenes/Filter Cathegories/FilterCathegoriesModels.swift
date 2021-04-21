@@ -54,7 +54,7 @@ enum FilterCathegories {
         
         enum Model {
             
-            struct CathegoryList {
+            struct CathegoryList: Equatable, Hashable {
                 var cathegories: [MovieStyle]
             }
             
