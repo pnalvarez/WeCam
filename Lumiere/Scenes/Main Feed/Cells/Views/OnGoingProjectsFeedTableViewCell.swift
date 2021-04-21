@@ -46,6 +46,13 @@ class OnGoingProjectsFeedTableViewCell: UITableViewCell {
     
     private var projectsViewModel: MainFeed.Info.ViewModel.UpcomingProjects? {
         didSet {
+            if let isEmpty = projectsViewModel?.projects.isEmpty, isEmpty {
+                collectionView.backgroundView = WCEmptyListView(frame: .zero,
+                                                                layout: .smallest,
+                                                                text: "Sem projetos no seu feed ;(")
+            } else {
+                collectionView.backgroundView = nil
+            }
             reloadCollectionView()
         }
     }
