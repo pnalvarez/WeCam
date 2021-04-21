@@ -380,8 +380,7 @@ struct MainFeed {
         }
         
         struct FetchOnGoingProjects {
-            let fromConnections: Bool
-            let cathegory: String
+            
         }
         
         struct RequestOnGoingProjectsFeed {

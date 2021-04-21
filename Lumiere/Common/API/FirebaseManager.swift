@@ -3347,11 +3347,9 @@ class FirebaseManager: FirebaseManagerProtocol {
         var allProjects = [String]()
         var allProjectsData = [[String : Any]]()
         var currentUserconnections = [String]()
-        var currentUserInterestCathegories = [String]()
+        var currentUserFilteredCathegories = [String]()
         
-        guard let limits = request["limits"] as? Int,
-              let fromConnections = request["fromConnections"] as? Bool,
-              let cathegory = request["cathegory"] as? String else {
+        guard let limits = request["limits"] as? Int else {
             completion(.error(WCError.genericError))
             return
         }
@@ -3362,13 +3360,13 @@ class FirebaseManager: FirebaseManagerProtocol {
         realtimeDB
             .child(Paths.usersPath)
             .child(currentUser)
-            .child("interest_cathegories")
+            .child("filtered_ongoing_project_cathegories")
             .observeSingleEvent(of: .value) { snapshot in
                 guard let cathegories = snapshot.value as? [String] else {
                     completion(.error(WCError.genericError))
                     return
                 }
-                currentUserInterestCathegories = cathegories
+                currentUserFilteredCathegories = cathegories
                 self.realtimeDB
                     .child(Paths.usersPath)
                     .child(currentUser)
@@ -3405,8 +3403,8 @@ class FirebaseManager: FirebaseManagerProtocol {
                                                 return
                                             }
                                             let connectionsCount = participants.filter({currentUserconnections.contains($0)}).count
-                                            let commonCathegoriesCount = cathegories.filter({currentUserInterestCathegories.contains($0)}).count
-                                            projectData["score"] = self.connectionInProjectScore * connectionsCount + self.projectCathegoriesScore *  commonCathegoriesCount
+                                            let commonCathegoriesCount = cathegories.filter({currentUserFilteredCathegories.contains($0)}).count
+                                            projectData["score"] = self.connectionInProjectScore * connectionsCount + self.projectCathegoriesScore * commonCathegoriesCount
                                             allProjectsData.append(projectData)
                                             projectsDetailsDispatchGroup.leave()
                                         }
@@ -3418,30 +3416,30 @@ class FirebaseManager: FirebaseManagerProtocol {
                                         }
                                         return !participants.contains(currentUser)
                                     })
-                                    if fromConnections {
-                                        projectsWithoutCurrentUser = projectsWithoutCurrentUser.filter({
-                                            guard let participants = $0["participants"] as? [String] else {
-                                                return false
-                                            }
-                                            return participants
-                                                .filter({currentUserconnections.contains($0)}).count > 0
-                                        })
-                                    }
+//                                    if fromConnections {
+//                                        projectsWithoutCurrentUser = projectsWithoutCurrentUser.filter({
+//                                            guard let participants = $0["participants"] as? [String] else {
+//                                                return false
+//                                            }
+//                                            return participants
+//                                                .filter({currentUserconnections.contains($0)}).count > 0
+//                                        })
+//                                    }
                                     projectsWithoutCurrentUser = projectsWithoutCurrentUser.filter({
                                         guard let cathegories = $0["cathegories"] as? [String] else {
                                             return false
                                         }
-                                        return currentUserInterestCathegories
+                                        return currentUserFilteredCathegories
                                             .filter({cathegories.contains($0)}).count > 0
                                     })
-                                    if cathegory != "Todos", cathegory != "Conexões" {
-                                        projectsWithoutCurrentUser = projectsWithoutCurrentUser.filter({
-                                            guard let cathegories = $0["cathegories"] as? [String] else {
-                                                return false
-                                            }
-                                            return cathegories.contains(cathegory)
-                                        })
-                                    }
+//                                    if cathegory != "Todos", cathegory != "Conexões" {
+//                                        projectsWithoutCurrentUser = projectsWithoutCurrentUser.filter({
+//                                            guard let cathegories = $0["cathegories"] as? [String] else {
+//                                                return false
+//                                            }
+//                                            return cathegories.contains(cathegory)
+//                                        })
+//                                    }
                                     projectsWithoutCurrentUser = projectsWithoutCurrentUser.sorted(by: {
                                         guard let score0 = $0["score"] as? Int,
                                               let score1 = $1["score"] as? Int else {

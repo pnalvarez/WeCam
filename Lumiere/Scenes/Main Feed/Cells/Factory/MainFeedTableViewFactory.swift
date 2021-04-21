@@ -41,9 +41,7 @@ class MainFeedTableViewFactory: TableViewFactory {
         let section = BaseSection(tableView: tableView)
         section.builders.append(headerBuilder)
         section.builders.append(profileSuggestionsBuilder)
-        if shouldHaveOngoingProjectsFeed() {
-            section.builders.append(ongoingProjectsFeedBuilder)
-        }
+        section.builders.append(ongoingProjectsFeedBuilder)
         return section
     }
     
@@ -74,9 +72,5 @@ class MainFeedTableViewFactory: TableViewFactory {
     
     private func finishedProjectsSection() -> TableViewSectionProtocol {
         return BaseSection(builders: finishedProjectsFeedsBuilder, tableView: tableView)
-    }
-    
-    private func shouldHaveOngoingProjectsFeed() -> Bool {
-        return !(viewModel?.ongoingProjects.projects.isEmpty ?? false)
     }
 }

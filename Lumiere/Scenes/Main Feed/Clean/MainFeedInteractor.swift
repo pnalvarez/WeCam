@@ -68,7 +68,7 @@ extension MainFeedInteractor {
     }
     
     private func fetchOnGoingProjectsFeed(_ request: MainFeed.Request.RequestOnGoingProjectsFeed) {
-        let newRequest = MainFeed.Request.FetchOnGoingProjects(fromConnections: request.item == MainFeed.Constants.Texts.relativeToConnectionsCriteria, cathegory: request.item)
+        let newRequest = MainFeed.Request.FetchOnGoingProjects()
         worker.fetchOnGoingProjects(newRequest) { response in
             switch response {
             case .success(let data):
@@ -95,19 +95,6 @@ extension MainFeedInteractor {
                 }))
                 self.mainFeedData?.interestCathegories = MainFeed.Info.Model.UpcomingOnGoingProjectCriterias(selectedCriteria: self.buildMainFeedCathegory(), criterias: defaultCathegories)
                 self.fetchFinishedProjectsLogicFeeds()
-            case .error(let error):
-                break
-            }
-        }
-    }
-    
-    private func fetchSelectedCathegories() {
-        worker.fetchSelectedCathegories(MainFeed.Request.FetchSelectedCathegories()) { response in
-            switch response {
-            case .success(let data):
-                guard let cathegories = data.cathegories else { return }
-                self.mainFeedData?.selectedCathegories = MainFeed.Info.Model.CathegoryList(cathegories: cathegories.map({ (MovieStyle(rawValue: $0) ?? .action) }))
-//                self.fetchOnGoingProjectsFeed(.i)
             case .error(let error):
                 break
             }
