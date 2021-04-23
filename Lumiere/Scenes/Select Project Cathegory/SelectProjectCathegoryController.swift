@@ -17,12 +17,10 @@ protocol SelectProjectCathegoryDisplayLogic: class {
 
 class SelectProjectCathegoryController: BaseViewController {
     
-    private lazy var advanceButton: UIButton = {
-        let view = UIButton(frame: .zero)
+    private lazy var advanceButton: WCActionButton = {
+        let view = WCActionButton(frame: .zero)
+        view.text = SelectProjectCathegory.Constants.Texts.advanceButton
         view.addTarget(self, action: #selector(didTapAdvance), for: .touchUpInside)
-        view.setTitle(SelectProjectCathegory.Constants.Texts.advanceButton, for: .normal)
-        view.setTitleColor(SelectProjectCathegory.Constants.Colors.advanceButton, for: .normal)
-        view.titleLabel?.font = SelectProjectCathegory.Constants.Fonts.advanceButton
         return view
     }()
     

@@ -12,7 +12,7 @@ import WCUIKit
 class SelectProjectCathegoryView: UIView {
     
     private unowned var closeButton: WCCloseButton
-    private unowned var advanceButton: UIButton
+    private unowned var advanceButton: WCActionButton
     private unowned var collectionView: UICollectionView
     
     private lazy var scrollView: UIScrollView = {
@@ -42,7 +42,7 @@ class SelectProjectCathegoryView: UIView {
     
     init(frame: CGRect,
          closeButton: WCCloseButton,
-         advanceButton: UIButton,
+         advanceButton: WCActionButton,
          collectionView: UICollectionView) {
         self.closeButton = closeButton
         self.advanceButton = advanceButton
@@ -70,7 +70,8 @@ extension SelectProjectCathegoryView: ViewCodeProtocol {
     
     func setupConstraints() {
         scrollView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.top.equalTo(safeAreaLayoutGuide.snp.top)
+            make.left.right.bottom.equalToSuperview()
         }
         mainContainer.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -82,13 +83,14 @@ extension SelectProjectCathegoryView: ViewCodeProtocol {
             make.left.equalToSuperview().inset(28)
         }
         advanceButton.snp.makeConstraints { make in
-            make.centerY.equalTo(closeButton)
-            make.right.equalToSuperview().inset(28)
-            make.height.equalTo(19)
-            make.width.equalTo(59)
+            make.top.equalTo(collectionView.snp.bottom).offset(102)
+            make.centerX.equalToSuperview()
+            make.height.equalTo(30)
+            make.width.equalTo(82)
+            make.bottom.equalToSuperview().inset(24)
         }
         titleLbl.snp.makeConstraints { make in
-            make.top.equalTo(advanceButton)
+            make.top.equalTo(closeButton)
             make.centerX.equalToSuperview()
             make.width.equalTo(87)
         }
@@ -96,7 +98,6 @@ extension SelectProjectCathegoryView: ViewCodeProtocol {
             make.top.equalToSuperview().offset(121)
             make.left.right.equalToSuperview()
             make.height.equalTo(479)
-            make.bottom.equalToSuperview().inset(71)
         }
     }
     
