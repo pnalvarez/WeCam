@@ -200,6 +200,7 @@ class OnGoingProjectDetailsView: UIView {
             changeImageLbl.isHidden = false
             imageButton.isUserInteractionEnabled = true
             editNeedingButton.isHidden = false
+            progressButton.isUserInteractionEnabled = false
         case .simpleParticipating:
             interactionButton.setTitle(OnGoingProjectDetails.Constants.Texts.interactionSimpleParticipating, for: .normal)
             inviteContactsButton.isHidden = true
@@ -207,6 +208,7 @@ class OnGoingProjectDetailsView: UIView {
             changeImageLbl.isHidden = true
             imageButton.isUserInteractionEnabled = false
             editNeedingButton.isHidden = true
+            progressButton.isUserInteractionEnabled = true
         case .sentRequest:
             interactionButton.setTitle(OnGoingProjectDetails.Constants.Texts.interactionSentRequest, for: .normal)
             inviteContactsButton.isHidden = true
@@ -214,6 +216,7 @@ class OnGoingProjectDetailsView: UIView {
             changeImageLbl.isHidden = true
             imageButton.isUserInteractionEnabled = false
             editNeedingButton.isHidden = true
+            progressButton.isUserInteractionEnabled = true
         case .receivedRequest:
             interactionButton.setTitle(OnGoingProjectDetails.Constants.Texts.interactionReceivedRequest, for: .normal)
             inviteContactsButton.isHidden = true
@@ -221,6 +224,7 @@ class OnGoingProjectDetailsView: UIView {
             changeImageLbl.isHidden = true
             imageButton.isUserInteractionEnabled = false
             editNeedingButton.isHidden = true
+            progressButton.isUserInteractionEnabled = true
         case .nothing:
             interactionButton.setTitle(OnGoingProjectDetails.Constants.Texts.interactionNothing, for: .normal)
             inviteContactsButton.isHidden = true
@@ -228,6 +232,7 @@ class OnGoingProjectDetailsView: UIView {
             changeImageLbl.isHidden = true
             imageButton.isUserInteractionEnabled = false
             editNeedingButton.isHidden = true
+            progressButton.isUserInteractionEnabled = true
         }
     }
     

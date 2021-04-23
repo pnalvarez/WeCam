@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import WCUIKit
 
 protocol ProjectProgressDisplayLogic: class {
     func displayEditProjectDetails()
@@ -24,13 +25,8 @@ class ProjectProgressController: BaseViewController {
         return view
     }()
     
-    private lazy var progressSlider: UISlider = {
-        let view = UISlider(frame: .zero)
-        view.setThumbImage(UIImage.imageWithImage(image: UIImage(named: "logo-apenas") ?? UIImage(), scaledToSize: CGSize(width: 80, height: 94)), for: .normal)
-        view.setThumbImage(UIImage.imageWithImage(image: UIImage(named: "logo-apenas") ?? UIImage(), scaledToSize: CGSize(width: 80, height: 94)), for: .highlighted)
-        view.backgroundColor = ProjectProgress.Constants.Colors.progressSliderBackground
-        view.tintColor = ProjectProgress.Constants.Colors.progressSliderBackground
-        view.addTarget(self, action: #selector(didChangeSliderValue), for: .valueChanged)
+    private lazy var progressView: WCProgressView = {
+        let view = WCProgressView(frame: .zero)
         return view
     }()
     
@@ -38,7 +34,7 @@ class ProjectProgressController: BaseViewController {
         return ProjectProgressView(frame: .zero,
                                    backButton: backButton,
                                    advanceButton: advanceButton,
-                                   progressSlider: progressSlider)
+                                   progressView: progressView)
     }()
     
     private var interactor: ProjectProgressBusinessLogic?
@@ -72,30 +68,10 @@ class ProjectProgressController: BaseViewController {
         router.dataStore = interactor
         router.viewController = viewController
     }
-}
-
-extension ProjectProgressController {
-
-    @objc
-    private func didTapAdvanceButton() {
-        let percentage = progressSlider.value / progressSlider.maximumValue
-        interactor?.fetchAdvance(ProjectProgress.Request.Advance(percentage: percentage))
-    }
     
     @objc
-    private func didChangeSliderValue() {
-//        var newImage = progressSlider.currentThumbImage?.rotate(radians: progressSlider.value * 2 * Float.pi / progressSlider.maximumValue)
-//        let percentage = progressSlider.value / progressSlider.maximumValue
-//        if percentage >= 0.8 {
-//            newImage = newImage?.alpha(1.0)
-//        } else if percentage >= 0.6 {
-//            newImage = newImage?.alpha(0.8)
-//        } else if percentage >= 0.4 {
-//            newImage = newImage?.alpha(0.6)
-//        } else {
-//            newImage = newImage?.alpha(0.4)
-//        }
-//        progressSlider.setThumbImage(newImage, for: .normal)
+    private func didTapAdvanceButton() {
+        interactor?.fetchAdvance(ProjectProgress.Request.Advance(percentage: progressView.percentage))
     }
 }
 

@@ -39,21 +39,8 @@ class EditProgressView: UIView {
         return view
     }()
     
-    private lazy var progressSlider: UISlider = {
-        let view = UISlider(frame: .zero)
-        view.addTarget(self, action: #selector(progressDidChange), for: .valueChanged)
-        view.setThumbImage(UIImage.imageWithImage(image: UIImage(named: "logo-apenas") ?? UIImage(), scaledToSize: CGSize(width: 57, height: 67)), for: .normal)
-        view.setThumbImage(UIImage.imageWithImage(image: UIImage(named: "logo-apenas") ?? UIImage(), scaledToSize: CGSize(width: 57, height: 67)), for: .highlighted)
-        view.backgroundColor = UIColor(rgb: 0xe0e0e0)
-        view.tintColor = UIColor(rgb: 0xe0e0e0)
-        return view
-    }()
-    
-    private lazy var percentageLbl: UILabel = {
-        let view = UILabel(frame: .zero)
-        view.font = ThemeFonts.RobotoBold(16).rawValue
-        view.textColor = .black
-        view.textAlignment = .center
+    private lazy var progressView: WCProgressView = {
+        let view = WCProgressView(frame: .zero)
         return view
     }()
     
@@ -72,8 +59,7 @@ class EditProgressView: UIView {
     
     var progress: Float {
         didSet {
-            progressSlider.setValue(progress/100, animated: false)
-            percentageLbl.text = String(format: "%.0f", progress) + "%"
+            progressView.percentage = progress/100
         }
     }
     
@@ -100,12 +86,7 @@ extension EditProgressView {
     
     @objc
     private func didTapFinish() {
-        delegate?.didConfirm(progress: progressSlider.value)
-    }
-    
-    @objc
-    private func progressDidChange() {
-        percentageLbl.text = String(format: "%.0f", progressSlider.value * 100) + "%"
+        delegate?.didConfirm(progress: progressView.percentage)
     }
 }
 
@@ -114,9 +95,8 @@ extension EditProgressView: ViewCodeProtocol {
     func buildViewHierarchy() {
         addSubview(notchView)
         addSubview(mainLbl)
-        addSubview(progressSlider)
+        addSubview(progressView)
         addSubview(closeButton)
-        addSubview(percentageLbl)
         addSubview(finishButton)
     }
     
@@ -136,18 +116,13 @@ extension EditProgressView: ViewCodeProtocol {
             make.centerX.equalToSuperview()
             make.width.equalTo(300)
         }
-        progressSlider.snp.makeConstraints { make in
-            make.top.equalTo(mainLbl).offset(120)
-            make.right.left.equalToSuperview().inset(50)
-            make.height.equalTo(6)
-        }
-        percentageLbl.snp.makeConstraints { make in
-            make.top.equalTo(progressSlider.snp.bottom).offset(38)
-            make.centerX.equalTo(progressSlider)
-            make.width.equalTo(70)
+        progressView.snp.makeConstraints { make in
+            make.top.equalTo(mainLbl).offset(64)
+            make.right.left.equalToSuperview()
+            make.height.equalTo(96)
         }
         finishButton.snp.makeConstraints { make in
-            make.top.equalTo(percentageLbl.snp.bottom).offset(60)
+            make.top.equalTo(progressView.snp.bottom).offset(82)
             make.centerX.equalToSuperview()
             make.height.equalTo(30)
             make.width.equalTo(94)
@@ -156,6 +131,5 @@ extension EditProgressView: ViewCodeProtocol {
     
     func configureViews() {
         backgroundColor = .white
-        percentageLbl.text = "\(progress)%"
     }
 }

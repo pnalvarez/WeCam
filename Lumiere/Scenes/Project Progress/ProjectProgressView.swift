@@ -13,7 +13,7 @@ class ProjectProgressView: UIView {
     
     private unowned var backButton: UIButton
     private unowned var advanceButton: UIButton
-    private unowned var progressSlider: UISlider
+    private unowned var progressView: WCProgressView
     
     private lazy var mainLbl: UILabel = {
         let view = UILabel(frame: .zero)
@@ -45,10 +45,10 @@ class ProjectProgressView: UIView {
     init(frame: CGRect,
          backButton: UIButton,
          advanceButton: UIButton,
-         progressSlider: UISlider) {
+         progressView: WCProgressView) {
         self.backButton = backButton
         self.advanceButton = advanceButton
-        self.progressSlider = progressSlider
+        self.progressView = progressView
         super.init(frame: frame)
         applyViewCode()
     }
@@ -64,9 +64,7 @@ extension ProjectProgressView: ViewCodeProtocol {
         addSubview(backButton)
         addSubview(advanceButton)
         addSubview(mainLbl)
-        addSubview(progressSlider)
-        addSubview(zeroPercentLbl)
-        addSubview(hundredPercentLbl)
+        addSubview(progressView)
     }
     
     func setupConstraints() {
@@ -85,21 +83,10 @@ extension ProjectProgressView: ViewCodeProtocol {
             make.top.equalTo(advanceButton.snp.bottom).offset(47)
             make.centerX.left.right.equalToSuperview()
         }
-        progressSlider.snp.makeConstraints { make in
+        progressView.snp.makeConstraints { make in
             make.top.equalTo(mainLbl.snp.bottom).offset(164)
-            make.left.equalToSuperview().inset(57)
-            make.right.equalToSuperview().inset(52)
-            make.height.equalTo(11)
-        }
-        zeroPercentLbl.snp.makeConstraints { make in
-            make.top.equalTo(progressSlider.snp.bottom).offset(83)
-            make.left.equalToSuperview().inset(57)
-            make.width.equalTo(50)
-        }
-        hundredPercentLbl.snp.makeConstraints { make in
-            make.top.equalTo(progressSlider.snp.bottom).offset(83)
-            make.right.equalToSuperview().inset(52)
-            make.width.equalTo(50)
+            make.left.right.equalToSuperview()
+            make.height.equalTo(96)
         }
     }
     
