@@ -19,7 +19,7 @@ class AccountRecoveryView: UIView {
     private unowned var closeButton: WCCloseButton
     private unowned var messageLbl: UILabel
     private unowned var searchTextField: WCSearchTextField
-    private unowned var userDisplayView: UserDisplayView
+    private unowned var userDisplayView: WCUserDisplayView
     private unowned var sendEmailButton: WCActionButton
     private unowned var activityView: UIActivityIndicatorView
     
@@ -27,7 +27,7 @@ class AccountRecoveryView: UIView {
          closeButton: WCCloseButton,
          messageLbl: UILabel,
          searchTextField: WCSearchTextField,
-         userDisplayView: UserDisplayView,
+         userDisplayView: WCUserDisplayView,
          sendEmailButton: WCActionButton,
          activityView: UIActivityIndicatorView) {
         self.closeButton = closeButton
@@ -81,7 +81,6 @@ extension AccountRecoveryView: ViewCodeProtocol {
             make.top.equalTo(searchTextField.snp.bottom).offset(93)
             make.centerX.equalToSuperview()
             make.width.equalTo(274)
-            make.height.equalTo(98)
         }
         sendEmailButton.snp.makeConstraints { make in
             make.top.equalTo(searchTextField.snp.bottom).offset(387)

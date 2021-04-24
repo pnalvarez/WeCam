@@ -73,7 +73,6 @@ extension ProfileSuggestionsView: ViewCodeProtocol {
         backButton.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(7)
             make.left.equalToSuperview().inset(26)
-            make.width.height.equalTo(31)
         }
         mainHeader.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(7)

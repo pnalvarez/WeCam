@@ -28,8 +28,8 @@ class EditProjectDetailsController: BaseViewController {
         return view
     }()
     
-    private lazy var projectTitleTextField: ProjectDataTextField = {
-        let view = ProjectDataTextField(frame: .zero)
+    private lazy var projectTitleTextField: WCProjectDataTextField = {
+        let view = WCProjectDataTextField(frame: .zero)
         view.delegate = self
         return view
     }()
@@ -44,14 +44,14 @@ class EditProjectDetailsController: BaseViewController {
         return view
     }()
     
-    private lazy var sinopsisTextView: ProjectDataTextView = {
-        let view = ProjectDataTextView(frame: .zero)
+    private lazy var sinopsisTextView: WCProjectDataTextView = {
+        let view = WCProjectDataTextView(frame: .zero, textContainer: nil, layout: .big)
         view.delegate = self
         return view
     }()
     
-    private lazy var needTextView: ProjectDataTextView = {
-        let view = ProjectDataTextView(frame: .zero)
+    private lazy var needTextView: WCProjectDataTextView = {
+        let view = WCProjectDataTextView(frame: .zero, textContainer: nil)
         return view
     }()
     
@@ -136,7 +136,7 @@ class EditProjectDetailsController: BaseViewController {
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if let inputTextField = textField as? ProjectDataTextField {
+        if let inputTextField = textField as? WCProjectDataTextField {
             inputTextField.textFieldState = .normal
             return true
         }
@@ -167,7 +167,7 @@ extension EditProjectDetailsController {
 extension EditProjectDetailsController: UITextViewDelegate {
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if let inputTextView = textView as? ProjectDataTextView {
+        if let inputTextView = textView as? WCProjectDataTextView {
             inputTextView.textViewState = .normal
             return true
         }

@@ -11,8 +11,9 @@ import WCUIKit
 
 class ProjectProgressView: UIView {
     
-    private unowned var backButton: UIButton
-    private unowned var advanceButton: UIButton
+    private unowned var backButton: WCBackButton
+    private unowned var closeButton: WCCloseButton
+    private unowned var advanceButton: WCActionButton
     private unowned var progressView: WCProgressView
     
     private lazy var mainLbl: UILabel = {
@@ -43,10 +44,12 @@ class ProjectProgressView: UIView {
     }()
     
     init(frame: CGRect,
-         backButton: UIButton,
-         advanceButton: UIButton,
+         backButton: WCBackButton,
+         closeButton: WCCloseButton,
+         advanceButton: WCActionButton,
          progressView: WCProgressView) {
         self.backButton = backButton
+        self.closeButton = closeButton
         self.advanceButton = advanceButton
         self.progressView = progressView
         super.init(frame: frame)
@@ -62,6 +65,7 @@ extension ProjectProgressView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
         addSubview(backButton)
+        addSubview(closeButton)
         addSubview(advanceButton)
         addSubview(mainLbl)
         addSubview(progressView)
@@ -71,16 +75,19 @@ extension ProjectProgressView: ViewCodeProtocol {
         backButton.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(12)
             make.left.equalToSuperview().inset(28)
-            make.height.width.equalTo(31)
+        }
+        closeButton.snp.makeConstraints { make in
+            make.top.equalTo(backButton)
+            make.right.equalToSuperview().inset(28)
         }
         advanceButton.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(12)
-            make.right.equalToSuperview().inset(28)
-            make.height.equalTo(19)
-            make.width.equalTo(59)
+            make.top.equalTo(progressView.snp.bottom).offset(102)
+            make.centerX.equalToSuperview()
+            make.height.equalTo(30)
+            make.width.equalTo(82)
         }
         mainLbl.snp.makeConstraints { make in
-            make.top.equalTo(advanceButton.snp.bottom).offset(47)
+            make.top.equalTo(backButton.snp.bottom).offset(47)
             make.centerX.left.right.equalToSuperview()
         }
         progressView.snp.makeConstraints { make in

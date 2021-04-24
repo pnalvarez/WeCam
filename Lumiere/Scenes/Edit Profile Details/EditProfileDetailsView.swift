@@ -157,8 +157,6 @@ extension EditProfileDetailsView: ViewCodeProtocol {
         backButton.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(34)
             make.left.equalToSuperview().inset(31)
-            make.height.equalTo(31)
-            make.width.equalTo(31)
         }
         titleLbl.snp.makeConstraints { make in
             make.top.equalTo(backButton)

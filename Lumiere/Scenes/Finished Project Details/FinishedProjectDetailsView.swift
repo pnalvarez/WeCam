@@ -176,7 +176,6 @@ extension FinishedProjectDetailsView: ViewCodeProtocol {
         }
         backButton.snp.makeConstraints { make in
             make.top.left.equalToSuperview().inset(28)
-            make.height.width.equalTo(31)
         }
         photoImageView.snp.makeConstraints { make in
             make.top.equalTo(closeButton.snp.bottom).offset(24)

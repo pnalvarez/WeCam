@@ -65,7 +65,6 @@ extension RecentSearchView: ViewCodeProtocol {
         backButton.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(7)
             make.left.equalToSuperview().inset(28)
-            make.height.width.equalTo(31)
         }
         headerView.snp.makeConstraints { make in
             make.top.equalTo(backButton)

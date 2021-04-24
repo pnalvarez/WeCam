@@ -453,9 +453,6 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
             make.height.equalTo(14)
             make.width.equalTo(46)
         }
-        cancelEditingNeedingButton.snp.makeConstraints { make in
-            make.height.width.equalTo(14)
-        }
         inviteContactsButton.snp.makeConstraints { make in
             make.top.equalTo(moreInfoButton.snp.bottom).offset(10)
             make.left.equalTo(teamFixedLbl)

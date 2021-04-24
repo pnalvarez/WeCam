@@ -137,7 +137,6 @@ extension InsertVideoView: ViewCodeProtocol {
         backButton.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(28)
             make.left.equalToSuperview().inset(28)
-            make.height.width.equalTo(38)
         }
         insertUrlLbl.snp.makeConstraints { make in
             make.top.equalTo(backButton.snp.bottom).offset(20)

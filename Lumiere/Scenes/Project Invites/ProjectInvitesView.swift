@@ -99,7 +99,6 @@ extension ProjectInvitesView: ViewCodeProtocol {
         backButton.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(28)
             make.left.equalToSuperview().inset(30)
-            make.height.width.equalTo(31)
         }
         projectTitleLbl.snp.makeConstraints { make in
             make.centerY.equalTo(backButton)

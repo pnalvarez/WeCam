@@ -16,12 +16,10 @@ protocol ProjectProgressDisplayLogic: class {
 
 class ProjectProgressController: BaseViewController {
     
-    private lazy var advanceButton: UIButton = {
-        let view = UIButton(frame: .zero)
-        view.setTitle(ProjectProgress.Constants.Texts.advanceButton, for: .normal)
-        view.setTitleColor(ProjectProgress.Constants.Colors.advanceButton, for: .normal)
+    private lazy var advanceButton: WCActionButton = {
+        let view = WCActionButton(frame: .zero)
+        view.text = ProjectProgress.Constants.Texts.advanceButton
         view.addTarget(self, action: #selector(didTapAdvanceButton), for: .touchUpInside)
-        view.titleLabel?.font = ProjectProgress.Constants.Fonts.advanceButton
         return view
     }()
     
@@ -33,6 +31,7 @@ class ProjectProgressController: BaseViewController {
     private lazy var mainView: ProjectProgressView = {
         return ProjectProgressView(frame: .zero,
                                    backButton: backButton,
+                                   closeButton: closeButton,
                                    advanceButton: advanceButton,
                                    progressView: progressView)
     }()

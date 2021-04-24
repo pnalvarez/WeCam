@@ -205,8 +205,6 @@ extension ProfileDetailsView: ViewCodeProtocol {
         backButton.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(28)
             make.left.equalToSuperview().inset(28)
-            make.height.equalTo(30.44)
-            make.width.equalTo(32)
         }
         photoImageView.snp.makeConstraints { make in
             make.top.equalTo(backButton.snp.bottom).offset(25)

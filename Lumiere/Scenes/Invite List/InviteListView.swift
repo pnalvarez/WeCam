@@ -61,7 +61,6 @@ extension InviteListView: ViewCodeProtocol {
         backButton.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(28)
             make.left.equalToSuperview().inset(31)
-            make.size.equalTo(31)
         }
         inviteLbl.snp.makeConstraints { make in
             make.top.equalTo(backButton.snp.bottom).offset(17)

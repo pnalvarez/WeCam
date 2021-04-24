@@ -80,7 +80,7 @@ extension SelectProjectCathegoryView: ViewCodeProtocol {
         }
         closeButton.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(28)
-            make.left.equalToSuperview().inset(28)
+            make.right.equalToSuperview().inset(28)
         }
         advanceButton.snp.makeConstraints { make in
             make.top.equalTo(collectionView.snp.bottom).offset(102)

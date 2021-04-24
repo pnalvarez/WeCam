@@ -57,8 +57,6 @@ extension ConnectionsListView: ViewCodeProtocol {
         backButton.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide.snp.top).inset(28)
             make.left.equalToSuperview().inset(46)
-            make.height.equalTo(31)
-            make.width.equalTo(32)
         }
         nameHeaderLbl.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide.snp.top).inset(44)

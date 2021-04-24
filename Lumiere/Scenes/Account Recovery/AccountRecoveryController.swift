@@ -33,8 +33,8 @@ class AccountRecoveryController: BaseViewController {
         return view
     }()
     
-    private lazy var accountUserDisplayView: UserDisplayView = {
-        let view = UserDisplayView(frame: .zero, layout: .large)
+    private lazy var accountUserDisplayView: WCUserDisplayView = {
+        let view = WCUserDisplayView(frame: .zero, layout: .large)
         view.isHidden = true
         return view
     }()

@@ -14,9 +14,9 @@ class EditProjectDetailsView: UIView {
     private unowned var activityView: UIActivityIndicatorView
     private unowned var inviteFriendsButton: UIButton
     private unowned var backButton: WCBackButton
-    private unowned var projectTitleTextField: ProjectDataTextField
-    private unowned var sinopsisTextView: ProjectDataTextView
-    private unowned var needTextView: ProjectDataTextView
+    private unowned var projectTitleTextField: WCProjectDataTextField
+    private unowned var sinopsisTextView: WCProjectDataTextView
+    private unowned var needTextView: WCProjectDataTextView
     private unowned var publishButton: UIButton
     private unowned var loadingView: WCLoadingView
     
@@ -90,12 +90,12 @@ class EditProjectDetailsView: UIView {
         return view
     }()
     
-    private lazy var invitationViews: [UserDisplayView] = .empty
+    private lazy var invitationViews: [WCUserDisplayView] = .empty
     
     private var viewModel: EditProjectDetails.Info.ViewModel.InvitedUsers? {
         didSet {
             viewModel?.users.forEach({
-                let invitationView = UserDisplayView(frame: .zero,
+                let invitationView = WCUserDisplayView(frame: .zero,
                                                      name: $0.name,
                                                      ocupation: $0.ocupation,
                                                      photo: $0.image)
@@ -109,9 +109,9 @@ class EditProjectDetailsView: UIView {
          activityView: UIActivityIndicatorView,
          inviteFriendsButton: UIButton,
          backButton: WCBackButton,
-         projectTitleTextField: ProjectDataTextField,
-         sinopsisTextView: ProjectDataTextView,
-         needTextView: ProjectDataTextView,
+         projectTitleTextField: WCProjectDataTextField,
+         sinopsisTextView: WCProjectDataTextView,
+         needTextView: WCProjectDataTextView,
          publishButton: UIButton,
          loadingView: WCLoadingView) {
         self.activityView = activityView
@@ -183,7 +183,7 @@ extension EditProjectDetailsView {
     
     func updateAllTextFields() {
         for view in allSubviews {
-            if let textField = view as? ProjectDataTextField {
+            if let textField = view as? WCProjectDataTextField {
                 if let isEmpty = textField.text?.isEmpty {
                     if isEmpty {
                         textField.textFieldState = .error
@@ -192,7 +192,7 @@ extension EditProjectDetailsView {
                     }
                 }
             }
-            if let textView = view as? ProjectDataTextView, view != needTextView {
+            if let textView = view as? WCProjectDataTextView, view != needTextView {
                 if let isEmpty = textView.text?.isEmpty {
                     if isEmpty {
                         textView.textViewState = .error
@@ -238,7 +238,6 @@ extension EditProjectDetailsView: ViewCodeProtocol {
         backButton.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(28)
             make.left.equalToSuperview().inset(28)
-            make.height.width.equalTo(31)
         }
         projectTitleFixedLbl.snp.makeConstraints { make in
             make.top.equalTo(backButton.snp.bottom).offset(1)
@@ -259,7 +258,6 @@ extension EditProjectDetailsView: ViewCodeProtocol {
             make.top.equalTo(sinopsisFixedLbl.snp.bottom).offset(5)
             make.left.equalTo(sinopsisFixedLbl)
             make.right.equalToSuperview().inset(48)
-            make.height.equalTo(150)
         }
         needLbl.snp.makeConstraints { make in
             make.top.equalTo(sinopsisTextView.snp.bottom).offset(20)
@@ -270,7 +268,6 @@ extension EditProjectDetailsView: ViewCodeProtocol {
             make.top.equalTo(needLbl.snp.bottom)
             make.left.equalTo(needLbl)
             make.right.equalToSuperview().inset(48)
-            make.height.equalTo(59)
         }
         teamFixedLbl.snp.makeConstraints { make in
             make.top.equalTo(needTextView.snp.bottom).offset(20)

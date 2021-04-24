@@ -90,7 +90,6 @@ extension InviteProfileToProjectsView: ViewCodeProtocol {
         backButton.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide.snp.top).inset(28)
             make.left.equalToSuperview().inset(26)
-            make.height.width.equalTo(31)
         }
         mainLbl.snp.makeConstraints { make in
             make.centerY.equalTo(backButton)
