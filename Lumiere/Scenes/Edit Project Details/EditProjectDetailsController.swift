@@ -78,6 +78,7 @@ class EditProjectDetailsController: BaseViewController {
                                           activityView: activityView,
                                           inviteFriendsButton: inviteFriendsButton,
                                           backButton: backButton,
+                                          closeButton: closeButton,
                                           projectTitleTextField: projectTitleTextField,
                                           sinopsisTextView: sinopsisTextView,
                                           needTextView: needTextView,

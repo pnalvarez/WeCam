@@ -14,6 +14,7 @@ class EditProjectDetailsView: UIView {
     private unowned var activityView: UIActivityIndicatorView
     private unowned var inviteFriendsButton: UIButton
     private unowned var backButton: WCBackButton
+    private unowned var closeButton: WCCloseButton
     private unowned var projectTitleTextField: WCProjectDataTextField
     private unowned var sinopsisTextView: WCProjectDataTextView
     private unowned var needTextView: WCProjectDataTextView
@@ -109,6 +110,7 @@ class EditProjectDetailsView: UIView {
          activityView: UIActivityIndicatorView,
          inviteFriendsButton: UIButton,
          backButton: WCBackButton,
+         closeButton: WCCloseButton,
          projectTitleTextField: WCProjectDataTextField,
          sinopsisTextView: WCProjectDataTextView,
          needTextView: WCProjectDataTextView,
@@ -117,6 +119,7 @@ class EditProjectDetailsView: UIView {
         self.activityView = activityView
         self.inviteFriendsButton = inviteFriendsButton
         self.backButton = backButton
+        self.closeButton = closeButton
         self.projectTitleTextField = projectTitleTextField
         self.sinopsisTextView = sinopsisTextView
         self.needTextView = needTextView
@@ -209,6 +212,7 @@ extension EditProjectDetailsView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
         mainContainer.addSubview(backButton)
+        mainContainer.addSubview(closeButton)
         mainContainer.addSubview(projectTitleFixedLbl)
         mainContainer.addSubview(projectTitleTextField)
         mainContainer.addSubview(teamFixedLbl)
@@ -238,6 +242,10 @@ extension EditProjectDetailsView: ViewCodeProtocol {
         backButton.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(28)
             make.left.equalToSuperview().inset(28)
+        }
+        closeButton.snp.makeConstraints { make in
+            make.top.equalTo(backButton)
+            make.right.equalToSuperview().inset(28)
         }
         projectTitleFixedLbl.snp.makeConstraints { make in
             make.top.equalTo(backButton.snp.bottom).offset(1)
