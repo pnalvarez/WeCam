@@ -12,9 +12,9 @@ import WCUIKit
 class SignInView: UIView {
     
     private unowned var loadingView: WCLoadingView
-    private unowned var emailTextField: UITextField
-    private unowned var passwordTextField: UITextField
-    private unowned var enterButton: UIButton
+    private unowned var emailTextField: WCInputTextField
+    private unowned var passwordTextField: WCInputTextField
+    private unowned var enterButton: WCActionButton
     private unowned var forgetButton: UIButton
     private unowned var signUpButton: UIButton
     
@@ -28,9 +28,9 @@ class SignInView: UIView {
     
     init(frame: CGRect,
          loadingView: WCLoadingView,
-         emailTextField: UITextField,
-         passwordTextField: UITextField,
-         enterButton: UIButton,
+         emailTextField: WCInputTextField,
+         passwordTextField: WCInputTextField,
+         enterButton: WCActionButton,
          forgetButton: UIButton,
          signUpButton: UIButton) {
         self.loadingView = loadingView
@@ -75,7 +75,7 @@ extension SignInView: ViewCodeProtocol {
             make.width.equalTo(104)
         }
         emailTextField.snp.makeConstraints { make in
-            make.top.equalTo(bottomLogoImageView.snp.bottom).offset(2)
+            make.top.equalTo(bottomLogoImageView.snp.bottom).offset(12)
             make.height.equalTo(29)
             make.left.right.equalToSuperview().inset(40)
         }
@@ -114,12 +114,6 @@ extension SignInView: ViewCodeProtocol {
         topLogoImageView.image = UIImage(named: SignIn.Constants.Images.topLogo)
         bottomLogoImageView.contentMode = .scaleAspectFit
         bottomLogoImageView.image = UIImage(named: SignIn.Constants.Images.bottomLogo)
-        
-        enterButton.titleLabel?.font = SignIn.Constants.Fonts.enterButton
-        enterButton.backgroundColor = SignIn.Constants.Colors.enterButtonBackground
-        enterButton.setTitle(SignIn.Constants.Texts.enterButton.uppercased(), for: .normal)
-        enterButton.titleLabel?.textColor = SignIn.Constants.Colors.enterButtonTextColor
-        enterButton.layer.cornerRadius = 4
         
         signUpButton.setAttributedTitle(NSAttributedString(string: SignIn.Constants.Texts.signUp, attributes: [NSAttributedString.Key.foregroundColor : UIColor(rgb: 0x707070), NSAttributedString.Key.font: SignIn.Constants.Fonts.forgetButton, NSAttributedString.Key.underlineStyle : NSUnderlineStyle.single.rawValue]), for: .normal)
     }

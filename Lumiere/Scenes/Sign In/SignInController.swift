@@ -40,8 +40,9 @@ class SignInController: BaseViewController {
         return view
     }()
     
-    private lazy var enterButton: UIButton = {
-        let view = UIButton(frame: .zero)
+    private lazy var enterButton: WCActionButton = {
+        let view = WCActionButton(frame: .zero)
+        view.text = SignIn.Constants.Texts.enterButton
         view.addTarget(self, action: #selector(enterButtonTapped), for: .touchUpInside)
         return view
     }()
