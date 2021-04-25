@@ -82,6 +82,8 @@ class ProjectInvitesController: BaseViewController {
         didSet {
             DispatchQueue.main.async {
                 self.tableView.reloadData()
+                self.tableView.checkEmptyState(text: ProjectInvites.Constants.Texts.emptyList,
+                                          layout: .large)
             }
         }
     }
@@ -192,6 +194,9 @@ extension ProjectInvitesController: ProjectInvitesDisplayLogic {
     
     func displayUsers(_ viewModel: ProjectInvites.Info.ViewModel.UpcomingUsers) {
         self.viewModel = viewModel
+        if let isEmpty = self.viewModel?.users.isEmpty, isEmpty {
+            mainView.hideHeaderElements()
+        }
     }
     
     func displayProjectInfo(_ viewModel: ProjectInvites.Info.ViewModel.Project) {

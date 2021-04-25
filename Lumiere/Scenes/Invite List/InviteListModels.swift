@@ -36,6 +36,7 @@ struct InviteList {
         
         struct Texts {
             static let inviteLbl = "Convidar amigos"
+            static let emptyList = "Você ainda não possui amigos para convidar :("
         }
         
         struct Images {

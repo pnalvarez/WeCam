@@ -78,6 +78,11 @@ class ProjectInvitesView: UIView {
             self.layoutIfNeeded()
         })
     }
+    
+    func hideHeaderElements() {
+        projectTitleLbl.isHidden = true
+        searchTextField.isHidden = true
+    }
 }
 
 extension ProjectInvitesView: ViewCodeProtocol {

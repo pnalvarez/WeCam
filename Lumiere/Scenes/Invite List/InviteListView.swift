@@ -44,6 +44,11 @@ class InviteListView: UIView {
     required init?(coder: NSCoder) {
         fatalError("Error")
     }
+    
+    func hideHeaderElements() {
+        inviteLbl.isHidden = true
+        searchTextField.isHidden = true
+    }
 }
 
 extension InviteListView: ViewCodeProtocol {

@@ -37,6 +37,7 @@ struct ProjectInvites {
             static let removeUserAlert = "Deseja remover este usuário do projeto?"
             static let removeInvite = "Deseja desfazer o convite que fez a este usuário?"
             static let acceptUserAlert = "Aceita este usuário como membro do projeto?"
+            static let emptyList = "Você ainda não tem nenhum amigo para convidar :("
         }
         
         struct Images {

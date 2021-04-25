@@ -71,6 +71,8 @@ class InviteListController: BaseViewController {
         didSet {
             DispatchQueue.main.async {
                 self.tableView.reloadData()
+                self.tableView.checkEmptyState(text: InviteList.Constants.Texts.emptyList,
+                                               layout: .large)
             }
         }
     }
@@ -152,6 +154,9 @@ extension InviteListController: InviteListDisplayLogic {
     
     func displayConnections(_ viewModel: InviteList.Info.ViewModel.Connections) {
         self.connectionsViewModel = viewModel
+        if let isEmpty = self.connectionsViewModel?.users.isEmpty, isEmpty {
+            mainView.hideHeaderElements()
+        }
         indicatedView = loadingView
     }
     
