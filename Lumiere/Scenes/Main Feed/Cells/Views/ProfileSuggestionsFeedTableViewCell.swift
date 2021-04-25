@@ -21,7 +21,7 @@ class ProfileSuggestionsFeedTableViewCell: UITableViewCell {
         view.text = MainFeed.Constants.Texts.profileSuggestionsHeaderLbl
         view.textColor = MainFeed.Constants.Colors.profileSuggestionsHeaderLbl
         view.font = MainFeed.Constants.Fonts.profileSuggestionsHeaderLbl
-        view.textAlignment = .center
+        view.textAlignment = .left
         return view
     }()
     
@@ -37,12 +37,10 @@ class ProfileSuggestionsFeedTableViewCell: UITableViewCell {
         return view
     }()
     
-    private lazy var seeAllButton: UIButton = {
-        let view = UIButton(frame: .zero)
+    private lazy var seeAllButton: WCActionButton = {
+        let view = WCActionButton(frame: .zero)
         view.addTarget(self, action: #selector(didTapSeeAll(_:)), for: .touchUpInside)
-        view.setTitle(MainFeed.Constants.Texts.profileSuggestionsSeeAllButton, for: .normal)
-        view.setTitleColor(MainFeed.Constants.Colors.profileSuggestionsSeeAllButton, for: .normal)
-        view.titleLabel?.font = MainFeed.Constants.Fonts.profileSuggestionsSeeAllButton
+        view.text = MainFeed.Constants.Texts.profileSuggestionsSeeAllButton
         return view
     }()
     
@@ -149,7 +147,7 @@ extension ProfileSuggestionsFeedTableViewCell: ViewCodeProtocol {
         headerLbl.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(5)
             make.left.equalToSuperview().inset(22)
-            make.width.equalTo(150)
+            make.width.equalTo(180)
         }
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(headerLbl.snp.bottom).offset(12)
@@ -157,10 +155,10 @@ extension ProfileSuggestionsFeedTableViewCell: ViewCodeProtocol {
             make.height.equalTo(100)
         }
         seeAllButton.snp.makeConstraints { make in
-            make.right.equalToSuperview().inset(18)
-            make.top.equalTo(collectionView.snp.bottom).offset(10)
-            make.height.equalTo(16)
-            make.width.equalTo(70)
+            make.right.equalToSuperview().inset(24)
+            make.left.equalTo(headerLbl.snp.right).offset(12)
+            make.height.equalTo(28)
+            make.centerY.equalTo(headerLbl)
         }
     }
     

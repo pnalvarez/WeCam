@@ -47,7 +47,7 @@ struct MainFeed {
             static let genericError = "Ocorreu um erro genérico"
             static let emptySearchErrorTitle = "Busca vazia"
             static let emptySearchErrorMessage = "Insira alguma palavra a procurar usuários ou projetos"
-            static let filterCathegories = "Filtrar categorias"
+            static let filterCathegories = "Filtrar"
         }
         
         struct Images {
@@ -68,7 +68,7 @@ struct MainFeed {
         struct Dimensions {
             
             struct Heighs {
-                static let headerCell: CGFloat = 85
+                static let headerCell: CGFloat = 102
                 static let recentSearchCell: CGFloat = 34
                 static let profileSuggestionsCell: CGFloat = 190
                 static let ongoingProjectsFeedCell: CGFloat = 150

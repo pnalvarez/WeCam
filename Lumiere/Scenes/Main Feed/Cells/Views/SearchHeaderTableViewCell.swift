@@ -49,14 +49,14 @@ extension SearchHeaderTableViewCell: ViewCodeProtocol {
     
     func setupConstraints() {
         lumiereHeader.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
+            make.top.equalToSuperview().inset(24)
             make.centerX.equalToSuperview()
             make.width.equalTo(100)
             make.height.equalTo(36)
         }
         searchButton.snp.makeConstraints { make in
             make.top.equalTo(lumiereHeader)
-            make.left.equalTo(lumiereHeader.snp.right).offset(12)
+            make.right.equalToSuperview().inset(24)
             make.width.height.equalTo(30)
         }
     }
