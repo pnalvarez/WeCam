@@ -42,6 +42,7 @@
 		3F0CAA6624CCE41D005E2558 /* SignInRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0CAA6524CCE41D005E2558 /* SignInRequest.swift */; };
 		3F1158AF24C3F0EC00075C73 /* TeamMemberViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1158AE24C3F0EC00075C73 /* TeamMemberViewModel.swift */; };
 		3F339B27261A7BA900360D96 /* APINotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F339B26261A7BA900360D96 /* APINotificationManager.swift */; };
+		3F3AD77A263BACD200509FED /* BaseTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3AD779263BACD200509FED /* BaseTableViewController.swift */; };
 		3F40A60E24EA0D5700261161 /* SelectProjectImageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A60D24EA0D5700261161 /* SelectProjectImageController.swift */; };
 		3F40A61024EA0D9B00261161 /* SelectProjectImageRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A60F24EA0D9B00261161 /* SelectProjectImageRouter.swift */; };
 		3F40A61224EA0E4B00261161 /* SelectProjectImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A61124EA0E4B00261161 /* SelectProjectImageView.swift */; };
@@ -379,6 +380,7 @@
 		3F0CAA6524CCE41D005E2558 /* SignInRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInRequest.swift; sourceTree = "<group>"; };
 		3F1158AE24C3F0EC00075C73 /* TeamMemberViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamMemberViewModel.swift; sourceTree = "<group>"; };
 		3F339B26261A7BA900360D96 /* APINotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APINotificationManager.swift; sourceTree = "<group>"; };
+		3F3AD779263BACD200509FED /* BaseTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewController.swift; sourceTree = "<group>"; };
 		3F40A60D24EA0D5700261161 /* SelectProjectImageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectProjectImageController.swift; sourceTree = "<group>"; };
 		3F40A60F24EA0D9B00261161 /* SelectProjectImageRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectProjectImageRouter.swift; sourceTree = "<group>"; };
 		3F40A61124EA0E4B00261161 /* SelectProjectImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectProjectImageView.swift; sourceTree = "<group>"; };
@@ -738,6 +740,7 @@
 			isa = PBXGroup;
 			children = (
 				3F01CB062569D48B000833FB /* BaseViewController.swift */,
+				3F3AD779263BACD200509FED /* BaseTableViewController.swift */,
 			);
 			path = Origin;
 			sourceTree = "<group>";
@@ -2107,6 +2110,7 @@
 				3F655FD2252810F1004A1D54 /* OnGoingProjectResultTableViewCellBuilder.swift in Sources */,
 				3F9578D224B0198F00B79818 /* SignUpModels.swift in Sources */,
 				3F40A6B424F1CB5A00261161 /* OnGoingProjectDetailsInteractor.swift in Sources */,
+				3F3AD77A263BACD200509FED /* BaseTableViewController.swift in Sources */,
 				3F66CA0B250450A1006F6DBD /* ProjectParticipantsListRouter.swift in Sources */,
 				3F655F8B2523C91F004A1D54 /* SearchResultsFactory.swift in Sources */,
 				3F95787924AEA4DE00B79818 /* SignInRouter.swift in Sources */,

@@ -9,7 +9,7 @@
 import UIKit
 import WCUIKit
 
-protocol MainFeedDisplayLogic: class {
+protocol MainFeedDisplayLogic: AnyObject {
     func displayProfileDetails()
     func displayOnGoingProjectDetails()
     func displayFinishedProjectDetails()
@@ -18,14 +18,14 @@ protocol MainFeedDisplayLogic: class {
     func displayGenericError()
 }
 
-class MainFeedController: BaseViewController {
+class MainFeedController: BaseTableViewController {
     
     private lazy var errorView: WCEmptyListView = {
         let view = WCEmptyListView(frame: .zero, text: MainFeed.Constants.Texts.genericError)
         return view
     }()
     
-    private lazy var tableView: MainFeedTableView = {
+    private lazy var mainTableView: MainFeedTableView = {
         let view = MainFeedTableView(frame: .zero, errorView: errorView)
         view.assignProtocols(to: self)
         return view
@@ -61,7 +61,7 @@ class MainFeedController: BaseViewController {
     
     override func loadView() {
         super.loadView()
-        self.view = tableView
+        self.tableView = mainTableView
     }
     
     override func viewDidLoad() {
@@ -85,6 +85,33 @@ class MainFeedController: BaseViewController {
         viewController.factory = factory
         router.dataStore = interactor
         router.viewController = viewController
+    }
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return sections?.count ?? 0
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return sections?[section].numberOfRows() ?? 0
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = sections?[indexPath.section].builders[indexPath.row].cellAt(indexPath: indexPath, tableView: tableView) else {
+            return UITableViewCell()
+        }
+        return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return sections?[section].headerView()
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return sections?[section].heightForHeader() ?? 0
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return sections?[indexPath.section].cellHeightFor(indexPath: indexPath) ?? 0
     }
 }
 
@@ -133,37 +160,6 @@ extension MainFeedController: FinishedProjectFeedTableViewCellDelegate {
     }
 }
 
-extension MainFeedController: UITableViewDataSource {
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return sections?.count ?? 0
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return sections?[section].numberOfRows() ?? 0
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = sections?[indexPath.section].builders[indexPath.row].cellAt(indexPath: indexPath, tableView: tableView) else {
-            return UITableViewCell()
-        }
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return sections?[section].headerView()
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return sections?[section].heightForHeader() ?? 0
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return sections?[indexPath.section].cellHeightFor(indexPath: indexPath) ?? 0
-    }
-}
-
-extension MainFeedController: UITableViewDelegate { }
 
 extension MainFeedController: MainFeedDisplayLogic {
     
