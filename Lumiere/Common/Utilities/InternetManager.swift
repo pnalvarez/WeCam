@@ -5,11 +5,11 @@
 //  Created by Pedro Alvarez on 20/03/21.
 //  Copyright © 2021 Pedro Alvarez. All rights reserved.
 //
-
+import Foundation
 import Network
 
-protocol InternetManagerDelegate: class {
-    func networkAvailable()
+@objc protocol InternetManagerDelegate: AnyObject {
+    @objc optional func networkAvailable()
     func networktUnavailable()
 }
 
@@ -24,10 +24,12 @@ open class InternetManager {
     
     private(set) var isNetworkAvailable: Bool = true {
         didSet {
-            if isNetworkAvailable {
-                delegate?.networkAvailable()
-            } else {
-                delegate?.networktUnavailable()
+            DispatchQueue.main.async {
+                if self.isNetworkAvailable {
+                    self.delegate?.networkAvailable?()
+                } else {
+                    self.delegate?.networktUnavailable()
+                }
             }
         }
     }

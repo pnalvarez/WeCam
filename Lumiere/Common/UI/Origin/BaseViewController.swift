@@ -36,6 +36,13 @@ class BaseViewController: UIViewController {
         return view
     }()
     
+    private lazy var internetErrorView: WCInternetErrorConnectionView = {
+        let view = WCInternetErrorConnectionView(frame: .zero)
+        view.delegate = self
+        view.isHidden = true
+        return view
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureAuxiliarComponentsVisibility()
@@ -65,24 +72,27 @@ class BaseViewController: UIViewController {
     }
     
     private func setupUI() {
-        view.addSubview(networkStatusView)
+        view.addSubview(internetErrorView)
         
-        networkStatusView.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(-Constants.networkStatusViewHeight)
-            make.height.equalTo(Constants.networkStatusViewHeight)
-            make.left.right.equalToSuperview()
+        internetErrorView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+    }
+}
+
+extension BaseViewController: WCInternetErrorConnectionViewDelegate {
+    
+    func didTapTryAgain() {
+        if InternetManager.shared.isNetworkAvailable {
+            internetErrorView.isHidden = true
         }
     }
 }
 
 extension BaseViewController: InternetManagerDelegate {
     
-    func networkAvailable() {
-        networkStatusView.status = .connected
-    }
-    
     func networktUnavailable() {
-        networkStatusView.status = .disconnected
+        internetErrorView.isHidden = false
     }
 }
 
