@@ -8,7 +8,7 @@
 import UIKit
 import WCUIKit
 
-protocol ProfileDetailsDisplayLogic: class {
+protocol ProfileDetailsDisplayLogic: AnyObject {
     func displayUserInfo(_ viewModel: ProfileDetails.Info.ViewModel.User)
     func displayError(_ viewModel: String)
     func displayNewConnectionType(_ viewModel: ProfileDetails.Info.ViewModel.NewConnectionType)

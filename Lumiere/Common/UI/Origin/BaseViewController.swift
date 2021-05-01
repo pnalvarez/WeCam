@@ -58,6 +58,7 @@ class BaseViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         InternetManager.shared.delegate = self
+        checkConnection()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -67,25 +68,38 @@ class BaseViewController: UIViewController {
         }
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        view.bringSubviewToFront(internetErrorView)
+    }
+    
     private func configureAuxiliarComponentsVisibility() {
         backButton.isHidden = navigationController?.viewControllers.count == Constants.navigationHiddenViewControllersCount
     }
     
     private func setupUI() {
-        view.addSubview(internetErrorView)
+        let keyWindow = UIApplication.shared.connectedScenes
+                .filter({$0.activationState == .foregroundActive})
+                .map({$0 as? UIWindowScene})
+                .compactMap({$0})
+                .first?.windows
+                .filter({$0.isKeyWindow}).first
+        keyWindow?.addSubview(internetErrorView)
         
         internetErrorView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+    }
+    
+    private func checkConnection() {
+        internetErrorView.isHidden = InternetManager.shared.isNetworkAvailable
     }
 }
 
 extension BaseViewController: WCInternetErrorConnectionViewDelegate {
     
     func didTapTryAgain() {
-        if InternetManager.shared.isNetworkAvailable {
-            internetErrorView.isHidden = true
-        }
+        checkConnection()
     }
 }
 
