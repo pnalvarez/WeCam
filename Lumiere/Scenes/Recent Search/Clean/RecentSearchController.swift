@@ -9,9 +9,8 @@
 import UIKit
 import WCUIKit
 
-protocol RecentSearchDisplayLogic: class {
+protocol RecentSearchDisplayLogic: ViewInterface {
     func displayRecentSearches(_ viewModel: RecentSearch.Info.ViewModel.UpcomingResults)
-    func displayLoading(_ loading: Bool)
     func displayError(_ viewModel: RecentSearch.Info.ViewModel.Error)
     func displayProfileDetails()
     func displayOnGoingProjectDetails()
@@ -20,15 +19,6 @@ protocol RecentSearchDisplayLogic: class {
 }
 
 class RecentSearchController: BaseViewController {
-    
-    private lazy var activityView: UIActivityIndicatorView = {
-        let view = UIActivityIndicatorView(frame: .zero)
-        view.backgroundColor = .white
-        view.color = ThemeColors.mainRedColor.rawValue
-        view.startAnimating()
-        view.isHidden = true
-        return view
-    }()
 
     private lazy var searchTextField: WCSearchTextField = {
         let view = WCSearchTextField(frame: .zero)
@@ -49,8 +39,6 @@ class RecentSearchController: BaseViewController {
     
     private lazy var mainView: RecentSearchView = {
         let view = RecentSearchView(frame: .zero,
-                                    activityView: activityView,
-                                    backButton: backButton,
                                     searchTextField: searchTextField,
                                     resultsTableView: resultsTableView)
         return view
@@ -134,11 +122,7 @@ extension RecentSearchController: RecentSearchDisplayLogic {
     func displayRecentSearches(_ viewModel: RecentSearch.Info.ViewModel.UpcomingResults) {
         self.viewModel = viewModel
     }
-    
-    func displayLoading(_ loading: Bool) {
-        activityView.isHidden = !loading
-    }
-    
+
     func displayError(_ viewModel: RecentSearch.Info.ViewModel.Error) {
         UIAlertController.displayAlert(in: self, title: viewModel.title, message: viewModel.message)
     }

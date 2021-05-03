@@ -10,7 +10,7 @@ import UIKit
 import WCUIKit
 import SDWebImage
 
-protocol NotificationTableViewCellDelegate: class {
+protocol NotificationTableViewCellDelegate: AnyObject {
     func didTapYesButton(index: Int)
     func didTapNoButton(index: Int)
 }

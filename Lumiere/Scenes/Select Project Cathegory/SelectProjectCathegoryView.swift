@@ -9,9 +9,8 @@
 import UIKit
 import WCUIKit
 
-class SelectProjectCathegoryView: UIView {
+class SelectProjectCathegoryView: BaseView, ModalViewable {
     
-    private unowned var closeButton: WCCloseButton
     private unowned var advanceButton: WCActionButton
     private unowned var collectionView: UICollectionView
     
@@ -41,10 +40,8 @@ class SelectProjectCathegoryView: UIView {
     }()
     
     init(frame: CGRect,
-         closeButton: WCCloseButton,
          advanceButton: WCActionButton,
          collectionView: UICollectionView) {
-        self.closeButton = closeButton
         self.advanceButton = advanceButton
         self.collectionView = collectionView
         super.init(frame: frame)
@@ -60,7 +57,6 @@ class SelectProjectCathegoryView: UIView {
 extension SelectProjectCathegoryView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
-        mainContainer.addSubview(closeButton)
         mainContainer.addSubview(advanceButton)
         mainContainer.addSubview(collectionView)
         mainContainer.addSubview(titleLbl)
@@ -78,10 +74,6 @@ extension SelectProjectCathegoryView: ViewCodeProtocol {
             make.width.equalToSuperview()
             make.height.equalToSuperview().priority(250)
         }
-        closeButton.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(28)
-            make.right.equalToSuperview().inset(28)
-        }
         advanceButton.snp.makeConstraints { make in
             make.top.equalTo(collectionView.snp.bottom).offset(102)
             make.centerX.equalToSuperview()
@@ -90,7 +82,7 @@ extension SelectProjectCathegoryView: ViewCodeProtocol {
             make.bottom.equalToSuperview().inset(24)
         }
         titleLbl.snp.makeConstraints { make in
-            make.top.equalTo(closeButton)
+            make.top.equalToSuperview().inset(16)
             make.centerX.equalToSuperview()
             make.width.equalTo(87)
         }

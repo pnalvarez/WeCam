@@ -9,25 +9,15 @@
 import UIKit
 import WCUIKit
 
-protocol InviteProfileToProjectsDisplayLogic: class {
+protocol InviteProfileToProjectsDisplayLogic: ViewInterface {
     func displayProjects(_ viewModel: InviteProfileToProjects.Info.ViewModel.UpcomingProjects)
     func displayRelationUpdate(_ viewModel: InviteProfileToProjects.Info.ViewModel.RelationUpdate)
     func displayConfirmationAlert(_ viewModel: InviteProfileToProjects.Info.ViewModel.Alert)
     func hideConfirmationAlert()
-    func displayLoading(_ loading: Bool)
     func displayError(_ viewModel: InviteProfileToProjects.Info.ViewModel.ErrorViewModel)
 }
 
 class InviteProfileToProjectsController: BaseViewController {
-    
-    private lazy var activityView: UIActivityIndicatorView = {
-        let view = UIActivityIndicatorView(frame: .zero)
-        view.startAnimating()
-        view.color = ThemeColors.mainRedColor.rawValue
-        view.backgroundColor = .white
-        view.isHidden = true
-        return view
-    }()
     
     private lazy var modalAlert: ConfirmationAlertView = {
         let view = ConfirmationAlertView(frame: .zero,
@@ -76,8 +66,6 @@ class InviteProfileToProjectsController: BaseViewController {
     
     private lazy var mainView: InviteProfileToProjectsView = {
         let view = InviteProfileToProjectsView(frame: .zero,
-                                               activityView: activityView,
-                                               backButton: backButton,
                                                searchTextField: searchTextField,
                                                tableView: tableView,
                                                translucentView: translucentView,
@@ -182,11 +170,6 @@ extension InviteProfileToProjectsController {
     }
     
     @objc
-    private func didTapBack() {
-        router?.routeBack()
-    }
-    
-    @objc
     private func didTapTranslucentView() {
         mainView.hideConfirmationAlert()
     }
@@ -210,11 +193,7 @@ extension InviteProfileToProjectsController: InviteProfileToProjectsDisplayLogic
     func hideConfirmationAlert() {
         mainView.hideConfirmationAlert()
     }
-    
-    func displayLoading(_ loading: Bool) {
-        activityView.isHidden = !loading
-    }
-    
+
     func displayError(_ viewModel: InviteProfileToProjects.Info.ViewModel.ErrorViewModel) {
         UIAlertController.displayAlert(in: self,
                                        title: viewModel.title,

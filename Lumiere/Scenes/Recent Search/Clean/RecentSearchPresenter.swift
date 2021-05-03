@@ -27,7 +27,7 @@ class RecentSearchPresenter: RecentSearchPresentationLogic {
     }
     
     func presentLoading(_ loading: Bool) {
-        viewController.displayLoading(loading)
+        viewController.defaultScreenLoading(!loading)
     }
     
     func presentError(_ response: RecentSearch.Info.Model.Error) {

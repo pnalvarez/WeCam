@@ -33,7 +33,7 @@ class ConnectionsListPresenter: ConnectionsListPresentationLogic {
     }
     
     func presentLoading(_ loading: Bool) {
-        viewController.displayLoading(loading)
+        viewController.defaultScreenLoading(!loading)
     }
     
     func presentProfileDetails() {

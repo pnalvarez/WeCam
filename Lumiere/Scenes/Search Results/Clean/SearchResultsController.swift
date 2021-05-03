@@ -9,25 +9,16 @@
 import UIKit
 import WCUIKit
 
-protocol SearchResultsDisplayLogic: class {
+protocol SearchResultsDisplayLogic: ViewInterface {
     func displaySearchResults(_ viewModel: SearchResults.Info.ViewModel.UpcomingResults)
     func displayProfileDetails()
     func displayOnGoingProjectDetails()
     func displayFinishedProjectDetails()
-    func displayLoading(_ loading: Bool)
     func displayError(_ viewModel: SearchResults.Info.ViewModel.ResultError)
     func displayResultTypes(_ viewModel: SearchResults.Info.ViewModel.UpcomingTypes)
 }
 
 class SearchResultsController: BaseViewController {
-    
-    private lazy var activityView: UIActivityIndicatorView = {
-        let view = UIActivityIndicatorView(frame: .zero)
-        view.backgroundColor = .white
-        view.color = .black
-        view.startAnimating()
-        return view
-    }()
     
     private lazy var resultTypeSegmentedControl: UISegmentedControl = {
         let view = UISegmentedControl(frame: .zero)
@@ -59,12 +50,9 @@ class SearchResultsController: BaseViewController {
     
     private lazy var mainView: SearchResultsView = {
         let view = SearchResultsView(frame: .zero,
-                                     activityView: activityView,
-                                     backButton: backButton,
                                      resultTypesSegmentedControl: resultTypeSegmentedControl,
                                      resultsQuantityLbl: resultsQuantityLbl,
                                      tableView: tableView)
-        view.backgroundColor = .white
         return view
     }()
     
@@ -186,11 +174,6 @@ extension SearchResultsController {
 extension SearchResultsController {
     
     @objc
-    private func didTapBack() {
-        router?.routeBack()
-    }
-    
-    @objc
     private func didChangeSelectedType() {
         guard let factory = factory as? SearchResultsFactory else {
             return
@@ -232,10 +215,6 @@ extension SearchResultsController: SearchResultsDisplayLogic {
     
     func displayFinishedProjectDetails() {
         router?.routeToFinishedProjectDetails()
-    }
-    
-    func displayLoading(_ loading: Bool) {
-        activityView.isHidden = !loading
     }
     
     func displayError(_ viewModel: SearchResults.Info.ViewModel.ResultError) {

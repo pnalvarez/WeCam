@@ -9,22 +9,15 @@
 import UIKit
 import WCUIKit
 
-protocol SignInDisplayLogic: class {
+protocol SignInDisplayLogic: ViewInterface {
     func displaySuccessfulLogin()
     func displayServerError(_ viewModel: SignIn.ViewModel.SignInError)
-    func displayLoading(_ loading: Bool)
     func displayEmailError(_ viewModel: SignIn.ViewModel.SignInError)
     func displaypasswordError(_ viewModel: SignIn.ViewModel.SignInError)
 }
 
 class SignInController: BaseViewController {
-    
-    private lazy var loadingView: WCLoadingView = {
-        let view = WCLoadingView(frame: .zero)
-        view.isHidden = true
-        return view
-    }()
-    
+
     private lazy var emailTextField: WCInputTextField = {
         let view = WCInputTextField(frame: .zero)
         view.delegate = self
@@ -62,7 +55,6 @@ class SignInController: BaseViewController {
     
     private lazy var mainView: SignInView = {
         return SignInView(frame: .zero,
-                          loadingView: loadingView,
                           emailTextField: emailTextField,
                           passwordTextField: passwordTextField,
                           enterButton: enterButton,
@@ -142,11 +134,6 @@ extension SignInController: SignInDisplayLogic {
     func displaySuccessfulLogin() {
         clearErrors()
         router?.routeToHome()
-    }
-    
-    func displayLoading(_ loading: Bool) {
-        loadingView.isHidden = !loading
-        loadingView.animateRotate()
     }
     
     func displayServerError(_ viewModel: SignIn.ViewModel.SignInError) {

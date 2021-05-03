@@ -9,7 +9,7 @@
 import UIKit
 import WCUIKit
 
-protocol NotificationsDisplayLogic: class {
+protocol NotificationsDisplayLogic: ViewInterface {
     func displayLoading(_ loading: Bool)
     func displayError(_ viewModel: Notifications.Info.ViewModel.NotificationError)
     func displayNotifications(_ viewModel: Notifications.Info.ViewModel.UpcomingNotifications)
@@ -38,15 +38,6 @@ class NotificationsController: BaseViewController {
         return view
     }()
     
-    private lazy var activityView: UIActivityIndicatorView = {
-        let view = UIActivityIndicatorView(frame: .zero)
-        view.backgroundColor = Notifications.Constants.Colors.activityBackground
-        view.color = Notifications.Constants.Colors.activity
-        view.startAnimating()
-        view.isHidden = true
-        return view
-    }()
-    
     private lazy var tableView: NotificationsTableView = {
         let view = NotificationsTableView(frame: .zero)
         view.refreshControl = refreshHeader
@@ -55,7 +46,6 @@ class NotificationsController: BaseViewController {
     
     private lazy var mainView: NotificationsView = {
         let view = NotificationsView(frame: .zero,
-                                     activityView: activityView,
                                      criteriaSegmentedControl: criteriaSegmentedControl,
                                      tableView: tableView)
         return view
@@ -205,7 +195,6 @@ extension NotificationsController: UITableViewDelegate {
 extension  NotificationsController: NotificationsDisplayLogic {
     
     func displayLoading(_ loading: Bool) {
-        activityView.isHidden = !loading
         tableView.backgroundView = nil
     }
     

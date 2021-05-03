@@ -9,7 +9,7 @@
 import UIKit
 import WCUIKit
 
-protocol SelectProjectCathegoryDisplayLogic: class {
+protocol SelectProjectCathegoryDisplayLogic: ViewInterface {
     func displayAllCathegories(_ viewModel: SelectProjectCathegory.Info.Model.InterestCathegories)
     func displayProjectProgress()
     func displayError(_ viewModel: SelectProjectCathegory.Info.Errors.SelectionError)
@@ -38,7 +38,6 @@ class SelectProjectCathegoryController: BaseViewController {
     
     private lazy var mainView: SelectProjectCathegoryView = {
         let view = SelectProjectCathegoryView(frame: .zero,
-                                              closeButton: closeButton,
                                               advanceButton: advanceButton,
                                               collectionView: collectionView)
         return view

@@ -9,10 +9,8 @@
 import UIKit
 import WCUIKit
 
-class ProjectParticipantsListView: UIView {
+class ProjectParticipantsListView: BaseView, ModalViewable {
     
-    private unowned var activityView: UIActivityIndicatorView
-    private unowned var closeButton: WCCloseButton
     private unowned var tableView: UITableView
     
     private lazy var participantsFixedLbl: UILabel = {
@@ -26,11 +24,7 @@ class ProjectParticipantsListView: UIView {
     }()
     
     init(frame: CGRect,
-         activityView: UIActivityIndicatorView,
-         closeButton: WCCloseButton,
          tableView: UITableView) {
-        self.activityView = activityView
-        self.closeButton = closeButton
         self.tableView = tableView
         super.init(frame: frame)
         applyViewCode()
@@ -44,19 +38,13 @@ class ProjectParticipantsListView: UIView {
 extension ProjectParticipantsListView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
-        addSubview(closeButton)
         addSubview(participantsFixedLbl)
         addSubview(tableView)
-        addSubview(activityView)
     }
     
     func setupConstraints() {
-        closeButton.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide.snp.top).inset(30)
-            make.right.equalToSuperview().inset(54)
-        }
         participantsFixedLbl.snp.makeConstraints { make in
-            make.top.equalTo(closeButton.snp.bottom).offset(40)
+            make.top.equalToSuperview().inset(48)
             make.left.equalToSuperview().inset(46)
             make.width.equalTo(191)
             make.height.equalTo(22)
@@ -64,9 +52,6 @@ extension ProjectParticipantsListView: ViewCodeProtocol {
         tableView.snp.makeConstraints { make in
             make.top.equalTo(participantsFixedLbl.snp.bottom).offset(20)
             make.left.right.bottom.equalToSuperview()
-        }
-        activityView.snp.makeConstraints { make in
-            make.edges.equalTo(tableView)
         }
     }
 }

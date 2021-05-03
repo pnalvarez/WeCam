@@ -8,8 +8,20 @@
 import UIKit
 
 extension UIView {
+    
     var allSubviews: [UIView] {
         return self.subviews.flatMap { [$0] + $0.allSubviews }
+    }
+    
+    var parentViewController: UIViewController? {
+        var parentResponder: UIResponder? = self
+        while parentResponder != nil {
+            parentResponder = parentResponder?.next
+            if let viewController = parentResponder as? UIViewController {
+                return viewController
+            }
+        }
+        return nil
     }
 }
 

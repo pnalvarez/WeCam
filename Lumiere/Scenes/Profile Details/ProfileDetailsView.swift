@@ -9,14 +9,12 @@ import UIKit
 import WCUIKit
 import SDWebImage
 
-class ProfileDetailsView: UIView {
+class ProfileDetailsView: BaseView {
     
-    private unowned var activityView: UIActivityIndicatorView
     private unowned var ongoingProjectsCollectionView: UICollectionView
     private unowned var finishedProjectsCollectionView: UICollectionView
     private unowned var confirmationAlertView: ConfirmationAlertView
     private unowned var translucentView: UIView
-    private unowned var backButton: UIButton
     private unowned var inviteToProjectButton: UIButton
     private unowned var addConnectionButton: UIButton
     private unowned var allConnectionsButton: UIButton
@@ -101,22 +99,18 @@ class ProfileDetailsView: UIView {
     private var viewModel: ProfileDetails.Info.ViewModel.User?
     
     init(frame: CGRect,
-         activityView: UIActivityIndicatorView,
          ongoingProjectsCollectionView: UICollectionView,
          finishedProjectsCollectionView: UICollectionView,
          confirmationAlertView: ConfirmationAlertView,
          translucentView: UIView,
-         backButton: UIButton,
          inviteToProjectButton: UIButton,
          addConnectionButton: UIButton,
          allConnectionsButton: UIButton,
          editProfileButton: UIButton) {
-        self.activityView = activityView
         self.ongoingProjectsCollectionView = ongoingProjectsCollectionView
         self.finishedProjectsCollectionView = finishedProjectsCollectionView
         self.confirmationAlertView = confirmationAlertView
         self.translucentView = translucentView
-        self.backButton = backButton
         self.inviteToProjectButton = inviteToProjectButton
         self.addConnectionButton = addConnectionButton
         self.allConnectionsButton = allConnectionsButton
@@ -161,7 +155,6 @@ class ProfileDetailsView: UIView {
 extension ProfileDetailsView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
-        mainContainer.addSubview(backButton)
         mainContainer.addSubview(photoImageView)
         mainContainer.addSubview(nameLbl)
         mainContainer.addSubview(occupationLbl)
@@ -180,7 +173,6 @@ extension ProfileDetailsView: ViewCodeProtocol {
         addSubview(scrollView)
         addSubview(translucentView)
         addSubview(confirmationAlertView)
-        addSubview(activityView)
     }
     
     func setupConstraints() {
@@ -192,9 +184,6 @@ extension ProfileDetailsView: ViewCodeProtocol {
             make.width.equalToSuperview()
             make.height.equalToSuperview().priority(250)
         }
-        activityView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
         confirmationAlertView.snp.makeConstraints { make in
             make.top.equalTo(translucentView.snp.bottom)
             make.size.equalTo(translucentView)
@@ -202,12 +191,8 @@ extension ProfileDetailsView: ViewCodeProtocol {
         translucentView.snp.makeConstraints{ make in
             make.edges.equalToSuperview()
         }
-        backButton.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(28)
-            make.left.equalToSuperview().inset(28)
-        }
         photoImageView.snp.makeConstraints { make in
-            make.top.equalTo(backButton.snp.bottom).offset(25)
+            make.top.equalToSuperview().inset(33)
             make.left.equalToSuperview().inset(37)
             make.width.equalTo(84)
         }

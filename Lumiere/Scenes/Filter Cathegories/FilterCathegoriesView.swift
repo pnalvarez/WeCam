@@ -9,12 +9,10 @@
 import UIKit
 import WCUIKit
 
-class FilterCathegoriesView: UIView {
+class FilterCathegoriesView: BaseView {
 
-    private unowned var backButton: WCBackButton
     private unowned var cathegoryListView: WCCathegoryListView
     private unowned var filterButton: WCActionButton
-    private unowned var activityView: UIActivityIndicatorView
     
     private lazy var titleLbl: UILabel = {
         let view = UILabel(frame: .zero)
@@ -24,14 +22,10 @@ class FilterCathegoriesView: UIView {
     }()
     
     init(frame: CGRect,
-         backButton: WCBackButton,
          cathegoryListView: WCCathegoryListView,
-         filterButton: WCActionButton,
-         activityView: UIActivityIndicatorView) {
-        self.backButton = backButton
+         filterButton: WCActionButton) {
         self.cathegoryListView = cathegoryListView
         self.filterButton = filterButton
-        self.activityView = activityView
         super.init(frame: frame)
         applyViewCode()
     }
@@ -45,10 +39,8 @@ extension FilterCathegoriesView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
         addSubview(titleLbl)
-        addSubview(backButton)
         addSubview(cathegoryListView)
         addSubview(filterButton)
-        addSubview(activityView)
     }
     
     func setupConstraints() {
@@ -56,10 +48,6 @@ extension FilterCathegoriesView: ViewCodeProtocol {
             make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(19)
             make.centerX.equalToSuperview()
             make.width.equalTo(88)
-        }
-        backButton.snp.makeConstraints { make in
-            make.centerY.equalTo(titleLbl)
-            make.left.equalToSuperview().inset(38)
         }
         cathegoryListView.snp.makeConstraints { make in
             make.top.equalTo(titleLbl.snp.bottom).offset(51)
@@ -69,9 +57,6 @@ extension FilterCathegoriesView: ViewCodeProtocol {
             make.top.equalTo(cathegoryListView.snp.bottom).offset(84)
             make.centerX.equalToSuperview()
             make.width.equalTo(80)
-        }
-        activityView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
         }
     }
 }

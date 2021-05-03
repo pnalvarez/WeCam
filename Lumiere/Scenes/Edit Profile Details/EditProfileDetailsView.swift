@@ -10,11 +10,8 @@ import UIKit
 import WCUIKit
 import SDWebImage
 
-class EditProfileDetailsView: UIView {
+class EditProfileDetailsView: BaseView {
     
-    private unowned var activityView: UIActivityIndicatorView
-    private unowned var backButton: WCBackButton
-    private unowned var loadingView: WCLoadingView
     private unowned var finishButton: UIButton
     private unowned var imageButton: UIButton
     private unowned var nameTextField: UITextField
@@ -70,18 +67,12 @@ class EditProfileDetailsView: UIView {
     private var viewModel: EditProfileDetails.Info.ViewModel.User?
     
     init(frame: CGRect,
-         backButton: WCBackButton,
-         activityView: UIActivityIndicatorView,
-         loadingView: WCLoadingView,
          finishButton: UIButton,
          imageButton: UIButton,
          nameTextField: UITextField,
          cellphoneTextField: UITextField,
          ocupationTextField: UITextField,
          collectionView: UICollectionView) {
-        self.backButton = backButton
-        self.activityView = activityView
-        self.loadingView = loadingView
         self.finishButton = finishButton
         self.imageButton = imageButton
         self.nameTextField = nameTextField
@@ -122,7 +113,6 @@ extension EditProfileDetailsView {
 extension EditProfileDetailsView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
-        containerView.addSubview(backButton)
         containerView.addSubview(titleLbl)
         containerView.addSubview(finishButton)
         containerView.addSubview(imageButton)
@@ -135,17 +125,9 @@ extension EditProfileDetailsView: ViewCodeProtocol {
         containerView.addSubview(bottomView)
         scrollView.addSubview(containerView)
         addSubview(scrollView)
-        addSubview(activityView)
-        addSubview(loadingView)
     }
     
     func setupConstraints() {
-        activityView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-        loadingView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
         scrollView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
@@ -154,12 +136,8 @@ extension EditProfileDetailsView: ViewCodeProtocol {
             make.width.equalToSuperview()
             make.height.equalToSuperview().priority(250)
         }
-        backButton.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(34)
-            make.left.equalToSuperview().inset(31)
-        }
         titleLbl.snp.makeConstraints { make in
-            make.top.equalTo(backButton)
+            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(8)
             make.centerX.equalToSuperview()
             make.width.equalTo(84)
         }

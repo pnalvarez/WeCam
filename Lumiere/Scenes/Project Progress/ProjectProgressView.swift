@@ -9,10 +9,8 @@
 import UIKit
 import WCUIKit
 
-class ProjectProgressView: UIView {
-    
-    private unowned var backButton: WCBackButton
-    private unowned var closeButton: WCCloseButton
+class ProjectProgressView: BaseView, ModalViewable {
+
     private unowned var advanceButton: WCActionButton
     private unowned var progressView: WCProgressView
     
@@ -44,12 +42,8 @@ class ProjectProgressView: UIView {
     }()
     
     init(frame: CGRect,
-         backButton: WCBackButton,
-         closeButton: WCCloseButton,
          advanceButton: WCActionButton,
          progressView: WCProgressView) {
-        self.backButton = backButton
-        self.closeButton = closeButton
         self.advanceButton = advanceButton
         self.progressView = progressView
         super.init(frame: frame)
@@ -64,22 +58,12 @@ class ProjectProgressView: UIView {
 extension ProjectProgressView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
-        addSubview(backButton)
-        addSubview(closeButton)
         addSubview(advanceButton)
         addSubview(mainLbl)
         addSubview(progressView)
     }
     
     func setupConstraints() {
-        backButton.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(12)
-            make.left.equalToSuperview().inset(28)
-        }
-        closeButton.snp.makeConstraints { make in
-            make.top.equalTo(backButton)
-            make.right.equalToSuperview().inset(28)
-        }
         advanceButton.snp.makeConstraints { make in
             make.top.equalTo(progressView.snp.bottom).offset(102)
             make.centerX.equalToSuperview()
@@ -87,11 +71,11 @@ extension ProjectProgressView: ViewCodeProtocol {
             make.width.equalTo(82)
         }
         mainLbl.snp.makeConstraints { make in
-            make.top.equalTo(backButton.snp.bottom).offset(47)
+            make.top.equalToSuperview().offset(120)
             make.centerX.left.right.equalToSuperview()
         }
         progressView.snp.makeConstraints { make in
-            make.top.equalTo(mainLbl.snp.bottom).offset(164)
+            make.top.equalTo(mainLbl.snp.bottom).offset(120)
             make.left.right.equalToSuperview()
             make.height.equalTo(96)
         }

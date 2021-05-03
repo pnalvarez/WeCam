@@ -10,20 +10,14 @@ import UIKit
 import WCUIKit
 import YoutubePlayer_in_WKWebView
 
-class WatchVideoView: UIView {
+class WatchVideoView: BaseView {
     
-    private unowned var activityView: UIActivityIndicatorView
-    private unowned var closeButton: WCCloseButton
     private unowned var playerView: WKYTPlayerView
     
     private var viewModel: WatchVideo.Info.ViewModel.Video?
     
     init(frame: CGRect,
-         activityView: UIActivityIndicatorView,
-         closeButton: WCCloseButton,
          playerView: WKYTPlayerView) {
-        self.activityView = activityView
-        self.closeButton = closeButton
         self.playerView = playerView
         super.init(frame: frame)
         applyViewCode()
@@ -42,19 +36,10 @@ class WatchVideoView: UIView {
 extension WatchVideoView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
-        addSubview(closeButton)
         addSubview(playerView)
-        addSubview(activityView)
     }
     
     func setupConstraints() {
-        activityView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-        closeButton.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(28)
-            make.left.equalToSuperview().inset(28)
-        }
         playerView.snp.makeConstraints { make in
             make.center.equalToSuperview()
             make.width.equalTo(320)

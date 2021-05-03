@@ -9,33 +9,27 @@
 import UIKit
 import WCUIKit
 
-class AccountRecoveryView: UIView {
+class AccountRecoveryView: BaseView {
     
     private lazy var headerView: WCHeaderView = {
         let view = WCHeaderView(frame: .zero)
         return view
     }()
     
-    private unowned var closeButton: WCCloseButton
     private unowned var messageLbl: UILabel
     private unowned var searchTextField: WCSearchTextField
     private unowned var userDisplayView: WCUserDisplayView
     private unowned var sendEmailButton: WCActionButton
-    private unowned var activityView: UIActivityIndicatorView
     
     init(frame: CGRect,
-         closeButton: WCCloseButton,
          messageLbl: UILabel,
          searchTextField: WCSearchTextField,
          userDisplayView: WCUserDisplayView,
-         sendEmailButton: WCActionButton,
-         activityView: UIActivityIndicatorView) {
-        self.closeButton = closeButton
+         sendEmailButton: WCActionButton) {
         self.messageLbl = messageLbl
         self.searchTextField = searchTextField
         self.userDisplayView = userDisplayView
         self.sendEmailButton = sendEmailButton
-        self.activityView = activityView
         super.init(frame: frame)
         applyViewCode()
     }
@@ -49,12 +43,10 @@ extension AccountRecoveryView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
         addSubview(headerView)
-        addSubview(closeButton)
         addSubview(messageLbl)
         addSubview(searchTextField)
         addSubview(userDisplayView)
         addSubview(sendEmailButton)
-        addSubview(activityView)
     }
     
     func setupConstraints() {
@@ -63,10 +55,6 @@ extension AccountRecoveryView: ViewCodeProtocol {
             make.centerX.equalToSuperview()
             make.width.equalTo(94)
             make.height.equalTo(34)
-        }
-        closeButton.snp.makeConstraints { make in
-            make.top.equalTo(headerView)
-            make.right.equalToSuperview().inset(30)
         }
         messageLbl.snp.makeConstraints { make in
             make.top.equalTo(headerView.snp.bottom).offset(65)
@@ -86,9 +74,6 @@ extension AccountRecoveryView: ViewCodeProtocol {
             make.top.equalTo(searchTextField.snp.bottom).offset(387)
             make.left.right.equalToSuperview().inset(110)
             make.height.equalTo(30)
-        }
-        activityView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
         }
     }
     

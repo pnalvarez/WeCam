@@ -9,10 +9,9 @@
 import UIKit
 import WCUIKit
 
-protocol AccountRecoveryDisplayLogic: class {
+protocol AccountRecoveryDisplayLogic: ViewInterface {
     func displayUserData(_ viewModel: AccountRecovery.Info.ViewModel.Account)
     func displayError(_ viewModel: AccountRecovery.Info.ViewModel.Error)
-    func displayLoading(_ loading: Bool)
     func displaySuccessfullySentEmailAlert()
 }
 
@@ -47,23 +46,12 @@ class AccountRecoveryController: BaseViewController {
         return view
     }()
     
-    private lazy var activityView: UIActivityIndicatorView = {
-        let view = UIActivityIndicatorView(frame: .zero)
-        view.backgroundColor = .white
-        view.color = ThemeColors.mainRedColor.rawValue
-        view.startAnimating()
-        view.isHidden = true
-        return view
-    }()
-    
     private lazy var mainView: AccountRecoveryView = {
         let view = AccountRecoveryView(frame: .zero,
-                                       closeButton: closeButton,
                                        messageLbl: messageLbl,
                                        searchTextField: searchTextField,
                                        userDisplayView: accountUserDisplayView,
-                                       sendEmailButton: sendEmailButton,
-                                       activityView: activityView)
+                                       sendEmailButton: sendEmailButton)
         return view
     }()
     
@@ -126,10 +114,6 @@ extension AccountRecoveryController: AccountRecoveryDisplayLogic {
         UIAlertController.displayAlert(in: self,
                                        title: viewModel.title,
                                        message: viewModel.message)
-    }
-    
-    func displayLoading(_ loading: Bool) {
-        activityView.isHidden = !loading
     }
     
     func displaySuccessfullySentEmailAlert() {

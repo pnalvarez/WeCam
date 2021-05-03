@@ -8,24 +8,14 @@
 import UIKit
 import WCUIKit
 
-protocol ConnectionsListDisplayLogic: class {
+protocol ConnectionsListDisplayLogic: ViewInterface {
     func displayCurrentUser(_ viewModel: ConnectionsList.Info.ViewModel.CurrentUser)
     func displayConnections(_ viewModel: ConnectionsList.Info.ViewModel.UpcomingConnections)
-    func displayLoading(_ loading: Bool)
     func displayProfileDetails()
     func displayError(_ viewModel: ConnectionsList.Errors.ViewModel)
 }
 
 class ConnectionsListController: BaseViewController {
-    
-    private lazy var activityView: UIActivityIndicatorView = {
-        let view = UIActivityIndicatorView(frame: .zero)
-        view.backgroundColor = .white
-        view.color = .black
-        view.startAnimating()
-        view.isHidden = true
-        return view
-    }()
     
     private lazy var tableView: UITableView = {
         let view = UITableView(frame: .zero)
@@ -40,8 +30,6 @@ class ConnectionsListController: BaseViewController {
     
     private lazy var mainView: ConnectionsListView = {
         let view = ConnectionsListView(frame: .zero,
-                                       backButton: backButton,
-                                       activityView: activityView,
                                        tableView: tableView)
         return view
     }()
@@ -160,10 +148,6 @@ extension ConnectionsListController: ConnectionsListDisplayLogic {
             tableView.backgroundView = WCEmptyListView(frame: .zero, text: "Você ainda não possui conexões!")
         }
         self.connectionsViewModel = viewModel
-    }
-    
-    func displayLoading(_ loading: Bool) {
-        activityView.isHidden = !loading
     }
     
     func displayProfileDetails() {

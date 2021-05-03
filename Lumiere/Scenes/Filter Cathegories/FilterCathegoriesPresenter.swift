@@ -28,7 +28,7 @@ class FilterCathegoriesPresenter: FilterCathegoriesPresentationLogic {
     }
     
     func presentLoading(_ loading: Bool) {
-        viewController.displayLoading(loading)
+        viewController.defaultScreenLoading(!loading)
     }
     
     func presentAlert(_ response: FilterCathegories.Info.Model.Alert) {

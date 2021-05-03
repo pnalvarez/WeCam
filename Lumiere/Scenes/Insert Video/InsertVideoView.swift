@@ -10,14 +10,10 @@ import UIKit
 import WCUIKit
 import YoutubePlayer_in_WKWebView
 
-class InsertVideoView: UIView {
-    
-    private unowned var closeButton: WCCloseButton
-    private unowned var loadingView: WCLoadingView
+class InsertVideoView: BaseView {
+
     private unowned var confirmationAlertView: ConfirmationAlertView
     private unowned var translucentView: UIView
-    private unowned var activityView: UIActivityIndicatorView
-    private unowned var backButton: WCBackButton
     private unowned var inputTextField: UITextField
     private unowned var urlErrorView: WCEmptyListView
     private unowned var playerView: WKYTPlayerView
@@ -56,22 +52,14 @@ class InsertVideoView: UIView {
     }()
     
     init(frame: CGRect,
-         closeButton: WCCloseButton,
-         loadingView: WCLoadingView,
          confirmationAlertView: ConfirmationAlertView,
          translucentView: UIView,
-         activityView: UIActivityIndicatorView,
-         backButton: WCBackButton,
          inputTextField: UITextField,
          urlErrorView: WCEmptyListView,
          playerView: WKYTPlayerView,
          submitButton: UIButton) {
-        self.closeButton = closeButton
-        self.loadingView = loadingView
         self.confirmationAlertView = confirmationAlertView
         self.translucentView = translucentView
-        self.activityView = activityView
-        self.backButton = backButton
         self.inputTextField = inputTextField
         self.urlErrorView = urlErrorView
         self.playerView = playerView
@@ -113,8 +101,6 @@ class InsertVideoView: UIView {
 extension InsertVideoView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
-        mainContainer.addSubview(closeButton)
-        mainContainer.addSubview(backButton)
         mainContainer.addSubview(insertUrlLbl)
         mainContainer.addSubview(inputTextField)
         mainContainer.addSubview(previewLbl)
@@ -123,21 +109,11 @@ extension InsertVideoView: ViewCodeProtocol {
         mainContainer.addSubview(submitButton)
         scrollView.addSubview(mainContainer)
         addSubview(scrollView)
-        addSubview(activityView)
         addSubview(translucentView)
         addSubview(confirmationAlertView)
-        addSubview(loadingView)
     }
     
     func setupConstraints() {
-        closeButton.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(28)
-            make.right.equalToSuperview().inset(28)
-        }
-        backButton.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(28)
-            make.left.equalToSuperview().inset(28)
-        }
         insertUrlLbl.snp.makeConstraints { make in
             make.top.equalTo(backButton.snp.bottom).offset(20)
             make.left.equalToSuperview().inset(46)
@@ -177,18 +153,12 @@ extension InsertVideoView: ViewCodeProtocol {
             make.width.equalToSuperview()
             make.height.equalToSuperview().priority(250)
         }
-        activityView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
         translucentView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
         confirmationAlertView.snp.makeConstraints { make in
             make.top.equalTo(translucentView.snp.bottom)
             make.size.equalTo(translucentView)
-        }
-        loadingView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
         }
     }
 }

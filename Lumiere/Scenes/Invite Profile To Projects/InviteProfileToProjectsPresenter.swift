@@ -77,7 +77,7 @@ class InviteProfileToProjectsPresenter: InviteProfileToProjectsPresentationLogic
     }
     
     func presentLoading(_ loading: Bool) {
-        viewController.displayLoading(loading)
+        viewController.defaultScreenLoading(!loading)
     }
     
     func presenterError(_ response: WCError) {

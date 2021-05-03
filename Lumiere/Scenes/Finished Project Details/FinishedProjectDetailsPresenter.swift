@@ -50,7 +50,7 @@ class FinishedProjectDetailsPresenter: FinishedProjectDetailsPresentationLogic {
     }
     
     func presentLoading(_ loading: Bool) {
-        viewController.displayLoading(loading)
+        viewController.defaultScreenLoading(!loading)
     }
     
     func presentRelationUI(_ response: FinishedProjectDetails.Info.Model.Relation) {

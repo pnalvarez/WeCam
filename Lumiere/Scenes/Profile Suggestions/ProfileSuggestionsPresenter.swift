@@ -53,7 +53,7 @@ class ProfileSuggestionsPresenter: ProfileSuggestionsPresentationLogic {
     }
     
     func presentLoading(_ loading: Bool) {
-        viewController.displayLoading(loading)
+        viewController.defaultScreenLoading(!loading)
     }
     
     func presentCriterias(_ response: ProfileSuggestions.Info.Model.UpcomingCriteria) {

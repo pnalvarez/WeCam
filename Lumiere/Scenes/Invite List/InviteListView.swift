@@ -9,11 +9,8 @@
 import UIKit
 import WCUIKit
 
-class InviteListView: UIView {
+class InviteListView: BaseView {
     
-    private unowned var backButton: WCBackButton
-    private unowned var loadingView: WCLoadingView
-    private unowned var activityView: UIActivityIndicatorView
     private unowned var searchTextField: UITextField
     private unowned var tableView: UITableView
     
@@ -27,14 +24,8 @@ class InviteListView: UIView {
     }()
     
     init(frame: CGRect,
-         backButton: WCBackButton,
-         loadingView: WCLoadingView,
-         activityView: UIActivityIndicatorView,
          searchTextField: UITextField,
          tableView: UITableView) {
-        self.backButton = backButton
-        self.loadingView = loadingView
-        self.activityView = activityView
         self.searchTextField = searchTextField
         self.tableView = tableView
         super.init(frame: frame)
@@ -54,19 +45,12 @@ class InviteListView: UIView {
 extension InviteListView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
-        addSubview(backButton)
         addSubview(inviteLbl)
         addSubview(searchTextField)
         addSubview(tableView)
-        addSubview(activityView)
-        addSubview(loadingView)
     }
     
     func setupConstraints() {
-        backButton.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(28)
-            make.left.equalToSuperview().inset(31)
-        }
         inviteLbl.snp.makeConstraints { make in
             make.top.equalTo(backButton.snp.bottom).offset(17)
             make.left.equalToSuperview().inset(46)
@@ -81,12 +65,6 @@ extension InviteListView: ViewCodeProtocol {
         tableView.snp.makeConstraints { make in
             make.top.equalTo(searchTextField.snp.bottom).offset(24)
             make.left.right.bottom.equalToSuperview()
-        }
-        activityView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-        loadingView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
         }
     }
     

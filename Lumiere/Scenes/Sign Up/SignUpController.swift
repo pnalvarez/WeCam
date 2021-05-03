@@ -10,24 +10,16 @@ import UIKit
 import WCUIKit
 import Photos
 
-protocol SignUpDisplayLogic: class {
+protocol SignUpDisplayLogic: ViewInterface {
     func displayMovieStyles(_ viewModel: [MovieStyle])
     func displayInformationError(_ viewModel: SignUp.Info.ViewModel.Error)
     func displayConfirmationMatchError()
-    func displayLoading(_ loading: Bool)
     func displayServerError(_ viewModel: SignUp.Info.ViewModel.Error)
     func displayDidSignUpUser()
 }
 
 class SignUpController: BaseViewController {
-    
-    private lazy var loadingView: WCLoadingView = {
-        let view = WCLoadingView(frame: .zero)
-        view.animateRotate()
-        view.isHidden = true
-        return view
-    }()
-    
+
     private lazy var imageButton: UIButton = {
         let view = UIButton(frame: .zero)
         view.addTarget(self, action: #selector(didTapImageButton), for: .touchUpInside)
@@ -108,8 +100,6 @@ class SignUpController: BaseViewController {
     private lazy var mainView: SignUpView = {
 
         return SignUpView(frame: .zero,
-                          loadingView: loadingView,
-                          backButton: backButton,
                           imageButton: imageButton,
                           nameTextField: nameTextField,
                           cellphoneTextField: cellphoneTextField,
@@ -270,10 +260,6 @@ extension SignUpController: SignUpDisplayLogic {
         UIAlertController.displayAlert(in: self, title: SignUp.Constants.Texts.signUpError,
                                        message: SignUp.Constants.Texts.unmatchError)
         mainView.displayUnmatchedFields()
-    }
-    
-    func displayLoading(_ loading: Bool) {
-        loadingView.isHidden = !loading
     }
     
     func displayServerError(_ viewModel: SignUp.Info.ViewModel.Error) {

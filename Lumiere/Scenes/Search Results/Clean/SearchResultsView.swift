@@ -9,10 +9,8 @@
 import UIKit
 import WCUIKit
 
-class SearchResultsView: UIView {
+class SearchResultsView: BaseView {
     
-    private unowned var activityView: UIActivityIndicatorView
-    private unowned var backButton: WCBackButton
     private unowned var resultTypesSegmentedControl: UISegmentedControl
     private unowned var resultsQuantityLbl: UILabel
     private unowned var tableView: UITableView
@@ -25,13 +23,9 @@ class SearchResultsView: UIView {
     }()
     
     init(frame: CGRect,
-         activityView: UIActivityIndicatorView,
-         backButton: WCBackButton,
          resultTypesSegmentedControl: UISegmentedControl,
          resultsQuantityLbl: UILabel,
          tableView: UITableView) {
-        self.activityView = activityView
-        self.backButton = backButton
         self.resultTypesSegmentedControl = resultTypesSegmentedControl
         self.resultsQuantityLbl = resultsQuantityLbl
         self.tableView = tableView
@@ -47,19 +41,13 @@ class SearchResultsView: UIView {
 extension SearchResultsView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
-        addSubview(backButton)
         addSubview(headerImageView)
         addSubview(resultTypesSegmentedControl)
         addSubview(resultsQuantityLbl)
         addSubview(tableView)
-        addSubview(activityView)
     }
     
     func setupConstraints() {
-        backButton.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(7)
-            make.left.equalToSuperview().inset(26)
-        }
         headerImageView.snp.makeConstraints { make in
             make.top.equalTo(backButton)
             make.centerX.equalToSuperview()
@@ -79,9 +67,6 @@ extension SearchResultsView: ViewCodeProtocol {
         tableView.snp.makeConstraints { make in
             make.top.equalTo(resultsQuantityLbl.snp.bottom).offset(12)
             make.left.right.bottom.equalToSuperview()
-        }
-        activityView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
         }
     }
 }

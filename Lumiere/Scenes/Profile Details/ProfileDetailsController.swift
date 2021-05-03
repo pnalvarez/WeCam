@@ -8,14 +8,13 @@
 import UIKit
 import WCUIKit
 
-protocol ProfileDetailsDisplayLogic: AnyObject {
+protocol ProfileDetailsDisplayLogic: ViewInterface {
     func displayUserInfo(_ viewModel: ProfileDetails.Info.ViewModel.User)
     func displayError(_ viewModel: String)
     func displayNewConnectionType(_ viewModel: ProfileDetails.Info.ViewModel.NewConnectionType)
     func displayAllConnections()
     func displayEndRequest()
     func displayInterfaceForLogged()
-    func displayLoading(_ loading: Bool)
     func displaySignOut()
     func displayConfirmation(_ viewModel: ProfileDetails.Info.ViewModel.InteractionConfirmation)
     func displayProjectDetails()
@@ -62,14 +61,6 @@ class ProfileDetailsController: BaseViewController {
         return view
     }()
     
-    private lazy var activityView: UIActivityIndicatorView = {
-        let view = UIActivityIndicatorView(frame: .zero)
-        view.color = ProfileDetails.Constants.Colors.activity
-        view.backgroundColor = .white
-        view.startAnimating()
-        return view
-    }()
-    
     private lazy var addConnectionButton: UIButton = {
         let view = UIButton(frame: .zero)
         view.addTarget(self, action: #selector(didTapAddInteractButton), for: .touchUpInside)
@@ -110,12 +101,10 @@ class ProfileDetailsController: BaseViewController {
     
     private lazy var mainView: ProfileDetailsView = {
         let view = ProfileDetailsView(frame: .zero,
-                                      activityView: activityView,
                                       ongoingProjectsCollectionView: ongoingProjectsCollectionView,
                                       finishedProjectsCollectionView: finishedProjectsCollectionView,
                                       confirmationAlertView: confirmationAlertView,
                                       translucentView: translucentView,
-                                      backButton: backButton,
                                       inviteToProjectButton: inviteToProjectButton,
                                       addConnectionButton: addConnectionButton,
                                       allConnectionsButton: allConnectionsButton,
@@ -154,7 +143,6 @@ class ProfileDetailsController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.setNavigationBarHidden(true, animated: true)
-        backButton.isHidden = navigationController?.viewControllers.count == 1
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -346,10 +334,6 @@ extension ProfileDetailsController: ProfileDetailsDisplayLogic {
     func displayInterfaceForLogged() {
         inviteToProjectButton.isHidden = true
         editProfileButton.isHidden = false
-    }
-    
-    func displayLoading(_ loading: Bool) {
-        activityView.isHidden = !loading
     }
     
     func displaySignOut() {

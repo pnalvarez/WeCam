@@ -9,10 +9,8 @@
 import UIKit
 import WCUIKit
 
-class ConnectionsListView: UIView {
+class ConnectionsListView: BaseView {
     
-    private unowned var backButton: UIButton
-    private unowned var activityView: UIActivityIndicatorView
     private unowned var tableView: UITableView
     
     private lazy var nameHeaderLbl: UILabel = {
@@ -25,11 +23,7 @@ class ConnectionsListView: UIView {
     private var viewModel: ConnectionsList.Info.ViewModel.CurrentUser?
     
     init(frame: CGRect,
-         backButton: UIButton,
-         activityView: UIActivityIndicatorView,
          tableView: UITableView) {
-        self.backButton = backButton
-        self.activityView = activityView
         self.tableView = tableView
         super.init(frame: frame)
     }
@@ -47,17 +41,11 @@ class ConnectionsListView: UIView {
 extension ConnectionsListView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
-        addSubview(backButton)
         addSubview(nameHeaderLbl)
         addSubview(tableView)
-        addSubview(activityView)
     }
     
     func setupConstraints() {
-        backButton.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide.snp.top).inset(28)
-            make.left.equalToSuperview().inset(46)
-        }
         nameHeaderLbl.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide.snp.top).inset(44)
             make.centerX.equalToSuperview()
@@ -65,10 +53,6 @@ extension ConnectionsListView: ViewCodeProtocol {
             make.width.equalTo(150)
         }
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(nameHeaderLbl.snp.bottom).offset(47)
-            make.bottom.left.right.equalToSuperview()
-        }
-        activityView.snp.makeConstraints { make in
             make.top.equalTo(nameHeaderLbl.snp.bottom).offset(47)
             make.bottom.left.right.equalToSuperview()
         }

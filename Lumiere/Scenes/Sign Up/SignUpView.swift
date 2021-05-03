@@ -9,10 +9,8 @@
 import UIKit
 import WCUIKit
 
-class SignUpView: UIView {
-    
-    private unowned var loadingView: WCLoadingView
-    private unowned var backButton: UIButton
+class SignUpView: BaseView {
+
     private unowned var imageButton: UIButton
     private unowned var nameTextField: WCInputTextField
     private unowned var cellphoneTextField: WCInputTextField
@@ -53,8 +51,6 @@ class SignUpView: UIView {
     private lazy var titleHeaderIcon: UIImageView = { return UIImageView(frame: .zero) }()
     
     init(frame: CGRect,
-         loadingView: WCLoadingView,
-         backButton: UIButton,
          imageButton: UIButton,
          nameTextField: WCInputTextField,
          cellphoneTextField: WCInputTextField,
@@ -64,8 +60,6 @@ class SignUpView: UIView {
          professionalTextField: WCInputTextField,
          signUpButton: UIButton,
          cathegoryListView: WCCathegoryListView) {
-        self.loadingView = loadingView
-        self.backButton = backButton
         self.imageButton = imageButton
         self.nameTextField = nameTextField
         self.cellphoneTextField = cellphoneTextField
@@ -114,7 +108,6 @@ extension SignUpView {
 extension SignUpView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
-        containerView.addSubview(backButton)
         containerView.addSubview(titleHeaderIcon)
         containerView.addSubview(imageButton)
         containerView.addSubview(chooseImageLbl)
@@ -129,13 +122,9 @@ extension SignUpView: ViewCodeProtocol {
         containerView.addSubview(signUpButton)
         scrollView.addSubview(containerView)
         addSubview(scrollView)
-        addSubview(loadingView)
     }
     
     func setupConstraints() {
-        loadingView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
         scrollView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
@@ -149,10 +138,6 @@ extension SignUpView: ViewCodeProtocol {
             make.centerX.equalToSuperview()
             make.height.equalTo(52)
             make.width.equalTo(144)
-        }
-        backButton.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(8)
-            make.left.equalToSuperview().inset(28)
         }
         imageButton.snp.makeConstraints { make in
             make.top.equalTo(titleHeaderIcon.snp.bottom).offset(30)

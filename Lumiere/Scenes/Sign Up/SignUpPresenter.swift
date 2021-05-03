@@ -50,7 +50,7 @@ class SignUpPresenter: SignUpPresentationLogic {
     }
     
     func presentLoading(_ loading: Bool) {
-        viewController.displayLoading(loading)
+        viewController.fullScreenLoading(!loading)
     }
     
     func didSignUpUser() {

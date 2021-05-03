@@ -9,8 +9,7 @@
 import UIKit
 import WCUIKit
 
-protocol FilterCathegoriesDisplayLogic: class {
-    func displayLoading(_ loading: Bool)
+protocol FilterCathegoriesDisplayLogic: ViewInterface {
     func displayAlert(_ viewModel: FilterCathegories.Info.ViewModel.Alert)
     func displayAllCathegories(_ viewModel: FilterCathegories.Info.ViewModel.InterestCathegoryList)
     func displaySelectedCathegories(_ viewModel: FilterCathegories.Info.ViewModel.SelectedCathegoryList)
@@ -34,21 +33,10 @@ class FilterCathegoriesController: BaseViewController {
         return view
     }()
     
-    private lazy var activityView: UIActivityIndicatorView = {
-        let view = UIActivityIndicatorView(frame: .zero)
-        view.backgroundColor = .white
-        view.color = ThemeColors.mainRedColor.rawValue
-        view.startAnimating()
-        view.isHidden = true
-        return view
-    }()
-    
     private lazy var mainView: FilterCathegoriesView = {
         let view = FilterCathegoriesView(frame: .zero,
-                                         backButton: backButton,
                                          cathegoryListView: cathegoryListView,
-                                         filterButton: filterButton,
-                                         activityView: activityView)
+                                         filterButton: filterButton)
         view.backgroundColor = .white
         return view
     }()
@@ -101,11 +89,7 @@ extension FilterCathegoriesController: WCCathegoryListViewDelegate {
 }
 
 extension FilterCathegoriesController: FilterCathegoriesDisplayLogic {
-    
-    func displayLoading(_ loading: Bool) {
-        activityView.isHidden = !loading
-    }
-    
+
     func displayAlert(_ viewModel: FilterCathegories.Info.ViewModel.Alert) {
         UIAlertController.displayAlert(in: self, title: viewModel.title, message: viewModel.description)
     }

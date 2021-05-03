@@ -9,7 +9,7 @@
 import UIKit
 import WCUIKit
 
-protocol ProjectProgressDisplayLogic: class {
+protocol ProjectProgressDisplayLogic: ViewInterface {
     func displayEditProjectDetails()
     func displayFinishConfirmationDialog()
 }
@@ -30,8 +30,6 @@ class ProjectProgressController: BaseViewController {
     
     private lazy var mainView: ProjectProgressView = {
         return ProjectProgressView(frame: .zero,
-                                   backButton: backButton,
-                                   closeButton: closeButton,
                                    advanceButton: advanceButton,
                                    progressView: progressView)
     }()

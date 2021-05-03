@@ -9,7 +9,7 @@
 import UIKit
 import WCUIKit
 
-protocol ConfirmationAlertViewDelegate: class {
+protocol ConfirmationAlertViewDelegate: AnyObject {
     func didTapAccept()
     func didTapRefuse()
 }

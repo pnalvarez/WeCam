@@ -27,7 +27,7 @@ class SearchResultsPresenter: SearchResultsPresentationLogic {
     }
     
     func presentLoading(_ loading: Bool) {
-        viewController.displayLoading(loading)
+        viewController.defaultScreenLoading(!loading)
     }
     
     func presentResults(_ response: SearchResults.Info.Model.Results) {

@@ -10,10 +10,9 @@ import UIKit
 import WCUIKit
 import Photos
 
-protocol OnGoingProjectDetailsDisplayLogic: class {
+protocol OnGoingProjectDetailsDisplayLogic: ViewInterface {
     func displayProjectDetails(_ viewModel: OnGoingProjectDetails.Info.ViewModel.Project)
     func displayError(_ viewModel: String)
-    func displayLoading(_ loading: Bool)
     func displayUIForRelation(_ viewModel: OnGoingProjectDetails.Info.ViewModel.RelationModel)
     func displayFeedback(_ viewModel: OnGoingProjectDetails.Info.ViewModel.Feedback)
     func displayUserDetails()
@@ -194,25 +193,14 @@ class OnGoingProjectDetailsController: BaseViewController, UINavigationControlle
         return view
     }()
     
-    private lazy var activityView: UIActivityIndicatorView = {
-        let view = UIActivityIndicatorView(frame: .zero)
-        view.color = .black
-        view.backgroundColor = .white
-        view.startAnimating()
-        view.isHidden = true
-        return view
-    }()
-    
     private lazy var mainView: OnGoingProjectDetailsView = {
         let view = OnGoingProjectDetailsView(frame: .zero,
-                                             backButton: backButton,
                                              editProgressView: editProgressView,
                                              editProgressTranslucentView: editProgressTranslucentView,
                                              titleTextField: titleTextField,
                                              sinopsisTextView: sinopsisTextView,
                                              confirmationModalView: confirmationModalView,
                                              translucentView: translucentView,
-                                             closeButton: closeButton,
                                              teamCollectionView: teamCollectionView,
                                              moreInfoButton: moreInfoButton,
                                              progressButton: progressButton,
@@ -223,8 +211,7 @@ class OnGoingProjectDetailsController: BaseViewController, UINavigationControlle
                                              interactionButton: interactionButton,
                                              editNeedingButton: editNeedingButton,
                                              cancelEditingNeedingButton: cancelEditingNeedingButton,
-                                             needValueTextfield: needValueTextfield,
-                                             activityView: activityView)
+                                             needValueTextfield: needValueTextfield)
         return view
     }()
     
@@ -498,11 +485,7 @@ extension OnGoingProjectDetailsController: OnGoingProjectDetailsDisplayLogic {
     func displayError(_ viewModel: String) {
         UIAlertController.displayAlert(in: self, title: "Erro", message: viewModel)
     }
-    
-    func displayLoading(_ loading: Bool) {
-        activityView.isHidden = !loading
-    }
-    
+
     func displayUIForRelation(_ viewModel: OnGoingProjectDetails.Info.ViewModel.RelationModel) {
         mainView.updateUI(forRelation: viewModel)
     }
@@ -556,8 +539,7 @@ extension OnGoingProjectDetailsController: OnGoingProjectDetailsDisplayLogic {
     }
     
     func displayRoutingContextUI(_ viewModel: OnGoingProjectDetails.Info.ViewModel.RoutingContext) {
-        backButton.isHidden = viewModel.context == .justCreatedProject
-        closeButton.isHidden = viewModel.context == .checkingProject
+        mainView.setupAuxiliarComponentsVisibility(backButtonVisible: viewModel.context != .justCreatedProject, closeButtonVisible: viewModel.context != .checkingProject)
         interactionButton.isHidden = viewModel.context == .justCreatedProject
     }
 }

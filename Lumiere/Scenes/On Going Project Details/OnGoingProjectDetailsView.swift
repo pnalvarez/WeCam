@@ -10,16 +10,14 @@ import UIKit
 import WCUIKit
 import SDWebImage
 
-class OnGoingProjectDetailsView: UIView {
+class OnGoingProjectDetailsView: BaseView, ModalViewable {
     
-    private unowned var backButton: WCBackButton
     private unowned var editProgressView: EditProgressView
     private unowned var editProgressTranslucentView: UIView
     private unowned var confirmationModalView: ConfirmationAlertView
     private unowned var titleTextField: UITextField
     private unowned var sinopsisTextView: UITextView
     private unowned var translucentView: UIView
-    private unowned var closeButton: UIButton
     private unowned var teamCollectionView: UICollectionView
     private unowned var progressButton: UIButton
     private unowned var moreInfoButton: UIButton
@@ -31,7 +29,6 @@ class OnGoingProjectDetailsView: UIView {
     private unowned var editNeedingButton: UIButton
     private unowned var cancelEditingNeedingButton: WCCloseButton
     private unowned var needValueTextfield: UITextField
-    private unowned var activityView: UIActivityIndicatorView
     
     private lazy var mainScrollView: UIScrollView = {
         let view = UIScrollView(frame: .zero)
@@ -138,14 +135,12 @@ class OnGoingProjectDetailsView: UIView {
     private var viewModel: OnGoingProjectDetails.Info.ViewModel.Project?
     
     init(frame: CGRect,
-         backButton: WCBackButton,
          editProgressView: EditProgressView,
          editProgressTranslucentView: UIView,
          titleTextField: UITextField,
          sinopsisTextView: UITextView,
          confirmationModalView: ConfirmationAlertView,
          translucentView: UIView,
-         closeButton: UIButton,
          teamCollectionView: UICollectionView,
          moreInfoButton: UIButton,
          progressButton: UIButton,
@@ -156,16 +151,13 @@ class OnGoingProjectDetailsView: UIView {
          interactionButton: UIButton,
          editNeedingButton: UIButton,
          cancelEditingNeedingButton: WCCloseButton,
-         needValueTextfield: UITextField,
-         activityView: UIActivityIndicatorView) {
-        self.backButton = backButton
+         needValueTextfield: UITextField) {
         self.editProgressView = editProgressView
         self.editProgressTranslucentView = editProgressTranslucentView
         self.confirmationModalView = confirmationModalView
         self.titleTextField = titleTextField
         self.sinopsisTextView = sinopsisTextView
         self.translucentView = translucentView
-        self.closeButton = closeButton
         self.teamCollectionView = teamCollectionView
         self.moreInfoButton = moreInfoButton
         self.progressButton = progressButton
@@ -177,7 +169,6 @@ class OnGoingProjectDetailsView: UIView {
         self.editNeedingButton = editNeedingButton
         self.cancelEditingNeedingButton = cancelEditingNeedingButton
         self.needValueTextfield = needValueTextfield
-        self.activityView = activityView
         super.init(frame: frame)
         applyViewCode()
     }
@@ -301,8 +292,6 @@ class OnGoingProjectDetailsView: UIView {
 extension OnGoingProjectDetailsView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
-        mainContainer.addSubview(backButton)
-        mainContainer.addSubview(closeButton)
         mainContainer.addSubview(cathegoryLbl)
         imageStackView.addArrangedSubview(imageButton)
         imageStackView.addArrangedSubview(changeImageLbl)
@@ -326,7 +315,6 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
         needingStackView.addArrangedSubview(cancelEditingNeedingButton)
         mainContainer.addSubview(inviteContactsButton)
         mainContainer.addSubview(interactionButton)
-        mainContainer.addSubview(activityView)
         mainScrollView.addSubview(mainContainer)
         addSubview(mainScrollView)
         addSubview(translucentView)
@@ -350,14 +338,6 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
             make.edges.equalToSuperview()
             make.width.equalToSuperview()
             make.height.equalToSuperview().priority(250)
-        }
-        backButton.snp.makeConstraints { make in
-            make.top.left.equalToSuperview().inset(31)
-            make.height.width.equalTo(31)
-        }
-        closeButton.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(28)
-            make.right.equalToSuperview().inset(35)
         }
         cathegoryLbl.snp.makeConstraints { make in
             make.centerY.equalTo(closeButton)
@@ -458,9 +438,6 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
             make.left.equalTo(teamFixedLbl)
             make.height.equalTo(32)
             make.width.equalTo(171)
-        }
-        activityView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
         }
         interactionButton.snp.makeConstraints { make in
             make.top.equalTo(closeButton).offset(760)

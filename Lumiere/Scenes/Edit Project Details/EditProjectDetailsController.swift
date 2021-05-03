@@ -9,24 +9,15 @@
 import UIKit
 import WCUIKit
 
-protocol EditProjectDetailsDisplayLogic: class {
+protocol EditProjectDetailsDisplayLogic: ViewInterface {
     func displayPublishedProjectDetails()
     func displayInvitedUsers(_ viewModel: EditProjectDetails.Info.ViewModel.InvitedUsers)
-    func displayLoading(_ loading: Bool)
     func displayError(_ viewModel: EditProjectDetails.Info.ViewModel.DisplayError)
     func displayUpdatedProjectContextUI()
     func displayInsertVideo()
 }
 
 class EditProjectDetailsController: BaseViewController {
-    
-    private lazy var activityView: UIActivityIndicatorView = {
-        let view = UIActivityIndicatorView(frame: .zero)
-        view.color = .black
-        view.backgroundColor = .white
-        view.startAnimating()
-        return view
-    }()
     
     private lazy var projectTitleTextField: WCProjectDataTextField = {
         let view = WCProjectDataTextField(frame: .zero)
@@ -66,24 +57,13 @@ class EditProjectDetailsController: BaseViewController {
         return view
     }()
     
-    private lazy var loadingView: WCLoadingView = {
-        let view = WCLoadingView(frame: .zero)
-        view.animateRotate()
-        view.isHidden = true
-        return view
-    }()
-    
     private lazy var mainView: EditProjectDetailsView = {
         let view = EditProjectDetailsView(frame: .zero,
-                                          activityView: activityView,
                                           inviteFriendsButton: inviteFriendsButton,
-                                          backButton: backButton,
-                                          closeButton: closeButton,
                                           projectTitleTextField: projectTitleTextField,
                                           sinopsisTextView: sinopsisTextView,
                                           needTextView: needTextView,
-                                          publishButton: publishButton,
-                                          loadingView: loadingView)
+                                          publishButton: publishButton)
         return view
     }()
     
@@ -117,7 +97,7 @@ class EditProjectDetailsController: BaseViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        activityView.isHidden = false
+        mainView.defaultScreenLoading(false)
     }
     
     override func loadView() {
@@ -158,11 +138,6 @@ extension EditProjectDetailsController {
     private func didTapInviteFriends() {
         router?.routeToInviteList()
     }
-    
-    @objc
-    private func didTapBack() {
-        router?.routeBack()
-    }
 }
 
 extension EditProjectDetailsController: UITextViewDelegate {
@@ -184,12 +159,7 @@ extension EditProjectDetailsController: EditProjectDetailsDisplayLogic {
     
     func displayInvitedUsers(_ viewModel: EditProjectDetails.Info.ViewModel.InvitedUsers) {
         mainView.setup(viewModel: viewModel)
-        activityView.isHidden = true
-    }
-    
-    func displayLoading(_ loading: Bool) {
-        loadingView.animateRotate()
-        loadingView.isHidden = !loading
+        mainView.defaultScreenLoading(true)
     }
     
     func displayError(_ viewModel: EditProjectDetails.Info.ViewModel.DisplayError) {

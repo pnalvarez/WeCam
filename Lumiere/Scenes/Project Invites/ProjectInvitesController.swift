@@ -9,26 +9,17 @@
 import UIKit
 import WCUIKit
 
-protocol ProjectInvitesDisplayLogic: class {
+protocol ProjectInvitesDisplayLogic: ViewInterface {
     func displayUsers(_ viewModel: ProjectInvites.Info.ViewModel.UpcomingUsers)
     func displayProjectInfo(_ viewModel: ProjectInvites.Info.ViewModel.Project)
     func displayConfirmationView(_ viewModel: ProjectInvites.Info.ViewModel.Alert)
     func hideConfirmationView()
-    func displayLoading(_ loading: Bool)
     func displayProfileDetails()
     func displayError(_ viewModel: ProjectInvites.Info.ViewModel.ErrorViewModel)
     func displayRelationUpdate(_ viewModel: ProjectInvites.Info.ViewModel.RelationUpdate)
 }
 
 class ProjectInvitesController: BaseViewController {
-    
-    private lazy var activityView: UIActivityIndicatorView = {
-        let view = UIActivityIndicatorView(frame: .zero)
-        view.startAnimating()
-        view.color = ThemeColors.mainRedColor.rawValue
-        view.backgroundColor = .white
-        return view
-    }()
     
     private lazy var modalAlertView: ConfirmationAlertView = {
         let view = ConfirmationAlertView(frame: .zero,
@@ -69,10 +60,8 @@ class ProjectInvitesController: BaseViewController {
     
     private lazy var mainView: ProjectInvitesView = {
         let view = ProjectInvitesView(frame: .zero,
-                                      activityView: activityView,
                                       modalAlertView: modalAlertView,
                                       translucentView: translucentView,
-                                      backButton: backButton,
                                       searchTextField: searchTextField,
                                       tableView: tableView)
         return view
@@ -209,10 +198,6 @@ extension ProjectInvitesController: ProjectInvitesDisplayLogic {
     
     func hideConfirmationView() {
         mainView.hideConfirmationView()
-    }
-    
-    func displayLoading(_ loading: Bool) {
-        activityView.isHidden = !loading
     }
     
     func displayProfileDetails() {

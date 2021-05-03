@@ -9,7 +9,7 @@
 import UIKit
 import WCUIKit
 
-class RecentSearchView: UIView {
+class RecentSearchView: BaseView {
     
     private lazy var headerView: WCHeaderView = {
         let view = WCHeaderView(frame: .zero)
@@ -25,18 +25,12 @@ class RecentSearchView: UIView {
         return view
     }()
     
-    private unowned var activityView: UIActivityIndicatorView
-    private unowned var backButton: WCBackButton
     private unowned var searchTextField: WCSearchTextField
     private unowned var resultsTableView: UITableView
     
     init(frame: CGRect,
-         activityView: UIActivityIndicatorView,
-         backButton: WCBackButton,
          searchTextField: WCSearchTextField,
          resultsTableView: UITableView) {
-        self.activityView = activityView
-        self.backButton = backButton
         self.searchTextField = searchTextField
         self.resultsTableView = resultsTableView
         super.init(frame: frame)
@@ -53,19 +47,13 @@ class RecentSearchView: UIView {
 extension RecentSearchView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
-        addSubview(backButton)
         addSubview(headerView)
         addSubview(searchTextField)
         addSubview(searchLbl)
         addSubview(resultsTableView)
-        addSubview(activityView)
     }
     
     func setupConstraints() {
-        backButton.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(7)
-            make.left.equalToSuperview().inset(28)
-        }
         headerView.snp.makeConstraints { make in
             make.top.equalTo(backButton)
             make.centerX.equalToSuperview()

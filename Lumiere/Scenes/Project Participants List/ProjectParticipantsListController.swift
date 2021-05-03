@@ -9,23 +9,13 @@
 import UIKit
 import WCUIKit
 
-protocol ProjectParticipantsListDisplayLogic: class {
+protocol ProjectParticipantsListDisplayLogic: ViewInterface {
     func displayParticipants(_ viewModel: ProjectParticipantsList.Info.ViewModel.UpcomingParticipants)
-    func displayLoading(_ loading: Bool)
     func displayError(_ viewModel: String)
     func displayProfileDetails()
 }
 
 class ProjectParticipantsListController: BaseViewController {
-    
-    private lazy var activityView: UIActivityIndicatorView = {
-        let view = UIActivityIndicatorView(frame: .zero)
-        view.backgroundColor = .white
-        view.color = .black
-        view.startAnimating()
-        view.isHidden = true
-        return view
-    }()
     
     private lazy var tableView: UITableView = {
         let view = UITableView(frame: .zero)
@@ -40,10 +30,7 @@ class ProjectParticipantsListController: BaseViewController {
     
     private lazy var mainView: ProjectParticipantsListView = {
         let view = ProjectParticipantsListView(frame: .zero,
-                                               activityView: activityView,
-                                               closeButton: closeButton,
                                                tableView: tableView)
-        view.backgroundColor = .white
         return view
     }()
     
@@ -131,10 +118,6 @@ extension ProjectParticipantsListController: ProjectParticipantsListDisplayLogic
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
-    }
-    
-    func displayLoading(_ loading: Bool) {
-        activityView.isHidden = !loading
     }
     
     func displayError(_ viewModel: String) {

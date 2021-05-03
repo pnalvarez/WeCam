@@ -9,28 +9,11 @@
 import UIKit
 import WCUIKit
 
-protocol InviteListDisplayLogic: class {
+protocol InviteListDisplayLogic: ViewInterface {
     func displayConnections(_ viewModel: InviteList.Info.ViewModel.Connections)
-    func displayLoading(_ loading: Bool)
 }
 
 class InviteListController: BaseViewController {
-    
-    private lazy var loadingView: WCLoadingView = {
-        let view = WCLoadingView(frame: .zero)
-        view.animateRotate()
-        view.isHidden = true
-        return view
-    }()
-    
-    private lazy var activityView: UIActivityIndicatorView = {
-        let view = UIActivityIndicatorView(frame: .zero)
-        view.startAnimating()
-        view.color = .black
-        view.backgroundColor = .white
-        view.isHidden = true
-        return view
-    }()
     
     private lazy var searchTextField: UITextField = {
         let view = UITextField(frame: .zero)
@@ -57,9 +40,6 @@ class InviteListController: BaseViewController {
     
     private lazy var mainView: InviteListView = {
         let view = InviteListView(frame: .zero,
-                                  backButton: backButton,
-                                  loadingView: loadingView,
-                                  activityView: activityView,
                                   searchTextField: searchTextField,
                                   tableView: tableView)
         return view
@@ -91,7 +71,6 @@ class InviteListController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        indicatedView = activityView
         navigationController?.isNavigationBarHidden = true
         interactor?.fetchConnections(InviteList.Request.FetchConnections())
     }
@@ -157,10 +136,5 @@ extension InviteListController: InviteListDisplayLogic {
         if let isEmpty = self.connectionsViewModel?.users.isEmpty, isEmpty {
             mainView.hideHeaderElements()
         }
-        indicatedView = loadingView
-    }
-    
-    func displayLoading(_ loading: Bool) {
-        activityView.isHidden = !loading
     }
 }

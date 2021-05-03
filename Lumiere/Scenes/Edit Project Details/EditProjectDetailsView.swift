@@ -9,17 +9,13 @@
 import UIKit
 import WCUIKit
 
-class EditProjectDetailsView: UIView {
+class EditProjectDetailsView: BaseView, ModalViewable {
     
-    private unowned var activityView: UIActivityIndicatorView
     private unowned var inviteFriendsButton: UIButton
-    private unowned var backButton: WCBackButton
-    private unowned var closeButton: WCCloseButton
     private unowned var projectTitleTextField: WCProjectDataTextField
     private unowned var sinopsisTextView: WCProjectDataTextView
     private unowned var needTextView: WCProjectDataTextView
     private unowned var publishButton: UIButton
-    private unowned var loadingView: WCLoadingView
     
     private lazy var mainScrollView: UIScrollView = {
         let view = UIScrollView(frame: .zero)
@@ -27,7 +23,7 @@ class EditProjectDetailsView: UIView {
         view.bounces = false
         view.alwaysBounceVertical = false
         view.backgroundColor = .white
-        view.contentSize = CGSize(width: view.frame.width, height: 900)
+//        view.contentSize = CGSize(width: view.frame.width, height: 900)
         return view
     }()
     
@@ -107,24 +103,16 @@ class EditProjectDetailsView: UIView {
     }
     
     init(frame: CGRect,
-         activityView: UIActivityIndicatorView,
          inviteFriendsButton: UIButton,
-         backButton: WCBackButton,
-         closeButton: WCCloseButton,
          projectTitleTextField: WCProjectDataTextField,
          sinopsisTextView: WCProjectDataTextView,
          needTextView: WCProjectDataTextView,
-         publishButton: UIButton,
-         loadingView: WCLoadingView) {
-        self.activityView = activityView
+         publishButton: UIButton) {
         self.inviteFriendsButton = inviteFriendsButton
-        self.backButton = backButton
-        self.closeButton = closeButton
         self.projectTitleTextField = projectTitleTextField
         self.sinopsisTextView = sinopsisTextView
         self.needTextView = needTextView
         self.publishButton = publishButton
-        self.loadingView = loadingView
         super.init(frame: frame)
         applyViewCode()
     }
@@ -211,12 +199,10 @@ extension EditProjectDetailsView {
 extension EditProjectDetailsView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
-        mainContainer.addSubview(backButton)
-        mainContainer.addSubview(closeButton)
         mainContainer.addSubview(projectTitleFixedLbl)
         mainContainer.addSubview(projectTitleTextField)
         mainContainer.addSubview(teamFixedLbl)
-        invitationsScrollView.addSubview(invitedFriendsContainer)
+        mainContainer.addSubview(invitedFriendsContainer)
         mainContainer.addSubview(invitationsScrollView)
         mainContainer.addSubview(inviteFriendsButton)
         mainContainer.addSubview(sinopsisFixedLbl)
@@ -224,9 +210,7 @@ extension EditProjectDetailsView: ViewCodeProtocol {
         mainContainer.addSubview(needLbl)
         mainContainer.addSubview(needTextView)
         mainContainer.addSubview(publishButton)
-        mainContainer.addSubview(activityView)
         mainScrollView.addSubview(mainContainer)
-        mainScrollView.addSubview(loadingView)
         addSubview(mainScrollView)
     }
     
@@ -239,17 +223,9 @@ extension EditProjectDetailsView: ViewCodeProtocol {
             make.width.equalToSuperview()
             make.height.equalToSuperview().priority(250)
         }
-        backButton.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(28)
-            make.left.equalToSuperview().inset(28)
-        }
-        closeButton.snp.makeConstraints { make in
-            make.top.equalTo(backButton)
-            make.right.equalToSuperview().inset(28)
-        }
         projectTitleFixedLbl.snp.makeConstraints { make in
-            make.top.equalTo(backButton.snp.bottom).offset(1)
-            make.left.equalTo(backButton.snp.right).offset(8)
+            make.top.equalToSuperview().inset(9)
+            make.left.equalToSuperview().inset(9)
             make.width.equalTo(200)
         }
         projectTitleTextField.snp.makeConstraints { make in
@@ -279,18 +255,13 @@ extension EditProjectDetailsView: ViewCodeProtocol {
         }
         teamFixedLbl.snp.makeConstraints { make in
             make.top.equalTo(needTextView.snp.bottom).offset(20)
-            make.left.equalTo(backButton.snp.right).offset(8)
+            make.left.equalToSuperview().inset(24)
             make.width.equalTo(70)
         }
         invitationsScrollView.snp.makeConstraints { make in
             make.top.equalTo(teamFixedLbl.snp.bottom).offset(12)
             make.left.right.equalToSuperview()
             make.height.equalTo(110)
-        }
-        activityView.snp.makeConstraints { make in
-            make.top.equalTo(invitationsScrollView)
-            make.bottom.equalTo(invitationsScrollView)
-            make.right.left.equalToSuperview()
         }
         invitedFriendsContainer.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -304,14 +275,11 @@ extension EditProjectDetailsView: ViewCodeProtocol {
             make.width.equalTo(171)
         }
         publishButton.snp.makeConstraints { make in
-            make.top.equalTo(backButton.snp.bottom).offset(635)
-            make.bottom.equalToSuperview().offset(-20)
+            make.top.equalTo(inviteFriendsButton.snp.bottom).offset(48)
+            make.bottom.equalToSuperview().inset(20)
             make.centerX.equalToSuperview()
             make.height.equalTo(30)
             make.width.equalTo(100)
-        }
-        loadingView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
         }
     }
     

@@ -27,6 +27,6 @@ class WatchVideoPresenter: WatchVideoPresentationLogic {
     }
     
     func presentLoading(_ loading: Bool) {
-        viewController.displayLoading(loading)
+        viewController.defaultScreenLoading(!loading)
     }
 }

@@ -26,7 +26,7 @@ class SignInPresenter: SignInPresentationLogic {
     }
     
     func presentLoading(_ loading: Bool) {
-        viewController.displayLoading(loading)
+        viewController.fullScreenLoading(!loading)
     }
     
     func didFetchServerError(_ error: SignIn.Errors.ServerError) {

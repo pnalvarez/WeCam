@@ -42,7 +42,11 @@
 		3F0CAA6624CCE41D005E2558 /* SignInRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0CAA6524CCE41D005E2558 /* SignInRequest.swift */; };
 		3F1158AF24C3F0EC00075C73 /* TeamMemberViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1158AE24C3F0EC00075C73 /* TeamMemberViewModel.swift */; };
 		3F339B27261A7BA900360D96 /* APINotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F339B26261A7BA900360D96 /* APINotificationManager.swift */; };
+		3F3825EB263F577A006B6DCE /* EditProjectDetailsNewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3825EA263F577A006B6DCE /* EditProjectDetailsNewController.swift */; };
+		3F3825ED263F57DB006B6DCE /* ViewInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3825EC263F57DB006B6DCE /* ViewInterface.swift */; };
 		3F3AD77A263BACD200509FED /* BaseTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3AD779263BACD200509FED /* BaseTableViewController.swift */; };
+		3F3AD77C263E070800509FED /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3AD77B263E070800509FED /* BaseView.swift */; };
+		3F3AD77E263E188800509FED /* ModalViewable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3AD77D263E188800509FED /* ModalViewable.swift */; };
 		3F40A60E24EA0D5700261161 /* SelectProjectImageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A60D24EA0D5700261161 /* SelectProjectImageController.swift */; };
 		3F40A61024EA0D9B00261161 /* SelectProjectImageRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A60F24EA0D9B00261161 /* SelectProjectImageRouter.swift */; };
 		3F40A61224EA0E4B00261161 /* SelectProjectImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F40A61124EA0E4B00261161 /* SelectProjectImageView.swift */; };
@@ -380,7 +384,11 @@
 		3F0CAA6524CCE41D005E2558 /* SignInRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInRequest.swift; sourceTree = "<group>"; };
 		3F1158AE24C3F0EC00075C73 /* TeamMemberViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamMemberViewModel.swift; sourceTree = "<group>"; };
 		3F339B26261A7BA900360D96 /* APINotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APINotificationManager.swift; sourceTree = "<group>"; };
+		3F3825EA263F577A006B6DCE /* EditProjectDetailsNewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProjectDetailsNewController.swift; sourceTree = "<group>"; };
+		3F3825EC263F57DB006B6DCE /* ViewInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewInterface.swift; sourceTree = "<group>"; };
 		3F3AD779263BACD200509FED /* BaseTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewController.swift; sourceTree = "<group>"; };
+		3F3AD77B263E070800509FED /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
+		3F3AD77D263E188800509FED /* ModalViewable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalViewable.swift; sourceTree = "<group>"; };
 		3F40A60D24EA0D5700261161 /* SelectProjectImageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectProjectImageController.swift; sourceTree = "<group>"; };
 		3F40A60F24EA0D9B00261161 /* SelectProjectImageRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectProjectImageRouter.swift; sourceTree = "<group>"; };
 		3F40A61124EA0E4B00261161 /* SelectProjectImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectProjectImageView.swift; sourceTree = "<group>"; };
@@ -741,6 +749,7 @@
 			children = (
 				3F01CB062569D48B000833FB /* BaseViewController.swift */,
 				3F3AD779263BACD200509FED /* BaseTableViewController.swift */,
+				3F3AD77B263E070800509FED /* BaseView.swift */,
 			);
 			path = Origin;
 			sourceTree = "<group>";
@@ -865,6 +874,14 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		3F3825E9263F5763006B6DCE /* New View */ = {
+			isa = PBXGroup;
+			children = (
+				3F3825EA263F577A006B6DCE /* EditProjectDetailsNewController.swift */,
+			);
+			path = "New View";
+			sourceTree = "<group>";
+		};
 		3F40A60C24EA0D4100261161 /* Select Project Image */ = {
 			isa = PBXGroup;
 			children = (
@@ -910,6 +927,7 @@
 		3F40A69F24F0912D00261161 /* Edit Project Details */ = {
 			isa = PBXGroup;
 			children = (
+				3F3825E9263F5763006B6DCE /* New View */,
 				3F40A6A024F0914400261161 /* EditProjectDetailsController.swift */,
 				3F40A6A224F091BB00261161 /* EditProjectDetailsView.swift */,
 				3F40A6A424F091EC00261161 /* EditProjectDetailsInteractor.swift */,
@@ -1397,6 +1415,8 @@
 			children = (
 				3F95786524AD785900B79818 /* BaseRouterProtocol.swift */,
 				3F5A4235251C145E00F10D63 /* Stubbable.swift */,
+				3F3AD77D263E188800509FED /* ModalViewable.swift */,
+				3F3825EC263F57DB006B6DCE /* ViewInterface.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -2044,6 +2064,7 @@
 				3F40A6CB24F232B600261161 /* EditProfileDetailsInteractor.swift in Sources */,
 				3F339B27261A7BA900360D96 /* APINotificationManager.swift in Sources */,
 				3FAD1A422516B99800ED4074 /* MainFeedModels.swift in Sources */,
+				3F3825EB263F577A006B6DCE /* EditProjectDetailsNewController.swift in Sources */,
 				3F655F702523C592004A1D54 /* SearchResultsRouter.swift in Sources */,
 				3F40A68724EDF6DD00261161 /* SelectProjectCathegoryWorker.swift in Sources */,
 				3FAD1A0E2516B53100ED4074 /* MainFeedTableViewFactory.swift in Sources */,
@@ -2106,6 +2127,7 @@
 				3F5B324E253163C8004DFBFD /* ProfileSuggestionsWorker.swift in Sources */,
 				3FB8BD77250D65A6001954FD /* ProjectInvitesTableViewCell.swift in Sources */,
 				3F8D13A324D65FCD00AED7EB /* GetConnectNotificationRequest.swift in Sources */,
+				3F3AD77C263E070800509FED /* BaseView.swift in Sources */,
 				3F40A6A724F0923900261161 /* EditProjectDetailsWorker.swift in Sources */,
 				3F655FD2252810F1004A1D54 /* OnGoingProjectResultTableViewCellBuilder.swift in Sources */,
 				3F9578D224B0198F00B79818 /* SignUpModels.swift in Sources */,
@@ -2122,6 +2144,7 @@
 				3F6EEA3724E0A3970075C500 /* ConnectionsListWorker.swift in Sources */,
 				3F8AB7912516DB6100E949F6 /* SearchHeaderTableViewCellBuilder.swift in Sources */,
 				3FD96CF42599654300B1B4EE /* OnGoingProjectItemCollectionViewCell.swift in Sources */,
+				3F3825ED263F57DB006B6DCE /* ViewInterface.swift in Sources */,
 				3F42A55F255A13610088E232 /* WatchVideoView.swift in Sources */,
 				3F8D138624D5361A00AED7EB /* ProfileDetailsView.swift in Sources */,
 				3F42A489255393020088E232 /* InsertVideoRouter.swift in Sources */,
@@ -2239,6 +2262,7 @@
 				3F6EEA3D24E0A6B10075C500 /* ConnectionsListTableViewCell.swift in Sources */,
 				3F5B32562531642D004DFBFD /* ProfileSuggestionsPresenter.swift in Sources */,
 				3FF286E225E88104008FD23F /* AccountRecoveryInteractor.swift in Sources */,
+				3F3AD77E263E188800509FED /* ModalViewable.swift in Sources */,
 				3F05D19F2515BFF200932FFC /* Float+.swift in Sources */,
 				3F01CB0F2569D6A5000833FB /* SaveUserInfoRequest.swift in Sources */,
 				3F9578DB24B0240C00B79818 /* String+.swift in Sources */,

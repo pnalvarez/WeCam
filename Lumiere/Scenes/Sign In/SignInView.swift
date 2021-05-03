@@ -9,9 +9,8 @@
 import UIKit
 import WCUIKit
 
-class SignInView: UIView {
+class SignInView: BaseView {
     
-    private unowned var loadingView: WCLoadingView
     private unowned var emailTextField: WCInputTextField
     private unowned var passwordTextField: WCInputTextField
     private unowned var enterButton: WCActionButton
@@ -27,13 +26,11 @@ class SignInView: UIView {
     }()
     
     init(frame: CGRect,
-         loadingView: WCLoadingView,
          emailTextField: WCInputTextField,
          passwordTextField: WCInputTextField,
          enterButton: WCActionButton,
          forgetButton: UIButton,
          signUpButton: UIButton) {
-        self.loadingView = loadingView
         self.emailTextField = emailTextField
         self.passwordTextField = passwordTextField
         self.enterButton = enterButton
@@ -58,7 +55,6 @@ extension SignInView: ViewCodeProtocol {
         addSubview(signUpButton)
         addSubview(topLogoImageView)
         addSubview(bottomLogoImageView)
-        addSubview(loadingView)
     }
     
     func setupConstraints() {
@@ -101,9 +97,6 @@ extension SignInView: ViewCodeProtocol {
             make.height.equalTo(14)
             make.width.equalTo(64)
             make.centerX.equalToSuperview()
-        }
-        loadingView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
         }
     }
     

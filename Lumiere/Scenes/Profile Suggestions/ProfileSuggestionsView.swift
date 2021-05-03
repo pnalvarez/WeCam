@@ -9,10 +9,8 @@
 import UIKit
 import WCUIKit
 
-class ProfileSuggestionsView: UIView {
+class ProfileSuggestionsView: BaseView {
     
-    private unowned var activityView: UIActivityIndicatorView
-    private unowned var backButton: WCBackButton
     private unowned var filterButton: SelectionFilterView
     private unowned var optionsStackView: UIStackView
     private unowned var tableView: UITableView
@@ -35,13 +33,9 @@ class ProfileSuggestionsView: UIView {
     }()
     
     init(frame: CGRect,
-         activityView: UIActivityIndicatorView,
-         backButton: WCBackButton,
          filterButton: SelectionFilterView,
          optionsStackView: UIStackView,
          tableView: UITableView) {
-        self.activityView = activityView
-        self.backButton = backButton
         self.filterButton = filterButton
         self.optionsStackView = optionsStackView
         self.tableView = tableView
@@ -57,8 +51,6 @@ class ProfileSuggestionsView: UIView {
 extension ProfileSuggestionsView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
-        addSubview(activityView)
-        addSubview(backButton)
         addSubview(mainHeader)
         addSubview(mainLbl)
         addSubview(filterButton)
@@ -67,13 +59,6 @@ extension ProfileSuggestionsView: ViewCodeProtocol {
     }
     
     func setupConstraints() {
-        activityView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-        backButton.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(7)
-            make.left.equalToSuperview().inset(26)
-        }
         mainHeader.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(7)
             make.centerX.equalToSuperview()

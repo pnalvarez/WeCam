@@ -41,7 +41,7 @@ class EditProjectDetailsPresenter: EditProjectDetailsPresentationLogic {
     }
     
     func presentLoading(_ loading: Bool) {
-        viewController.displayLoading(loading)
+        viewController.fullScreenLoading(!loading)
     }
     
     func presentServerError(_ response: EditProjectDetails.Info.Model.ServerError) {

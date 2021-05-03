@@ -10,21 +10,11 @@ import UIKit
 import WCUIKit
 import YoutubePlayer_in_WKWebView
 
-protocol WatchVideoDisplayLogic: class {
+protocol WatchVideoDisplayLogic: ViewInterface {
     func displayYoutubeVideo(_ viewModel: WatchVideo.Info.ViewModel.Video)
-    func displayLoading(_ loading: Bool)
 }
 
 class WatchVideoController: BaseViewController {
-    
-    private lazy var activityView: UIActivityIndicatorView = {
-        let view = UIActivityIndicatorView(frame: .zero)
-        view.backgroundColor = .white
-        view.color = ThemeColors.mainRedColor.rawValue
-        view.startAnimating()
-        view.isHidden = true
-        return view
-    }()
     
     private lazy var playerView: WKYTPlayerView = {
         let view = WKYTPlayerView(frame: .zero)
@@ -34,8 +24,6 @@ class WatchVideoController: BaseViewController {
     
     private lazy var mainView: WatchVideoView = {
         let view = WatchVideoView(frame: .zero,
-                                  activityView: activityView,
-                                  closeButton: closeButton,
                                   playerView: playerView)
         view.backgroundColor = .white
         return view
@@ -95,9 +83,5 @@ extension WatchVideoController: WatchVideoDisplayLogic {
     
     func displayYoutubeVideo(_ viewModel: WatchVideo.Info.ViewModel.Video) {
         mainView.setup(viewModel: viewModel)
-    }
-    
-    func displayLoading(_ loading: Bool) {
-        activityView.isHidden = !loading
     }
 }

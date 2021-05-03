@@ -9,24 +9,15 @@
 import UIKit
 import WCUIKit
 
-protocol ProfileSuggestionsDisplayLogic: class {
+protocol ProfileSuggestionsDisplayLogic: ViewInterface {
     func displayProfileSuggestions(_ viewModel: ProfileSuggestions.Info.ViewModel.UpcomingSuggestions)
     func fadeProfileItem(_ viewModel: ProfileSuggestions.Info.ViewModel.ProfileItemToFade)
     func displayProfileDetails()
     func displayError(_ viewModel: ProfileSuggestions.Info.ViewModel.ProfileSuggestionsError)
-    func displayLoading(_ loading: Bool)
     func displayCriterias(_ viewModel: ProfileSuggestions.Info.ViewModel.UpcomingCriteria)
 }
 
 class ProfileSuggestionsController: BaseViewController {
-    
-    private lazy var activityView: UIActivityIndicatorView = {
-        let view = UIActivityIndicatorView(frame: .zero)
-        view.backgroundColor = ThemeColors.whiteThemeColor.rawValue
-        view.color = ThemeColors.mainRedColor.rawValue
-        view.startAnimating()
-        return view
-    }()
     
     private lazy var filterButton: SelectionFilterView = {
         let view = SelectionFilterView(frame: .zero,
@@ -58,8 +49,6 @@ class ProfileSuggestionsController: BaseViewController {
     
     private lazy var mainView: ProfileSuggestionsView = {
         let view = ProfileSuggestionsView(frame: .zero,
-                                          activityView: activityView,
-                                          backButton: backButton,
                                           filterButton: filterButton,
                                           optionsStackView: optionsStackView,
                                           tableView: tableView)
@@ -146,11 +135,6 @@ extension ProfileSuggestionsController {
 }
 
 extension ProfileSuggestionsController {
-    
-    @objc
-    private func didTapBack() {
-        router?.routeBack()
-    }
     
     @objc
     private func didSelectOption(_ sender: UIButton) {
@@ -240,10 +224,6 @@ extension ProfileSuggestionsController: ProfileSuggestionsDisplayLogic {
     
     func displayError(_ viewModel: ProfileSuggestions.Info.ViewModel.ProfileSuggestionsError) {
         UIAlertController.displayAlert(in: self, title: "Erro", message: viewModel.error)
-    }
-    
-    func displayLoading(_ loading: Bool) {
-        activityView.isHidden = !loading
     }
     
     func displayCriterias(_ viewModel: ProfileSuggestions.Info.ViewModel.UpcomingCriteria) {

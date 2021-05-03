@@ -9,12 +9,10 @@
 import UIKit
 import WCUIKit
 
-class ProjectInvitesView: UIView {
+class ProjectInvitesView: BaseView {
     
-    private unowned var activityView: UIActivityIndicatorView
     private unowned var modalAlertView: ConfirmationAlertView
     private unowned var translucentView: UIView
-    private unowned var backButton: WCBackButton
     private unowned var searchTextField: UITextField
     private unowned var tableView: UITableView
     
@@ -30,16 +28,12 @@ class ProjectInvitesView: UIView {
     private var viewModel: ProjectInvites.Info.ViewModel.Project?
     
     init(frame: CGRect,
-         activityView: UIActivityIndicatorView,
          modalAlertView: ConfirmationAlertView,
          translucentView: UIView,
-         backButton: WCBackButton,
          searchTextField: UITextField,
          tableView: UITableView) {
-        self.activityView = activityView
         self.modalAlertView = modalAlertView
         self.translucentView = translucentView
-        self.backButton = backButton
         self.searchTextField = searchTextField
         self.tableView = tableView
         super.init(frame: frame)
@@ -89,22 +83,13 @@ extension ProjectInvitesView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
         addSubview(projectTitleLbl)
-        addSubview(backButton)
         addSubview(searchTextField)
         addSubview(tableView)
-        addSubview(activityView)
         addSubview(translucentView)
         addSubview(modalAlertView)
     }
     
     func setupConstraints() {
-        activityView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-        backButton.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(28)
-            make.left.equalToSuperview().inset(30)
-        }
         projectTitleLbl.snp.makeConstraints { make in
             make.centerY.equalTo(backButton)
             make.left.equalTo(backButton.snp.right).offset(16)

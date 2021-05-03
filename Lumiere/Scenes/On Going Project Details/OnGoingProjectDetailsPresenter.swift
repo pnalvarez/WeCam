@@ -70,7 +70,7 @@ class OnGoingProjectDetailsPresenter: OnGoingProjectDetailsPresentationLogic {
     }
     
     func presentLoading(_ loading: Bool) {
-        viewController.displayLoading(loading)
+        viewController.defaultScreenLoading(!loading)
     }
     
     func presentFeedback(_ response: OnGoingProjectDetails.Info.Model.Feedback) {

@@ -9,7 +9,7 @@
 import UIKit
 import Photos
 
-protocol SelectProjectImageDisplayLogic: class {
+protocol SelectProjectImageDisplayLogic: ViewInterface {
     func displaySelectCathegory()
     func displayError(_ viewModel: String)
 }

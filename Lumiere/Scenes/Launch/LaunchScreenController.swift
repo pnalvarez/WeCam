@@ -9,7 +9,7 @@
 
 import UIKit
 
-protocol LaunchScreenDisplayLogic: class {
+protocol LaunchScreenDisplayLogic: AnyObject {
     func displayLaunchImage()
 }
 

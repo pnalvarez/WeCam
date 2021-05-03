@@ -9,10 +9,8 @@
 import UIKit
 import WCUIKit
 
-class InviteProfileToProjectsView: UIView {
+class InviteProfileToProjectsView: BaseView {
     
-    private unowned var activityView: UIActivityIndicatorView
-    private unowned var backButton: UIButton
     private unowned var searchTextField: UITextField
     private unowned var tableView: UITableView
     private unowned var translucentView: UIView
@@ -28,14 +26,10 @@ class InviteProfileToProjectsView: UIView {
     }()
     
     init(frame: CGRect,
-         activityView: UIActivityIndicatorView,
-         backButton: UIButton,
          searchTextField: UITextField,
          tableView: UITableView,
          translucentView: UIView,
          modalAlert: ConfirmationAlertView) {
-        self.activityView = activityView
-        self.backButton = backButton
         self.searchTextField = searchTextField
         self.tableView = tableView
         self.translucentView = translucentView
@@ -77,20 +71,14 @@ class InviteProfileToProjectsView: UIView {
 extension InviteProfileToProjectsView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
-        addSubview(backButton)
         addSubview(mainLbl)
         addSubview(searchTextField)
         addSubview(tableView)
         addSubview(translucentView)
         addSubview(modalAlert)
-        addSubview(activityView)
     }
     
     func setupConstraints() {
-        backButton.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide.snp.top).inset(28)
-            make.left.equalToSuperview().inset(26)
-        }
         mainLbl.snp.makeConstraints { make in
             make.centerY.equalTo(backButton)
             make.centerX.equalToSuperview()
@@ -113,9 +101,6 @@ extension InviteProfileToProjectsView: ViewCodeProtocol {
             make.top.equalTo(translucentView.snp.bottom)
             make.left.right.equalToSuperview()
             make.height.equalTo(translucentView)
-        }
-        activityView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
         }
     }
     

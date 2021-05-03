@@ -9,7 +9,7 @@
 import UIKit
 import WCUIKit
 
-protocol MainFeedDisplayLogic: AnyObject {
+protocol MainFeedDisplayLogic: ViewInterface {
     func displayProfileDetails()
     func displayOnGoingProjectDetails()
     func displayFinishedProjectDetails()

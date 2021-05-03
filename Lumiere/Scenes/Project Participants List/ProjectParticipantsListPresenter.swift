@@ -38,7 +38,7 @@ class ProjectParticipantsListPresenter: ProjectParticipantsListPresentationLogic
     }
     
     func presentLoading(_ loading: Bool) {
-        viewController.displayLoading(loading)
+        viewController.defaultScreenLoading(!loading)
     }
     
     func presentError(_ response: String) {

@@ -24,7 +24,7 @@ class AccountRecoveryPresenter: AccountRecoveryPresentationLogic {
     }
     
     func presentLoading(_ loading: Bool) {
-        viewController.displayLoading(loading)
+        viewController.defaultScreenLoading(!loading)
     }
     
     func presentUserResult(_ response: AccountRecovery.Info.Model.Account) {

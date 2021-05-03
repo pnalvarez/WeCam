@@ -96,7 +96,6 @@ extension EditProgressView: ViewCodeProtocol {
         addSubview(notchView)
         addSubview(mainLbl)
         addSubview(progressView)
-        addSubview(closeButton)
         addSubview(finishButton)
     }
     
@@ -107,12 +106,8 @@ extension EditProgressView: ViewCodeProtocol {
             make.width.equalTo(100)
             make.height.equalTo(6)
         }
-        closeButton.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(32)
-            make.right.equalToSuperview().inset(56)
-        }
         mainLbl.snp.makeConstraints { make in
-            make.top.equalTo(closeButton.snp.bottom).offset(11)
+            make.top.equalToSuperview().inset(19)
             make.centerX.equalToSuperview()
             make.width.equalTo(300)
         }

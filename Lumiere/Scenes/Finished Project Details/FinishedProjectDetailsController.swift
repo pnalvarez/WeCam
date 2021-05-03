@@ -9,11 +9,10 @@
 import UIKit
 import WCUIKit
 
-protocol FinishedProjectDetailsDisplayLogic: class {
+protocol FinishedProjectDetailsDisplayLogic: ViewInterface {
     func displayProjectData(_ viewModel: FinishedProjectDetails.Info.ViewModel.Project)
     func displayProfileDetails()
     func displayInviteUsers()
-    func displayLoading(_ loading: Bool)
     func displayRelationUI(_ viewModel: FinishedProjectDetails.Info.ViewModel.Relation)
     func displayAllParticipants()
     func displayProjectInvites()
@@ -24,15 +23,6 @@ protocol FinishedProjectDetailsDisplayLogic: class {
 }
 
 class FinishedProjectDetailsController: BaseViewController {
-    
-    private lazy var activityView: UIActivityIndicatorView = {
-        let view = UIActivityIndicatorView(frame: .zero)
-        view.color = ThemeColors.mainRedColor.rawValue
-        view.backgroundColor = .white
-        view.startAnimating()
-        view.isHidden = true
-        return view
-    }()
     
     private lazy var confirmationModalView: ConfirmationAlertView = {
         let view = ConfirmationAlertView(frame: .zero,
@@ -92,11 +82,8 @@ class FinishedProjectDetailsController: BaseViewController {
     
     private lazy var mainView: FinishedProjectDetailsView = {
         let view = FinishedProjectDetailsView(frame: .zero,
-                                              activityView: activityView,
                                               confirmationAlertView: confirmationModalView,
                                               translucentView: translucentView,
-                                              closeButton: closeButton,
-                                              backButton: backButton,
                                               watchButton: watchButton,
                                               interactionButton: interactionButton,
                                               teamCollectionView: teamCollectionView,
@@ -261,10 +248,6 @@ extension FinishedProjectDetailsController: FinishedProjectDetailsDisplayLogic {
         router?.routeToProjectInvites()
     }
     
-    func displayLoading(_ loading: Bool) {
-        activityView.isHidden = !loading
-    }
-    
     func displayRelationUI(_ viewModel: FinishedProjectDetails.Info.ViewModel.Relation) {
         switch viewModel.relation {
         case .author:
@@ -291,8 +274,8 @@ extension FinishedProjectDetailsController: FinishedProjectDetailsDisplayLogic {
     }
     
     func displayRoutingUI(_ viewModel: FinishedProjectDetails.Info.ViewModel.Routing) {
-        backButton.isHidden = !viewModel.backButtonVisible
-        closeButton.isHidden = !viewModel.closeButtonVisible
+        mainView.setupAuxiliarComponentsVisibility(backButtonVisible: viewModel.backButtonVisible,
+                                                   closeButtonVisible: viewModel.closeButtonVisible)
     }
     
     func displayError(_ viewModel: FinishedProjectDetails.Info.ViewModel.Error) {

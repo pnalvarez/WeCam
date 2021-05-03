@@ -9,7 +9,7 @@
 import UIKit
 import WCUIKit
 
-class SelectProjectImageView: UIView {
+class SelectProjectImageView: BaseView {
     
     private unowned var advanceButton: UIButton
     private unowned var selectedImageButton: UIButton

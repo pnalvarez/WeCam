@@ -136,7 +136,7 @@ class ProfileDetailsPresenter: ProfileDetailsPresentationLogic {
     }
     
     func presentLoading(_ loading: Bool) {
-        viewController.displayLoading(loading)
+        viewController.defaultScreenLoading(!loading)
     }
     
     func didSignOut() {

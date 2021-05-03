@@ -39,7 +39,7 @@ class InsertVideoPresenter: InsertVideoPresentationLogic {
     }
     
     func presentLoading(_ loading: Bool) {
-        viewController.displayLoading(loading)
+        viewController.defaultScreenLoading(!loading)
     }
     
     func presentLongLoading(_ loading: Bool) {

@@ -9,22 +9,15 @@ import UIKit
 import WCUIKit
 import YoutubePlayer_in_WKWebView
 
-protocol InsertVideoDisplayLogic: class {
+protocol InsertVideoDisplayLogic: ViewInterface {
     func displayYoutubeVideo(_ viewModel: InsertVideo.Info.ViewModel.Video)
     func displayVideoError()
     func displayFinishedProjectDetails()
-    func displayLoading(_ loading: Bool)
     func displayConfirmationAlert()
     func displayLongLoading(_ loading: Bool)
 }
 
 class InsertVideoController: BaseViewController {
-    
-    private lazy var loadingView: WCLoadingView = {
-        let view = WCLoadingView(frame: .zero)
-        view.isHidden = true
-        return view
-    }()
     
     private lazy var confirmationAlertView: ConfirmationAlertView = {
         let view = ConfirmationAlertView(frame: .zero,
@@ -38,15 +31,6 @@ class InsertVideoController: BaseViewController {
         view.backgroundColor = UIColor(rgb: 0xededed).withAlphaComponent(0.5)
         view.addGestureRecognizer(UITapGestureRecognizer(target: self,
                                                          action: #selector(hideConfirmationAlert)))
-        view.isHidden = true
-        return view
-    }()
-    
-    private lazy var activityView: UIActivityIndicatorView = {
-        let view = UIActivityIndicatorView(frame: .zero)
-        view.startAnimating()
-        view.color = ThemeColors.mainRedColor.rawValue
-        view.backgroundColor = .white
         view.isHidden = true
         return view
     }()
@@ -89,17 +73,12 @@ class InsertVideoController: BaseViewController {
     
     private lazy var mainView: InsertVideoView = {
         let view = InsertVideoView(frame: .zero,
-                                   closeButton: closeButton,
-                                   loadingView: loadingView,
                                    confirmationAlertView: confirmationAlertView,
                                    translucentView: translucentView,
-                                   activityView: activityView,
-                                   backButton: backButton,
                                    inputTextField: inputTextField,
                                    urlErrorView: urlErrorView,
                                    playerView: playerView,
                                    submitButton: submitButton)
-        view.backgroundColor = .white
         return view
     }()
     
@@ -246,10 +225,6 @@ extension InsertVideoController: InsertVideoDisplayLogic {
         router?.routeToFinishedProjectDetails()
     }
     
-    func displayLoading(_ loading: Bool) {
-        activityView.isHidden = !loading
-    }
-    
     func displayConfirmationAlert() {
         navigationController?.tabBarController?.tabBar.isHidden = true
         mainView.displayConfirmationModal()
@@ -259,7 +234,6 @@ extension InsertVideoController: InsertVideoDisplayLogic {
         navigationController?.tabBarController?.tabBar.isHidden = loading
         playerView.stopVideo()
         playerView.delegate = nil
-        loadingView.isHidden = !loading
-        loadingView.animateRotate()
+        mainView.fullScreenLoading(!loading)
     }
 }

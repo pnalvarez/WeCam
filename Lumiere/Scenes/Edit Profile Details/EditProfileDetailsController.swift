@@ -10,32 +10,15 @@ import UIKit
 import WCUIKit
 import Photos
 
-protocol EditProfileDetailsDisplayLogic: class {
+protocol EditProfileDetailsDisplayLogic: ViewInterface {
     func displayUserData(_ viewModel: EditProfileDetails.Info.ViewModel.User,
                          cathegories: EditProfileDetails.Info.ViewModel.Cathegories)
     func displayProfileDetails()
-    func displayLoading(_ loading: Bool)
     func displayError(_ viewModel: String)
     func displayInterestCathegories(_ viewModel: EditProfileDetails.Info.ViewModel.Cathegories)
 }
 
 class EditProfileDetailsController: BaseViewController {
-    
-    private lazy var activityView: UIActivityIndicatorView = {
-        let view = UIActivityIndicatorView(frame: .zero)
-        view.startAnimating()
-        view.color = .black
-        view.backgroundColor = .white
-        view.isHidden = true
-        return view
-    }()
-    
-    private lazy var loadingView: WCLoadingView = {
-        let view = WCLoadingView(frame: .zero)
-        view.animateRotate()
-        view.isHidden = true
-        return view
-    }()
     
     private lazy var finishButton: UIButton = {
         let view = UIButton(frame: .zero)
@@ -97,9 +80,6 @@ class EditProfileDetailsController: BaseViewController {
     
     private lazy var mainView: EditProfileDetailsView = {
         let view = EditProfileDetailsView(frame: .zero,
-                                          backButton: backButton,
-                                          activityView: activityView,
-                                          loadingView: loadingView,
                                           finishButton: finishButton,
                                           imageButton: imageButton,
                                           nameTextField: nameTextField,
@@ -301,11 +281,6 @@ extension EditProfileDetailsController: EditProfileDetailsDisplayLogic {
     
     func displayProfileDetails() {
         router?.routeBackSuccess()
-    }
-    
-    func displayLoading(_ loading: Bool) {
-        loadingView.isHidden = !loading
-        loadingView.animateRotate()
     }
     
     func displayError(_ viewModel: String) {

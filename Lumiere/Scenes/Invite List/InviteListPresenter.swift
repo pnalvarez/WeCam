@@ -22,7 +22,7 @@ class InviteListPresenter: InviteListPresentationLogic {
     }
     
     func presentLoading(_ loading: Bool) {
-        viewController.displayLoading(loading)
+        viewController.defaultScreenLoading(!loading)
     }
     
     func presentConnections(_ response: InviteList.Info.Model.Connections) {

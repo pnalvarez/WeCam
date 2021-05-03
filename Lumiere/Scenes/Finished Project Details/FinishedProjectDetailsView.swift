@@ -9,13 +9,10 @@
 import UIKit
 import WCUIKit
 
-class FinishedProjectDetailsView: UIView {
+class FinishedProjectDetailsView: BaseView, ModalViewable {
     
-    private unowned var activityView: UIActivityIndicatorView
     private unowned var confirmationAlertView: ConfirmationAlertView
     private unowned var translucentView: UIView
-    private unowned var closeButton: WCCloseButton
-    private unowned var backButton: WCBackButton
     private unowned var watchButton: UIButton
     private unowned var interactionButton: UIButton
     private unowned var teamCollectionView: UICollectionView
@@ -82,20 +79,14 @@ class FinishedProjectDetailsView: UIView {
     private var viewModel: FinishedProjectDetails.Info.ViewModel.Project?
     
     init(frame: CGRect,
-         activityView: UIActivityIndicatorView,
          confirmationAlertView: ConfirmationAlertView,
          translucentView: UIView,
-         closeButton: WCCloseButton,
-         backButton: WCBackButton,
          watchButton: UIButton,
          interactionButton: UIButton,
          teamCollectionView: UICollectionView,
          moreInfoButton: UIButton) {
-        self.activityView = activityView
         self.confirmationAlertView = confirmationAlertView
         self.translucentView = translucentView
-        self.closeButton = closeButton
-        self.backButton = backButton
         self.watchButton = watchButton
         self.interactionButton = interactionButton
         self.teamCollectionView = teamCollectionView
@@ -142,8 +133,6 @@ class FinishedProjectDetailsView: UIView {
 extension FinishedProjectDetailsView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
-        mainContainer.addSubview(closeButton)
-        mainContainer.addSubview(backButton)
         mainContainer.addSubview(photoImageView)
         mainContainer.addSubview(titleLbl)
         containerView.addSubview(sinopsisLbl)
@@ -157,13 +146,9 @@ extension FinishedProjectDetailsView: ViewCodeProtocol {
         addSubview(scrollView)
         addSubview(translucentView)
         addSubview(confirmationAlertView)
-        addSubview(activityView)
     }
     
     func setupConstraints() {
-        activityView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
         confirmationAlertView.snp.makeConstraints { make in
             make.top.equalTo(translucentView.snp.bottom)
             make.size.equalTo(translucentView)
@@ -171,14 +156,8 @@ extension FinishedProjectDetailsView: ViewCodeProtocol {
         translucentView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-        closeButton.snp.makeConstraints { make in
-            make.top.right.equalToSuperview().inset(28)
-        }
-        backButton.snp.makeConstraints { make in
-            make.top.left.equalToSuperview().inset(28)
-        }
         photoImageView.snp.makeConstraints { make in
-            make.top.equalTo(closeButton.snp.bottom).offset(24)
+            make.top.equalToSuperview().inset(32)
             make.centerX.equalToSuperview()
             make.width.equalTo(240)
             make.height.equalTo(182)
