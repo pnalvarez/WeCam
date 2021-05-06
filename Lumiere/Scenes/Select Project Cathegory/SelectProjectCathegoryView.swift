@@ -92,8 +92,4 @@ extension SelectProjectCathegoryView: ViewCodeProtocol {
             make.height.equalTo(479)
         }
     }
-    
-    func configureViews() {
-        backgroundColor = .white
-    }
 }

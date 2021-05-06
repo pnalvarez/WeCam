@@ -56,9 +56,9 @@ class OnGoingProjectDetailsView: BaseView, ModalViewable {
         return view
     }()
     
-    private lazy var mainContainer: UIView = {
-        let view = UIView(frame: .zero)
-        view.backgroundColor = .white
+    private lazy var mainContainer: WCContentView = {
+        let view = WCContentView(frame: .zero)
+        view.style = .white
         return view
     }()
     
@@ -340,7 +340,7 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
             make.height.equalToSuperview().priority(250)
         }
         cathegoryLbl.snp.makeConstraints { make in
-            make.centerY.equalTo(closeButton)
+            make.top.equalToSuperview().inset(8)
             make.centerX.equalToSuperview()
             make.width.equalTo(180)
         }
@@ -387,6 +387,7 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
         titleTextField.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(9)
             make.left.right.equalToSuperview()
+            make.height.equalTo(19)
         }
         sinopsisTextView.snp.makeConstraints { make in
             make.top.equalTo(titleTextField.snp.bottom).offset(6)
@@ -440,7 +441,7 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
             make.width.equalTo(171)
         }
         interactionButton.snp.makeConstraints { make in
-            make.top.equalTo(closeButton).offset(760)
+            make.top.equalToSuperview().offset(768)
             make.centerX.equalToSuperview()
             make.height.equalTo(30)
             make.width.equalTo(120)

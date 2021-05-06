@@ -88,7 +88,7 @@ class BaseView: UIView {
         addSubview(activityView)
         addSubview(loadingView)
         if let scrollView = subviews.first(where: { $0 is UIScrollView }),
-           let container = scrollView.subviews.first {
+           let container = scrollView.subviews.first(where: { $0 is WCContentView }) {
             container.addSubview(backButton)
             
             backButton.snp.makeConstraints { make in

@@ -192,7 +192,7 @@ extension ProfileDetailsView: ViewCodeProtocol {
             make.edges.equalToSuperview()
         }
         photoImageView.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(33)
+            make.top.equalToSuperview().inset(56)
             make.left.equalToSuperview().inset(37)
             make.width.equalTo(84)
         }

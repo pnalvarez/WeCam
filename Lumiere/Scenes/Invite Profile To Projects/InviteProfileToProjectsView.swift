@@ -103,8 +103,4 @@ extension InviteProfileToProjectsView: ViewCodeProtocol {
             make.height.equalTo(translucentView)
         }
     }
-    
-    func configureViews() {
-        backgroundColor = .white
-    }
 }

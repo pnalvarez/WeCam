@@ -62,8 +62,4 @@ extension SelectProjectImageView: ViewCodeProtocol {
             make.width.equalToSuperview()
         }
     }
-    
-    func configureViews() {
-        backgroundColor = .white
-    }
 }

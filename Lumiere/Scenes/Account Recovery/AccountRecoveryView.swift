@@ -76,8 +76,4 @@ extension AccountRecoveryView: ViewCodeProtocol {
             make.height.equalTo(30)
         }
     }
-    
-    func configureViews() {
-        backgroundColor = .white
-    }
 }

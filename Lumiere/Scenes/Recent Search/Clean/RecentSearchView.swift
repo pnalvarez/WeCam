@@ -75,12 +75,5 @@ extension RecentSearchView: ViewCodeProtocol {
             make.top.equalTo(searchLbl.snp.bottom).offset(22)
             make.left.right.bottom.equalToSuperview()
         }
-//        activityView.snp.makeConstraints { make in
-//            make.edges.equalTo(resultsTableView)
-//        }
-    }
-    
-    func configureViews() {
-        backgroundColor = .white
     }
 }

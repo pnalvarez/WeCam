@@ -52,7 +52,7 @@ extension InviteListView: ViewCodeProtocol {
     
     func setupConstraints() {
         inviteLbl.snp.makeConstraints { make in
-            make.top.equalTo(backButton.snp.bottom).offset(17)
+            make.top.equalToSuperview().inset(25)
             make.left.equalToSuperview().inset(46)
             make.width.equalTo(191)
         }
@@ -66,9 +66,5 @@ extension InviteListView: ViewCodeProtocol {
             make.top.equalTo(searchTextField.snp.bottom).offset(24)
             make.left.right.bottom.equalToSuperview()
         }
-    }
-    
-    func configureViews() {
-        backgroundColor = .white
     }
 }

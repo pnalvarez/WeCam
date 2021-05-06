@@ -27,9 +27,9 @@ class EditProjectDetailsView: BaseView, ModalViewable {
         return view
     }()
     
-    private lazy var mainContainer: UIView = {
-        let view = UIView(frame: .zero)
-        view.backgroundColor = .white
+    private lazy var mainContainer: WCContentView = {
+        let view = WCContentView(frame: .zero)
+        view.style = .white
         return view
     }()
     
@@ -202,7 +202,7 @@ extension EditProjectDetailsView: ViewCodeProtocol {
         mainContainer.addSubview(projectTitleFixedLbl)
         mainContainer.addSubview(projectTitleTextField)
         mainContainer.addSubview(teamFixedLbl)
-        mainContainer.addSubview(invitedFriendsContainer)
+        invitationsScrollView.addSubview(invitedFriendsContainer)
         mainContainer.addSubview(invitationsScrollView)
         mainContainer.addSubview(inviteFriendsButton)
         mainContainer.addSubview(sinopsisFixedLbl)
@@ -281,9 +281,5 @@ extension EditProjectDetailsView: ViewCodeProtocol {
             make.height.equalTo(30)
             make.width.equalTo(100)
         }
-    }
-    
-    func configureViews() {
-        backgroundColor = .white
     }
 }

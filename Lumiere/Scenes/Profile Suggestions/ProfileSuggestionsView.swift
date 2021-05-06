@@ -85,8 +85,4 @@ extension ProfileSuggestionsView: ViewCodeProtocol {
             make.left.right.bottom.equalToSuperview()
         }
     }
-    
-    func configureViews() {
-        backgroundColor = .white
-    }
 }

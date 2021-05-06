@@ -9,7 +9,7 @@
 import UIKit
 import WCUIKit
 
-protocol EditProgressViewDelegate: class {
+protocol EditProgressViewDelegate: AnyObject {
     func didConfirm(progress: Float)
     func didClose()
 }

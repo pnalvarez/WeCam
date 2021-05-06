@@ -80,8 +80,4 @@ extension ProjectProgressView: ViewCodeProtocol {
             make.height.equalTo(96)
         }
     }
-    
-    func configureViews() {
-        backgroundColor = .white
-    }
 }

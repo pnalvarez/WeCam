@@ -19,9 +19,9 @@ class EditProfileDetailsView: BaseView {
     private unowned var ocupationTextField: UITextField
     private unowned var collectionView: UICollectionView
     
-    private lazy var containerView: UIView = {
-        let view = UIView(frame: .zero)
-        view.backgroundColor = .white
+    private lazy var containerView: WCContentView = {
+        let view = WCContentView(frame: .zero)
+        view.style = .white
         return view
     }()
     

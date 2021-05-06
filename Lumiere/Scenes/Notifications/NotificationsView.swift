@@ -45,8 +45,4 @@ extension NotificationsView: ViewCodeProtocol {
             make.height.equalTo(32)
         }
     }
-    
-    func configureViews() {
-        backgroundColor = .white
-    }
 }
