@@ -23,7 +23,7 @@ class EditProjectDetailsView: BaseView, ModalViewable {
         view.bounces = false
         view.alwaysBounceVertical = false
         view.backgroundColor = .white
-//        view.contentSize = CGSize(width: view.frame.width, height: 900)
+        view.contentSize = CGSize(width: view.frame.width, height: 900)
         return view
     }()
     
@@ -202,14 +202,14 @@ extension EditProjectDetailsView: ViewCodeProtocol {
         mainContainer.addSubview(projectTitleFixedLbl)
         mainContainer.addSubview(projectTitleTextField)
         mainContainer.addSubview(teamFixedLbl)
-        invitationsScrollView.addSubview(invitedFriendsContainer)
-        mainContainer.addSubview(invitationsScrollView)
-        mainContainer.addSubview(inviteFriendsButton)
+//        invitationsScrollView.addSubview(invitedFriendsContainer)
+//        mainContainer.addSubview(invitationsScrollView)
+//        mainContainer.addSubview(inviteFriendsButton)
         mainContainer.addSubview(sinopsisFixedLbl)
         mainContainer.addSubview(sinopsisTextView)
         mainContainer.addSubview(needLbl)
         mainContainer.addSubview(needTextView)
-        mainContainer.addSubview(publishButton)
+//        mainContainer.addSubview(publishButton)
         mainScrollView.addSubview(mainContainer)
         addSubview(mainScrollView)
     }
@@ -224,8 +224,8 @@ extension EditProjectDetailsView: ViewCodeProtocol {
             make.height.equalToSuperview().priority(250)
         }
         projectTitleFixedLbl.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(9)
-            make.left.equalToSuperview().inset(9)
+            make.top.equalToSuperview().inset(84)
+            make.left.equalToSuperview().inset(31)
             make.width.equalTo(200)
         }
         projectTitleTextField.snp.makeConstraints { make in
@@ -235,8 +235,8 @@ extension EditProjectDetailsView: ViewCodeProtocol {
         }
         sinopsisFixedLbl.snp.makeConstraints { make in
             make.top.equalTo(projectTitleTextField.snp.bottom).offset(20)
-            make.left.equalTo(teamFixedLbl)
-            make.right.equalToSuperview().inset(66)
+            make.left.equalTo(projectTitleFixedLbl)
+            make.right.equalToSuperview().inset(65)
         }
         sinopsisTextView.snp.makeConstraints { make in
             make.top.equalTo(sinopsisFixedLbl.snp.bottom).offset(5)
@@ -251,35 +251,34 @@ extension EditProjectDetailsView: ViewCodeProtocol {
         needTextView.snp.makeConstraints { make in
             make.top.equalTo(needLbl.snp.bottom)
             make.left.equalTo(needLbl)
-            make.right.equalToSuperview().inset(48)
+            make.right.equalToSuperview().inset(64)
         }
         teamFixedLbl.snp.makeConstraints { make in
             make.top.equalTo(needTextView.snp.bottom).offset(20)
             make.left.equalToSuperview().inset(24)
             make.width.equalTo(70)
         }
-        invitationsScrollView.snp.makeConstraints { make in
-            make.top.equalTo(teamFixedLbl.snp.bottom).offset(12)
-            make.left.right.equalToSuperview()
-            make.height.equalTo(110)
-        }
-        invitedFriendsContainer.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-            make.height.equalToSuperview()
-            make.width.equalToSuperview().priority(250)
-        }
-        inviteFriendsButton.snp.makeConstraints { make in
-            make.top.equalTo(invitationsScrollView.snp.bottom).offset(45)
-            make.centerX.equalToSuperview()
-            make.height.equalTo(32)
-            make.width.equalTo(171)
-        }
-        publishButton.snp.makeConstraints { make in
-            make.top.equalTo(inviteFriendsButton.snp.bottom).offset(48)
-            make.bottom.equalToSuperview().inset(20)
-            make.centerX.equalToSuperview()
-            make.height.equalTo(30)
-            make.width.equalTo(100)
-        }
+//        invitationsScrollView.snp.makeConstraints { make in
+//            make.top.equalTo(teamFixedLbl.snp.bottom).offset(12)
+//            make.left.right.equalToSuperview()
+//            make.height.equalTo(110)
+//        }
+//        invitedFriendsContainer.snp.makeConstraints { make in
+//            make.edges.equalToSuperview()
+//            make.height.equalToSuperview()
+//            make.width.equalToSuperview().priority(250)
+//        }
+//        inviteFriendsButton.snp.makeConstraints { make in
+//            make.top.equalTo(invitationsScrollView.snp.bottom).offset(45)
+//            make.centerX.equalToSuperview()
+//            make.height.equalTo(32)
+//            make.width.equalTo(171)
+//        }
+//        publishButton.snp.makeConstraints { make in
+//            make.top.equalTo(inviteFriendsButton.snp.bottom).offset(48)
+//            make.bottom.equalToSuperview().inset(20)
+//            make.centerX.equalToSuperview()
+//            make.width.equalTo(100)
+//        }
     }
 }

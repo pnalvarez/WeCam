@@ -18,14 +18,14 @@ class SignUpView: BaseView {
     private unowned var passwordTextField: WCInputTextField
     private unowned var confirmTextField: WCInputTextField
     private unowned var professionalTextField: WCInputTextField
-    private unowned var signUpButton: UIButton
+    private unowned var signUpButton: WCActionButton
     private unowned var cathegoryListView: WCCathegoryListView
     
     private lazy var cathegoriesLbl: UILabel = { return UILabel(frame: .zero) }()
     
-    private lazy var containerView: UIView = {
-        let view = UIView(frame: .zero)
-        view.backgroundColor = SignUp.Constants.Colors.backgroundColor
+    private lazy var containerView: WCContentView = {
+        let view = WCContentView(frame: .zero)
+        view.style = .white
         return view
     }()
     
@@ -58,7 +58,7 @@ class SignUpView: BaseView {
          passwordTextField: WCInputTextField,
          confirmTextField: WCInputTextField,
          professionalTextField: WCInputTextField,
-         signUpButton: UIButton,
+         signUpButton: WCActionButton,
          cathegoryListView: WCCathegoryListView) {
         self.imageButton = imageButton
         self.nameTextField = nameTextField
@@ -216,11 +216,5 @@ extension SignUpView: ViewCodeProtocol {
         
         cathegoriesLbl.attributedText = NSAttributedString(string: SignUp.Constants.Texts.cathegories,
                                                            attributes: [NSAttributedString.Key.font: SignUp.Constants.Fonts.cathegoriesLblFont, NSAttributedString.Key.foregroundColor: SignUp.Constants.Colors.cathegoriesLblColor, NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue])
-        signUpButton.layer.cornerRadius = 4
-        signUpButton.backgroundColor = SignUp.Constants.Colors.signUpButtonBackgroundColor
-        signUpButton.setAttributedTitle(NSAttributedString(string: SignUp.Constants.Texts.signUpButton,
-                                                           attributes: [NSAttributedString.Key.font: SignUp.Constants.Fonts.signUpButtonFont, NSAttributedString.Key.foregroundColor: SignUp.Constants.Colors.signUpButtonTextColor]),
-                                                            for: .normal)
-        
     }
 }

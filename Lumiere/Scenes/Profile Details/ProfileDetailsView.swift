@@ -90,9 +90,9 @@ class ProfileDetailsView: BaseView {
         return view
     }()
     
-    private lazy var mainContainer: UIView = {
-        let view = UIView(frame: .zero)
-        view.backgroundColor = .white
+    private lazy var mainContainer: WCContentView = {
+        let view = WCContentView(frame: .zero)
+        view.style = .white
         return view
     }()
     
