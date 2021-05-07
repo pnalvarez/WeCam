@@ -15,7 +15,8 @@ class EditProjectDetailsView: BaseView, ModalViewable {
     private unowned var projectTitleTextField: WCProjectDataTextField
     private unowned var sinopsisTextView: WCProjectDataTextView
     private unowned var needTextView: WCProjectDataTextView
-    private unowned var publishButton: UIButton
+    private unowned var invitationsCollectionView: UICollectionView
+    private unowned var publishButton: WCActionButton
     
     private lazy var mainScrollView: UIScrollView = {
         let view = UIScrollView(frame: .zero)
@@ -107,11 +108,13 @@ class EditProjectDetailsView: BaseView, ModalViewable {
          projectTitleTextField: WCProjectDataTextField,
          sinopsisTextView: WCProjectDataTextView,
          needTextView: WCProjectDataTextView,
-         publishButton: UIButton) {
+         invitationsCollectionView: UICollectionView,
+         publishButton: WCActionButton) {
         self.inviteFriendsButton = inviteFriendsButton
         self.projectTitleTextField = projectTitleTextField
         self.sinopsisTextView = sinopsisTextView
         self.needTextView = needTextView
+        self.invitationsCollectionView = invitationsCollectionView
         self.publishButton = publishButton
         super.init(frame: frame)
         applyViewCode()
@@ -209,6 +212,7 @@ extension EditProjectDetailsView: ViewCodeProtocol {
         mainContainer.addSubview(sinopsisTextView)
         mainContainer.addSubview(needLbl)
         mainContainer.addSubview(needTextView)
+        mainContainer.addSubview(invitationsCollectionView)
 //        mainContainer.addSubview(publishButton)
         mainScrollView.addSubview(mainContainer)
         addSubview(mainScrollView)
@@ -257,6 +261,11 @@ extension EditProjectDetailsView: ViewCodeProtocol {
             make.top.equalTo(needTextView.snp.bottom).offset(20)
             make.left.equalToSuperview().inset(24)
             make.width.equalTo(70)
+        }
+        invitationsCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(teamFixedLbl.snp.bottom).offset(12)
+            make.left.right.equalToSuperview()
+            make.height.equalTo(100)
         }
 //        invitationsScrollView.snp.makeConstraints { make in
 //            make.top.equalTo(teamFixedLbl.snp.bottom).offset(12)

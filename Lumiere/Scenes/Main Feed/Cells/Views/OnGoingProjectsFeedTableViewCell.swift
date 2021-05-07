@@ -9,7 +9,7 @@
 import UIKit
 import WCUIKit
 
-protocol OnGoingProjectsFeedTableViewCellDelegate: class {
+protocol OnGoingProjectsFeedTableViewCellDelegate: AnyObject {
     func didSelectProject(index: Int)
     func didTapFilterCathegories()
 }

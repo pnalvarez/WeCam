@@ -46,14 +46,22 @@ class EditProjectDetailsController: BaseViewController {
         return view
     }()
     
-    private lazy var publishButton: UIButton = {
-        let view = UIButton(frame: .zero)
+    private lazy var invitationsCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        view.assignProtocols(to: self)
+        view.alwaysBounceHorizontal = true
+        view.bounces = false
+        view.registerCell(cellType: TeamMemberCollectionViewCell.self)
+        view.backgroundColor = .white
+        return view
+    }()
+
+    private lazy var publishButton: WCActionButton = {
+        let view = WCActionButton(frame: .zero)
         view.addTarget(self, action: #selector(didTapPublish), for: .touchUpInside)
-        view.setTitle(EditProjectDetails.Constants.Texts.publishButton, for: .normal)
-        view.setTitleColor(EditProjectDetails.Constants.Colors.publishButtonText, for: .normal)
-        view.backgroundColor = EditProjectDetails.Constants.Colors.publishButtonBackground
-        view.titleLabel?.font = EditProjectDetails.Constants.Fonts.publishButton
-        view.layer.cornerRadius = 4
+        view.text = EditProjectDetails.Constants.Texts.publishButton
         return view
     }()
     
@@ -63,9 +71,18 @@ class EditProjectDetailsController: BaseViewController {
                                           projectTitleTextField: projectTitleTextField,
                                           sinopsisTextView: sinopsisTextView,
                                           needTextView: needTextView,
+                                          invitationsCollectionView: invitationsCollectionView,
                                           publishButton: publishButton)
         return view
     }()
+    
+    private var invitedUsersViewModel: EditProjectDetails.Info.ViewModel.InvitedUsers? {
+        didSet {
+            DispatchQueue.main.async {
+                self.invitationsCollectionView.reloadData()
+            }
+        }
+    }
     
     private var interactor: EditProjectDetailsBusinessLogic?
     var router: EditProjectDetailsRouterProtocol?
@@ -152,15 +169,46 @@ extension EditProjectDetailsController: UITextViewDelegate {
 }
 
 extension EditProjectDetailsController: UICollectionViewDelegate, UICollectionViewDataSource {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return invitedUsersViewModel?.users.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        return UICollectionViewCell()
+        let cell = invitationsCollectionView.dequeueReusableCell(indexPath: indexPath, type: TeamMemberCollectionViewCell.self)
+        guard let user = invitedUsersViewModel?.users[indexPath.row] else {
+            return UICollectionViewCell()
+        }
+        cell.setup(name: user.name, jobDescription: user.ocupation, image: user.image)
+        return cell
+    }
+}
+
+extension EditProjectDetailsController: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        return CGSize(width: 128, height: 38)
+    }
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 11
     }
     
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 14
+    }
     
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets.init(top: 10, left: 22, bottom: 0, right: 22)
+    }
 }
 
 extension EditProjectDetailsController: EditProjectDetailsDisplayLogic {

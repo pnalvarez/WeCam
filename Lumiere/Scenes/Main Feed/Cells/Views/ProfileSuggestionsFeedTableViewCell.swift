@@ -9,7 +9,7 @@
 import UIKit
 import WCUIKit
 
-protocol ProfileSuggestionsFeedTableViewCellDelegate: class {
+protocol ProfileSuggestionsFeedTableViewCellDelegate: AnyObject {
     func didTapProfileSuggestion(index: Int)
     func didTapSeeAll()
 }
