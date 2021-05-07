@@ -46,6 +46,24 @@ class EditProjectDetailsController: BaseViewController {
         return view
     }()
     
+    private lazy var invitationsStackView: UIStackView = {
+        let view = UIStackView(frame: .zero)
+        view.alignment = .center
+        view.axis = .vertical
+        view.distribution = .fill
+        view.spacing = 12
+        return view
+    }()
+    
+    private lazy var teamFixedLbl: UILabel = {
+        let view = UILabel(frame: .zero)
+        view.text = EditProjectDetails.Constants.Texts.teamFixedLbl
+        view.textColor = EditProjectDetails.Constants.Colors.teamFixedLbl
+        view.font = EditProjectDetails.Constants.Fonts.teamFixedLbl
+        view.textAlignment = .left
+        return view
+    }()
+    
     private lazy var invitationsCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -71,6 +89,8 @@ class EditProjectDetailsController: BaseViewController {
                                           projectTitleTextField: projectTitleTextField,
                                           sinopsisTextView: sinopsisTextView,
                                           needTextView: needTextView,
+                                          teamFixedLbl: teamFixedLbl,
+                                          invitationsStackView: invitationsStackView,
                                           invitationsCollectionView: invitationsCollectionView,
                                           publishButton: publishButton)
         return view
@@ -79,6 +99,8 @@ class EditProjectDetailsController: BaseViewController {
     private var invitedUsersViewModel: EditProjectDetails.Info.ViewModel.InvitedUsers? {
         didSet {
             DispatchQueue.main.async {
+                self.teamFixedLbl.isHidden = self.invitedUsersViewModel?.users.isEmpty ?? true
+                self.invitationsCollectionView.isHidden = self.invitedUsersViewModel?.users.isEmpty ?? true
                 self.invitationsCollectionView.reloadData()
             }
         }

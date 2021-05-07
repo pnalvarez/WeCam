@@ -15,8 +15,10 @@ class EditProjectDetailsView: BaseView, ModalViewable {
     private unowned var projectTitleTextField: WCProjectDataTextField
     private unowned var sinopsisTextView: WCProjectDataTextView
     private unowned var needTextView: WCProjectDataTextView
+    private unowned var teamFixedLbl: UILabel
     private unowned var invitationsCollectionView: UICollectionView
     private unowned var publishButton: WCActionButton
+    private unowned var invitationsStackView: UIStackView
     
     private lazy var mainScrollView: UIScrollView = {
         let view = UIScrollView(frame: .zero)
@@ -38,15 +40,6 @@ class EditProjectDetailsView: BaseView, ModalViewable {
         view.text = EditProjectDetails.Constants.Texts.projectTitleLbl
         view.textColor = EditProjectDetails.Constants.Colors.projectTitleFixedLbl
         view.font = EditProjectDetails.Constants.Fonts.projectTitleLbl
-        view.textAlignment = .left
-        return view
-    }()
-    
-    private lazy var teamFixedLbl: UILabel = {
-        let view = UILabel(frame: .zero)
-        view.text = EditProjectDetails.Constants.Texts.teamFixedLbl
-        view.textColor = EditProjectDetails.Constants.Colors.teamFixedLbl
-        view.font = EditProjectDetails.Constants.Fonts.teamFixedLbl
         view.textAlignment = .left
         return view
     }()
@@ -74,12 +67,16 @@ class EditProjectDetailsView: BaseView, ModalViewable {
          projectTitleTextField: WCProjectDataTextField,
          sinopsisTextView: WCProjectDataTextView,
          needTextView: WCProjectDataTextView,
+         teamFixedLbl: UILabel,
+         invitationsStackView: UIStackView,
          invitationsCollectionView: UICollectionView,
          publishButton: WCActionButton) {
         self.inviteFriendsButton = inviteFriendsButton
         self.projectTitleTextField = projectTitleTextField
         self.sinopsisTextView = sinopsisTextView
         self.needTextView = needTextView
+        self.teamFixedLbl = teamFixedLbl
+        self.invitationsStackView = invitationsStackView
         self.invitationsCollectionView = invitationsCollectionView
         self.publishButton = publishButton
         super.init(frame: frame)
@@ -131,13 +128,14 @@ extension EditProjectDetailsView: ViewCodeProtocol {
     func buildViewHierarchy() {
         mainContainer.addSubview(projectTitleFixedLbl)
         mainContainer.addSubview(projectTitleTextField)
-        mainContainer.addSubview(teamFixedLbl)
-        mainContainer.addSubview(inviteFriendsButton)
         mainContainer.addSubview(sinopsisFixedLbl)
         mainContainer.addSubview(sinopsisTextView)
         mainContainer.addSubview(needLbl)
         mainContainer.addSubview(needTextView)
-        mainContainer.addSubview(invitationsCollectionView)
+        invitationsStackView.addArrangedSubview(teamFixedLbl)
+        invitationsStackView.addArrangedSubview(invitationsCollectionView)
+        invitationsStackView.addArrangedSubview(inviteFriendsButton)
+        mainContainer.addSubview(invitationsStackView)
         mainContainer.addSubview(publishButton)
         mainScrollView.addSubview(mainContainer)
         addSubview(mainScrollView)
@@ -182,24 +180,25 @@ extension EditProjectDetailsView: ViewCodeProtocol {
             make.left.equalTo(needLbl)
             make.right.equalToSuperview().inset(64)
         }
-        teamFixedLbl.snp.makeConstraints { make in
+        invitationsStackView.snp.makeConstraints { make in
             make.top.equalTo(needTextView.snp.bottom).offset(36)
-            make.left.equalTo(needTextView)
-            make.width.equalTo(70)
+            make.left.right.equalToSuperview()
+        }
+        teamFixedLbl.snp.makeConstraints { make in
+            make.left.equalToSuperview().inset(31)
+            make.right.equalToSuperview().inset(48)
         }
         invitationsCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(teamFixedLbl.snp.bottom).offset(4)
             make.left.right.equalToSuperview()
             make.height.equalTo(108)
         }
         inviteFriendsButton.snp.makeConstraints { make in
-            make.top.equalTo(invitationsCollectionView.snp.bottom).offset(32)
             make.centerX.equalToSuperview()
             make.height.equalTo(32)
             make.width.equalTo(171)
         }
         publishButton.snp.makeConstraints { make in
-            make.top.equalTo(inviteFriendsButton.snp.bottom).offset(80)
+            make.top.equalTo(invitationsStackView.snp.bottom).offset(80)
             make.bottom.equalToSuperview().inset(20)
             make.centerX.equalToSuperview()
             make.width.equalTo(100)
