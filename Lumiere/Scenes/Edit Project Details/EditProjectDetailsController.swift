@@ -107,11 +107,6 @@ class EditProjectDetailsController: BaseViewController {
         mainView.cleanTextFields()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        mainView.flushCarrousel()
-    }
-    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         mainView.defaultScreenLoading(false)
@@ -190,7 +185,7 @@ extension EditProjectDetailsController: UICollectionViewDelegateFlowLayout {
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        return CGSize(width: 128, height: 38)
+        return CGSize(width: 128, height: 42)
     }
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
@@ -218,7 +213,7 @@ extension EditProjectDetailsController: EditProjectDetailsDisplayLogic {
     }
     
     func displayInvitedUsers(_ viewModel: EditProjectDetails.Info.ViewModel.InvitedUsers) {
-        mainView.setup(viewModel: viewModel)
+        self.invitedUsersViewModel = viewModel
         mainView.defaultScreenLoading(true)
     }
     

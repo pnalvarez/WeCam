@@ -24,7 +24,6 @@ class EditProjectDetailsView: BaseView, ModalViewable {
         view.bounces = false
         view.alwaysBounceVertical = false
         view.backgroundColor = .white
-        view.contentSize = CGSize(width: view.frame.width, height: 900)
         return view
     }()
     
@@ -52,24 +51,6 @@ class EditProjectDetailsView: BaseView, ModalViewable {
         return view
     }()
     
-    private lazy var invitationsScrollView: UIScrollView = {
-        let view = UIScrollView(frame: .zero)
-        view.bounces = false
-        view.showsHorizontalScrollIndicator = true
-        view.alwaysBounceHorizontal = false
-        view.alwaysBounceVertical = false
-        view.isScrollEnabled = true
-        view.clipsToBounds = true
-        view.backgroundColor = .white
-        return view
-    }()
-    
-    private lazy var invitedFriendsContainer: UIView = {
-        let view = UIView(frame: .zero)
-        view.backgroundColor = .white
-        return view
-    }()
-    
     private lazy var sinopsisFixedLbl: UILabel = {
         let view = UILabel(frame: .zero)
         view.text = EditProjectDetails.Constants.Texts.sinopsisFixedLbl
@@ -87,21 +68,6 @@ class EditProjectDetailsView: BaseView, ModalViewable {
         view.textAlignment = .left
         return view
     }()
-    
-    private lazy var invitationViews: [WCUserDisplayView] = .empty
-    
-    private var viewModel: EditProjectDetails.Info.ViewModel.InvitedUsers? {
-        didSet {
-            viewModel?.users.forEach({
-                let invitationView = WCUserDisplayView(frame: .zero,
-                                                     name: $0.name,
-                                                     ocupation: $0.ocupation,
-                                                     photo: $0.image)
-                invitationViews.append(invitationView)
-                invitedFriendsContainer.addSubview(invitationView)
-            })
-        }
-    }
     
     init(frame: CGRect,
          inviteFriendsButton: UIButton,
@@ -124,19 +90,6 @@ class EditProjectDetailsView: BaseView, ModalViewable {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setup(viewModel: EditProjectDetails.Info.ViewModel.InvitedUsers) {
-        self.viewModel = viewModel
-        buildCarroussel()
-        applyViewCode()
-    }
-    
-    func flushCarrousel() {
-        for view in invitationViews {
-            view.removeFromSuperview()
-        }
-        invitationViews = .empty
-    }
-    
     func cleanTextFields() {
         sinopsisTextView.textViewState = .normal
         projectTitleTextField.textFieldState = .normal
@@ -147,32 +100,6 @@ class EditProjectDetailsView: BaseView, ModalViewable {
         needTextView.isHidden = true
         teamFixedLbl.isHidden = true
         publishButton.setTitle(EditProjectDetails.Constants.Texts.nextTitle, for: .normal)
-    }
-}
-
-extension EditProjectDetailsView {
-    
-    private func buildCarroussel() {
-        invitationsScrollView.contentSize = CGSize(width: (((invitationViews.count + 1) * 150) + (invitationViews.count - 1) * 8) / 2 + 50, height: 86)
-        for index in 0..<invitationViews.count {
-            invitationViews[index].snp.makeConstraints { make in
-                make.height.equalTo(50)
-                make.width.equalTo(150)
-                if index == 0 { //First invite at the top left corner
-                    make.top.equalToSuperview().inset(1)
-                    make.left.equalToSuperview().offset(42).priority(250)
-                } else if index == 1{ //Second invite at the bottom left corner
-                    make.top.equalTo(invitationViews[0].snp.bottom).offset(10)
-                    make.left.equalToSuperview().offset(42).priority(250)
-                } else if index % 2 == 0 { //Even
-                    make.top.equalToSuperview().inset(1)
-                    make.left.equalTo(invitationViews[index-2].snp.right).offset(8).priority(250)
-                } else { //Odd
-                    make.top.equalTo(invitationViews[index-1].snp.bottom).offset(10)
-                    make.left.equalTo(invitationViews[index-2].snp.right).offset(8).priority(250)
-                }
-            }
-        }
     }
     
     func updateAllTextFields() {
@@ -205,15 +132,13 @@ extension EditProjectDetailsView: ViewCodeProtocol {
         mainContainer.addSubview(projectTitleFixedLbl)
         mainContainer.addSubview(projectTitleTextField)
         mainContainer.addSubview(teamFixedLbl)
-//        invitationsScrollView.addSubview(invitedFriendsContainer)
-//        mainContainer.addSubview(invitationsScrollView)
-//        mainContainer.addSubview(inviteFriendsButton)
+        mainContainer.addSubview(inviteFriendsButton)
         mainContainer.addSubview(sinopsisFixedLbl)
         mainContainer.addSubview(sinopsisTextView)
         mainContainer.addSubview(needLbl)
         mainContainer.addSubview(needTextView)
         mainContainer.addSubview(invitationsCollectionView)
-//        mainContainer.addSubview(publishButton)
+        mainContainer.addSubview(publishButton)
         mainScrollView.addSubview(mainContainer)
         addSubview(mainScrollView)
     }
@@ -258,36 +183,26 @@ extension EditProjectDetailsView: ViewCodeProtocol {
             make.right.equalToSuperview().inset(64)
         }
         teamFixedLbl.snp.makeConstraints { make in
-            make.top.equalTo(needTextView.snp.bottom).offset(20)
-            make.left.equalToSuperview().inset(24)
+            make.top.equalTo(needTextView.snp.bottom).offset(36)
+            make.left.equalTo(needTextView)
             make.width.equalTo(70)
         }
         invitationsCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(teamFixedLbl.snp.bottom).offset(12)
+            make.top.equalTo(teamFixedLbl.snp.bottom).offset(4)
             make.left.right.equalToSuperview()
-            make.height.equalTo(100)
+            make.height.equalTo(108)
         }
-//        invitationsScrollView.snp.makeConstraints { make in
-//            make.top.equalTo(teamFixedLbl.snp.bottom).offset(12)
-//            make.left.right.equalToSuperview()
-//            make.height.equalTo(110)
-//        }
-//        invitedFriendsContainer.snp.makeConstraints { make in
-//            make.edges.equalToSuperview()
-//            make.height.equalToSuperview()
-//            make.width.equalToSuperview().priority(250)
-//        }
-//        inviteFriendsButton.snp.makeConstraints { make in
-//            make.top.equalTo(invitationsScrollView.snp.bottom).offset(45)
-//            make.centerX.equalToSuperview()
-//            make.height.equalTo(32)
-//            make.width.equalTo(171)
-//        }
-//        publishButton.snp.makeConstraints { make in
-//            make.top.equalTo(inviteFriendsButton.snp.bottom).offset(48)
-//            make.bottom.equalToSuperview().inset(20)
-//            make.centerX.equalToSuperview()
-//            make.width.equalTo(100)
-//        }
+        inviteFriendsButton.snp.makeConstraints { make in
+            make.top.equalTo(invitationsCollectionView.snp.bottom).offset(32)
+            make.centerX.equalToSuperview()
+            make.height.equalTo(32)
+            make.width.equalTo(171)
+        }
+        publishButton.snp.makeConstraints { make in
+            make.top.equalTo(inviteFriendsButton.snp.bottom).offset(80)
+            make.bottom.equalToSuperview().inset(20)
+            make.centerX.equalToSuperview()
+            make.width.equalTo(100)
+        }
     }
 }

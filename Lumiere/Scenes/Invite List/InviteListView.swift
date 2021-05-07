@@ -52,7 +52,7 @@ extension InviteListView: ViewCodeProtocol {
     
     func setupConstraints() {
         inviteLbl.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(25)
+            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(82)
             make.left.equalToSuperview().inset(46)
             make.width.equalTo(191)
         }
