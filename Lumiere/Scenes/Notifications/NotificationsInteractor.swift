@@ -8,11 +8,10 @@
 import Foundation
 
 protocol NotificationsBusinessLogic {
-    func fetchNotifications()
+    func fetchNotifications(_ request: Notifications.Request.FetchAllNotifications)
     func didSelectNotification(_ request: Notifications.Request.SelectProfile)
     func didAcceptNotification(_ request: Notifications.Request.NotificationAnswer)
     func didRefuseNotification(_ request: Notifications.Request.NotificationAnswer)
-    func fetchRefreshNotifications(_ request: Notifications.Request.RefreshNotifications)
     func fetchNotificationCriterias(_ request: Notifications.Request.NotificationCriterias)
 }
 
@@ -183,8 +182,11 @@ extension NotificationsInteractor {
             }
         }
     }
+}
+
+extension NotificationsInteractor: NotificationsBusinessLogic {
     
-    private func fetchAll() {
+    func fetchNotifications(_ request: Notifications.Request.FetchAllNotifications) {
         presenter.presentLoading(true)
         guard let currentUserId = currentUser?.userId else { return }
         worker.fetchConnectionNotifications(Notifications.Request.FetchConnectionNotifications(userId: currentUserId)) { response in
@@ -199,13 +201,6 @@ extension NotificationsInteractor {
                 break
             }
         }
-    }
-}
-
-extension NotificationsInteractor: NotificationsBusinessLogic {
-    
-    func fetchNotifications() {
-        fetchAll()
     }
     
     func didSelectNotification(_ request: Notifications.Request.SelectProfile) {
@@ -400,9 +395,6 @@ extension NotificationsInteractor: NotificationsBusinessLogic {
                 }
             }
         }
-    }
-    func fetchRefreshNotifications(_ request: Notifications.Request.RefreshNotifications) {
-        fetchAll()
     }
     
     func fetchNotificationCriterias(_ request: Notifications.Request.NotificationCriterias) {

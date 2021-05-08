@@ -377,7 +377,7 @@ struct Notifications {
             let userId: String
         }
         
-        struct RefreshNotifications {
+        struct FetchAllNotifications {
             
         }
         

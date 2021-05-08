@@ -79,7 +79,7 @@ class NotificationsController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        interactor?.fetchNotifications()
+        interactor?.fetchNotifications(Notifications.Request.FetchAllNotifications())
     }
     
     override func loadView() {
@@ -118,7 +118,7 @@ class NotificationsController: BaseViewController {
     
     @objc
     private func refreshNotifications() {
-        interactor?.fetchRefreshNotifications(Notifications.Request.RefreshNotifications())
+        interactor?.fetchNotifications(Notifications.Request.FetchAllNotifications())
     }
     
     @objc
@@ -181,7 +181,6 @@ extension NotificationsController: UITableViewDelegate {
             guard let enabled = viewModel?.defaultNotifications[indexPath.row].selectable, enabled else {
                 return
             }
-            
             interactor?.didSelectNotification(Notifications.Request.SelectProfile(index: indexPath.row))
         }
     }
