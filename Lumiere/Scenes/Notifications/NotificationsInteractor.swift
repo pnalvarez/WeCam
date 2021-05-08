@@ -45,9 +45,6 @@ class NotificationsInteractor: NotificationsDataStore {
         self.presenter = presenter
         self.worker = worker
     }
-}
-
-extension NotificationsInteractor {
     
     private func buildConnectNotificationsModel(withData connections: [Notifications.Response.ConnectNotification]){
         var upcomingNotifications = [Notifications.Info.Model.ConnectNotification]()
