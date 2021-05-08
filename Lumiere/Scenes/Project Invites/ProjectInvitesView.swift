@@ -91,8 +91,8 @@ extension ProjectInvitesView: ViewCodeProtocol {
     
     func setupConstraints() {
         projectTitleLbl.snp.makeConstraints { make in
-            make.centerY.equalTo(backButton)
-            make.left.equalTo(backButton.snp.right).offset(16)
+            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(8)
+            make.left.equalToSuperview().inset(24)
             make.width.equalTo(200)
         }
         searchTextField.snp.makeConstraints { make in

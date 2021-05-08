@@ -80,7 +80,7 @@ extension InviteProfileToProjectsView: ViewCodeProtocol {
     
     func setupConstraints() {
         mainLbl.snp.makeConstraints { make in
-            make.centerY.equalTo(backButton)
+            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(28)
             make.centerX.equalToSuperview()
             make.width.equalTo(170)
         }

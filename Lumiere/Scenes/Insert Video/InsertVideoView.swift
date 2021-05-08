@@ -115,7 +115,7 @@ extension InsertVideoView: ViewCodeProtocol {
     
     func setupConstraints() {
         insertUrlLbl.snp.makeConstraints { make in
-            make.top.equalTo(backButton.snp.bottom).offset(20)
+            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(28)
             make.left.equalToSuperview().inset(46)
             make.width.equalTo(165)
         }
