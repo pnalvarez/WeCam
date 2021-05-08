@@ -37,7 +37,6 @@ class FilterCathegoriesController: BaseViewController {
         let view = FilterCathegoriesView(frame: .zero,
                                          cathegoryListView: cathegoryListView,
                                          filterButton: filterButton)
-        view.backgroundColor = .white
         return view
     }()
     

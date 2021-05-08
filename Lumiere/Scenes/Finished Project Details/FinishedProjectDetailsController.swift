@@ -88,7 +88,6 @@ class FinishedProjectDetailsController: BaseViewController {
                                               interactionButton: interactionButton,
                                               teamCollectionView: teamCollectionView,
                                               moreInfoButton: moreInfoButton)
-        view.backgroundColor = .white
         return view
     }()
     

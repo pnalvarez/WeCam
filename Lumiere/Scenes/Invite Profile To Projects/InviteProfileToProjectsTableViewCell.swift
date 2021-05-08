@@ -10,7 +10,7 @@ import UIKit
 import WCUIKit
 import SDWebImage
 
-protocol InviteProfileToProjectsTableViewCellDelegate: class {
+protocol InviteProfileToProjectsTableViewCellDelegate: AnyObject {
     func didTapInteraction(index: Int)
 }
 

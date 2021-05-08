@@ -186,7 +186,6 @@ extension EditProfileDetailsView: ViewCodeProtocol {
     }
     
     func configureViews() {
-        backgroundColor = .white
         scrollView.contentSize = CGSize(width: frame.width, height: 975)
         nameTextField.text = viewModel?.name
         cellphoneTextField.text = viewModel?.cellphone

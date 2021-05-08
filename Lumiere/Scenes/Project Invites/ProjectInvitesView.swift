@@ -116,7 +116,6 @@ extension ProjectInvitesView: ViewCodeProtocol {
     }
     
     func configureViews() {
-        backgroundColor = .white
         projectTitleLbl.text = viewModel?.title
     }
 }
