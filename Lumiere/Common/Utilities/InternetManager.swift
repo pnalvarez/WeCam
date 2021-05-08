@@ -48,4 +48,11 @@ open class InternetManager {
         let queue = DispatchQueue(label: queueLabel)
         monitor.start(queue: queue)
     }
+    
+    func checkConnection() {
+        guard isNetworkAvailable else {
+            delegate?.networktUnavailable()
+            return
+        }
+    }
 }

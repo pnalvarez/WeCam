@@ -20,7 +20,7 @@ class BaseTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupUI()
+//        setupUI()
         navigationController?.isNavigationBarHidden = true
         let gesture = UITapGestureRecognizer(target: self, action: #selector(didTap))
         gesture.cancelsTouchesInView = false
@@ -29,6 +29,7 @@ class BaseTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        setupUI()
         InternetManager.shared.delegate = self
         checkConnection()
     }
@@ -39,16 +40,17 @@ class BaseTableViewController: UITableViewController {
     }
     
     private func setupUI() {
-        let keyWindow = UIApplication.shared.connectedScenes
-                .filter({$0.activationState == .foregroundActive})
-                .map({$0 as? UIWindowScene})
-                .compactMap({$0})
-                .first?.windows
-                .filter({$0.isKeyWindow}).first
-        keyWindow?.addSubview(internetErrorView)
-        
-        internetErrorView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+        if let keyWindow = UIApplication.shared.connectedScenes
+            .filter({$0.activationState == .foregroundActive})
+            .map({$0 as? UIWindowScene})
+            .compactMap({$0})
+            .first?.windows
+            .filter({$0.isKeyWindow}).first {
+            keyWindow.addSubview(internetErrorView)
+            
+            internetErrorView.snp.makeConstraints { make in
+                make.edges.equalToSuperview()
+            }
         }
     }
     
