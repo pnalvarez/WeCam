@@ -43,6 +43,7 @@ class EditProjectDetailsController: BaseViewController {
     
     private lazy var needTextView: WCProjectDataTextView = {
         let view = WCProjectDataTextView(frame: .zero, textContainer: nil)
+        view.delegate = self
         return view
     }()
     

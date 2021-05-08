@@ -178,7 +178,7 @@ extension EditProjectDetailsView: ViewCodeProtocol {
         needTextView.snp.makeConstraints { make in
             make.top.equalTo(needLbl.snp.bottom)
             make.left.equalTo(needLbl)
-            make.right.equalToSuperview().inset(64)
+            make.right.equalTo(sinopsisTextView)
         }
         invitationsStackView.snp.makeConstraints { make in
             make.top.equalTo(needTextView.snp.bottom).offset(36)
