@@ -49,7 +49,7 @@ extension SearchResultsView: ViewCodeProtocol {
     
     func setupConstraints() {
         headerImageView.snp.makeConstraints { make in
-            make.top.equalTo(backButton)
+            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(39)
             make.centerX.equalToSuperview()
             make.width.equalTo(100)
             make.height.equalTo(36)

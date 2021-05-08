@@ -97,23 +97,6 @@ class NotificationsController: BaseViewController {
         router.dataStore = interactor
         router.viewController = viewController
     }
-}
-
-extension NotificationsController {
-    
-    @objc
-    private func refreshNotifications() {
-        interactor?.fetchRefreshNotifications(Notifications.Request.RefreshNotifications())
-    }
-    
-    @objc
-    private func didChangeSelectedCriteria() {
-        tableView.bounces = !tableView.bounces
-        refreshTableView()
-    }
-}
-
-extension NotificationsController {
     
     private func setupTableView() {
         tableView.assignProtocols(to: self)
@@ -131,6 +114,17 @@ extension NotificationsController {
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
+    }
+    
+    @objc
+    private func refreshNotifications() {
+        interactor?.fetchRefreshNotifications(Notifications.Request.RefreshNotifications())
+    }
+    
+    @objc
+    private func didChangeSelectedCriteria() {
+        tableView.bounces = !tableView.bounces
+        refreshTableView()
     }
 }
 
@@ -187,6 +181,7 @@ extension NotificationsController: UITableViewDelegate {
             guard let enabled = viewModel?.defaultNotifications[indexPath.row].selectable, enabled else {
                 return
             }
+            
             interactor?.didSelectNotification(Notifications.Request.SelectProfile(index: indexPath.row))
         }
     }
