@@ -65,28 +65,6 @@ class OnGoingProjectDetailsController: BaseViewController, UINavigationControlle
         return view
     }()
     
-    private lazy var titleTextField: UITextField = {
-        let view = UITextField(frame: .zero)
-        view.textAlignment = .center
-        view.textColor = OnGoingProjectDetails.Constants.Colors.titleLbl
-        view.font = OnGoingProjectDetails.Constants.Fonts.titleLbl
-        view.layer.borderWidth = 0
-        view.isUserInteractionEnabled = false
-        return view
-    }()
-    
-    private lazy var sinopsisTextView: UITextView = {
-        let view = UITextView(frame: .zero)
-        view.textAlignment = .center
-        view.textColor = OnGoingProjectDetails.Constants.Colors.sinopsisLbl
-        view.font = OnGoingProjectDetails.Constants.Fonts.sinopsisLbl
-        view.isUserInteractionEnabled = false
-        view.translatesAutoresizingMaskIntoConstraints = true
-        view.sizeToFit()
-        view.isScrollEnabled = false
-        return view
-    }()
-    
     private lazy var teamCollectionView: UICollectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         view.assignProtocols(to: self)
@@ -104,37 +82,6 @@ class OnGoingProjectDetailsController: BaseViewController, UINavigationControlle
         view.addTarget(self, action: #selector(didTapMoreInfo), for: .touchUpInside)
         view.setAttributedTitle(NSAttributedString(string: OnGoingProjectDetails.Constants.Texts.moreInfoButton,
                                                    attributes: [NSAttributedString.Key.foregroundColor: OnGoingProjectDetails.Constants.Colors.moreInfoButtonText, NSAttributedString.Key.font: OnGoingProjectDetails.Constants.Fonts.moreInfoButton, NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue]), for: .normal)
-        return view
-    }()
-    
-    private lazy var editButton: UIButton = {
-        let view = UIButton(frame: .zero)
-        view.addTarget(self, action: #selector(didTapEditInfo), for: .touchUpInside)
-        view.setTitle(OnGoingProjectDetails.Constants.Texts.editButton, for: .normal)
-        view.setTitleColor(OnGoingProjectDetails.Constants.Colors.editButtonText, for: .normal)
-        view.titleLabel?.font = OnGoingProjectDetails.Constants.Fonts.editButton
-        view.backgroundColor = OnGoingProjectDetails.Constants.Colors.editButtonBackground
-        view.layer.borderWidth = 1
-        view.layer.borderColor = OnGoingProjectDetails.Constants.Colors.editButtonLayer
-        view.layer.cornerRadius = 4
-        return view
-    }()
-    
-    private lazy var cancelEditingDetailsButton: WCCloseButton = {
-        let view = WCCloseButton(frame: .zero, layout: .small)
-        view.addTarget(self,
-                       action: #selector(didTapCancelEditing),
-                       for: .touchUpInside)
-        view.isHidden = true
-        return view
-    }()
-    
-    private lazy var cancelEditingNeedingButton: WCCloseButton = {
-        let view = WCCloseButton(frame: .zero, layout: .small)
-        view.addTarget(self,
-                       action: #selector(didTapCancelEditing),
-                       for: .touchUpInside)
-        view.isHidden = true
         return view
     }()
     
@@ -156,19 +103,6 @@ class OnGoingProjectDetailsController: BaseViewController, UINavigationControlle
         return view
     }()
     
-    private lazy var editNeedingButton: UIButton = {
-        let view = UIButton(frame: .zero)
-        view.addTarget(self, action: #selector(didTapEditNeeding), for: .touchUpInside)
-        view.setTitle(OnGoingProjectDetails.Constants.Texts.editButton, for: .normal)
-        view.setTitleColor(OnGoingProjectDetails.Constants.Colors.editButtonText, for: .normal)
-        view.titleLabel?.font = OnGoingProjectDetails.Constants.Fonts.editButton
-        view.backgroundColor = OnGoingProjectDetails.Constants.Colors.editButtonBackground
-        view.layer.borderWidth = 1
-        view.layer.borderColor = OnGoingProjectDetails.Constants.Colors.editButtonLayer
-        view.layer.cornerRadius = 4
-        return view
-    }()
-    
     private lazy var interactionButton: UIButton = {
         let view = UIButton(frame: .zero)
         view.addTarget(self, action: #selector(didTapInteraction), for: .touchUpInside)
@@ -180,12 +114,15 @@ class OnGoingProjectDetailsController: BaseViewController, UINavigationControlle
         return view
     }()
     
-    private lazy var needValueTextfield: UITextField = {
-        let view = UITextField(frame: .zero)
-        view.textColor = OnGoingProjectDetails.Constants.Colors.needValueLbl
-        view.font = OnGoingProjectDetails.Constants.Fonts.needValueLbl
-        view.textAlignment = .left
-        view.isUserInteractionEnabled = false
+    private lazy var projectTitleDescriptionEditableView: WCTitleDescriptionEditableView = {
+        let view = WCTitleDescriptionEditableView(frame: .zero)
+        view.delegate = self
+        return view
+    }()
+    
+    private lazy var projectNeedingBulletEditableView: WCBulletEditableItemView = {
+        let view = WCBulletEditableItemView(frame: .zero)
+        view.delegate = self
         return view
     }()
     
@@ -193,8 +130,6 @@ class OnGoingProjectDetailsController: BaseViewController, UINavigationControlle
         let view = OnGoingProjectDetailsView(frame: .zero,
                                              editProgressView: editProgressView,
                                              editProgressTranslucentView: editProgressTranslucentView,
-                                             titleTextField: titleTextField,
-                                             sinopsisTextView: sinopsisTextView,
                                              confirmationModalView: confirmationModalView,
                                              translucentView: translucentView,
                                              teamCollectionView: teamCollectionView,
@@ -202,12 +137,9 @@ class OnGoingProjectDetailsController: BaseViewController, UINavigationControlle
                                              progressButton: progressButton,
                                              projectImageView: projectImageView,
                                              inviteContactsButton: inviteContactsButton,
-                                             editButton: editButton,
-                                             cancelEditingDetailsButton: cancelEditingDetailsButton,
                                              interactionButton: interactionButton,
-                                             editNeedingButton: editNeedingButton,
-                                             cancelEditingNeedingButton: cancelEditingNeedingButton,
-                                             needValueTextfield: needValueTextfield)
+                                             projectTitleDescriptionEditableView: projectTitleDescriptionEditableView,
+                                             projectBulletNeedingEditableView: projectNeedingBulletEditableView)
         return view
     }()
     
@@ -216,45 +148,12 @@ class OnGoingProjectDetailsController: BaseViewController, UINavigationControlle
     private var viewModel: OnGoingProjectDetails.Info.ViewModel.Project? {
         didSet {
             DispatchQueue.main.async {
+                self.projectTitleDescriptionEditableView.setup(title: self.viewModel?.title ?? .empty,
+                                                               description: self.viewModel?.sinopsis ?? .empty)
+                self.projectNeedingBulletEditableView.setup(headerText: OnGoingProjectDetails.Constants.Texts.needFixedLbl,
+                                                            needingText: self.viewModel?.needing ?? .empty)
                 self.teamCollectionView.reloadData()
             }
-        }
-    }
-    
-    private var editingDetails = false {
-        didSet {
-            if editingDetails {
-                editButton.setTitle(OnGoingProjectDetails.Constants.Texts.editConclude,
-                                    for: .normal)
-                editButton.setTitleColor(OnGoingProjectDetails.Constants.Colors.editConcludeText, for: .normal)
-                editButton.backgroundColor = OnGoingProjectDetails.Constants.Colors.editConclude
-            } else {
-                editButton.setTitle(OnGoingProjectDetails.Constants.Texts.editButton,
-                                    for: .normal)
-                editButton.setTitleColor(OnGoingProjectDetails.Constants.Colors.editButtonText, for: .normal)
-                editButton.backgroundColor = OnGoingProjectDetails.Constants.Colors.editButtonBackground
-            }
-            titleTextField.isUserInteractionEnabled = editingDetails
-            sinopsisTextView.isUserInteractionEnabled = editingDetails
-            editNeedingButton.isHidden = editingDetails
-            cancelEditingDetailsButton.isHidden = !editingDetails
-        }
-    }
-    private var editingNeeding = false {
-        didSet {
-            if editingNeeding {
-                editNeedingButton.setTitle(OnGoingProjectDetails.Constants.Texts.editConclude, for: .normal)
-                editNeedingButton.setTitleColor(OnGoingProjectDetails.Constants.Colors.editConcludeText, for: .normal)
-                editNeedingButton.backgroundColor = OnGoingProjectDetails.Constants.Colors.editConclude
-            } else {
-                editNeedingButton.setTitle(OnGoingProjectDetails.Constants.Texts.editButton,
-                                    for: .normal)
-                editNeedingButton.setTitleColor(OnGoingProjectDetails.Constants.Colors.editButtonText, for: .normal)
-                editNeedingButton.backgroundColor = OnGoingProjectDetails.Constants.Colors.editButtonBackground
-            }
-            needValueTextfield.isUserInteractionEnabled = editingNeeding
-            editButton.isHidden = editingNeeding
-            cancelEditingNeedingButton.isHidden = !editingNeeding
         }
     }
     
@@ -322,35 +221,6 @@ class OnGoingProjectDetailsController: BaseViewController, UINavigationControlle
     }
     
     @objc
-    private func didTapEditInfo() {
-        if editingDetails {
-            interactor?.fetchUpdateProjectInfo(OnGoingProjectDetails.Request.UpdateInfo(title: titleTextField.text ?? .empty, sinopsis: sinopsisTextView.text ?? .empty))
-            editingDetails = false
-        } else {
-            editingDetails = true
-        }
-    }
-    
-    @objc
-    private func didTapCancelEditing(sender: UIButton) {
-        interactor?.didCancelEditing(OnGoingProjectDetails
-                                        .Request
-                                        .CancelEditing())
-        editingDetails = false
-        editingNeeding = false
-    }
-    
-    @objc
-    private func didTapEditNeeding() {
-        if editingNeeding {
-            interactor?.fetchUpdateProjectNeeding(OnGoingProjectDetails.Request.UpdateNeeding(needing: needValueTextfield.text ?? .empty))
-            editingNeeding = false
-        } else {
-            editingNeeding = true
-        }
-    }
-    
-    @objc
     private func didTapInteraction() {
         interactor?.fetchInteract(OnGoingProjectDetails.Request.FetchInteraction())
     }
@@ -363,6 +233,36 @@ class OnGoingProjectDetailsController: BaseViewController, UINavigationControlle
     @objc
     private func cancelEditProgress() {
         mainView.hideEditProgressView()
+    }
+    
+    private func resetEditableInfo() {
+        projectNeedingBulletEditableView.state = .default
+        projectTitleDescriptionEditableView.state = .default
+    }
+}
+
+extension OnGoingProjectDetailsController: WCTitleDescriptionEditableViewDelegate {
+    
+    func didTapSave(title: String, description: String, titleDescriptionView: WCTitleDescriptionEditableView) {
+        resetEditableInfo()
+        interactor?.fetchUpdateProjectInfo(OnGoingProjectDetails.Request.UpdateInfo(title: title,
+                                                                                    sinopsis: description))
+    }
+    
+    func didTapCancel(titleDescriptionView: WCTitleDescriptionEditableView) {
+        projectNeedingBulletEditableView.state = .default
+    }
+}
+
+extension OnGoingProjectDetailsController: WCBulletEditableItemViewDelegate {
+    
+    func didTapSave(text: String, bulletEditableView: WCBulletEditableItemView) {
+        resetEditableInfo()
+        interactor?.fetchUpdateProjectNeeding(OnGoingProjectDetails.Request.UpdateNeeding(needing: text))
+    }
+    
+    func didTapCancel(bulletEditableView: WCBulletEditableItemView) {
+        projectTitleDescriptionEditableView.state = .default
     }
 }
 
