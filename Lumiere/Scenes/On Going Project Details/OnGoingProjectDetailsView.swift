@@ -21,7 +21,7 @@ class OnGoingProjectDetailsView: BaseView, ModalViewable {
     private unowned var teamCollectionView: UICollectionView
     private unowned var progressButton: UIButton
     private unowned var moreInfoButton: UIButton
-    private unowned var imageButton: UIButton
+    private unowned var projectImageView: WCRelevantItemImageView
     private unowned var inviteContactsButton: UIButton
     private unowned var editButton: UIButton
     private unowned var cancelEditingDetailsButton: WCCloseButton
@@ -144,7 +144,7 @@ class OnGoingProjectDetailsView: BaseView, ModalViewable {
          teamCollectionView: UICollectionView,
          moreInfoButton: UIButton,
          progressButton: UIButton,
-         imageButton: UIButton,
+         projectImageView: WCRelevantItemImageView,
          inviteContactsButton: UIButton,
          editButton: UIButton,
          cancelEditingDetailsButton: WCCloseButton,
@@ -161,7 +161,7 @@ class OnGoingProjectDetailsView: BaseView, ModalViewable {
         self.teamCollectionView = teamCollectionView
         self.moreInfoButton = moreInfoButton
         self.progressButton = progressButton
-        self.imageButton = imageButton
+        self.projectImageView = projectImageView
         self.inviteContactsButton = inviteContactsButton
         self.editButton = editButton
         self.cancelEditingDetailsButton = cancelEditingDetailsButton
@@ -189,7 +189,7 @@ class OnGoingProjectDetailsView: BaseView, ModalViewable {
             inviteContactsButton.isHidden = false
             editButton.isHidden = false
             changeImageLbl.isHidden = false
-            imageButton.isUserInteractionEnabled = true
+            projectImageView.isUserInteractionEnabled = true
             editNeedingButton.isHidden = false
             progressButton.isUserInteractionEnabled = false
         case .simpleParticipating:
@@ -197,7 +197,7 @@ class OnGoingProjectDetailsView: BaseView, ModalViewable {
             inviteContactsButton.isHidden = true
             editButton.isHidden = true
             changeImageLbl.isHidden = true
-            imageButton.isUserInteractionEnabled = false
+            projectImageView.isUserInteractionEnabled = false
             editNeedingButton.isHidden = true
             progressButton.isUserInteractionEnabled = true
         case .sentRequest:
@@ -205,7 +205,7 @@ class OnGoingProjectDetailsView: BaseView, ModalViewable {
             inviteContactsButton.isHidden = true
             editButton.isHidden = true
             changeImageLbl.isHidden = true
-            imageButton.isUserInteractionEnabled = false
+            projectImageView.isUserInteractionEnabled = false
             editNeedingButton.isHidden = true
             progressButton.isUserInteractionEnabled = true
         case .receivedRequest:
@@ -213,7 +213,7 @@ class OnGoingProjectDetailsView: BaseView, ModalViewable {
             inviteContactsButton.isHidden = true
             editButton.isHidden = true
             changeImageLbl.isHidden = true
-            imageButton.isUserInteractionEnabled = false
+            projectImageView.isUserInteractionEnabled = false
             editNeedingButton.isHidden = true
             progressButton.isUserInteractionEnabled = true
         case .nothing:
@@ -221,7 +221,7 @@ class OnGoingProjectDetailsView: BaseView, ModalViewable {
             inviteContactsButton.isHidden = true
             editButton.isHidden = true
             changeImageLbl.isHidden = true
-            imageButton.isUserInteractionEnabled = false
+            projectImageView.isUserInteractionEnabled = false
             editNeedingButton.isHidden = true
             progressButton.isUserInteractionEnabled = true
         }
@@ -293,7 +293,7 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
         mainContainer.addSubview(cathegoryLbl)
-        imageStackView.addArrangedSubview(imageButton)
+        imageStackView.addArrangedSubview(projectImageView)
         imageStackView.addArrangedSubview(changeImageLbl)
         mainContainer.addSubview(progressButton)
         mainContainer.addSubview(progressFixedLbl)
@@ -357,11 +357,10 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
         }
         imageStackView.snp.makeConstraints { make in
             make.top.equalTo(cathegoryLbl.snp.bottom).offset(28)
-            make.centerX.equalToSuperview()
+            make.left.right.equalToSuperview()
         }
-        imageButton.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.height.width.equalTo(82)
+        projectImageView.snp.makeConstraints { make in
+            make.left.right.equalToSuperview().inset(60)
         }
         changeImageLbl.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
@@ -458,13 +457,11 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
     }
     
     func configureViews() {
-        backgroundColor = .white
         cathegoryLbl.attributedText = viewModel?.cathegories
         progressButton.setAttributedTitle(viewModel?.progress, for: .normal)
         titleTextField.text = viewModel?.title
         sinopsisTextView.text = viewModel?.sinopsis
         needValueTextfield.text = viewModel?.needing
-        guard let image = viewModel?.image else { return }
-        imageButton.sd_setImage(with: URL(string: image), for: .normal, completed: nil)
+        projectImageView.setupImage(viewModel?.image ?? .empty)
     }
 }

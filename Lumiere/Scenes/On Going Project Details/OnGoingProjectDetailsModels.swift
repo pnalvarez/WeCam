@@ -65,7 +65,7 @@ struct OnGoingProjectDetails {
             static let needFixedLbl = "Precisam de"
             static let inviteError = "Não foi possível adicionar todos os usuários"
             static let inviteContactsButton = "Convidar mais amigos"
-            static let changeImageLbl = "Alterar foto de perfil"
+            static let changeImageLbl = "Clique na imagem para trocar"
             static let editButton = "Editar"
             static let interactionAuthor = "Publicar"
             static let interactionSimpleParticipating = "Sair do projeto"

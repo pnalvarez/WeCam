@@ -138,14 +138,10 @@ class OnGoingProjectDetailsController: BaseViewController, UINavigationControlle
         return view
     }()
     
-    private lazy var imageButton: UIButton = {
-        let view = UIButton(frame: .zero)
-        view.imageView?.contentMode = .scaleToFill
-        view.clipsToBounds = true
-        view.addTarget(self, action: #selector(didTapImageButton), for: .touchUpInside)
-        view.layer.cornerRadius = 41
-        view.layer.borderWidth = 1
-        view.layer.borderColor = UIColor.gray.cgColor
+    private lazy var projectImageView: WCRelevantItemImageView = {
+        let view = WCRelevantItemImageView(frame: .zero)
+        view.imageType = .url
+        view.delegate = self
         return view
     }()
     
@@ -204,7 +200,7 @@ class OnGoingProjectDetailsController: BaseViewController, UINavigationControlle
                                              teamCollectionView: teamCollectionView,
                                              moreInfoButton: moreInfoButton,
                                              progressButton: progressButton,
-                                             imageButton: imageButton,
+                                             projectImageView: projectImageView,
                                              inviteContactsButton: inviteContactsButton,
                                              editButton: editButton,
                                              cancelEditingDetailsButton: cancelEditingDetailsButton,
@@ -309,6 +305,79 @@ class OnGoingProjectDetailsController: BaseViewController, UINavigationControlle
         router.dataStore = interactor
         router.viewController = viewController
     }
+    
+    @objc
+    private func closeModal() {
+        mainView.hideConfirmationModal()
+    }
+    
+    @objc
+    private func didTapMoreInfo() {
+        router?.routeToProjectParticipantsList()
+    }
+    
+    @objc
+    private func didTapInvite() {
+        router?.routeToProjectInvites()
+    }
+    
+    @objc
+    private func didTapEditInfo() {
+        if editingDetails {
+            interactor?.fetchUpdateProjectInfo(OnGoingProjectDetails.Request.UpdateInfo(title: titleTextField.text ?? .empty, sinopsis: sinopsisTextView.text ?? .empty))
+            editingDetails = false
+        } else {
+            editingDetails = true
+        }
+    }
+    
+    @objc
+    private func didTapCancelEditing(sender: UIButton) {
+        interactor?.didCancelEditing(OnGoingProjectDetails
+                                        .Request
+                                        .CancelEditing())
+        editingDetails = false
+        editingNeeding = false
+    }
+    
+    @objc
+    private func didTapEditNeeding() {
+        if editingNeeding {
+            interactor?.fetchUpdateProjectNeeding(OnGoingProjectDetails.Request.UpdateNeeding(needing: needValueTextfield.text ?? .empty))
+            editingNeeding = false
+        } else {
+            editingNeeding = true
+        }
+    }
+    
+    @objc
+    private func didTapInteraction() {
+        interactor?.fetchInteract(OnGoingProjectDetails.Request.FetchInteraction())
+    }
+    
+    @objc
+    private func didTapProgress() {
+        interactor?.fetchProgressPercentage(OnGoingProjectDetails.Request.FetchProgress())
+    }
+    
+    @objc
+    private func cancelEditProgress() {
+        mainView.hideEditProgressView()
+    }
+}
+
+extension OnGoingProjectDetailsController: WCRelevantItemImageViewDelegate {
+    
+    func didTapImageView(imageView: WCRelevantItemImageView) {
+        imagePicker.allowsEditing = true
+        PHPhotoLibrary.requestAuthorization { newStatus in
+            if newStatus == .authorized {
+                DispatchQueue.main.async {
+                    self.present(self.imagePicker, animated: true, completion: nil)
+                }
+            }
+        }
+    }
 }
 
 extension OnGoingProjectDetailsController: UICollectionViewDataSource {
@@ -376,80 +445,6 @@ extension OnGoingProjectDetailsController: UIImagePickerControllerDelegate {
             interactor?.fetchUpdateProjectImage(OnGoingProjectDetails.Request.UpdateImage(image: imageData))
         }
         self.dismiss(animated: true, completion: nil)
-    }
-}
-
-extension OnGoingProjectDetailsController {
-    
-    @objc
-    private func closeModal() {
-        mainView.hideConfirmationModal()
-    }
-    
-    @objc
-    private func didTapMoreInfo() {
-        router?.routeToProjectParticipantsList()
-    }
-    
-    @objc
-    private func didTapImageButton() {
-        imagePicker.allowsEditing = true
-        PHPhotoLibrary.requestAuthorization { newStatus in
-            if newStatus == .authorized {
-                DispatchQueue.main.async {
-                    self.present(self.imagePicker, animated: true, completion: nil)
-                }
-            }
-        }
-    }
-    
-    @objc
-    private func didTapInvite() {
-        router?.routeToProjectInvites()
-    }
-    
-    @objc
-    private func didTapEditInfo() {
-        if editingDetails {
-            interactor?.fetchUpdateProjectInfo(OnGoingProjectDetails.Request.UpdateInfo(title: titleTextField.text ?? .empty, sinopsis: sinopsisTextView.text ?? .empty))
-            editingDetails = false
-        } else {
-            editingDetails = true
-        }
-    }
-    
-    @objc
-    private func didTapCancelEditing(sender: UIButton) {
-        interactor?.didCancelEditing(OnGoingProjectDetails
-                                        .Request
-                                        .CancelEditing())
-        editingDetails = false
-        editingNeeding = false
-    }
-    
-    @objc
-    private func didTapEditNeeding() {
-        if editingNeeding {
-            interactor?.fetchUpdateProjectNeeding(OnGoingProjectDetails.Request.UpdateNeeding(needing: needValueTextfield.text ?? .empty))
-            editingNeeding = false
-        } else {
-            editingNeeding = true
-        }
-    }
-    
-    @objc
-    private func didTapInteraction() {
-        interactor?.fetchInteract(OnGoingProjectDetails.Request.FetchInteraction())
-    }
-    
-    @objc
-    private func didTapProgress() {
-        interactor?.fetchProgressPercentage(OnGoingProjectDetails.Request.FetchProgress())
-    }
-    
-    @objc
-    private func cancelEditProgress() {
-        mainView.hideEditProgressView()
     }
 }
 

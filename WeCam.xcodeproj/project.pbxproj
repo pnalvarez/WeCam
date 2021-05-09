@@ -42,7 +42,6 @@
 		3F0CAA6624CCE41D005E2558 /* SignInRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0CAA6524CCE41D005E2558 /* SignInRequest.swift */; };
 		3F1158AF24C3F0EC00075C73 /* TeamMemberViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1158AE24C3F0EC00075C73 /* TeamMemberViewModel.swift */; };
 		3F339B27261A7BA900360D96 /* APINotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F339B26261A7BA900360D96 /* APINotificationManager.swift */; };
-		3F3825EB263F577A006B6DCE /* EditProjectDetailsNewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3825EA263F577A006B6DCE /* EditProjectDetailsNewController.swift */; };
 		3F3825ED263F57DB006B6DCE /* ViewInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3825EC263F57DB006B6DCE /* ViewInterface.swift */; };
 		3F3AD77A263BACD200509FED /* BaseTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3AD779263BACD200509FED /* BaseTableViewController.swift */; };
 		3F3AD77C263E070800509FED /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3AD77B263E070800509FED /* BaseView.swift */; };
@@ -384,7 +383,6 @@
 		3F0CAA6524CCE41D005E2558 /* SignInRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInRequest.swift; sourceTree = "<group>"; };
 		3F1158AE24C3F0EC00075C73 /* TeamMemberViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamMemberViewModel.swift; sourceTree = "<group>"; };
 		3F339B26261A7BA900360D96 /* APINotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APINotificationManager.swift; sourceTree = "<group>"; };
-		3F3825EA263F577A006B6DCE /* EditProjectDetailsNewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProjectDetailsNewController.swift; sourceTree = "<group>"; };
 		3F3825EC263F57DB006B6DCE /* ViewInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewInterface.swift; sourceTree = "<group>"; };
 		3F3AD779263BACD200509FED /* BaseTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewController.swift; sourceTree = "<group>"; };
 		3F3AD77B263E070800509FED /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
@@ -874,14 +872,6 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		3F3825E9263F5763006B6DCE /* New View */ = {
-			isa = PBXGroup;
-			children = (
-				3F3825EA263F577A006B6DCE /* EditProjectDetailsNewController.swift */,
-			);
-			path = "New View";
-			sourceTree = "<group>";
-		};
 		3F40A60C24EA0D4100261161 /* Select Project Image */ = {
 			isa = PBXGroup;
 			children = (
@@ -927,7 +917,6 @@
 		3F40A69F24F0912D00261161 /* Edit Project Details */ = {
 			isa = PBXGroup;
 			children = (
-				3F3825E9263F5763006B6DCE /* New View */,
 				3F40A6A024F0914400261161 /* EditProjectDetailsController.swift */,
 				3F40A6A224F091BB00261161 /* EditProjectDetailsView.swift */,
 				3F40A6A424F091EC00261161 /* EditProjectDetailsInteractor.swift */,
@@ -2064,7 +2053,6 @@
 				3F40A6CB24F232B600261161 /* EditProfileDetailsInteractor.swift in Sources */,
 				3F339B27261A7BA900360D96 /* APINotificationManager.swift in Sources */,
 				3FAD1A422516B99800ED4074 /* MainFeedModels.swift in Sources */,
-				3F3825EB263F577A006B6DCE /* EditProjectDetailsNewController.swift in Sources */,
 				3F655F702523C592004A1D54 /* SearchResultsRouter.swift in Sources */,
 				3F40A68724EDF6DD00261161 /* SelectProjectCathegoryWorker.swift in Sources */,
 				3FAD1A0E2516B53100ED4074 /* MainFeedTableViewFactory.swift in Sources */,
