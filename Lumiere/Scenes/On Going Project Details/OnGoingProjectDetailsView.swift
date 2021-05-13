@@ -12,7 +12,7 @@ import SDWebImage
 
 class OnGoingProjectDetailsView: BaseView, ModalViewable {
     
-    private unowned var editProgressView: EditProgressView
+    private unowned var editProgressView: WCEditProgressView
     private unowned var editProgressTranslucentView: UIView
     private unowned var confirmationModalView: ConfirmationAlertView
     private unowned var translucentView: UIView
@@ -94,7 +94,7 @@ class OnGoingProjectDetailsView: BaseView, ModalViewable {
     private var viewModel: OnGoingProjectDetails.Info.ViewModel.Project?
     
     init(frame: CGRect,
-         editProgressView: EditProgressView,
+         editProgressView: WCEditProgressView,
          editProgressTranslucentView: UIView,
          confirmationModalView: ConfirmationAlertView,
          translucentView: UIView,

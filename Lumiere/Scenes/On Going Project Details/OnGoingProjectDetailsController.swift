@@ -29,8 +29,8 @@ protocol OnGoingProjectDetailsDisplayLogic: ViewInterface {
 
 class OnGoingProjectDetailsController: BaseViewController, UINavigationControllerDelegate {
     
-    private lazy var editProgressView: EditProgressView = {
-        let view = EditProgressView(frame: .zero,
+    private lazy var editProgressView: WCEditProgressView = {
+        let view = WCEditProgressView(frame: .zero,
                                     delegate: self)
         return view
     }()
@@ -331,7 +331,7 @@ extension OnGoingProjectDetailsController: UIImagePickerControllerDelegate {
     }
 }
 
-extension OnGoingProjectDetailsController: EditProgressViewDelegate {
+extension OnGoingProjectDetailsController: WCEditProgressViewDelegate {
     
     func didConfirm(progress: Float) {
         interactor?.fetchUpdateProgress(OnGoingProjectDetails.Request.UpdateProgress(newProgress: progress))

@@ -37,7 +37,6 @@
 		3F037F932522C95C0060B928 /* EditProfileDetailsInteractor+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F037F922522C95C0060B928 /* EditProfileDetailsInteractor+Tests.swift */; };
 		3F037F9B2522DB8A0060B928 /* EditProfileDetailsPresenter+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F037F9A2522DB8A0060B928 /* EditProfileDetailsPresenter+Tests.swift */; };
 		3F05D19F2515BFF200932FFC /* Float+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F05D19E2515BFF200932FFC /* Float+.swift */; };
-		3F05D1A72515D11300932FFC /* EditProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F05D1A62515D11300932FFC /* EditProgressView.swift */; };
 		3F0CAA6224CCE0E8005E2558 /* CreateUserRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0CAA6124CCE0E8005E2558 /* CreateUserRequest.swift */; };
 		3F0CAA6624CCE41D005E2558 /* SignInRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0CAA6524CCE41D005E2558 /* SignInRequest.swift */; };
 		3F1158AF24C3F0EC00075C73 /* TeamMemberViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1158AE24C3F0EC00075C73 /* TeamMemberViewModel.swift */; };
@@ -378,7 +377,6 @@
 		3F037F922522C95C0060B928 /* EditProfileDetailsInteractor+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditProfileDetailsInteractor+Tests.swift"; sourceTree = "<group>"; };
 		3F037F9A2522DB8A0060B928 /* EditProfileDetailsPresenter+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditProfileDetailsPresenter+Tests.swift"; sourceTree = "<group>"; };
 		3F05D19E2515BFF200932FFC /* Float+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Float+.swift"; sourceTree = "<group>"; };
-		3F05D1A62515D11300932FFC /* EditProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProgressView.swift; sourceTree = "<group>"; };
 		3F0CAA6124CCE0E8005E2558 /* CreateUserRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserRequest.swift; sourceTree = "<group>"; };
 		3F0CAA6524CCE41D005E2558 /* SignInRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInRequest.swift; sourceTree = "<group>"; };
 		3F1158AE24C3F0EC00075C73 /* TeamMemberViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamMemberViewModel.swift; sourceTree = "<group>"; };
@@ -834,7 +832,6 @@
 			isa = PBXGroup;
 			children = (
 				3F43311D24E8E8B90082825E /* ConfirmationAlertView.swift */,
-				3F05D1A62515D11300932FFC /* EditProgressView.swift */,
 			);
 			path = Modal;
 			sourceTree = "<group>";
@@ -2104,7 +2101,6 @@
 				3F95787D24AEA4F000B79818 /* SignInProvider.swift in Sources */,
 				3F66CA0925045025006F6DBD /* ProjectParticipantsListController.swift in Sources */,
 				3F95786C24AEA0CF00B79818 /* LaunchScreenPresenter.swift in Sources */,
-				3F05D1A72515D11300932FFC /* EditProgressView.swift in Sources */,
 				3F8D13C624D8F5A100AED7EB /* URL+.swift in Sources */,
 				3F42A557255A13300088E232 /* WatchVideoController.swift in Sources */,
 				3F40A6BA24F1CC9200261161 /* OnGoingProjectDetailsRouter.swift in Sources */,
