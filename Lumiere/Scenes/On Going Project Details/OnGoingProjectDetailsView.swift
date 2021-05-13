@@ -136,7 +136,7 @@ class OnGoingProjectDetailsView: BaseView, ModalViewable {
             inviteContactsButton.isHidden = false
             changeImageLbl.isHidden = false
             projectImageView.isUserInteractionEnabled = true
-            progressButton.isUserInteractionEnabled = false
+            progressButton.isUserInteractionEnabled = true
             projectTitleDescriptionEditableView.state = .default
             projectBulletNeedingEditableView.state = .default
         case .simpleParticipating:
@@ -144,7 +144,7 @@ class OnGoingProjectDetailsView: BaseView, ModalViewable {
             inviteContactsButton.isHidden = true
             changeImageLbl.isHidden = true
             projectImageView.isUserInteractionEnabled = false
-            progressButton.isUserInteractionEnabled = true
+            progressButton.isUserInteractionEnabled = false
             projectTitleDescriptionEditableView.state = .disabled
             projectBulletNeedingEditableView.state = .disabled
         case .sentRequest:
@@ -152,7 +152,7 @@ class OnGoingProjectDetailsView: BaseView, ModalViewable {
             inviteContactsButton.isHidden = true
             changeImageLbl.isHidden = true
             projectImageView.isUserInteractionEnabled = false
-            progressButton.isUserInteractionEnabled = true
+            progressButton.isUserInteractionEnabled = false
             projectTitleDescriptionEditableView.state = .disabled
             projectBulletNeedingEditableView.state = .disabled
         case .receivedRequest:
@@ -160,7 +160,7 @@ class OnGoingProjectDetailsView: BaseView, ModalViewable {
             inviteContactsButton.isHidden = true
             changeImageLbl.isHidden = true
             projectImageView.isUserInteractionEnabled = false
-            progressButton.isUserInteractionEnabled = true
+            progressButton.isUserInteractionEnabled = false
             projectTitleDescriptionEditableView.state = .disabled
             projectBulletNeedingEditableView.state = .disabled
         case .nothing:
@@ -168,7 +168,7 @@ class OnGoingProjectDetailsView: BaseView, ModalViewable {
             inviteContactsButton.isHidden = true
             changeImageLbl.isHidden = true
             projectImageView.isUserInteractionEnabled = false
-            progressButton.isUserInteractionEnabled = true
+            progressButton.isUserInteractionEnabled = false
             projectTitleDescriptionEditableView.state = .disabled
             projectBulletNeedingEditableView.state = .disabled
         }

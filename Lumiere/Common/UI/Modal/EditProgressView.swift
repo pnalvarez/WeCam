@@ -123,4 +123,8 @@ extension EditProgressView: ViewCodeProtocol {
             make.width.equalTo(94)
         }
     }
+    
+    func configureViews() {
+        backgroundColor = .white
+    }
 }
