@@ -54,7 +54,6 @@ extension AccountRecoveryView: ViewCodeProtocol {
             make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(24)
             make.centerX.equalToSuperview()
             make.width.equalTo(94)
-            make.height.equalTo(34)
         }
         messageLbl.snp.makeConstraints { make in
             make.top.equalTo(headerView.snp.bottom).offset(65)

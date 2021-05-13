@@ -20,12 +20,9 @@ protocol SearchResultsDisplayLogic: ViewInterface {
 
 class SearchResultsController: BaseViewController {
     
-    private lazy var resultTypeSegmentedControl: UISegmentedControl = {
-        let view = UISegmentedControl(frame: .zero)
-        view.addTarget(self, action: #selector(didChangeSelectedType), for: .valueChanged)
-        view.selectedSegmentTintColor = SearchResults.Constants.Colors.resultTypeSegmentedControlSelected
-        view.tintColor = SearchResults.Constants.Colors.resultTypeSegmentedControlUnselected
-        view.layer.cornerRadius = 8
+    private lazy var resultTypeOptionsToolbar: WCOptionsToolbar = {
+        let view = WCOptionsToolbar(frame: .zero)
+        view.delegate = self
         return view
     }()
     
@@ -50,7 +47,7 @@ class SearchResultsController: BaseViewController {
     
     private lazy var mainView: SearchResultsView = {
         let view = SearchResultsView(frame: .zero,
-                                     resultTypesSegmentedControl: resultTypeSegmentedControl,
+                                     resultTypesOptionsToolbar: resultTypeOptionsToolbar,
                                      resultsQuantityLbl: resultsQuantityLbl,
                                      tableView: tableView)
         return view
@@ -60,6 +57,12 @@ class SearchResultsController: BaseViewController {
         didSet {
             setupUI()
             refreshList()
+        }
+    }
+    
+    private var selectedResultTypeIndex: Int = 0 {
+        didSet {
+            didChangeSelectedType()
         }
     }
     
@@ -106,6 +109,59 @@ class SearchResultsController: BaseViewController {
         router.dataStore = interactor
         router.viewController = viewController
     }
+    
+    private func refreshList() {
+        guard let results = viewModel,
+              let factory = factory as? SearchResultsFactory else { return }
+        factory.viewModel = results
+        sections = factory.buildSections()
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }
+    
+    private func setupUI() {
+        if selectedResultTypeIndex == 0 {
+            resultsQuantityLbl.text = String(viewModel?.users.count ?? 0) + SearchResults.Constants.Texts.resultsQuantityLbl
+        } else {
+            resultsQuantityLbl.text = String(viewModel?.projects.count ?? 0) + SearchResults.Constants.Texts.resultsQuantityLbl
+        }
+    }
+    
+    private func checkEmptyList(withType type: SearchResults.Info.ViewModel.SelectedType) {
+        switch type {
+        case .profile:
+            tableView.backgroundView = viewModel?.users.isEmpty ?? true ? WCEmptyListView(frame: .zero, text: SearchResults.Constants.Texts.emptyListResult) : nil
+        case .project:
+            tableView.backgroundView = viewModel?.projects.isEmpty ?? true ? WCEmptyListView(frame: .zero, text: SearchResults.Constants.Texts.emptyListResult) : nil
+        }
+    }
+    
+    private func didChangeSelectedType() {
+        guard let factory = factory as? SearchResultsFactory else {
+            return
+        }
+        var selectedType: SearchResults.Info.ViewModel.SelectedType
+        if selectedResultTypeIndex == 0 {
+            selectedType = .profile
+            resultsQuantityLbl.text = String(viewModel?.users.count ?? 0) + SearchResults.Constants.Texts.resultsQuantityLbl
+            checkEmptyList(withType: .profile)
+        } else {
+            selectedType = .project
+            resultsQuantityLbl.text = String(viewModel?.projects.count ?? 0) + SearchResults.Constants.Texts.resultsQuantityLbl
+            checkEmptyList(withType: .project)
+        }
+        factory.selectedType = selectedType
+        sections = factory.buildSections()
+        refreshList()
+    }
+}
+
+extension SearchResultsController: WCOptionsToolbarDelegate {
+    
+    func optionsToolbar(selectedButton index: Int, optionsToolbar: WCOptionsToolbar) {
+        selectedResultTypeIndex = index
+    }
 }
 
 extension SearchResultsController: UITableViewDataSource {
@@ -131,7 +187,7 @@ extension SearchResultsController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         var resultType: SearchResults.Request.ResultType
-        if resultTypeSegmentedControl.selectedSegmentIndex == 0 {
+        if selectedResultTypeIndex == 0 {
             resultType = .profile
         } else {
             resultType = .project
@@ -141,64 +197,11 @@ extension SearchResultsController: UITableViewDelegate {
     }
 }
 
-extension SearchResultsController {
-    
-    private func refreshList() {
-        guard let results = viewModel,
-              let factory = factory as? SearchResultsFactory else { return }
-        factory.viewModel = results
-        sections = factory.buildSections()
-        DispatchQueue.main.async {
-            self.tableView.reloadData()
-        }
-    }
-    
-    private func setupUI() {
-        if resultTypeSegmentedControl.selectedSegmentIndex == 0 {
-            resultsQuantityLbl.text = String(viewModel?.users.count ?? 0) + SearchResults.Constants.Texts.resultsQuantityLbl
-        } else {
-            resultsQuantityLbl.text = String(viewModel?.projects.count ?? 0) + SearchResults.Constants.Texts.resultsQuantityLbl
-        }
-    }
-    
-    private func checkEmptyList(withType type: SearchResults.Info.ViewModel.SelectedType) {
-        switch type {
-        case .profile:
-            tableView.backgroundView = viewModel?.users.isEmpty ?? true ? WCEmptyListView(frame: .zero, text: SearchResults.Constants.Texts.emptyListResult) : nil
-        case .project:
-            tableView.backgroundView = viewModel?.projects.isEmpty ?? true ? WCEmptyListView(frame: .zero, text: SearchResults.Constants.Texts.emptyListResult) : nil
-        }
-    }
-}
-
-extension SearchResultsController {
-    
-    @objc
-    private func didChangeSelectedType() {
-        guard let factory = factory as? SearchResultsFactory else {
-            return
-        }
-        var selectedType: SearchResults.Info.ViewModel.SelectedType
-        if resultTypeSegmentedControl.selectedSegmentIndex == 0 {
-            selectedType = .profile
-            resultsQuantityLbl.text = String(viewModel?.users.count ?? 0) + SearchResults.Constants.Texts.resultsQuantityLbl
-            checkEmptyList(withType: .profile)
-        } else {
-            selectedType = .project
-            resultsQuantityLbl.text = String(viewModel?.projects.count ?? 0) + SearchResults.Constants.Texts.resultsQuantityLbl
-            checkEmptyList(withType: .project)
-        }
-        factory.selectedType = selectedType
-        sections = factory.buildSections()
-        refreshList()
-    }
-}
-
 extension SearchResultsController: SearchResultsDisplayLogic {
     
     func displaySearchResults(_ viewModel: SearchResults.Info.ViewModel.UpcomingResults) {
         self.viewModel = viewModel
-        if resultTypeSegmentedControl.selectedSegmentIndex == 0 {
+        if selectedResultTypeIndex == 0 {
             checkEmptyList(withType: .profile)
         } else {
             checkEmptyList(withType: .project)
@@ -222,10 +225,8 @@ extension SearchResultsController: SearchResultsDisplayLogic {
     }
     
     func displayResultTypes(_ viewModel: SearchResults.Info.ViewModel.UpcomingTypes) {
-        for index in 0..<viewModel.types.count {
-            resultTypeSegmentedControl.insertSegment(withTitle: viewModel.types[index].text, at: index, animated: false)
-        }
-        resultTypeSegmentedControl.selectedSegmentIndex = 0
+        resultTypeOptionsToolbar.setupToolbarLayout(optionNames: viewModel.types.map({ $0.text }),
+                                                    fixedWidth: true)
         checkEmptyList(withType: .profile)
     }
 }

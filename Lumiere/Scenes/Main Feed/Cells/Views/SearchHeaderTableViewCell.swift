@@ -9,7 +9,7 @@
 import UIKit
 import WCUIKit
 
-protocol SearchHeaderTableViewCellDelegate: class {
+protocol SearchHeaderTableViewCellDelegate: AnyObject {
     func didTapSearch()
 }
 
@@ -49,10 +49,9 @@ extension SearchHeaderTableViewCell: ViewCodeProtocol {
     
     func setupConstraints() {
         lumiereHeader.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(24)
+            make.top.equalToSuperview().inset(8)
             make.centerX.equalToSuperview()
             make.width.equalTo(100)
-            make.height.equalTo(36)
         }
         searchButton.snp.makeConstraints { make in
             make.top.equalTo(lumiereHeader)

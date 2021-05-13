@@ -11,22 +11,20 @@ import WCUIKit
 
 class SearchResultsView: BaseView {
     
-    private unowned var resultTypesSegmentedControl: UISegmentedControl
+    private unowned var resultTypesOptionsToolbar: WCOptionsToolbar
     private unowned var resultsQuantityLbl: UILabel
     private unowned var tableView: UITableView
     
-    private lazy var headerImageView: UIImageView = {
-        let view = UIImageView(frame: .zero)
-        view.contentMode = .scaleToFill
-        view.image = SearchResults.Constants.Images.headerImageView
+    private lazy var headerImageView: WCHeaderView = {
+        let view = WCHeaderView(frame: .zero)
         return view
     }()
     
     init(frame: CGRect,
-         resultTypesSegmentedControl: UISegmentedControl,
+         resultTypesOptionsToolbar: WCOptionsToolbar,
          resultsQuantityLbl: UILabel,
          tableView: UITableView) {
-        self.resultTypesSegmentedControl = resultTypesSegmentedControl
+        self.resultTypesOptionsToolbar = resultTypesOptionsToolbar
         self.resultsQuantityLbl = resultsQuantityLbl
         self.tableView = tableView
         super.init(frame: frame)
@@ -42,30 +40,28 @@ extension SearchResultsView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
         addSubview(headerImageView)
-        addSubview(resultTypesSegmentedControl)
+        addSubview(resultTypesOptionsToolbar)
         addSubview(resultsQuantityLbl)
         addSubview(tableView)
     }
     
     func setupConstraints() {
         headerImageView.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(39)
+            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(8)
             make.centerX.equalToSuperview()
             make.width.equalTo(100)
-            make.height.equalTo(36)
         }
-        resultTypesSegmentedControl.snp.makeConstraints { make in
-            make.top.equalTo(headerImageView.snp.bottom).offset(15)
+        resultTypesOptionsToolbar.snp.makeConstraints { make in
+            make.top.equalTo(headerImageView.snp.bottom).offset(24)
             make.right.left.equalToSuperview().inset(10)
-            make.height.equalTo(32)
         }
         resultsQuantityLbl.snp.makeConstraints { make in
-            make.top.equalTo(resultTypesSegmentedControl.snp.bottom).offset(10)
+            make.top.equalTo(resultTypesOptionsToolbar.snp.bottom).offset(15)
             make.centerX.equalToSuperview()
             make.width.equalTo(100)
         }
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(resultsQuantityLbl.snp.bottom).offset(12)
+            make.top.equalTo(resultsQuantityLbl.snp.bottom).offset(18)
             make.left.right.bottom.equalToSuperview()
         }
     }
