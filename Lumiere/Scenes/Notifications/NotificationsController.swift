@@ -29,12 +29,9 @@ class NotificationsController: BaseViewController {
         return view
     }()
     
-    private lazy var criteriaSegmentedControl: UISegmentedControl = {
-        let view = UISegmentedControl(frame: .zero)
-        view.tintColor = Notifications.Constants.Colors.criteriaSegmentedControlUnselected
-        view.selectedSegmentTintColor = Notifications.Constants.Colors.criteriaSegmentedControlSelected
-        view.addTarget(self, action: #selector(didChangeSelectedCriteria), for: .valueChanged)
-        view.layer.cornerRadius = 8
+    private lazy var criteriaOptionsToolbar: WCOptionsToolbar = {
+        let view = WCOptionsToolbar(frame: .zero)
+        view.delegate = self
         return view
     }()
     
@@ -46,7 +43,7 @@ class NotificationsController: BaseViewController {
     
     private lazy var mainView: NotificationsView = {
         let view = NotificationsView(frame: .zero,
-                                     criteriaSegmentedControl: criteriaSegmentedControl,
+                                     criteriaOptionsToolbar: criteriaOptionsToolbar,
                                      tableView: tableView)
         return view
     }()
@@ -56,9 +53,11 @@ class NotificationsController: BaseViewController {
     
     private var viewModel: Notifications.Info.ViewModel.UpcomingNotifications?
     
-    private var isRequestType: Bool {
-        return criteriaSegmentedControl.selectedSegmentIndex == Notifications.Constants.BusinessLogic.SegmentedControlIndexes.request
+    private var isRequestType: Bool  {
+        return selectedCriteriaIndex == Notifications.Constants.BusinessLogic.SegmentedControlIndexes.request
     }
+    
+    private var selectedCriteriaIndex: Int = 0
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -104,10 +103,10 @@ class NotificationsController: BaseViewController {
     }
     
     private func refreshTableView() {
-        if criteriaSegmentedControl.selectedSegmentIndex == Notifications.Constants.BusinessLogic.SegmentedControlIndexes.request {
+        if selectedCriteriaIndex == Notifications.Constants.BusinessLogic.SegmentedControlIndexes.request {
             tableView.backgroundView = (viewModel?.defaultNotifications.isEmpty ?? true) ? WCEmptyListView(frame: .zero,
                                                                                        text: Notifications.Constants.Texts.emptyNotifications) : nil
-        } else if criteriaSegmentedControl.selectedSegmentIndex == Notifications.Constants.BusinessLogic.SegmentedControlIndexes.acceptance {
+        } else if selectedCriteriaIndex == Notifications.Constants.BusinessLogic.SegmentedControlIndexes.acceptance {
             tableView.backgroundView = (viewModel?.acceptNotifications.isEmpty ?? true) ? WCEmptyListView(frame: .zero,
                                                                                        text: Notifications.Constants.Texts.emptyHistory) : nil
         }
@@ -120,9 +119,12 @@ class NotificationsController: BaseViewController {
     private func refreshNotifications() {
         interactor?.fetchNotifications(Notifications.Request.FetchAllNotifications())
     }
+}
+
+extension NotificationsController: WCOptionsToolbarDelegate {
     
-    @objc
-    private func didChangeSelectedCriteria() {
+    func optionsToolbar(selectedButton index: Int, optionsToolbar: WCOptionsToolbar) {
+        selectedCriteriaIndex = index
         tableView.bounces = !tableView.bounces
         refreshTableView()
     }
@@ -142,7 +144,7 @@ extension NotificationsController: NotificationTableViewCellDelegate {
 extension NotificationsController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if criteriaSegmentedControl.selectedSegmentIndex == Notifications.Constants.BusinessLogic.SegmentedControlIndexes.request {
+        if selectedCriteriaIndex == Notifications.Constants.BusinessLogic.SegmentedControlIndexes.request {
             return viewModel?.defaultNotifications.count ?? 0
         } else {
             return viewModel?.acceptNotifications.count ?? 0
@@ -151,7 +153,7 @@ extension NotificationsController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(indexPath: indexPath, type: NotificationTableViewCell.self)
-        if criteriaSegmentedControl.selectedSegmentIndex == Notifications.Constants.BusinessLogic.SegmentedControlIndexes.request {
+        if selectedCriteriaIndex == Notifications.Constants.BusinessLogic.SegmentedControlIndexes.request {
             cell.setup(viewModel: viewModel?.defaultNotifications[indexPath.row],
                        index: indexPath.row,
                        delegate: self,
@@ -218,9 +220,7 @@ extension  NotificationsController: NotificationsDisplayLogic {
     }
     
     func displayNotificationCriterias(_ viewModel: Notifications.Info.ViewModel.UpcomingNotificationCriterias) {
-        for i in 0..<viewModel.criterias.count {
-            criteriaSegmentedControl.insertSegment(withTitle: viewModel.criterias[i].criteria, at: i, animated: false)
-        }
-        criteriaSegmentedControl.selectedSegmentIndex = 0
+        criteriaOptionsToolbar.setupToolbarLayout(optionNames: viewModel.criterias.map({ $0.criteria }),
+                                                  fixedWidth: true)
     }
 }

@@ -10,13 +10,13 @@ import WCUIKit
 
 class NotificationsView: BaseView {
     
-    private unowned var criteriaSegmentedControl: UISegmentedControl
+    private unowned var criteriaOptionsToolbar: WCOptionsToolbar
     private unowned var tableView: NotificationsTableView
     
     init(frame: CGRect,
-         criteriaSegmentedControl: UISegmentedControl,
+         criteriaOptionsToolbar: WCOptionsToolbar,
          tableView: NotificationsTableView) {
-        self.criteriaSegmentedControl = criteriaSegmentedControl
+        self.criteriaOptionsToolbar = criteriaOptionsToolbar
         self.tableView = tableView
         super.init(frame: frame)
         applyViewCode()
@@ -30,19 +30,18 @@ class NotificationsView: BaseView {
 extension NotificationsView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
-        addSubview(criteriaSegmentedControl)
+        addSubview(criteriaOptionsToolbar)
         addSubview(tableView)
     }
     
     func setupConstraints() {
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(criteriaSegmentedControl.snp.bottom).offset(12.5)
+            make.top.equalTo(criteriaOptionsToolbar.snp.bottom).offset(12.5)
             make.right.left.bottom.equalToSuperview()
         }
-        criteriaSegmentedControl.snp.makeConstraints { make in
+        criteriaOptionsToolbar.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(12)
             make.right.left.equalToSuperview().inset(10)
-            make.height.equalTo(32)
         }
     }
 }
