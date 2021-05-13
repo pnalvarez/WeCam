@@ -18,10 +18,9 @@ class OnGoingProjectDetailsView: BaseView, ModalViewable {
     private unowned var translucentView: UIView
     private unowned var teamCollectionView: UICollectionView
     private unowned var progressButton: UIButton
-    private unowned var moreInfoButton: UIButton
     private unowned var projectImageView: WCRelevantItemImageView
-    private unowned var inviteContactsButton: UIButton
-    private unowned var interactionButton: UIButton
+    private unowned var inviteContactsButton: WCActionButton
+    private unowned var interactionButton: WCActionButton
     private unowned var projectTitleDescriptionEditableView: WCTitleDescriptionEditableView
     private unowned var projectBulletNeedingEditableView: WCBulletEditableItemView
     
@@ -30,7 +29,6 @@ class OnGoingProjectDetailsView: BaseView, ModalViewable {
         view.bounces = false
         view.alwaysBounceVertical = false
         view.showsVerticalScrollIndicator = true
-        view.contentSize = CGSize(width: view.frame.width, height: 1000)
         view.backgroundColor = .white
         return view
     }()
@@ -48,6 +46,15 @@ class OnGoingProjectDetailsView: BaseView, ModalViewable {
         view.textAlignment = .center
         view.textColor = OnGoingProjectDetails.Constants.Colors.changeImageLbl
         view.font = OnGoingProjectDetails.Constants.Fonts.changeImageLbl
+        return view
+    }()
+    
+    private lazy var progressStackView: UIStackView = {
+        let view = UIStackView(frame: .zero)
+        view.axis = .horizontal
+        view.alignment = .center
+        view.distribution = .fill
+        view.spacing = 0
         return view
     }()
     
@@ -92,11 +99,10 @@ class OnGoingProjectDetailsView: BaseView, ModalViewable {
          confirmationModalView: ConfirmationAlertView,
          translucentView: UIView,
          teamCollectionView: UICollectionView,
-         moreInfoButton: UIButton,
          progressButton: UIButton,
          projectImageView: WCRelevantItemImageView,
-         inviteContactsButton: UIButton,
-         interactionButton: UIButton,
+         inviteContactsButton: WCActionButton,
+         interactionButton: WCActionButton,
          projectTitleDescriptionEditableView: WCTitleDescriptionEditableView,
          projectBulletNeedingEditableView: WCBulletEditableItemView) {
         self.editProgressView = editProgressView
@@ -104,7 +110,6 @@ class OnGoingProjectDetailsView: BaseView, ModalViewable {
         self.confirmationModalView = confirmationModalView
         self.translucentView = translucentView
         self.teamCollectionView = teamCollectionView
-        self.moreInfoButton = moreInfoButton
         self.progressButton = progressButton
         self.projectImageView = projectImageView
         self.inviteContactsButton = inviteContactsButton
@@ -127,7 +132,7 @@ class OnGoingProjectDetailsView: BaseView, ModalViewable {
     func updateUI(forRelation relation: OnGoingProjectDetails.Info.ViewModel.RelationModel) {
         switch  relation.relation {
         case .author:
-            interactionButton.setTitle(OnGoingProjectDetails.Constants.Texts.interactionAuthor, for: .normal)
+            interactionButton.text = OnGoingProjectDetails.Constants.Texts.interactionAuthor
             inviteContactsButton.isHidden = false
             changeImageLbl.isHidden = false
             projectImageView.isUserInteractionEnabled = true
@@ -135,7 +140,7 @@ class OnGoingProjectDetailsView: BaseView, ModalViewable {
             projectTitleDescriptionEditableView.state = .default
             projectBulletNeedingEditableView.state = .default
         case .simpleParticipating:
-            interactionButton.setTitle(OnGoingProjectDetails.Constants.Texts.interactionSimpleParticipating, for: .normal)
+            interactionButton.text = OnGoingProjectDetails.Constants.Texts.interactionSimpleParticipating
             inviteContactsButton.isHidden = true
             changeImageLbl.isHidden = true
             projectImageView.isUserInteractionEnabled = false
@@ -143,7 +148,7 @@ class OnGoingProjectDetailsView: BaseView, ModalViewable {
             projectTitleDescriptionEditableView.state = .disabled
             projectBulletNeedingEditableView.state = .disabled
         case .sentRequest:
-            interactionButton.setTitle(OnGoingProjectDetails.Constants.Texts.interactionSentRequest, for: .normal)
+            interactionButton.text = OnGoingProjectDetails.Constants.Texts.interactionSentRequest
             inviteContactsButton.isHidden = true
             changeImageLbl.isHidden = true
             projectImageView.isUserInteractionEnabled = false
@@ -151,7 +156,7 @@ class OnGoingProjectDetailsView: BaseView, ModalViewable {
             projectTitleDescriptionEditableView.state = .disabled
             projectBulletNeedingEditableView.state = .disabled
         case .receivedRequest:
-            interactionButton.setTitle(OnGoingProjectDetails.Constants.Texts.interactionReceivedRequest, for: .normal)
+            interactionButton.text = OnGoingProjectDetails.Constants.Texts.interactionReceivedRequest
             inviteContactsButton.isHidden = true
             changeImageLbl.isHidden = true
             projectImageView.isUserInteractionEnabled = false
@@ -159,7 +164,7 @@ class OnGoingProjectDetailsView: BaseView, ModalViewable {
             projectTitleDescriptionEditableView.state = .disabled
             projectBulletNeedingEditableView.state = .disabled
         case .nothing:
-            interactionButton.setTitle(OnGoingProjectDetails.Constants.Texts.interactionNothing, for: .normal)
+            interactionButton.text = OnGoingProjectDetails.Constants.Texts.interactionNothing
             inviteContactsButton.isHidden = true
             changeImageLbl.isHidden = true
             projectImageView.isUserInteractionEnabled = false
@@ -237,14 +242,14 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
         mainContainer.addSubview(cathegoryLbl)
         imageStackView.addArrangedSubview(projectImageView)
         imageStackView.addArrangedSubview(changeImageLbl)
-        mainContainer.addSubview(progressButton)
-        mainContainer.addSubview(progressFixedLbl)
+        progressStackView.addArrangedSubview(progressButton)
+        progressStackView.addArrangedSubview(progressFixedLbl)
+        mainContainer.addSubview(progressStackView)
         mainContainer.addSubview(imageStackView)
         mainContainer.addSubview(projectTitleDescriptionEditableView)
         mainContainer.addSubview(projectBulletNeedingEditableView)
         mainContainer.addSubview(teamFixedLbl)
         mainContainer.addSubview(teamCollectionView)
-        mainContainer.addSubview(moreInfoButton)
         mainContainer.addSubview(inviteContactsButton)
         mainContainer.addSubview(interactionButton)
         mainScrollView.addSubview(mainContainer)
@@ -276,16 +281,16 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
             make.centerX.equalToSuperview()
             make.width.equalTo(180)
         }
-        progressButton.snp.makeConstraints { make in
-            make.top.equalTo(imageStackView.snp.bottom).offset(20)
+        progressStackView.snp.makeConstraints { make in
+            make.top.equalTo(changeImageLbl.snp.bottom).offset(20)
             make.centerX.equalToSuperview()
+        }
+        progressButton.snp.makeConstraints { make in
             make.width.equalTo(30)
             make.height.equalTo(16)
         }
         progressFixedLbl.snp.makeConstraints { make in
-            make.centerY.equalTo(progressButton)
             make.width.equalTo(70)
-            make.left.equalTo(progressButton.snp.right)
         }
         imageStackView.snp.makeConstraints { make in
             make.top.equalTo(cathegoryLbl.snp.bottom).offset(28)
@@ -295,13 +300,12 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
             make.left.right.equalToSuperview().inset(60)
         }
         changeImageLbl.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.width.equalTo(160)
+            make.left.right.equalToSuperview()
         }
         projectTitleDescriptionEditableView.snp.makeConstraints { make in
-            make.top.equalTo(progressFixedLbl.snp.bottom).offset(5)
+            make.top.equalTo(progressStackView.snp.bottom).offset(12)
             make.left.right.equalToSuperview().inset(60)
-            make.height.equalTo(180)
+            make.height.equalTo(184)
         }
         projectBulletNeedingEditableView.snp.makeConstraints { make in
             make.top.equalTo(projectTitleDescriptionEditableView.snp.bottom).offset(24)
@@ -318,22 +322,14 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
             make.right.equalToSuperview()
             make.height.equalTo(115)
         }
-        moreInfoButton.snp.makeConstraints { make in
-            make.top.equalTo(teamCollectionView.snp.bottom).offset(12)
-            make.right.equalTo(teamCollectionView).offset(-10)
-            make.height.equalTo(19)
-            make.width.equalTo(103)
-        }
         inviteContactsButton.snp.makeConstraints { make in
-            make.top.equalTo(moreInfoButton.snp.bottom).offset(10)
-            make.left.equalTo(teamFixedLbl)
-            make.height.equalTo(32)
+            make.centerY.equalTo(teamFixedLbl)
+            make.left.equalTo(teamFixedLbl.snp.right).offset(4)
             make.width.equalTo(171)
         }
         interactionButton.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(768)
+            make.top.greaterThanOrEqualTo(teamCollectionView).offset(69)
             make.centerX.equalToSuperview()
-            make.height.equalTo(30)
             make.width.equalTo(120)
             make.bottom.equalToSuperview().inset(30)
         }

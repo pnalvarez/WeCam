@@ -77,14 +77,6 @@ class OnGoingProjectDetailsController: BaseViewController, UINavigationControlle
         return view
     }()
     
-    private lazy var moreInfoButton: UIButton = {
-        let view = UIButton(frame: .zero)
-        view.addTarget(self, action: #selector(didTapMoreInfo), for: .touchUpInside)
-        view.setAttributedTitle(NSAttributedString(string: OnGoingProjectDetails.Constants.Texts.moreInfoButton,
-                                                   attributes: [NSAttributedString.Key.foregroundColor: OnGoingProjectDetails.Constants.Colors.moreInfoButtonText, NSAttributedString.Key.font: OnGoingProjectDetails.Constants.Fonts.moreInfoButton, NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue]), for: .normal)
-        return view
-    }()
-    
     private lazy var projectImageView: WCRelevantItemImageView = {
         let view = WCRelevantItemImageView(frame: .zero)
         view.imageType = .url
@@ -92,25 +84,17 @@ class OnGoingProjectDetailsController: BaseViewController, UINavigationControlle
         return view
     }()
     
-    private lazy var inviteContactsButton: UIButton = {
-        let view = UIButton(frame: .zero)
+    private lazy var inviteContactsButton: WCActionButton = {
+        let view = WCActionButton(frame: .zero)
+        view.layout = .small
+        view.text = OnGoingProjectDetails.Constants.Texts.inviteContactsButton
         view.addTarget(self, action: #selector(didTapInvite), for: .touchUpInside)
-        view.setTitle(OnGoingProjectDetails.Constants.Texts.inviteContactsButton, for: .normal)
-        view.setTitleColor(OnGoingProjectDetails.Constants.Colors.inviteContactsButtonText, for: .normal)
-        view.titleLabel?.font = OnGoingProjectDetails.Constants.Fonts.inviteContactsButton
-        view.backgroundColor = OnGoingProjectDetails.Constants.Colors.inviteContactsButtonBackground
-        view.layer.cornerRadius = 4
         return view
     }()
     
-    private lazy var interactionButton: UIButton = {
-        let view = UIButton(frame: .zero)
+    private lazy var interactionButton: WCActionButton = {
+        let view = WCActionButton(frame: .zero)
         view.addTarget(self, action: #selector(didTapInteraction), for: .touchUpInside)
-        view.setTitleColor(OnGoingProjectDetails.Constants.Colors.interactionButtonText, for: .normal)
-        view.titleLabel?.font = OnGoingProjectDetails.Constants.Fonts.interactionButton
-        view.titleLabel?.adjustsFontSizeToFitWidth = true
-        view.layer.cornerRadius = 4
-        view.backgroundColor = OnGoingProjectDetails.Constants.Colors.interactionButtonBackground
         return view
     }()
     
@@ -133,7 +117,6 @@ class OnGoingProjectDetailsController: BaseViewController, UINavigationControlle
                                              confirmationModalView: confirmationModalView,
                                              translucentView: translucentView,
                                              teamCollectionView: teamCollectionView,
-                                             moreInfoButton: moreInfoButton,
                                              progressButton: progressButton,
                                              projectImageView: projectImageView,
                                              inviteContactsButton: inviteContactsButton,
@@ -287,7 +270,7 @@ extension OnGoingProjectDetailsController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel?.teamMembers.count ?? 0 >= 4 ? 4 : viewModel?.teamMembers.count ?? 0
+        return viewModel?.teamMembers.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

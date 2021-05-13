@@ -88,7 +88,6 @@ extension SignInView: ViewCodeProtocol {
         }
         enterButton.snp.makeConstraints { make in
             make.top.equalTo(forgetButton.snp.bottom).offset(45)
-            make.height.equalTo(40)
             make.width.equalTo(99)
             make.centerX.equalToSuperview()
         }

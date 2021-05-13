@@ -157,7 +157,6 @@ extension ProfileSuggestionsFeedTableViewCell: ViewCodeProtocol {
         seeAllButton.snp.makeConstraints { make in
             make.right.equalToSuperview().inset(24)
             make.left.equalTo(headerLbl.snp.right).offset(12)
-            make.height.equalTo(28)
             make.centerY.equalTo(headerLbl)
         }
     }

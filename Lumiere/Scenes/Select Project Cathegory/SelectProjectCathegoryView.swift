@@ -77,7 +77,6 @@ extension SelectProjectCathegoryView: ViewCodeProtocol {
         advanceButton.snp.makeConstraints { make in
             make.top.equalTo(collectionView.snp.bottom).offset(102)
             make.centerX.equalToSuperview()
-            make.height.equalTo(30)
             make.width.equalTo(82)
             make.bottom.equalToSuperview().inset(24)
         }

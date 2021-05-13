@@ -73,7 +73,6 @@ extension AccountRecoveryView: ViewCodeProtocol {
         sendEmailButton.snp.makeConstraints { make in
             make.top.equalTo(searchTextField.snp.bottom).offset(387)
             make.left.right.equalToSuperview().inset(110)
-            make.height.equalTo(30)
         }
     }
 }

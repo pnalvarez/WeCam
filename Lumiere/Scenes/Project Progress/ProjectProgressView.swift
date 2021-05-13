@@ -67,7 +67,6 @@ extension ProjectProgressView: ViewCodeProtocol {
         advanceButton.snp.makeConstraints { make in
             make.top.equalTo(progressView.snp.bottom).offset(102)
             make.centerX.equalToSuperview()
-            make.height.equalTo(30)
             make.width.equalTo(82)
         }
         mainLbl.snp.makeConstraints { make in

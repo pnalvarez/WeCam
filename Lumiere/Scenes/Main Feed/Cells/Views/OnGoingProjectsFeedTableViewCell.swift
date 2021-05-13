@@ -154,7 +154,6 @@ extension OnGoingProjectsFeedTableViewCell: ViewCodeProtocol {
         filterButton.snp.makeConstraints { make in
             make.centerY.equalTo(headerLbl)
             make.right.equalToSuperview().inset(24)
-            make.height.equalTo(28)
             make.left.equalTo(headerLbl.snp.right).offset(12)
         }
         collectionView.snp.makeConstraints { make in

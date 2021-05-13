@@ -182,7 +182,6 @@ extension SignUpView: ViewCodeProtocol {
         signUpButton.snp.makeConstraints { make in
             make.bottom.equalToSuperview().inset(10)
             make.top.equalTo(titleHeaderIcon.snp.bottom).offset(1020)
-            make.height.equalTo(30)
             make.width.equalTo(99)
             make.centerX.equalToSuperview()
         }
