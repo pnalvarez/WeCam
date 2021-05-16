@@ -65,7 +65,6 @@ class SelectProjectCathegoryController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.isNavigationBarHidden = true
         interactor?.fetchAllCathegories(SelectProjectCathegory.Request.AllCathegories())
     }
     

@@ -113,7 +113,6 @@ class FinishedProjectDetailsController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.tabBarController?.tabBar.isHidden = true
-        navigationController?.isNavigationBarHidden = true
         interactor?.fetchRoutingModel(FinishedProjectDetails.Request.FetchRoutingModel())
         interactor?.fetchNotinvitedUsers(FinishedProjectDetails.Request.FetchNotInvitedUsers())
     }

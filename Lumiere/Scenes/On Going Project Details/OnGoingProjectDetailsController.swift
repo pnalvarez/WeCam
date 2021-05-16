@@ -156,7 +156,6 @@ class OnGoingProjectDetailsController: BaseViewController, UINavigationControlle
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.tabBarController?.tabBar.isHidden = true
-        navigationController?.isNavigationBarHidden = true
         interactor?.fetchContext(OnGoingProjectDetails.Request.FetchContext())
         interactor?.fetchProjectRelation(OnGoingProjectDetails.Request.ProjectRelation())
     }

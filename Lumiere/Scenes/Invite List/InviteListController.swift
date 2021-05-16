@@ -71,7 +71,6 @@ class InviteListController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.isNavigationBarHidden = true
         interactor?.fetchConnections(InviteList.Request.FetchConnections())
     }
     

@@ -70,7 +70,6 @@ class NotificationsController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.isNavigationBarHidden = true
         setupTableView()
         refreshTableView()
         interactor?.fetchNotificationCriterias(Notifications.Request.NotificationCriterias())

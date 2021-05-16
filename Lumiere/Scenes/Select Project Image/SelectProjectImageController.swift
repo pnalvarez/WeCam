@@ -67,7 +67,6 @@ class SelectProjectImageController: BaseViewController, UINavigationControllerDe
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.isNavigationBarHidden = true
     }
     
     override func loadView() {
