@@ -254,78 +254,81 @@ class FirebaseManager: FirebaseManagerProtocol {
     
     func registerUserData(request: SaveUserInfoRequest,
                           completion: @escaping (SignUp.Response.SaveUserInfo) -> Void) {
-        if let imageData = request.image {
-            let profileImageReference = storage.child(Paths.profileImagesPath).child(request.userId)
-            profileImageReference.putData(imageData, metadata: nil) { (metadata, error) in
-                if error != nil {
-                    completion(.error(WCError.saveImage))
-                }
-                profileImageReference.downloadURL { (url, error) in
+        realtimeDB.runTransactionBlock { _ in
+            if let imageData = request.image {
+                let profileImageReference = self.storage.child(Paths.profileImagesPath).child(request.userId)
+                profileImageReference.putData(imageData, metadata: nil) { (metadata, error) in
                     if error != nil {
                         completion(.error(WCError.saveImage))
                     }
-                    guard let url = url else {
-                        completion(.genericError)
-                        return
-                    }
-                    let urlString = url.absoluteString
-                    let dictionary: [String : Any] = ["profile_image_url": urlString,
-                                                      "name": request.name,
-                                                      "email" : request.email,
-                                                      "phone_number": request.phoneNumber,
-                                                      "professional_area": request.professionalArea,
-                                                      "filtered_ongoing_project_cathegories": request.interestCathegories,
-                                                      "interest_cathegories": request.interestCathegories,
-                                                      "connect_notifications": [],
-                                                      "project_notifications": [],
-                                                      "author_notifications": [],
-                                                      "finished_project_invite_notifications": []]
-                    
-                    self.realtimeDB
-                        .child(Paths.usersPath)
-                        .child(request.userId)
-                        .updateChildValues(dictionary) {
-                            (error, ref) in
-                            if error != nil {
-                                completion(.error(WCError.createUser))
-                            } else {
-                                self.realtimeDB
-                                    .child(Paths.allUsersCataloguePath)
-                                    .observeSingleEvent(of: .value) { snapshot in
-                                        var userIdsArray: [String]
-                                        if let userIds = snapshot.value as? [String] {
-                                            userIdsArray = userIds
-                                        } else {
-                                            userIdsArray = .empty
-                                        }
-                                        userIdsArray.append(request.userId)
-                                        self.realtimeDB
-                                            .updateChildValues([Paths.allUsersCataloguePath : userIdsArray]) { error, ref in
-                                                if error != nil {
-                                                    completion(.error(WCError.createUser))
-                                                    return
-                                                }
-                                                self.realtimeDB.child(Paths.userEmailPath).updateChildValues([request.email.sha256() : request.userId]) {
-                                                    error, ref in
+                    profileImageReference.downloadURL { (url, error) in
+                        if error != nil {
+                            completion(.error(WCError.saveImage))
+                        }
+                        guard let url = url else {
+                            completion(.genericError)
+                            return
+                        }
+                        let urlString = url.absoluteString
+                        let dictionary: [String : Any] = ["profile_image_url": urlString,
+                                                          "name": request.name,
+                                                          "email" : request.email,
+                                                          "phone_number": request.phoneNumber,
+                                                          "professional_area": request.professionalArea,
+                                                          "filtered_ongoing_project_cathegories": request.interestCathegories,
+                                                          "interest_cathegories": request.interestCathegories,
+                                                          "connect_notifications": [],
+                                                          "project_notifications": [],
+                                                          "author_notifications": [],
+                                                          "finished_project_invite_notifications": []]
+                        
+                        self.realtimeDB
+                            .child(Paths.usersPath)
+                            .child(request.userId)
+                            .updateChildValues(dictionary) {
+                                (error, ref) in
+                                if error != nil {
+                                    completion(.error(WCError.createUser))
+                                } else {
+                                    self.realtimeDB
+                                        .child(Paths.allUsersCataloguePath)
+                                        .observeSingleEvent(of: .value) { snapshot in
+                                            var userIdsArray: [String]
+                                            if let userIds = snapshot.value as? [String] {
+                                                userIdsArray = userIds
+                                            } else {
+                                                userIdsArray = .empty
+                                            }
+                                            userIdsArray.append(request.userId)
+                                            self.realtimeDB
+                                                .updateChildValues([Paths.allUsersCataloguePath : userIdsArray]) { error, ref in
                                                     if error != nil {
                                                         completion(.error(WCError.createUser))
                                                         return
                                                     }
-                                                    self.registerEntity(withId: request.userId, type: .user) { response in
-                                                        switch response {
-                                                        case .error(let error):
+                                                    self.realtimeDB.child(Paths.userEmailPath).updateChildValues([request.email.sha256() : request.userId]) {
+                                                        error, ref in
+                                                        if error != nil {
                                                             completion(.error(WCError.createUser))
-                                                        case .success:
-                                                            completion(.success)
+                                                            return
+                                                        }
+                                                        self.registerEntity(withId: request.userId, type: .user) { response in
+                                                            switch response {
+                                                            case .error(let error):
+                                                                completion(.error(WCError.createUser))
+                                                            case .success:
+                                                                completion(.success)
+                                                            }
                                                         }
                                                     }
                                                 }
-                                            }
-                                    }
+                                        }
+                                }
                             }
-                        }
+                    }
                 }
             }
+            return TransactionResult()
         }
     }
     
@@ -1081,143 +1084,146 @@ class FirebaseManager: FirebaseManagerProtocol {
     
     func fetchCreateProject<T: Mappable>(request: [String : Any],
                                          completion: @escaping (BaseResponse<T>) -> Void) {
-        if let payload = request["payload"] as? [String : Any],
-           let image = payload["image"] as? Data?,
-           let title = payload["title"] as? String,
-           let cathegories = payload["cathegories"] as? Array<Any>,
-           let percentage = payload["percentage"] as? Int,
-           let sinopsis = payload["sinopsis"] as? String,
-           let needing = payload["needing"] as? String,
-           let currentUser = authReference.currentUser?.uid {
-            let projectReference = realtimeDB
-                .child(Paths.projectsPath)
-                .child(Paths.ongoingProjectsPath)
-                .childByAutoId()
-            guard let projectId = projectReference.key,
-                  let image = image else {
-                completion(.error(WCError.genericError))
-                return
-            }
-            let projectImageReference =  storage.child(Paths.projectsPath).child(projectId)
-            projectImageReference.putData(image, metadata: nil) { (metadata, error) in
-                if error != nil {
-                    completion(.error(WCError.createProject))
-                    return
+        realtimeDB.runTransactionBlock({ _ in
+            if let payload = request["payload"] as? [String : Any],
+               let image = payload["image"] as? Data?,
+               let title = payload["title"] as? String,
+               let cathegories = payload["cathegories"] as? Array<Any>,
+               let percentage = payload["percentage"] as? Int,
+               let sinopsis = payload["sinopsis"] as? String,
+               let needing = payload["needing"] as? String,
+               let currentUser = self.authReference.currentUser?.uid {
+                let projectReference = self.realtimeDB
+                    .child(Paths.projectsPath)
+                    .child(Paths.ongoingProjectsPath)
+                    .childByAutoId()
+                guard let projectId = projectReference.key,
+                      let image = image else {
+                    completion(.error(WCError.genericError))
+                    return TransactionResult.abort()
                 }
-                projectImageReference.downloadURL { (url, error) in
+                let projectImageReference =  self.storage.child(Paths.projectsPath).child(projectId)
+                projectImageReference.putData(image, metadata: nil) { (metadata, error) in
                     if error != nil {
                         completion(.error(WCError.createProject))
                         return
                     }
-                    guard let url = url else {
-                        completion(.error(WCError.genericError))
-                        return
-                    }
-                    let urlString = url.absoluteString
-                    let projectDict: [String : Any] = ["id": projectId,
-                                                       "image": urlString,
-                                                       "title": title,
-                                                       "cathegories": cathegories,
-                                                       "progress": percentage,
-                                                       "author_id": currentUser,
-                                                       "sinopsis": sinopsis,
-                                                       "needing": needing,
-                                                       "participants": [currentUser]]
-                    projectReference.updateChildValues(projectDict) { (error, ref) in
+                    projectImageReference.downloadURL { (url, error) in
                         if error != nil {
                             completion(.error(WCError.createProject))
                             return
                         }
-                        self.realtimeDB
-                            .child(Paths.usersPath)
-                            .child(currentUser)
-                            .child("authoring_project_ids")
-                            .observeSingleEvent(of: .value) { snapshot in
-                                var newArray: Array<Any>
-                                if var projectIds = snapshot.value as? Array<Any> {
-                                    projectIds.append(projectId)
-                                    newArray = projectIds
-                                } else {
-                                    newArray = [projectId]
-                                }
-                                var newDict: [String : Any] = [:]
-                                for i in 0..<newArray.count {
-                                    newDict["\(i)"] = newArray[i]
-                                }
-                                self.realtimeDB
-                                    .child(Paths.usersPath)
-                                    .child(currentUser)
-                                    .child("authoring_project_ids")
-                                    .updateChildValues(newDict) { (error, ref) in
-                                        if error != nil {
-                                            completion(.error(WCError.createProject))
-                                            return
-                                        }
-                                        self.realtimeDB
-                                            .child(Paths.usersPath)
-                                            .child(currentUser)
-                                            .child("participating_projects")
-                                            .observeSingleEvent(of: .value) { snapshot in
-                                                var newArray: Array<Any>
-                                                if var projectIds = snapshot.value as? Array<Any> {
-                                                    projectIds.append(projectId)
-                                                    newArray = projectIds
-                                                } else {
-                                                    newArray = [projectId]
-                                                }
-                                                var newDict: [String : Any] = [:]
-                                                for i in 0..<newArray.count {
-                                                    newDict["\(i)"] = newArray[i]
-                                                }
-                                                self.realtimeDB
-                                                    .child(Paths.usersPath)
-                                                    .child(currentUser)
-                                                    .child("participating_projects")
-                                                    .updateChildValues(newDict) { (error, ref) in
-                                                        if error != nil {
-                                                            completion(.error(WCError.createProject))
-                                                            return
-                                                        }
-                                                        self.realtimeDB
-                                                            .child(Paths.allProjectsCataloguePath)
-                                                            .observeSingleEvent(of: .value) { snapshot in
-                                                                var projectIdsArray: [String]
-                                                                if let projectIds = snapshot.value as? [String] {
-                                                                    projectIdsArray = projectIds
-                                                                } else {
-                                                                    projectIdsArray = .empty
-                                                                }
-                                                                projectIdsArray.append(projectId)
-                                                                self.realtimeDB.updateChildValues([Paths.allProjectsCataloguePath : projectIdsArray]) { error, ref in
-                                                                    if error != nil {
-                                                                        completion(.error(WCError.createProject))
-                                                                        return
+                        guard let url = url else {
+                            completion(.error(WCError.genericError))
+                            return
+                        }
+                        let urlString = url.absoluteString
+                        let projectDict: [String : Any] = ["id": projectId,
+                                                           "image": urlString,
+                                                           "title": title,
+                                                           "cathegories": cathegories,
+                                                           "progress": percentage,
+                                                           "author_id": currentUser,
+                                                           "sinopsis": sinopsis,
+                                                           "needing": needing,
+                                                           "participants": [currentUser]]
+                        projectReference.updateChildValues(projectDict) { (error, ref) in
+                            if error != nil {
+                                completion(.error(WCError.createProject))
+                                return
+                            }
+                            self.realtimeDB
+                                .child(Paths.usersPath)
+                                .child(currentUser)
+                                .child("authoring_project_ids")
+                                .observeSingleEvent(of: .value) { snapshot in
+                                    var newArray: Array<Any>
+                                    if var projectIds = snapshot.value as? Array<Any> {
+                                        projectIds.append(projectId)
+                                        newArray = projectIds
+                                    } else {
+                                        newArray = [projectId]
+                                    }
+                                    var newDict: [String : Any] = [:]
+                                    for i in 0..<newArray.count {
+                                        newDict["\(i)"] = newArray[i]
+                                    }
+                                    self.realtimeDB
+                                        .child(Paths.usersPath)
+                                        .child(currentUser)
+                                        .child("authoring_project_ids")
+                                        .updateChildValues(newDict) { (error, ref) in
+                                            if error != nil {
+                                                completion(.error(WCError.createProject))
+                                                return
+                                            }
+                                            self.realtimeDB
+                                                .child(Paths.usersPath)
+                                                .child(currentUser)
+                                                .child("participating_projects")
+                                                .observeSingleEvent(of: .value) { snapshot in
+                                                    var newArray: Array<Any>
+                                                    if var projectIds = snapshot.value as? Array<Any> {
+                                                        projectIds.append(projectId)
+                                                        newArray = projectIds
+                                                    } else {
+                                                        newArray = [projectId]
+                                                    }
+                                                    var newDict: [String : Any] = [:]
+                                                    for i in 0..<newArray.count {
+                                                        newDict["\(i)"] = newArray[i]
+                                                    }
+                                                    self.realtimeDB
+                                                        .child(Paths.usersPath)
+                                                        .child(currentUser)
+                                                        .child("participating_projects")
+                                                        .updateChildValues(newDict) { (error, ref) in
+                                                            if error != nil {
+                                                                completion(.error(WCError.createProject))
+                                                                return
+                                                            }
+                                                            self.realtimeDB
+                                                                .child(Paths.allProjectsCataloguePath)
+                                                                .observeSingleEvent(of: .value) { snapshot in
+                                                                    var projectIdsArray: [String]
+                                                                    if let projectIds = snapshot.value as? [String] {
+                                                                        projectIdsArray = projectIds
+                                                                    } else {
+                                                                        projectIdsArray = .empty
                                                                     }
-                                                                    guard let mappedResponse = Mapper<T>().map(JSON: projectDict) else {
-                                                                        completion(.error(WCError.genericError))
-                                                                        return
-                                                                    }
-                                                                    self.registerEntity(withId: projectId, type: .ongoingProject) {
-                                                                        response in
-                                                                        switch response {
-                                                                        case .error( _):
+                                                                    projectIdsArray.append(projectId)
+                                                                    self.realtimeDB.updateChildValues([Paths.allProjectsCataloguePath : projectIdsArray]) { error, ref in
+                                                                        if error != nil {
                                                                             completion(.error(WCError.createProject))
-                                                                        case .success:
-                                                                            completion(.success(mappedResponse))
+                                                                            return
+                                                                        }
+                                                                        guard let mappedResponse = Mapper<T>().map(JSON: projectDict) else {
+                                                                            completion(.error(WCError.genericError))
+                                                                            return
+                                                                        }
+                                                                        self.registerEntity(withId: projectId, type: .ongoingProject) {
+                                                                            response in
+                                                                            switch response {
+                                                                            case .error( _):
+                                                                                completion(.error(WCError.createProject))
+                                                                            case .success:
+                                                                                completion(.success(mappedResponse))
+                                                                            }
                                                                         }
                                                                     }
                                                                 }
-                                                            }
-                                                    }
-                                            }
-                                    }
-                            }
+                                                        }
+                                                }
+                                        }
+                                }
+                        }
                     }
                 }
+            } else {
+                completion(.error(WCError.genericError))
             }
-        } else {
-            completion(.error(WCError.genericError))
-        }
+            return TransactionResult()
+        })
     }
     
     func fetchProjectWorking<T: Mappable>(request: [String : Any],
