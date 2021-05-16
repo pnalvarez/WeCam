@@ -16,22 +16,19 @@ class BaseViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        setupUI()
         navigationController?.isNavigationBarHidden = true
         navigationItem.backBarButtonItem = UIBarButtonItem(image: backButtonImage, style: .plain, target: nil, action: nil)
         navigationItem.titleView = UIImageView(image: titleViewImage)
         let gesture = UITapGestureRecognizer(target: self, action: #selector(didTap))
         gesture.cancelsTouchesInView = false
         view.addGestureRecognizer(gesture)
+        configureRootViewComponentsVisibility()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         InternetManager.shared.checkConnection()
     }
-}
-
-extension BaseViewController {
     
     @objc
     func didTap() {
@@ -41,6 +38,12 @@ extension BaseViewController {
     @objc
     private func didTapBack() {
         navigationController?.popViewController(animated: true)
+    }
+    
+    private func configureRootViewComponentsVisibility() {
+        if let rootView = view as? BaseView {
+            rootView.configureAuxiliarComponentsVisibility()
+        }
     }
 }
 

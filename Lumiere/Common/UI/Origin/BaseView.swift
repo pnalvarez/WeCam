@@ -46,7 +46,6 @@ class BaseView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        configureAuxiliarComponentsVisibility()
     }
     
     required init?(coder: NSCoder) {
@@ -88,7 +87,7 @@ class BaseView: UIView {
         parentViewController?.navigationController?.popViewController(animated: true)
     }
     
-    private func configureAuxiliarComponentsVisibility() {
+    func configureAuxiliarComponentsVisibility() {
         backButton.isHidden = parentViewController?.navigationController?.viewControllers.count == Constants.navigationHiddenViewControllersCount
     }
     

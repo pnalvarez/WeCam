@@ -67,7 +67,6 @@ class SignInController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.isNavigationBarHidden = true
         setup()
     }
     
