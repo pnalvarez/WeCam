@@ -15,6 +15,8 @@ import ObjectMapper
 protocol FirebaseManagerProtocol {
     func createUser(request: CreateUserRequest,
                     completion: @escaping (SignUp.Response.RegisterUser) -> Void)
+    func createUser(request: [String : Any],
+                    completion: @escaping (EmptyResponse) -> Void)
     func registerUserData(request: SaveUserInfoRequest,
                           completion: @escaping (SignUp.Response.SaveUserInfo) -> Void)
     func fetchUserConnectNotifications<T: Mappable>(request: GetConnectNotificationRequest,
@@ -237,18 +239,119 @@ class FirebaseManager: FirebaseManagerProtocol {
     
     func createUser(request: CreateUserRequest,
                     completion: @escaping (SignUp.Response.RegisterUser) -> Void) {
-        
-        authReference.createUser(withEmail: request.email,
-                                 password: request.password) { (response, error) in
-            if error != nil {
-                completion(.error(WCError.createUser))
-                return
-            } else {
-                if let result = response {
-                    let newResult = SignUp.Response.UserResponse(uid: result.user.uid)
-                    completion(.success(newResult))
+        realtimeDB.runTransactionBlock { _ in
+            self.authReference.createUser(withEmail: request.email,
+                                     password: request.password) { (response, error) in
+                if error != nil {
+                    completion(.error(WCError.createUser))
+                    return
+                } else {
+                    if let result = response {
+                        let newResult = SignUp.Response.UserResponse(uid: result.user.uid)
+                        completion(.success(newResult))
+                    }
                 }
             }
+            return TransactionResult()
+        }
+    }
+    
+    func createUser(request: [String : Any],
+                    completion: @escaping (EmptyResponse) -> Void) {
+        guard let email = request["email"] as? String,
+              let password = request["password"] as? String,
+              let imageData = request["image"] as? Data,
+              let name = request["name"] as? String,
+              let phoneNumber = request["phoneNumber"] as? String,
+              let ocupation = request["ocupation"] as? String,
+              let interestCathegories = request["interestCathegories"] as? [String] else {
+            completion(.error(.genericError))
+            return
+        }
+        realtimeDB.runTransactionBlock { _ in
+            self.authReference.createUser(withEmail: email,
+                                     password: password) { (response, error) in
+                if error != nil {
+                    completion(.error(WCError.createUser))
+                    return
+                } else {
+                    if let result = response {
+                        let userId = result.user.uid
+                            let profileImageReference = self.storage.child(Paths.profileImagesPath).child(userId)
+                            profileImageReference.putData(imageData, metadata: nil) { (metadata, error) in
+                                if error != nil {
+                                    completion(.error(WCError.saveImage))
+                                }
+                                profileImageReference.downloadURL { (url, error) in
+                                    if error != nil {
+                                        completion(.error(WCError.saveImage))
+                                    }
+                                    guard let url = url else {
+                                        completion(.error(.saveImage))
+                                        return
+                                    }
+                                    let urlString = url.absoluteString
+                                    let dictionary: [String : Any] = ["profile_image_url": urlString,
+                                                                      "name": name,
+                                                                      "email" : email,
+                                                                      "phone_number": phoneNumber,
+                                                                      "professional_area": ocupation,
+                                                                      "filtered_ongoing_project_cathegories": interestCathegories,
+                                                                      "interest_cathegories": interestCathegories,
+                                                                      "connect_notifications": [],
+                                                                      "project_notifications": [],
+                                                                      "author_notifications": [],
+                                                                      "finished_project_invite_notifications": []]
+                                    
+                                    self.realtimeDB
+                                        .child(Paths.usersPath)
+                                        .child(userId)
+                                        .updateChildValues(dictionary) {
+                                            (error, ref) in
+                                            if error != nil {
+                                                completion(.error(WCError.createUser))
+                                            } else {
+                                                self.realtimeDB
+                                                    .child(Paths.allUsersCataloguePath)
+                                                    .observeSingleEvent(of: .value) { snapshot in
+                                                        var userIdsArray: [String]
+                                                        if let userIds = snapshot.value as? [String] {
+                                                            userIdsArray = userIds
+                                                        } else {
+                                                            userIdsArray = .empty
+                                                        }
+                                                        userIdsArray.append(userId)
+                                                        self.realtimeDB
+                                                            .updateChildValues([Paths.allUsersCataloguePath : userIdsArray]) { error, ref in
+                                                                if error != nil {
+                                                                    completion(.error(WCError.createUser))
+                                                                    return
+                                                                }
+                                                                self.realtimeDB.child(Paths.userEmailPath).updateChildValues([email.sha256() : userId]) {
+                                                                    error, ref in
+                                                                    if error != nil {
+                                                                        completion(.error(WCError.createUser))
+                                                                        return
+                                                                    }
+                                                                    self.registerEntity(withId: userId, type: .user) { response in
+                                                                        switch response {
+                                                                        case .error(_):
+                                                                            completion(.error(WCError.createUser))
+                                                                        case .success:
+                                                                            completion(.success)
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                    }
+                                            }
+                                        }
+                                }
+                            }
+                        }
+                    }
+                }
+            return TransactionResult()
         }
     }
     

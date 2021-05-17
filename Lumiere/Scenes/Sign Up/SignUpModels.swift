@@ -85,6 +85,17 @@ struct SignUp {
             let professionalArea: String
         }
         
+        struct RegisterUser {
+            let image: Data?
+            let name: String
+            let email: String
+            let password: String
+            let confirmation: String
+            let phoneNumber: String
+            let ocupation: String
+            let interestCathegories: [String]
+        }
+        
         struct CreateUser {
             let email: String
             let password: String

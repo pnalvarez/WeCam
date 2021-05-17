@@ -84,24 +84,6 @@ extension SignUpInteractor {
         }
         return false
     }
-    
-    private func saveUserInfo(_ request: SignUp.Request.SignUpProviderRequest) {
-        provider.saveUserInfo(request) { response in
-            switch response {
-            case .success:
-                self.presenter.didSignUpUser()
-                self.presenter.presentLoading(false)
-                break
-            case .error(let error):
-                self.presenter.didFetchServerError(SignUp.Errors.ServerError(error: error))
-                self.presenter.presentLoading(false)
-                break
-            case .genericError:
-                self.presenter.didFetchGenericError()
-                self.presenter.presentLoading(false)
-            }
-        }
-    }
 }
 
 extension SignUpInteractor: SignUpBusinessLogic {
@@ -132,19 +114,15 @@ extension SignUpInteractor: SignUpBusinessLogic {
                                              password: request.password,
                                              professionalArea: request.professionalArea,
                                              interestCathegories: interestCathegories)
-        guard let user = userData else { return }
-        let createUserRequest = SignUp.Request.CreateUser(email: request.email, password: request.password)
+        let registerUserRequest = SignUp.Request.RegisterUser(image: request.image?.jpegData(compressionQuality: 0.5), name: request.name, email: request.email, password: request.password, confirmation: request.confirmation, phoneNumber: request.phoneNumber, ocupation: request.professionalArea, interestCathegories: interestCathegories.cathegories.map({ $0.rawValue }))
         
-        provider.fetchSignUp(createUserRequest) { result in 
-            switch result {
-            case .success(let data):
-                let providerRequest = SignUp.Request.SignUpProviderRequest(userData: user,
-                                                                           userId: data.uid)
-                self.saveUserInfo(providerRequest)
-                break
+        provider.registerUser(registerUserRequest) { response in
+            self.presenter.presentLoading(false)
+            switch response {
+            case .success:
+                self.presenter.didSignUpUser()
             case .error(let error):
                 self.presenter.didFetchServerError(SignUp.Errors.ServerError(error: error))
-                self.presenter.presentLoading(false)
             }
         }
     }

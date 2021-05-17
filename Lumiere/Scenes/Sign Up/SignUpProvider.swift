@@ -10,10 +10,8 @@ import FirebaseAuth
 import Firebase
 
 protocol SignUpProviderProtocol {
-    func fetchSignUp(_ request: SignUp.Request.CreateUser,
-                     completion: @escaping (SignUp.Response.RegisterUser) -> Void)
-    func saveUserInfo(_ request: SignUp.Request.SignUpProviderRequest,
-                      completion: @escaping (SignUp.Response.SaveUserInfo) -> Void)
+    func registerUser(_ request: SignUp.Request.RegisterUser,
+                      completion: @escaping (EmptyResponse) -> Void)
 }
 
 class SignUpProvider: SignUpProviderProtocol {
@@ -47,5 +45,11 @@ class SignUpProvider: SignUpProviderProtocol {
                                                 .map({$0.rawValue}),
                                              userId: request.userId)
         helper.registerUserData(request: newRequest, completion: completion)
+    }
+    
+    func registerUser(_ request: SignUp.Request.RegisterUser,
+                      completion: @escaping (EmptyResponse) -> Void) {
+        let headers: [String : Any] = ["email": request.email, "password": request.password, "image": request.image, "name": request.name, "phoneNumber": request.phoneNumber, "ocupation": request.ocupation, "interestCathegories": request.interestCathegories]
+        helper.createUser(request: headers, completion: completion)
     }
 }
