@@ -13,12 +13,8 @@ import FirebaseStorage
 import ObjectMapper
 
 protocol FirebaseManagerProtocol {
-    func createUser(request: CreateUserRequest,
-                    completion: @escaping (SignUp.Response.RegisterUser) -> Void)
     func createUser(request: [String : Any],
                     completion: @escaping (EmptyResponse) -> Void)
-    func registerUserData(request: SaveUserInfoRequest,
-                          completion: @escaping (SignUp.Response.SaveUserInfo) -> Void)
     func fetchUserConnectNotifications<T: Mappable>(request: GetConnectNotificationRequest,
                                                     completion: @escaping (BaseResponse<[T]>) -> Void)
     func fetchSignInUser<T: Mappable>(request: [String : Any],
@@ -237,25 +233,6 @@ class FirebaseManager: FirebaseManagerProtocol {
         realtimeDB.keepSynced(true)
     }
     
-    func createUser(request: CreateUserRequest,
-                    completion: @escaping (SignUp.Response.RegisterUser) -> Void) {
-        realtimeDB.runTransactionBlock { _ in
-            self.authReference.createUser(withEmail: request.email,
-                                     password: request.password) { (response, error) in
-                if error != nil {
-                    completion(.error(WCError.createUser))
-                    return
-                } else {
-                    if let result = response {
-                        let newResult = SignUp.Response.UserResponse(uid: result.user.uid)
-                        completion(.success(newResult))
-                    }
-                }
-            }
-            return TransactionResult()
-        }
-    }
-    
     func createUser(request: [String : Any],
                     completion: @escaping (EmptyResponse) -> Void) {
         guard let email = request["email"] as? String,
@@ -351,86 +328,6 @@ class FirebaseManager: FirebaseManagerProtocol {
                         }
                     }
                 }
-            return TransactionResult()
-        }
-    }
-    
-    func registerUserData(request: SaveUserInfoRequest,
-                          completion: @escaping (SignUp.Response.SaveUserInfo) -> Void) {
-        realtimeDB.runTransactionBlock { _ in
-            if let imageData = request.image {
-                let profileImageReference = self.storage.child(Paths.profileImagesPath).child(request.userId)
-                profileImageReference.putData(imageData, metadata: nil) { (metadata, error) in
-                    if error != nil {
-                        completion(.error(WCError.saveImage))
-                    }
-                    profileImageReference.downloadURL { (url, error) in
-                        if error != nil {
-                            completion(.error(WCError.saveImage))
-                        }
-                        guard let url = url else {
-                            completion(.genericError)
-                            return
-                        }
-                        let urlString = url.absoluteString
-                        let dictionary: [String : Any] = ["profile_image_url": urlString,
-                                                          "name": request.name,
-                                                          "email" : request.email,
-                                                          "phone_number": request.phoneNumber,
-                                                          "professional_area": request.professionalArea,
-                                                          "filtered_ongoing_project_cathegories": request.interestCathegories,
-                                                          "interest_cathegories": request.interestCathegories,
-                                                          "connect_notifications": [],
-                                                          "project_notifications": [],
-                                                          "author_notifications": [],
-                                                          "finished_project_invite_notifications": []]
-                        
-                        self.realtimeDB
-                            .child(Paths.usersPath)
-                            .child(request.userId)
-                            .updateChildValues(dictionary) {
-                                (error, ref) in
-                                if error != nil {
-                                    completion(.error(WCError.createUser))
-                                } else {
-                                    self.realtimeDB
-                                        .child(Paths.allUsersCataloguePath)
-                                        .observeSingleEvent(of: .value) { snapshot in
-                                            var userIdsArray: [String]
-                                            if let userIds = snapshot.value as? [String] {
-                                                userIdsArray = userIds
-                                            } else {
-                                                userIdsArray = .empty
-                                            }
-                                            userIdsArray.append(request.userId)
-                                            self.realtimeDB
-                                                .updateChildValues([Paths.allUsersCataloguePath : userIdsArray]) { error, ref in
-                                                    if error != nil {
-                                                        completion(.error(WCError.createUser))
-                                                        return
-                                                    }
-                                                    self.realtimeDB.child(Paths.userEmailPath).updateChildValues([request.email.sha256() : request.userId]) {
-                                                        error, ref in
-                                                        if error != nil {
-                                                            completion(.error(WCError.createUser))
-                                                            return
-                                                        }
-                                                        self.registerEntity(withId: request.userId, type: .user) { response in
-                                                            switch response {
-                                                            case .error(_):
-                                                                completion(.error(WCError.createUser))
-                                                            case .success:
-                                                                completion(.success)
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                        }
-                                }
-                            }
-                    }
-                }
-            }
             return TransactionResult()
         }
     }
