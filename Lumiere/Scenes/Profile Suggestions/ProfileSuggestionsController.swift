@@ -36,6 +36,13 @@ class ProfileSuggestionsController: BaseViewController {
         return view
     }()
     
+    private lazy var optionsToolbar: WCOptionsToolbar = {
+        let view = WCOptionsToolbar(frame: .zero)
+        view.delegate = self
+        return view
+    }()
+    
+    
     private lazy var tableView: UITableView = {
         let view = UITableView(frame: .zero)
         view.assignProtocols(to: self)
@@ -104,9 +111,6 @@ class ProfileSuggestionsController: BaseViewController {
         router.dataStore = interactor
         router.viewController = viewController
     }
-}
-
-extension ProfileSuggestionsController {
     
     private func refreshList() {
         DispatchQueue.main.async {
@@ -132,9 +136,6 @@ extension ProfileSuggestionsController {
             }
         }
     }
-}
-
-extension ProfileSuggestionsController {
     
     @objc
     private func didSelectOption(_ sender: UIButton) {
@@ -149,6 +150,13 @@ extension ProfileSuggestionsController {
             }
         })
         interactor?.didChangeCriteria(ProfileSuggestions.Request.ChangeCriteria(criteria: text))
+    }
+}
+
+extension ProfileSuggestionsController: WCOptionsToolbarDelegate {
+    
+    func optionsToolbar(selectedButton index: Int, optionsToolbar: WCOptionsToolbar) {
+//        interactor?.didChangeCriteria(ProfileSuggestions.Request.ChangeCriteria(criteria: index))
     }
 }
 
