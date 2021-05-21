@@ -10,9 +10,8 @@ import UIKit
 import WCUIKit
 
 class ProfileSuggestionsView: BaseView {
-    
-    private unowned var filterButton: SelectionFilterView
-    private unowned var optionsStackView: UIStackView
+
+    private unowned var optionsToolbar: WCOptionsToolbar
     private unowned var tableView: UITableView
     
     private lazy var mainHeader: UIImageView = {
@@ -33,11 +32,9 @@ class ProfileSuggestionsView: BaseView {
     }()
     
     init(frame: CGRect,
-         filterButton: SelectionFilterView,
-         optionsStackView: UIStackView,
+         optionsToolbar: WCOptionsToolbar,
          tableView: UITableView) {
-        self.filterButton = filterButton
-        self.optionsStackView = optionsStackView
+        self.optionsToolbar = optionsToolbar
         self.tableView = tableView
         super.init(frame: frame)
         applyViewCode()
@@ -53,9 +50,8 @@ extension ProfileSuggestionsView: ViewCodeProtocol {
     func buildViewHierarchy() {
         addSubview(mainHeader)
         addSubview(mainLbl)
-        addSubview(filterButton)
+        addSubview(optionsToolbar)
         addSubview(tableView)
-        addSubview(optionsStackView)
     }
     
     func setupConstraints() {
@@ -65,23 +61,17 @@ extension ProfileSuggestionsView: ViewCodeProtocol {
             make.width.equalTo(100)
             make.height.equalTo(36)
         }
+        optionsToolbar.snp.makeConstraints { make in
+            make.top.equalTo(mainLbl.snp.bottom).offset(32)
+            make.left.right.equalToSuperview()
+        }
         mainLbl.snp.makeConstraints { make in
             make.top.equalTo(mainHeader.snp.bottom).offset(28)
             make.left.equalToSuperview().inset(22)
             make.width.equalTo(150)
         }
-        filterButton.snp.makeConstraints { make in
-            make.centerY.equalTo(mainLbl)
-            make.left.equalTo(mainLbl.snp.right).offset(9)
-            make.right.equalToSuperview().inset(11)
-            make.height.equalTo(18)
-        }
-        optionsStackView.snp.makeConstraints { make in
-            make.top.equalTo(filterButton.snp.bottom)
-            make.centerX.equalTo(filterButton)
-        }
         tableView.snp.makeConstraints { make in
-            make.top.equalTo(mainLbl.snp.bottom).offset(50)
+            make.top.equalTo(optionsToolbar.snp.bottom).offset(50)
             make.left.right.bottom.equalToSuperview()
         }
     }

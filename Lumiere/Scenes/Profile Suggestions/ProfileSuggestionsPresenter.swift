@@ -57,7 +57,7 @@ class ProfileSuggestionsPresenter: ProfileSuggestionsPresentationLogic {
     }
     
     func presentCriterias(_ response: ProfileSuggestions.Info.Model.UpcomingCriteria) {
-        let viewModel = ProfileSuggestions.Info.ViewModel.UpcomingCriteria(selectedCriteria: response.selectedCriteria.rawValue, criterias: response.criterias.map({ $0.rawValue }))
+        let viewModel = ProfileSuggestions.Info.ViewModel.UpcomingCriteria(criterias: response.criterias.map({ $0.rawValue }))
         viewController.displayCriterias(viewModel)
     }
 }

@@ -169,7 +169,7 @@ extension ProfileSuggestionsInteractor: ProfileSuggestionsBusinessLogic {
     
     func didChangeCriteria(_ request: ProfileSuggestions.Request.ChangeCriteria) {
         self.presenter.presentLoading(true)
-        guard let criteria = ProfileSuggestions.Info.Model.SuggestionsCriteria(rawValue: request.criteria) else { return }
+        let criteria = ProfileSuggestions.Info.Model.SuggestionsCriteria.toArray()[request.index]
         suggestionCriteria = criteria
         switch suggestionCriteria {
         case .commonFriends:
@@ -182,7 +182,7 @@ extension ProfileSuggestionsInteractor: ProfileSuggestionsBusinessLogic {
     }
     
     func fetchCriterias(_ request: ProfileSuggestions.Request.FetchCriteria) {
-        let result = ProfileSuggestions.Info.Model.UpcomingCriteria(selectedCriteria: suggestionCriteria, criterias: ProfileSuggestions.Info.Model.SuggestionsCriteria.toArray())
+        let result = ProfileSuggestions.Info.Model.UpcomingCriteria(criterias: ProfileSuggestions.Info.Model.SuggestionsCriteria.toArray())
         presenter.presentCriterias(result)
     }
 }

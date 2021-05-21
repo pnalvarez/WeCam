@@ -19,29 +19,11 @@ protocol ProfileSuggestionsDisplayLogic: ViewInterface {
 
 class ProfileSuggestionsController: BaseViewController {
     
-    private lazy var filterButton: SelectionFilterView = {
-        let view = SelectionFilterView(frame: .zero,
-                                       selectedItem: criteriaViewModel?.selectedCriteria ?? .empty,
-                                       delegate: self)
-        return view
-    }()
-    
-    private lazy var optionsStackView: UIStackView = {
-        let view = UIStackView(frame: .zero)
-        view.distribution = .fillEqually
-        view.spacing = 0
-        view.alignment = .center
-        view.axis = .vertical
-        view.isHidden = true
-        return view
-    }()
-    
     private lazy var optionsToolbar: WCOptionsToolbar = {
         let view = WCOptionsToolbar(frame: .zero)
         view.delegate = self
         return view
     }()
-    
     
     private lazy var tableView: UITableView = {
         let view = UITableView(frame: .zero)
@@ -56,15 +38,14 @@ class ProfileSuggestionsController: BaseViewController {
     
     private lazy var mainView: ProfileSuggestionsView = {
         let view = ProfileSuggestionsView(frame: .zero,
-                                          filterButton: filterButton,
-                                          optionsStackView: optionsStackView,
+                                          optionsToolbar: optionsToolbar,
                                           tableView: tableView)
         return view
     }()
     
     private var criteriaViewModel: ProfileSuggestions.Info.ViewModel.UpcomingCriteria? {
         didSet {
-            buildOptionFilters()
+            optionsToolbar.setupToolbarLayout(optionNames: criteriaViewModel?.criterias ?? .empty, fixedWidth: true)
         }
     }
     
@@ -114,49 +95,17 @@ class ProfileSuggestionsController: BaseViewController {
     
     private func refreshList() {
         DispatchQueue.main.async {
+            self.tableView.checkEmptyState(text: ProfileSuggestions.Constants.Texts.emptySuggestions,
+                                           layout: .large)
             self.tableView.reloadData()
         }
-    }
-    
-    private func buildOptionFilters() {
-        guard let criterias = criteriaViewModel?.criterias else { return }
-        let selectedIndex = criteriaViewModel?.criterias.firstIndex(where: { criteriaViewModel?.selectedCriteria == $0 })
-        filterButton.selectedItem = criteriaViewModel?.selectedCriteria.description ?? .empty
-        for index in 0..<criterias.count {
-            let button = OptionFilterButton(frame: .zero, option: criterias[index])
-            button.addTarget(self, action: #selector(didSelectOption(_:)), for: .touchUpInside)
-            button.tag = index
-            if selectedIndex == index {
-                button.backgroundColor = ProfileSuggestions.Constants.Colors.optionButtonSelected
-            }
-            optionsStackView.addArrangedSubview(button)
-            button.snp.makeConstraints { make in
-                make.width.equalTo(filterButton)
-                make.height.equalTo(20)
-            }
-        }
-    }
-    
-    @objc
-    private func didSelectOption(_ sender: UIButton) {
-        guard let text = criteriaViewModel?.criterias[sender.tag] else { return }
-        filterButton.selectedItem = text
-        optionsStackView.isHidden = true
-        optionsStackView.arrangedSubviews.forEach({
-            if $0 == sender {
-                $0.backgroundColor = ProfileSuggestions.Constants.Colors.optionButtonSelected
-            } else {
-                $0.backgroundColor = ProfileSuggestions.Constants.Colors.optionButtonUnselected
-            }
-        })
-        interactor?.didChangeCriteria(ProfileSuggestions.Request.ChangeCriteria(criteria: text))
     }
 }
 
 extension ProfileSuggestionsController: WCOptionsToolbarDelegate {
     
     func optionsToolbar(selectedButton index: Int, optionsToolbar: WCOptionsToolbar) {
-//        interactor?.didChangeCriteria(ProfileSuggestions.Request.ChangeCriteria(criteria: index))
+        interactor?.didChangeCriteria(ProfileSuggestions.Request.ChangeCriteria(index: index))
     }
 }
 
@@ -188,13 +137,6 @@ extension ProfileSuggestionsController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         interactor?.didSelectProfile(ProfileSuggestions.Request.SelectProfile(index: indexPath.row))
-    }
-}
-
-extension ProfileSuggestionsController: SelectionFilterViewDelegate {
-    
-    func didTapBottomSheetButton() {
-        optionsStackView.isHidden = !optionsStackView.isHidden
     }
 }
 
@@ -236,6 +178,5 @@ extension ProfileSuggestionsController: ProfileSuggestionsDisplayLogic {
     
     func displayCriterias(_ viewModel: ProfileSuggestions.Info.ViewModel.UpcomingCriteria) {
         self.criteriaViewModel = viewModel
-        filterButton.selectedItem = viewModel.selectedCriteria
     }
 }

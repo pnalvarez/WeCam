@@ -17,15 +17,13 @@ struct ProfileSuggestions {
     struct Constants {
         
         struct Colors {
-            static let mainLbl = UIColor(rgb: 0x969494)
+            static let mainLbl = ThemeColors.hex707070.rawValue
             static let nameLbl = UIColor(rgb: 0x000000)
             static let ocupationLbl = UIColor(rgb: 0x000000)
             static let addButtonBackground = ThemeColors.mainRedColor.rawValue
             static let addButtonText = ThemeColors.whiteThemeColor.rawValue
             static let removeButtonBackground = UIColor(rgb: 0xededed)
             static let removeButtonText = UIColor(rgb: 0x000000)
-            static let optionButtonUnselected = ThemeColors.whiteThemeColor.rawValue
-            static let optionButtonSelected = UIColor(rgb: 0xe3e0e0)
         }
         
         struct Fonts {
@@ -40,6 +38,7 @@ struct ProfileSuggestions {
             static let mainLbl = "Sugestões de Perfil"
             static let addButton = "Adicionar"
             static let removeButton = "Remover"
+            static let emptySuggestions = "Nenhuma sugestão no momento :("
         }
         
         struct Images {
@@ -110,7 +109,6 @@ struct ProfileSuggestions {
             }
             
             struct UpcomingCriteria: Equatable {
-                let selectedCriteria: SuggestionsCriteria
                 let criterias: [SuggestionsCriteria]
             }
             
@@ -137,7 +135,6 @@ struct ProfileSuggestions {
         struct ViewModel {
             
             struct UpcomingCriteria: Equatable {
-                let selectedCriteria: String
                 let criterias: [String]
             }
             
@@ -196,7 +193,7 @@ struct ProfileSuggestions {
         }
         
         struct ChangeCriteria {
-            let criteria: String
+            let index: Int
         }
         
         struct FetchCommonConnectionsProfileSuggestions {
@@ -314,6 +311,6 @@ extension ProfileSuggestions.Info.Model.ProfileFade: Stubbable {
 
 extension ProfileSuggestions.Info.Model.UpcomingCriteria: Stubbable {
     static var stub: ProfileSuggestions.Info.Model.UpcomingCriteria {
-        return ProfileSuggestions.Info.Model.UpcomingCriteria(selectedCriteria: .commonFriends, criterias: [.commonFriends, .commonProjects, .commonInterestCathegories])
+        return ProfileSuggestions.Info.Model.UpcomingCriteria(criterias: [.commonFriends, .commonProjects, .commonInterestCathegories])
     }
 }
