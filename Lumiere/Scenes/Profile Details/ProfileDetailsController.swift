@@ -23,6 +23,12 @@ protocol ProfileDetailsDisplayLogic: ViewInterface {
 
 class ProfileDetailsController: BaseViewController {
     
+    private lazy var profileHeaderView: WCProfileHeaderView = {
+        let view = WCProfileHeaderView(frame: .zero)
+        view.delegate = self
+        return view
+    }()
+    
     private lazy var ongoingProjectsCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -166,19 +172,11 @@ class ProfileDetailsController: BaseViewController {
         router.viewController = viewController
         viewController.interactor = interactor
     }
-}
-
-extension ProfileDetailsController {
     
     @objc
     private func closeModal() {
         mainView.hideConfirmationView()
         tabBarController?.tabBar.isHidden = false
-    }
-    
-    @objc
-    private func didTapBackButton() {
-        router?.routeBack()
     }
     
     @objc
@@ -204,6 +202,14 @@ extension ProfileDetailsController {
     @objc
     private func didTapInviteToProject() {
         router?.routeToInviteToProjects()
+    }
+}
+
+extension ProfileDetailsController: WCProfileHeaderViewDelegate {
+    
+    func didTapRelationInteractionButton(relationState: WCProfileHeaderView.RelationState,
+                                         profileHeaderView: WCProfileHeaderView) {
+        interactor?.fetchInteract(ProfileDetails.Request.AddConnection())
     }
 }
 
