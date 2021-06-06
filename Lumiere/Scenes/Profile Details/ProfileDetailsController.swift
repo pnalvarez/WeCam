@@ -211,6 +211,14 @@ extension ProfileDetailsController: WCProfileHeaderViewDelegate {
                                          profileHeaderView: WCProfileHeaderView) {
         interactor?.fetchInteract(ProfileDetails.Request.AddConnection())
     }
+    
+    func didTapInviteToProjects(profileHeaderView: WCProfileHeaderView) {
+        router?.routeToInviteToProjects()
+    }
+    
+    func didTapConnections(profileHeaderView: WCProfileHeaderView) {
+        router?.routeToAllConnections()
+    }
 }
 
 extension ProfileDetailsController: UICollectionViewDataSource {
