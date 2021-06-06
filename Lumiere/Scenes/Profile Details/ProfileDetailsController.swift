@@ -14,7 +14,6 @@ protocol ProfileDetailsDisplayLogic: ViewInterface {
     func displayNewConnectionType(_ viewModel: ProfileDetails.Info.ViewModel.NewConnectionType)
     func displayAllConnections()
     func displayEndRequest()
-    func displayInterfaceForLogged()
     func displaySignOut()
     func displayConfirmation(_ viewModel: ProfileDetails.Info.ViewModel.InteractionConfirmation)
     func displayProjectDetails()
@@ -66,55 +65,14 @@ class ProfileDetailsController: BaseViewController {
         view.isHidden = true
         return view
     }()
-    
-    private lazy var addConnectionButton: UIButton = {
-        let view = UIButton(frame: .zero)
-        view.addTarget(self, action: #selector(didTapAddInteractButton), for: .touchUpInside)
-        return view
-    }()
-    
-    private lazy var allConnectionsButton: UIButton = {
-        let view = UIButton(frame: .zero)
-        view.addTarget(self, action: #selector(didTapAllConnectionsButton), for: .touchUpInside)
-        view.layer.cornerRadius = 4
-        view.backgroundColor = ProfileDetails.Constants.Colors.allConnectionsButton
-        return view
-    }()
-    
-    private lazy var inviteToProjectButton: UIButton = {
-        let view = UIButton(frame: .zero)
-        view.layer.cornerRadius = 4
-        view.clipsToBounds = true
-        view.addTarget(self, action: #selector(didTapInviteToProject), for: .touchUpInside)
-        view.setTitle(ProfileDetails.Constants.Texts.inviteToProjectButton, for: .normal)
-        view.setTitleColor(ProfileDetails.Constants.Colors.inviteToProjectButtonText, for: .normal)
-        view.backgroundColor = ProfileDetails.Constants.Colors.inviteToProjectButtonBackground
-        view.titleLabel?.font = ProfileDetails.Constants.Fonts.inviteToProjectButton
-        return view
-    }()
-    
-    private lazy var editProfileButton: UIButton = {
-        let view = UIButton(frame: .zero)
-        view.addTarget(self, action: #selector(didTapEditProfile), for: .touchUpInside)
-        view.setTitle(ProfileDetails.Constants.Texts.editProfileButton, for: .normal)
-        view.setTitleColor(ProfileDetails.Constants.Colors.editProfileButtonText, for: .normal)
-        view.titleLabel?.font = ProfileDetails.Constants.Fonts.editProfileButton
-        view.layer.borderWidth = 1
-        view.layer.borderColor = ProfileDetails.Constants.Colors.editProfileButtonLayer
-        view.isHidden = true
-        return view
-    }()
-    
+        
     private lazy var mainView: ProfileDetailsView = {
         let view = ProfileDetailsView(frame: .zero,
                                       ongoingProjectsCollectionView: ongoingProjectsCollectionView,
                                       finishedProjectsCollectionView: finishedProjectsCollectionView,
                                       confirmationAlertView: confirmationAlertView,
                                       translucentView: translucentView,
-                                      inviteToProjectButton: inviteToProjectButton,
-                                      addConnectionButton: addConnectionButton,
-                                      allConnectionsButton: allConnectionsButton,
-                                      editProfileButton: editProfileButton)
+                                      profileHeaderView: profileHeaderView)
         return view
     }()
     
@@ -180,28 +138,8 @@ class ProfileDetailsController: BaseViewController {
     }
     
     @objc
-    private func didTapAddInteractButton() {
-        interactor?.fetchInteract(ProfileDetails.Request.AddConnection())
-    }
-    
-    @objc
-    private func didTapAllConnectionsButton() {
-        interactor?.fetchAllConnections(ProfileDetails.Request.AllConnections())
-    }
-    
-    @objc
     private func didSwipeConfirmationAlertView() {
         mainView.hideConfirmationView()
-    }
-    
-    @objc
-    private func didTapEditProfile() {
-        router?.routeToEditProfileDetails()
-    }
-    
-    @objc
-    private func didTapInviteToProject() {
-        router?.routeToInviteToProjects()
     }
 }
 
@@ -218,6 +156,10 @@ extension ProfileDetailsController: WCProfileHeaderViewDelegate {
     
     func didTapConnections(profileHeaderView: WCProfileHeaderView) {
         router?.routeToAllConnections()
+    }
+    
+    func didTapEditProfile(profileHeaderView: WCProfileHeaderView) {
+        router?.routeToEditProfileDetails()
     }
 }
 
@@ -343,11 +285,6 @@ extension ProfileDetailsController: ProfileDetailsDisplayLogic {
     
     func displayEndRequest() {
         
-    }
-    
-    func displayInterfaceForLogged() {
-        inviteToProjectButton.isHidden = true
-        editProfileButton.isHidden = false
     }
     
     func displaySignOut() {

@@ -15,53 +15,7 @@ class ProfileDetailsView: BaseView {
     private unowned var finishedProjectsCollectionView: UICollectionView
     private unowned var confirmationAlertView: ConfirmationAlertView
     private unowned var translucentView: UIView
-    private unowned var inviteToProjectButton: UIButton
-    private unowned var addConnectionButton: UIButton
-    private unowned var allConnectionsButton: UIButton
-    private unowned var editProfileButton: UIButton
-    
-    private lazy var buttonStackView: UIStackView = {
-        let view = UIStackView(frame: .zero)
-        view.axis = .vertical
-        view.distribution = .fill
-        view.alignment = .center
-        view.spacing = 35
-        view.backgroundColor = .white
-        return view
-    }()
-    
-    private lazy var photoImageView: WCListItemImageView = {
-        let view = WCListItemImageView(frame: .zero)
-        return view
-    }()
-    
-    private lazy var nameLbl: UILabel = {
-        let view = UILabel(frame: .zero)
-        view.numberOfLines = 0
-        view.textAlignment = .left
-        return view
-    }()
-    
-    private lazy var occupationLbl: UILabel = {
-        let view = UILabel(frame: .zero)
-        view.numberOfLines = 0
-        view.textAlignment = .left
-        return view
-    }()
-    
-    private lazy var emailLbl: UILabel = {
-        let view = UILabel(frame: .zero)
-        view.numberOfLines = 0
-        view.textAlignment = .left
-        return view
-    }()
-    
-    private lazy var phoneNumberLbl: UILabel = {
-        let view = UILabel(frame: .zero)
-        view.numberOfLines = 0
-        view.textAlignment = .left
-        return view
-    }()
+    private unowned var profileHeaderView: WCProfileHeaderView
     
     private lazy var onGoingProjectsLbl: UILabel = {
         let view = UILabel(frame: .zero)
@@ -103,18 +57,12 @@ class ProfileDetailsView: BaseView {
          finishedProjectsCollectionView: UICollectionView,
          confirmationAlertView: ConfirmationAlertView,
          translucentView: UIView,
-         inviteToProjectButton: UIButton,
-         addConnectionButton: UIButton,
-         allConnectionsButton: UIButton,
-         editProfileButton: UIButton) {
+         profileHeaderView: WCProfileHeaderView) {
         self.ongoingProjectsCollectionView = ongoingProjectsCollectionView
         self.finishedProjectsCollectionView = finishedProjectsCollectionView
         self.confirmationAlertView = confirmationAlertView
         self.translucentView = translucentView
-        self.inviteToProjectButton = inviteToProjectButton
-        self.addConnectionButton = addConnectionButton
-        self.allConnectionsButton = allConnectionsButton
-        self.editProfileButton = editProfileButton
+        self.profileHeaderView = profileHeaderView
         super.init(frame: frame)
         applyViewCode()
     }
@@ -155,16 +103,7 @@ class ProfileDetailsView: BaseView {
 extension ProfileDetailsView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
-        mainContainer.addSubview(photoImageView)
-        mainContainer.addSubview(nameLbl)
-        mainContainer.addSubview(occupationLbl)
-        mainContainer.addSubview(emailLbl)
-        mainContainer.addSubview(phoneNumberLbl)
-        mainContainer.addSubview(inviteToProjectButton)
-        mainContainer.addSubview(addConnectionButton)
-        buttonStackView.addArrangedSubview(editProfileButton)
-        buttonStackView.addArrangedSubview(allConnectionsButton)
-        mainContainer.addSubview(buttonStackView)
+        mainContainer.addSubview(profileHeaderView)
         mainContainer.addSubview(onGoingProjectsLbl)
         mainContainer.addSubview(ongoingProjectsCollectionView)
         mainContainer.addSubview(finishedProjectsCollectionView)
@@ -191,55 +130,11 @@ extension ProfileDetailsView: ViewCodeProtocol {
         translucentView.snp.makeConstraints{ make in
             make.edges.equalToSuperview()
         }
-        photoImageView.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(56)
-            make.left.equalToSuperview().inset(37)
-            make.width.equalTo(84)
-        }
-        nameLbl.snp.makeConstraints { make in
-            make.left.equalTo(photoImageView.snp.right).offset(14)
-            make.top.equalTo(photoImageView)
-            make.width.equalTo(181)
-        }
-        occupationLbl.snp.makeConstraints { make in
-            make.top.equalTo(nameLbl.snp.bottom)
-            make.left.width.equalTo(nameLbl)
-        }
-        emailLbl.snp.makeConstraints { make in
-            make.top.equalTo(occupationLbl.snp.bottom)
-            make.left.width.equalTo(occupationLbl)
-        }
-        phoneNumberLbl.snp.makeConstraints { make in
-            make.top.equalTo(emailLbl.snp.bottom)
-            make.left.width.equalTo(emailLbl)
-        }
-        inviteToProjectButton.snp.makeConstraints { make in
-            make.top.equalTo(phoneNumberLbl.snp.bottom).offset(10)
-            make.left.equalTo(phoneNumberLbl)
-            make.height.equalTo(32)
-            make.width.equalTo(171)
-        }
-        addConnectionButton.snp.makeConstraints { make in
-            make.top.equalTo(nameLbl).offset(-2)
-            make.right.equalToSuperview().inset(26)
-            make.height.equalTo(30)
-            make.width.equalTo(30)
-        }
-        buttonStackView.snp.makeConstraints { make in
-            make.top.equalTo(phoneNumberLbl.snp.bottom).offset(59)
-            make.centerX.equalToSuperview()
-            make.width.equalTo(359)
-        }
-        editProfileButton.snp.makeConstraints { make in
-            make.height.equalTo(29)
-            make.left.right.equalToSuperview().inset(37)
-        }
-        allConnectionsButton.snp.makeConstraints { make in
-            make.height.equalTo(32)
-            make.width.equalTo(171)
+        profileHeaderView.snp.makeConstraints { make in
+            make.top.right.left.equalToSuperview()
         }
         onGoingProjectsLbl.snp.makeConstraints { make in
-            make.top.equalTo(buttonStackView.snp.bottom).offset(46)
+            make.top.equalTo(profileHeaderView.snp.bottom).offset(46)
             make.left.equalToSuperview().inset(26)
             make.width.equalTo(208)
         }
@@ -262,12 +157,5 @@ extension ProfileDetailsView: ViewCodeProtocol {
     func configureViews() {
         scrollView.contentSize = CGSize(width: frame.width, height: 760)
         backgroundColor = .white
-        allConnectionsButton.setAttributedTitle(viewModel?.connectionsCount, for: .normal)
-        nameLbl.attributedText = viewModel?.name
-        occupationLbl.attributedText = viewModel?.occupation
-        emailLbl.attributedText = viewModel?.email
-        phoneNumberLbl.attributedText = viewModel?.phoneNumber
-        addConnectionButton.setImage(viewModel?.connectionTypeImage, for: .normal)
-        photoImageView.setImage(withURL: viewModel?.image ?? .empty)
     }
 }
