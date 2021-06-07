@@ -16,14 +16,18 @@ protocol ViewInterface where Self: UIViewController {
 extension ViewInterface {
     
     func defaultScreenLoading(_ hide: Bool) {
-        if let mainView = view as? BaseView {
-            mainView.defaultScreenLoading(hide)
+        DispatchQueue.main.async {
+            if let mainView = self.view as? BaseView {
+                mainView.defaultScreenLoading(hide)
+            }
         }
     }
     
     func fullScreenLoading(_ hide: Bool) {
-        if let mainView = view as? BaseView {
-            mainView.fullScreenLoading(hide)
+        DispatchQueue.main.async {
+            if let mainView = self.view as? BaseView {
+                mainView.fullScreenLoading(hide)
+            }
         }
     }
 }

@@ -50,8 +50,6 @@ class ProfileDetailsView: BaseView {
         return view
     }()
     
-    private var viewModel: ProfileDetails.Info.ViewModel.User?
-    
     init(frame: CGRect,
          ongoingProjectsCollectionView: UICollectionView,
          finishedProjectsCollectionView: UICollectionView,
@@ -69,11 +67,6 @@ class ProfileDetailsView: BaseView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    func setup(viewModel: ProfileDetails.Info.ViewModel.User) {
-        self.viewModel = viewModel
-        applyViewCode()
     }
     
     func displayConfirmationView(withText text: String) {
@@ -131,7 +124,8 @@ extension ProfileDetailsView: ViewCodeProtocol {
             make.edges.equalToSuperview()
         }
         profileHeaderView.snp.makeConstraints { make in
-            make.top.right.left.equalToSuperview()
+            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(41)
+            make.right.left.equalToSuperview()
         }
         onGoingProjectsLbl.snp.makeConstraints { make in
             make.top.equalTo(profileHeaderView.snp.bottom).offset(46)
@@ -151,11 +145,11 @@ extension ProfileDetailsView: ViewCodeProtocol {
             make.top.equalTo(finishedProjectsLbl.snp.bottom).offset(16)
             make.left.right.equalToSuperview()
             make.height.equalTo(182)
+            make.bottom.equalToSuperview()
         }
     }
     
     func configureViews() {
-        scrollView.contentSize = CGSize(width: frame.width, height: 760)
         backgroundColor = .white
     }
 }

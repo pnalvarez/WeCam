@@ -238,6 +238,11 @@ extension InviteProfileToProjectsInteractor: InviteProfileToProjectsBusinessLogi
                                                                       progress: $0.progress ?? 0,
                                                                       relation: nil)
                 }))
+                guard !data.isEmpty else {
+                    self.presenter.presentLoading(false)
+                    self.presenter.presentProjects(InviteProfileToProjects.Info.Model.UpcomingProjects(projects: .empty))
+                    return
+                }
                 for i in 0..<data.count {
                     if data[i].progress ?? 0 < 100 {
                         self.fetchUserToOngoingProjectRelation(request: InviteProfileToProjects.Request.FetchRelation(userId: self.receivedUser?.userId ?? .empty, projectId: data[i].id ?? .empty, index: i))

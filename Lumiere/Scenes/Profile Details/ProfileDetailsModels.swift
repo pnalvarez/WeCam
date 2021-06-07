@@ -154,13 +154,13 @@ struct ProfileDetails {
         struct ViewModel {
             
             struct User: Equatable {
-                let connectionTypeImage: UIImage?
+                let connectionType: WCProfileHeaderView.RelationState
                 let image: String?
-                let name: NSAttributedString
-                let occupation: NSAttributedString
-                let email: NSAttributedString
-                let phoneNumber: NSAttributedString
-                let connectionsCount: NSAttributedString
+                let name: String
+                let occupation: String
+                let email: String
+                let phoneNumber: String
+                let connectionsCount: Int
                 let progressingProjects: [Project]
                 let finishedProjects: [Project]
             }
@@ -170,7 +170,7 @@ struct ProfileDetails {
             }
             
             struct NewConnectionType: Equatable {
-                let image: UIImage?
+                let type: WCProfileHeaderView.RelationState
             }
             
             struct InteractionConfirmation: Equatable {
@@ -478,47 +478,6 @@ extension ProfileDetails.Info.Model.Project: MultipleStubbable {
                                                   image: "image1"),
                 ProfileDetails.Info.Model.Project(id: "idProj2",
                                                   image: "image2")]
-    }
-}
-
-extension ProfileDetails.Info.ViewModel.User: Stubbable {
-    static var stub: ProfileDetails.Info.ViewModel.User {
-        return ProfileDetails
-            .Info
-            .ViewModel
-            .User(connectionTypeImage: ProfileDetails.Constants.Images.isConnection,
-                  image: "image",
-                  name: NSAttributedString(string: "Usuario Teste",
-                                           attributes: [NSAttributedString
-                                            .Key
-                                            .font: ProfileDetails
-                                                .Constants
-                                                .Fonts
-                                                .nameLbl,
-                                                        NSAttributedString.Key.foregroundColor: ProfileDetails
-                                                            .Constants
-                                                            .Colors
-                                                            .nameLbl]), occupation: NSAttributedString(string: "Artista",
-                                                                                                       attributes: [NSAttributedString.Key.font: ProfileDetails
-                                                                                                          .Constants.Fonts.ocupationLbl, NSAttributedString.Key.foregroundColor: ProfileDetails
-                                                                                                              .Constants.Colors.ocupationLbl]), email: NSAttributedString(string: "user_test@hotmail.com", attributes: [NSAttributedString.Key.font: ProfileDetails
-                                                                                                                                                                                                                .Constants
-                                                                                                                                                                                                                .Fonts
-                                                                                                                                                                                                                .emailLbl, NSAttributedString.Key.foregroundColor: ProfileDetails
-                                                                                                                                                                                                                    .Constants
-                                                                                                                                                                                                                    .Colors
-                                                                                                                                                                                                                    .emailLbl, NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue]), phoneNumber: NSAttributedString(string:"(20)3938-3948",
-                                                                                                                                                                                                                                                                                                                                          attributes: [NSAttributedString.Key.font: ProfileDetails
-                                                                                                                                                                                                                                                                                                                                            .Constants
-                                                                                                                                                                                                                                                                                                                                            .Fonts
-                                                                                                                                                                                                                                                                                                                                            .phoneNumberLbl, NSAttributedString.Key.foregroundColor: ProfileDetails
-                                                                                                                                                                                                                                                                                                                                                .Constants
-                                                                                                                                                                                                                                                                                                                                                .Colors
-                                                                                                                                                                                                                                                                                                                                                .phoneNumberLbl]), connectionsCount: NSAttributedString(string: "10 Conexões",
-                                                                                                                                                                                                                                                                                                                                                                                                            attributes: [NSAttributedString.Key.font: ProfileDetails
-                                                                                                                                                                                                                                                                                                                                                                                                                .Constants
-                                                                                                                                                                                                                                                                                                                                                                                                                .Fonts
-                                                                                                                                                                                                                                                                                                                                                                                                                            .allConnectionsButton, NSAttributedString.Key.foregroundColor: ProfileDetails.Constants.Colors.allConnectionsButtonText]), progressingProjects: ProfileDetails.Info.ViewModel.Project.stubArray, finishedProjects: .empty)
     }
 }
 

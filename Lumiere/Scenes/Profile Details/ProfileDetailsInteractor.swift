@@ -10,7 +10,6 @@ import ObjectMapper
 protocol ProfileDetailsBusinessLogic {
     func fetchUserInfo(_ request: ProfileDetails.Request.UserData) //NEW
     func fetchInteract(_ request: ProfileDetails.Request.AddConnection)
-    func fetchAllConnections(_ request: ProfileDetails.Request.AllConnections)
     func fetchConfirmInteraction(_ request: ProfileDetails.Request.ConfirmInteraction)
     func didSelectOnGoingProject(_ request: ProfileDetails.Request.SelectProjectWithIndex)
     func didSelectFinishedProject(_ request: ProfileDetails.Request.SelectProjectWithIndex)
@@ -131,12 +130,6 @@ extension ProfileDetailsInteractor {
         }
     }
     
-    private func checkUserTypeModifications() {
-        if let type = userDataModel?.connectionType, type == .logged {
-            presenter.presentInterfaceForLogged()
-        }
-    }
-    
     private func fetchUserRelation() {
         worker.fetchUserRelation(ProfileDetails
             .Request
@@ -184,7 +177,6 @@ extension ProfileDetailsInteractor {
                 self.presenter.presentLoading(false)
                 guard let userModel = self.userDataModel else { return }
                 self.presenter.presentUserInfo(userModel)
-                self.checkUserTypeModifications()
             case .error(let error):
                 break
             }
@@ -231,10 +223,6 @@ extension ProfileDetailsInteractor: ProfileDetailsBusinessLogic {
         presenter.presentConfirmationAlert(ProfileDetails.Info.Model.IneractionConfirmation(connectionType: connectionType))
     }
     
-    func fetchAllConnections(_ request: ProfileDetails.Request.AllConnections) {
-        presenter.presentAllConnections()
-    }
-    
     func fetchConfirmInteraction(_ request: ProfileDetails.Request.ConfirmInteraction) {
         guard let connectionType = userDataModel?.connectionType else {
             return
@@ -275,7 +263,7 @@ extension ProfileDetailsInteractor: ProfileDetailsBusinessLogic {
     
     func didSelectOnGoingProject(_ request: ProfileDetails.Request.SelectProjectWithIndex) {
         selectedProject = userDataModel?.progressingProjects[request.index]
-        presenter.presentProjectDetails()
+        presenter.presentOngoingProjectDetails()
     }
     
     func didSelectFinishedProject(_ request: ProfileDetails.Request.SelectProjectWithIndex) {

@@ -6,18 +6,17 @@
 //  Copyright © 2020 Pedro Alvarez. All rights reserved.
 //
 import UIKit
+import WCUIKit
 
 protocol ProfileDetailsPresentationLogic {
     func presentUserInfo(_ response: ProfileDetails.Info.Model.User)
     func presentError(_ response: ProfileDetails.Errors.ProfileDetailsError)
     func presentNewInteractionIcon(_ response: ProfileDetails.Info.Model.NewConnectionType)
-    func presentAllConnections()
     func didEndRequest()
-    func presentInterfaceForLogged()
     func presentLoading(_ loading: Bool)
     func didSignOut()
     func presentConfirmationAlert(_ response: ProfileDetails.Info.Model.IneractionConfirmation)
-    func presentProjectDetails()
+    func presentOngoingProjectDetails()
     func presentFinishedProjectDetails()
 }
 
@@ -32,65 +31,31 @@ class ProfileDetailsPresenter: ProfileDetailsPresentationLogic {
     func presentUserInfo(_ response: ProfileDetails.Info.Model.User) {
         let progressingProjects = response.progressingProjects.map({ ProfileDetails.Info.ViewModel.Project(image: $0.image)})
         let finishedProjects = response.finishedProjects.map({ ProfileDetails.Info.ViewModel.Project(image: $0.image)})
-        var connectionTypeImage: UIImage?
+        var connectionType: WCProfileHeaderView.RelationState
         switch response.connectionType {
         case .contact:
-            connectionTypeImage = ProfileDetails.Constants.Images.isConnection
-            break
+            connectionType = .connected
         case .pending:
-            connectionTypeImage = ProfileDetails.Constants.Images.pending
-            break
+            connectionType = .userReceivedRequest
         case .sent:
-            connectionTypeImage = ProfileDetails.Constants.Images.sent
-            break
+            connectionType = .userSentRequest
         case .logged:
-            connectionTypeImage = ProfileDetails.Constants.Images.logout
-            break
+            connectionType = .loggedUser
         case .nothing:
-            connectionTypeImage = ProfileDetails.Constants.Images.addConnection
+            connectionType = .nothing
         case .none:
-            connectionTypeImage = ProfileDetails.Constants.Images.addConnection
+            connectionType = .nothing
         }
         let viewModel = ProfileDetails
             .Info
             .ViewModel
-            .User(connectionTypeImage: connectionTypeImage,
+            .User(connectionType: connectionType,
                   image: response.image,
-                  name: NSAttributedString(string: response.name,
-                                           attributes: [NSAttributedString
-                                            .Key
-                                            .font: ProfileDetails
-                                                .Constants
-                                                .Fonts
-                                                .nameLbl,
-                                                        NSAttributedString.Key.foregroundColor: ProfileDetails
-                                                            .Constants
-                                                            .Colors
-                                                            .nameLbl]),
-                  occupation: NSAttributedString(string: response.occupation,
-                                                 attributes: [NSAttributedString.Key.font: ProfileDetails
-                                                    .Constants.Fonts.ocupationLbl, NSAttributedString.Key.foregroundColor: ProfileDetails
-                                                        .Constants.Colors.ocupationLbl]),
-                  email: NSAttributedString(string: response.email, attributes: [NSAttributedString.Key.font: ProfileDetails
-                    .Constants
-                    .Fonts
-                    .emailLbl, NSAttributedString.Key.foregroundColor: ProfileDetails
-                        .Constants
-                        .Colors
-                        .emailLbl, NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue]),
-                  phoneNumber: NSAttributedString(string: response.phoneNumber,
-                                                  attributes: [NSAttributedString.Key.font: ProfileDetails
-                                                    .Constants
-                                                    .Fonts
-                                                    .phoneNumberLbl, NSAttributedString.Key.foregroundColor: ProfileDetails
-                                                        .Constants
-                                                        .Colors
-                                                        .phoneNumberLbl]),
-                  connectionsCount: NSAttributedString(string:"Conexões (\(response.connectionsCount))",
-                    attributes: [NSAttributedString.Key.font: ProfileDetails
-                        .Constants
-                        .Fonts
-                        .allConnectionsButton, NSAttributedString.Key.foregroundColor: ProfileDetails.Constants.Colors.allConnectionsButtonText]),
+                  name: response.name,
+                  occupation: response.occupation,
+                  email: response.email,
+                  phoneNumber: response.phoneNumber,
+                  connectionsCount: response.connectionsCount,
                   progressingProjects: progressingProjects,
                   finishedProjects: finishedProjects)
         viewController.displayUserInfo(viewModel)
@@ -102,37 +67,25 @@ class ProfileDetailsPresenter: ProfileDetailsPresentationLogic {
     }
     
     func presentNewInteractionIcon(_ response: ProfileDetails.Info.Model.NewConnectionType) {
-        var image: UIImage?
+        var connectionType: WCProfileHeaderView.RelationState
         switch response.connectionType {
         case .contact:
-            image = ProfileDetails.Constants.Images.isConnection
-            break
+            connectionType = .connected
         case .pending:
-            image = ProfileDetails.Constants.Images.pending
-            break
+            connectionType = .userReceivedRequest
         case .sent:
-            image = ProfileDetails.Constants.Images.sent
-            break
+            connectionType = .userSentRequest
         case .logged:
-            image = ProfileDetails.Constants.Images.logout
-            break
+            connectionType = .loggedUser
         case .nothing:
-            image = ProfileDetails.Constants.Images.addConnection
+            connectionType = .nothing
         }
-        let viewModel = ProfileDetails.Info.ViewModel.NewConnectionType(image: image)
+        let viewModel = ProfileDetails.Info.ViewModel.NewConnectionType(type: connectionType)
         viewController.displayNewConnectionType(viewModel)
-    }
-    
-    func presentAllConnections() {
-        viewController.displayAllConnections()
     }
     
     func didEndRequest() {
         viewController.displayEndRequest()
-    }
-    
-    func presentInterfaceForLogged() {
-        viewController.displayInterfaceForLogged()
     }
     
     func presentLoading(_ loading: Bool) {
@@ -164,7 +117,7 @@ class ProfileDetailsPresenter: ProfileDetailsPresentationLogic {
         viewController.displayConfirmation(viewModel)
     }
     
-    func presentProjectDetails() {
+    func presentOngoingProjectDetails() {
         viewController.displayProjectDetails()
     }
     

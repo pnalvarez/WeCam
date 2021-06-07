@@ -12,7 +12,6 @@ protocol ProfileDetailsDisplayLogic: ViewInterface {
     func displayUserInfo(_ viewModel: ProfileDetails.Info.ViewModel.User)
     func displayError(_ viewModel: String)
     func displayNewConnectionType(_ viewModel: ProfileDetails.Info.ViewModel.NewConnectionType)
-    func displayAllConnections()
     func displayEndRequest()
     func displaySignOut()
     func displayConfirmation(_ viewModel: ProfileDetails.Info.ViewModel.InteractionConfirmation)
@@ -65,7 +64,7 @@ class ProfileDetailsController: BaseViewController {
         view.isHidden = true
         return view
     }()
-        
+    
     private lazy var mainView: ProfileDetailsView = {
         let view = ProfileDetailsView(frame: .zero,
                                       ongoingProjectsCollectionView: ongoingProjectsCollectionView,
@@ -217,18 +216,19 @@ extension ProfileDetailsController: UICollectionViewDelegateFlowLayout {
         }
         return CGSize(width: 0, height: 0)
     }
+    
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 10
     }
-
+    
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 10
     }
-
+    
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         insetForSectionAt section: Int) -> UIEdgeInsets {
@@ -265,22 +265,24 @@ extension ProfileDetailsController: ProfileDetailsDisplayLogic {
         }
         ongoingProjects = viewModel.progressingProjects
         finishedProjects = viewModel.finishedProjects
-        mainView.setup(viewModel: viewModel)
+        profileHeaderView.setup(profileImage: viewModel.image,
+                                name: viewModel.name,
+                                email: viewModel.email,
+                                phoneNumber: viewModel.phoneNumber,
+                                ocupation: viewModel.occupation,
+                                connectionsNumber: viewModel.connectionsCount,
+                                relation: viewModel.connectionType)
     }
     
     func displayError(_ viewModel: String) {
         UIAlertController.displayAlert(in: self, title: ProfileDetails
-            .Constants
-            .Texts
-            .addConnectionError, message: viewModel)
+                                        .Constants
+                                        .Texts
+                                        .addConnectionError, message: viewModel)
     }
     
     func displayNewConnectionType(_ viewModel: ProfileDetails.Info.ViewModel.NewConnectionType) {
-        addConnectionButton.setImage(viewModel.image, for: .normal)
-    }
-    
-    func displayAllConnections() {
-        router?.routeToAllConnections()
+        profileHeaderView.setup(relation: viewModel.type)
     }
     
     func displayEndRequest() {
