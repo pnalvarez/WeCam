@@ -81,9 +81,7 @@ extension ProfileDetailsRouter: ProfileDetailsRoutingLogic {
     }
     
     func routeToSignIn() {
-        DispatchQueue.main.async {
-            self.viewController?.navigationController?.navigationController?.popToRootViewController(animated: true)
-        }
+        viewController?.navigationController?.navigationController?.popToRootViewController(animated: true)
     }
     
     func routeToEditProfileDetails() {

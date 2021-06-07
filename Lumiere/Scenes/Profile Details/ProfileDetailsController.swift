@@ -290,7 +290,9 @@ extension ProfileDetailsController: ProfileDetailsDisplayLogic {
     }
     
     func displaySignOut() {
-        router?.routeToSignIn()
+        DispatchQueue.main.async {
+            self.router?.routeToSignIn()
+        }
     }
     
     func displayConfirmation(_ viewModel: ProfileDetails.Info.ViewModel.InteractionConfirmation) {
