@@ -124,8 +124,8 @@ extension NotificationsController: WCOptionsToolbarDelegate {
     
     func optionsToolbar(selectedButton index: Int, optionsToolbar: WCOptionsToolbar) {
         selectedCriteriaIndex = index
-        tableView.bounces = !tableView.bounces
         refreshTableView()
+        tableView.bounces = index == Notifications.Constants.BusinessLogic.SegmentedControlIndexes.request
     }
 }
 
