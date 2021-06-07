@@ -77,6 +77,8 @@ class InviteProfileToProjectsController: BaseViewController {
         didSet {
             DispatchQueue.main.async {
                 self.tableView.reloadData()
+                self.tableView.checkEmptyState(text: InviteProfileToProjects.Constants.Texts.emptyText,
+                                               layout: .large)
             }
         }
     }

@@ -38,6 +38,7 @@ struct InviteProfileToProjects {
             static let mainLbl = "Convidar para projeto"
             static let participatingAlert = "Deseja remover este usuário do projeto?"
             static let sentRequestAlert = "Deseja aceitar este usuário no projeto?"
+            static let emptyText = "Você não possui projetos para convidar este usuário"
         }
         
         struct Images {
