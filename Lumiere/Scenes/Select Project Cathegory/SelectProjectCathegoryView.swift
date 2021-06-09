@@ -11,7 +11,7 @@ import WCUIKit
 
 class SelectProjectCathegoryView: BaseView, ModalViewable {
     
-    private unowned var advanceButton: WCActionButton
+    private unowned var advanceButton: WCPrimaryActionButton
     private unowned var collectionView: UICollectionView
     
     private lazy var scrollView: UIScrollView = {
@@ -40,7 +40,7 @@ class SelectProjectCathegoryView: BaseView, ModalViewable {
     }()
     
     init(frame: CGRect,
-         advanceButton: WCActionButton,
+         advanceButton: WCPrimaryActionButton,
          collectionView: UICollectionView) {
         self.advanceButton = advanceButton
         self.collectionView = collectionView

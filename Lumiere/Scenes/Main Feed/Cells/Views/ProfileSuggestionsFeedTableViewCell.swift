@@ -37,8 +37,8 @@ class ProfileSuggestionsFeedTableViewCell: UITableViewCell {
         return view
     }()
     
-    private lazy var seeAllButton: WCActionButton = {
-        let view = WCActionButton(frame: .zero)
+    private lazy var seeAllButton: WCPrimaryActionButton = {
+        let view = WCPrimaryActionButton(frame: .zero)
         view.addTarget(self, action: #selector(didTapSeeAll(_:)), for: .touchUpInside)
         view.text = MainFeed.Constants.Texts.profileSuggestionsSeeAllButton
         return view

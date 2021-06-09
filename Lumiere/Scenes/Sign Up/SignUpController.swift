@@ -91,8 +91,8 @@ class SignUpController: BaseViewController {
         return view
     }()
 
-    private lazy var signUpButton: WCActionButton = {
-        let button = WCActionButton(frame: .zero)
+    private lazy var signUpButton: WCPrimaryActionButton = {
+        let button = WCPrimaryActionButton(frame: .zero)
         button.text = SignUp.Constants.Texts.signUpButton
         button.addTarget(self, action: #selector(didTapSignUpButton), for: .touchUpInside)
         return button

@@ -25,8 +25,8 @@ class FilterCathegoriesController: BaseViewController {
         return view
     }()
     
-    private lazy var filterButton: WCActionButton = {
-        let view = WCActionButton(frame: .zero)
+    private lazy var filterButton: WCPrimaryActionButton = {
+        let view = WCPrimaryActionButton(frame: .zero)
         view.text = FilterCathegories.Constants.Texts.filterButton
         view.enableState = .disabled
         view.addTarget(self, action: #selector(didTapFilter), for: .touchUpInside)

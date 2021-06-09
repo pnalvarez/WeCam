@@ -19,13 +19,13 @@ class AccountRecoveryView: BaseView {
     private unowned var messageLbl: UILabel
     private unowned var searchTextField: WCSearchTextField
     private unowned var userDisplayView: WCUserDisplayView
-    private unowned var sendEmailButton: WCActionButton
+    private unowned var sendEmailButton: WCPrimaryActionButton
     
     init(frame: CGRect,
          messageLbl: UILabel,
          searchTextField: WCSearchTextField,
          userDisplayView: WCUserDisplayView,
-         sendEmailButton: WCActionButton) {
+         sendEmailButton: WCPrimaryActionButton) {
         self.messageLbl = messageLbl
         self.searchTextField = searchTextField
         self.userDisplayView = userDisplayView

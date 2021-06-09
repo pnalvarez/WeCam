@@ -12,7 +12,7 @@ import WCUIKit
 class FilterCathegoriesView: BaseView {
 
     private unowned var cathegoryListView: WCCathegoryListView
-    private unowned var filterButton: WCActionButton
+    private unowned var filterButton: WCPrimaryActionButton
     
     private lazy var titleLbl: UILabel = {
         let view = UILabel(frame: .zero)
@@ -23,7 +23,7 @@ class FilterCathegoriesView: BaseView {
     
     init(frame: CGRect,
          cathegoryListView: WCCathegoryListView,
-         filterButton: WCActionButton) {
+         filterButton: WCPrimaryActionButton) {
         self.cathegoryListView = cathegoryListView
         self.filterButton = filterButton
         super.init(frame: frame)

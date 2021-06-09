@@ -17,7 +17,7 @@ class EditProjectDetailsView: BaseView, ModalViewable {
     private unowned var needTextView: WCProjectDataTextView
     private unowned var teamFixedLbl: UILabel
     private unowned var invitationsCollectionView: UICollectionView
-    private unowned var publishButton: WCActionButton
+    private unowned var publishButton: WCPrimaryActionButton
     private unowned var invitationsStackView: UIStackView
     
     private lazy var mainScrollView: UIScrollView = {
@@ -70,7 +70,7 @@ class EditProjectDetailsView: BaseView, ModalViewable {
          teamFixedLbl: UILabel,
          invitationsStackView: UIStackView,
          invitationsCollectionView: UICollectionView,
-         publishButton: WCActionButton) {
+         publishButton: WCPrimaryActionButton) {
         self.inviteFriendsButton = inviteFriendsButton
         self.projectTitleTextField = projectTitleTextField
         self.sinopsisTextView = sinopsisTextView
@@ -96,7 +96,7 @@ class EditProjectDetailsView: BaseView, ModalViewable {
         needLbl.isHidden = true
         needTextView.isHidden = true
         teamFixedLbl.isHidden = true
-        publishButton.setTitle(EditProjectDetails.Constants.Texts.nextTitle, for: .normal)
+        publishButton.text = EditProjectDetails.Constants.Texts.nextTitle
     }
     
     func updateAllTextFields() {

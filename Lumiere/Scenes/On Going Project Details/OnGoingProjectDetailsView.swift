@@ -19,8 +19,8 @@ class OnGoingProjectDetailsView: BaseView, ModalViewable {
     private unowned var teamCollectionView: UICollectionView
     private unowned var progressButton: UIButton
     private unowned var projectImageView: WCRelevantItemImageView
-    private unowned var inviteContactsButton: WCActionButton
-    private unowned var interactionButton: WCActionButton
+    private unowned var inviteContactsButton: WCPrimaryActionButton
+    private unowned var interactionButton: WCPrimaryActionButton
     private unowned var projectTitleDescriptionEditableView: WCTitleDescriptionEditableView
     private unowned var projectBulletNeedingEditableView: WCBulletEditableItemView
     
@@ -101,8 +101,8 @@ class OnGoingProjectDetailsView: BaseView, ModalViewable {
          teamCollectionView: UICollectionView,
          progressButton: UIButton,
          projectImageView: WCRelevantItemImageView,
-         inviteContactsButton: WCActionButton,
-         interactionButton: WCActionButton,
+         inviteContactsButton: WCPrimaryActionButton,
+         interactionButton: WCPrimaryActionButton,
          projectTitleDescriptionEditableView: WCTitleDescriptionEditableView,
          projectBulletNeedingEditableView: WCBulletEditableItemView) {
         self.editProgressView = editProgressView

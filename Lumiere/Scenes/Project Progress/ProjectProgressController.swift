@@ -16,8 +16,8 @@ protocol ProjectProgressDisplayLogic: ViewInterface {
 
 class ProjectProgressController: BaseViewController {
     
-    private lazy var advanceButton: WCActionButton = {
-        let view = WCActionButton(frame: .zero)
+    private lazy var advanceButton: WCPrimaryActionButton = {
+        let view = WCPrimaryActionButton(frame: .zero)
         view.text = ProjectProgress.Constants.Texts.advanceButton
         view.addTarget(self, action: #selector(didTapAdvanceButton), for: .touchUpInside)
         return view

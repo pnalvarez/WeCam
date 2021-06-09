@@ -18,7 +18,7 @@ class SignUpView: BaseView {
     private unowned var passwordTextField: WCInputTextField
     private unowned var confirmTextField: WCInputTextField
     private unowned var professionalTextField: WCInputTextField
-    private unowned var signUpButton: WCActionButton
+    private unowned var signUpButton: WCPrimaryActionButton
     private unowned var cathegoryListView: WCCathegoryListView
     
     private lazy var cathegoriesLbl: UILabel = { return UILabel(frame: .zero) }()
@@ -58,7 +58,7 @@ class SignUpView: BaseView {
          passwordTextField: WCInputTextField,
          confirmTextField: WCInputTextField,
          professionalTextField: WCInputTextField,
-         signUpButton: WCActionButton,
+         signUpButton: WCPrimaryActionButton,
          cathegoryListView: WCCathegoryListView) {
         self.imageButton = imageButton
         self.nameTextField = nameTextField

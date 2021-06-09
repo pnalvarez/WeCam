@@ -38,8 +38,8 @@ class AccountRecoveryController: BaseViewController {
         return view
     }()
     
-    private lazy var sendEmailButton: WCActionButton = {
-        let view = WCActionButton(frame: .zero)
+    private lazy var sendEmailButton: WCPrimaryActionButton = {
+        let view = WCPrimaryActionButton(frame: .zero)
         view.addTarget(self, action: #selector(didTapSendEmailButton), for: .touchUpInside)
         view.setTitle(AccountRecovery.Constants.Texts.sendEmailText, for: .normal)
         view.isHidden = true

@@ -37,8 +37,8 @@ class OnGoingProjectsFeedTableViewCell: UITableViewCell {
         return view
     }()
     
-    private lazy var filterButton: WCActionButton = {
-        let view = WCActionButton(frame: .zero)
+    private lazy var filterButton: WCPrimaryActionButton = {
+        let view = WCPrimaryActionButton(frame: .zero)
         view.text = MainFeed.Constants.Texts.filterCathegories
         view.addTarget(self, action: #selector(didTapFilterCathegories), for: .touchUpInside)
         return view

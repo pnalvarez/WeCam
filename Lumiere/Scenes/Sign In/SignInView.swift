@@ -13,7 +13,7 @@ class SignInView: BaseView {
     
     private unowned var emailTextField: WCInputTextField
     private unowned var passwordTextField: WCInputTextField
-    private unowned var enterButton: WCActionButton
+    private unowned var enterButton: WCPrimaryActionButton
     private unowned var forgetButton: UIButton
     private unowned var signUpButton: UIButton
     
@@ -28,7 +28,7 @@ class SignInView: BaseView {
     init(frame: CGRect,
          emailTextField: WCInputTextField,
          passwordTextField: WCInputTextField,
-         enterButton: WCActionButton,
+         enterButton: WCPrimaryActionButton,
          forgetButton: UIButton,
          signUpButton: UIButton) {
         self.emailTextField = emailTextField

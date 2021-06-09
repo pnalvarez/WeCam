@@ -77,8 +77,8 @@ class EditProjectDetailsController: BaseViewController {
         return view
     }()
 
-    private lazy var publishButton: WCActionButton = {
-        let view = WCActionButton(frame: .zero)
+    private lazy var publishButton: WCPrimaryActionButton = {
+        let view = WCPrimaryActionButton(frame: .zero)
         view.addTarget(self, action: #selector(didTapPublish), for: .touchUpInside)
         view.text = EditProjectDetails.Constants.Texts.publishButton
         return view

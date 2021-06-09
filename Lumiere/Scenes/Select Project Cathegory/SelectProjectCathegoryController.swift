@@ -17,8 +17,8 @@ protocol SelectProjectCathegoryDisplayLogic: ViewInterface {
 
 class SelectProjectCathegoryController: BaseViewController {
     
-    private lazy var advanceButton: WCActionButton = {
-        let view = WCActionButton(frame: .zero)
+    private lazy var advanceButton: WCPrimaryActionButton = {
+        let view = WCPrimaryActionButton(frame: .zero)
         view.text = SelectProjectCathegory.Constants.Texts.advanceButton
         view.addTarget(self, action: #selector(didTapAdvance), for: .touchUpInside)
         return view

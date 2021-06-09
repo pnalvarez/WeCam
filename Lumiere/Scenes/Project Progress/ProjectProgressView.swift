@@ -11,7 +11,7 @@ import WCUIKit
 
 class ProjectProgressView: BaseView, ModalViewable {
 
-    private unowned var advanceButton: WCActionButton
+    private unowned var advanceButton: WCPrimaryActionButton
     private unowned var progressView: WCProgressView
     
     private lazy var mainLbl: UILabel = {
@@ -42,7 +42,7 @@ class ProjectProgressView: BaseView, ModalViewable {
     }()
     
     init(frame: CGRect,
-         advanceButton: WCActionButton,
+         advanceButton: WCPrimaryActionButton,
          progressView: WCProgressView) {
         self.advanceButton = advanceButton
         self.progressView = progressView

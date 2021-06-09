@@ -84,16 +84,16 @@ class OnGoingProjectDetailsController: BaseViewController, UINavigationControlle
         return view
     }()
     
-    private lazy var inviteContactsButton: WCActionButton = {
-        let view = WCActionButton(frame: .zero)
+    private lazy var inviteContactsButton: WCPrimaryActionButton = {
+        let view = WCPrimaryActionButton(frame: .zero)
         view.layout = .small
         view.text = OnGoingProjectDetails.Constants.Texts.inviteContactsButton
         view.addTarget(self, action: #selector(didTapInvite), for: .touchUpInside)
         return view
     }()
     
-    private lazy var interactionButton: WCActionButton = {
-        let view = WCActionButton(frame: .zero)
+    private lazy var interactionButton: WCPrimaryActionButton = {
+        let view = WCPrimaryActionButton(frame: .zero)
         view.addTarget(self, action: #selector(didTapInteraction), for: .touchUpInside)
         return view
     }()

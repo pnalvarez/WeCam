@@ -40,7 +40,7 @@ class EditProfileDetailsPresenter: EditProfileDetailsPresentationLogic {
     }
     
     func presentLoading(_ loading: Bool) {
-//        viewController.fullScreenLoading(!loading) BIGLOADING
+        viewController.fullScreenLoading(!loading)
     }
     
     func presentServerError(_ response: WCError) {
