@@ -137,7 +137,7 @@ extension EditProfileDetailsView: ViewCodeProtocol {
             make.height.equalToSuperview().priority(250)
         }
         titleLbl.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(8)
+            make.top.equalToSuperview().inset(8)
             make.centerX.equalToSuperview()
             make.width.equalTo(84)
         }
@@ -178,15 +178,14 @@ extension EditProfileDetailsView: ViewCodeProtocol {
             make.width.equalTo(176)
         }
         collectionView.snp.makeConstraints { make in
-            make.top.equalTo(titleLbl.snp.bottom).offset(450)
-            make.height.equalTo(650)
+            make.top.equalTo(cathegoriesLbl.snp.bottom).offset(36)
+            make.height.equalTo(479)
             make.left.right.equalToSuperview()
             make.bottom.equalToSuperview().inset(30)
         }
     }
     
     func configureViews() {
-        scrollView.contentSize = CGSize(width: frame.width, height: 975)
         nameTextField.text = viewModel?.name
         cellphoneTextField.text = viewModel?.cellphone
         ocupationTextField.text = viewModel?.ocupation
