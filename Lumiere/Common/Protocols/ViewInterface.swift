@@ -7,10 +7,13 @@
 //
 
 import UIKit
+import WCUIKit
 
 protocol ViewInterface where Self: UIViewController {
     func defaultScreenLoading(_ hide: Bool)
     func fullScreenLoading(_ hide: Bool)
+    func showSuccessToast(withText text: String)
+    func showErrorToast(withText text: String)
 }
 
 extension ViewInterface {
@@ -29,5 +32,17 @@ extension ViewInterface {
                 mainView.fullScreenLoading(hide)
             }
         }
+    }
+    
+    func showSuccessToast(withText text: String) {
+        WCToastView().show(withTitle: text,
+                           status: .success,
+                           in: view)
+    }
+    
+    func showErrorToast(withText text: String) {
+        WCToastView().show(withTitle: text,
+                           status: .error,
+                           in: view)
     }
 }

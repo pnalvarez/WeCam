@@ -229,7 +229,6 @@
 		3F95787724AEA4D100B79818 /* SignInPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F95787624AEA4D100B79818 /* SignInPresenter.swift */; };
 		3F95787924AEA4DE00B79818 /* SignInRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F95787824AEA4DE00B79818 /* SignInRouter.swift */; };
 		3F95787D24AEA4F000B79818 /* SignInProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F95787C24AEA4F000B79818 /* SignInProvider.swift */; };
-		3F95787F24AEB09900B79818 /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F95787E24AEB09900B79818 /* UIColor+.swift */; };
 		3F9578C624B0195600B79818 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9578C524B0195600B79818 /* SignUpView.swift */; };
 		3F9578C824B0196300B79818 /* SignUpController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9578C724B0196300B79818 /* SignUpController.swift */; };
 		3F9578CA24B0196C00B79818 /* SignUpInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9578C924B0196C00B79818 /* SignUpInteractor.swift */; };
@@ -575,7 +574,6 @@
 		3F95787624AEA4D100B79818 /* SignInPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInPresenter.swift; sourceTree = "<group>"; };
 		3F95787824AEA4DE00B79818 /* SignInRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInRouter.swift; sourceTree = "<group>"; };
 		3F95787C24AEA4F000B79818 /* SignInProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInProvider.swift; sourceTree = "<group>"; };
-		3F95787E24AEB09900B79818 /* UIColor+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+.swift"; sourceTree = "<group>"; };
 		3F9578C524B0195600B79818 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		3F9578C724B0196300B79818 /* SignUpController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpController.swift; sourceTree = "<group>"; };
 		3F9578C924B0196C00B79818 /* SignUpInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpInteractor.swift; sourceTree = "<group>"; };
@@ -1450,7 +1448,6 @@
 				3F66CA0525017C14006F6DBD /* NSAttributedString+.swift */,
 				3F9578DA24B0240C00B79818 /* String+.swift */,
 				3F6EEA7424E87EE10075C500 /* UIAlertController+.swift */,
-				3F95787E24AEB09900B79818 /* UIColor+.swift */,
 				3FB880A12534070F003C0D1B /* UISegmentedControl+.swift */,
 				3FA1C1552536817500385322 /* UIStackView+.swift */,
 				3F6EEA7024E5DEEC0075C500 /* UITabBar+.swift */,
@@ -2269,7 +2266,6 @@
 				3F66CA11250451CC006F6DBD /* ProjectParticipantsListPresenter.swift in Sources */,
 				3F655FCD25280656004A1D54 /* ProfileResultTableViewCellBuilder.swift in Sources */,
 				3F6EEA3524E0A38E0075C500 /* ConnectionsListPresenter.swift in Sources */,
-				3F95787F24AEB09900B79818 /* UIColor+.swift in Sources */,
 				3F40A6C724F2320700261161 /* EditProfileDetailsPresenter.swift in Sources */,
 				3FB8BD73250D6066001954FD /* ProjectInvitesPresenter.swift in Sources */,
 			);
