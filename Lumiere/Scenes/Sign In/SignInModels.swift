@@ -31,6 +31,7 @@ struct SignIn {
             static let forgetButton = "Esqueci minha senha"
             static let enterButton = "Entrar"
             static let signUp = "Cadastre-se"
+            static let inputErrorTitle = "Erro ao inserir dados"
         }
         
         struct Colors {

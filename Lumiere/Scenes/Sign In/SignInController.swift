@@ -62,6 +62,8 @@ class SignInController: BaseViewController {
                           signUpButton: signUpButton)
     }()
     
+    private let dialogView = WCDialogView()
+    
     private var interactor: SignInBusinessRules?
     var router: SignInRouterProtocol?
     
@@ -87,9 +89,6 @@ class SignInController: BaseViewController {
         }
         return false
     }
-}
-
-extension SignInController {
     
     @objc
     private func forgetButtonTapped() {
@@ -108,9 +107,6 @@ extension SignInController {
                                             password: passwordTextField.text ?? .empty)
         interactor?.fetchSignIn(request: request)
     }
-}
-
-extension SignInController {
     
     private func setup() {
         let viewController = self
@@ -140,8 +136,10 @@ extension SignInController: SignInDisplayLogic {
     }
     
     func displayEmailError(_ viewModel: SignIn.ViewModel.SignInError) {
-        UIAlertController.displayAlert(in: self, title: "Erro ao inserir dados",
-                                       message: viewModel.description)
+        dialogView.show(dialogType: .errorNotification,
+                        title: SignIn.Constants.Texts.inputErrorTitle,
+                        description: viewModel.description,
+                        doneText: Constants.Strings.ok)
         emailTextField.textFieldState = .error
         guard let text = passwordTextField.text, !text.isEmpty else {
             passwordTextField.textFieldState = .error
@@ -151,7 +149,10 @@ extension SignInController: SignInDisplayLogic {
     }
     
     func displaypasswordError(_ viewModel: SignIn.ViewModel.SignInError) {
-        UIAlertController.displayAlert(in: self, title: "Erro ao inserir dados", message: viewModel.description)
+        dialogView.show(dialogType: .errorNotification,
+                        title: SignIn.Constants.Texts.inputErrorTitle,
+                        description: viewModel.description,
+                        doneText: Constants.Strings.ok)
         passwordTextField.textFieldState = .error
         emailTextField.textFieldState = .normal
     }

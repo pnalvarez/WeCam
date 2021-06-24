@@ -11,7 +11,6 @@ import WCUIKit
 
 protocol AccountRecoveryDisplayLogic: ViewInterface {
     func displayUserData(_ viewModel: AccountRecovery.Info.ViewModel.Account)
-    func displayError(_ viewModel: AccountRecovery.Info.ViewModel.Error)
     func displaySuccessfullySentEmailAlert()
 }
 
@@ -54,6 +53,8 @@ class AccountRecoveryController: BaseViewController {
                                        sendEmailButton: sendEmailButton)
         return view
     }()
+    
+    private let dialogView = WCDialogView(frame: .zero)
     
     private var interactor: AccountRecoveryBusinessLogic?
     var router: AccountRecoveryRouterProtocol?
@@ -110,17 +111,13 @@ extension AccountRecoveryController: AccountRecoveryDisplayLogic {
         sendEmailButton.isHidden = false
     }
     
-    func displayError(_ viewModel: AccountRecovery.Info.ViewModel.Error) {
-        UIAlertController.displayAlert(in: self,
-                                       title: viewModel.title,
-                                       message: viewModel.message)
-    }
-    
     func displaySuccessfullySentEmailAlert() {
-        UIAlertController.displayAlert(in: self,
-                                       title: AccountRecovery.Constants.Texts.succefullySentEmailTitle,
-                                       message: AccountRecovery.Constants.Texts.succeffullySentEmailMessage) {_ in 
-            self.router?.routeToSignIn()
-        }
+        dialogView.show(dialogType: .successNotification,
+                        title: AccountRecovery.Constants.Texts.succefullySentEmailTitle,
+                        description: AccountRecovery.Constants.Texts.succeffullySentEmailMessage,
+                        doneText: Constants.Strings.ok,
+                        doneAction: {
+                            self.router?.routeToSignIn()
+                        })
     }
 }

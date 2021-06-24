@@ -37,7 +37,8 @@ class AccountRecoveryPresenter: AccountRecoveryPresentationLogic {
     }
     
     func presentError(_ response: AccountRecovery.Info.Model.Error) {
-        let viewModel = AccountRecovery.Info.ViewModel.Error(title: response.title, message: response.message)
-        viewController.displayError(viewModel)
+        viewController.showAlertError(title: response.title,
+                                      description: response.message,
+                                      doneText: Constants.Strings.ok)
     }
 }

@@ -14,6 +14,7 @@ protocol ViewInterface where Self: UIViewController {
     func fullScreenLoading(_ hide: Bool)
     func showSuccessToast(withText text: String)
     func showErrorToast(withText text: String)
+    func showAlertError(title: String, description: String, doneText: String)
 }
 
 extension ViewInterface {
@@ -44,5 +45,12 @@ extension ViewInterface {
         WCToastView().show(withTitle: text,
                            status: .error,
                            in: view)
+    }
+    
+    func showAlertError(title: String, description: String, doneText: String) {
+        WCDialogView().show(dialogType: .errorNotification,
+                            title: title,
+                            description: description,
+                            doneText: doneText)
     }
 }
