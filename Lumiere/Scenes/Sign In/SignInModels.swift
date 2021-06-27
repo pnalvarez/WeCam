@@ -32,6 +32,7 @@ struct SignIn {
             static let enterButton = "Entrar"
             static let signUp = "Cadastre-se"
             static let inputErrorTitle = "Erro ao inserir dados"
+            static let loginServerError = "Erro de login"
         }
         
         struct Colors {

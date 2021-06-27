@@ -76,7 +76,7 @@ struct EditProfileDetails {
             }
             
             struct Cathegory: Equatable {
-                let style: MovieStyle
+                let style: WCMovieStyle
                 var selected: Bool
             }
         }

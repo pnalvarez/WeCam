@@ -132,14 +132,18 @@ extension SignInController: SignInDisplayLogic {
     }
     
     func displayServerError(_ viewModel: SignIn.ViewModel.SignInError) {
-        UIAlertController.displayAlert(in: self, title: "Erro de Login", message: viewModel.description)
+        dialogView.show(in: self,
+                        title: SignIn.Constants.Texts.loginServerError,
+                        description: viewModel.description,
+                        doneText: WCConstants.Strings.ok)
     }
     
     func displayEmailError(_ viewModel: SignIn.ViewModel.SignInError) {
         dialogView.show(dialogType: .errorNotification,
+                        in: self,
                         title: SignIn.Constants.Texts.inputErrorTitle,
                         description: viewModel.description,
-                        doneText: Constants.Strings.ok)
+                        doneText: WCConstants.Strings.ok)
         emailTextField.textFieldState = .error
         guard let text = passwordTextField.text, !text.isEmpty else {
             passwordTextField.textFieldState = .error
@@ -150,9 +154,10 @@ extension SignInController: SignInDisplayLogic {
     
     func displaypasswordError(_ viewModel: SignIn.ViewModel.SignInError) {
         dialogView.show(dialogType: .errorNotification,
+                        in: self,
                         title: SignIn.Constants.Texts.inputErrorTitle,
                         description: viewModel.description,
-                        doneText: Constants.Strings.ok)
+                        doneText: WCConstants.Strings.ok)
         passwordTextField.textFieldState = .error
         emailTextField.textFieldState = .normal
     }

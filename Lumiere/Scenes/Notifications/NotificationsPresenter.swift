@@ -37,11 +37,7 @@ class NotificationsPresenter: NotificationsPresentationLogic {
     }
     
     func presentError(_ response: String) {
-        let viewModel = Notifications
-            .Info
-            .ViewModel
-            .NotificationError(description: response)
-        viewController.displayError(viewModel)
+        viewController.showErrorToast(withText: response)
     }
     
     func presentNotifications(_ response: Notifications.Info.Model.AllNotifications) {

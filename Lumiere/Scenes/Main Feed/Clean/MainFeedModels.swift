@@ -149,7 +149,7 @@ struct MainFeed {
             }
             
             struct CathegoryList: Equatable {
-                let cathegories: [MovieStyle]
+                let cathegories: [WCMovieStyle]
             }
             
             struct UpcomingProfiles: Equatable {
@@ -190,7 +190,7 @@ struct MainFeed {
             enum OnGoingProjectFeedCriteria: Equatable {
                 case all
                 case connections
-                case cathegory(_ style: MovieStyle)
+                case cathegory(_ style: WCMovieStyle)
                 
                 func mapToString() -> String {
                     switch self {

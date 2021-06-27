@@ -26,7 +26,7 @@ class SignUpInteractor: SignUpDataStore {
     var userData: SignUp.Info.Model.UserData?
     var interestCathegories: SignUp.Info.Model.InterestCathegories = SignUp.Info.Model.InterestCathegories(cathegories: [])
     
-    private let allCathegories = MovieStyle.toArray()
+    private let allCathegories = WCMovieStyle.toArray()
     
     init(viewController: SignUpDisplayLogic,
          provider: SignUpProviderProtocol = SignUpProvider()) {
@@ -37,59 +37,49 @@ class SignUpInteractor: SignUpDataStore {
 
 extension SignUpInteractor {
     
-    private func checkErrors(with request: SignUp.Request.UserData) -> Bool{
-        guard !request.name.isEmpty else {
-            presenter.presentError(.nameIncomplete)
-            return true
+    private func checkErrors(with request: SignUp.Request.UserData) -> SignUp.Errors.UpcomingErrors {
+        var inputErrors = [SignUp.Errors.SignUpErrors]()
+        if request.name.isEmpty {
+            inputErrors.append(.nameIncomplete)
         }
-        guard request.name.split(separator: Character(.space)).count > 1 else {
-            presenter.presentError(.nameInvalid)
-            return true
+        if request.name.split(separator: Character(.space)).count <= 1 {
+            inputErrors.append(.nameInvalid)
         }
-        guard !request.phoneNumber.isEmpty else {
-            presenter.presentError(.cellPhoneIncomplete)
-            return true
+        if request.phoneNumber.isEmpty {
+            inputErrors.append(.cellPhoneIncomplete)
         }
-        guard request.phoneNumber.count == 15 else {
-            presenter.presentError(.cellPhoneInvalid)
-            return true
+        if request.phoneNumber.count != SignUp.Constants.BusinessLogic.phoneNumberCount {
+            inputErrors.append(.cellPhoneInvalid)
         }
-        guard !request.email.isEmpty else {
-            presenter.presentError(.emailIncomplete)
-            return true
+        if request.email.isEmpty {
+            inputErrors.append(.emailIncomplete)
         }
-        guard request.email.isValidEmail() else {
-            presenter.presentError(.emailInvalid)
-            return true
+        if !request.email.isValidEmail() {
+            inputErrors.append(.emailInvalid)
         }
-        guard !request.password.isEmpty else {
-            presenter.presentError(.passwordIncomplete)
-            return true
+        if request.password.isEmpty {
+            inputErrors.append(.passwordIncomplete)
         }
-        guard !request.confirmation.isEmpty else {
-            presenter.presentError(.confirmationIncomplete)
-            return true
+        if request.confirmation.isEmpty {
+            inputErrors.append(.confirmationIncomplete)
         }
-        guard request.password == request.confirmation else {
-            presenter.presentError(.passwordMatch)
-            return true
+        if request.password != request.confirmation {
+            inputErrors.append(.passwordMatch)
         }
-        guard !request.professionalArea.isEmpty else {
-            presenter.presentError(.professional)
-            return true
+        if request.professionalArea.isEmpty {
+            inputErrors.append(.professional)
         }
-        guard interestCathegories.cathegories.count > 0 else {
-            presenter.presentError(.movieStyles)
-            return true
+        if interestCathegories.cathegories.isEmpty {
+            inputErrors.append(.movieStyles)
         }
-        return false
+        return SignUp.Errors.UpcomingErrors(errors: inputErrors)
     }
 }
 
 extension SignUpInteractor: SignUpBusinessLogic {
     
     func fetchMovieStyles() {
-           let allStyles = MovieStyle.toArray()
+           let allStyles = WCMovieStyle.toArray()
            presenter.didFetchMovieStyles(allStyles)
        }
     
@@ -103,7 +93,9 @@ extension SignUpInteractor: SignUpBusinessLogic {
     }
     
     func fetchSignUp(_ request: SignUp.Request.UserData) {
-        guard !checkErrors(with: request) else {
+        let inputErrors = checkErrors(with: request)
+        guard inputErrors.errors.isEmpty else {
+            presenter.presentErrors(inputErrors)
             return
         }
         presenter.presentLoading(true)

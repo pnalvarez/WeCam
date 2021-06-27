@@ -67,6 +67,10 @@ struct SignUp {
                                         in: SignUp.bundle,
                                         compatibleWith: nil)
         }
+        
+        enum BusinessLogic {
+            static let phoneNumberCount = 15
+        }
     }
     
     struct Request {
@@ -110,20 +114,24 @@ struct SignUp {
     struct Errors {
 
         enum SignUpErrors: String {
-            case nameIncomplete = "Informação Incompleta: Nome"
-            case nameInvalid = "Nome inválido, por favor inserir nome e sobrenome"
-            case cellPhoneIncomplete = "Informação Incompleta: Celular"
-            case cellPhoneInvalid = "Formato de celular inválido"
-            case emailIncomplete = "Informação Incompleta: E-mail"
-            case emailInvalid = "Formato de email inválido"
-            case passwordIncomplete = "Informação Incompleta: Senha"
-            case passwordInvalid = "Padrão de e-mail inválido"
-            case confirmationIncomplete = "Por favor, confirme sua senha"
-            case passwordMatch = "Inconsistência: Senha e confirmação não batem"
-            case professional = "Informação Incompleta: Area profissional"
-            case movieStyles = "Insira pelo menos uma categoria de interesse"
-            case emailAlreadyRegistered = "Erro: O email já está cadastrado"
-            case genericError = "Ocorreu um erro ao tentar cadastrar usuário, tente novamente mais tarde"
+            case nameIncomplete = "- Informação Incompleta: Nome\n\n"
+            case nameInvalid = "- Nome inválido, por favor inserir nome e sobrenome\n\n"
+            case cellPhoneIncomplete = "- Informação Incompleta: Celular\n\n"
+            case cellPhoneInvalid = "- Formato de celular inválido\n\n"
+            case emailIncomplete = "- Informação Incompleta: E-mail\n\n"
+            case emailInvalid = "- Formato de email inválido\n\n"
+            case passwordIncomplete = "- Informação Incompleta: Senha\n\n"
+            case passwordInvalid = "- Padrão de e-mail inválido\n\n"
+            case confirmationIncomplete = "- Por favor, confirme sua senha\n\n"
+            case passwordMatch = "- Inconsistência: Senha e confirmação não batem\n\n"
+            case professional = "- Informação Incompleta: Area profissional\n\n"
+            case movieStyles = "- Insira pelo menos uma categoria de interesse\n\n"
+            case emailAlreadyRegistered = "- Erro: O email já está cadastrado\n\n"
+            case genericError = "Ocorreu um erro ao tentar cadastrar usuário, tente novamente mais tarde\n"
+        }
+        
+        struct UpcomingErrors {
+            let errors: [SignUpErrors]
         }
         
         struct ServerError {
@@ -164,7 +172,7 @@ struct SignUp {
             }
             
             struct InterestCathegories {
-                var cathegories: [MovieStyle]
+                var cathegories: [WCMovieStyle]
             }
         }
         

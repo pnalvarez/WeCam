@@ -6,7 +6,7 @@
 //  Copyright © 2020 Pedro Alvarez. All rights reserved.
 //
 
-protocol SignInPresentationLogic {
+protocol SignInPresentationLogic: PresenterInterface {
     func didFetchSuccessLogin()
     func didFetchServerError(_ error: SignIn.Errors.ServerError)
     func didFetchInputError(_ error: SignIn.Errors.InputError)
@@ -14,7 +14,7 @@ protocol SignInPresentationLogic {
 }
 
 class SignInPresenter: SignInPresentationLogic {
-    
+
     private unowned var viewController: SignInDisplayLogic
     
     init(viewController: SignInDisplayLogic) {

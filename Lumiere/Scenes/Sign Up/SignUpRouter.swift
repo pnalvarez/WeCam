@@ -27,6 +27,7 @@ class SignUpRouter: NSObject, SignUpDataTransfer {
     var dataStore: SignUpDataStore?
     
     private let toastView = WCToastView()
+    private let dialogView = WCDialogView()
 }
 
 extension SignUpRouter: BaseRouterProtocol {
@@ -57,8 +58,9 @@ extension SignUpRouter: SignUpRoutingLogic {
     func routeBack(withError error: SignUp.Info.ViewModel.Error) {
         guard let navigationController = viewController?.navigationController else { return }
         navigationController.popViewController(animated: true)
-        UIAlertController.displayAlert(in: navigationController,
-                                       title: SignUp.Constants.Texts.signUpError,
-                                       message: error.description)
+        dialogView.show(in: navigationController,
+                        title: SignUp.Constants.Texts.signUpError,
+                        description: description,
+                        doneText: WCConstants.Strings.ok)
     }
 }

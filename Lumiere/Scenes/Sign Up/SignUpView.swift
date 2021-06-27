@@ -76,11 +76,8 @@ class SignUpView: BaseView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-}
-
-extension SignUpView {
     
-    func updateAllTextFields() {
+    func updateInputComponents() {
         for view in allSubviews {
             if let textField = view as? WCInputTextField {
                 if let isEmpty = textField.text?.isEmpty {
@@ -92,16 +89,14 @@ extension SignUpView {
                 }
             }
         }
+        checkUnmatchedPasswordFields()
     }
     
-    func displayUnmatchedFields() {
-        for view in allSubviews {
-            if let textField = view as? WCInputTextField {
-                textField.textFieldState = .normal
-            }
+    private func checkUnmatchedPasswordFields() {
+        if passwordTextField.text != confirmTextField.text {
+            passwordTextField.textFieldState = .error
+            confirmTextField.textFieldState = .error
         }
-        passwordTextField.textFieldState = .error
-        confirmTextField.textFieldState = .error
     }
 }
 

@@ -6,4 +6,13 @@
 //  Copyright © 2021 Pedro Alvarez. All rights reserved.
 //
 
-import Foundation
+import UIKit
+import WCUIKit
+
+protocol PresenterInterface {
+
+}
+
+extension PresenterInterface {
+    
+}

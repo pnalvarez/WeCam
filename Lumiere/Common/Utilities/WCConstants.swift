@@ -6,9 +6,10 @@
 //  Copyright © 2021 Pedro Alvarez. All rights reserved.
 //
 
-enum Constants {
+enum WCConstants {
     
     enum Strings {
         static let ok = "Ok"
+        static let errorTitle = "Erro"
     }
 }

@@ -11,7 +11,6 @@ import WCUIKit
 
 protocol NotificationsDisplayLogic: ViewInterface {
     func displayLoading(_ loading: Bool)
-    func displayError(_ viewModel: Notifications.Info.ViewModel.NotificationError)
     func displayNotifications(_ viewModel: Notifications.Info.ViewModel.UpcomingNotifications)
     func displaySelectedUser()
     func displayNotificationAnswer(_ viewModel: Notifications.Info.ViewModel.NotificationAnswer)
@@ -191,10 +190,6 @@ extension  NotificationsController: NotificationsDisplayLogic {
     
     func displayLoading(_ loading: Bool) {
         tableView.backgroundView = nil
-    }
-    
-    func displayError(_ viewModel: Notifications.Info.ViewModel.NotificationError) {
-        UIAlertController.displayAlert(in: self, title: "Erro", message: viewModel.description)
     }
     
     func displayNotifications(_ viewModel: Notifications.Info.ViewModel.UpcomingNotifications) {

@@ -39,6 +39,6 @@ class AccountRecoveryPresenter: AccountRecoveryPresentationLogic {
     func presentError(_ response: AccountRecovery.Info.Model.Error) {
         viewController.showAlertError(title: response.title,
                                       description: response.message,
-                                      doneText: Constants.Strings.ok)
+                                      doneText: WCConstants.Strings.ok)
     }
 }

@@ -35,7 +35,7 @@ extension EditProfileDetailsInteractor {
     
     private func buildInterestCathegories(cathegories: [String]) -> EditProfileDetails.Info.Model.InterestCathegories {
         var interestCathegories = EditProfileDetails.Info.Model.InterestCathegories(cathegories: [])
-        for style in MovieStyle.toArray() {
+        for style in WCMovieStyle.toArray() {
             if cathegories.contains(style.rawValue) {
                 interestCathegories.cathegories.append(EditProfileDetails.Info.Model.Cathegory(style: style, selected: true))
             } else {

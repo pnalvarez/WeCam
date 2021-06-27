@@ -11,11 +11,10 @@ import WCUIKit
 import Photos
 
 protocol SignUpDisplayLogic: ViewInterface {
-    func displayMovieStyles(_ viewModel: [MovieStyle])
-    func displayInformationError(_ viewModel: SignUp.Info.ViewModel.Error)
-    func displayConfirmationMatchError()
+    func displayMovieStyles(_ viewModel: [WCMovieStyle])
     func displayServerError(_ viewModel: SignUp.Info.ViewModel.Error)
     func displayDidSignUpUser()
+    func displayUpdateTextFields()
 }
 
 class SignUpController: BaseViewController {
@@ -112,7 +111,9 @@ class SignUpController: BaseViewController {
                           cathegoryListView: cathegoryListView)
     }()
     
-    private var movieStyles: [MovieStyle] = []
+    private let dialogView = WCDialogView()
+    
+    private var movieStyles: [WCMovieStyle] = []
     
     private var interactor: SignUpBusinessLogic?
     private var router: SignUpRouterProtocol?
@@ -149,6 +150,40 @@ class SignUpController: BaseViewController {
         viewController.router = router
         viewController.interactor = interactor
         router.dataStore = interactor
+    }
+    
+    @objc
+    private func didEndTextField(_ sender: UITextField) {
+        sender.resignFirstResponder()
+    }
+    
+    @objc
+    func didTapImageButton() {
+        imagePicker.allowsEditing = true
+        PHPhotoLibrary.requestAuthorization { newStatus in
+            if newStatus == .authorized {
+                DispatchQueue.main.async {
+                    self.present(self.imagePicker, animated: true, completion: nil)
+                }
+            }
+        }
+    }
+    
+    @objc
+    private func didTapBackButton() {
+        router?.routeBack()
+    }
+    
+    @objc
+    private func didTapSignUpButton() {
+        let request = SignUp.Request.UserData(image: imageButton.currentImage,
+                                            name: nameTextField.text ?? .empty,
+                                            email: emailTextField.text ?? .empty,
+                                            password: passwordTextField.text ?? .empty,
+                                            confirmation: confirmTextField.text ?? .empty,
+                                            phoneNumber: cellphoneTextField.text ?? .empty,
+                                            professionalArea: professionalTextField.text ?? .empty)
+        interactor?.fetchSignUp(request)
     }
 }
 
@@ -201,43 +236,6 @@ extension SignUpController: UIImagePickerControllerDelegate, UINavigationControl
     }
 }
 
-extension SignUpController {
-    
-    @objc
-    private func didEndTextField(_ sender: UITextField) {
-        sender.resignFirstResponder()
-    }
-    
-    @objc
-    func didTapImageButton() {
-        imagePicker.allowsEditing = true
-        PHPhotoLibrary.requestAuthorization { newStatus in
-            if newStatus == .authorized {
-                DispatchQueue.main.async {
-                    self.present(self.imagePicker, animated: true, completion: nil)
-                }
-            }
-        }
-    }
-    
-    @objc
-    private func didTapBackButton() {
-        router?.routeBack()
-    }
-    
-    @objc
-    private func didTapSignUpButton() {
-        let request = SignUp.Request.UserData(image: imageButton.currentImage,
-                                            name: nameTextField.text ?? .empty,
-                                            email: emailTextField.text ?? .empty,
-                                            password: passwordTextField.text ?? .empty,
-                                            confirmation: confirmTextField.text ?? .empty,
-                                            phoneNumber: cellphoneTextField.text ?? .empty,
-                                            professionalArea: professionalTextField.text ?? .empty)
-        interactor?.fetchSignUp(request)
-    }
-}
-
 extension SignUpController: WCCathegoryListViewDelegate {
     
     func didSelectCathegory(atIndex index: Int) {
@@ -247,20 +245,8 @@ extension SignUpController: WCCathegoryListViewDelegate {
 
 extension SignUpController: SignUpDisplayLogic {
     
-    func displayMovieStyles(_ viewModel: [MovieStyle]) {
+    func displayMovieStyles(_ viewModel: [WCMovieStyle]) {
         cathegoryListView.setup(cathegories: viewModel.map({ $0.rawValue }))
-    }
-    
-    func displayInformationError(_ viewModel: SignUp.Info.ViewModel.Error) {
-        UIAlertController.displayAlert(in: self, title: SignUp.Constants.Texts.signUpError,
-                                       message: viewModel.description)
-        mainView.updateAllTextFields()
-    }
-    
-    func displayConfirmationMatchError() {
-        UIAlertController.displayAlert(in: self, title: SignUp.Constants.Texts.signUpError,
-                                       message: SignUp.Constants.Texts.unmatchError)
-        mainView.displayUnmatchedFields()
     }
     
     func displayServerError(_ viewModel: SignUp.Info.ViewModel.Error) {
@@ -269,5 +255,9 @@ extension SignUpController: SignUpDisplayLogic {
     
     func displayDidSignUpUser() {
         router?.routeBackSuccess()
+    }
+    
+    func displayUpdateTextFields() {
+        mainView.updateInputComponents()
     }
 }

@@ -7,8 +7,8 @@
 //
 
 protocol SignUpPresentationLogic {
-    func didFetchMovieStyles(_ styles: [MovieStyle])
-    func presentError(_ response: SignUp.Errors.SignUpErrors)
+    func didFetchMovieStyles(_ styles: [WCMovieStyle])
+    func presentErrors(_ response: SignUp.Errors.UpcomingErrors)
     func presentLoading(_ loading: Bool)
     func didSignUpUser()
     func didFetchServerError(_ error: SignUp.Errors.ServerError)
@@ -23,30 +23,8 @@ class SignUpPresenter: SignUpPresentationLogic {
         self.viewController = viewController
     }
     
-    func didFetchMovieStyles(_ styles: [MovieStyle]) {
+    func didFetchMovieStyles(_ styles: [WCMovieStyle]) {
         viewController.displayMovieStyles(styles)
-    }
-    
-    func presentError(_ response: SignUp.Errors.SignUpErrors) {
-        switch response {
-        case .cellPhoneIncomplete,
-             .cellPhoneInvalid,
-             .confirmationIncomplete,
-             .emailAlreadyRegistered,
-             .emailIncomplete,
-             .emailInvalid,
-             .genericError,
-             .movieStyles,
-             .nameIncomplete,
-             .nameInvalid,
-             .passwordIncomplete,
-             .passwordInvalid,
-             .professional:
-            viewController.displayInformationError(SignUp.Info.ViewModel.Error(description: response.rawValue))
-            break
-        case .passwordMatch:
-            viewController.displayConfirmationMatchError()
-        }
     }
     
     func presentLoading(_ loading: Bool) {
@@ -65,5 +43,13 @@ class SignUpPresenter: SignUpPresentationLogic {
     func didFetchGenericError() {
         let viewModel = SignUp.Info.ViewModel.Error(description: SignUp.Constants.Texts.genericError)
         viewController.displayServerError(viewModel)
+    }
+    
+    func presentErrors(_ response: SignUp.Errors.UpcomingErrors) {
+        let description = response.errors.map({ $0.rawValue }).joined()
+        viewController.displayUpdateTextFields()
+        viewController.showAlertError(title: SignUp.Constants.Texts.signUpError,
+                                      description: description,
+                                      doneText: WCConstants.Strings.ok)
     }
 }
