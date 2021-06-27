@@ -6,7 +6,7 @@
 //  Copyright © 2020 Pedro Alvarez. All rights reserved.
 //
 
-enum MovieStyle: String, CaseIterable {
+enum WCMovieStyle: String, CaseIterable {
     case action = "Ação"
     case animation = "Animação"
     case adventure = "Aventura"
@@ -23,9 +23,9 @@ enum MovieStyle: String, CaseIterable {
     case suspense = "Suspense"
     case horror = "Terror"
     
-    static func toArray() -> [MovieStyle] {
-        var array: [MovieStyle] = []
-        for value in MovieStyle.allCases {
+    static func toArray() -> [WCMovieStyle] {
+        var array: [WCMovieStyle] = []
+        for value in WCMovieStyle.allCases {
             array.append(value)
         }
         array.sort(by: { return $0.rawValue < $1.rawValue })
