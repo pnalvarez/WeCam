@@ -34,11 +34,9 @@ class EditProfileDetailsView: BaseView {
         return view
     }()
     
-    private lazy var titleLbl: UILabel = {
-        let view = UILabel(frame: .zero)
+    private lazy var titleLbl: WCUILabelRobotoBold16 = {
+        let view = WCUILabelRobotoBold16(frame: .zero)
         view.text = EditProfileDetails.Constants.Texts.titleLBl
-        view.textColor = EditProfileDetails.Constants.Colors.titleLbl
-        view.font = EditProfileDetails.Constants.Fonts.titleLbl
         view.textAlignment = .center
         return view
     }()

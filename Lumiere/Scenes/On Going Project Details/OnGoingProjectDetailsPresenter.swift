@@ -11,7 +11,8 @@ import UIKit
 protocol OnGoingProjectDetailsPresentationLogic {
     func presentProjectDetails(_ response: OnGoingProjectDetails.Info.Model.Project)
     func presentProjectRelationUI(_ response: OnGoingProjectDetails.Info.Model.RelationModel)
-    func presentError(_ response: String)
+    func presentAlertError(_ response: String)
+    func presentToastError(_ response: String)
     func presentLoading(_ loading: Bool)
     func presentFeedback(_ response: OnGoingProjectDetails.Info.Model.Feedback)
     func presentUserDetails()
@@ -65,8 +66,14 @@ class OnGoingProjectDetailsPresenter: OnGoingProjectDetailsPresentationLogic {
         viewController.displayUIForRelation(viewModel)
     }
     
-    func presentError(_ response: String) {
-        viewController.displayError(response)
+    func presentAlertError(_ response: String) {
+        viewController.showAlertError(title: WCConstants.Strings.errorTitle,
+                                      description: response,
+                                      doneText: WCConstants.Strings.ok)
+    }
+    
+    func presentToastError(_ response: String) {
+        viewController.showErrorToast(withText: response)
     }
     
     func presentLoading(_ loading: Bool) {

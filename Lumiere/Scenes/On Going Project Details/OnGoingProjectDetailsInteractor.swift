@@ -49,10 +49,7 @@ class OnGoingProjectDetailsInteractor: OnGoingProjectDetailsDataStore {
         self.worker = worker
         self.presenter = presenter
     }
-}
-
-extension OnGoingProjectDetailsInteractor {
-     
+    
     private func fetchUserDetails(_ request: OnGoingProjectDetails.Request.FetchUserWithId) {
         worker.fetchteamMemberData(request: request) { response in
             switch response {
@@ -67,7 +64,7 @@ extension OnGoingProjectDetailsInteractor {
                 break
             case .error(let error):
                 self.presenter.presentLoading(false)
-                self.presenter.presentError(error.description)
+                self.presenter.presentAlertError(error.description)
             }
         }
     }
@@ -170,7 +167,7 @@ extension OnGoingProjectDetailsInteractor {
                 guard let project = self.projectData else { return }
                 self.presenter.presentProjectDetails(project)
             case .error(let error):
-                self.presenter.presentError(error.description)
+                self.presenter.presentToastError(error.description)
             }
         }
     }
@@ -211,14 +208,14 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
                         return
                     }
                     if uninvitedUsers.count > 0 {
-                        self.presenter.presentError(OnGoingProjectDetails.Constants.Texts.inviteError)
+                        self.presenter.presentAlertError(OnGoingProjectDetails.Constants.Texts.inviteError)
                     }
                     for id in teamMemberIds {
                         self.fetchUserDetails(OnGoingProjectDetails.Request.FetchUserWithId(id: id))
                     }
                 case .error(let error):
                     self.presenter.presentLoading(false)
-                    self.presenter.presentError(error.description)
+                    self.presenter.presentAlertError(error.description)
                 }
         }
     }
@@ -261,7 +258,7 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
                     .RelationModel(relation: self.projectRelation ?? .nothing))
             case .error(let error):
                 self.presenter.presentLoading(false)
-                self.presenter.presentError(error.description)
+                self.presenter.presentAlertError(error.description)
             }
         }
     }
@@ -280,7 +277,7 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
                     self.presenter.presentFeedback(OnGoingProjectDetails.Info.Model.Feedback(title: "Alteração realizada", message: "Imagem do projeto foi alterada com sucesso"))
                 case .error(let error):
                     self.presenter.presentLoading(false)
-                    self.presenter.presentError(error.description)
+                    self.presenter.presentToastError(error.description)
                 }
         }
     }
@@ -302,7 +299,7 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
                                     self.presenter.presentFeedback(OnGoingProjectDetails.Info.Model.Feedback(title: "Alteração realizada", message: "O título e a sinopse do projeto foram alterados com sucesso"))
                                 case .error(let error):
                                     self.presenter.presentLoading(false)
-                                    self.presenter.presentError(error.description)
+                                    self.presenter.presentToastError(error.description)
                                     guard let project = self.projectData else { return }
                                     self.presenter.presentProjectDetails(project)
                                 }
@@ -325,7 +322,7 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
                                         self.presenter.presentFeedback(OnGoingProjectDetails.Info.Model.Feedback(title: "Alteração realizada", message: "Alteração do que o projeto precisa foi realizada com sucesso"))
                                     case .error(let error):
                                         self.presenter.presentLoading(false)
-                                        self.presenter.presentError(error.description)
+                                        self.presenter.presentToastError(error.description)
                                     }
         }
     }

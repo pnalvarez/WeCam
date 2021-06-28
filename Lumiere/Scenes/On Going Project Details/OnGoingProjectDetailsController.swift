@@ -12,7 +12,6 @@ import Photos
 
 protocol OnGoingProjectDetailsDisplayLogic: ViewInterface {
     func displayProjectDetails(_ viewModel: OnGoingProjectDetails.Info.ViewModel.Project)
-    func displayError(_ viewModel: String)
     func displayUIForRelation(_ viewModel: OnGoingProjectDetails.Info.ViewModel.RelationModel)
     func displayFeedback(_ viewModel: OnGoingProjectDetails.Info.ViewModel.Feedback)
     func displayUserDetails()
@@ -357,10 +356,6 @@ extension OnGoingProjectDetailsController: OnGoingProjectDetailsDisplayLogic {
     func displayProjectDetails(_ viewModel: OnGoingProjectDetails.Info.ViewModel.Project) {
         self.viewModel = viewModel
         mainView.setup(viewModel: viewModel)
-    }
-    
-    func displayError(_ viewModel: String) {
-        UIAlertController.displayAlert(in: self, title: "Erro", message: viewModel)
     }
 
     func displayUIForRelation(_ viewModel: OnGoingProjectDetails.Info.ViewModel.RelationModel) {
