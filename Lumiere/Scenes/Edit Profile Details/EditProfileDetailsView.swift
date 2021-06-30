@@ -12,11 +12,11 @@ import SDWebImage
 
 class EditProfileDetailsView: BaseView {
     
-    private unowned var finishButton: UIButton
+    private unowned var finishButton: WCAuxiliarActionButton
     private unowned var imageButton: UIButton
-    private unowned var nameTextField: UITextField
-    private unowned var cellphoneTextField: UITextField
-    private unowned var ocupationTextField: UITextField
+    private unowned var nameTextField: WCInputTextField
+    private unowned var cellphoneTextField: WCInputTextField
+    private unowned var ocupationTextField: WCInputTextField
     private unowned var collectionView: UICollectionView
     
     private lazy var containerView: WCContentView = {
@@ -34,18 +34,16 @@ class EditProfileDetailsView: BaseView {
         return view
     }()
     
-    private lazy var titleLbl: WCUILabelRobotoBold16 = {
-        let view = WCUILabelRobotoBold16(frame: .zero)
+    private lazy var titleLbl: WCUILabelRobotoBold16Black = {
+        let view = WCUILabelRobotoBold16Black(frame: .zero)
         view.text = EditProfileDetails.Constants.Texts.titleLBl
         view.textAlignment = .center
         return view
     }()
     
-    private lazy var changeImageLbl: UILabel = {
-        let view = UILabel(frame: .zero)
+    private lazy var changeImageLbl: WCUILabelRobotoBold16MainRed = {
+        let view = WCUILabelRobotoBold16MainRed(frame: .zero)
         view.text = EditProfileDetails.Constants.Texts.changeImageLbl
-        view.textColor = EditProfileDetails.Constants.Colors.changeImageLbl
-        view.font = EditProfileDetails.Constants.Fonts.changeImageLbl
         view.textAlignment = .center
         return view
     }()
@@ -57,19 +55,14 @@ class EditProfileDetailsView: BaseView {
         return view
     }()
     
-    private lazy var bottomView: UIView = {
-        let view = UIView(frame: .zero)
-        return view
-    }()
-    
     private var viewModel: EditProfileDetails.Info.ViewModel.User?
     
     init(frame: CGRect,
-         finishButton: UIButton,
+         finishButton: WCAuxiliarActionButton,
          imageButton: UIButton,
-         nameTextField: UITextField,
-         cellphoneTextField: UITextField,
-         ocupationTextField: UITextField,
+         nameTextField: WCInputTextField,
+         cellphoneTextField: WCInputTextField,
+         ocupationTextField: WCInputTextField,
          collectionView: UICollectionView) {
         self.finishButton = finishButton
         self.imageButton = imageButton
@@ -120,7 +113,6 @@ extension EditProfileDetailsView: ViewCodeProtocol {
         containerView.addSubview(ocupationTextField)
         containerView.addSubview(cathegoriesLbl)
         containerView.addSubview(collectionView)
-        containerView.addSubview(bottomView)
         scrollView.addSubview(containerView)
         addSubview(scrollView)
     }

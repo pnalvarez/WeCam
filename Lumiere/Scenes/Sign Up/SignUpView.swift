@@ -23,19 +23,9 @@ class SignUpView: BaseView {
     
     private lazy var cathegoriesLbl: UILabel = { return UILabel(frame: .zero) }()
     
-    private lazy var containerView: WCContentView = {
-        let view = WCContentView(frame: .zero)
-        view.style = .white
-        return view
-    }()
-    
-    private lazy var scrollView: UIScrollView = {
-        let view = UIScrollView(frame: .zero)
-        view.showsVerticalScrollIndicator = true
-        view.bounces = false
-        view.alwaysBounceVertical = false
-        view.backgroundColor = .white
-        view.contentSize = CGSize(width: frame.width, height: 1200)
+    private lazy var scrollView: WCUIScrollView = {
+        let view = WCUIScrollView(frame: .zero)
+        view.colorStyle = .white
         return view
     }()
     
@@ -103,30 +93,24 @@ class SignUpView: BaseView {
 extension SignUpView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
-        containerView.addSubview(titleHeaderIcon)
-        containerView.addSubview(imageButton)
-        containerView.addSubview(chooseImageLbl)
-        containerView.addSubview(nameTextField)
-        containerView.addSubview(cellphoneTextField)
-        containerView.addSubview(emailTextField)
-        containerView.addSubview(passwordTextField)
-        containerView.addSubview(confirmTextField)
-        containerView.addSubview(professionalTextField)
-        containerView.addSubview(cathegoriesLbl)
-        containerView.addSubview(cathegoryListView)
-        containerView.addSubview(signUpButton)
-        scrollView.addSubview(containerView)
+        scrollView.addSubview(titleHeaderIcon)
+        scrollView.addSubview(imageButton)
+        scrollView.addSubview(chooseImageLbl)
+        scrollView.addSubview(nameTextField)
+        scrollView.addSubview(cellphoneTextField)
+        scrollView.addSubview(emailTextField)
+        scrollView.addSubview(passwordTextField)
+        scrollView.addSubview(confirmTextField)
+        scrollView.addSubview(professionalTextField)
+        scrollView.addSubview(cathegoriesLbl)
+        scrollView.addSubview(cathegoryListView)
+        scrollView.addSubview(signUpButton)
         addSubview(scrollView)
     }
     
     func setupConstraints() {
         scrollView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
-        }
-        containerView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-            make.width.equalToSuperview()
-            make.height.equalToSuperview().priority(250)
         }
         titleHeaderIcon.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(8)
@@ -196,8 +180,6 @@ extension SignUpView: ViewCodeProtocol {
     func configureViews() {
         
         titleHeaderIcon.image = SignUp.Constants.Images.titleHeaderIcon
-        
-        backButton.setImage(SignUp.Constants.Images.backButton, for: .normal)
         
         imageButton.layoutIfNeeded()
         imageButton.layer.cornerRadius = imageButton.frame.size.height / 2

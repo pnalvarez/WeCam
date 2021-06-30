@@ -20,12 +20,10 @@ protocol EditProfileDetailsDisplayLogic: ViewInterface {
 
 class EditProfileDetailsController: BaseViewController {
     
-    private lazy var finishButton: UIButton = {
-        let view = UIButton(frame: .zero)
+    private lazy var finishButton: WCAuxiliarActionButton = {
+        let view = WCAuxiliarActionButton(frame: .zero)
         view.addTarget(self, action: #selector(didTapFinish), for: .touchUpInside)
-        view.setTitle(EditProfileDetails.Constants.Texts.finishButton, for: .normal)
-        view.setTitleColor(EditProfileDetails.Constants.Colors.finishButton, for: .normal)
-        view.titleLabel?.font = EditProfileDetails.Constants.Fonts.finishButton
+        view.text = EditProfileDetails.Constants.Texts.finishButton
         return view
     }()
     
