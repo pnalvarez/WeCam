@@ -15,7 +15,7 @@ target 'WeCam' do
   pod 'Firebase/Auth'
   pod 'Firebase/Firestore'
   pod 'Firebase/Storage'
-  pod 'WCUIKit', :path => '../../Desktop/iOS/WCUIKit'
+  pod 'WCUIKit', :git => 'git@github.com:pnalvarez/WCUIKit.git', :branch => 'develop'
   
   target 'WeCamTests' do
     inherit! :search_paths

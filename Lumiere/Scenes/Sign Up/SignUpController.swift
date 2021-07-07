@@ -111,8 +111,6 @@ class SignUpController: BaseViewController {
                           cathegoryListView: cathegoryListView)
     }()
     
-    private let dialogView = WCDialogView()
-    
     private var movieStyles: [WCMovieStyle] = []
     
     private var interactor: SignUpBusinessLogic?
