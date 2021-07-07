@@ -39,7 +39,7 @@ class FilterCathegoriesInteractor: FilterCathegoriesDataStore {
             switch response {
             case .success(let data):
                 guard let cathegories = data.cathegories else { return }
-                let parsedCathegories = FilterCathegories.Info.Model.CathegoryList(cathegories: cathegories.map({ (MovieStyle(rawValue: $0) ?? .action)}))
+                let parsedCathegories = FilterCathegories.Info.Model.CathegoryList(cathegories: cathegories.map({ (WCMovieStyle(rawValue: $0) ?? .action)}))
                 self.selectedCathegories = parsedCathegories
                 self.initialSelectedCathegories = parsedCathegories
                 guard let selectedCathegories = self.selectedCathegories else { return }
@@ -60,7 +60,7 @@ extension FilterCathegoriesInteractor: FilterCathegoriesBusinessLogic {
             switch response {
             case .success(let data):
                 guard let cathegories = data.cathegories else { return }
-                self.interestCathegories = FilterCathegories.Info.Model.CathegoryList(cathegories: cathegories.map({ (MovieStyle(rawValue: $0) ?? .action)}))
+                self.interestCathegories = FilterCathegories.Info.Model.CathegoryList(cathegories: cathegories.map({ (WCMovieStyle(rawValue: $0) ?? .action)}))
                 guard let allCathegories = self.interestCathegories else { return }
                 self.presenter.presentAllCathegories(allCathegories)
                 self.fetchSelectedCathegories()

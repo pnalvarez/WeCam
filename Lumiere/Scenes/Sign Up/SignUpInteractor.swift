@@ -26,7 +26,7 @@ class SignUpInteractor: SignUpDataStore {
     var userData: SignUp.Info.Model.UserData?
     var interestCathegories: SignUp.Info.Model.InterestCathegories = SignUp.Info.Model.InterestCathegories(cathegories: [])
     
-    private let allCathegories = MovieStyle.toArray()
+    private let allCathegories = WCMovieStyle.toArray()
     
     init(viewController: SignUpDisplayLogic,
          provider: SignUpProviderProtocol = SignUpProvider()) {
@@ -89,7 +89,7 @@ extension SignUpInteractor {
 extension SignUpInteractor: SignUpBusinessLogic {
     
     func fetchMovieStyles() {
-           let allStyles = MovieStyle.toArray()
+           let allStyles = WCMovieStyle.toArray()
            presenter.didFetchMovieStyles(allStyles)
        }
     

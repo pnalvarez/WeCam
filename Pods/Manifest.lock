@@ -369,7 +369,7 @@ DEPENDENCIES:
   - Firebase/Storage
   - ObjectMapper (~> 4.2.0)
   - SDWebImage (~> 5.0.2)
-  - WCUIKit (from `../../Desktop/iOS/WCUIKit`)
+  - "WCUIKit (from `git@github.com:pnalvarez/WCUIKit.git`, branch `develop`)"
   - YoutubePlayer-in-WKWebView
 
 SPEC REPOS:
@@ -405,7 +405,13 @@ SPEC REPOS:
 
 EXTERNAL SOURCES:
   WCUIKit:
-    :path: "../../Desktop/iOS/WCUIKit"
+    :branch: develop
+    :git: "git@github.com:pnalvarez/WCUIKit.git"
+
+CHECKOUT OPTIONS:
+  WCUIKit:
+    :commit: bfc9e9acca717576e05dc2b4ef2343ecadc593b9
+    :git: "git@github.com:pnalvarez/WCUIKit.git"
 
 SPEC CHECKSUMS:
   abseil: 6c8eb7892aefa08d929b39f9bb108e5367e3228f
@@ -438,6 +444,6 @@ SPEC CHECKSUMS:
   WCUIKit: 8c0d4f0f69914f26543b4a09f7ff466e2a4b740d
   YoutubePlayer-in-WKWebView: af2f5929fc78882d94bfdfeea999b661b78d9717
 
-PODFILE CHECKSUM: ad1e98e1a900b6284624c49c2a5089852e4d2945
+PODFILE CHECKSUM: 7bc885b83aee89fd189eebe450aa200f213f9106
 
-COCOAPODS: 1.9.3
+COCOAPODS: 1.10.1

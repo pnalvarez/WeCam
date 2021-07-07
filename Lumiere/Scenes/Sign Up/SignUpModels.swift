@@ -164,7 +164,7 @@ struct SignUp {
             }
             
             struct InterestCathegories {
-                var cathegories: [MovieStyle]
+                var cathegories: [WCMovieStyle]
             }
         }
         

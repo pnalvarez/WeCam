@@ -91,7 +91,7 @@ extension MainFeedInteractor {
                 var defaultCathegories: [MainFeed.Info.Model.OnGoingProjectFeedCriteria] = [.all, .connections]
                 guard let cathegories = cathegories.cathegories else { return }
                 defaultCathegories.append(contentsOf: cathegories.map( {
-                    MainFeed.Info.Model.OnGoingProjectFeedCriteria.cathegory(MovieStyle(rawValue: $0) ?? .action)
+                    MainFeed.Info.Model.OnGoingProjectFeedCriteria.cathegory(WCMovieStyle(rawValue: $0) ?? .action)
                 }))
                 self.mainFeedData?.interestCathegories = MainFeed.Info.Model.UpcomingOnGoingProjectCriterias(selectedCriteria: self.buildMainFeedCathegory(), criterias: defaultCathegories)
                 self.fetchFinishedProjectsLogicFeeds()
@@ -108,7 +108,7 @@ extension MainFeedInteractor {
         } else if selectedCathegory == MainFeed.Constants.Texts.relativeToConnectionsCriteria {
             criteria = .connections
         } else {
-            criteria = MainFeed.Info.Model.OnGoingProjectFeedCriteria.cathegory(MovieStyle(rawValue: selectedCathegory) ?? .action)
+            criteria = MainFeed.Info.Model.OnGoingProjectFeedCriteria.cathegory(WCMovieStyle(rawValue: selectedCathegory) ?? .action)
         }
         return criteria
     }

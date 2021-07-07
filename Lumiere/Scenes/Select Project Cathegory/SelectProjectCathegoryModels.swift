@@ -52,8 +52,8 @@ struct SelectProjectCathegory {
         struct Model {
             
             struct SelectedCathegories {
-                var firstCathegory: MovieStyle?
-                var secondCathegory: MovieStyle?
+                var firstCathegory: WCMovieStyle?
+                var secondCathegory: WCMovieStyle?
             }
             
             struct InterestCathegories: Equatable {
@@ -61,7 +61,7 @@ struct SelectProjectCathegory {
             }
             
             struct Cathegory: Equatable {
-                let cathegory: MovieStyle
+                let cathegory: WCMovieStyle
                 var selected: Bool
             }
         }
@@ -90,7 +90,7 @@ struct SelectProjectCathegory {
         }
         
         struct SelectCathegory {
-            let cathegory: MovieStyle
+            let cathegory: WCMovieStyle
         }
         
         struct Advance {

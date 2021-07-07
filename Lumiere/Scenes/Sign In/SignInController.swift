@@ -137,6 +137,7 @@ extension SignInController: SignInDisplayLogic {
     
     func displayEmailError(_ viewModel: SignIn.ViewModel.SignInError) {
         dialogView.show(dialogType: .errorNotification,
+                        in: self,
                         title: SignIn.Constants.Texts.inputErrorTitle,
                         description: viewModel.description,
                         doneText: Constants.Strings.ok)
@@ -150,6 +151,7 @@ extension SignInController: SignInDisplayLogic {
     
     func displaypasswordError(_ viewModel: SignIn.ViewModel.SignInError) {
         dialogView.show(dialogType: .errorNotification,
+                        in: self,
                         title: SignIn.Constants.Texts.inputErrorTitle,
                         description: viewModel.description,
                         doneText: Constants.Strings.ok)

@@ -113,6 +113,7 @@ extension AccountRecoveryController: AccountRecoveryDisplayLogic {
     
     func displaySuccessfullySentEmailAlert() {
         dialogView.show(dialogType: .successNotification,
+                        in: self,
                         title: AccountRecovery.Constants.Texts.succefullySentEmailTitle,
                         description: AccountRecovery.Constants.Texts.succeffullySentEmailMessage,
                         doneText: Constants.Strings.ok,

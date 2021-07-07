@@ -11,7 +11,7 @@ import WCUIKit
 import Photos
 
 protocol SignUpDisplayLogic: ViewInterface {
-    func displayMovieStyles(_ viewModel: [MovieStyle])
+    func displayMovieStyles(_ viewModel: [WCMovieStyle])
     func displayInformationError(_ viewModel: SignUp.Info.ViewModel.Error)
     func displayConfirmationMatchError()
     func displayServerError(_ viewModel: SignUp.Info.ViewModel.Error)
@@ -112,7 +112,7 @@ class SignUpController: BaseViewController {
                           cathegoryListView: cathegoryListView)
     }()
     
-    private var movieStyles: [MovieStyle] = []
+    private var movieStyles: [WCMovieStyle] = []
     
     private var interactor: SignUpBusinessLogic?
     private var router: SignUpRouterProtocol?
@@ -247,7 +247,7 @@ extension SignUpController: WCCathegoryListViewDelegate {
 
 extension SignUpController: SignUpDisplayLogic {
     
-    func displayMovieStyles(_ viewModel: [MovieStyle]) {
+    func displayMovieStyles(_ viewModel: [WCMovieStyle]) {
         cathegoryListView.setup(cathegories: viewModel.map({ $0.rawValue }))
     }
     

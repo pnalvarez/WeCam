@@ -7,7 +7,7 @@
 //
 
 protocol SignUpPresentationLogic {
-    func didFetchMovieStyles(_ styles: [MovieStyle])
+    func didFetchMovieStyles(_ styles: [WCMovieStyle])
     func presentError(_ response: SignUp.Errors.SignUpErrors)
     func presentLoading(_ loading: Bool)
     func didSignUpUser()
@@ -23,7 +23,7 @@ class SignUpPresenter: SignUpPresentationLogic {
         self.viewController = viewController
     }
     
-    func didFetchMovieStyles(_ styles: [MovieStyle]) {
+    func didFetchMovieStyles(_ styles: [WCMovieStyle]) {
         viewController.displayMovieStyles(styles)
     }
     

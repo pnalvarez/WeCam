@@ -42,7 +42,7 @@ extension SelectProjectCathegoryInteractor: SelectProjectCathegoryBusinessLogic 
         allCathegories = SelectProjectCathegory
             .Info
             .Model
-            .InterestCathegories(cathegories: MovieStyle.toArray().map({ SelectProjectCathegory.Info.Model.Cathegory(cathegory: $0, selected: false)}))
+            .InterestCathegories(cathegories: WCMovieStyle.toArray().map({ SelectProjectCathegory.Info.Model.Cathegory(cathegory: $0, selected: false)}))
         guard let cathegories = allCathegories else { return }
         presenter.presentAllCathegories(cathegories)
     }
