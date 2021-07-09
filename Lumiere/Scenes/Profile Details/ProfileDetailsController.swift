@@ -91,6 +91,8 @@ class ProfileDetailsController: BaseViewController {
         }
     }
     
+    private let dialogView = WCDialogView()
+    
     private var interactor: ProfileDetailsBusinessLogic?
     var router: ProfileDetailsRouterProtocol?
     

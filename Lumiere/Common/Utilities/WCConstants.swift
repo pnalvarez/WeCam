@@ -11,5 +11,6 @@ enum WCConstants {
     enum Strings {
         static let ok = "Ok"
         static let errorTitle = "Erro"
+        static let unexpectedErrorTitle = "Ocorreu um erro inesperado"
     }
 }

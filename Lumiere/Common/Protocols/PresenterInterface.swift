@@ -12,4 +12,5 @@ import WCUIKit
 @objc protocol PresenterInterface {
     @objc optional func showAlertError(_ response: String)
     @objc optional func showToastError(_ response: String)
+    @objc optional func showLoading(_ loading: Bool)
 }

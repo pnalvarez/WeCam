@@ -269,11 +269,6 @@ struct MainFeed {
             struct FinishedProject: Equatable {
                 let image: String
             }
-            
-            struct Error {
-                let title: String
-                let message: String
-            }
         }
         
         struct Response {

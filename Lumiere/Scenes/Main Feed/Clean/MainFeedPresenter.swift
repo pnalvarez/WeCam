@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol MainFeedPresentationLogic {
+protocol MainFeedPresentationLogic: PresenterInterface {
     func presentProfileDetails()
     func presentOnGoingProjectDetails()
     func presentFinishedProjectDetails()
@@ -65,12 +65,16 @@ class MainFeedPresenter: MainFeedPresentationLogic {
     }
     
     func presentError(_ response: MainFeed.Info.Model.Error) {
-        let viewModel = MainFeed.Info.ViewModel.Error(title: response.title, message: response.message)
-        viewController.displayError(viewModel)
+        viewController.showAlertError(title: response.title,
+                                      description: response.message)
     }
     
     func presentFinishedProjectDetails() {
         viewController.displayFinishedProjectDetails()
+    }
+    
+    func presentLoading(_ loading: Bool) {
+        viewController.defaultScreenLoading(!loading)
     }
     
     private func mapFinishedProjectsFeeds(_ input: MainFeed.Info.Model.UpcomingFinishedProjectsFeeds?) -> MainFeed.Info.ViewModel.UpcomingFinishedProjectsFeeds {

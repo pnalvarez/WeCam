@@ -13,7 +13,6 @@ protocol MainFeedDisplayLogic: ViewInterface {
     func displayProfileDetails()
     func displayOnGoingProjectDetails()
     func displayFinishedProjectDetails()
-    func displayError(_ viewModel: MainFeed.Info.ViewModel.Error)
     func displayFeedData(_ viewModel: MainFeed.Info.ViewModel.UpcomingFeedData)
     func displayGenericError()
 }
@@ -173,13 +172,7 @@ extension MainFeedController: MainFeedDisplayLogic {
     func displayFinishedProjectDetails() {
         router?.routeToFinishedProjectDetails()
     }
-    
-    func displayError(_ viewModel: MainFeed.Info.ViewModel.Error) {
-        UIAlertController.displayAlert(in: self,
-                                       title: viewModel.title,
-                                       message: viewModel.message)
-    }
-    
+
     func displayFeedData(_ viewModel: MainFeed.Info.ViewModel.UpcomingFeedData) {
         self.viewModel = viewModel
     }

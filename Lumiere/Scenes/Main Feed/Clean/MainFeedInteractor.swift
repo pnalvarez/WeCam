@@ -34,6 +34,8 @@ class MainFeedInteractor: MainFeedDataStore {
     var selectedProject: String?
     var mainFeedData: MainFeed.Info.Model.UpcomingFeedData?
     
+    private let newProjectsCriteria = "Novos projetos"
+    
     var selectedCathegory: String = MainFeed.Constants.Texts.allCriteria {
         didSet {
             mainFeedData?.interestCathegories?.selectedCriteria = buildMainFeedCathegory()
@@ -62,7 +64,7 @@ extension MainFeedInteractor {
                 interestCathegories: nil)
                 self.fetchOnGoingProjectsFeed(MainFeed.Request.RequestOnGoingProjectsFeed(item: self.selectedCathegory))
             case .error(let error):
-                break
+                self.presentError(error)
             }
         }
     }
@@ -79,7 +81,7 @@ extension MainFeedInteractor {
                 }))
                 self.fetchInterestCathegories(MainFeed.Request.FetchInterestCathegories())
             case .error(let error):
-                break
+                self.presentError(error)
             }
         }
     }
@@ -96,7 +98,7 @@ extension MainFeedInteractor {
                 self.mainFeedData?.interestCathegories = MainFeed.Info.Model.UpcomingOnGoingProjectCriterias(selectedCriteria: self.buildMainFeedCathegory(), criterias: defaultCathegories)
                 self.fetchFinishedProjectsLogicFeeds()
             case .error(let error):
-                break
+                self.presentError(error)
             }
         }
     }
@@ -128,16 +130,16 @@ extension MainFeedInteractor {
                             case .success(let data):
                                 self.mainFeedData?.finishedProjectsFeeds?.feeds.append(MainFeed.Info.Model.FinishedProjectFeed(criteria: MainFeed.Info.Model.FinishedProjectsFeedLogicCriteria.recentlyWatched.rawValue, projects: data.map({ MainFeed.Info.Model.FinishedProject(id: $0.id ?? .empty, image: $0.image ?? .empty)})))
                                 self.fetchFinishedProjectsCathegoryFeeds()
-                            case .error(_):
-                                break
+                            case .error(let error):
+                                self.presentError(error)
                             }
                         }
-                    case .error(_):
-                        break
+                    case .error(let error):
+                        self.presentError(error)
                     }
                 }
-            case .error(_):
-                break
+            case .error(let error):
+                self.presentError(error)
             }
         }
     }
@@ -161,6 +163,7 @@ extension MainFeedInteractor {
                             dispatchGroup.leave()
                         case .error(let error):
                             dispatchGroup.leave()
+                            self.presentError(error)
                         }
                     }
                 default:
@@ -177,11 +180,11 @@ extension MainFeedInteractor {
         worker.fetchFinishedProjectsNewFeed(MainFeed.Request.FinishedProjectsNewFeed()) { response in
             switch response {
             case .success(let projects):
-                self.mainFeedData?.finishedProjectsFeeds?.feeds.append(MainFeed.Info.Model.FinishedProjectFeed(criteria: "Novos projetos", projects: projects.map({ MainFeed.Info.Model.FinishedProject(id: $0.id ?? .empty, image: $0.image ?? .empty)})))
+                self.mainFeedData?.finishedProjectsFeeds?.feeds.append(MainFeed.Info.Model.FinishedProjectFeed(criteria: self.newProjectsCriteria, projects: projects.map({ MainFeed.Info.Model.FinishedProject(id: $0.id ?? .empty, image: $0.image ?? .empty)})))
                 guard let data = self.mainFeedData else { return }
                 self.presenter.presentFeedData(data)
             case .error(let error):
-                break
+                self.presentError(error)
             }
         }
     }
@@ -192,6 +195,11 @@ extension MainFeedInteractor {
             return true
         }
         return false
+    }
+    
+    private func presentError(_ error: WCError) {
+        presenter.showLoading?(true)
+        presenter.presentError(MainFeed.Info.Model.Error(title: WCConstants.Strings.unexpectedErrorTitle, message: error.description))
     }
 }
 
