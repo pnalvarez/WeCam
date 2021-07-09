@@ -13,8 +13,6 @@ class ProfileDetailsView: BaseView {
     
     private unowned var ongoingProjectsCollectionView: UICollectionView
     private unowned var finishedProjectsCollectionView: UICollectionView
-    private unowned var confirmationAlertView: ConfirmationAlertView
-    private unowned var translucentView: UIView
     private unowned var profileHeaderView: WCProfileHeaderView
     
     private lazy var onGoingProjectsLbl: UILabel = {
@@ -53,13 +51,9 @@ class ProfileDetailsView: BaseView {
     init(frame: CGRect,
          ongoingProjectsCollectionView: UICollectionView,
          finishedProjectsCollectionView: UICollectionView,
-         confirmationAlertView: ConfirmationAlertView,
-         translucentView: UIView,
          profileHeaderView: WCProfileHeaderView) {
         self.ongoingProjectsCollectionView = ongoingProjectsCollectionView
         self.finishedProjectsCollectionView = finishedProjectsCollectionView
-        self.confirmationAlertView = confirmationAlertView
-        self.translucentView = translucentView
         self.profileHeaderView = profileHeaderView
         super.init(frame: frame)
         applyViewCode()
@@ -67,29 +61,6 @@ class ProfileDetailsView: BaseView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    func displayConfirmationView(withText text: String) {
-        UIView.animate(withDuration: 0.2, animations: {
-            self.confirmationAlertView.setupText(text)
-            self.translucentView.isHidden = false
-            self.confirmationAlertView.snp.remakeConstraints { make in
-                make.top.equalTo(self.translucentView.snp.centerY)
-                make.size.equalTo(self.translucentView)
-            }
-            self.layoutIfNeeded()
-        })
-    }
-    
-    func hideConfirmationView() {
-        UIView.animate(withDuration: 0.2, animations: {
-            self.translucentView.isHidden = true
-            self.confirmationAlertView.snp.remakeConstraints { make in
-                make.top.equalTo(self.translucentView.snp.bottom)
-                make.size.equalTo(self.translucentView)
-            }
-            self.layoutIfNeeded()
-        })
     }
 }
 
@@ -103,8 +74,6 @@ extension ProfileDetailsView: ViewCodeProtocol {
         mainContainer.addSubview(finishedProjectsLbl)
         scrollView.addSubview(mainContainer)
         addSubview(scrollView)
-        addSubview(translucentView)
-        addSubview(confirmationAlertView)
     }
     
     func setupConstraints() {
@@ -115,13 +84,6 @@ extension ProfileDetailsView: ViewCodeProtocol {
             make.edges.equalToSuperview()
             make.width.equalToSuperview()
             make.height.equalToSuperview().priority(250)
-        }
-        confirmationAlertView.snp.makeConstraints { make in
-            make.top.equalTo(translucentView.snp.bottom)
-            make.size.equalTo(translucentView)
-        }
-        translucentView.snp.makeConstraints{ make in
-            make.edges.equalToSuperview()
         }
         profileHeaderView.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(41)

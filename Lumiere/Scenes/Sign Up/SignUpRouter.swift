@@ -58,9 +58,9 @@ extension SignUpRouter: SignUpRoutingLogic {
     func routeBack(withError error: SignUp.Info.ViewModel.Error) {
         guard let navigationController = viewController?.navigationController else { return }
         navigationController.popViewController(animated: true)
-        dialogView.show(in: navigationController,
+        dialogView.show(dialogType: .errorNotification(doneText: WCConstants.Strings.ok),
+                        in: navigationController,
                         title: SignUp.Constants.Texts.signUpError,
-                        description: description,
-                        doneText: WCConstants.Strings.ok)
+                        description: description)
     }
 }

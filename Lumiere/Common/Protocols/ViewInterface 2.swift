@@ -48,9 +48,10 @@ extension ViewInterface {
     }
     
     func showAlertError(title: String, description: String, doneText: String = WCConstants.Strings.ok) {
-        WCDialogView().show(dialogType: .errorNotification(doneText: doneText),
+        WCDialogView().show(dialogType: .errorNotification,
                             in: self,
                             title: title,
-                            description: description)
+                            description: description,
+                            doneText: doneText)
     }
 }

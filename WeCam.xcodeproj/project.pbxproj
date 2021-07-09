@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		350967EED4FC65A91E47DF3E /* Pods_WeCam_WeCamUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BF57E8AD0379A85D00B82D4 /* Pods_WeCam_WeCamUITests.framework */; };
+		32DD5D9C82E9B4CBAAD1459B /* Pods_WeCamTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBAB4B4B4A576948B325AB98 /* Pods_WeCamTests.framework */; };
+		37A48242C23731CDB5E486A5 /* Pods_WeCam_WeCamUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB415A1F3A3C03CA8A401226 /* Pods_WeCam_WeCamUITests.framework */; };
 		3F0129C4252A510800FF4985 /* OnGoingProjectDetailsInteractor+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0129C3252A510800FF4985 /* OnGoingProjectDetailsInteractor+Tests.swift */; };
 		3F0129CD252A524100FF4985 /* OnGoingProjectDetailsWorkerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0129CC252A524100FF4985 /* OnGoingProjectDetailsWorkerMock.swift */; };
 		3F0129D5252A809100FF4985 /* OnGoingProjectDetailsPresenter+Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0129D4252A809100FF4985 /* OnGoingProjectDetailsPresenter+Tests.swift */; };
@@ -325,9 +326,8 @@
 		3FF2872E25F1BCA9008FD23F /* Data+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF2872D25F1BCA9008FD23F /* Data+.swift */; };
 		3FF72BB92606BE5D0064B96A /* InternetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF72BB82606BE5D0064B96A /* InternetManager.swift */; };
 		3FF72BC4260802D20064B96A /* WCError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF72BC3260802D20064B96A /* WCError.swift */; };
+		94C331319B48FC94FDA84CD1 /* Pods_WeCam.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D45E89D42786F9B921B89784 /* Pods_WeCam.framework */; };
 		B1F1AC482696288D00357273 /* WCMovieStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F1AC472696288D00357273 /* WCMovieStyle.swift */; };
-		D1B3609937C08A39E56E4C4D /* Pods_WeCam.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B593D5AA18896E1671C21CFF /* Pods_WeCam.framework */; };
-		F52DB8DE6D2D019611F68D97 /* Pods_WeCamTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0BFA9537CA555BEC1D6084F /* Pods_WeCamTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -348,8 +348,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0EC2EBDD3E02A43C8B409C91 /* Pods-WeCamTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeCamTests.debug.xcconfig"; path = "Target Support Files/Pods-WeCamTests/Pods-WeCamTests.debug.xcconfig"; sourceTree = "<group>"; };
-		2BF57E8AD0379A85D00B82D4 /* Pods_WeCam_WeCamUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WeCam_WeCamUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		055F1578B685644D67646C1E /* Pods-WeCam-WeCamUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeCam-WeCamUITests.debug.xcconfig"; path = "Target Support Files/Pods-WeCam-WeCamUITests/Pods-WeCam-WeCamUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		32FEA95A54F4341A29FDE632 /* Pods-WeCamTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeCamTests.debug.xcconfig"; path = "Target Support Files/Pods-WeCamTests/Pods-WeCamTests.debug.xcconfig"; sourceTree = "<group>"; };
 		3F0129C3252A510800FF4985 /* OnGoingProjectDetailsInteractor+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OnGoingProjectDetailsInteractor+Tests.swift"; sourceTree = "<group>"; };
 		3F0129CC252A524100FF4985 /* OnGoingProjectDetailsWorkerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnGoingProjectDetailsWorkerMock.swift; sourceTree = "<group>"; };
 		3F0129D4252A809100FF4985 /* OnGoingProjectDetailsPresenter+Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OnGoingProjectDetailsPresenter+Tests.swift"; sourceTree = "<group>"; };
@@ -672,14 +672,14 @@
 		3FF2872D25F1BCA9008FD23F /* Data+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+.swift"; sourceTree = "<group>"; };
 		3FF72BB82606BE5D0064B96A /* InternetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InternetManager.swift; sourceTree = "<group>"; };
 		3FF72BC3260802D20064B96A /* WCError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCError.swift; sourceTree = "<group>"; };
-		8C161E564CA851985F9EE39A /* Pods-WeCam-WeCamUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeCam-WeCamUITests.debug.xcconfig"; path = "Target Support Files/Pods-WeCam-WeCamUITests/Pods-WeCam-WeCamUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		A11850CF10C8CC02BD0629CC /* Pods-WeCamTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeCamTests.release.xcconfig"; path = "Target Support Files/Pods-WeCamTests/Pods-WeCamTests.release.xcconfig"; sourceTree = "<group>"; };
-		AA88847625CEAB7EE01A8C4D /* Pods-WeCam.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeCam.release.xcconfig"; path = "Target Support Files/Pods-WeCam/Pods-WeCam.release.xcconfig"; sourceTree = "<group>"; };
+		6D2B8D1439C1ECE073FDF948 /* Pods-WeCam-WeCamUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeCam-WeCamUITests.release.xcconfig"; path = "Target Support Files/Pods-WeCam-WeCamUITests/Pods-WeCam-WeCamUITests.release.xcconfig"; sourceTree = "<group>"; };
 		B1F1AC472696288D00357273 /* WCMovieStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WCMovieStyle.swift; sourceTree = "<group>"; };
-		B593D5AA18896E1671C21CFF /* Pods_WeCam.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WeCam.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D0BFA9537CA555BEC1D6084F /* Pods_WeCamTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WeCamTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E8BFE4FD16CD3D7EC1C17E9D /* Pods-WeCam.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeCam.debug.xcconfig"; path = "Target Support Files/Pods-WeCam/Pods-WeCam.debug.xcconfig"; sourceTree = "<group>"; };
-		FE29C52BB8CA2224F591E76A /* Pods-WeCam-WeCamUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeCam-WeCamUITests.release.xcconfig"; path = "Target Support Files/Pods-WeCam-WeCamUITests/Pods-WeCam-WeCamUITests.release.xcconfig"; sourceTree = "<group>"; };
+		B5CA27BBF8F371980269CD2D /* Pods-WeCamTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeCamTests.release.xcconfig"; path = "Target Support Files/Pods-WeCamTests/Pods-WeCamTests.release.xcconfig"; sourceTree = "<group>"; };
+		CBAB4B4B4A576948B325AB98 /* Pods_WeCamTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WeCamTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D45E89D42786F9B921B89784 /* Pods_WeCam.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WeCam.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DF1DCABF93FAFDC6189959B2 /* Pods-WeCam.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeCam.debug.xcconfig"; path = "Target Support Files/Pods-WeCam/Pods-WeCam.debug.xcconfig"; sourceTree = "<group>"; };
+		DFE1233641DBDF5B5B2039FC /* Pods-WeCam.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeCam.release.xcconfig"; path = "Target Support Files/Pods-WeCam/Pods-WeCam.release.xcconfig"; sourceTree = "<group>"; };
+		FB415A1F3A3C03CA8A401226 /* Pods_WeCam_WeCamUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WeCam_WeCamUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -687,7 +687,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D1B3609937C08A39E56E4C4D /* Pods_WeCam.framework in Frameworks */,
+				94C331319B48FC94FDA84CD1 /* Pods_WeCam.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -695,7 +695,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F52DB8DE6D2D019611F68D97 /* Pods_WeCamTests.framework in Frameworks */,
+				32DD5D9C82E9B4CBAAD1459B /* Pods_WeCamTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -703,13 +703,23 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				350967EED4FC65A91E47DF3E /* Pods_WeCam_WeCamUITests.framework in Frameworks */,
+				37A48242C23731CDB5E486A5 /* Pods_WeCam_WeCamUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3674C8FAC04DDEBFD49E5980 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D45E89D42786F9B921B89784 /* Pods_WeCam.framework */,
+				FB415A1F3A3C03CA8A401226 /* Pods_WeCam_WeCamUITests.framework */,
+				CBAB4B4B4A576948B325AB98 /* Pods_WeCamTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		3F0129C2252A50F100FF4985 /* OnGoing Project Details */ = {
 			isa = PBXGroup;
 			children = (
@@ -1337,7 +1347,7 @@
 				3F95783524AD6FBE00B79818 /* LumiereTests */,
 				816E9AAB491F6DA3C65B683E /* Pods */,
 				3F95781D24AD6FBC00B79818 /* Products */,
-				5A53858FFCDA45F17C1AFA53 /* Frameworks */,
+				3674C8FAC04DDEBFD49E5980 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1745,25 +1755,15 @@
 			path = "Account Recovery";
 			sourceTree = "<group>";
 		};
-		5A53858FFCDA45F17C1AFA53 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				B593D5AA18896E1671C21CFF /* Pods_WeCam.framework */,
-				2BF57E8AD0379A85D00B82D4 /* Pods_WeCam_WeCamUITests.framework */,
-				D0BFA9537CA555BEC1D6084F /* Pods_WeCamTests.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		816E9AAB491F6DA3C65B683E /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				E8BFE4FD16CD3D7EC1C17E9D /* Pods-WeCam.debug.xcconfig */,
-				AA88847625CEAB7EE01A8C4D /* Pods-WeCam.release.xcconfig */,
-				8C161E564CA851985F9EE39A /* Pods-WeCam-WeCamUITests.debug.xcconfig */,
-				FE29C52BB8CA2224F591E76A /* Pods-WeCam-WeCamUITests.release.xcconfig */,
-				0EC2EBDD3E02A43C8B409C91 /* Pods-WeCamTests.debug.xcconfig */,
-				A11850CF10C8CC02BD0629CC /* Pods-WeCamTests.release.xcconfig */,
+				DF1DCABF93FAFDC6189959B2 /* Pods-WeCam.debug.xcconfig */,
+				DFE1233641DBDF5B5B2039FC /* Pods-WeCam.release.xcconfig */,
+				055F1578B685644D67646C1E /* Pods-WeCam-WeCamUITests.debug.xcconfig */,
+				6D2B8D1439C1ECE073FDF948 /* Pods-WeCam-WeCamUITests.release.xcconfig */,
+				32FEA95A54F4341A29FDE632 /* Pods-WeCamTests.debug.xcconfig */,
+				B5CA27BBF8F371980269CD2D /* Pods-WeCamTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -1775,11 +1775,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3F95784624AD6FBE00B79818 /* Build configuration list for PBXNativeTarget "WeCam" */;
 			buildPhases = (
-				86B24C3FD6EEAE8DB36C1FDC /* [CP] Check Pods Manifest.lock */,
+				B73C53C9285B2123DD9F5A23 /* [CP] Check Pods Manifest.lock */,
 				3F95781824AD6FBC00B79818 /* Sources */,
 				3F95781924AD6FBC00B79818 /* Frameworks */,
 				3F95781A24AD6FBC00B79818 /* Resources */,
-				B42BA6143C0181F408BD9562 /* [CP] Embed Pods Frameworks */,
+				87501FA02493F1939452E864 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1794,7 +1794,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3F95784924AD6FBE00B79818 /* Build configuration list for PBXNativeTarget "WeCamTests" */;
 			buildPhases = (
-				CFAE5F1E013A4C599FFB8BB0 /* [CP] Check Pods Manifest.lock */,
+				8587A5BCC40ED716DCB9BFA4 /* [CP] Check Pods Manifest.lock */,
 				3F95782E24AD6FBE00B79818 /* Sources */,
 				3F95782F24AD6FBE00B79818 /* Frameworks */,
 				3F95783024AD6FBE00B79818 /* Resources */,
@@ -1813,11 +1813,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3F95784C24AD6FBE00B79818 /* Build configuration list for PBXNativeTarget "WeCamUITests" */;
 			buildPhases = (
-				78D82618D53D4822D64403A7 /* [CP] Check Pods Manifest.lock */,
+				2D74D9D0B78A153B46B580A9 /* [CP] Check Pods Manifest.lock */,
 				3F95783924AD6FBE00B79818 /* Sources */,
 				3F95783A24AD6FBE00B79818 /* Frameworks */,
 				3F95783B24AD6FBE00B79818 /* Resources */,
-				4E6C45A59EAB8BF7B905B6DC /* [CP] Embed Pods Frameworks */,
+				84AD148D085F8699339784FB /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1919,24 +1919,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		4E6C45A59EAB8BF7B905B6DC /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-WeCam-WeCamUITests/Pods-WeCam-WeCamUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-WeCam-WeCamUITests/Pods-WeCam-WeCamUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WeCam-WeCamUITests/Pods-WeCam-WeCamUITests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		78D82618D53D4822D64403A7 /* [CP] Check Pods Manifest.lock */ = {
+		2D74D9D0B78A153B46B580A9 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1958,7 +1941,24 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		86B24C3FD6EEAE8DB36C1FDC /* [CP] Check Pods Manifest.lock */ = {
+		84AD148D085F8699339784FB /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-WeCam-WeCamUITests/Pods-WeCam-WeCamUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-WeCam-WeCamUITests/Pods-WeCam-WeCamUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WeCam-WeCamUITests/Pods-WeCam-WeCamUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8587A5BCC40ED716DCB9BFA4 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1973,14 +1973,14 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-WeCam-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-WeCamTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		B42BA6143C0181F408BD9562 /* [CP] Embed Pods Frameworks */ = {
+		87501FA02493F1939452E864 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1997,7 +1997,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WeCam/Pods-WeCam-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		CFAE5F1E013A4C599FFB8BB0 /* [CP] Check Pods Manifest.lock */ = {
+		B73C53C9285B2123DD9F5A23 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2012,7 +2012,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-WeCamTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-WeCam-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2482,7 +2482,7 @@
 		};
 		3F95784724AD6FBE00B79818 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E8BFE4FD16CD3D7EC1C17E9D /* Pods-WeCam.debug.xcconfig */;
+			baseConfigurationReference = DF1DCABF93FAFDC6189959B2 /* Pods-WeCam.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -2501,7 +2501,7 @@
 		};
 		3F95784824AD6FBE00B79818 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AA88847625CEAB7EE01A8C4D /* Pods-WeCam.release.xcconfig */;
+			baseConfigurationReference = DFE1233641DBDF5B5B2039FC /* Pods-WeCam.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -2520,7 +2520,7 @@
 		};
 		3F95784A24AD6FBE00B79818 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0EC2EBDD3E02A43C8B409C91 /* Pods-WeCamTests.debug.xcconfig */;
+			baseConfigurationReference = 32FEA95A54F4341A29FDE632 /* Pods-WeCamTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -2543,7 +2543,7 @@
 		};
 		3F95784B24AD6FBE00B79818 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A11850CF10C8CC02BD0629CC /* Pods-WeCamTests.release.xcconfig */;
+			baseConfigurationReference = B5CA27BBF8F371980269CD2D /* Pods-WeCamTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -2566,7 +2566,7 @@
 		};
 		3F95784D24AD6FBE00B79818 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8C161E564CA851985F9EE39A /* Pods-WeCam-WeCamUITests.debug.xcconfig */;
+			baseConfigurationReference = 055F1578B685644D67646C1E /* Pods-WeCam-WeCamUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -2587,7 +2587,7 @@
 		};
 		3F95784E24AD6FBE00B79818 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FE29C52BB8CA2224F591E76A /* Pods-WeCam-WeCamUITests.release.xcconfig */;
+			baseConfigurationReference = 6D2B8D1439C1ECE073FDF948 /* Pods-WeCam-WeCamUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;

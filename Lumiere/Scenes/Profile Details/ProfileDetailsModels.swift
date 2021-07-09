@@ -76,10 +76,16 @@ struct ProfileDetails {
             
             static let projectViewDefaultOffset: CGFloat = 50
             static let finishedProjectButtonDefaultOffset: CGFloat = 50
+            static let lineSpacingSection: CGFloat = 10
+            static let interItemSpacing: CGFloat = 10
+            static let horizontalMargin: CGFloat = 26
+            static let verticalMargin: CGFloat = 0
             
             struct Heights {
                 static let scrollView: CGFloat = 84
                 static let finishedScrollView: CGFloat = 254
+                static let ongoingProjects: CGFloat = 84
+                static let finishedProjects: CGFloat = 128
             }
             
             struct Widths {
@@ -87,6 +93,8 @@ struct ProfileDetails {
                 static let finishedProjectButton: CGFloat = 159
                 static let spaceBetweenProjects = 28
                 static let spaceBetweenFinishedProjects = 12
+                static let ongoingProjects: CGFloat = 84
+                static let finishedProjects: CGFloat = 128
             }
         }
     }

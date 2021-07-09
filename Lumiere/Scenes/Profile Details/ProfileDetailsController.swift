@@ -51,26 +51,10 @@ class ProfileDetailsController: BaseViewController {
         return view
     }()
     
-    private lazy var confirmationAlertView: ConfirmationAlertView = {
-        let view = ConfirmationAlertView(frame: .zero,
-                                         delegate: self)
-        return view
-    }()
-    
-    private lazy var translucentView: UIView = {
-        let view = UIView(frame: .zero)
-        view.backgroundColor = ProfileDetails.Constants.Colors.translucentView
-        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(closeModal)))
-        view.isHidden = true
-        return view
-    }()
-    
     private lazy var mainView: ProfileDetailsView = {
         let view = ProfileDetailsView(frame: .zero,
                                       ongoingProjectsCollectionView: ongoingProjectsCollectionView,
                                       finishedProjectsCollectionView: finishedProjectsCollectionView,
-                                      confirmationAlertView: confirmationAlertView,
-                                      translucentView: translucentView,
                                       profileHeaderView: profileHeaderView)
         return view
     }()
@@ -90,8 +74,6 @@ class ProfileDetailsController: BaseViewController {
             }
         }
     }
-    
-    private let dialogView = WCDialogView()
     
     private var interactor: ProfileDetailsBusinessLogic?
     var router: ProfileDetailsRouterProtocol?
@@ -130,17 +112,6 @@ class ProfileDetailsController: BaseViewController {
         router.dataStore = interactor
         router.viewController = viewController
         viewController.interactor = interactor
-    }
-    
-    @objc
-    private func closeModal() {
-        mainView.hideConfirmationView()
-        tabBarController?.tabBar.isHidden = false
-    }
-    
-    @objc
-    private func didSwipeConfirmationAlertView() {
-        mainView.hideConfirmationView()
     }
 }
 
@@ -212,9 +183,11 @@ extension ProfileDetailsController: UICollectionViewDelegateFlowLayout {
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         if collectionView == ongoingProjectsCollectionView {
-            return CGSize(width: 84, height: 84)
+            return CGSize(width: ProfileDetails.Constants.Dimensions.Widths.ongoingProjects,
+                          height: ProfileDetails.Constants.Dimensions.Heights.ongoingProjects)
         } else if collectionView == finishedProjectsCollectionView {
-            return CGSize(width: 128, height: 182)
+            return CGSize(width: ProfileDetails.Constants.Dimensions.Widths.finishedProjects,
+                          height: ProfileDetails.Constants.Dimensions.Heights.finishedProjects)
         }
         return CGSize(width: 0, height: 0)
     }
@@ -222,35 +195,25 @@ extension ProfileDetailsController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 10
+        return ProfileDetails.Constants.Dimensions.lineSpacingSection
     }
     
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 10
+        return ProfileDetails.Constants.Dimensions.interItemSpacing
     }
     
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets.init(top: 0, left: 26, bottom: 0, right: 26)
+        return UIEdgeInsets.init(top: ProfileDetails.Constants.Dimensions.verticalMargin,
+                                 left: ProfileDetails.Constants.Dimensions.horizontalMargin,
+                                 bottom: ProfileDetails.Constants.Dimensions.verticalMargin,
+                                 right: ProfileDetails.Constants.Dimensions.horizontalMargin)
     }
 }
 
-extension ProfileDetailsController: ConfirmationAlertViewDelegate {
-    
-    func didTapAccept() {
-        interactor?.fetchConfirmInteraction(ProfileDetails.Request.ConfirmInteraction())
-        mainView.hideConfirmationView()
-        tabBarController?.tabBar.isHidden = false
-    }
-    
-    func didTapRefuse() {
-        mainView.hideConfirmationView()
-        tabBarController?.tabBar.isHidden = false
-    }
-}
 
 extension ProfileDetailsController: ProfileDetailsDisplayLogic {
     
@@ -299,7 +262,9 @@ extension ProfileDetailsController: ProfileDetailsDisplayLogic {
     
     func displayConfirmation(_ viewModel: ProfileDetails.Info.ViewModel.InteractionConfirmation) {
         tabBarController?.tabBar.isHidden = true
-        mainView.displayConfirmationView(withText: viewModel.text)
+        WCDialogView().show(dialogType: .interaction(confirmText: WCConstants.Strings.yesAnswer, cancelText: WCConstants.Strings.noAnswer), in: self, description: viewModel.text, doneAction: {
+            self.interactor?.fetchConfirmInteraction(ProfileDetails.Request.ConfirmInteraction())
+        })
     }
     
     func displayProjectDetails() {
