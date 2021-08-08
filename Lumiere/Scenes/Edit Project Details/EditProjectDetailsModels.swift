@@ -10,15 +10,11 @@ import UIKit
 import WCUIKit
 import ObjectMapper
 
-struct EditProjectDetails {
+enum EditProjectDetails {
     
-    struct Constants {
+    enum Constants {
         
-        struct Colors {
-            static let teamValueLblBackground = UIColor(rgb: 0xffffff)
-            static let teamValueLblFieldLayer = UIColor(rgb: 0x000000).cgColor
-            static let teamValueLblFieldText = UIColor(rgb: 0x000000)
-            static let publishButtonBackground = ThemeColors.mainRedColor.rawValue
+        enum Colors {
             static let publishButtonText = ThemeColors.whiteThemeColor.rawValue
             static let teamFixedLbl = UIColor(rgb: 0x707070)
             static let sinopsisFixedLbl = UIColor(rgb: 0x707070)
@@ -34,7 +30,7 @@ struct EditProjectDetails {
             static let inviteFriendsButtonText = UIColor(rgb: 0x000000)
         }
         
-        struct Fonts {
+        enum Fonts {
             static let teamValueLbl = ThemeFonts.RobotoRegular(16).rawValue
             static let publishButton = ThemeFonts.RobotoBold(16).rawValue
             static let teamFixedLbl = ThemeFonts.RobotoRegular(16).rawValue
@@ -46,7 +42,7 @@ struct EditProjectDetails {
             static let inviteFriendsButton = ThemeFonts.RobotoRegular(16).rawValue
         }
 
-        struct Texts {
+        enum Texts {
             static let publishButton = "Publicar"
             static let teamFixedLbl = "Convites"
             static let sinopsisFixedLbl = "Sinopse"
@@ -58,14 +54,14 @@ struct EditProjectDetails {
             static let nextTitle = "Próximo"
         }
         
-        struct Images {
+        enum Images {
             
         }
     }
     
-    struct Info {
+    enum Info {
         
-        struct Received {
+        enum Received {
             
             struct RoutingContext {
                 let context: Model.Context
@@ -78,7 +74,7 @@ struct EditProjectDetails {
             }
         }
         
-        struct Model {
+        enum Model {
             
             enum Context {
                 case finished
@@ -128,7 +124,7 @@ struct EditProjectDetails {
             }
         }
         
-        struct ViewModel {
+        enum ViewModel {
             
             struct InvitedUsers: Equatable {
                 let users: [User]
@@ -145,7 +141,7 @@ struct EditProjectDetails {
             }
         }
         
-        struct Response {
+        enum Response {
             
             final class Project: Mappable {
                 
@@ -166,7 +162,7 @@ struct EditProjectDetails {
         }
     }
     
-    struct Request {
+    enum Request {
         
         struct Invite {
 

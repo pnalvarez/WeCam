@@ -16,47 +16,14 @@ protocol OnGoingProjectDetailsDisplayLogic: ViewInterface {
     func displayFeedback(_ viewModel: OnGoingProjectDetails.Info.ViewModel.Feedback)
     func displayUserDetails()
     func displayConfirmationModal(_ viewModel: OnGoingProjectDetails.Info.ViewModel.RelationModel)
-    func hideConfirmationModal()
     func displayInteractionEffectivated()
-    func displayRefusedInteraction()
     func displayEditProgressModal(_ viewModel: OnGoingProjectDetails.Info.ViewModel.Progress)
-    func hideEditProgressModal()
     func displayConfirmFinishedProjectAlert()
     func displayInsertMediaScreen()
     func displayRoutingContextUI(_ viewModel: OnGoingProjectDetails.Info.ViewModel.RoutingContext)
 }
 
 class OnGoingProjectDetailsController: BaseViewController, UINavigationControllerDelegate {
-    
-    private lazy var editProgressView: WCEditProgressView = {
-        let view = WCEditProgressView(frame: .zero,
-                                    delegate: self)
-        return view
-    }()
-    
-    private lazy var editProgressTranslucentView: UIView = {
-        let view = UIView(frame: .zero)
-        view.backgroundColor = UIColor(rgb: 0xededed).withAlphaComponent(0.5)
-        view.addGestureRecognizer(UITapGestureRecognizer(target: self,
-                                                         action: #selector(cancelEditProgress)))
-        view.isHidden = true
-        return view
-    }()
-    
-    private lazy var confirmationModalView: ConfirmationAlertView = {
-        let view = ConfirmationAlertView(frame: .zero,
-                                         delegate: self,
-                                         text: .empty)
-        return view
-    }()
-    
-    private lazy var translucentView: UIView = {
-        let view = UIView(frame: .zero)
-        view.backgroundColor = UIColor(rgb: 0xededed).withAlphaComponent(0.8)
-        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(closeModal)))
-        view.isHidden = true
-        return view
-    }()
     
     private lazy var progressButton: UIButton = {
         let view = UIButton(frame: .zero)
@@ -111,10 +78,6 @@ class OnGoingProjectDetailsController: BaseViewController, UINavigationControlle
     
     private lazy var mainView: OnGoingProjectDetailsView = {
         let view = OnGoingProjectDetailsView(frame: .zero,
-                                             editProgressView: editProgressView,
-                                             editProgressTranslucentView: editProgressTranslucentView,
-                                             confirmationModalView: confirmationModalView,
-                                             translucentView: translucentView,
                                              teamCollectionView: teamCollectionView,
                                              progressButton: progressButton,
                                              projectImageView: projectImageView,
@@ -164,12 +127,6 @@ class OnGoingProjectDetailsController: BaseViewController, UINavigationControlle
         interactor?.fetchProjectDetails(OnGoingProjectDetails.Request.FetchProject())
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.tabBarController?.tabBar.isHidden = false
-        hideConfirmationModal()
-    }
-    
     override func loadView() {
         super.loadView()
         self.view = mainView
@@ -184,11 +141,6 @@ class OnGoingProjectDetailsController: BaseViewController, UINavigationControlle
         viewController.router = router
         router.dataStore = interactor
         router.viewController = viewController
-    }
-    
-    @objc
-    private func closeModal() {
-        mainView.hideConfirmationModal()
     }
     
     @objc
@@ -209,11 +161,6 @@ class OnGoingProjectDetailsController: BaseViewController, UINavigationControlle
     @objc
     private func didTapProgress() {
         interactor?.fetchProgressPercentage(OnGoingProjectDetails.Request.FetchProgress())
-    }
-    
-    @objc
-    private func cancelEditProgress() {
-        mainView.hideEditProgressView()
     }
     
     private func resetEditableInfo() {
@@ -329,28 +276,6 @@ extension OnGoingProjectDetailsController: UIImagePickerControllerDelegate {
     }
 }
 
-extension OnGoingProjectDetailsController: WCEditProgressViewDelegate {
-    
-    func didConfirm(progress: Float) {
-        interactor?.fetchUpdateProgress(OnGoingProjectDetails.Request.UpdateProgress(newProgress: progress))
-    }
-    
-    func didClose() {
-        mainView.hideEditProgressView()
-    }
-}
-
-extension OnGoingProjectDetailsController: ConfirmationAlertViewDelegate {
-    
-    func didTapAccept() {
-        interactor?.fetchConfirmInteraction(OnGoingProjectDetails.Request.ConfirmInteraction())
-    }
-    
-    func didTapRefuse() {
-        interactor?.fetchRefuseInteraction(OnGoingProjectDetails.Request.RefuseInteraction())
-    }
-}
-
 extension OnGoingProjectDetailsController: OnGoingProjectDetailsDisplayLogic {
     
     func displayProjectDetails(_ viewModel: OnGoingProjectDetails.Info.ViewModel.Project) {
@@ -371,39 +296,32 @@ extension OnGoingProjectDetailsController: OnGoingProjectDetailsDisplayLogic {
     }
     
     func displayConfirmationModal(_ viewModel: OnGoingProjectDetails.Info.ViewModel.RelationModel) {
-        mainView.displayConfirmationModal(forRelation: viewModel)
-    }
-    
-    func hideConfirmationModal() {
-        mainView.hideConfirmationModal()
+        WCDialogView().show(dialogType: .interaction(confirmText: WCConstants.Strings.yesAnswer, cancelText: WCConstants.Strings.noAnswer), in: self, description: viewModel.relation.confirmationText, doneAction: {
+            self.interactor?.fetchConfirmInteraction(OnGoingProjectDetails.Request.ConfirmInteraction())
+        }, cancelAction: {
+            self.interactor?.fetchRefuseInteraction(OnGoingProjectDetails.Request.RefuseInteraction())
+        })
+//        mainView.displayConfirmationModal(forRelation: viewModel)
     }
     
     func displayInteractionEffectivated() {
-        mainView.hideConfirmationModal()
         interactor?.fetchProjectRelation(OnGoingProjectDetails.Request.ProjectRelation())
         interactor?.fetchProjectDetails(OnGoingProjectDetails.Request.FetchProject())
     }
     
-    func displayRefusedInteraction() {
-        mainView.hideConfirmationModal()
-    }
-    
     func displayEditProgressModal(_ viewModel: OnGoingProjectDetails.Info.ViewModel.Progress) {
-        mainView.displayEditProgressView(withProgress: viewModel.percentage)
-    }
-    
-    func hideEditProgressModal() {
-        mainView.hideEditProgressView()
+        let editProgressView = WCEditProgressView()
+        editProgressView.show(in: self, text: OnGoingProjectDetails.Constants.Texts.progressFixedText, progress: viewModel.percentage, doneAction: {
+            self.interactor?.fetchUpdateProgress(OnGoingProjectDetails.Request.UpdateProgress(newProgress: editProgressView.progress))
+        })
     }
     
     func displayConfirmFinishedProjectAlert() {
-            UIAlertController.displayConfirmationDialog(in: self,
-                                                        title: OnGoingProjectDetails.Constants.Texts.finishConfirmationTitle, message: OnGoingProjectDetails.Constants.Texts.finishConfirmationMessage, confirmationCallback: {
-                                                            self.mainView.hideEditProgressView()
-                                                        }, refuseCallback: {
-                                                            self.interactor?.fetchConfirmNewProgress(OnGoingProjectDetails.Request.ConfirmProgress())
-                                                            self.mainView.hideEditProgressView()
-                                                        },  animated: true)
+        WCDialogView().show(dialogType: .interaction(confirmText: WCConstants.Strings.yesAnswer, cancelText: WCConstants.Strings.noAnswer), in: self, description: OnGoingProjectDetails.Constants.Texts.progressFixedText, doneAction: {
+            
+        }, cancelAction: {
+            self.interactor?.fetchConfirmNewProgress(OnGoingProjectDetails.Request.ConfirmProgress())
+        })
     }
     
     func displayInsertMediaScreen() {

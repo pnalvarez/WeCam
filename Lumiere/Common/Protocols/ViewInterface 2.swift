@@ -11,7 +11,6 @@ import WCUIKit
 
 protocol ViewInterface where Self: UIViewController {
     func defaultScreenLoading(_ hide: Bool)
-    func defaultSubviewLoading(_ hide: Bool, forIdentifier identifier: String)
     func fullScreenLoading(_ hide: Bool)
     func showSuccessToast(withText text: String)
     func showErrorToast(withText text: String)
@@ -24,14 +23,6 @@ extension ViewInterface {
         DispatchQueue.main.async {
             if let mainView = self.view as? BaseView {
                 mainView.defaultScreenLoading(hide)
-            }
-        }
-    }
-    
-    func defaultSubviewLoading(_ hide: Bool, forIdentifier identifier: String) {
-        DispatchQueue.main.async {
-            if let mainView = self.view as? BaseView {
-                mainView.defaultSubviewLoading(hide, forIdentifier: identifier)
             }
         }
     }
@@ -57,9 +48,10 @@ extension ViewInterface {
     }
     
     func showAlertError(title: String, description: String, doneText: String = WCConstants.Strings.ok) {
-        WCDialogView().show(dialogType: .errorNotification(doneText: doneText),
+        WCDialogView().show(dialogType: .errorNotification,
                             in: self,
                             title: title,
-                            description: description)
+                            description: description,
+                            doneText: doneText)
     }
 }

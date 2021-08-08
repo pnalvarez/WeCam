@@ -85,6 +85,7 @@ struct OnGoingProjectDetails {
             static let updateProgressMessage = "O progresso do seu projeto foi atualizado"
             static let finishConfirmationTitle = "Seu projeto está 100% concluído?"
             static let finishConfirmationMessage = "Por acaso você considera seu projeto finalizado? Se sim, ele entrará para o feed de projetos concluídos e terá de adicionar a URL de um vídeo"
+            static let progressFixedText = "Como está o progresso do seu projeto?"
         }
         
         struct Images {
@@ -94,6 +95,7 @@ struct OnGoingProjectDetails {
         struct BusinessLogic {
             static let finishedProjectBottomRange: Float = 0.9
             static let finishedProjectStatus: Float = 1.0
+            static let percentage: Float = 100
         }
     }
     
@@ -128,6 +130,21 @@ struct OnGoingProjectDetails {
                 case sentRequest
                 case receivedRequest
                 case nothing
+                
+                var confirmationText: String {
+                    switch self {
+                    case .author:
+                        return OnGoingProjectDetails.Constants.Texts.authorModalText
+                    case .simpleParticipating:
+                        return OnGoingProjectDetails.Constants.Texts.simpleParticipatingModalText
+                    case .sentRequest:
+                        return OnGoingProjectDetails.Constants.Texts.sentRequestModalText
+                    case .receivedRequest:
+                        return OnGoingProjectDetails.Constants.Texts.receivedRequestModalText
+                    case .nothing:
+                        return OnGoingProjectDetails.Constants.Texts.nothingModalText
+                    }
+                }
             }
             
             struct RelationModel: Equatable {

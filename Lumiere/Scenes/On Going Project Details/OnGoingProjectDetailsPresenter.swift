@@ -18,10 +18,8 @@ protocol OnGoingProjectDetailsPresentationLogic {
     func presentUserDetails()
     func presentConfirmationModal(forRelation relation: OnGoingProjectDetails.Info.Model.RelationModel)
     func presentInteractionEffectivated()
-    func presentRefusedInteraction()
     func presentEditProgressModal(withProgress response: OnGoingProjectDetails.Info.Model.Progress)
     func presentConfirmFinishedProjectAlert()
-    func hideEditProgressModal()
     func presentInsertMediaScreen()
     func presentRoutingContextUI(_ response: OnGoingProjectDetails.Info.Model.RoutingContext)
 }
@@ -98,10 +96,6 @@ class OnGoingProjectDetailsPresenter: OnGoingProjectDetailsPresentationLogic {
         viewController.displayInteractionEffectivated()
     }
     
-    func presentRefusedInteraction() {
-        viewController.displayRefusedInteraction()
-    }
-    
     func presentEditProgressModal(withProgress response: OnGoingProjectDetails.Info.Model.Progress) {
         let viewModel = OnGoingProjectDetails.Info.ViewModel.Progress(percentage: Float(response.percentage))
         viewController.displayEditProgressModal(viewModel)
@@ -109,10 +103,6 @@ class OnGoingProjectDetailsPresenter: OnGoingProjectDetailsPresentationLogic {
     
     func presentConfirmFinishedProjectAlert() {
         viewController.displayConfirmFinishedProjectAlert()
-    }
-    
-    func hideEditProgressModal() {
-        viewController.hideEditProgressModal()
     }
     
     func presentInsertMediaScreen() {

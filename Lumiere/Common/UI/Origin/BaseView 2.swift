@@ -29,16 +29,7 @@ class BaseView: UIView {
         return view
     }()
     
-    open lazy var primaryActivityView: UIActivityIndicatorView = {
-        let view = UIActivityIndicatorView(frame: .zero)
-        view.color = ThemeColors.mainRedColor.rawValue
-        view.backgroundColor = .white
-        view.hidesWhenStopped = true
-        view.isHidden = true
-        return view
-    }()
-    
-    private lazy var secondaryActivityView: UIActivityIndicatorView = {
+    open lazy var activityView: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView(frame: .zero)
         view.color = ThemeColors.mainRedColor.rawValue
         view.backgroundColor = .white
@@ -74,19 +65,10 @@ class BaseView: UIView {
     
     func defaultScreenLoading(_ hide: Bool) {
         if hide {
-            primaryActivityView.stopAnimating()
+            activityView.stopAnimating()
         } else {
-            primaryActivityView.startAnimating()
-            primaryActivityView.isHidden = false
-        }
-    }
-    
-    func defaultSubviewLoading(_ hide: Bool, forIdentifier identifier: String) {
-        if let view = subviews.first(where: { $0.accessibilityLabel == identifier }) {
-            if !view.contains(secondaryActivityView) {
-                setupSecondaryActivityUI(in: view)
-            }
-            configureSecondaryActivity(hide)
+            activityView.startAnimating()
+            activityView.isHidden = false
         }
     }
     
@@ -109,24 +91,8 @@ class BaseView: UIView {
         backButton.isHidden = parentViewController?.navigationController?.viewControllers.count == Constants.navigationHiddenViewControllersCount
     }
     
-    private func configureSecondaryActivity(_ hide: Bool) {
-        if hide {
-            secondaryActivityView.stopAnimating()
-        } else {
-            secondaryActivityView.startAnimating()
-            secondaryActivityView.isHidden = false
-        }
-    }
-    
-    private func setupSecondaryActivityUI(in view: UIView) {
-        addSubview(secondaryActivityView)
-        secondaryActivityView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-    }
-    
     private func setupUI() {
-        addSubview(primaryActivityView)
+        addSubview(activityView)
         addSubview(loadingView)
         if let scrollView = subviews.first(where: { $0 is UIScrollView }),
            let container = scrollView.subviews.first(where: { $0 is WCContentView }) {
@@ -160,7 +126,7 @@ class BaseView: UIView {
                 }
             }
         }
-        primaryActivityView.snp.makeConstraints { make in
+        activityView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
         loadingView.snp.makeConstraints { make in

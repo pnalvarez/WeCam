@@ -34,7 +34,7 @@ struct InsertVideo {
         struct Texts {
             static let insertUrlLbl = "Insira a URL"
             static let previewLbl = "Preview"
-            static let submitButton = "Publicar"
+            static let submit = "Publicar"
             static let urlNotFound = "URL não encontrada"
             static let confirmation = "Tem certeza que deseja publicar este projeto associado a este video? Esta ação não poderá ser desfeita"
         }

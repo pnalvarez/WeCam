@@ -121,9 +121,6 @@ class NotificationTableViewCell: UITableViewCell {
         yesButton.removeFromSuperview()
         noButton.removeFromSuperview()
     }
-}
-
-extension NotificationTableViewCell {
     
     @objc
     private func didTapYesButton() {

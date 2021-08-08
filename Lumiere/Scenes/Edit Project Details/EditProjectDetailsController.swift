@@ -19,30 +19,27 @@ protocol EditProjectDetailsDisplayLogic: ViewInterface {
 
 class EditProjectDetailsController: BaseViewController {
     
-    private lazy var projectTitleTextField: WCProjectDataTextField = {
-        let view = WCProjectDataTextField(frame: .zero)
+    private lazy var projectTitleTextField: WCDataTextField = {
+        let view = WCDataTextField(frame: .zero)
         view.delegate = self
         return view
     }()
     
-    private lazy var inviteFriendsButton: UIButton = {
-        let view = UIButton(frame: .zero)
+    private lazy var inviteFriendsButton: WCSecondaryButton = {
+        let view = WCSecondaryButton(frame: .zero)
         view.addTarget(self, action: #selector(didTapInviteFriends), for: .touchUpInside)
-        view.backgroundColor = EditProjectDetails.Constants.Colors.inviteFriendsButtonBackground
-        view.setTitle(EditProjectDetails.Constants.Texts.inviteFriendsButton, for: .normal)
-        view.setTitleColor(EditProjectDetails.Constants.Colors.inviteFriendsButtonText, for: .normal)
-        view.titleLabel?.font = EditProjectDetails.Constants.Fonts.inviteFriendsButton
+        view.text = EditProjectDetails.Constants.Texts.inviteFriendsButton
         return view
     }()
     
-    private lazy var sinopsisTextView: WCProjectDataTextView = {
-        let view = WCProjectDataTextView(frame: .zero, textContainer: nil, layout: .big)
+    private lazy var sinopsisTextView: WCDataTextView = {
+        let view = WCDataTextView(frame: .zero, textContainer: nil, layout: .big)
         view.delegate = self
         return view
     }()
     
-    private lazy var needTextView: WCProjectDataTextView = {
-        let view = WCProjectDataTextView(frame: .zero, textContainer: nil)
+    private lazy var needTextView: WCDataTextView = {
+        let view = WCDataTextView(frame: .zero, textContainer: nil)
         view.delegate = self
         return view
     }()
@@ -152,7 +149,7 @@ class EditProjectDetailsController: BaseViewController {
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if let inputTextField = textField as? WCProjectDataTextField {
+        if let inputTextField = textField as? WCDataTextField {
             inputTextField.textFieldState = .normal
             return true
         }
@@ -178,7 +175,7 @@ extension EditProjectDetailsController {
 extension EditProjectDetailsController: UITextViewDelegate {
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if let inputTextView = textView as? WCProjectDataTextView {
+        if let inputTextView = textView as? WCDataTextView {
             inputTextView.textViewState = .normal
             return true
         }

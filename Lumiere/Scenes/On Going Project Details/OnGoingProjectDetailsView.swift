@@ -12,10 +12,6 @@ import SDWebImage
 
 class OnGoingProjectDetailsView: BaseView, ModalViewable {
     
-    private unowned var editProgressView: WCEditProgressView
-    private unowned var editProgressTranslucentView: UIView
-    private unowned var confirmationModalView: ConfirmationAlertView
-    private unowned var translucentView: UIView
     private unowned var teamCollectionView: UICollectionView
     private unowned var progressButton: UIButton
     private unowned var projectImageView: WCRelevantItemImageView
@@ -24,12 +20,9 @@ class OnGoingProjectDetailsView: BaseView, ModalViewable {
     private unowned var projectTitleDescriptionEditableView: WCTitleDescriptionEditableView
     private unowned var projectBulletNeedingEditableView: WCBulletEditableItemView
     
-    private lazy var mainScrollView: UIScrollView = {
-        let view = UIScrollView(frame: .zero)
-        view.bounces = false
-        view.alwaysBounceVertical = false
-        view.showsVerticalScrollIndicator = true
-        view.backgroundColor = .white
+    private lazy var mainScrollView: WCUIScrollView = {
+        let view = WCUIScrollView(frame: .zero)
+        view.colorStyle = .white
         return view
     }()
     
@@ -55,12 +48,6 @@ class OnGoingProjectDetailsView: BaseView, ModalViewable {
         view.alignment = .center
         view.distribution = .fill
         view.spacing = 0
-        return view
-    }()
-    
-    private lazy var mainContainer: WCContentView = {
-        let view = WCContentView(frame: .zero)
-        view.style = .white
         return view
     }()
     
@@ -94,10 +81,6 @@ class OnGoingProjectDetailsView: BaseView, ModalViewable {
     private var viewModel: OnGoingProjectDetails.Info.ViewModel.Project?
     
     init(frame: CGRect,
-         editProgressView: WCEditProgressView,
-         editProgressTranslucentView: UIView,
-         confirmationModalView: ConfirmationAlertView,
-         translucentView: UIView,
          teamCollectionView: UICollectionView,
          progressButton: UIButton,
          projectImageView: WCRelevantItemImageView,
@@ -105,10 +88,6 @@ class OnGoingProjectDetailsView: BaseView, ModalViewable {
          interactionButton: WCPrimaryActionButton,
          projectTitleDescriptionEditableView: WCTitleDescriptionEditableView,
          projectBulletNeedingEditableView: WCBulletEditableItemView) {
-        self.editProgressView = editProgressView
-        self.editProgressTranslucentView = editProgressTranslucentView
-        self.confirmationModalView = confirmationModalView
-        self.translucentView = translucentView
         self.teamCollectionView = teamCollectionView
         self.progressButton = progressButton
         self.projectImageView = projectImageView
@@ -173,108 +152,30 @@ class OnGoingProjectDetailsView: BaseView, ModalViewable {
             projectBulletNeedingEditableView.state = .disabled
         }
     }
-    
-    func displayConfirmationModal(forRelation relation: OnGoingProjectDetails.Info.ViewModel.RelationModel) {
-        switch  relation.relation {
-        case .author:
-            confirmationModalView.setupText(OnGoingProjectDetails.Constants.Texts.authorModalText)
-        case .simpleParticipating:
-            confirmationModalView.setupText(OnGoingProjectDetails.Constants.Texts.simpleParticipatingModalText)
-        case .receivedRequest:
-            confirmationModalView.setupText(OnGoingProjectDetails.Constants.Texts.receivedRequestModalText)
-        case .sentRequest:
-            confirmationModalView.setupText(OnGoingProjectDetails.Constants.Texts.sentRequestModalText)
-        case .nothing:
-            confirmationModalView.setupText(OnGoingProjectDetails.Constants.Texts.nothingModalText)
-        }
-        UIView.animate(withDuration: 0.2, animations: {
-            self.translucentView.isHidden = false
-            self.confirmationModalView.snp.remakeConstraints { make in
-                make.top.equalTo(self.translucentView.snp.centerY)
-                make.left.right.equalToSuperview()
-                make.height.equalTo(self.translucentView)
-            }
-            self.layoutIfNeeded()
-        })
-    }
-    
-    func hideConfirmationModal() {
-        self.translucentView.isHidden = true
-        self.confirmationModalView.snp.remakeConstraints { make in
-            make.top.equalTo(self.translucentView.snp.bottom)
-            make.left.right.equalToSuperview()
-            make.height.equalTo(self.translucentView)
-        }
-        UIView.animate(withDuration: 0.2, animations: {
-            self.layoutIfNeeded()
-        })
-    }
-    
-    func displayEditProgressView(withProgress progress: Float) {
-        editProgressView.progress = progress
-        UIView.animate(withDuration: 0.2, animations: {
-            self.editProgressTranslucentView.isHidden = false
-            self.editProgressView.snp.remakeConstraints { make in
-                make.top.equalTo(self.editProgressTranslucentView.snp.centerY)
-                make.left.right.equalToSuperview()
-                make.height.equalTo(self.editProgressTranslucentView)
-            }
-            self.layoutIfNeeded()
-        })
-    }
-    
-    func hideEditProgressView() {
-        UIView.animate(withDuration: 0.2, animations: {
-            self.editProgressTranslucentView.isHidden = true
-            self.editProgressView.snp.remakeConstraints { make in
-                make.top.equalTo(self.editProgressTranslucentView.snp.bottom)
-                make.left.right.equalToSuperview()
-                make.height.equalTo(self.editProgressTranslucentView)
-            }
-            self.layoutIfNeeded()
-        })
-    }
 }
 
 extension OnGoingProjectDetailsView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
-        mainContainer.addSubview(cathegoryLbl)
+        mainScrollView.addSubview(cathegoryLbl)
         imageStackView.addArrangedSubview(projectImageView)
         imageStackView.addArrangedSubview(changeImageLbl)
         progressStackView.addArrangedSubview(progressButton)
         progressStackView.addArrangedSubview(progressFixedLbl)
-        mainContainer.addSubview(progressStackView)
-        mainContainer.addSubview(imageStackView)
-        mainContainer.addSubview(projectTitleDescriptionEditableView)
-        mainContainer.addSubview(projectBulletNeedingEditableView)
-        mainContainer.addSubview(teamFixedLbl)
-        mainContainer.addSubview(teamCollectionView)
-        mainContainer.addSubview(inviteContactsButton)
-        mainContainer.addSubview(interactionButton)
-        mainScrollView.addSubview(mainContainer)
+        mainScrollView.addSubview(progressStackView)
+        mainScrollView.addSubview(imageStackView)
+        mainScrollView.addSubview(projectTitleDescriptionEditableView)
+        mainScrollView.addSubview(projectBulletNeedingEditableView)
+        mainScrollView.addSubview(teamFixedLbl)
+        mainScrollView.addSubview(teamCollectionView)
+        mainScrollView.addSubview(inviteContactsButton)
+        mainScrollView.addSubview(interactionButton)
         addSubview(mainScrollView)
-        addSubview(translucentView)
-        addSubview(editProgressTranslucentView)
-        addSubview(confirmationModalView)
-        addSubview(editProgressView)
     }
     
     func setupConstraints() {
-        confirmationModalView.snp.makeConstraints { make in
-            make.top.equalTo(translucentView.snp.bottom)
-            make.size.equalTo(translucentView)
-        }
-        translucentView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
         mainScrollView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
-        }
-        mainContainer.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-            make.width.equalToSuperview()
-            make.height.equalToSuperview().priority(250)
         }
         cathegoryLbl.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(8)
@@ -332,14 +233,6 @@ extension OnGoingProjectDetailsView: ViewCodeProtocol {
             make.centerX.equalToSuperview()
             make.width.equalTo(120)
             make.bottom.equalToSuperview().inset(30)
-        }
-        editProgressTranslucentView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-        editProgressView.snp.makeConstraints { make in
-            make.top.equalTo(editProgressTranslucentView.snp.bottom)
-            make.right.left.equalToSuperview()
-            make.height.equalTo(editProgressTranslucentView)
         }
     }
     

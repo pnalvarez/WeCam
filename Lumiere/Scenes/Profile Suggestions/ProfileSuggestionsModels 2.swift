@@ -7,23 +7,24 @@
 //
 
 import UIKit
-import WCUIKit
 import ObjectMapper
 
-enum ProfileSuggestions {
+struct ProfileSuggestions {
     
     static let bundle = Bundle(for: ProfileSuggestionsController.self)
     
     struct Constants {
         
         struct Colors {
-            static let mainLbl = ThemeColors.hex707070.rawValue
+            static let mainLbl = UIColor(rgb: 0x969494)
             static let nameLbl = UIColor(rgb: 0x000000)
             static let ocupationLbl = UIColor(rgb: 0x000000)
             static let addButtonBackground = ThemeColors.mainRedColor.rawValue
             static let addButtonText = ThemeColors.whiteThemeColor.rawValue
             static let removeButtonBackground = UIColor(rgb: 0xededed)
             static let removeButtonText = UIColor(rgb: 0x000000)
+            static let optionButtonUnselected = ThemeColors.whiteThemeColor.rawValue
+            static let optionButtonSelected = UIColor(rgb: 0xe3e0e0)
         }
         
         struct Fonts {
@@ -38,8 +39,6 @@ enum ProfileSuggestions {
             static let mainLbl = "Sugestões de Perfil"
             static let addButton = "Adicionar"
             static let removeButton = "Remover"
-            static let emptySuggestions = "Nenhuma sugestão no momento :("
-            static let suggestionsTableViewId = "SuggestionsTableView"
         }
         
         struct Images {
@@ -110,6 +109,7 @@ enum ProfileSuggestions {
             }
             
             struct UpcomingCriteria: Equatable {
+                let selectedCriteria: SuggestionsCriteria
                 let criterias: [SuggestionsCriteria]
             }
             
@@ -129,13 +129,14 @@ enum ProfileSuggestions {
             }
             
             struct ProfileSuggestionsError {
-                let error: WCError
+                let error: Error
             }
         }
         
         struct ViewModel {
             
             struct UpcomingCriteria: Equatable {
+                let selectedCriteria: String
                 let criterias: [String]
             }
             
@@ -194,7 +195,7 @@ enum ProfileSuggestions {
         }
         
         struct ChangeCriteria {
-            let index: Int
+            let criteria: String
         }
         
         struct FetchCommonConnectionsProfileSuggestions {
@@ -312,6 +313,6 @@ extension ProfileSuggestions.Info.Model.ProfileFade: Stubbable {
 
 extension ProfileSuggestions.Info.Model.UpcomingCriteria: Stubbable {
     static var stub: ProfileSuggestions.Info.Model.UpcomingCriteria {
-        return ProfileSuggestions.Info.Model.UpcomingCriteria(criterias: [.commonFriends, .commonProjects, .commonInterestCathegories])
+        return ProfileSuggestions.Info.Model.UpcomingCriteria(selectedCriteria: .commonFriends, criterias: [.commonFriends, .commonProjects, .commonInterestCathegories])
     }
 }

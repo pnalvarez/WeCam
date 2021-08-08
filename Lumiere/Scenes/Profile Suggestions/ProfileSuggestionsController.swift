@@ -33,6 +33,7 @@ class ProfileSuggestionsController: BaseViewController {
         view.registerCell(cellType: ProfileSuggestionsTableViewCell.self)
         view.separatorStyle = .none 
         view.backgroundColor = .white
+        view.accessibilityLabel = ProfileSuggestions.Constants.Texts.suggestionsTableViewId
         return view
     }()
     

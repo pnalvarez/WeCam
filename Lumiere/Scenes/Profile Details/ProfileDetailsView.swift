@@ -31,20 +31,9 @@ class ProfileDetailsView: BaseView {
         return view
     }()
     
-    private lazy var scrollView: UIScrollView = {
-        let view = UIScrollView(frame: .zero)
-        view.bounces = false
-        view.alwaysBounceVertical = false
-        view.showsVerticalScrollIndicator = true
-        view.backgroundColor = .white
-        view.clipsToBounds = true
-        view.contentSize = CGSize(width: frame.width, height: 200)
-        return view
-    }()
-    
-    private lazy var mainContainer: WCContentView = {
-        let view = WCContentView(frame: .zero)
-        view.style = .white
+    private lazy var scrollView: WCUIScrollView = {
+        let view = WCUIScrollView(frame: .zero)
+        view.colorStyle = .white
         return view
     }()
     
@@ -67,12 +56,11 @@ class ProfileDetailsView: BaseView {
 extension ProfileDetailsView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
-        mainContainer.addSubview(profileHeaderView)
-        mainContainer.addSubview(onGoingProjectsLbl)
-        mainContainer.addSubview(ongoingProjectsCollectionView)
-        mainContainer.addSubview(finishedProjectsCollectionView)
-        mainContainer.addSubview(finishedProjectsLbl)
-        scrollView.addSubview(mainContainer)
+        scrollView.addSubview(profileHeaderView)
+        scrollView.addSubview(onGoingProjectsLbl)
+        scrollView.addSubview(ongoingProjectsCollectionView)
+        scrollView.addSubview(finishedProjectsCollectionView)
+        scrollView.addSubview(finishedProjectsLbl)
         addSubview(scrollView)
     }
     
@@ -80,13 +68,8 @@ extension ProfileDetailsView: ViewCodeProtocol {
         scrollView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-        mainContainer.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-            make.width.equalToSuperview()
-            make.height.equalToSuperview().priority(250)
-        }
         profileHeaderView.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(41)
+            make.top.equalToSuperview().inset(41)
             make.right.left.equalToSuperview()
         }
         onGoingProjectsLbl.snp.makeConstraints { make in

@@ -19,18 +19,9 @@ class EditProfileDetailsView: BaseView {
     private unowned var ocupationTextField: WCInputTextField
     private unowned var collectionView: UICollectionView
     
-    private lazy var containerView: WCContentView = {
-        let view = WCContentView(frame: .zero)
-        view.style = .white
-        return view
-    }()
-    
-    private lazy var scrollView: UIScrollView = {
-        let view = UIScrollView(frame: .zero)
-        view.showsVerticalScrollIndicator = false
-        view.bounces = false
-        view.alwaysBounceVertical = false
-        view.backgroundColor = .white
+    private lazy var scrollView: WCUIScrollView = {
+        let view = WCUIScrollView(frame: .zero)
+        view.colorStyle = .white
         return view
     }()
     
@@ -82,9 +73,6 @@ class EditProfileDetailsView: BaseView {
         self.viewModel = viewModel
         applyViewCode()
     }
-}
-
-extension EditProfileDetailsView {
     
     func updateAllTextFields() {
         for view in allSubviews {
@@ -104,27 +92,21 @@ extension EditProfileDetailsView {
 extension EditProfileDetailsView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
-        containerView.addSubview(titleLbl)
-        containerView.addSubview(finishButton)
-        containerView.addSubview(imageButton)
-        containerView.addSubview(changeImageLbl)
-        containerView.addSubview(nameTextField)
-        containerView.addSubview(cellphoneTextField)
-        containerView.addSubview(ocupationTextField)
-        containerView.addSubview(cathegoriesLbl)
-        containerView.addSubview(collectionView)
-        scrollView.addSubview(containerView)
+        scrollView.addSubview(titleLbl)
+        scrollView.addSubview(finishButton)
+        scrollView.addSubview(imageButton)
+        scrollView.addSubview(changeImageLbl)
+        scrollView.addSubview(nameTextField)
+        scrollView.addSubview(cellphoneTextField)
+        scrollView.addSubview(ocupationTextField)
+        scrollView.addSubview(cathegoriesLbl)
+        scrollView.addSubview(collectionView)
         addSubview(scrollView)
     }
     
     func setupConstraints() {
         scrollView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
-        }
-        containerView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-            make.width.equalToSuperview()
-            make.height.equalToSuperview().priority(250)
         }
         titleLbl.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(8)

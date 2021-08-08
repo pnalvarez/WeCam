@@ -10,28 +10,16 @@ import UIKit
 import WCUIKit
 import YoutubePlayer_in_WKWebView
 
-class InsertVideoView: BaseView {
+class InsertVideoView: BaseView, ModalViewable {
 
-    private unowned var confirmationAlertView: ConfirmationAlertView
-    private unowned var translucentView: UIView
-    private unowned var inputTextField: UITextField
+    private unowned var inputTextField: WCInputTextField
     private unowned var urlErrorView: WCEmptyListView
     private unowned var playerView: WKYTPlayerView
-    private unowned var submitButton: UIButton
+    private unowned var submitButton: WCPrimaryActionButton
     
-    private lazy var scrollView: UIScrollView = {
-        let view = UIScrollView(frame: .zero)
-        view.bounces = false
-        view.alwaysBounceVertical = false
-        view.showsVerticalScrollIndicator = true
-        view.contentSize = CGSize(width: view.frame.width, height: 1000)
-        view.backgroundColor = .white
-        return view
-    }()
-    
-    private lazy var mainContainer: WCContentView = {
-        let view = WCContentView(frame: .zero)
-        view.style = .white
+    private lazy var scrollView: WCUIScrollView = {
+        let view = WCUIScrollView(frame: .zero)
+        view.colorStyle = .white
         return view
     }()
     
@@ -52,14 +40,10 @@ class InsertVideoView: BaseView {
     }()
     
     init(frame: CGRect,
-         confirmationAlertView: ConfirmationAlertView,
-         translucentView: UIView,
-         inputTextField: UITextField,
+         inputTextField: WCInputTextField,
          urlErrorView: WCEmptyListView,
          playerView: WKYTPlayerView,
-         submitButton: UIButton) {
-        self.confirmationAlertView = confirmationAlertView
-        self.translucentView = translucentView
+         submitButton: WCPrimaryActionButton) {
         self.inputTextField = inputTextField
         self.urlErrorView = urlErrorView
         self.playerView = playerView
@@ -71,46 +55,18 @@ class InsertVideoView: BaseView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    func displayConfirmationModal() {
-        UIView.animate(withDuration: 0.2, animations: {
-            self.translucentView.isHidden = false
-            self.confirmationAlertView.snp.remakeConstraints { make in
-                make.top.equalTo(self.translucentView.snp.centerY)
-                make.left.right.equalToSuperview()
-                make.height.equalTo(self.translucentView)
-            }
-            self.layoutIfNeeded()
-        })
-    }
-    
-    func hideConfirmationModal() {
-        UIView.animate(withDuration: 0.2, animations: {
-            self.translucentView.isHidden = true
-            self.confirmationAlertView.snp.remakeConstraints { make in
-                make.top.equalTo(self.translucentView.snp.bottom)
-                make.left.right.equalToSuperview()
-                make.height.equalTo(self.translucentView)
-            }
-            self.layoutIfNeeded()
-        })
-    }
-    
 }
 
 extension InsertVideoView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
-        mainContainer.addSubview(insertUrlLbl)
-        mainContainer.addSubview(inputTextField)
-        mainContainer.addSubview(previewLbl)
-        mainContainer.addSubview(urlErrorView)
-        mainContainer.addSubview(playerView)
-        mainContainer.addSubview(submitButton)
-        scrollView.addSubview(mainContainer)
+        scrollView.addSubview(insertUrlLbl)
+        scrollView.addSubview(inputTextField)
+        scrollView.addSubview(previewLbl)
+        scrollView.addSubview(urlErrorView)
+        scrollView.addSubview(playerView)
+        scrollView.addSubview(submitButton)
         addSubview(scrollView)
-        addSubview(translucentView)
-        addSubview(confirmationAlertView)
     }
     
     func setupConstraints() {
@@ -143,22 +99,9 @@ extension InsertVideoView: ViewCodeProtocol {
             make.top.equalToSuperview().inset(597)
             make.centerX.equalToSuperview()
             make.width.equalTo(117)
-            make.height.equalTo(36)
         }
         scrollView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
-        }
-        mainContainer.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-            make.width.equalToSuperview()
-            make.height.equalToSuperview().priority(250)
-        }
-        translucentView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-        confirmationAlertView.snp.makeConstraints { make in
-            make.top.equalTo(translucentView.snp.bottom)
-            make.size.equalTo(translucentView)
         }
     }
 }

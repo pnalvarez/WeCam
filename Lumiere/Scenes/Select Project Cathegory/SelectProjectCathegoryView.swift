@@ -14,19 +14,9 @@ class SelectProjectCathegoryView: BaseView, ModalViewable {
     private unowned var advanceButton: WCPrimaryActionButton
     private unowned var collectionView: UICollectionView
     
-    private lazy var scrollView: UIScrollView = {
-        let view = UIScrollView(frame: .zero)
-        view.bounces = false
-        view.alwaysBounceVertical = false
-        view.showsVerticalScrollIndicator = true
-        view.contentSize = CGSize(width: view.frame.width, height: 1000)
-        view.backgroundColor = .white
-        return view
-    }()
-    
-    private lazy var mainContainer: UIView = {
-        let view = UIView(frame: .zero)
-        view.backgroundColor = .white
+    private lazy var scrollView: WCUIScrollView = {
+        let view = WCUIScrollView(frame: .zero)
+        view.colorStyle = .white
         return view
     }()
     
@@ -57,10 +47,9 @@ class SelectProjectCathegoryView: BaseView, ModalViewable {
 extension SelectProjectCathegoryView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
-        mainContainer.addSubview(advanceButton)
-        mainContainer.addSubview(collectionView)
-        mainContainer.addSubview(titleLbl)
-        scrollView.addSubview(mainContainer)
+        scrollView.addSubview(advanceButton)
+        scrollView.addSubview(collectionView)
+        scrollView.addSubview(titleLbl)
         addSubview(scrollView)
     }
     
@@ -68,11 +57,6 @@ extension SelectProjectCathegoryView: ViewCodeProtocol {
         scrollView.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide.snp.top)
             make.left.right.bottom.equalToSuperview()
-        }
-        mainContainer.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-            make.width.equalToSuperview()
-            make.height.equalToSuperview().priority(250)
         }
         advanceButton.snp.makeConstraints { make in
             make.top.equalTo(collectionView.snp.bottom).offset(102)

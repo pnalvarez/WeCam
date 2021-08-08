@@ -122,8 +122,7 @@ class OnGoingProjectDetailsInteractor: OnGoingProjectDetailsDataStore {
                 self.presenter.presentInteractionEffectivated()
             case .error(let error):
                 self.presenter.presentLoading(false)
-                self.presenter.presentFeedback(OnGoingProjectDetails.Info.Model.Feedback(title: "Erro",
-                                                                                         message: error.description))
+                self.presenter.presentFeedback(OnGoingProjectDetails.Info.Model.Feedback(title: WCConstants.Strings.errorTitle, message: error.description))
             }
         }
     }
@@ -136,7 +135,7 @@ class OnGoingProjectDetailsInteractor: OnGoingProjectDetailsDataStore {
                 self.presenter.presentInteractionEffectivated()
             case .error(let error):
                 self.presenter.presentLoading(false)
-                self.presenter.presentFeedback(OnGoingProjectDetails.Info.Model.Feedback(title: "Erro", message: error.description))
+                self.presenter.presentFeedback(OnGoingProjectDetails.Info.Model.Feedback(title: WCConstants.Strings.errorTitle, message: error.description))
             }
         }
     }
@@ -152,7 +151,7 @@ class OnGoingProjectDetailsInteractor: OnGoingProjectDetailsDataStore {
                 self.presenter.presentFeedback(OnGoingProjectDetails
                     .Info
                     .Model
-                    .Feedback(title: "Erro",
+                    .Feedback(title: WCConstants.Strings.errorTitle,
                 message: error.description))
             }
         }
@@ -163,7 +162,7 @@ class OnGoingProjectDetailsInteractor: OnGoingProjectDetailsDataStore {
             switch response {
             case .success:
                 self.presenter.presentFeedback(OnGoingProjectDetails.Info.Model.Feedback(title: OnGoingProjectDetails.Constants.Texts.updatedProgressTitle, message: OnGoingProjectDetails.Constants.Texts.updateProgressMessage))
-                self.projectData?.progress = Int(progress * 100)
+                self.projectData?.progress = Int(progress * OnGoingProjectDetails.Constants.BusinessLogic.percentage)
                 guard let project = self.projectData else { return }
                 self.presenter.presentProjectDetails(project)
             case .error(let error):
@@ -173,7 +172,6 @@ class OnGoingProjectDetailsInteractor: OnGoingProjectDetailsDataStore {
     }
     
     private func finishProject() {
-        presenter.hideEditProgressModal()
         presenter.presentInsertMediaScreen()
     }
 }
@@ -363,22 +361,13 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
         presenter.presentLoading(true)
         guard let relation = projectRelation else { return }
         switch relation {
-        case .author:
+        case .author, .simpleParticipating, .sentRequest, .nothing:
             presenter.presentLoading(false)
-            presenter.presentRefusedInteraction()
-        case .simpleParticipating:
-            presenter.presentLoading(false)
-            presenter.presentRefusedInteraction()
-        case .sentRequest:
-            presenter.presentLoading(false)
-            presenter.presentRefusedInteraction()
         case .receivedRequest:
             fetchRefuseProjectInvite(OnGoingProjectDetails
                 .Request
                 .RefuseProjectInvite(projectId: projectData?.id ?? .empty))
-        case .nothing:
-            presenter.presentLoading(false)
-            presenter.presentRefusedInteraction()
+
         }
     }
     
@@ -393,7 +382,6 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
         if request.newProgress > OnGoingProjectDetails.Constants.BusinessLogic.finishedProjectBottomRange {
             presenter.presentConfirmFinishedProjectAlert()
         } else {
-            presenter.hideEditProgressModal()
             fetchUpdateProgress(progress: request.newProgress)
         }
     }

@@ -43,7 +43,8 @@ class InsertVideoPresenter: InsertVideoPresentationLogic {
     }
     
     func presentLongLoading(_ loading: Bool) {
-        viewController.displayLongLoading(loading)
+        viewController.hidePlayer()
+        viewController.fullScreenLoading(!loading)
     }
     
     func presentConfirmationModal() {

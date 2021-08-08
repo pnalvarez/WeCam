@@ -14,36 +14,14 @@ protocol InsertVideoDisplayLogic: ViewInterface {
     func displayVideoError()
     func displayFinishedProjectDetails()
     func displayConfirmationAlert()
-    func displayLongLoading(_ loading: Bool)
+    func hidePlayer()
 }
 
 class InsertVideoController: BaseViewController {
     
-    private lazy var confirmationAlertView: ConfirmationAlertView = {
-        let view = ConfirmationAlertView(frame: .zero,
-                                         delegate: self,
-                                         text: InsertVideo.Constants.Texts.confirmation)
-        return view
-    }()
-    
-    private lazy var translucentView: UIView = {
-        let view = UIView(frame: .zero)
-        view.backgroundColor = UIColor(rgb: 0xededed).withAlphaComponent(0.5)
-        view.addGestureRecognizer(UITapGestureRecognizer(target: self,
-                                                         action: #selector(hideConfirmationAlert)))
-        view.isHidden = true
-        return view
-    }()
-    
-    private lazy var inputTextField: UITextField = {
-        let view = UITextField(frame: .zero)
+    private lazy var inputTextField: WCInputTextField = {
+        let view = WCInputTextField(frame: .zero)
         view.addTarget(self, action: #selector(didChangeInputTextField), for: .editingChanged)
-        view.layer.borderWidth = 1
-        view.layer.borderColor = InsertVideo.Constants.Colors.inputTextFieldLayer
-        view.layer.cornerRadius = 4
-        view.backgroundColor = InsertVideo.Constants.Colors.inputTextFieldBackground
-        view.textColor = InsertVideo.Constants.Colors.inputTextFieldText
-        view.font = InsertVideo.Constants.Fonts.inputTextField
         view.delegate = self
         return view
     }()
@@ -60,34 +38,21 @@ class InsertVideoController: BaseViewController {
         return view
     }()
     
-    private lazy var submitButton: UIButton = {
-        let view = UIButton(frame: .zero)
+    private lazy var submitButton: WCPrimaryActionButton = {
+        let view = WCPrimaryActionButton(frame: .zero)
         view.addTarget(self, action: #selector(didTapSubmit), for: .touchUpInside)
-        view.backgroundColor = InsertVideo.Constants.Colors.submitButtonBackgroundDisabled
-        view.layer.cornerRadius = 4
-        view.setTitle(InsertVideo.Constants.Texts.submitButton, for: .normal)
-        view.setTitleColor(InsertVideo.Constants.Colors.submitButtonText, for: .normal)
-        view.titleLabel?.font = InsertVideo.Constants.Fonts.submitButton
+        view.text = InsertVideo.Constants.Texts.submit
         return view
     }()
     
     private lazy var mainView: InsertVideoView = {
         let view = InsertVideoView(frame: .zero,
-                                   confirmationAlertView: confirmationAlertView,
-                                   translucentView: translucentView,
                                    inputTextField: inputTextField,
                                    urlErrorView: urlErrorView,
                                    playerView: playerView,
                                    submitButton: submitButton)
         return view
     }()
-    
-    var submitEnabled: Bool = false {
-        didSet {
-            submitButton.backgroundColor = submitEnabled ? InsertVideo.Constants.Colors.submitButtonBackgroundEnabled : InsertVideo.Constants.Colors.submitButtonBackgroundDisabled
-            submitButton.isEnabled = submitEnabled
-        }
-    }
     
     private var interactor: InsertVideoBusinessLogic?
     var router: InsertVideoRouterProtocol?
@@ -125,22 +90,16 @@ class InsertVideoController: BaseViewController {
         router.viewController = viewController
         router.dataStore = interactor
     }
-}
-
-extension InsertVideoController {
-
+    
     private func showVideoError() {
         playerView.isHidden = true
         urlErrorView.isHidden = false
-        submitEnabled = false
+        submitButton.enableState = .disabled
     }
-}
-
-extension InsertVideoController {
     
     @objc
     private func didChangeInputTextField() {
-        submitEnabled = false
+        submitButton.enableState = .disabled
         interactor?.fetchYoutubeVideoId(InsertVideo.Request.FetchVideo(url: inputTextField.text ?? .empty))
     }
     
@@ -149,10 +108,20 @@ extension InsertVideoController {
         interactor?.fetchPublishVideo(InsertVideo.Request.Publish())
     }
     
-    @objc
-    private func hideConfirmationAlert() {
-        navigationController?.tabBarController?.tabBar.isHidden = false
-        mainView.hideConfirmationModal()
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let  char = string.cString(using: String.Encoding.utf8)!
+        let isBackSpace = strcmp(char, "\\b")
+        
+        if (isBackSpace == -92) && (textField.text?.count)! > 0 {
+            if textField == inputTextField {
+                textField.text!.removeAll()
+                interactor?.fetchYoutubeVideoId(InsertVideo.Request.FetchVideo(url: textField.text ?? .empty))
+                submitButton.enableState = .disabled
+            } else {
+                textField.text?.removeLast()
+            }
+        }
+        return true
     }
 }
 
@@ -163,49 +132,16 @@ extension InsertVideoController: WKYTPlayerViewDelegate {
     }
     
     func playerViewDidBecomeReady(_ playerView: WKYTPlayerView) {
-        submitEnabled = true
+        submitButton.enableState = .enabled
     }
     
     func playerView(_ playerView: WKYTPlayerView, didChangeTo state: WKYTPlayerState) {
         switch state {
         case .unknown:
-            submitEnabled = false
+            submitButton.enableState = .disabled
         default:
-            submitEnabled = true
+            submitButton.enableState = .enabled
         }
-    }
-}
-
-extension InsertVideoController: ConfirmationAlertViewDelegate {
-    
-    func didTapAccept() {
-        navigationController?.tabBarController?.tabBar.isHidden = false
-        mainView.hideConfirmationModal()
-        interactor?.fetchConfirmPublishing(InsertVideo.Request.Confirm())
-    }
-    
-    func didTapRefuse() {
-        navigationController?.tabBarController?.tabBar.isHidden = false
-        mainView.hideConfirmationModal()
-    }
-}
-
-extension InsertVideoController {
-    
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let  char = string.cString(using: String.Encoding.utf8)!
-        let isBackSpace = strcmp(char, "\\b")
-        
-        if (isBackSpace == -92) && (textField.text?.count)! > 0 {
-            if textField == inputTextField {
-                textField.text!.removeAll()
-                interactor?.fetchYoutubeVideoId(InsertVideo.Request.FetchVideo(url: textField.text ?? .empty))
-                submitEnabled = false
-            } else {
-                textField.text?.removeLast()
-            }
-        }
-        return true
     }
 }
 
@@ -227,13 +163,13 @@ extension InsertVideoController: InsertVideoDisplayLogic {
     
     func displayConfirmationAlert() {
         navigationController?.tabBarController?.tabBar.isHidden = true
-        mainView.displayConfirmationModal()
+        WCDialogView().show(dialogType: .interaction(confirmText: WCConstants.Strings.yesAnswer, cancelText: WCConstants.Strings.noAnswer), in: self, title: InsertVideo.Constants.Texts.submit, description: InsertVideo.Constants.Texts.confirmation, doneAction: {
+            self.interactor?.fetchConfirmPublishing(InsertVideo.Request.Confirm())
+        })
     }
     
-    func displayLongLoading(_ loading: Bool) {
-        navigationController?.tabBarController?.tabBar.isHidden = loading
+    func hidePlayer() {
         playerView.stopVideo()
         playerView.delegate = nil
-        mainView.fullScreenLoading(!loading)
     }
 }

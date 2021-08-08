@@ -38,9 +38,6 @@ class EditProjectDetailsInteractor: EditProjectDetailsDataStore {
         self.presenter = presenter
         invitedUsers = EditProjectDetails.Info.Model.InvitedUsers(users: .empty)
     }
-}
-
-extension EditProjectDetailsInteractor {
     
     private func fetchInviteUsersToOngoingProject(withProjectData project: EditProjectDetails.Info.Model.PublishedProject) {
         guard let users = invitedUsers?.users, users.count > 0 else {
@@ -159,7 +156,7 @@ extension EditProjectDetailsInteractor: EditProjectDetailsBusinessLogic {
         guard !checkErrors(request) else { return }
         publishingProject = EditProjectDetails.Info.Model.PublishingProject(image: receivedData?.image,
                                                                             cathegories: receivedData?.cathegories ?? .empty,
-                                                                            progress: Int((receivedData?.progress ?? 0) * 100),
+                                                                            progress: Int((receivedData?.progress ?? 0)),
                                                                             title: request.title,
                                                                             invitedUserIds: invitedUsers?.users.map({$0.id}) ?? .empty,
                                                                             sinopsis: request.sinopsis,
