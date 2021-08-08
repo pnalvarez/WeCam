@@ -12,10 +12,10 @@ import WCUIKit
 class EditProjectDetailsView: BaseView, ModalViewable {
     
     private unowned var inviteFriendsButton: WCSecondaryButton
-    private unowned var projectTitleTextField: WCDataTextField
-    private unowned var sinopsisTextView: WCDataTextView
-    private unowned var needTextView: WCDataTextView
-    private unowned var teamFixedLbl: UILabel
+    private unowned var projectTitleTextField: WCDataInputTextFieldView
+    private unowned var sinopsisTextView: WCDataInputTextFieldView
+    private unowned var needTextView: WCDataInputTextFieldView
+    private unowned var teamFixedLbl: WCUILabelRobotoRegular16Gray
     private unowned var invitationsCollectionView: UICollectionView
     private unowned var publishButton: WCPrimaryActionButton
     private unowned var invitationsStackView: UIStackView
@@ -26,39 +26,19 @@ class EditProjectDetailsView: BaseView, ModalViewable {
         return view
     }()
     
-    private lazy var projectTitleFixedLbl: UILabel = {
-        let view = UILabel(frame: .zero)
-        view.text = EditProjectDetails.Constants.Texts.projectTitleLbl
-        view.textColor = EditProjectDetails.Constants.Colors.projectTitleFixedLbl
-        view.font = EditProjectDetails.Constants.Fonts.projectTitleLbl
-        view.textAlignment = .left
-        return view
-    }()
-    
-    private lazy var sinopsisFixedLbl: UILabel = {
-        let view = UILabel(frame: .zero)
-        view.text = EditProjectDetails.Constants.Texts.sinopsisFixedLbl
-        view.textColor = EditProjectDetails.Constants.Colors.sinopsisFixedLbl
-        view.font = EditProjectDetails.Constants.Fonts.sinopsisFixedLbl
-        view.textAlignment = .left
-        return view
-    }()
-    
-    private lazy var needLbl: UILabel = {
-        let view = UILabel(frame: .zero)
-        view.textColor = EditProjectDetails.Constants.Colors.needLbl
-        view.text = EditProjectDetails.Constants.Texts.needLbl
-        view.font = EditProjectDetails.Constants.Fonts.needLbl
-        view.textAlignment = .left
+    private lazy var inputDataStackView: UIStackView = {
+        let view = UIStackView(frame: .zero)
+        view.axis = .vertical
+        view.spacing = EditProjectDetails.Constants.BusinessLogic.dataInfoStackSpacing
         return view
     }()
     
     init(frame: CGRect,
          inviteFriendsButton: WCSecondaryButton,
-         projectTitleTextField: WCDataTextField,
-         sinopsisTextView: WCDataTextView,
-         needTextView: WCDataTextView,
-         teamFixedLbl: UILabel,
+         projectTitleTextField: WCDataInputTextFieldView,
+         sinopsisTextView: WCDataInputTextFieldView,
+         needTextView: WCDataInputTextFieldView,
+         teamFixedLbl: WCUILabelRobotoRegular16Gray,
          invitationsStackView: UIStackView,
          invitationsCollectionView: UICollectionView,
          publishButton: WCPrimaryActionButton) {
@@ -80,11 +60,10 @@ class EditProjectDetailsView: BaseView, ModalViewable {
     
     func cleanTextFields() {
         sinopsisTextView.textViewState = .normal
-        projectTitleTextField.textFieldState = .normal
+        projectTitleTextField.textViewState = .normal
     }
     
     func updateForFinishedProject() {
-        needLbl.isHidden = true
         needTextView.isHidden = true
         teamFixedLbl.isHidden = true
         publishButton.text = EditProjectDetails.Constants.Texts.nextTitle
@@ -117,17 +96,11 @@ class EditProjectDetailsView: BaseView, ModalViewable {
 extension EditProjectDetailsView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
-        mainScrollView.addSubview(projectTitleFixedLbl)
-        mainScrollView.addSubview(projectTitleTextField)
-        mainScrollView.addSubview(sinopsisFixedLbl)
-        mainScrollView.addSubview(sinopsisTextView)
-        mainScrollView.addSubview(needLbl)
-        mainScrollView.addSubview(needTextView)
-        invitationsStackView.addArrangedSubview(teamFixedLbl)
-        invitationsStackView.addArrangedSubview(invitationsCollectionView)
-        invitationsStackView.addArrangedSubview(inviteFriendsButton)
+        inputDataStackView.addArrangedSubviews(projectTitleTextField, sinopsisTextView, needTextView)
+        mainScrollView.addSubview(inputDataStackView)
+        invitationsStackView.addArrangedSubviews(teamFixedLbl, invitationsCollectionView, inviteFriendsButton, publishButton)
+        invitationsStackView.insertSpacing(of: 60, after: inviteFriendsButton)
         mainScrollView.addSubview(invitationsStackView)
-        mainScrollView.addSubview(publishButton)
         addSubview(mainScrollView)
     }
     
@@ -135,35 +108,14 @@ extension EditProjectDetailsView: ViewCodeProtocol {
         mainScrollView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-        projectTitleFixedLbl.snp.makeConstraints { make in
+        inputDataStackView.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(84)
             make.left.right.equalToSuperview().inset(31)
         }
-        projectTitleTextField.snp.makeConstraints { make in
-            make.top.equalTo(projectTitleFixedLbl.snp.bottom).offset(5)
-            make.left.equalTo(projectTitleFixedLbl)
-            make.right.equalToSuperview().inset(31)
-        }
-        sinopsisFixedLbl.snp.makeConstraints { make in
-            make.top.equalTo(projectTitleTextField.snp.bottom).offset(20)
-            make.left.right.equalTo(projectTitleFixedLbl)
-        }
-        sinopsisTextView.snp.makeConstraints { make in
-            make.top.equalTo(sinopsisFixedLbl.snp.bottom).offset(5)
-            make.left.right.equalTo(sinopsisFixedLbl)
-        }
-        needLbl.snp.makeConstraints { make in
-            make.top.equalTo(sinopsisTextView.snp.bottom).offset(20)
-            make.left.right.equalTo(sinopsisTextView)
-        }
-        needTextView.snp.makeConstraints { make in
-            make.top.equalTo(needLbl.snp.bottom)
-            make.left.equalTo(needLbl)
-            make.right.equalTo(sinopsisTextView)
-        }
         invitationsStackView.snp.makeConstraints { make in
-            make.top.equalTo(needTextView.snp.bottom).offset(36)
+            make.top.equalTo(inputDataStackView.snp.bottom).offset(36)
             make.left.right.equalToSuperview()
+            make.bottom.equalToSuperview().inset(20)
         }
         teamFixedLbl.snp.makeConstraints { make in
             make.left.equalToSuperview().inset(31)
@@ -174,14 +126,10 @@ extension EditProjectDetailsView: ViewCodeProtocol {
             make.height.equalTo(108)
         }
         inviteFriendsButton.snp.makeConstraints { make in
-            make.height.equalTo(32)
-            make.width.equalTo(171)
+            make.left.right.equalToSuperview().inset(24)
         }
         publishButton.snp.makeConstraints { make in
-            make.top.equalTo(invitationsStackView.snp.bottom).offset(80)
-            make.bottom.equalToSuperview().inset(20)
-            make.centerX.equalTo(invitationsStackView)
-            make.width.equalTo(171)
+            make.left.right.equalToSuperview().inset(96)
         }
     }
 }

@@ -57,6 +57,10 @@ enum EditProjectDetails {
         enum Images {
             
         }
+        
+        enum BusinessLogic {
+            static let dataInfoStackSpacing: CGFloat = 20
+        }
     }
     
     enum Info {

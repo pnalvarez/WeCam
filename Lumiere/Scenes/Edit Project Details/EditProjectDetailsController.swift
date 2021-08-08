@@ -19,8 +19,9 @@ protocol EditProjectDetailsDisplayLogic: ViewInterface {
 
 class EditProjectDetailsController: BaseViewController {
     
-    private lazy var projectTitleTextField: WCDataTextField = {
-        let view = WCDataTextField(frame: .zero)
+    private lazy var projectTitleTextField: WCDataInputTextFieldView = {
+        let view = WCDataInputTextFieldView(frame: .zero, textFieldType: .textField)
+        view.setup(placeholder: EditProjectDetails.Constants.Texts.projectTitleLbl)
         view.delegate = self
         return view
     }()
@@ -32,33 +33,30 @@ class EditProjectDetailsController: BaseViewController {
         return view
     }()
     
-    private lazy var sinopsisTextView: WCDataTextView = {
-        let view = WCDataTextView(frame: .zero, textContainer: nil, layout: .big)
+    private lazy var sinopsisTextField: WCDataInputTextFieldView = {
+        let view = WCDataInputTextFieldView(frame: .zero, textFieldType: .textView(layout: .big))
+        view.setup(placeholder: EditProjectDetails.Constants.Texts.sinopsisFixedLbl)
         view.delegate = self
         return view
     }()
     
-    private lazy var needTextView: WCDataTextView = {
-        let view = WCDataTextView(frame: .zero, textContainer: nil)
+    private lazy var needTextField: WCDataInputTextFieldView = {
+        let view = WCDataInputTextFieldView(frame: .zero, textFieldType: .textView(layout: .medium))
+        view.setup(placeholder: EditProjectDetails.Constants.Texts.needLbl)
         view.delegate = self
         return view
     }()
     
     private lazy var invitationsStackView: UIStackView = {
         let view = UIStackView(frame: .zero)
-        view.alignment = .center
         view.axis = .vertical
-        view.distribution = .fill
         view.spacing = 12
         return view
     }()
     
-    private lazy var teamFixedLbl: UILabel = {
-        let view = UILabel(frame: .zero)
+    private lazy var teamFixedLbl: WCUILabelRobotoRegular16Gray = {
+        let view = WCUILabelRobotoRegular16Gray(frame: .zero)
         view.text = EditProjectDetails.Constants.Texts.teamFixedLbl
-        view.textColor = EditProjectDetails.Constants.Colors.teamFixedLbl
-        view.font = EditProjectDetails.Constants.Fonts.teamFixedLbl
-        view.textAlignment = .left
         return view
     }()
     
@@ -85,8 +83,8 @@ class EditProjectDetailsController: BaseViewController {
         let view = EditProjectDetailsView(frame: .zero,
                                           inviteFriendsButton: inviteFriendsButton,
                                           projectTitleTextField: projectTitleTextField,
-                                          sinopsisTextView: sinopsisTextView,
-                                          needTextView: needTextView,
+                                          sinopsisTextView: sinopsisTextField,
+                                          needTextView: needTextField,
                                           teamFixedLbl: teamFixedLbl,
                                           invitationsStackView: invitationsStackView,
                                           invitationsCollectionView: invitationsCollectionView,
@@ -155,15 +153,12 @@ class EditProjectDetailsController: BaseViewController {
         }
         return false
     }
-}
-
-extension EditProjectDetailsController {
     
     @objc
     private func didTapPublish() {
         interactor?.fetchSubmit(EditProjectDetails.Request.Publish(title: projectTitleTextField.text ?? .empty,
-                                                                    sinopsis: sinopsisTextView.text,
-                                                                    needing: needTextView.text))
+                                                                   sinopsis: sinopsisTextField.text ?? .empty,
+                                                                   needing: needTextField.text ?? .empty))
     }
     
     @objc

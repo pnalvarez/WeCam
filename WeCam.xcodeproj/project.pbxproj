@@ -257,7 +257,6 @@
 		3F9847A32623C0FD000BE5BC /* Roboto-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F9847902623C0FC000BE5BC /* Roboto-Thin.ttf */; };
 		3F9847A42623C0FD000BE5BC /* Roboto-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F9847912623C0FC000BE5BC /* Roboto-Black.ttf */; };
 		3F9A8EEF2651C7FA000C37A5 /* UIResponder+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9A8EEE2651C7FA000C37A5 /* UIResponder+.swift */; };
-		3FA1C1562536817500385322 /* UIStackView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA1C1552536817500385322 /* UIStackView+.swift */; };
 		3FA1C162253B851100385322 /* OnGoingProjectsFeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA1C161253B851000385322 /* OnGoingProjectsFeedTableViewCell.swift */; };
 		3FA1C16C253B8BC900385322 /* OnGoingProjectsFeedTableViewCellBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA1C16B253B8BC900385322 /* OnGoingProjectsFeedTableViewCellBuilder.swift */; };
 		3FA7DE2825ABD808000356D2 /* ProfileDetailsOnGoingProjectCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA7DE2725ABD808000356D2 /* ProfileDetailsOnGoingProjectCollectionViewCell.swift */; };
@@ -605,7 +604,6 @@
 		3F9847902623C0FC000BE5BC /* Roboto-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Thin.ttf"; sourceTree = "<group>"; };
 		3F9847912623C0FC000BE5BC /* Roboto-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Black.ttf"; sourceTree = "<group>"; };
 		3F9A8EEE2651C7FA000C37A5 /* UIResponder+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIResponder+.swift"; sourceTree = "<group>"; };
-		3FA1C1552536817500385322 /* UIStackView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+.swift"; sourceTree = "<group>"; };
 		3FA1C161253B851000385322 /* OnGoingProjectsFeedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnGoingProjectsFeedTableViewCell.swift; sourceTree = "<group>"; };
 		3FA1C16B253B8BC900385322 /* OnGoingProjectsFeedTableViewCellBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnGoingProjectsFeedTableViewCellBuilder.swift; sourceTree = "<group>"; };
 		3FA7DE2725ABD808000356D2 /* ProfileDetailsOnGoingProjectCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailsOnGoingProjectCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -1455,7 +1453,6 @@
 				3F9578DA24B0240C00B79818 /* String+.swift */,
 				3F6EEA7424E87EE10075C500 /* UIAlertController+.swift */,
 				3FB880A12534070F003C0D1B /* UISegmentedControl+.swift */,
-				3FA1C1552536817500385322 /* UIStackView+.swift */,
 				3F6EEA7024E5DEEC0075C500 /* UITabBar+.swift */,
 				3FE8DF5924CBD271005DE30D /* UIView+.swift */,
 				3F8D13C524D8F5A100AED7EB /* URL+.swift */,
@@ -2224,7 +2221,6 @@
 				3F01CBC6256A021C000833FB /* FinishedProjectFeedTableViewCell.swift in Sources */,
 				3FB880A22534070F003C0D1B /* UISegmentedControl+.swift in Sources */,
 				3F95786E24AEA16000B79818 /* LaunchScreenModels.swift in Sources */,
-				3FA1C1562536817500385322 /* UIStackView+.swift in Sources */,
 				3F40A6D224F486C300261161 /* InviteListController.swift in Sources */,
 				3FBE1C3425FD79A800AE67E2 /* RecentSearchRouter.swift in Sources */,
 				3F0129F6252D2AF500FF4985 /* LocalSaveManager.swift in Sources */,

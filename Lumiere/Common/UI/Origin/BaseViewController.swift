@@ -54,3 +54,11 @@ extension BaseViewController: UITextFieldDelegate {
         return true
     }
 }
+
+extension BaseViewController: WCDataInputTextFieldViewDelegate {
+    
+    func inputTextFieldShouldReturn(_ textField: WCDataInputTextFieldView) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+}
