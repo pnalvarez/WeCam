@@ -45,7 +45,7 @@ class FilterCathegoriesInteractor: FilterCathegoriesDataStore {
                 guard let selectedCathegories = self.selectedCathegories else { return }
                 self.presenter.presentSelectedCathegories(selectedCathegories)
             case .error(let error):
-                self.presenter.presentAlert(FilterCathegories.Info.Model.Alert(title: "Erro",
+                self.presenter.presentError(FilterCathegories.Info.Model.Alert(title: "Erro",
                                                                                description: error.description))
             }
         }
@@ -66,7 +66,7 @@ extension FilterCathegoriesInteractor: FilterCathegoriesBusinessLogic {
                 self.fetchSelectedCathegories()
             case .error(let error):
                 self.presenter.presentLoading(false)
-                self.presenter.presentAlert(FilterCathegories.Info.Model.Alert(title: "Erro",
+                self.presenter.presentError(FilterCathegories.Info.Model.Alert(title: "Erro",
                                                                                description: error.description))
             }
         }
@@ -95,7 +95,7 @@ extension FilterCathegoriesInteractor: FilterCathegoriesBusinessLogic {
             case .success:
                 self.presenter.presentMainFeed()
             case .error(let error):
-                self.presenter.presentAlert(FilterCathegories.Info.Model.Alert(title: "Erro",
+                self.presenter.presentError(FilterCathegories.Info.Model.Alert(title: "Erro",
                                                                                description: error.description))
             }
         }

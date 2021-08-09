@@ -16,6 +16,7 @@ protocol ViewInterface where Self: UIViewController {
     func showSuccessToast(withText text: String)
     func showErrorToast(withText text: String)
     func showAlertError(title: String, description: String, doneText: String)
+    func showAlertSuccess(title: String, description: String, doneText: String)
 }
 
 extension ViewInterface {
@@ -58,6 +59,13 @@ extension ViewInterface {
     
     func showAlertError(title: String, description: String, doneText: String = WCConstants.Strings.ok) {
         WCDialogView().show(dialogType: .errorNotification(doneText: doneText),
+                            in: self,
+                            title: title,
+                            description: description)
+    }
+    
+    func showAlertSuccess(title: String, description: String, doneText: String = WCConstants.Strings.ok) {
+        WCDialogView().show(dialogType: .successNotification(doneText: doneText),
                             in: self,
                             title: title,
                             description: description)

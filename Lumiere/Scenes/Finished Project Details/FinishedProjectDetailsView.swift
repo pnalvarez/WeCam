@@ -10,9 +10,7 @@ import UIKit
 import WCUIKit
 
 class FinishedProjectDetailsView: BaseView, ModalViewable {
-    
-    private unowned var confirmationAlertView: ConfirmationAlertView
-    private unowned var translucentView: UIView
+
     private unowned var watchButton: UIButton
     private unowned var interactionButton: UIButton
     private unowned var teamCollectionView: UICollectionView
@@ -33,20 +31,16 @@ class FinishedProjectDetailsView: BaseView, ModalViewable {
         return view
     }()
     
-    private lazy var titleLbl: UILabel = {
-        let view = UILabel(frame: .zero)
+    private lazy var titleLbl: WCUILabelRobotoRegular16 = {
+        let view = WCUILabelRobotoRegular16(frame: .zero)
         view.textAlignment = .center
-        view.font = FinishedProjectDetails.Constants.Fonts.titleLbl
-        view.textColor = FinishedProjectDetails.Constants.Colors.titleLbl
         view.numberOfLines = 0
         return view
     }()
     
-    private lazy var sinopsisLbl: UILabel = {
-        let view = UILabel(frame: .zero)
+    private lazy var sinopsisLbl: WCUILabelRobotoRegular12 = {
+        let view = WCUILabelRobotoRegular12(frame: .zero)
         view.textAlignment = .center
-        view.font = FinishedProjectDetails.Constants.Fonts.sinopsisLbl
-        view.textColor = FinishedProjectDetails.Constants.Colors.sinopsisLbl
         view.numberOfLines = 0
         return view
     }()
@@ -60,33 +54,19 @@ class FinishedProjectDetailsView: BaseView, ModalViewable {
         return view
     }()
     
-    private lazy var scrollView: UIScrollView = {
-        let view = UIScrollView(frame: .zero)
-        view.bounces = false
-        view.alwaysBounceVertical = false
-        view.showsVerticalScrollIndicator = true
-        view.contentSize = CGSize(width: view.frame.width, height: 1000)
-        view.backgroundColor = .white
+    private lazy var scrollView: WCUIScrollView = {
+        let view = WCUIScrollView(frame: .zero)
+        view.colorStyle = .white
         return view
     }()
-    
-    private lazy var mainContainer: WCContentView = {
-        let view = WCContentView(frame: .zero)
-        view.style = .white
-        return view
-    }()
-    
+
     private var viewModel: FinishedProjectDetails.Info.ViewModel.Project?
     
     init(frame: CGRect,
-         confirmationAlertView: ConfirmationAlertView,
-         translucentView: UIView,
          watchButton: UIButton,
          interactionButton: UIButton,
          teamCollectionView: UICollectionView,
          moreInfoButton: UIButton) {
-        self.confirmationAlertView = confirmationAlertView
-        self.translucentView = translucentView
         self.watchButton = watchButton
         self.interactionButton = interactionButton
         self.teamCollectionView = teamCollectionView
@@ -103,59 +83,24 @@ class FinishedProjectDetailsView: BaseView, ModalViewable {
         self.viewModel = viewModel
         applyViewCode()
     }
-    
-    func displayConfirmationModal(forRelation relation: FinishedProjectDetails.Info.ViewModel.Relation) {
-        confirmationAlertView.setupText(relation.relation.confirmationAlertDescription)
-        UIView.animate(withDuration: 0.2, animations: {
-            self.translucentView.isHidden = false
-            self.confirmationAlertView.snp.remakeConstraints { make in
-                make.top.equalTo(self.translucentView.snp.centerY)
-                make.left.right.equalToSuperview()
-                make.height.equalTo(self.translucentView)
-            }
-            self.layoutIfNeeded()
-        })
-    }
-    
-    func hideConfirmationModal() {
-        self.translucentView.isHidden = true
-        self.confirmationAlertView.snp.remakeConstraints { make in
-            make.top.equalTo(self.translucentView.snp.bottom)
-            make.left.right.equalToSuperview()
-            make.height.equalTo(self.translucentView)
-        }
-        UIView.animate(withDuration: 0.2, animations: {
-            self.layoutIfNeeded()
-        })
-    }
 }
 
 extension FinishedProjectDetailsView: ViewCodeProtocol {
     
     func buildViewHierarchy() {
-        mainContainer.addSubview(photoImageView)
-        mainContainer.addSubview(titleLbl)
+        scrollView.addSubview(photoImageView)
+        scrollView.addSubview(titleLbl)
         containerView.addSubview(sinopsisLbl)
-        mainContainer.addSubview(containerView)
-        mainContainer.addSubview(teamFixedLbl)
-        mainContainer.addSubview(teamCollectionView)
-        mainContainer.addSubview(moreInfoButton)
-        mainContainer.addSubview(interactionButton)
-        mainContainer.addSubview(watchButton)
-        scrollView.addSubview(mainContainer)
+        scrollView.addSubview(containerView)
+        scrollView.addSubview(teamFixedLbl)
+        scrollView.addSubview(teamCollectionView)
+        scrollView.addSubview(moreInfoButton)
+        scrollView.addSubview(interactionButton)
+        scrollView.addSubview(watchButton)
         addSubview(scrollView)
-        addSubview(translucentView)
-        addSubview(confirmationAlertView)
     }
     
     func setupConstraints() {
-        confirmationAlertView.snp.makeConstraints { make in
-            make.top.equalTo(translucentView.snp.bottom)
-            make.size.equalTo(translucentView)
-        }
-        translucentView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
         photoImageView.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(32)
             make.centerX.equalToSuperview()
@@ -210,11 +155,6 @@ extension FinishedProjectDetailsView: ViewCodeProtocol {
         scrollView.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide.snp.top)
             make.bottom.right.left.equalToSuperview()
-        }
-        mainContainer.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-            make.width.equalToSuperview()
-            make.height.equalToSuperview().priority(250)
         }
     }
     

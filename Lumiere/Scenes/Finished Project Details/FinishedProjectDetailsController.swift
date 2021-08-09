@@ -18,26 +18,9 @@ protocol FinishedProjectDetailsDisplayLogic: ViewInterface {
     func displayProjectInvites()
     func displayInteractionConfirmationModal(forRelation viewModel: FinishedProjectDetails.Info.ViewModel.Relation)
     func displayRoutingUI(_ viewModel: FinishedProjectDetails.Info.ViewModel.Routing)
-    func displayError(_ viewModel: FinishedProjectDetails.Info.ViewModel.Error)
-    func displayAlert(_ viewModel: FinishedProjectDetails.Info.ViewModel.Alert)
 }
 
 class FinishedProjectDetailsController: BaseViewController {
-    
-    private lazy var confirmationModalView: ConfirmationAlertView = {
-        let view = ConfirmationAlertView(frame: .zero,
-                                         delegate: self,
-                                         text: .empty)
-        return view
-    }()
-    
-    private lazy var translucentView: UIView = {
-        let view = UIView(frame: .zero)
-        view.backgroundColor = UIColor(rgb: 0xededed).withAlphaComponent(0.8)
-        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(closeModal)))
-        view.isHidden = true
-        return view
-    }()
     
     private lazy var watchButton: WCPrimaryActionButton = {
         let view = WCPrimaryActionButton(frame: .zero)
@@ -47,16 +30,10 @@ class FinishedProjectDetailsController: BaseViewController {
         return view
     }()
     
-    private lazy var interactionButton: UIButton = {
-        let view = UIButton(frame: .zero)
+    private lazy var interactionButton: WCSecondaryButton = {
+        let view = WCSecondaryButton(frame: .zero)
         view.addTarget(self, action: #selector(didTapInteraction), for: .touchUpInside)
-        view.backgroundColor = FinishedProjectDetails.Constants.Colors.interactionButtonBackground
-        view.setTitle(FinishedProjectDetails.Constants.Texts.interactionAcceptInvite, for: .normal)
-        view.setTitleColor(FinishedProjectDetails.Constants.Colors.interactionButtonText, for: .normal)
-        view.titleLabel?.font = FinishedProjectDetails.Constants.Fonts.interactionButton
-        view.layer.borderWidth = 1
-        view.layer.borderColor = FinishedProjectDetails.Constants.Colors.interactionButtonLayer
-        view.layer.cornerRadius = 4
+        view.text = FinishedProjectDetails.Constants.Texts.interactionAcceptInvite
         return view
     }()
     
@@ -82,8 +59,6 @@ class FinishedProjectDetailsController: BaseViewController {
     
     private lazy var mainView: FinishedProjectDetailsView = {
         let view = FinishedProjectDetailsView(frame: .zero,
-                                              confirmationAlertView: confirmationModalView,
-                                              translucentView: translucentView,
                                               watchButton: watchButton,
                                               interactionButton: interactionButton,
                                               teamCollectionView: teamCollectionView,
@@ -138,6 +113,21 @@ class FinishedProjectDetailsController: BaseViewController {
         router.viewController = viewController
         router.dataStore = interactor
     }
+    
+    @objc
+    private func didTapWatch() {
+        router?.routeToWatchVideo()
+    }
+    
+    @objc
+    private func didTapInteraction() {
+        interactor?.didTapInteractionButton(FinishedProjectDetails.Request.Interaction())
+    }
+    
+    @objc
+    private func didTapMoreInfo() {
+        
+    }
 }
 
 extension FinishedProjectDetailsController: UICollectionViewDataSource {
@@ -191,47 +181,6 @@ extension FinishedProjectDetailsController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-extension FinishedProjectDetailsController {
-    
-    @objc
-    private func didTapWatch() {
-        router?.routeToWatchVideo()
-    }
-    
-    @objc
-    private func didTapInteraction() {
-        interactor?.didTapInteractionButton(FinishedProjectDetails.Request.Interaction())
-    }
-    
-    @objc
-    private func didTapMoreInfo() {
-        
-    }
-    
-    @objc
-    private func closeModal() {
-        mainView.hideConfirmationModal()
-    }
-}
-
-extension FinishedProjectDetailsController: ConfirmationAlertViewDelegate {
-    
-    func didTapAccept() {
-        DispatchQueue.main.async {
-            self.mainView.hideConfirmationModal()
-        }
-        mainView.hideConfirmationModal()
-        interactor?.didAcceptInteraction(FinishedProjectDetails.Request.AcceptInteraction())
-    }
-    
-    func didTapRefuse() {
-        DispatchQueue.main.async {
-            self.mainView.hideConfirmationModal()
-        }
-        interactor?.didRefuseInteraction(FinishedProjectDetails.Request.RefuseInteraction())
-    }
-}
-
 extension FinishedProjectDetailsController: FinishedProjectDetailsDisplayLogic {
     
     func displayProjectData(_ viewModel: FinishedProjectDetails.Info.ViewModel.Project) {
@@ -249,18 +198,18 @@ extension FinishedProjectDetailsController: FinishedProjectDetailsDisplayLogic {
     func displayRelationUI(_ viewModel: FinishedProjectDetails.Info.ViewModel.Relation) {
         switch viewModel.relation {
         case .author:
-            interactionButton.setTitle(FinishedProjectDetails.Constants.Texts.interactionInviteFriends, for: .normal)
+            interactionButton.text = FinishedProjectDetails.Constants.Texts.interactionInviteFriends
         case .simpleParticipant:
-            interactionButton.setTitle(FinishedProjectDetails.Constants.Texts.interactionExit, for: .normal)
+            interactionButton.text = FinishedProjectDetails.Constants.Texts.interactionExit
         case .receivedInvite:
-            interactionButton.setTitle(FinishedProjectDetails.Constants.Texts.interactionAcceptInvite, for: .normal)
+            interactionButton.text = FinishedProjectDetails.Constants.Texts.interactionAcceptInvite
         case .nothing:
             interactionButton.isHidden = true
         }
     }
     
     func displayAllParticipants() {
-        
+        #warning("TO DO")
     }
     
     func displayProjectInvites() {
@@ -268,19 +217,15 @@ extension FinishedProjectDetailsController: FinishedProjectDetailsDisplayLogic {
     }
     
     func displayInteractionConfirmationModal(forRelation viewModel: FinishedProjectDetails.Info.ViewModel.Relation) {
-        mainView.displayConfirmationModal(forRelation: viewModel)
+        WCDialogView().show(dialogType: .interaction(confirmText: WCConstants.Strings.yesAnswer, cancelText: WCConstants.Strings.noAnswer), in: self, title: viewModel.relation.confirmationAlertTitle, description: viewModel.relation.confirmationAlertDescription, doneAction: {
+            self.interactor?.didAcceptInteraction(FinishedProjectDetails.Request.AcceptInteraction())
+        }, cancelAction: {
+            self.interactor?.didRefuseInteraction(FinishedProjectDetails.Request.RefuseInteraction())
+        })
     }
     
     func displayRoutingUI(_ viewModel: FinishedProjectDetails.Info.ViewModel.Routing) {
         mainView.setupAuxiliarComponentsVisibility(backButtonVisible: viewModel.backButtonVisible,
                                                    closeButtonVisible: viewModel.closeButtonVisible)
-    }
-    
-    func displayError(_ viewModel: FinishedProjectDetails.Info.ViewModel.Error) {
-        UIAlertController.displayAlert(in: self, title: viewModel.title, message: viewModel.description)
-    }
-    
-    func displayAlert(_ viewModel: FinishedProjectDetails.Info.ViewModel.Alert) {
-        UIAlertController.displayAlert(in: self, title: viewModel.title, message: viewModel.description)
     }
 }

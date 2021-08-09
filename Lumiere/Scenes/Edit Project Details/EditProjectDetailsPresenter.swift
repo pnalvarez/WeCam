@@ -45,13 +45,11 @@ class EditProjectDetailsPresenter: EditProjectDetailsPresentationLogic {
     }
     
     func presentServerError(_ response: EditProjectDetails.Info.Model.ServerError) {
-        let viewModel = EditProjectDetails.Info.ViewModel.DisplayError(description: response.error.description)
-        viewController.displayError(viewModel)
+        viewController.showErrorToast(withText: response.error.description)
     }
     
     func presentLocalError(_ response: EditProjectDetails.Info.Model.LocalError) {
-        let viewModel = EditProjectDetails.Info.ViewModel.DisplayError(description: response.description)
-        viewController.displayError(viewModel)
+        viewController.showErrorToast(withText: response.description)
     }
     
     func presentFinishedProjectContextUI() {

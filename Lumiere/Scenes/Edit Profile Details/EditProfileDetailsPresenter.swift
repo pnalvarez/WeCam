@@ -44,11 +44,15 @@ class EditProfileDetailsPresenter: EditProfileDetailsPresentationLogic {
     }
     
     func presentServerError(_ response: WCError) {
-        viewController.displayError(response.description)
+        viewController.showAlertError(title: WCConstants.Strings.errorTitle,
+                                      description: response.description,
+                                      doneText: WCConstants.Strings.ok)
     }
     
     func presentInputError(_ response: EditProfileDetails.Errors.InputErrors) {
-        viewController.displayError(response.rawValue)
+        viewController.showAlertError(title: WCConstants.Strings.errorTitle,
+                                      description: response.rawValue,
+                                      doneText: WCConstants.Strings.ok)
     }
     
     func presentCathegories(_ response: EditProfileDetails.Info.Model.InterestCathegories) {

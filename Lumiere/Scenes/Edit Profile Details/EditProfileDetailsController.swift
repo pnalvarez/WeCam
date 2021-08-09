@@ -14,7 +14,6 @@ protocol EditProfileDetailsDisplayLogic: ViewInterface {
     func displayUserData(_ viewModel: EditProfileDetails.Info.ViewModel.User,
                          cathegories: EditProfileDetails.Info.ViewModel.Cathegories)
     func displayProfileDetails()
-    func displayError(_ viewModel: String)
     func displayInterestCathegories(_ viewModel: EditProfileDetails.Info.ViewModel.Cathegories)
 }
 
@@ -279,11 +278,6 @@ extension EditProfileDetailsController: EditProfileDetailsDisplayLogic {
     
     func displayProfileDetails() {
         router?.routeBackSuccess()
-    }
-    
-    func displayError(_ viewModel: String) {
-        UIAlertController.displayAlert(in: self, title: "Erro", message: viewModel)
-        mainView.updateAllTextFields()
     }
     
     func displayInterestCathegories(_ viewModel: EditProfileDetails.Info.ViewModel.Cathegories) {

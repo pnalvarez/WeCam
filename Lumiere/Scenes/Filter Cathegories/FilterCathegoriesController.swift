@@ -10,7 +10,6 @@ import UIKit
 import WCUIKit
 
 protocol FilterCathegoriesDisplayLogic: ViewInterface {
-    func displayAlert(_ viewModel: FilterCathegories.Info.ViewModel.Alert)
     func displayAllCathegories(_ viewModel: FilterCathegories.Info.ViewModel.InterestCathegoryList)
     func displaySelectedCathegories(_ viewModel: FilterCathegories.Info.ViewModel.SelectedCathegoryList)
     func displayMainFeed()
@@ -89,10 +88,6 @@ extension FilterCathegoriesController: WCCathegoryListViewDelegate {
 
 extension FilterCathegoriesController: FilterCathegoriesDisplayLogic {
 
-    func displayAlert(_ viewModel: FilterCathegories.Info.ViewModel.Alert) {
-        UIAlertController.displayAlert(in: self, title: viewModel.title, message: viewModel.description)
-    }
-    
     func displayAllCathegories(_ viewModel: FilterCathegories.Info.ViewModel.InterestCathegoryList) {
         cathegoryListView.setup(cathegories: viewModel.cathegories)
     }

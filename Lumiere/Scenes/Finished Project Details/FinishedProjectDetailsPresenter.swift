@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol FinishedProjectDetailsPresentationLogic {
+protocol FinishedProjectDetailsPresentationLogic: PresenterInterface {
     func presentProjectData(_ response: FinishedProjectDetails.Info.Model.Project)
     func presentProfileDetails()
     func presentInviteUsers()
@@ -18,8 +18,8 @@ protocol FinishedProjectDetailsPresentationLogic {
     func presentProjectInvites()
     func presentInteractionConfirmationModal(forRelation relation: FinishedProjectDetails.Info.Model.Relation)
     func presentRoutingUI(_ response: FinishedProjectDetails.Info.Model.Routing)
-    func presentNotInvitedUsersErrorAlert(_ response: FinishedProjectDetails.Info.Model.NotInvitedUsers)
-    func presentAlert(_ response: FinishedProjectDetails.Info.Model.Alert)
+    func presentSuccessAlert(_ response: FinishedProjectDetails.Info.Model.Alert)
+    func presentError(_ response: FinishedProjectDetails.Info.Model.Alert)
 }
 
 class FinishedProjectDetailsPresenter: FinishedProjectDetailsPresentationLogic {
@@ -76,12 +76,13 @@ class FinishedProjectDetailsPresenter: FinishedProjectDetailsPresentationLogic {
         viewController.displayRoutingUI(viewModel)
     }
     
-    func presentNotInvitedUsersErrorAlert(_ response: FinishedProjectDetails.Info.Model.NotInvitedUsers) {
-        
+    func presentSuccessAlert(_ response: FinishedProjectDetails.Info.Model.Alert) {
+        viewController.showAlertSuccess(title: response.title,
+                                        description: response.description)
     }
     
-    func presentAlert(_ response: FinishedProjectDetails.Info.Model.Alert) {
-        let viewModel = FinishedProjectDetails.Info.ViewModel.Alert(title: response.title, description: response.description)
-        viewController.displayAlert(viewModel)
+    func presentError(_ response: FinishedProjectDetails.Info.Model.Alert) {
+        viewController.showAlertError(title: response.title,
+                                      description: response.description)
     }
 }

@@ -6,6 +6,7 @@
 //  Copyright © 2020 Pedro Alvarez. All rights reserved.
 //
 import UIKit
+import WCUIKit
 
 typealias EditProfileDetailsRouterProtocol = NSObject & EditProfileDetailsRoutingLogic & EditProfileDetailsDataTransfer
 
@@ -39,9 +40,7 @@ extension EditProfileDetailsRouter: EditProfileDetailsRoutingLogic {
     
     func routeBackSuccess() {
         guard let navigationController = viewController?.navigationController else { return }
-               navigationController.popViewController(animated: true)
-               UIAlertController.displayAlert(in: navigationController,
-                                              title: EditProfileDetails.Constants.Texts.editDetailsSuccessTitle,
-                                              message: EditProfileDetails.Constants.Texts.editDetailsSucessMessage)
+        navigationController.popViewController(animated: true)
+        WCToastView().show(withTitle: EditProfileDetails.Constants.Texts.editDetailsSuccessTitle, status: .success, in: navigationController.view)
     }
 }

@@ -73,9 +73,9 @@ class FinishedProjectDetailsInteractor: FinishedProjectDetailsDataStore {
             switch response {
             case .success:
                 self.presenter.presentRelationUI(FinishedProjectDetails.Info.Model.Relation(relation: .simpleParticipant))
-                self.presenter.presentAlert(FinishedProjectDetails.Info.Model.Alert(title: FinishedProjectDetails.Constants.Texts.acceptProjectInviteTitle, description: FinishedProjectDetails.Constants.Texts.acceptProjectInviteDescription))
+                self.presenter.presentSuccessAlert(FinishedProjectDetails.Info.Model.Alert(title: FinishedProjectDetails.Constants.Texts.acceptProjectInviteTitle, description: FinishedProjectDetails.Constants.Texts.acceptProjectInviteDescription))
             case .error(let error):
-                self.presenter.presentAlert(FinishedProjectDetails.Info.Model.Alert(title: "Ocorreu um erro", description: error.description))
+                self.presenter.presentError(FinishedProjectDetails.Info.Model.Alert(title: WCConstants.Strings.errorTitle, description: error.description))
             }
         }
     }
@@ -87,9 +87,9 @@ class FinishedProjectDetailsInteractor: FinishedProjectDetailsDataStore {
             switch response {
             case .success:
                 self.presenter.presentRelationUI(FinishedProjectDetails.Info.Model.Relation(relation: .nothing))
-                self.presenter.presentAlert(FinishedProjectDetails.Info.Model.Alert(title: FinishedProjectDetails.Constants.Texts.exitProjectTitle, description: .empty))
+                self.presenter.presentSuccessAlert(FinishedProjectDetails.Info.Model.Alert(title: FinishedProjectDetails.Constants.Texts.exitProjectTitle, description: .empty))
             case .error(let error):
-                self.presenter.presentAlert(FinishedProjectDetails.Info.Model.Alert(title: "Ocorreu um erro", description: error.description))
+                self.presenter.presentError(FinishedProjectDetails.Info.Model.Alert(title: WCConstants.Strings.errorTitle, description: error.description))
             }
         }
     }
@@ -100,9 +100,9 @@ class FinishedProjectDetailsInteractor: FinishedProjectDetailsDataStore {
             self.presenter.presentLoading(false)
             switch response {
             case .success:
-                self.presenter.presentAlert(FinishedProjectDetails.Info.Model.Alert(title: FinishedProjectDetails.Constants.Texts.refuseProjectInviteTitle, description: .empty))
+                self.presenter.presentSuccessAlert(FinishedProjectDetails.Info.Model.Alert(title: FinishedProjectDetails.Constants.Texts.refuseProjectInviteTitle, description: .empty))
             case .error(let error):
-                self.presenter.presentAlert(FinishedProjectDetails.Info.Model.Alert(title: "Ocorreu um erro", description: error.description))
+                self.presenter.presentError(FinishedProjectDetails.Info.Model.Alert(title: WCConstants.Strings.errorTitle, description: error.description))
             }
         }
     }
@@ -131,7 +131,7 @@ extension FinishedProjectDetailsInteractor: FinishedProjectDetailsBusinessLogic 
                 self.fetchParticipantsDetails(ids: data.participants ?? .empty)
             case .error(let error):
                 self.presenter.presentLoading(false)
-                self.presenter.presentAlert(FinishedProjectDetails.Info.Model.Alert(title: "Ocorreu um erro", description: error.description))
+                self.presenter.presentError(FinishedProjectDetails.Info.Model.Alert(title: WCConstants.Strings.errorTitle, description: error.description))
             }
         }
     }
@@ -158,14 +158,14 @@ extension FinishedProjectDetailsInteractor: FinishedProjectDetailsBusinessLogic 
                 self.presenter.presentRelationUI(projectRelation)
             case .error(let error):
                 self.presenter.presentLoading(false)
-                self.presenter.presentAlert(FinishedProjectDetails.Info.Model.Alert(title: "Ocorreu um erro", description: error.description))
+                self.presenter.presentError(FinishedProjectDetails.Info.Model.Alert(title: WCConstants.Strings.errorTitle, description: error.description))
             }
         }
     }
     
     func fetchNotinvitedUsers(_ request: FinishedProjectDetails.Request.FetchNotInvitedUsers) {
         if !(receivedData?.userIdsNotInvited.isEmpty ?? true) {
-            self.presenter.presentAlert(FinishedProjectDetails.Info.Model.Alert(title: FinishedProjectDetails.Constants.Texts.notInvitedUsersErrorTitle, description: FinishedProjectDetails.Constants.Texts.notInvitedUsersErrorDescription))
+            presenter.presentError(FinishedProjectDetails.Info.Model.Alert(title: FinishedProjectDetails.Constants.Texts.notInvitedUsersErrorTitle, description: FinishedProjectDetails.Constants.Texts.notInvitedUsersErrorDescription))
         }
     }
     

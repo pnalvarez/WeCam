@@ -10,7 +10,7 @@ import UIKit
 
 protocol FilterCathegoriesPresentationLogic {
     func presentLoading(_ loading: Bool)
-    func presentAlert(_ response: FilterCathegories.Info.Model.Alert)
+    func presentError(_ response: FilterCathegories.Info.Model.Alert)
     func presentAllCathegories(_ response: FilterCathegories.Info.Model.CathegoryList)
     func presentSelectedCathegories(_ response: FilterCathegories.Info.Model.CathegoryList)
     func presentMainFeed()
@@ -31,10 +31,10 @@ class FilterCathegoriesPresenter: FilterCathegoriesPresentationLogic {
         viewController.defaultScreenLoading(!loading)
     }
     
-    func presentAlert(_ response: FilterCathegories.Info.Model.Alert) {
-        let viewModel = FilterCathegories.Info.ViewModel.Alert(title: response.title,
-                                                               description: response.description)
-        viewController.displayAlert(viewModel)
+    func presentError(_ response: FilterCathegories.Info.Model.Alert) {
+        viewController.showAlertError(title: response.title,
+                                      description: response.description,
+                                      doneText: WCConstants.Strings.ok)
     }
     
     func presentAllCathegories(_ response: FilterCathegories.Info.Model.CathegoryList) {

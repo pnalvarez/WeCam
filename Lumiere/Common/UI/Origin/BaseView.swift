@@ -106,7 +106,11 @@ class BaseView: UIView {
     }
     
     func configureAuxiliarComponentsVisibility() {
-        backButton.isHidden = parentViewController?.navigationController?.viewControllers.count == Constants.navigationHiddenViewControllersCount
+        guard let stackCount = parentViewController?.navigationController?.viewControllers.count else {
+            backButton.isHidden = true
+            return
+        }
+        backButton.isHidden = stackCount == Constants.navigationHiddenViewControllersCount
     }
     
     private func configureSecondaryActivity(_ hide: Bool) {

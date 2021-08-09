@@ -12,7 +12,6 @@ import WCUIKit
 protocol EditProjectDetailsDisplayLogic: ViewInterface {
     func displayPublishedProjectDetails()
     func displayInvitedUsers(_ viewModel: EditProjectDetails.Info.ViewModel.InvitedUsers)
-    func displayError(_ viewModel: EditProjectDetails.Info.ViewModel.DisplayError)
     func displayUpdatedProjectContextUI()
     func displayInsertVideo()
 }
@@ -230,11 +229,6 @@ extension EditProjectDetailsController: EditProjectDetailsDisplayLogic {
     func displayInvitedUsers(_ viewModel: EditProjectDetails.Info.ViewModel.InvitedUsers) {
         self.invitedUsersViewModel = viewModel
         mainView.defaultScreenLoading(true)
-    }
-    
-    func displayError(_ viewModel: EditProjectDetails.Info.ViewModel.DisplayError) {
-        mainView.updateAllTextFields()
-        UIAlertController.displayAlert(in: self, title: EditProjectDetails.Constants.Texts.errorTitle, message: viewModel.description)
     }
     
     func displayUpdatedProjectContextUI() {

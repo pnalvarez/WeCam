@@ -10,7 +10,7 @@ import UIKit
 import WCUIKit
 import YoutubePlayer_in_WKWebView
 
-class WatchVideoView: BaseView {
+class WatchVideoView: BaseView, ModalViewable {
     
     private unowned var playerView: WKYTPlayerView
     
