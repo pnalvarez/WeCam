@@ -99,7 +99,7 @@ extension EditProjectDetailsView: ViewCodeProtocol {
         inputDataStackView.addArrangedSubviews(projectTitleTextField, sinopsisTextView, needTextView)
         mainScrollView.addSubview(inputDataStackView)
         invitationsStackView.addArrangedSubviews(teamFixedLbl, invitationsCollectionView, inviteFriendsButton, publishButton)
-        invitationsStackView.insertSpacing(of: 60, after: inviteFriendsButton)
+        invitationsStackView.setCustomSpacing(EditProjectDetails.Constants.BusinessLogic.spacingAfterInviteFriendsButton, after: inviteFriendsButton)
         mainScrollView.addSubview(invitationsStackView)
         addSubview(mainScrollView)
     }
@@ -114,22 +114,21 @@ extension EditProjectDetailsView: ViewCodeProtocol {
         }
         invitationsStackView.snp.makeConstraints { make in
             make.top.equalTo(inputDataStackView.snp.bottom).offset(36)
-            make.left.right.equalToSuperview()
             make.bottom.equalToSuperview().inset(20)
         }
         teamFixedLbl.snp.makeConstraints { make in
-            make.left.equalToSuperview().inset(31)
-            make.right.equalToSuperview().inset(48)
+            make.left.equalTo(self).inset(31)
+            make.right.equalTo(self).inset(48)
         }
         invitationsCollectionView.snp.makeConstraints { make in
-            make.left.right.equalToSuperview()
+            make.left.right.equalTo(self)
             make.height.equalTo(108)
         }
         inviteFriendsButton.snp.makeConstraints { make in
-            make.left.right.equalToSuperview().inset(24)
+            make.left.right.equalTo(self).inset(WCDimens.Margins.veryBig)
         }
         publishButton.snp.makeConstraints { make in
-            make.left.right.equalToSuperview().inset(96)
+            make.left.right.equalTo(self).inset(WCDimens.Margins.biggest)
         }
     }
 }

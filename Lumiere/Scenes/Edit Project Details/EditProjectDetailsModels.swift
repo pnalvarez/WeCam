@@ -60,6 +60,7 @@ enum EditProjectDetails {
         
         enum BusinessLogic {
             static let dataInfoStackSpacing: CGFloat = 20
+            static let spacingAfterInviteFriendsButton: CGFloat = 48
         }
     }
     

@@ -10,13 +10,13 @@ import UIKit
 import WCUIKit
 import ObjectMapper
 
-struct SearchResults {
+enum SearchResults {
     
     static let bundle = Bundle(for: SearchResultsController.self)
     
-    struct Constants {
+    enum Constants {
         
-        struct Colors {
+        enum Colors {
             static let background = UIColor(rgb: 0xe0e0e0)
             static let nameLbl = UIColor(rgb: 0x000000)
             static let ocupationLbl = UIColor(rgb: 0x000000)
@@ -34,7 +34,7 @@ struct SearchResults {
             static let resultsQuantityLbl = UIColor(rgb: 0x969494)
         }
         
-        struct Fonts {
+        enum Fonts {
             static let nameLbl = ThemeFonts.RobotoBold(16).rawValue
             static let ocupationLbl = ThemeFonts.RobotoRegular(16).rawValue
             static let searchTextField = ThemeFonts.RobotoRegular(16).rawValue
@@ -45,12 +45,12 @@ struct SearchResults {
             static let resultsQuantityLbl = ThemeFonts.RobotoBold(16).rawValue
         }
         
-        struct Texts {
+        enum Texts {
             static let resultsQuantityLbl = " resultados"
             static let emptyListResult = "Nenhum resultado encontrado :("
         }
         
-        struct Images {
+        enum Images {
             static let headerImageView = UIImage(named: "tipografia-projeto 2",
                                                  in: SearchResults.bundle,
                                                  compatibleWith: nil)
@@ -59,28 +59,28 @@ struct SearchResults {
                                         compatibleWith: nil)
         }
         
-        struct Dimensions {
+        enum Dimensions {
             
-            struct Heights {
+            enum Heights {
                 static let defaultCellHeight: CGFloat = 70
             }
         }
         
-        struct BusinessLogic {
+        enum BusinessLogic {
             static let finishedProjectPercentage: Int = 100
         }
     }
     
-    struct Info {
+    enum Info {
         
-        struct Received {
+        enum Received {
             
             struct SearchKey {
                 let key: String
             }
         }
         
-        struct Model {
+        enum Model {
             
             enum SelectedItem: Equatable {
                 case profile(Profile)
@@ -149,7 +149,7 @@ struct SearchResults {
             }
         }
         
-        struct ViewModel {
+        enum ViewModel {
             
             struct UpcomingResults: Equatable {
                 let users: [Profile]
@@ -189,7 +189,7 @@ struct SearchResults {
             }
         }
         
-        struct Response {
+        enum Response {
             
             final class Profile: Mappable {
                 
@@ -229,7 +229,7 @@ struct SearchResults {
         }
     }
     
-    struct Request {
+    enum Request {
         
         enum ResultType {
             case profile
