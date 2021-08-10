@@ -48,8 +48,7 @@ class SearchResultsPresenter: SearchResultsPresentationLogic {
     }
     
     func presentError(_ response: SearchResults.Info.Model.ResultError) {
-        let viewModel = SearchResults.Info.ViewModel.ResultError(error: response.error.description)
-        viewController.displayError(viewModel)
+        viewController.showAlertError(title: WCConstants.Strings.errorLoad, description: response.error.description)
     }
     
     func presentResultTypes(_ response: SearchResults.Info.Model.UpcomingTypes) {
@@ -58,9 +57,9 @@ class SearchResultsPresenter: SearchResultsPresentationLogic {
     }
 }
 
-extension SearchResultsPresenter {
+private extension SearchResultsPresenter {
     
-    private func mapUsers(_ model: [SearchResults.Info.Model.Profile]) -> [SearchResults.Info.ViewModel.Profile] {
+    func mapUsers(_ model: [SearchResults.Info.Model.Profile]) -> [SearchResults.Info.ViewModel.Profile] {
         var viewModel = [SearchResults.Info.ViewModel.Profile]()
         for index in 0..<model.count {
             viewModel.append(SearchResults.Info.ViewModel.Profile(offset: index,
@@ -71,7 +70,7 @@ extension SearchResultsPresenter {
         return viewModel
     }
     
-    private func mapProjects(_ model: [SearchResults.Info.Model.Project]) -> [SearchResults.Info.ViewModel.Project] {
+    func mapProjects(_ model: [SearchResults.Info.Model.Project]) -> [SearchResults.Info.ViewModel.Project] {
         var viewModel = [SearchResults.Info.ViewModel.Project]()
         for index in 0..<model.count {
             var secondCathegory: String

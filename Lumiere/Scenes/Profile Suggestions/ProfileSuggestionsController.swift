@@ -13,7 +13,6 @@ protocol ProfileSuggestionsDisplayLogic: ViewInterface {
     func displayProfileSuggestions(_ viewModel: ProfileSuggestions.Info.ViewModel.UpcomingSuggestions)
     func fadeProfileItem(_ viewModel: ProfileSuggestions.Info.ViewModel.ProfileItemToFade)
     func displayProfileDetails()
-    func displayError(_ viewModel: ProfileSuggestions.Info.ViewModel.ProfileSuggestionsError)
     func displayCriterias(_ viewModel: ProfileSuggestions.Info.ViewModel.UpcomingCriteria)
 }
 
@@ -171,10 +170,6 @@ extension ProfileSuggestionsController: ProfileSuggestionsDisplayLogic {
     
     func displayProfileDetails() {
         router?.routeToProfileDetails()
-    }
-    
-    func displayError(_ viewModel: ProfileSuggestions.Info.ViewModel.ProfileSuggestionsError) {
-        UIAlertController.displayAlert(in: self, title: "Erro", message: viewModel.error)
     }
     
     func displayCriterias(_ viewModel: ProfileSuggestions.Info.ViewModel.UpcomingCriteria) {

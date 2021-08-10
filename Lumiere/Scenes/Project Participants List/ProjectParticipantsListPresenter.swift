@@ -42,7 +42,7 @@ class ProjectParticipantsListPresenter: ProjectParticipantsListPresentationLogic
     }
     
     func presentError(_ response: String) {
-        viewController.displayError(response)
+        viewController.showAlertError(description: response)
     }
     
     func presentProfileDetails() {

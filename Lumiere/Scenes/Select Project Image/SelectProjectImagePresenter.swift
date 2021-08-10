@@ -25,6 +25,6 @@ class SelectProjectImagePresenter: SelectProjectImagePresentationLogic {
     }
     
     func presentError(_ response: String) {
-        viewController.displayError(response)
+        viewController.showAlertError(description: response)
     }
 }

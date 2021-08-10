@@ -14,7 +14,6 @@ protocol SearchResultsDisplayLogic: ViewInterface {
     func displayProfileDetails()
     func displayOnGoingProjectDetails()
     func displayFinishedProjectDetails()
-    func displayError(_ viewModel: SearchResults.Info.ViewModel.ResultError)
     func displayResultTypes(_ viewModel: SearchResults.Info.ViewModel.UpcomingTypes)
 }
 
@@ -218,10 +217,6 @@ extension SearchResultsController: SearchResultsDisplayLogic {
     
     func displayFinishedProjectDetails() {
         router?.routeToFinishedProjectDetails()
-    }
-    
-    func displayError(_ viewModel: SearchResults.Info.ViewModel.ResultError) {
-        UIAlertController.displayAlert(in: self, title: "Erro ao carregar resultados", message: viewModel.error)
     }
     
     func displayResultTypes(_ viewModel: SearchResults.Info.ViewModel.UpcomingTypes) {

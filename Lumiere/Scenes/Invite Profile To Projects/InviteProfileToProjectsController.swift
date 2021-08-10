@@ -13,44 +13,13 @@ protocol InviteProfileToProjectsDisplayLogic: ViewInterface {
     func displayProjects(_ viewModel: InviteProfileToProjects.Info.ViewModel.UpcomingProjects)
     func displayRelationUpdate(_ viewModel: InviteProfileToProjects.Info.ViewModel.RelationUpdate)
     func displayConfirmationAlert(_ viewModel: InviteProfileToProjects.Info.ViewModel.Alert)
-    func hideConfirmationAlert()
-    func displayError(_ viewModel: InviteProfileToProjects.Info.ViewModel.ErrorViewModel)
 }
 
 class InviteProfileToProjectsController: BaseViewController {
     
-    private lazy var modalAlert: ConfirmationAlertView = {
-        let view = ConfirmationAlertView(frame: .zero,
-                                         delegate: self,
-                                         text: .empty)
-        return view
-    }()
-    
-    private lazy var translucentView: UIView = {
-        let view = UIView(frame: .zero)
-        view.backgroundColor = InviteProfileToProjects.Constants.Colors.translucentView
-        view.addGestureRecognizer(UITapGestureRecognizer(target: self,
-                                                         action: #selector(didTapTranslucentView)))
-        view.isHidden = true
-        return view
-    }()
-    
-    private lazy var mainLbl: UILabel = {
-        let view = UILabel(frame: .zero)
-        view.text = InviteProfileToProjects.Constants.Texts.mainLbl
-        view.textColor = InviteProfileToProjects.Constants.Colors.mainLbl
-        view.font = InviteProfileToProjects.Constants.Fonts.mainLbl
-        view.textAlignment = .left
-        return view
-    }()
-    
-    private lazy var searchTextField: UITextField = {
-        let view = UITextField(frame: .zero)
+    private lazy var searchTextField: WCDataTextField = {
+        let view = WCDataTextField(frame: .zero)
         view.addTarget(self, action: #selector(didSearchChange), for: .editingChanged)
-        view.layer.cornerRadius = 4
-        view.textColor = InviteProfileToProjects.Constants.Colors.searchTextFieldText
-        view.layer.borderWidth = 1
-        view.layer.borderColor = InviteProfileToProjects.Constants.Colors.searchTextFieldLayer
         return view
     }()
     
@@ -67,9 +36,7 @@ class InviteProfileToProjectsController: BaseViewController {
     private lazy var mainView: InviteProfileToProjectsView = {
         let view = InviteProfileToProjectsView(frame: .zero,
                                                searchTextField: searchTextField,
-                                               tableView: tableView,
-                                               translucentView: translucentView,
-                                               modalAlert: modalAlert)
+                                               tableView: tableView)
         return view
     }()
     
@@ -120,9 +87,16 @@ class InviteProfileToProjectsController: BaseViewController {
         router.dataStore = interactor
         router.viewController = viewController
     }
+    
+    @objc
+    private func didSearchChange() {
+        interactor?.fetchSearchProject(InviteProfileToProjects
+            .Request
+            .SearchProject(preffix: searchTextField.text ?? .empty))
+    }
 }
 
-extension InviteProfileToProjectsController: UITableViewDataSource {
+extension InviteProfileToProjectsController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel?.projects.count ?? 0
@@ -142,38 +116,10 @@ extension InviteProfileToProjectsController: UITableViewDataSource {
     }
 }
 
-extension InviteProfileToProjectsController: UITableViewDelegate { }
-
 extension InviteProfileToProjectsController: InviteProfileToProjectsTableViewCellDelegate {
     
     func didTapInteraction(index: Int) {
         interactor?.fetchInteraction(InviteProfileToProjects.Request.Interaction(index: index))
-    }
-}
-
-extension InviteProfileToProjectsController: ConfirmationAlertViewDelegate {
-    
-    func didTapAccept() {
-        interactor?.fetchConfirmInteraction(InviteProfileToProjects.Request.ConfirmInteraction())
-    }
-    
-    func didTapRefuse() {
-        interactor?.fetchRefuseInteraction(InviteProfileToProjects.Request.RefuseInteraction())
-    }
-}
-
-extension InviteProfileToProjectsController {
-    
-    @objc
-    private func didSearchChange() {
-        interactor?.fetchSearchProject(InviteProfileToProjects
-            .Request
-            .SearchProject(preffix: searchTextField.text ?? .empty))
-    }
-    
-    @objc
-    private func didTapTranslucentView() {
-        mainView.hideConfirmationAlert()
     }
 }
 
@@ -189,16 +135,10 @@ extension InviteProfileToProjectsController: InviteProfileToProjectsDisplayLogic
     }
     
     func displayConfirmationAlert(_ viewModel: InviteProfileToProjects.Info.ViewModel.Alert) {
-        mainView.displayConfirmationAlert(withText: viewModel.text)
-    }
-    
-    func hideConfirmationAlert() {
-        mainView.hideConfirmationAlert()
-    }
-
-    func displayError(_ viewModel: InviteProfileToProjects.Info.ViewModel.ErrorViewModel) {
-        UIAlertController.displayAlert(in: self,
-                                       title: viewModel.title,
-                                       message: viewModel.message)
+        WCDialogView().show(dialogType: .interaction(confirmText: WCConstants.Strings.yesAnswer, cancelText: WCConstants.Strings.noAnswer), in: self, description: viewModel.text, doneAction: {
+            self.interactor?.fetchConfirmInteraction(InviteProfileToProjects.Request.ConfirmInteraction())
+        }, cancelAction: {
+            self.interactor?.fetchRefuseInteraction(InviteProfileToProjects.Request.RefuseInteraction())
+        })
     }
 }

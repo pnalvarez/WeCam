@@ -11,7 +11,6 @@ import WCUIKit
 
 protocol ProjectParticipantsListDisplayLogic: ViewInterface {
     func displayParticipants(_ viewModel: ProjectParticipantsList.Info.ViewModel.UpcomingParticipants)
-    func displayError(_ viewModel: String)
     func displayProfileDetails()
 }
 
@@ -34,7 +33,7 @@ class ProjectParticipantsListController: BaseViewController {
         return view
     }()
     
-    private(set) var viewModel: ProjectParticipantsList.Info.ViewModel.UpcomingParticipants?
+    private var viewModel: ProjectParticipantsList.Info.ViewModel.UpcomingParticipants?
     
     private var interactor: ProjectParticipantsListInteractor?
     var router: ProjectParticipantsListRouterProtocol?
@@ -118,10 +117,6 @@ extension ProjectParticipantsListController: ProjectParticipantsListDisplayLogic
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
-    }
-    
-    func displayError(_ viewModel: String) {
-        UIAlertController.displayAlert(in: self, title: "Erro", message: viewModel)
     }
     
     func displayProfileDetails() {

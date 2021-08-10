@@ -10,7 +10,6 @@ import WCUIKit
 
 protocol ProfileDetailsDisplayLogic: ViewInterface {
     func displayUserInfo(_ viewModel: ProfileDetails.Info.ViewModel.User)
-    func displayError(_ viewModel: String)
     func displayNewConnectionType(_ viewModel: ProfileDetails.Info.ViewModel.NewConnectionType)
     func displayEndRequest()
     func displaySignOut()
@@ -237,13 +236,6 @@ extension ProfileDetailsController: ProfileDetailsDisplayLogic {
                                 ocupation: viewModel.occupation,
                                 connectionsNumber: viewModel.connectionsCount,
                                 relation: viewModel.connectionType)
-    }
-    
-    func displayError(_ viewModel: String) {
-        UIAlertController.displayAlert(in: self, title: ProfileDetails
-                                        .Constants
-                                        .Texts
-                                        .addConnectionError, message: viewModel)
     }
     
     func displayNewConnectionType(_ viewModel: ProfileDetails.Info.ViewModel.NewConnectionType) {

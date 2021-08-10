@@ -75,10 +75,10 @@ class OnGoingProjectDetailsInteractor: OnGoingProjectDetailsDataStore {
             case .success:
                 self.presenter.presentLoading(false)
                 self.presenter.presentInteractionEffectivated()
-                self.presenter.presentFeedback(OnGoingProjectDetails
+                self.presenter.presentSuccessAlert(OnGoingProjectDetails
                     .Info
                     .Model
-                    .Feedback(title: OnGoingProjectDetails
+                    .Alert(title: OnGoingProjectDetails
                         .Constants
                         .Texts
                         .projectInviteAcceptedTitle,
@@ -88,11 +88,7 @@ class OnGoingProjectDetailsInteractor: OnGoingProjectDetailsDataStore {
                                 .projectInviteAcceptedMessage))
             case .error(let error):
                 self.presenter.presentLoading(false)
-                self.presenter.presentFeedback(OnGoingProjectDetails
-                .Info
-                .Model
-                .Feedback(title: "Erro",
-                          message: error.description))
+                self.presenter.presentAlertError(error.description)
             }
         }
     }
@@ -105,11 +101,7 @@ class OnGoingProjectDetailsInteractor: OnGoingProjectDetailsDataStore {
                 self.presenter.presentInteractionEffectivated()
             case .error(let error):
                 self.presenter.presentLoading(false)
-                self.presenter.presentFeedback(OnGoingProjectDetails
-                              .Info
-                              .Model
-                              .Feedback(title: "Erro",
-                                        message: error.description))
+                self.presenter.presentAlertError(error.description)
             }
         }
     }
@@ -122,7 +114,7 @@ class OnGoingProjectDetailsInteractor: OnGoingProjectDetailsDataStore {
                 self.presenter.presentInteractionEffectivated()
             case .error(let error):
                 self.presenter.presentLoading(false)
-                self.presenter.presentFeedback(OnGoingProjectDetails.Info.Model.Feedback(title: WCConstants.Strings.errorTitle, message: error.description))
+                self.presenter.presentAlertError(error.description)
             }
         }
     }
@@ -135,7 +127,7 @@ class OnGoingProjectDetailsInteractor: OnGoingProjectDetailsDataStore {
                 self.presenter.presentInteractionEffectivated()
             case .error(let error):
                 self.presenter.presentLoading(false)
-                self.presenter.presentFeedback(OnGoingProjectDetails.Info.Model.Feedback(title: WCConstants.Strings.errorTitle, message: error.description))
+                self.presenter.presentAlertError(error.description)
             }
         }
     }
@@ -148,11 +140,7 @@ class OnGoingProjectDetailsInteractor: OnGoingProjectDetailsDataStore {
                 self.presenter.presentInteractionEffectivated()
             case .error(let error):
                 self.presenter.presentLoading(false)
-                self.presenter.presentFeedback(OnGoingProjectDetails
-                    .Info
-                    .Model
-                    .Feedback(title: WCConstants.Strings.errorTitle,
-                message: error.description))
+                self.presenter.presentAlertError(error.description)
             }
         }
     }
@@ -161,7 +149,7 @@ class OnGoingProjectDetailsInteractor: OnGoingProjectDetailsDataStore {
         worker.fetchUpdateProgress(OnGoingProjectDetails.Request.UpdateProgressToInteger(projectId: projectData?.id ?? .empty, progress: Int(progress * 100))) { response in
             switch response {
             case .success:
-                self.presenter.presentFeedback(OnGoingProjectDetails.Info.Model.Feedback(title: OnGoingProjectDetails.Constants.Texts.updatedProgressTitle, message: OnGoingProjectDetails.Constants.Texts.updateProgressMessage))
+                self.presenter.presentSuccessAlert(OnGoingProjectDetails.Info.Model.Alert(title: OnGoingProjectDetails.Constants.Texts.updatedProgressTitle, message: OnGoingProjectDetails.Constants.Texts.updateProgressMessage))
                 self.projectData?.progress = Int(progress * OnGoingProjectDetails.Constants.BusinessLogic.percentage)
                 guard let project = self.projectData else { return }
                 self.presenter.presentProjectDetails(project)
@@ -272,7 +260,7 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
                     self.projectData?.image = data.imageURL
                     guard let project = self.projectData else { return }
                     self.presenter.presentProjectDetails(project)
-                    self.presenter.presentFeedback(OnGoingProjectDetails.Info.Model.Feedback(title: "Alteração realizada", message: "Imagem do projeto foi alterada com sucesso"))
+                    self.presenter.presentSuccessAlert(OnGoingProjectDetails.Info.Model.Alert(title: "Alteração realizada", message: "Imagem do projeto foi alterada com sucesso"))
                 case .error(let error):
                     self.presenter.presentLoading(false)
                     self.presenter.presentToastError(error.description)
@@ -294,7 +282,7 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
                                     self.projectData?.sinopsis = request.sinopsis
                                     guard let project = self.projectData else { return }
                                     self.presenter.presentProjectDetails(project)
-                                    self.presenter.presentFeedback(OnGoingProjectDetails.Info.Model.Feedback(title: "Alteração realizada", message: "O título e a sinopse do projeto foram alterados com sucesso"))
+                                    self.presenter.presentSuccessAlert(OnGoingProjectDetails.Info.Model.Alert(title: "Alteração realizada", message: "O título e a sinopse do projeto foram alterados com sucesso"))
                                 case .error(let error):
                                     self.presenter.presentLoading(false)
                                     self.presenter.presentToastError(error.description)
@@ -317,7 +305,7 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
                                         self.projectData?.needing = request.needing
                                         guard let project = self.projectData else { return }
                                         self.presenter.presentProjectDetails(project)
-                                        self.presenter.presentFeedback(OnGoingProjectDetails.Info.Model.Feedback(title: "Alteração realizada", message: "Alteração do que o projeto precisa foi realizada com sucesso"))
+                                        self.presenter.presentSuccessAlert(OnGoingProjectDetails.Info.Model.Alert(title: "Alteração realizada", message: "Alteração do que o projeto precisa foi realizada com sucesso"))
                                     case .error(let error):
                                         self.presenter.presentLoading(false)
                                         self.presenter.presentToastError(error.description)

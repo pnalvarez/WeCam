@@ -11,7 +11,6 @@ import Photos
 
 protocol SelectProjectImageDisplayLogic: ViewInterface {
     func displaySelectCathegory()
-    func displayError(_ viewModel: String)
 }
 
 class SelectProjectImageController: BaseViewController, UINavigationControllerDelegate {
@@ -132,10 +131,5 @@ extension SelectProjectImageController: SelectProjectImageDisplayLogic {
     func displaySelectCathegory() {
         router?.routeToCategories()
         navigationController?.tabBarController?.tabBar.isHidden = true
-    }
-    
-    func displayError(_ viewModel: String) {
-        selectedImageButton.layer.borderColor = UIColor.red.cgColor
-        UIAlertController.displayAlert(in: self, title: "Erro", message: viewModel)
     }
 }

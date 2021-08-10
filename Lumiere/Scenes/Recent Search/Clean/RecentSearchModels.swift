@@ -154,11 +154,6 @@ struct RecentSearch {
                 let name: String
                 let secondaryInfo: String
             }
-            
-            struct Error {
-                let title: String
-                let message: String
-            }
         }
     }
     

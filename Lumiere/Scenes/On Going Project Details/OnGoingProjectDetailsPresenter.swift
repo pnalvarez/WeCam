@@ -14,7 +14,7 @@ protocol OnGoingProjectDetailsPresentationLogic {
     func presentAlertError(_ response: String)
     func presentToastError(_ response: String)
     func presentLoading(_ loading: Bool)
-    func presentFeedback(_ response: OnGoingProjectDetails.Info.Model.Feedback)
+    func presentSuccessAlert(_ response: OnGoingProjectDetails.Info.Model.Alert)
     func presentUserDetails()
     func presentConfirmationModal(forRelation relation: OnGoingProjectDetails.Info.Model.RelationModel)
     func presentInteractionEffectivated()
@@ -78,9 +78,9 @@ class OnGoingProjectDetailsPresenter: OnGoingProjectDetailsPresentationLogic {
         viewController.defaultScreenLoading(!loading)
     }
     
-    func presentFeedback(_ response: OnGoingProjectDetails.Info.Model.Feedback) {
-        let viewModel = OnGoingProjectDetails.Info.ViewModel.Feedback(title: response.title, message: response.message)
-        viewController.displayFeedback(viewModel)
+    func presentSuccessAlert(_ response: OnGoingProjectDetails.Info.Model.Alert) {
+        viewController.showAlertSuccess(title: response.title,
+                                        description: response.message)
     }
     
     func presentUserDetails() {

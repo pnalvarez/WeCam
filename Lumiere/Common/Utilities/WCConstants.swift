@@ -14,5 +14,6 @@ enum WCConstants {
         static let unexpectedErrorTitle = "Ocorreu um erro inesperado"
         static let yesAnswer = "Sim"
         static let noAnswer = "Não"
+        static let errorLoad = "Erro ao carregar resultados"
     }
 }

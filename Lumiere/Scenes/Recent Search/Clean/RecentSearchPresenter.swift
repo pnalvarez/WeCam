@@ -31,8 +31,8 @@ class RecentSearchPresenter: RecentSearchPresentationLogic {
     }
     
     func presentError(_ response: RecentSearch.Info.Model.Error) {
-        let viewModel = RecentSearch.Info.ViewModel.Error(title: response.title, message: response.message)
-        viewController.displayError(viewModel)
+        viewController.showAlertError(title: response.title,
+                                      description: response.message)
     }
     
     func presentRecentSearches(_ response: RecentSearch.Info.Model.UpcomingResults) {

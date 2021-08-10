@@ -11,16 +11,11 @@ import WCUIKit
 
 class ProjectInvitesView: BaseView {
     
-    private unowned var modalAlertView: ConfirmationAlertView
-    private unowned var translucentView: UIView
-    private unowned var searchTextField: UITextField
+    private unowned var searchTextField: WCDataTextField
     private unowned var tableView: UITableView
     
-    private lazy var projectTitleLbl: UILabel = {
-        let view = UILabel(frame: .zero)
-        view.textAlignment = .left
-        view.font = ProjectInvites.Constants.Fonts.projectTitleLbl
-        view.textColor = ProjectInvites.Constants.Colors.projectTitleLbl
+    private lazy var projectTitleLbl: WCUILabelRobotoRegular16Gray = {
+        let view = WCUILabelRobotoRegular16Gray(frame: .zero)
         view.numberOfLines = 0
         return view
     }()
@@ -28,12 +23,8 @@ class ProjectInvitesView: BaseView {
     private var viewModel: ProjectInvites.Info.ViewModel.Project?
     
     init(frame: CGRect,
-         modalAlertView: ConfirmationAlertView,
-         translucentView: UIView,
-         searchTextField: UITextField,
+         searchTextField: WCDataTextField,
          tableView: UITableView) {
-        self.modalAlertView = modalAlertView
-        self.translucentView = translucentView
         self.searchTextField = searchTextField
         self.tableView = tableView
         super.init(frame: frame)
@@ -48,31 +39,6 @@ class ProjectInvitesView: BaseView {
         applyViewCode()
     }
     
-    func displayConfirmationView(withText text: String) {
-        UIView.animate(withDuration: 0.2, animations: {
-            self.modalAlertView.setupText(text)
-            self.translucentView.isHidden = false
-            self.modalAlertView.snp.remakeConstraints { make in
-                make.top.equalTo(self.translucentView.snp.centerY)
-                make.right.left.equalToSuperview()
-                make.height.equalTo(self.translucentView)
-            }
-            self.layoutIfNeeded()
-        })
-    }
-    
-    func hideConfirmationView() {
-        UIView.animate(withDuration: 0.2, animations: {
-            self.translucentView.isHidden = true
-            self.modalAlertView.snp.remakeConstraints { make in
-                make.top.equalTo(self.translucentView.snp.bottom)
-                make.right.left.equalToSuperview()
-                make.height.equalTo(self.translucentView)
-            }
-            self.layoutIfNeeded()
-        })
-    }
-    
     func hideHeaderElements() {
         projectTitleLbl.isHidden = true
         searchTextField.isHidden = true
@@ -85,8 +51,6 @@ extension ProjectInvitesView: ViewCodeProtocol {
         addSubview(projectTitleLbl)
         addSubview(searchTextField)
         addSubview(tableView)
-        addSubview(translucentView)
-        addSubview(modalAlertView)
     }
     
     func setupConstraints() {
@@ -104,14 +68,6 @@ extension ProjectInvitesView: ViewCodeProtocol {
         tableView.snp.makeConstraints { make in
             make.top.equalTo(searchTextField.snp.bottom).offset(26)
             make.left.right.bottom.equalToSuperview()
-        }
-        translucentView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-        modalAlertView.snp.makeConstraints { make in
-            make.top.equalTo(translucentView.snp.bottom)
-            make.right.left.equalToSuperview()
-            make.height.equalTo(translucentView)
         }
     }
     

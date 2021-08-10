@@ -79,6 +79,10 @@ extension ProjectProgressController: ProjectProgressDisplayLogic {
     }
     
     func displayFinishConfirmationDialog() {
-        UIAlertController.displayConfirmationDialog(in: self,title: ProjectProgress.Constants.Texts.finishConfirmationTitle, message: ProjectProgress.Constants.Texts.finishConfirmationMessage, confirmationCallback: { self.interactor?.fetchConfirmFinished(ProjectProgress.Request.ConfirmFinishedStatus())}, refuseCallback: { self.interactor?.fetchConfirmPercentage(ProjectProgress.Request.ConfirmPercentage()) }, animated: true)
+        WCDialogView().show(dialogType: .interaction(confirmText: WCConstants.Strings.yesAnswer, cancelText: WCConstants.Strings.noAnswer), in: self, title: ProjectProgress.Constants.Texts.finishConfirmationTitle, description: ProjectProgress.Constants.Texts.finishConfirmationMessage, doneAction: {
+            self.interactor?.fetchConfirmFinished(ProjectProgress.Request.ConfirmFinishedStatus())
+        }, cancelAction: {
+            self.interactor?.fetchConfirmPercentage(ProjectProgress.Request.ConfirmPercentage())
+        })
     }
 }

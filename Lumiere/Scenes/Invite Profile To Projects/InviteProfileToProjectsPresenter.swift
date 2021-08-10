@@ -12,13 +12,12 @@ protocol InviteProfileToProjectsPresentationLogic {
     func presentProjects(_ response: InviteProfileToProjects.Info.Model.UpcomingProjects)
     func presentRelationUpdate(_ response: InviteProfileToProjects.Info.Model.RelationUpdate)
     func presentConfirmationAlert(_ response: InviteProfileToProjects.Info.Model.Alert)
-    func hideConfirmationAlert()
     func presentLoading(_ loading: Bool)
     func presenterError(_ response: WCError)
 }
 
 class InviteProfileToProjectsPresenter: InviteProfileToProjectsPresentationLogic {
-    
+        
     private unowned var viewController: InviteProfileToProjectsDisplayLogic
     
     init(viewController: InviteProfileToProjectsDisplayLogic) {
@@ -72,17 +71,12 @@ class InviteProfileToProjectsPresenter: InviteProfileToProjectsPresentationLogic
         viewController.displayConfirmationAlert(InviteProfileToProjects.Info.ViewModel.Alert(text: response.text))
     }
     
-    func hideConfirmationAlert() {
-        viewController.hideConfirmationAlert()
-    }
-    
     func presentLoading(_ loading: Bool) {
         viewController.defaultScreenLoading(!loading)
     }
     
     func presenterError(_ response: WCError) {
-        let viewModel = InviteProfileToProjects.Info.ViewModel.ErrorViewModel(title: "Erro",
-                                                                              message: response.description)
-        viewController.displayError(viewModel)
+        viewController.showAlertError(title: WCConstants.Strings.errorTitle,
+                                      description: response.description)
     }
 }

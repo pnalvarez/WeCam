@@ -297,13 +297,11 @@ extension InviteProfileToProjectsInteractor: InviteProfileToProjectsBusinessLogi
         guard let relation = interactingProject?.relation else { return }
         switch relation {
         case .participating:
-            presenter.hideConfirmationAlert()
             fetchRemoveUserFromProject(request: InviteProfileToProjects
                                         .Request
                                         .RemoveUser(userId: receivedUser?.userId ?? .empty,
                                                     projectId: interactingProject?.id ?? .empty))
         case .sentRequest:
-            presenter.hideConfirmationAlert()
             fetchAcceptUserIntoProject(request: InviteProfileToProjects
                                         .Request
                                         .AcceptUser(userId: receivedUser?.userId ?? .empty,
@@ -318,17 +316,12 @@ extension InviteProfileToProjectsInteractor: InviteProfileToProjectsBusinessLogi
     func fetchRefuseInteraction(_ request: InviteProfileToProjects.Request.RefuseInteraction) {
         guard let relation = interactingProject?.relation else { return }
         switch relation {
-        case .participating:
-            presenter.hideConfirmationAlert()
         case .sentRequest:
-            presenter.hideConfirmationAlert()
             fetchRefuseUserIntoProject(request: InviteProfileToProjects
                                         .Request
                                         .RefuseUser(userId: receivedUser?.userId ?? .empty,
                                                     projectId: interactingProject?.id ?? .empty))
-        case .receivedRequest:
-            break
-        case .nothing:
+        default:
             break
         }
     }

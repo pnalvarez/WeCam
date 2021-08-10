@@ -170,7 +170,7 @@ struct OnGoingProjectDetails {
                 let image: String?
             }
             
-            struct Feedback: Equatable {
+            struct Alert: Equatable {
                 let title: String
                 let message: String
             }

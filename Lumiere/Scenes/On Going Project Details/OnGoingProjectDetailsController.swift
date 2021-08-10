@@ -13,7 +13,6 @@ import Photos
 protocol OnGoingProjectDetailsDisplayLogic: ViewInterface {
     func displayProjectDetails(_ viewModel: OnGoingProjectDetails.Info.ViewModel.Project)
     func displayUIForRelation(_ viewModel: OnGoingProjectDetails.Info.ViewModel.RelationModel)
-    func displayFeedback(_ viewModel: OnGoingProjectDetails.Info.ViewModel.Feedback)
     func displayUserDetails()
     func displayConfirmationModal(_ viewModel: OnGoingProjectDetails.Info.ViewModel.RelationModel)
     func displayInteractionEffectivated()
@@ -285,10 +284,6 @@ extension OnGoingProjectDetailsController: OnGoingProjectDetailsDisplayLogic {
 
     func displayUIForRelation(_ viewModel: OnGoingProjectDetails.Info.ViewModel.RelationModel) {
         mainView.updateUI(forRelation: viewModel)
-    }
-    
-    func displayFeedback(_ viewModel: OnGoingProjectDetails.Info.ViewModel.Feedback) {
-        UIAlertController.displayAlert(in: self, title: viewModel.title, message: viewModel.message)
     }
     
     func displayUserDetails() {

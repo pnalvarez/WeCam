@@ -11,7 +11,6 @@ import WCUIKit
 
 protocol RecentSearchDisplayLogic: ViewInterface {
     func displayRecentSearches(_ viewModel: RecentSearch.Info.ViewModel.UpcomingResults)
-    func displayError(_ viewModel: RecentSearch.Info.ViewModel.Error)
     func displayProfileDetails()
     func displayOnGoingProjectDetails()
     func displayFinishedProjectDetails()
@@ -121,10 +120,6 @@ extension RecentSearchController: RecentSearchDisplayLogic {
     
     func displayRecentSearches(_ viewModel: RecentSearch.Info.ViewModel.UpcomingResults) {
         self.viewModel = viewModel
-    }
-
-    func displayError(_ viewModel: RecentSearch.Info.ViewModel.Error) {
-        UIAlertController.displayAlert(in: self, title: viewModel.title, message: viewModel.message)
     }
     
     func displayProfileDetails() {

@@ -12,7 +12,6 @@ import WCUIKit
 protocol SelectProjectCathegoryDisplayLogic: ViewInterface {
     func displayAllCathegories(_ viewModel: SelectProjectCathegory.Info.Model.InterestCathegories)
     func displayProjectProgress()
-    func displayError(_ viewModel: SelectProjectCathegory.Info.Errors.SelectionError)
 }
 
 class SelectProjectCathegoryController: BaseViewController {
@@ -162,11 +161,5 @@ extension SelectProjectCathegoryController: SelectProjectCathegoryDisplayLogic {
     
     func displayProjectProgress() {
         router?.routeToProjectProgress()
-    }
-    
-    func displayError(_ viewModel: SelectProjectCathegory.Info.Errors.SelectionError) {
-        UIAlertController.displayAlert(in: self,
-                                       title: viewModel.title,
-                                       message: viewModel.message)
     }
 }

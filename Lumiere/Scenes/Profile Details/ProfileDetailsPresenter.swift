@@ -62,8 +62,7 @@ class ProfileDetailsPresenter: ProfileDetailsPresentationLogic {
     }
     
     func presentError(_ response: ProfileDetails.Errors.ProfileDetailsError) {
-        // TO DO
-        viewController.displayError(response.description)
+        viewController.showErrorToast(withText: response.description)
     }
     
     func presentNewInteractionIcon(_ response: ProfileDetails.Info.Model.NewConnectionType) {

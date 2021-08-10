@@ -29,6 +29,7 @@ class SelectProjectCathegoryPresenter: SelectProjectCathegoryPresentationLogic {
     }
     
     func presentError(_ response: SelectProjectCathegory.Info.Errors.SelectionError) {
-        viewController.displayError(response)
+        viewController.showAlertError(title: response.title,
+                                      description: response.message)
     }
 }

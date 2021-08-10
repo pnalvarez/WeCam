@@ -48,8 +48,7 @@ class ProfileSuggestionsPresenter: ProfileSuggestionsPresentationLogic {
     }
     
     func presentError(_ response: ProfileSuggestions.Info.Model.ProfileSuggestionsError) {
-        let viewModel = ProfileSuggestions.Info.ViewModel.ProfileSuggestionsError(error: response.error.description)
-        viewController.displayError(viewModel)
+        viewController.showAlertError(title: WCConstants.Strings.errorTitle, description: response.error.description)
     }
     
     func presentLoading(_ loading: Bool) {

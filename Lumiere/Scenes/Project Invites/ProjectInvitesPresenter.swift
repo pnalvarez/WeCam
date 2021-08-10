@@ -12,10 +12,10 @@ protocol ProjectInvitesPresentationLogic {
     func presentUsers(_ response: ProjectInvites.Info.Model.UpcomingUsers)
     func presentProject(_ response: ProjectInvites.Info.Model.Project)
     func presentModalAlert(_ response: ProjectInvites.Info.Model.Alert)
-    func hideModalAlert()
     func presentLoading(_ loading: Bool)
     func presentProfileDetails()
-    func presentError(_ response: WCError)
+    func presentErrorAlert(_ response: WCError)
+    func presentErrorToast(_ response: WCError)
     func presentRelationUpdate(_ response: ProjectInvites.Info.Model.RelationUpdate)
 }
 
@@ -66,10 +66,6 @@ class ProjectInvitesPresenter: ProjectInvitesPresentationLogic {
             .Alert(text: response.text))
     }
     
-    func hideModalAlert() {
-        viewController.hideConfirmationView()
-    }
-    
     func presentLoading(_ loading: Bool) {
         viewController.defaultScreenLoading(!loading)
     }
@@ -78,8 +74,13 @@ class ProjectInvitesPresenter: ProjectInvitesPresentationLogic {
         viewController.displayProfileDetails()
     }
     
-    func presentError(_ response: WCError) {
-        viewController.displayError(ProjectInvites.Info.ViewModel.ErrorViewModel(title: "Erro", message: response.description))
+    func presentErrorAlert(_ response: WCError) {
+        viewController.showAlertError(title: WCConstants.Strings.errorTitle,
+                                      description: response.description)
+    }
+    
+    func presentErrorToast(_ response: WCError) {
+        viewController.showErrorToast(withText: response.description)
     }
     
     func presentRelationUpdate(_ response: ProjectInvites.Info.Model.RelationUpdate) {

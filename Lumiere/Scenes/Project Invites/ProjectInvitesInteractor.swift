@@ -50,26 +50,24 @@ extension ProjectInvitesInteractor {
     
     private func fetchUserRelationToOnGoingProject(request: ProjectInvites.Request.FetchRelation) {
         worker.fetchUserRelationToOnGoingProject(request) { response in
+            self.presenter.presentLoading(false)
             switch response {
             case .success(let data):
-                self.presenter.presentLoading(false)
                 self.parseRelations(data: data, userId: request.userId)
             case .error(let error):
-                self.presenter.presentLoading(false)
-                self.presenter.presentError(error)
+                self.presenter.presentErrorAlert(error)
             }
         }
     }
     
     private func fetchUserRelationToFinishedProject(request: ProjectInvites.Request.FetchRelation) {
         worker.fetchUserRelationToFinishedProject(request) { response in
+            self.presenter.presentLoading(false)
             switch response {
             case .success(let data):
-                self.presenter.presentLoading(false)
                 self.parseRelations(data: data, userId: request.userId)
             case .error(let error):
-                self.presenter.presentLoading(false)
-                self.presenter.presentError(error)
+                self.presenter.presentErrorAlert(error)
             }
         }
     }
@@ -104,7 +102,7 @@ extension ProjectInvitesInteractor {
             case .success:
                 self.users?.users[index].relation = .simpleParticipant
             case .error(let error):
-                self.presenter.presentError(error)
+                self.presenter.presentErrorToast(error)
                 self.presenter.presentRelationUpdate(ProjectInvites.Info.Model.RelationUpdate(index: index, relation: .sentRequest))
             }
         }
@@ -117,7 +115,7 @@ extension ProjectInvitesInteractor {
             case .success:
                 self.users?.users[index].relation = .nothing
             case .error(let error):
-                self.presenter.presentError(error)
+                self.presenter.presentErrorToast(error)
                 self.presenter.presentRelationUpdate(ProjectInvites.Info.Model.RelationUpdate(index: index, relation: .sentRequest))
             }
         }
@@ -130,7 +128,7 @@ extension ProjectInvitesInteractor {
             case .success:
                 self.users?.users[index].relation = .nothing
             case .error(let error):
-                self.presenter.presentError(error)
+                self.presenter.presentErrorToast(error)
                 self.presenter.presentRelationUpdate(ProjectInvites.Info.Model.RelationUpdate(index: index, relation: .simpleParticipant))
             }
         }
@@ -145,7 +143,7 @@ extension ProjectInvitesInteractor {
                 case .success:
                     self.users?.users[index].relation = .nothing
                 case .error(let error):
-                    self.presenter.presentError(error)
+                    self.presenter.presentErrorToast(error)
                     self.presenter.presentRelationUpdate(ProjectInvites.Info.Model.RelationUpdate(index: index, relation: .receivedRequest))
                 }
             }
@@ -155,7 +153,7 @@ extension ProjectInvitesInteractor {
                 case .success:
                     self.users?.users[index].relation = .nothing
                 case .error(let error):
-                    self.presenter.presentError(error)
+                    self.presenter.presentErrorToast(error)
                     self.presenter.presentRelationUpdate(ProjectInvites.Info.Model.RelationUpdate(index: index, relation: .receivedRequest))
                 }
             }
@@ -216,7 +214,7 @@ extension ProjectInvitesInteractor: ProjectInvitesBusinessLogic {
                 }
             case .error(let error):
                 self.presenter.presentLoading(false)
-                self.presenter.presentError(error)
+                self.presenter.presentErrorAlert(error)
             }
         }
     }
@@ -231,7 +229,7 @@ extension ProjectInvitesInteractor: ProjectInvitesBusinessLogic {
                     self.parseProjectData(data: data)
                 case .error(let error):
                     self.presenter.presentLoading(false)
-                    self.presenter.presentError(error)
+                    self.presenter.presentErrorAlert(error)
                 }
             }
         case .finished:
@@ -241,7 +239,7 @@ extension ProjectInvitesInteractor: ProjectInvitesBusinessLogic {
                     self.parseProjectData(data: data)
                 case .error(let error):
                     self.presenter.presentLoading(false)
-                    self.presenter.presentError(error)
+                    self.presenter.presentErrorAlert(error)
                 }
             }
         case .none:
@@ -283,7 +281,7 @@ extension ProjectInvitesInteractor: ProjectInvitesBusinessLogic {
                     case .success:
                         self.users?.users[index].relation = .receivedRequest
                     case .error(let error):
-                        self.presenter.presentError(error)
+                        self.presenter.presentErrorToast(error)
                         self.presenter.presentRelationUpdate(ProjectInvites.Info.Model.RelationUpdate(index: index, relation: .nothing))
                     }
                 }
@@ -293,7 +291,7 @@ extension ProjectInvitesInteractor: ProjectInvitesBusinessLogic {
                     case .success:
                         self.users?.users[index].relation = .receivedRequest
                     case .error(let error):
-                        self.presenter.presentError(error)
+                        self.presenter.presentErrorToast(error)
                         self.presenter.presentRelationUpdate(ProjectInvites.Info.Model.RelationUpdate(index: index, relation: .nothing))
                     }
                 }
@@ -307,15 +305,12 @@ extension ProjectInvitesInteractor: ProjectInvitesBusinessLogic {
         guard let index = users?.users.firstIndex(where: { $0.userId == interactingUser?.userId }) else { return }
         switch interactingUser?.relation ?? .nothing {
         case .simpleParticipant:
-            presenter.hideModalAlert()
             presenter.presentRelationUpdate(ProjectInvites.Info.Model.RelationUpdate(index: index, relation: .nothing))
             removeUserFromProject(request: ProjectInvites.Request.RemoveUserFromProject(userId: interactingUser?.userId ?? .empty, projectId: projectModel?.projectId ?? .empty))
         case .sentRequest:
-            presenter.hideModalAlert()
             presenter.presentRelationUpdate(ProjectInvites.Info.Model.RelationUpdate(index: index, relation: .simpleParticipant))
             acceptUserIntoProject(request: ProjectInvites.Request.AcceptUser(userId: interactingUser?.userId ?? .empty, projectId: projectModel?.projectId ?? .empty))
         case .receivedRequest:
-            presenter.hideModalAlert()
             presenter.presentRelationUpdate(ProjectInvites.Info.Model.RelationUpdate(index: index, relation: .nothing))
             removeInvite(request: ProjectInvites.Request.RemoveInvite(userId: interactingUser?.userId ?? .empty, projectId: projectModel?.projectId ?? .empty))
         case .nothing:
@@ -324,7 +319,6 @@ extension ProjectInvitesInteractor: ProjectInvitesBusinessLogic {
     }
     
     func fetchRefuseInteraction(_ request: ProjectInvites.Request.RefuseInteraction) {
-        presenter.hideModalAlert()
         guard let index = users?.users.firstIndex(where: { $0.userId == interactingUser?.userId }) else { return }
         switch interactingUser?.relation ?? .nothing {
         case .simpleParticipant:

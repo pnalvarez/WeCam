@@ -13,38 +13,15 @@ protocol ProjectInvitesDisplayLogic: ViewInterface {
     func displayUsers(_ viewModel: ProjectInvites.Info.ViewModel.UpcomingUsers)
     func displayProjectInfo(_ viewModel: ProjectInvites.Info.ViewModel.Project)
     func displayConfirmationView(_ viewModel: ProjectInvites.Info.ViewModel.Alert)
-    func hideConfirmationView()
     func displayProfileDetails()
-    func displayError(_ viewModel: ProjectInvites.Info.ViewModel.ErrorViewModel)
     func displayRelationUpdate(_ viewModel: ProjectInvites.Info.ViewModel.RelationUpdate)
 }
 
 class ProjectInvitesController: BaseViewController {
-    
-    private lazy var modalAlertView: ConfirmationAlertView = {
-        let view = ConfirmationAlertView(frame: .zero,
-                                         delegate: self,
-                                         text: .empty)
-        return view
-    }()
-    
-    private lazy var translucentView: UIView = {
-        let view = UIView(frame: .zero)
-        view.backgroundColor = UIColor.white.withAlphaComponent(0.5)
-        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapTranslucentView)))
-        view.isHidden = true
-        return view
-    }()
-    
-    private lazy var searchTextField: UITextField = {
-        let view = UITextField(frame: .zero)
-        view.layer.cornerRadius = 4
+
+    private lazy var searchTextField: WCDataTextField = {
+        let view = WCDataTextField(frame: .zero)
         view.addTarget(self, action: #selector(didSearchTextFieldChange), for: .editingChanged)
-        view.textAlignment = .left
-        view.font = ProjectInvites.Constants.Fonts.searchTextField
-        view.textColor = ProjectInvites.Constants.Colors.searchTextFieldText
-        view.layer.borderWidth = 1
-        view.layer.borderColor = ProjectInvites.Constants.Colors.searchTextFieldLayer
         return view
     }()
     
@@ -60,8 +37,6 @@ class ProjectInvitesController: BaseViewController {
     
     private lazy var mainView: ProjectInvitesView = {
         let view = ProjectInvitesView(frame: .zero,
-                                      modalAlertView: modalAlertView,
-                                      translucentView: translucentView,
                                       searchTextField: searchTextField,
                                       tableView: tableView)
         return view
@@ -114,14 +89,6 @@ class ProjectInvitesController: BaseViewController {
         router.dataStore = interactor
         router.viewController = viewController
     }
-}
-
-extension ProjectInvitesController {
-    
-    @objc
-    private func didTapClose() {
-        router?.routeBack()
-    }
     
     @objc
     private func didSearchTextFieldChange() {
@@ -129,28 +96,12 @@ extension ProjectInvitesController {
             .Request
             .Search(preffix: searchTextField.text ?? .empty))
     }
-    
-    @objc
-    private func didTapTranslucentView() {
-        mainView.hideConfirmationView()
-    }
 }
 
 extension ProjectInvitesController: ProjectInvitesTableViewCellDelegate {
     
     func didTapInteraction(index: Int) {
         interactor?.fetchInteract(ProjectInvites.Request.Interaction(index: index))
-    }
-}
-
-extension ProjectInvitesController: ConfirmationAlertViewDelegate {
-    
-    func didTapAccept() {
-        interactor?.fetchConfirmInteraction(ProjectInvites.Request.ConfirmInteraction())
-    }
-    
-    func didTapRefuse() {
-        interactor?.fetchRefuseInteraction(ProjectInvites.Request.RefuseInteraction())
     }
 }
 
@@ -193,19 +144,15 @@ extension ProjectInvitesController: ProjectInvitesDisplayLogic {
     }
     
     func displayConfirmationView(_ viewModel: ProjectInvites.Info.ViewModel.Alert) {
-        mainView.displayConfirmationView(withText: viewModel.text)
-    }
-    
-    func hideConfirmationView() {
-        mainView.hideConfirmationView()
+        WCDialogView().show(dialogType: .interaction(confirmText: WCConstants.Strings.yesAnswer, cancelText: WCConstants.Strings.noAnswer), in: self, description: viewModel.text, doneAction: {
+            self.interactor?.fetchConfirmInteraction(ProjectInvites.Request.ConfirmInteraction())
+        }, cancelAction: {
+            self.interactor?.fetchRefuseInteraction(ProjectInvites.Request.RefuseInteraction())
+        })
     }
     
     func displayProfileDetails() {
         router?.routeToProfileDetails()
-    }
-    
-    func displayError(_ viewModel: ProjectInvites.Info.ViewModel.ErrorViewModel) {
-        UIAlertController.displayAlert(in: self, title: viewModel.title, message: viewModel.message)
     }
     
     func displayRelationUpdate(_ viewModel: ProjectInvites.Info.ViewModel.RelationUpdate) {
