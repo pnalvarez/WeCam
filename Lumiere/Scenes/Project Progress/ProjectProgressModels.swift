@@ -36,7 +36,7 @@ struct ProjectProgress {
             static let hundredPercentLbl = "100%"
             static let advanceButton = "Avançar"
             static let finishConfirmationTitle = "Seu projeto está 100% concluído?"
-            static let finishConfirmationMessage = "Por acaso você considera seu projeto finalizado? Se sim, ele entrará para o feed de projetos concluídos e terá de adicionar a URL de um vídeo"
+            static let finishConfirmationMessage = "Se sim, ele entrará para o feed de projetos concluídos e terá de adicionar a URL de um vídeo"
         }
         
         struct Images {

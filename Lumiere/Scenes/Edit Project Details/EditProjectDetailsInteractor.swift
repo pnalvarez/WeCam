@@ -89,16 +89,15 @@ class EditProjectDetailsInteractor: EditProjectDetailsDataStore {
 //        }
 //    }
     
-    private func checkErrors(_ request: EditProjectDetails.Request.Publish) -> Bool {
-        guard !request.title.isEmpty else {
-            presenter.presentLocalError(EditProjectDetails.Info.Model.LocalError(description: EditProjectDetails.Info.Model.InputErrors.titleEmpty.rawValue))
-            return true
+    private func checkErrors(_ request: EditProjectDetails.Request.Publish) -> [EditProjectDetails.Info.Model.InputErrors] {
+        var errors = [EditProjectDetails.Info.Model.InputErrors]()
+        if request.title.isEmpty {
+            errors.append(.titleEmpty)
         }
-        guard !request.sinopsis.isEmpty else {
-            presenter.presentLocalError(EditProjectDetails.Info.Model.LocalError(description: EditProjectDetails.Info.Model.InputErrors.sinopsisEmpty.rawValue))
-            return true
+        if request.sinopsis.isEmpty {
+            errors.append(.sinopsisEmpty)
         }
-        return false
+        return errors
     }
     
     private func publishProject(_ request: EditProjectDetails.Request.Publish) {
@@ -153,7 +152,11 @@ extension EditProjectDetailsInteractor: EditProjectDetailsBusinessLogic {
     }
     
     func fetchSubmit(_ request: EditProjectDetails.Request.Publish) {
-        guard !checkErrors(request) else { return }
+        let inputErrors = checkErrors(request)
+        guard inputErrors.isEmpty else {
+            presenter.presentInputErrors(inputErrors)
+            return
+        }
         publishingProject = EditProjectDetails.Info.Model.PublishingProject(image: receivedData?.image,
                                                                             cathegories: receivedData?.cathegories ?? .empty,
                                                                             progress: Int((receivedData?.progress ?? 0)),

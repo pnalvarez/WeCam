@@ -124,8 +124,8 @@ enum EditProjectDetails {
             }
             
             enum InputErrors: String {
-                case titleEmpty = "Insira um título para o seu projeto"
-                case sinopsisEmpty = "Insira alguma sinopse sobre o seu projecto"
+                case titleEmpty = "- Insira um título para o seu projeto"
+                case sinopsisEmpty = "- Insira alguma sinopse sobre o seu projecto"
             }
         }
         
@@ -143,6 +143,11 @@ enum EditProjectDetails {
             
             struct DisplayError {
                 let description: String
+            }
+            
+            enum InputErrors: String {
+                case titleEmpty
+                case sinopsisEmpty
             }
         }
         

@@ -13,7 +13,7 @@ protocol EditProjectDetailsPresentationLogic {
     func presentInvitedUsers(_ response: EditProjectDetails.Info.Model.InvitedUsers)
     func presentLoading(_ loading: Bool)
     func presentServerError(_ response: EditProjectDetails.Info.Model.ServerError)
-    func presentLocalError(_ response: EditProjectDetails.Info.Model.LocalError)
+    func presentInputErrors(_ response: [EditProjectDetails.Info.Model.InputErrors])
     func presentFinishedProjectContextUI()
     func presentInsertVideo()
 }
@@ -48,8 +48,18 @@ class EditProjectDetailsPresenter: EditProjectDetailsPresentationLogic {
         viewController.showErrorToast(withText: response.error.description)
     }
     
-    func presentLocalError(_ response: EditProjectDetails.Info.Model.LocalError) {
-        viewController.showErrorToast(withText: response.description)
+    func presentInputErrors(_ response: [EditProjectDetails.Info.Model.InputErrors]) {
+        let message = response.map { $0.rawValue }.joined(separator: "\n")
+        let viewModel: [EditProjectDetails.Info.ViewModel.InputErrors] = response.map {
+            switch $0 {
+            case .titleEmpty:
+                return EditProjectDetails.Info.ViewModel.InputErrors.titleEmpty
+            case .sinopsisEmpty:
+                return EditProjectDetails.Info.ViewModel.InputErrors.sinopsisEmpty
+            }
+        }
+        viewController.displayInputErrorsState(viewModel)
+        viewController.showAlertError(description: message)
     }
     
     func presentFinishedProjectContextUI() {

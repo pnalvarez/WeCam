@@ -14,6 +14,8 @@ protocol EditProjectDetailsDisplayLogic: ViewInterface {
     func displayInvitedUsers(_ viewModel: EditProjectDetails.Info.ViewModel.InvitedUsers)
     func displayUpdatedProjectContextUI()
     func displayInsertVideo()
+    func displayInputErrorsState(_ viewModel: [EditProjectDetails.Info.ViewModel.InputErrors])
+    
 }
 
 class EditProjectDetailsController: BaseViewController {
@@ -237,5 +239,14 @@ extension EditProjectDetailsController: EditProjectDetailsDisplayLogic {
     
     func displayInsertVideo() {
         router?.routeToInsertVideo()
+    }
+    
+    func displayInputErrorsState(_ viewModel: [EditProjectDetails.Info.ViewModel.InputErrors]) {
+        if viewModel.contains(.titleEmpty) {
+            projectTitleTextField.textViewState = .error
+        }
+        if viewModel.contains(.sinopsisEmpty) {
+            sinopsisTextField.textViewState = .error
+        }
     }
 }
