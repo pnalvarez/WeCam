@@ -10,13 +10,13 @@ import UIKit
 import WCUIKit
 import ObjectMapper
 
-struct MainFeed {
+enum MainFeed {
     
     static let bundle = Bundle(for: MainFeedController.self)
     
-    struct Constants {
+    enum Constants {
         
-        struct Colors {
+        enum Colors {
             static let searchTextFieldText = UIColor(rgb: 0x000000)
             static let searchTextFieldLayer = UIColor(rgb: 0xe3e0e0).cgColor
             static let dividerView = UIColor(rgb: 0xc4c4c4)
@@ -29,7 +29,7 @@ struct MainFeed {
             static let finishedProjectFeedFixedLbl = UIColor(rgb: 0x969494)
         }
         
-        struct Fonts {
+        enum Fonts {
             static let searchTextField = ThemeFonts.RobotoRegular(14).rawValue
             static let recentSearchTitle = ThemeFonts.RobotoBold(16).rawValue
             static let profileSuggestionsHeaderLbl = ThemeFonts.RobotoBold(16).rawValue
@@ -38,7 +38,7 @@ struct MainFeed {
             static let finishedProjectFeedFixedLbl = ThemeFonts.RobotoBold(16).rawValue
         }
         
-        struct Texts {
+        enum Texts {
             static let profileSuggestionsHeaderLbl = "Sugestões de Perfil"
             static let profileSuggestionsSeeAllButton = "Ver Tudo"
             static let ongoingProjectsHeaderLbl = "Projetos em Andamento"
@@ -50,7 +50,7 @@ struct MainFeed {
             static let filterCathegories = "Filtrar"
         }
         
-        struct Images {
+        enum Images {
             static let lumiere = UIImage(named: "tipografia-projeto 2",
                                          in: MainFeed.bundle,
                                          compatibleWith: nil)
@@ -65,9 +65,9 @@ struct MainFeed {
                                         compatibleWith: nil)
         }
         
-        struct Dimensions {
+        enum Dimensions {
             
-            struct Heighs {
+            enum Heighs {
                 static let headerCell: CGFloat = 102
                 static let recentSearchCell: CGFloat = 34
                 static let profileSuggestionsCell: CGFloat = 190
@@ -77,7 +77,7 @@ struct MainFeed {
                 static let finishedProjectsFeedCell: CGFloat = 238
             }
             
-            struct Widths {
+            enum Widths {
                 static let ongoingProjectResumeButton: CGFloat = 86
                 static let ongoingProjectsFeedOffset: CGFloat = 22
                 static let ongoingProfojectsFeedInterval: CGFloat = 10
@@ -87,7 +87,7 @@ struct MainFeed {
             }
         }
         
-        struct BusinessLogic {
+        enum BusinessLogic {
             
             static let suggestionsLimit: Int = 10
             static let ongoingProjectsLimit: Int = 50
@@ -107,16 +107,16 @@ struct MainFeed {
         }
     }
     
-    struct Info {
+    enum Info {
         
-        struct Received {
+        enum Received {
             
             struct CurrentUser {
                 let currentUserId: String
             }
         }
         
-        struct Model {
+        enum Model {
             
             enum ItemType {
                 case profile
@@ -215,7 +215,7 @@ struct MainFeed {
             }
         }
         
-        struct ViewModel {
+        enum ViewModel {
             
             struct RecentSearch: Equatable {
                 let image: String
@@ -271,7 +271,7 @@ struct MainFeed {
             }
         }
         
-        struct Response {
+        enum Response {
             
             final class RecentSearch: Mappable {
 
@@ -344,7 +344,7 @@ struct MainFeed {
         }
     }
     
-    struct Request {
+    enum Request {
         
         struct MainFeed {
             
