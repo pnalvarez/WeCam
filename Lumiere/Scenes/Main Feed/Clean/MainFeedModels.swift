@@ -44,7 +44,7 @@ struct MainFeed {
             static let ongoingProjectsHeaderLbl = "Projetos em Andamento"
             static let allCriteria = "Todos"
             static let relativeToConnectionsCriteria = "Conexões"
-            static let genericError = "Ocorreu um erro genérico"
+            static let genericError = "Nada a mostrar"
             static let emptySearchErrorTitle = "Busca vazia"
             static let emptySearchErrorMessage = "Insira alguma palavra a procurar usuários ou projetos"
             static let filterCathegories = "Filtrar"

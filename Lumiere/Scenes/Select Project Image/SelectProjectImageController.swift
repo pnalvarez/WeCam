@@ -13,7 +13,7 @@ protocol SelectProjectImageDisplayLogic: ViewInterface {
     func displaySelectCathegory()
 }
 
-class SelectProjectImageController: BaseViewController, UINavigationControllerDelegate {
+class SelectProjectImageController: BaseViewController, HasTabBar, UINavigationControllerDelegate {
     
     private lazy var advanceButton: UIButton = {
         let view = UIButton(frame: .zero)
@@ -73,11 +73,6 @@ class SelectProjectImageController: BaseViewController, UINavigationControllerDe
         self.view = mainView
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.tabBarController?.tabBar.isHidden = false
-    }
-    
     private func setup() {
         let viewController = self
         let presenter = SelectProjectImagePresenter(viewController: viewController)
@@ -130,6 +125,5 @@ extension SelectProjectImageController: SelectProjectImageDisplayLogic {
     
     func displaySelectCathegory() {
         router?.routeToCategories()
-        navigationController?.tabBarController?.tabBar.isHidden = true
     }
 }

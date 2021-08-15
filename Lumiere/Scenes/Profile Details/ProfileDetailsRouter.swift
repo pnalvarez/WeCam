@@ -86,7 +86,6 @@ extension ProfileDetailsRouter: ProfileDetailsRoutingLogic {
     
     func routeToEditProfileDetails() {
         let vc = EditProfileDetailsController()
-        viewController?.navigationController?.tabBarController?.tabBar.isHidden = true
         routeTo(nextVC: vc)
     }
     

@@ -20,7 +20,7 @@ protocol FinishedProjectDetailsDisplayLogic: ViewInterface {
     func displayRoutingUI(_ viewModel: FinishedProjectDetails.Info.ViewModel.Routing)
 }
 
-class FinishedProjectDetailsController: BaseViewController {
+class FinishedProjectDetailsController: BaseViewController, HasNoTabBar {
     
     private lazy var watchButton: WCPrimaryActionButton = {
         let view = WCPrimaryActionButton(frame: .zero)
@@ -87,7 +87,6 @@ class FinishedProjectDetailsController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.tabBarController?.tabBar.isHidden = true
         interactor?.fetchRoutingModel(FinishedProjectDetails.Request.FetchRoutingModel())
         interactor?.fetchNotinvitedUsers(FinishedProjectDetails.Request.FetchNotInvitedUsers())
     }

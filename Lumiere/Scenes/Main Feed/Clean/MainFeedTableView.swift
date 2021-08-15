@@ -10,13 +10,9 @@ import UIKit
 import WCUIKit
 
 class MainFeedTableView: UITableView {
-    
-    private unowned var errorView: WCEmptyListView
-    
-    init(frame: CGRect,
-         style: UITableView.Style = .plain,
-         errorView: WCEmptyListView) {
-        self.errorView = errorView
+
+    override init(frame: CGRect,
+         style: UITableView.Style = .plain) {
         super.init(frame: frame, style: style)
         separatorStyle = .none
         bounces = false
@@ -31,15 +27,3 @@ class MainFeedTableView: UITableView {
     }
 }
 
-extension MainFeedTableView: ViewCodeProtocol {
-    
-    func buildViewHierarchy() {
-        addSubview(errorView)
-    }
-    
-    func setupConstraints() {
-        errorView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-    }
-}

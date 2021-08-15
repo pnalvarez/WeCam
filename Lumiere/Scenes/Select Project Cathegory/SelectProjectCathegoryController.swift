@@ -14,7 +14,7 @@ protocol SelectProjectCathegoryDisplayLogic: ViewInterface {
     func displayProjectProgress()
 }
 
-class SelectProjectCathegoryController: BaseViewController {
+class SelectProjectCathegoryController: BaseViewController, HasNoTabBar {
     
     private lazy var advanceButton: WCPrimaryActionButton = {
         let view = WCPrimaryActionButton(frame: .zero)
@@ -67,11 +67,6 @@ class SelectProjectCathegoryController: BaseViewController {
         interactor?.fetchAllCathegories(SelectProjectCathegory.Request.AllCathegories())
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.tabBarController?.tabBar.isHidden = true
-    }
-    
     override func loadView() {
         super.loadView()
         self.view = mainView
@@ -93,7 +88,6 @@ extension SelectProjectCathegoryController {
     
     @objc
     private func didTapBackButton() {
-        navigationController?.tabBarController?.tabBar.isHidden = false
         router?.dismissFlow()
     }
     

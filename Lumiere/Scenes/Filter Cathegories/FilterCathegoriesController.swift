@@ -16,7 +16,7 @@ protocol FilterCathegoriesDisplayLogic: ViewInterface {
     func displayLayoutFilterButton(_ enabled: Bool)
 }
 
-class FilterCathegoriesController: BaseViewController {
+class FilterCathegoriesController: BaseViewController, HasNoTabBar {
     
     private lazy var cathegoryListView: WCCathegoryListView = {
         let view = WCCathegoryListView(frame: .zero)
@@ -58,7 +58,6 @@ class FilterCathegoriesController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.tabBarController?.tabBar.isHidden = true
         interactor?.fetchInterestCathegories(FilterCathegories.Request.FetchInterestCathegories())
     }
     

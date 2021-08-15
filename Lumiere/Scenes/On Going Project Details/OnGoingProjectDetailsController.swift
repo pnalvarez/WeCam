@@ -22,7 +22,7 @@ protocol OnGoingProjectDetailsDisplayLogic: ViewInterface {
     func displayRoutingContextUI(_ viewModel: OnGoingProjectDetails.Info.ViewModel.RoutingContext)
 }
 
-class OnGoingProjectDetailsController: BaseViewController, UINavigationControllerDelegate {
+class OnGoingProjectDetailsController: BaseViewController, HasNoTabBar, UINavigationControllerDelegate {
     
     private lazy var progressButton: UIButton = {
         let view = UIButton(frame: .zero)
@@ -116,7 +116,6 @@ class OnGoingProjectDetailsController: BaseViewController, UINavigationControlle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.tabBarController?.tabBar.isHidden = true
         interactor?.fetchContext(OnGoingProjectDetails.Request.FetchContext())
         interactor?.fetchProjectRelation(OnGoingProjectDetails.Request.ProjectRelation())
     }

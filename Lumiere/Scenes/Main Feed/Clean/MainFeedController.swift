@@ -14,19 +14,20 @@ protocol MainFeedDisplayLogic: ViewInterface {
     func displayOnGoingProjectDetails()
     func displayFinishedProjectDetails()
     func displayFeedData(_ viewModel: MainFeed.Info.ViewModel.UpcomingFeedData)
-    func displayGenericError()
+    func displayErrorView(withMessage: String)
 }
 
-class MainFeedController: BaseTableViewController {
+class MainFeedController: BaseViewController, HasTabBar {
     
-    private lazy var errorView: WCEmptyListView = {
-        let view = WCEmptyListView(frame: .zero, text: MainFeed.Constants.Texts.genericError)
+    private lazy var tableView: MainFeedTableView = {
+        let view = MainFeedTableView(frame: .zero)
+        view.assignProtocols(to: self)
         return view
     }()
     
-    private lazy var mainTableView: MainFeedTableView = {
-        let view = MainFeedTableView(frame: .zero, errorView: errorView)
-        view.assignProtocols(to: self)
+    private lazy var mainView: MainFeedView = {
+        let view = MainFeedView(frame: .zero,
+                                tableView: tableView)
         return view
     }()
     
@@ -60,16 +61,11 @@ class MainFeedController: BaseTableViewController {
     
     override func loadView() {
         super.loadView()
-        self.tableView = mainTableView
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
+        self.view = mainView
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.tabBarController?.tabBar.isHidden = false
         interactor?.fetchMainFeed(MainFeed.Request.MainFeed())
     }
     
@@ -84,31 +80,34 @@ class MainFeedController: BaseTableViewController {
         router.dataStore = interactor
         router.viewController = viewController
     }
+}
+
+extension MainFeedController: UITableViewDataSource, UITableViewDelegate {
     
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return sections?.count ?? 0
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return sections?[section].numberOfRows() ?? 0
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = sections?[indexPath.section].builders[indexPath.row].cellAt(indexPath: indexPath, tableView: tableView) else {
             return UITableViewCell()
         }
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         return sections?[section].headerView()
     }
     
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return sections?[section].heightForHeader() ?? 0
     }
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return sections?[indexPath.section].cellHeightFor(indexPath: indexPath) ?? 0
     }
 }
@@ -177,8 +176,13 @@ extension MainFeedController: MainFeedDisplayLogic {
         self.viewModel = viewModel
     }
     
-    func displayGenericError() {
-        
+    func displayErrorView(withMessage message: String) {
+        WCFeedListErrorView().show(in: self,
+                                   message: message,
+                                   action: WCConstants.Strings.tryAgain,
+                                   mainAction: {
+                                    self.interactor?.fetchMainFeed(MainFeed.Request.MainFeed())
+                                   })
     }
 }
  

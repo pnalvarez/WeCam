@@ -15,7 +15,7 @@ protocol InviteProfileToProjectsDisplayLogic: ViewInterface {
     func displayConfirmationAlert(_ viewModel: InviteProfileToProjects.Info.ViewModel.Alert)
 }
 
-class InviteProfileToProjectsController: BaseViewController {
+class InviteProfileToProjectsController: BaseViewController, HasNoTabBar {
     
     private lazy var searchTextField: WCDataTextField = {
         let view = WCDataTextField(frame: .zero)
@@ -60,11 +60,6 @@ class InviteProfileToProjectsController: BaseViewController {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        navigationController?.tabBarController?.tabBar.isHidden = true
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -199,7 +199,7 @@ extension MainFeedInteractor {
     
     private func presentError(_ error: WCError) {
         presenter.showLoading?(true)
-        presenter.presentError(MainFeed.Info.Model.Error(title: WCConstants.Strings.unexpectedErrorTitle, message: error.description))
+        presenter.presentError(MainFeed.Info.Model.Error(title: WCConstants.Strings.errorTitle, message: error.description))
     }
 }
 

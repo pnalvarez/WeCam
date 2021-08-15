@@ -15,5 +15,10 @@ enum WCConstants {
         static let yesAnswer = "Sim"
         static let noAnswer = "Não"
         static let errorLoad = "Erro ao carregar resultados"
+        static let tryAgain = "Tentar novamente"
+    }
+    
+    enum Floats {
+        static let hundredPercent: Float = 100
     }
 }

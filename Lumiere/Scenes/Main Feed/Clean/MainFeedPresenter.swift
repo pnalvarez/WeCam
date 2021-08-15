@@ -48,7 +48,7 @@ class MainFeedPresenter: MainFeedPresentationLogic {
                 .ViewModel
                 .UpcomingProjects(projects: response.ongoingProjects?.projects.map({
                     MainFeed.Info.ViewModel.OnGoingProject(image: $0.image,
-                                                           progress: Float($0.progress)/100)
+                                                           progress: Float($0.progress)/WCConstants.Floats.hundredPercent)
                 }) ?? .empty),
             interestCathegories: MainFeed
                 .Info
@@ -65,8 +65,7 @@ class MainFeedPresenter: MainFeedPresentationLogic {
     }
     
     func presentError(_ response: MainFeed.Info.Model.Error) {
-        viewController.showAlertError(title: response.title,
-                                      description: response.message)
+        viewController.displayErrorView(withMessage: response.message)
     }
     
     func presentFinishedProjectDetails() {

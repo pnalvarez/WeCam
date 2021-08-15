@@ -18,7 +18,7 @@ protocol ProfileDetailsDisplayLogic: ViewInterface {
     func displayFinishedProjectDetails()
 }
 
-class ProfileDetailsController: BaseViewController {
+class ProfileDetailsController: BaseViewController, HasTabBar {
     
     private lazy var profileHeaderView: WCProfileHeaderView = {
         let view = WCProfileHeaderView(frame: .zero)
@@ -93,7 +93,6 @@ class ProfileDetailsController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.tabBarController?.tabBar.isHidden = false
         interactor?.fetchUserInfo(ProfileDetails.Request.UserData())
     }
     
@@ -253,7 +252,6 @@ extension ProfileDetailsController: ProfileDetailsDisplayLogic {
     }
     
     func displayConfirmation(_ viewModel: ProfileDetails.Info.ViewModel.InteractionConfirmation) {
-        tabBarController?.tabBar.isHidden = true
         WCDialogView().show(dialogType: .interaction(confirmText: WCConstants.Strings.yesAnswer, cancelText: WCConstants.Strings.noAnswer), in: self, description: viewModel.text, doneAction: {
             self.interactor?.fetchConfirmInteraction(ProfileDetails.Request.ConfirmInteraction())
         })

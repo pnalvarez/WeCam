@@ -17,6 +17,7 @@ class BaseViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.isNavigationBarHidden = true
+        configureTabBarVisibility()
         navigationItem.backBarButtonItem = UIBarButtonItem(image: backButtonImage, style: .plain, target: nil, action: nil)
         navigationItem.titleView = UIImageView(image: titleViewImage)
         let gesture = UITapGestureRecognizer(target: self, action: #selector(didTap))
@@ -43,6 +44,14 @@ class BaseViewController: UIViewController {
     private func configureRootViewComponentsVisibility() {
         if let rootView = view as? BaseView {
             rootView.configureAuxiliarComponentsVisibility()
+        }
+    }
+    
+    private func configureTabBarVisibility() {
+        if self is HasTabBar {
+            navigationController?.tabBarController?.tabBar.isHidden = false
+        } else if self is HasNoTabBar {
+            navigationController?.tabBarController?.tabBar.isHidden = true
         }
     }
 }

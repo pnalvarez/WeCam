@@ -17,7 +17,7 @@ protocol SearchResultsDisplayLogic: ViewInterface {
     func displayResultTypes(_ viewModel: SearchResults.Info.ViewModel.UpcomingTypes)
 }
 
-class SearchResultsController: BaseViewController {
+class SearchResultsController: BaseViewController, HasTabBar {
     
     private lazy var resultTypeOptionsToolbar: WCOptionsToolbar = {
         let view = WCOptionsToolbar(frame: .zero)
@@ -89,7 +89,6 @@ class SearchResultsController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.tabBarController?.tabBar.isHidden = false
         interactor?.fetchBeginSearch(SearchResults.Request.Search())
     }
     
