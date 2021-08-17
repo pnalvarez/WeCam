@@ -11,7 +11,7 @@ import WCUIKit
 
 class EditProjectDetailsView: BaseView, ModalViewable {
     
-    private unowned var inviteFriendsButton: WCSecondaryButton
+    private unowned var inviteFriendsButton: WCTertiaryButton
     private unowned var projectTitleTextField: WCDataInputTextFieldView
     private unowned var sinopsisTextView: WCDataInputTextFieldView
     private unowned var needTextView: WCDataInputTextFieldView
@@ -34,7 +34,7 @@ class EditProjectDetailsView: BaseView, ModalViewable {
     }()
     
     init(frame: CGRect,
-         inviteFriendsButton: WCSecondaryButton,
+         inviteFriendsButton: WCTertiaryButton,
          projectTitleTextField: WCDataInputTextFieldView,
          sinopsisTextView: WCDataInputTextFieldView,
          needTextView: WCDataInputTextFieldView,

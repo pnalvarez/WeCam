@@ -40,15 +40,16 @@ class SignInController: BaseViewController {
         return view
     }()
     
-    private lazy var forgetButton: UIButton = {
-        let view = UIButton(frame: .zero)
+    private lazy var forgetButton: WCTertiaryButton = {
+        let view = WCTertiaryButton(frame: .zero)
+        view.text = SignIn.Constants.Texts.forgetButton
         view.addTarget(self, action: #selector(forgetButtonTapped), for: .touchUpInside)
-        view.setAttributedTitle(NSAttributedString(string: SignIn.Constants.Texts.forgetButton, attributes: [NSAttributedString.Key.foregroundColor : UIColor(rgb: 0x707070), NSAttributedString.Key.font: SignIn.Constants.Fonts.forgetButton, NSAttributedString.Key.underlineStyle : NSUnderlineStyle.single.rawValue]), for: .normal)
         return view
     }()
     
-    private lazy var signUpButton: UIButton = {
-        let view = UIButton(frame: .zero)
+    private lazy var signUpButton: WCTertiaryButton = {
+        let view = WCTertiaryButton(frame: .zero)
+        view.text = SignIn.Constants.Texts.signUp
         view.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
         return view
     }()

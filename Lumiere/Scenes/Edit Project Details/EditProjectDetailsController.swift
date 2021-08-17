@@ -27,8 +27,8 @@ class EditProjectDetailsController: BaseViewController {
         return view
     }()
     
-    private lazy var inviteFriendsButton: WCSecondaryButton = {
-        let view = WCSecondaryButton(frame: .zero)
+    private lazy var inviteFriendsButton: WCTertiaryButton = {
+        let view = WCTertiaryButton(frame: .zero)
         view.addTarget(self, action: #selector(didTapInviteFriends), for: .touchUpInside)
         view.text = EditProjectDetails.Constants.Texts.inviteFriendsButton
         return view

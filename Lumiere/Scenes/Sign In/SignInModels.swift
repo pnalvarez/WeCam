@@ -9,23 +9,23 @@ import UIKit
 import WCUIKit
 import ObjectMapper
 
-struct SignIn {
+enum SignIn {
     
-    struct Constants {
+    enum Constants {
         
-        struct Images {
+        enum Images {
             static let topLogo = "logo-apenas"
             static let bottomLogo = "tipografia-projeto 1"
         }
         
-        struct Fonts {
+        enum Fonts {
             static let textFieldPlaceholder = ThemeFonts.RobotoRegular(12).rawValue
             static let forgetButton = ThemeFonts.RobotoRegular(12).rawValue
             static let signUp = ThemeFonts.RobotoRegular(12).rawValue
             static let enterButton = ThemeFonts.RobotoRegular(12).rawValue
         }
         
-        struct Texts {
+        enum Texts {
             static let emailTextField = "email"
             static let passwordTextField = "senha"
             static let forgetButton = "Esqueci minha senha"
@@ -35,14 +35,14 @@ struct SignIn {
             static let loginServerError = "Erro de login"
         }
         
-        struct Colors {
+        enum Colors {
             static let enterButtonBackground = UIColor(rgb: 0xe50c3c)
             static let enterButtonTextColor = UIColor(rgb: 0xffffff)
             static let backgroundColor = UIColor(rgb: 0xffffff)
         }
     }
     
-    struct Models {
+    enum Models {
         
         struct Request {
             let email: String
@@ -60,7 +60,7 @@ struct SignIn {
         }
     }
     
-    struct Response {
+    enum Response {
         
         final class LoggedUser: Mappable {
             
@@ -91,7 +91,7 @@ struct SignIn {
         }
     }
     
-    struct Errors {
+    enum Errors {
         
         struct ServerError {
             let error: WCError
@@ -104,7 +104,7 @@ struct SignIn {
         }
     }
     
-    struct ViewModel {
+    enum ViewModel {
         
         struct LoggedUser {
             

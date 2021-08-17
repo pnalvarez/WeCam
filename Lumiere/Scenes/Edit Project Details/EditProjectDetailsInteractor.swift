@@ -23,8 +23,8 @@ protocol EditProjectDetailsDataStore {
 
 class EditProjectDetailsInteractor: EditProjectDetailsDataStore {
     
-    private var worker: EditProjectDetailsWorkerProtocol
-    var presenter: EditProjectDetailsPresentationLogic
+    private let worker: EditProjectDetailsWorkerProtocol
+    private let presenter: EditProjectDetailsPresentationLogic
     
     var receivedData: EditProjectDetails.Info.Received.Project?
     var routingContext: EditProjectDetails.Info.Received.RoutingContext?
@@ -159,7 +159,7 @@ extension EditProjectDetailsInteractor: EditProjectDetailsBusinessLogic {
         }
         publishingProject = EditProjectDetails.Info.Model.PublishingProject(image: receivedData?.image,
                                                                             cathegories: receivedData?.cathegories ?? .empty,
-                                                                            progress: Int((receivedData?.progress ?? 0)),
+                                                                            progress: Int((receivedData?.progress ?? 0) * WCConstants.Floats.hundredPercent),
                                                                             title: request.title,
                                                                             invitedUserIds: invitedUsers?.users.map({$0.id}) ?? .empty,
                                                                             sinopsis: request.sinopsis,
