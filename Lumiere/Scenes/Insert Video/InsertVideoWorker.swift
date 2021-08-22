@@ -27,7 +27,7 @@ class InsertVideoWorker: InsertVideoWorkerProtocol {
     func fetchProjectDetails(_ request: InsertVideo.Request.FetchProjectDetails,
                              completion: @escaping (BaseResponse<InsertVideo.Info.Response.Project>) -> Void) {
         let headers: [String : Any] = ["projectId": request.id]
-        builder.fetchProjectWorking(request: headers, completion: completion)
+        builder.fetchOngoingProjectDetails(request: headers, completion: completion)
     }
     
     func fetchPublishExistingProject(_ request: InsertVideo.Request.SubmitVideo,

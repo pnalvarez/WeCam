@@ -43,7 +43,7 @@ class RecentSearchWorker: RecentSearchWorkerProtocol {
     func fetchOngoingProjectData(_ request: RecentSearch.Request.FetchProjectData,
                                  completion: @escaping (BaseResponse<RecentSearch.Info.Response.Project>) -> Void) {
         let headers: [String : Any] = ["projectId" : request.projectId]
-        builder.fetchProjectWorking(request: headers, completion: completion)
+        builder.fetchOngoingProjectDetails(request: headers, completion: completion)
     }
     
     func fetchFinishedProjectData(_ request: RecentSearch.Request.FetchProjectData,

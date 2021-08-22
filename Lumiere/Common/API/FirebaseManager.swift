@@ -44,7 +44,7 @@ protocol FirebaseManagerProtocol {
                       completion: @escaping (EmptyResponse) -> Void)
     func fetchCreateProject<T: Mappable>(request: [String : Any],
                                          completion: @escaping (BaseResponse<T>) -> Void)
-    func fetchProjectWorking<T: Mappable>(request: [String : Any],
+    func fetchOngoingProjectDetails<T: Mappable>(request: [String : Any],
                                           completion: @escaping (BaseResponse<T>) -> Void)
     func updateUserData(request: [String : Any],
                         completion: @escaping (EmptyResponse) -> Void)
@@ -1232,7 +1232,7 @@ class FirebaseManager: FirebaseManagerProtocol {
         })
     }
     
-    func fetchProjectWorking<T: Mappable>(request: [String : Any],
+    func fetchOngoingProjectDetails<T: Mappable>(request: [String : Any],
                                           completion: @escaping (BaseResponse<T>) -> Void) {
         if let projectId = request["projectId"] as? String {
             realtimeDB

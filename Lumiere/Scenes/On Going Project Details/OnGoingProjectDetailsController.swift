@@ -295,7 +295,6 @@ extension OnGoingProjectDetailsController: OnGoingProjectDetailsDisplayLogic {
         }, cancelAction: {
             self.interactor?.fetchRefuseInteraction(OnGoingProjectDetails.Request.RefuseInteraction())
         })
-//        mainView.displayConfirmationModal(forRelation: viewModel)
     }
     
     func displayInteractionEffectivated() {
@@ -312,7 +311,7 @@ extension OnGoingProjectDetailsController: OnGoingProjectDetailsDisplayLogic {
     
     func displayConfirmFinishedProjectAlert() {
         WCDialogView().show(dialogType: .interaction(confirmText: WCConstants.Strings.yesAnswer, cancelText: WCConstants.Strings.noAnswer), in: self, description: OnGoingProjectDetails.Constants.Texts.progressFixedText, doneAction: {
-            
+            self.router?.routeToInsertMedia()
         }, cancelAction: {
             self.interactor?.fetchConfirmNewProgress(OnGoingProjectDetails.Request.ConfirmProgress())
         })

@@ -146,7 +146,7 @@ class OnGoingProjectDetailsInteractor: OnGoingProjectDetailsDataStore {
     }
     
     private func fetchUpdateProgress(progress: Float) {
-        worker.fetchUpdateProgress(OnGoingProjectDetails.Request.UpdateProgressToInteger(projectId: projectData?.id ?? .empty, progress: Int(progress * 100))) { response in
+        worker.fetchUpdateProgress(OnGoingProjectDetails.Request.UpdateProgressToInteger(projectId: projectData?.id ?? .empty, progress: Int(progress))) { response in
             switch response {
             case .success:
                 self.presenter.presentSuccessAlert(OnGoingProjectDetails.Info.Model.Alert(title: OnGoingProjectDetails.Constants.Texts.updatedProgressTitle, message: OnGoingProjectDetails.Constants.Texts.updateProgressMessage))
@@ -169,6 +169,7 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
     func fetchProjectDetails(_ request: OnGoingProjectDetails.Request.FetchProject) {
         guard let projedtId = receivedData?.projectId,
             let uninvitedUsers = receivedData?.notInvitedUsers else { return }
+        presenter.presentLoading(true)
         worker.fetchProjectDetails(request: OnGoingProjectDetails
             .Request
             .FetchProjectWithId(id: projedtId)) { response in

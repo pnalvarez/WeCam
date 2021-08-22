@@ -123,6 +123,7 @@
 		3F42A573255A15150088E232 /* WatchVideoWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F42A572255A15150088E232 /* WatchVideoWorker.swift */; };
 		3F42A578255A15480088E232 /* WatchVideoInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F42A577255A15480088E232 /* WatchVideoInteractor.swift */; };
 		3F43311E24E8E8B90082825E /* ConfirmationAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F43311D24E8E8B90082825E /* ConfirmationAlertView.swift */; };
+		3F45D2B726D2A7FF007135B7 /* WorkerInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F45D2B626D2A7FF007135B7 /* WorkerInterface.swift */; };
 		3F45D89A26C89687003A5636 /* MainFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F45D89926C89687003A5636 /* MainFeedView.swift */; };
 		3F45D8A326C89AE1003A5636 /* TabBarProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F45D8A226C89AE1003A5636 /* TabBarProtocols.swift */; };
 		3F5A422B2517F83600F10D63 /* SignInModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5A422A2517F83600F10D63 /* SignInModels.swift */; };
@@ -460,6 +461,7 @@
 		3F42A572255A15150088E232 /* WatchVideoWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchVideoWorker.swift; sourceTree = "<group>"; };
 		3F42A577255A15480088E232 /* WatchVideoInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchVideoInteractor.swift; sourceTree = "<group>"; };
 		3F43311D24E8E8B90082825E /* ConfirmationAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationAlertView.swift; sourceTree = "<group>"; };
+		3F45D2B626D2A7FF007135B7 /* WorkerInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkerInterface.swift; sourceTree = "<group>"; };
 		3F45D89926C89687003A5636 /* MainFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFeedView.swift; sourceTree = "<group>"; };
 		3F45D8A226C89AE1003A5636 /* TabBarProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarProtocols.swift; sourceTree = "<group>"; };
 		3F5A422A2517F83600F10D63 /* SignInModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInModels.swift; sourceTree = "<group>"; };
@@ -1048,6 +1050,7 @@
 				3F95786524AD785900B79818 /* BaseRouterProtocol.swift */,
 				3F3825EC263F57DB006B6DCE /* ViewInterface.swift */,
 				3FDC66C52684FB1100054675 /* PresenterInterface.swift */,
+				3F45D2B626D2A7FF007135B7 /* WorkerInterface.swift */,
 			);
 			path = Clean;
 			sourceTree = "<group>";
@@ -2135,6 +2138,7 @@
 				3F8D13A324D65FCD00AED7EB /* GetConnectNotificationRequest.swift in Sources */,
 				3F3AD77C263E070800509FED /* BaseView.swift in Sources */,
 				3F40A6A724F0923900261161 /* EditProjectDetailsWorker.swift in Sources */,
+				3F45D2B726D2A7FF007135B7 /* WorkerInterface.swift in Sources */,
 				3F655FD2252810F1004A1D54 /* OnGoingProjectResultTableViewCellBuilder.swift in Sources */,
 				3F9578D224B0198F00B79818 /* SignUpModels.swift in Sources */,
 				3F40A6B424F1CB5A00261161 /* OnGoingProjectDetailsInteractor.swift in Sources */,

@@ -44,7 +44,7 @@ class OnGoingProjectDetailsWorker: OnGoingProjectDetailsWorkerProtocol {
     func fetchProjectDetails(request: OnGoingProjectDetails.Request.FetchProjectWithId,
                              completion: @escaping (BaseResponse<OnGoingProjectDetails.Info.Response.Project>) -> Void) {
         let headers: [String : Any] = ["projectId" : request.id]
-        builder.fetchProjectWorking(request: headers, completion: completion)
+        builder.fetchOngoingProjectDetails(request: headers, completion: completion)
     }
     
     func fetchteamMemberData(request: OnGoingProjectDetails.Request.FetchUserWithId,

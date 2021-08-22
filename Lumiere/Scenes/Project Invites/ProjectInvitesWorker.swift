@@ -56,7 +56,7 @@ class ProjectInvitesWorker: ProjectInvitesWorkerProtocol {
     func fetchOnGoingProjectInfo(_ request: ProjectInvites.Request.FetchProjectWithId,
                           completion: @escaping (BaseResponse<ProjectInvites.Info.Response.Project>) -> Void) {
         let headers: [String : Any] = ["projectId": request.id]
-        builder.fetchProjectWorking(request: headers, completion: completion)
+        builder.fetchOngoingProjectDetails(request: headers, completion: completion)
     }
     
     func fetchInviteUserToOnGoingProject(_ request: ProjectInvites.Request.InviteUser,

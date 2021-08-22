@@ -10,13 +10,13 @@ import UIKit
 import WCUIKit
 import ObjectMapper
 
-struct OnGoingProjectDetails {
+enum OnGoingProjectDetails {
     
     static let bundle = Bundle(for: OnGoingProjectDetailsController.self)
     
-    struct Constants {
+    enum Constants {
         
-        struct Colors {
+        enum Colors {
             static let moreInfoButtonText = UIColor(rgb: 0x000000)
             static let containerInfoBackground = UIColor(rgb: 0xffffff)
             static let containerInfoLayer = UIColor(rgb: 0xe3e0e0).cgColor
@@ -43,7 +43,7 @@ struct OnGoingProjectDetails {
             static let progressFixedLbl = UIColor(rgb: 0x707070)
         }
         
-        struct Fonts {
+        enum Fonts {
             static let moreInfoButton = ThemeFonts.RobotoRegular(16).rawValue
             static let titleLbl = ThemeFonts.RobotoBold(16).rawValue
             static let sinopsisLbl = ThemeFonts.RobotoRegular(12).rawValue
@@ -59,7 +59,7 @@ struct OnGoingProjectDetails {
             static let progressFixedLbl = ThemeFonts.RobotoBold(14).rawValue
         }
         
-        struct Texts {
+        enum Texts {
             static let moreInfoButton = "+ informações"
             static let teamFixedLbl = "Equipe"
             static let needFixedLbl = "Precisam de"
@@ -85,23 +85,22 @@ struct OnGoingProjectDetails {
             static let updateProgressMessage = "O progresso do seu projeto foi atualizado"
             static let finishConfirmationTitle = "Seu projeto está 100% concluído?"
             static let finishConfirmationMessage = "Por acaso você considera seu projeto finalizado? Se sim, ele entrará para o feed de projetos concluídos e terá de adicionar a URL de um vídeo"
-            static let progressFixedText = "Como está o progresso do seu projeto?"
+            static let progressFixedText = "Deseja finalizar o seu projeto?"
         }
         
-        struct Images {
+        enum Images {
             
         }
         
-        struct BusinessLogic {
-            static let finishedProjectBottomRange: Float = 0.9
-            static let finishedProjectStatus: Float = 1.0
+        enum BusinessLogic {
+            static let finishedProjectBottomRange: Float = 90
             static let percentage: Float = 100
         }
     }
     
-    struct Info {
+    enum Info {
         
-        struct Received {
+        enum Received {
         
             struct Project {
                 let projectId: String
@@ -113,7 +112,7 @@ struct OnGoingProjectDetails {
             }
         }
         
-        struct Model {
+        enum Model {
             
             struct Progress: Equatable {
                 let percentage: Int
@@ -180,7 +179,7 @@ struct OnGoingProjectDetails {
             }
         }
         
-        struct ViewModel {
+        enum ViewModel {
             
             struct RoutingContext {
                 var context: Model.RoutingContext
@@ -217,7 +216,7 @@ struct OnGoingProjectDetails {
             }
         }
         
-        struct Response {
+        enum Response {
             
             final class Project: Mappable {
                 
@@ -283,7 +282,7 @@ struct OnGoingProjectDetails {
         }
     }
     
-    struct Request {
+    enum Request {
         
         struct FetchContext {
             

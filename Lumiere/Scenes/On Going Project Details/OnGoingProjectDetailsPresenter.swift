@@ -97,7 +97,7 @@ class OnGoingProjectDetailsPresenter: OnGoingProjectDetailsPresentationLogic {
     }
     
     func presentEditProgressModal(withProgress response: OnGoingProjectDetails.Info.Model.Progress) {
-        let viewModel = OnGoingProjectDetails.Info.ViewModel.Progress(percentage: Float(response.percentage))
+        let viewModel = OnGoingProjectDetails.Info.ViewModel.Progress(percentage: Float(response.percentage) / WCConstants.Floats.hundredPercent)
         viewController.displayEditProgressModal(viewModel)
     }
     
