@@ -1852,7 +1852,7 @@
 			attributes = {
 				LastSwiftUpdateCheck = 1150;
 				LastUpgradeCheck = 1150;
-				ORGANIZATIONNAME = "Pedro Alvarez";
+				ORGANIZATIONNAME = WeCam;
 				TargetAttributes = {
 					3F95781B24AD6FBC00B79818 = {
 						CreatedOnToolsVersion = 11.5;
