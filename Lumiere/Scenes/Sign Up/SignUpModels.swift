@@ -10,11 +10,11 @@ import WCUIKit
 import Firebase
 import FirebaseAuth
 
-struct SignUp {
+enum SignUp {
     
     static let bundle = Bundle(for: SignUpController.self)
     
-    struct Constants {
+    enum Constants {
         struct Colors {
             static let backgroundColor = UIColor(rgb: 0xffffff)
             static let imageButtonLayerColor = UIColor(rgb: 0xe0e0e0)
@@ -27,7 +27,7 @@ struct SignUp {
             static let chooseImageLbl = UIColor(rgb: 0x707070)
         }
         
-        struct Texts {
+        enum Texts {
             static let namePlaceholder = "Nome"
             static let cellphonePlaceholder = "Celular"
             static let emailPlaceholder = "E-mail"
@@ -44,19 +44,19 @@ struct SignUp {
             static let chooseImageLbl = "Escolha uma imagem"
         }
         
-        struct Dimensions {
+        enum Dimensions {
             static let mainViewHeight: CGFloat = 1150
             static let scrollViewHeigh: CGFloat = 1200
         }
         
-        struct Fonts {
+        enum Fonts {
             static let placeholderFont = ThemeFonts.RobotoRegular(12).rawValue
             static let cathegoriesLblFont = ThemeFonts.RobotoBold(16).rawValue
             static let signUpButtonFont = ThemeFonts.RobotoRegular(12).rawValue
             static let chooseImageLbl = ThemeFonts.RobotoRegular(14).rawValue
         }
         
-        struct Images {
+        enum Images {
             static let titleHeaderIcon = UIImage(named: "tipografia-projeto 2",
                                                  in: SignUp.bundle,
                                                  compatibleWith: nil)
@@ -73,7 +73,7 @@ struct SignUp {
         }
     }
     
-    struct Request {
+    enum Request {
         
         struct SelectedCathegory {
             let index: Int
@@ -111,7 +111,7 @@ struct SignUp {
         }
     }
     
-    struct Errors {
+    enum Errors {
 
         enum SignUpErrors: String {
             case nameIncomplete = "- Informação Incompleta: Nome\n\n"
@@ -139,7 +139,7 @@ struct SignUp {
         }
     }
     
-    struct Response {
+   enum Response {
         
         enum RegisterUser {
             case success(UserResponse)
@@ -157,7 +157,7 @@ struct SignUp {
         }
     }
     
-    struct Info {
+    enum Info {
         
         struct Model {
             

@@ -21,7 +21,11 @@ class SignUpView: BaseView {
     private unowned var signUpButton: WCPrimaryActionButton
     private unowned var cathegoryListView: WCCathegoryListView
     
-    private lazy var cathegoriesLbl: UILabel = { return UILabel(frame: .zero) }()
+    private lazy var cathegoriesLbl: WCUILabelRobotoBold16GrayUnderlinded = {
+        let view = WCUILabelRobotoBold16GrayUnderlinded(frame: .zero)
+        view.textAlignment = .center
+        return view
+    }()
     
     private lazy var scrollView: WCUIScrollView = {
         let view = WCUIScrollView(frame: .zero)
@@ -35,6 +39,13 @@ class SignUpView: BaseView {
         view.text = SignUp.Constants.Texts.chooseImageLbl
         view.font = SignUp.Constants.Fonts.chooseImageLbl
         view.textAlignment = .center
+        return view
+    }()
+    
+    private lazy var inputStackView: UIStackView = {
+        let view = UIStackView(frame: .zero)
+        view.axis = .vertical
+        view.spacing = WCDimens.Margins.medium
         return view
     }()
     
@@ -96,15 +107,16 @@ extension SignUpView: ViewCodeProtocol {
         scrollView.addSubview(titleHeaderIcon)
         scrollView.addSubview(imageButton)
         scrollView.addSubview(chooseImageLbl)
-        scrollView.addSubview(nameTextField)
-        scrollView.addSubview(cellphoneTextField)
-        scrollView.addSubview(emailTextField)
-        scrollView.addSubview(passwordTextField)
-        scrollView.addSubview(confirmTextField)
-        scrollView.addSubview(professionalTextField)
-        scrollView.addSubview(cathegoriesLbl)
-        scrollView.addSubview(cathegoryListView)
+        inputStackView.addArrangedSubview(nameTextField)
+        inputStackView.addArrangedSubview(cellphoneTextField)
+        inputStackView.addArrangedSubview(emailTextField)
+        inputStackView.addArrangedSubview(passwordTextField)
+        inputStackView.addArrangedSubview(confirmTextField)
+        inputStackView.addArrangedSubview(professionalTextField)
+        inputStackView.addArrangedSubview(cathegoriesLbl)
+        inputStackView.addArrangedSubview(cathegoryListView)
         scrollView.addSubview(signUpButton)
+        scrollView.addSubview(inputStackView)
         addSubview(scrollView)
     }
     
@@ -128,46 +140,50 @@ extension SignUpView: ViewCodeProtocol {
             make.centerX.equalToSuperview()
             make.width.equalTo(150)
         }
-        nameTextField.snp.makeConstraints { make in
-            make.top.equalTo(imageButton.snp.bottom).offset(62)
-            make.left.right.equalToSuperview().inset(40)
-            make.height.equalTo(29)
+        inputStackView.snp.makeConstraints { make in
+            make.top.equalTo(chooseImageLbl.snp.bottom).offset(62)
+            make.left.right.equalToSuperview().inset(36)
         }
-        cellphoneTextField.snp.makeConstraints { make in
-            make.top.equalTo(nameTextField.snp.bottom).offset(17)
-            make.left.right.equalToSuperview().inset(40)
-            make.height.equalTo(29)
-        }
-        emailTextField.snp.makeConstraints { make in
-            make.top.equalTo(cellphoneTextField.snp.bottom).offset(17)
-            make.left.right.equalToSuperview().inset(40)
-            make.height.equalTo(29)
-        }
-        passwordTextField.snp.makeConstraints { make in
-            make.top.equalTo(emailTextField.snp.bottom).offset(17)
-            make.left.right.equalToSuperview().inset(40)
-            make.height.equalTo(29)
-        }
-        confirmTextField.snp.makeConstraints { make in
-            make.top.equalTo(passwordTextField.snp.bottom).offset(17)
-            make.left.right.equalToSuperview().inset(40)
-            make.height.equalTo(29)
-        }
-        professionalTextField.snp.makeConstraints { make in
-            make.top.equalTo(confirmTextField.snp.bottom).offset(17)
-            make.left.right.equalToSuperview().inset(40)
-            make.height.equalTo(29)
-        }
-        signUpButton.snp.makeConstraints { make in
-            make.bottom.equalToSuperview().inset(10)
-            make.top.equalTo(titleHeaderIcon.snp.bottom).offset(1020)
-            make.width.equalTo(99)
-            make.centerX.equalToSuperview()
-        }
+//        nameTextField.snp.makeConstraints { make in
+//            make.top.equalTo(imageButton.snp.bottom).offset(62)
+//            make.left.right.equalToSuperview().inset(40)
+//            make.height.equalTo(29)
+//        }
+//        cellphoneTextField.snp.makeConstraints { make in
+//            make.top.equalTo(nameTextField.snp.bottom).offset(17)
+//            make.left.right.equalToSuperview().inset(40)
+//            make.height.equalTo(29)
+//        }
+//        emailTextField.snp.makeConstraints { make in
+//            make.top.equalTo(cellphoneTextField.snp.bottom).offset(17)
+//            make.left.right.equalToSuperview().inset(40)
+//            make.height.equalTo(29)
+//        }
+//        passwordTextField.snp.makeConstraints { make in
+//            make.top.equalTo(emailTextField.snp.bottom).offset(17)
+//            make.left.right.equalToSuperview().inset(40)
+//            make.height.equalTo(29)
+//        }
+//        confirmTextField.snp.makeConstraints { make in
+//            make.top.equalTo(passwordTextField.snp.bottom).offset(17)
+//            make.left.right.equalToSuperview().inset(40)
+//            make.height.equalTo(29)
+//        }
+//        professionalTextField.snp.makeConstraints { make in
+//            make.top.equalTo(confirmTextField.snp.bottom).offset(17)
+//            make.left.right.equalToSuperview().inset(40)
+//            make.height.equalTo(29)
+//        }
+//        signUpButton.snp.makeConstraints { make in
+//            make.bottom.equalToSuperview().inset(10)
+//            make.top.equalTo(titleHeaderIcon.snp.bottom).offset(1020)
+//            make.width.equalTo(99)
+//            make.centerX.equalToSuperview()
+//        }
         cathegoryListView.snp.makeConstraints { make in
-            make.top.equalTo(cathegoriesLbl.snp.bottom).offset(36)
+//            make.top.equalTo(cathegoriesLbl.snp.bottom).offset(36)
             make.height.equalTo(501)
-            make.left.right.equalToSuperview()
+//            make.left.right.equalToSuperview()
         }
         cathegoriesLbl.snp.makeConstraints { make in
             make.top.equalTo(professionalTextField.snp.bottom).offset(22)
@@ -180,17 +196,5 @@ extension SignUpView: ViewCodeProtocol {
     func configureViews() {
         
         titleHeaderIcon.image = SignUp.Constants.Images.titleHeaderIcon
-        
-        imageButton.layoutIfNeeded()
-        imageButton.layer.cornerRadius = imageButton.frame.size.height / 2
-        imageButton.clipsToBounds = true
-        imageButton.layer.borderWidth = 1
-        imageButton.layer.borderColor = SignUp.Constants.Colors.imageButtonLayerColor.cgColor
-        imageButton.backgroundColor = .white
-        imageButton.imageView?.contentMode = .scaleAspectFill
-        
-        
-        cathegoriesLbl.attributedText = NSAttributedString(string: SignUp.Constants.Texts.cathegories,
-                                                           attributes: [NSAttributedString.Key.font: SignUp.Constants.Fonts.cathegoriesLblFont, NSAttributedString.Key.foregroundColor: SignUp.Constants.Colors.cathegoriesLblColor, NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue])
     }
 }
