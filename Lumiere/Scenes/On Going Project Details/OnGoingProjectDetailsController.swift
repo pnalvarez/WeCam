@@ -87,7 +87,11 @@ class OnGoingProjectDetailsController: BaseViewController, HasNoTabBar, UINaviga
         return view
     }()
     
-    private let imagePicker = UIImagePickerController()
+    private lazy var imagePicker: UIImagePickerController = {
+        let picker = UIImagePickerController()
+        picker.delegate = self
+        return picker
+    }()
     
     private var viewModel: OnGoingProjectDetails.Info.ViewModel.Project? {
         didSet {

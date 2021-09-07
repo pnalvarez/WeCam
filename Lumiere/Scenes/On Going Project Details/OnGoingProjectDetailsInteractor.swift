@@ -150,7 +150,7 @@ class OnGoingProjectDetailsInteractor: OnGoingProjectDetailsDataStore {
             switch response {
             case .success:
                 self.presenter.presentSuccessAlert(OnGoingProjectDetails.Info.Model.Alert(title: OnGoingProjectDetails.Constants.Texts.updatedProgressTitle, message: OnGoingProjectDetails.Constants.Texts.updateProgressMessage))
-                self.projectData?.progress = Int(progress * OnGoingProjectDetails.Constants.BusinessLogic.percentage)
+                self.projectData?.progress = Int(progress)
                 guard let project = self.projectData else { return }
                 self.presenter.presentProjectDetails(project)
             case .error(let error):
@@ -371,7 +371,7 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
         if request.newProgress > OnGoingProjectDetails.Constants.BusinessLogic.finishedProjectBottomRange {
             presenter.presentConfirmFinishedProjectAlert()
         } else {
-            fetchUpdateProgress(progress: request.newProgress)
+            fetchUpdateProgress(progress: request.newProgress * WCConstants.Floats.hundredPercent)
         }
     }
     
