@@ -17,12 +17,10 @@ protocol SelectProjectImageDisplayLogic: ViewInterface {
 
 class SelectProjectImageController: BaseViewController, HasTabBar, UINavigationControllerDelegate {
     
-    private lazy var advanceButton: UIButton = {
-        let view = UIButton(frame: .zero)
+    private lazy var advanceButton: WCAuxiliarActionButton = {
+        let view = WCAuxiliarActionButton(frame: .zero)
         view.addTarget(self, action: #selector(didTapAdvance), for: .touchUpInside)
-        view.setTitle(SelectProjectImage.Constants.Texts.advanceButton, for: .normal)
-        view.setTitleColor(SelectProjectImage.Constants.Colors.advanceButton, for: .normal)
-        view.titleLabel?.font = SelectProjectImage.Constants.Fonts.advanceButton
+        view.text = SelectProjectImage.Constants.Texts.advanceButton
         return view
     }()
     

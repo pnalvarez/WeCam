@@ -9,7 +9,7 @@ import UIKit
 
 protocol SelectProjectImagePresentationLogic {
     func presentCathegories()
-    func presentError(_ response: String)
+    func presentError()
 }
 
 class SelectProjectImagePresenter: SelectProjectImagePresentationLogic {
@@ -24,8 +24,8 @@ class SelectProjectImagePresenter: SelectProjectImagePresentationLogic {
         viewController.displaySelectCathegory()
     }
     
-    func presentError(_ response: String) {
+    func presentError() {
         viewController.displayErrorState()
-        viewController.showAlertError(description: response)
+        viewController.showAlertError(description: SelectProjectImage.Constants.Texts.selectImageError)
     }
 }

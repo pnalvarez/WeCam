@@ -29,6 +29,7 @@ struct SelectProjectImage {
         struct Texts {
             static let advanceButton = "Avançar"
             static let titleLbl = "Escolha a imagem do seu projeto".uppercased()
+            static let selectImageError = "Selecione uma imagem principal para o seu projeto"
         }
         
         struct Images {

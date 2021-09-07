@@ -46,22 +46,28 @@ extension ViewInterface {
     }
     
     func showSuccessToast(withText text: String) {
-        WCToastView().show(withTitle: text,
-                           status: .success,
-                           in: view)
+        DispatchQueue.main.async {
+            WCToastView().show(withTitle: text,
+                               status: .success,
+                               in: self.view)
+        }
     }
     
     func showErrorToast(withText text: String) {
-        WCToastView().show(withTitle: text,
-                           status: .error,
-                           in: view)
+        DispatchQueue.main.async {
+            WCToastView().show(withTitle: text,
+                               status: .error,
+                               in: self.view)
+        }
     }
     
     func showAlertError(title: String = WCConstants.Strings.errorTitle, description: String, doneText: String = WCConstants.Strings.ok) {
-        WCDialogView().show(dialogType: .errorNotification(doneText: doneText),
-                            in: self,
-                            title: title,
-                            description: description)
+        DispatchQueue.main.async {
+            WCDialogView().show(dialogType: .errorNotification(doneText: doneText),
+                                in: self,
+                                title: title,
+                                description: description)
+        }
     }
     
     func showAlertSuccess(title: String, description: String, doneText: String = WCConstants.Strings.ok) {

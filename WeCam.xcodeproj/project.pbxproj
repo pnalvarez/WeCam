@@ -270,6 +270,7 @@
 		3FAD1A3D2516B8F500ED4074 /* MainFeedRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FAD1A3C2516B8F500ED4074 /* MainFeedRouter.swift */; };
 		3FAD1A422516B99800ED4074 /* MainFeedModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FAD1A412516B99800ED4074 /* MainFeedModels.swift */; };
 		3FAD1A4C2516BAFB00ED4074 /* SearchHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FAD1A4B2516BAFB00ED4074 /* SearchHeaderTableViewCell.swift */; };
+		3FB0D4CD26E7278400ABC78A /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB0D4CC26E7278400ABC78A /* MainTabBarController.swift */; };
 		3FB7D5F0262B913A0041D5F0 /* FilterCathegoriesWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB7D5EF262B913A0041D5F0 /* FilterCathegoriesWorker.swift */; };
 		3FB7D5F8262B91800041D5F0 /* FilterCathegoriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB7D5F7262B91800041D5F0 /* FilterCathegoriesView.swift */; };
 		3FB7D5FD262B922B0041D5F0 /* FilterCathegoriesModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB7D5FC262B922B0041D5F0 /* FilterCathegoriesModels.swift */; };
@@ -613,6 +614,7 @@
 		3FAD1A3C2516B8F500ED4074 /* MainFeedRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFeedRouter.swift; sourceTree = "<group>"; };
 		3FAD1A412516B99800ED4074 /* MainFeedModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFeedModels.swift; sourceTree = "<group>"; };
 		3FAD1A4B2516BAFB00ED4074 /* SearchHeaderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHeaderTableViewCell.swift; sourceTree = "<group>"; };
+		3FB0D4CC26E7278400ABC78A /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		3FB7D5EF262B913A0041D5F0 /* FilterCathegoriesWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCathegoriesWorker.swift; sourceTree = "<group>"; };
 		3FB7D5F7262B91800041D5F0 /* FilterCathegoriesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCathegoriesView.swift; sourceTree = "<group>"; };
 		3FB7D5FC262B922B0041D5F0 /* FilterCathegoriesModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCathegoriesModels.swift; sourceTree = "<group>"; };
@@ -754,6 +756,7 @@
 				3F01CB062569D48B000833FB /* BaseViewController.swift */,
 				3F3AD779263BACD200509FED /* BaseTableViewController.swift */,
 				3F3AD77B263E070800509FED /* BaseView.swift */,
+				3FB0D4CC26E7278400ABC78A /* MainTabBarController.swift */,
 			);
 			path = Origin;
 			sourceTree = "<group>";
@@ -2131,6 +2134,7 @@
 				3F40A6AD24F0932800261161 /* EditProjectDetailsRouter.swift in Sources */,
 				3FB8BD87250ED5AE001954FD /* InviteProfileToProjectsRouter.swift in Sources */,
 				3F42A5422557AD130088E232 /* FinishedProjectDetailsRouter.swift in Sources */,
+				3FB0D4CD26E7278400ABC78A /* MainTabBarController.swift in Sources */,
 				3F45D89A26C89687003A5636 /* MainFeedView.swift in Sources */,
 				3F40A6C324F231A000261161 /* EditProfileDetailsController.swift in Sources */,
 				3F5B324E253163C8004DFBFD /* ProfileSuggestionsWorker.swift in Sources */,

@@ -64,36 +64,46 @@ extension SignInRouter: SignInRoutingLogic {
         guard let source = dataStore else { return }
         
         let mainFeedVc = MainFeedController()
-        mainFeedVc.tabBarItem = UITabBarItem(title: nil,
-                                             image: MainFeed.Constants.Images.tabBarImage,
-                                             selectedImage: MainFeed.Constants.Images.tabBarSelectedImage)
+        let mainFeedTabItem = UITabBarItem(title: nil,
+                                           image: MainFeed.Constants.Images.tabBarImage,
+                                           selectedImage: MainFeed.Constants.Images.tabBarSelectedImage)
+        mainFeedTabItem.tag = 0
+        mainFeedVc.tabBarItem = mainFeedTabItem
         guard var destination = mainFeedVc.router?.dataStore else { return }
         transferDataToMainFeed(from: source, to: &destination)
         
         let selectProjectImageVc = SelectProjectImageController()
-        selectProjectImageVc.tabBarItem = UITabBarItem(title: nil,
-                                                       image: SelectProjectImage.Constants.Images.tabBarImage,
-                                                       selectedImage: SelectProjectImage.Constants.Images.tabBarSelectedImage)
+        let selectProjectImageTabItem = UITabBarItem(title: nil,
+                                                     image: SelectProjectImage.Constants.Images.tabBarImage,
+                                                     selectedImage: SelectProjectImage.Constants.Images.tabBarSelectedImage)
+        selectProjectImageTabItem.tag = 1
+        selectProjectImageVc.tabBarItem = selectProjectImageTabItem
         
         let notificationsVc = NotificationsController()
-        notificationsVc.tabBarItem = UITabBarItem(title: nil,
-                                                  image: Notifications.Constants.Images.tabBarDefaultImage,
-                                                  selectedImage: Notifications.Constants.Images.tabBarSelectedImage)
+        let notificationsTabItem = UITabBarItem(title: nil,
+                                                image: Notifications.Constants.Images.tabBarDefaultImage,
+                                                selectedImage: Notifications.Constants.Images.tabBarSelectedImage)
+        notificationsTabItem.tag = 2
+        notificationsVc.tabBarItem = notificationsTabItem
+        
         guard var notificationsDataStore = notificationsVc.router?.dataStore else {
             return
         }
         transferDataToNotifications(from: source, to: &notificationsDataStore)
         
         let profileDetailsVc = ProfileDetailsController()
-        profileDetailsVc.tabBarItem = UITabBarItem(title: nil,
-                                                   image: ProfileDetails.Constants.Images.tabBarDefaultImage,
-                                                   selectedImage: ProfileDetails.Constants.Images.tabBarSelectedImage)
+        let profileDetailsTabItem = UITabBarItem(title: nil,
+                                                 image: ProfileDetails.Constants.Images.tabBarDefaultImage,
+                                                 selectedImage: ProfileDetails.Constants.Images.tabBarSelectedImage)
+        profileDetailsTabItem.tag = 3
+        profileDetailsVc.tabBarItem = profileDetailsTabItem
+        
         guard var profileDetailsDataStore = profileDetailsVc.router?.dataStore else {
             return
         }
         transferDataToProfileDetails(from: source, to: &profileDetailsDataStore)
         
-        let tabController = UITabBarController()
+        let tabController = MainTabBarController()
         tabController.viewControllers = [UINavigationController(rootViewController:                                            mainFeedVc),
                                          UINavigationController(rootViewController: selectProjectImageVc),
                                          UINavigationController(rootViewController: notificationsVc),
