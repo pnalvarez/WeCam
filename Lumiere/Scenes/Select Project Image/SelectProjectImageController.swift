@@ -76,8 +76,7 @@ class SelectProjectImageController: BaseViewController, HasTabBar, UINavigationC
     }
     
     func clearImage() {
-        selectedImageButton.setImage(SelectProjectImage.Constants.Images.camera, for: .normal)
-        interactor?.resetImageLogic(SelectProjectImage.Request.ResetImageLogic())
+        selectedImageButton.setupDefaultImage()
     }
     
     @objc

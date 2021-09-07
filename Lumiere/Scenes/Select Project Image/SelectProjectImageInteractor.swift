@@ -9,7 +9,6 @@
 protocol SelectProjectImageBusinessLogic {
     func didSelectImage(_ request: SelectProjectImage.Request.SelectImage)
     func fetchAdvance(_ request: SelectProjectImage.Request.Advance)
-    func resetImageLogic(_ request: SelectProjectImage.Request.ResetImageLogic)
 }
 
 protocol SelectProjectImageDataStore {
@@ -41,10 +40,7 @@ extension SelectProjectImageInteractor: SelectProjectImageBusinessLogic {
             presenter.presentError("Selecione uma imagem para o seu projeto")
             return
         }
-        presenter.presentCathegories()
-    }
-    
-    func resetImageLogic(_ request: SelectProjectImage.Request.ResetImageLogic) {
         projectModel = nil
+        presenter.presentCathegories()
     }
 }
