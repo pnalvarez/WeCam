@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import WCUIKit
 import Photos
 
 protocol SelectProjectImageDisplayLogic: ViewInterface {
@@ -24,16 +25,9 @@ class SelectProjectImageController: BaseViewController, HasTabBar, UINavigationC
         return view
     }()
     
-    private lazy var selectedImageButton: UIButton = {
-        let view = UIButton(frame: .zero)
-        view.contentMode = .scaleAspectFill
-        view.addTarget(self, action: #selector(didTapSelectImageButton), for: .touchUpInside)
-        view.imageView?.contentMode = .scaleAspectFit
-        view.clipsToBounds = true
-        view.layer.borderWidth = 1
-        view.layer.borderColor = SelectProjectImage.Constants.Colors.selectedImageViewLayer
-        view.setImage(SelectProjectImage.Constants.Images.camera, for: .normal)
-        view.layer.cornerRadius = 71
+    private lazy var selectedImageButton: WCImageButton = {
+        let view = WCImageButton(frame: .zero)
+        view.delegate = self
         return view
     }()
     
@@ -88,29 +82,13 @@ class SelectProjectImageController: BaseViewController, HasTabBar, UINavigationC
         selectedImageButton.setImage(SelectProjectImage.Constants.Images.camera, for: .normal)
         interactor?.resetImageLogic(SelectProjectImage.Request.ResetImageLogic())
     }
-}
-
-extension SelectProjectImageController: UIImagePickerControllerDelegate {
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage{
-            interactor?.didSelectImage(SelectProjectImage.Request.SelectImage(image: image))
-            selectedImageButton.layer.borderColor = SelectProjectImage.Constants.Colors.selectedImageViewLayer
-            selectedImageButton.setImage(image, for: .normal)
-        }
-        self.dismiss(animated: true, completion: nil)
-    }
-}
-
-extension SelectProjectImageController {
     
     @objc
     private func didTapAdvance() {
         interactor?.fetchAdvance(SelectProjectImage.Request.Advance())
     }
     
-    @objc
-    private func didTapSelectImageButton() {
+    @objc private func didTapSelectImageButton() {
         PHPhotoLibrary.requestAuthorization { newStatus in
             if newStatus == .authorized {
                 DispatchQueue.main.async {
@@ -118,6 +96,25 @@ extension SelectProjectImageController {
                 }
             }
         }
+    }
+}
+
+extension SelectProjectImageController: WCImageButtonDelegate {
+    
+    func didChangeButtonImage(_ view: WCImageButton) {
+        didTapSelectImageButton()
+    }
+}
+
+extension SelectProjectImageController: UIImagePickerControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage{
+            interactor?.didSelectImage(SelectProjectImage.Request.SelectImage(image: image))
+            selectedImageButton.setImage(image, for: .normal)
+            selectedImageButton.setState(.default)
+        }
+        self.dismiss(animated: true, completion: nil)
     }
 }
 
