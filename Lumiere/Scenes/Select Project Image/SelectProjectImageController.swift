@@ -12,6 +12,7 @@ import Photos
 
 protocol SelectProjectImageDisplayLogic: ViewInterface {
     func displaySelectCathegory()
+    func displayErrorState()
 }
 
 class SelectProjectImageController: BaseViewController, HasTabBar, UINavigationControllerDelegate {
@@ -118,5 +119,9 @@ extension SelectProjectImageController: SelectProjectImageDisplayLogic {
     
     func displaySelectCathegory() {
         router?.routeToCategories()
+    }
+    
+    func displayErrorState() {
+        selectedImageButton.setState(.error)
     }
 }
