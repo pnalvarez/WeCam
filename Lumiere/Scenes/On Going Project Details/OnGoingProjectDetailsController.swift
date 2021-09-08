@@ -11,8 +11,7 @@ import WCUIKit
 import Photos
 
 protocol OnGoingProjectDetailsDisplayLogic: ViewInterface {
-    func displayProjectDetails(_ viewModel: OnGoingProjectDetails.Info.ViewModel.Project)
-    func displayUIForRelation(_ viewModel: OnGoingProjectDetails.Info.ViewModel.RelationModel)
+    func displayProject(_ viewModel: OnGoingProjectDetails.Info.ViewModel.ProjectData)
     func displayUserDetails()
     func displayConfirmationModal(_ viewModel: OnGoingProjectDetails.Info.ViewModel.RelationModel)
     func displayInteractionEffectivated()
@@ -121,12 +120,11 @@ class OnGoingProjectDetailsController: BaseViewController, HasNoTabBar, UINaviga
     override func viewDidLoad() {
         super.viewDidLoad()
         interactor?.fetchContext(OnGoingProjectDetails.Request.FetchContext())
-        interactor?.fetchProjectRelation(OnGoingProjectDetails.Request.ProjectRelation())
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        interactor?.fetchProjectDetails(OnGoingProjectDetails.Request.FetchProject())
+        interactor?.fetchData(OnGoingProjectDetails.Request.FetchProject())
     }
     
     override func loadView() {
@@ -280,13 +278,9 @@ extension OnGoingProjectDetailsController: UIImagePickerControllerDelegate {
 
 extension OnGoingProjectDetailsController: OnGoingProjectDetailsDisplayLogic {
     
-    func displayProjectDetails(_ viewModel: OnGoingProjectDetails.Info.ViewModel.Project) {
-        self.viewModel = viewModel
-        mainView.setup(viewModel: viewModel)
-    }
-
-    func displayUIForRelation(_ viewModel: OnGoingProjectDetails.Info.ViewModel.RelationModel) {
-        mainView.updateUI(forRelation: viewModel)
+    func displayProject(_ viewModel: OnGoingProjectDetails.Info.ViewModel.ProjectData) {
+        mainView.setup(viewModel: viewModel.project)
+        mainView.updateUI(forRelation: viewModel.relation)
     }
     
     func displayUserDetails() {
@@ -302,8 +296,7 @@ extension OnGoingProjectDetailsController: OnGoingProjectDetailsDisplayLogic {
     }
     
     func displayInteractionEffectivated() {
-        interactor?.fetchProjectRelation(OnGoingProjectDetails.Request.ProjectRelation())
-        interactor?.fetchProjectDetails(OnGoingProjectDetails.Request.FetchProject())
+        interactor?.fetchData(OnGoingProjectDetails.Request.FetchProject())
     }
     
     func displayEditProgressModal(_ viewModel: OnGoingProjectDetails.Info.ViewModel.Progress) {

@@ -162,6 +162,11 @@ enum OnGoingProjectDetails {
                 var needing: String
             }
             
+            struct ProjectData: Equatable {
+                var project: Project
+                var relation: RelationModel
+            }
+            
             struct TeamMember: Equatable {
                 let id: String
                 let name: String
@@ -187,6 +192,11 @@ enum OnGoingProjectDetails {
             
             struct Progress: Equatable {
                 let percentage: Float
+            }
+            
+            struct ProjectData {
+                let project: Project
+                let relation: RelationModel
             }
             
             struct Project: Equatable {

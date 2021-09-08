@@ -9,8 +9,7 @@
 import UIKit
 
 protocol OnGoingProjectDetailsPresentationLogic {
-    func presentProjectDetails(_ response: OnGoingProjectDetails.Info.Model.Project)
-    func presentProjectRelationUI(_ response: OnGoingProjectDetails.Info.Model.RelationModel)
+    func presentProject(_ response: OnGoingProjectDetails.Info.Model.ProjectData)
     func presentAlertError(_ response: String)
     func presentToastError(_ response: String)
     func presentLoading(_ loading: Bool)
@@ -32,36 +31,33 @@ class OnGoingProjectDetailsPresenter: OnGoingProjectDetailsPresentationLogic {
         self.viewController = viewController
     }
     
-    func presentProjectDetails(_ response: OnGoingProjectDetails.Info.Model.Project) {
+    func presentProject(_ response: OnGoingProjectDetails.Info.Model.ProjectData) {
         var teamMembers: [OnGoingProjectDetails.Info.ViewModel.TeamMember] = []
-        for member in response.teamMembers {
+        for member in response.project.teamMembers {
             teamMembers.append(OnGoingProjectDetails.Info.ViewModel.TeamMember(id: member.id,
                                                                                image: member.image,
                                                                                name: member.name,
                                                                                ocupation: member.ocupation))
         }
         var suffix: String
-        if let secondCathegory = response.secondCathegory {
+        if let secondCathegory = response.project.secondCathegory {
             suffix = " / " + secondCathegory
         } else {
             suffix = .empty
         }
-        let viewModel = OnGoingProjectDetails
+        let projectViewModel = OnGoingProjectDetails
             .Info
             .ViewModel
-            .Project(image: response.image,
-                     cathegories: NSAttributedString(string: response.firstCathegory + suffix, attributes: [NSAttributedString.Key.font: OnGoingProjectDetails.Constants.Fonts.cathegoryLbl, NSAttributedString.Key.foregroundColor: OnGoingProjectDetails.Constants.Colors.cathegoryLbl, NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue]),
-                     title: response.title,
-                     progress: NSAttributedString(string: "\(response.progress)%", attributes: [NSAttributedString.Key.font: OnGoingProjectDetails.Constants.Fonts.progressButton, NSAttributedString.Key.foregroundColor: OnGoingProjectDetails.Constants.Colors.progressButton, NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue]),
-                     sinopsis: response.sinopsis,
+            .Project(image: response.project.image,
+                     cathegories: NSAttributedString(string: response.project.firstCathegory + suffix, attributes: [NSAttributedString.Key.font: OnGoingProjectDetails.Constants.Fonts.cathegoryLbl, NSAttributedString.Key.foregroundColor: OnGoingProjectDetails.Constants.Colors.cathegoryLbl, NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue]),
+                     title: response.project.title,
+                     progress: NSAttributedString(string: "\(response.project.progress)%", attributes: [NSAttributedString.Key.font: OnGoingProjectDetails.Constants.Fonts.progressButton, NSAttributedString.Key.foregroundColor: OnGoingProjectDetails.Constants.Colors.progressButton, NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue]),
+                     sinopsis: response.project.sinopsis,
                      teamMembers: teamMembers,
-                     needing: response.needing)
-        viewController.displayProjectDetails(viewModel)
-    }
-    
-    func presentProjectRelationUI(_ response: OnGoingProjectDetails.Info.Model.RelationModel) {
-        let viewModel = OnGoingProjectDetails.Info.ViewModel.RelationModel(relation: response.relation)
-        viewController.displayUIForRelation(viewModel)
+                     needing: response.project.needing)
+        let relationViewModel = OnGoingProjectDetails.Info.ViewModel.RelationModel(relation: response.relation.relation)
+        let viewModel = OnGoingProjectDetails.Info.ViewModel.ProjectData(project: projectViewModel, relation: relationViewModel)
+        viewController.displayProject(viewModel)
     }
     
     func presentAlertError(_ response: String) {

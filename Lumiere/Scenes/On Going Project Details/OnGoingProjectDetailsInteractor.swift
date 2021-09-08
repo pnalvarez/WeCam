@@ -7,10 +7,9 @@
 //
 
 protocol OnGoingProjectDetailsBusinessLogic {
-    func fetchProjectDetails(_ request: OnGoingProjectDetails.Request.FetchProject)
+    func fetchData(_ request: OnGoingProjectDetails.Request.FetchProject)
     func fetchContext(_ request: OnGoingProjectDetails.Request.FetchContext)
     func didSelectTeamMember(_ request: OnGoingProjectDetails.Request.SelectedTeamMember)
-    func fetchProjectRelation(_ request: OnGoingProjectDetails.Request.ProjectRelation)
     func fetchUpdateProjectImage(_ request: OnGoingProjectDetails.Request.UpdateImage)
     func fetchUpdateProjectInfo(_ request: OnGoingProjectDetails.Request.UpdateInfo)
     func fetchUpdateProjectNeeding(_ request: OnGoingProjectDetails.Request.UpdateNeeding)
@@ -25,6 +24,7 @@ protocol OnGoingProjectDetailsBusinessLogic {
 
 protocol OnGoingProjectDetailsDataStore {
     var receivedData: OnGoingProjectDetails.Info.Received.Project? { get set }
+    var projectModel: OnGoingProjectDetails.Info.Model.ProjectData? { get }
     var projectData: OnGoingProjectDetails.Info.Model.Project? { get set }
     var projectRelation: OnGoingProjectDetails.Info.Model.ProjectRelation? { get set }
     var selectedTeamMemberId: String? { get set }
@@ -38,6 +38,7 @@ class OnGoingProjectDetailsInteractor: OnGoingProjectDetailsDataStore {
     private let presenter: OnGoingProjectDetailsPresentationLogic
     
     var receivedData: OnGoingProjectDetails.Info.Received.Project?
+    var projectModel: OnGoingProjectDetails.Info.Model.ProjectData?
     var projectData: OnGoingProjectDetails.Info.Model.Project?
     var projectRelation: OnGoingProjectDetails.Info.Model.ProjectRelation?
     var selectedTeamMemberId: String?
@@ -48,25 +49,6 @@ class OnGoingProjectDetailsInteractor: OnGoingProjectDetailsDataStore {
          presenter: OnGoingProjectDetailsPresentationLogic) {
         self.worker = worker
         self.presenter = presenter
-    }
-    
-    private func fetchUserDetails(_ request: OnGoingProjectDetails.Request.FetchUserWithId) {
-        worker.fetchteamMemberData(request: request) { response in
-            switch response {
-            case .success(let data):
-                self.projectData?.teamMembers.append(OnGoingProjectDetails.Info.Model.TeamMember(id: request.id,
-                                                                                                 name: data.name ?? .empty,
-                                                                                                 ocupation: data.ocupation ?? .empty,
-                                                                                                 image: data.image ?? .empty))
-                guard let project = self.projectData else { return }
-                self.presenter.presentLoading(false)
-                self.presenter.presentProjectDetails(project)
-                break
-            case .error(let error):
-                self.presenter.presentLoading(false)
-                self.presenter.presentAlertError(error.description)
-            }
-        }
     }
     
     private func fetchAcceptProjectInvite(_ request: OnGoingProjectDetails.Request.AcceptProjectInvite) {
@@ -152,9 +134,9 @@ class OnGoingProjectDetailsInteractor: OnGoingProjectDetailsDataStore {
             switch response {
             case .success:
                 self.presenter.presentSuccessAlert(OnGoingProjectDetails.Info.Model.Alert(title: OnGoingProjectDetails.Constants.Texts.updatedProgressTitle, message: OnGoingProjectDetails.Constants.Texts.updateProgressMessage))
-                self.projectData?.progress = Int(progress)
-                guard let project = self.projectData else { return }
-                self.presenter.presentProjectDetails(project)
+                self.projectModel?.project.progress = Int(progress)
+                guard let projectModel = self.projectModel else { return }
+                self.presenter.presentProject(projectModel)
             case .error(let error):
                 self.presenter.presentToastError(error.description)
             }
@@ -164,13 +146,44 @@ class OnGoingProjectDetailsInteractor: OnGoingProjectDetailsDataStore {
     private func finishProject() {
         presenter.presentInsertMediaScreen()
     }
+    
+    private func fetchRelation() {
+        guard let id = receivedData?.projectId else { return }
+        worker.fetchProjectRelation(request: OnGoingProjectDetails.Request.ProjectRelationWithId(projectId: id)) { response in
+            self.presenter.presentLoading(false)
+            switch response {
+            case .success(let data):
+                var projectRelation: OnGoingProjectDetails.Info.Model.ProjectRelation
+                guard let relation = data.relation else {
+                    return
+                }
+                if relation == "AUTHOR" {
+                    projectRelation = .author
+                } else if relation == "PARTICIPATING" {
+                    projectRelation = .simpleParticipating
+                } else if relation == "PENDING" {
+                    projectRelation = .sentRequest
+                } else if relation == "INVITED" {
+                    projectRelation = .receivedRequest
+                } else {
+                    projectRelation = .nothing
+                }
+                if let projectData = self.projectData {
+                    self.projectModel = OnGoingProjectDetails.Info.Model.ProjectData(project: projectData, relation: OnGoingProjectDetails.Info.Model.RelationModel(relation: projectRelation))
+                    guard let projectModel = self.projectModel else { return }
+                    self.presenter.presentProject(projectModel)
+                }
+            case .error(let error):
+                self.presenter.presentAlertError(error.description)
+            }
+        }
+    }
 }
 
 extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
     
-    func fetchProjectDetails(_ request: OnGoingProjectDetails.Request.FetchProject) {
-        guard let projedtId = receivedData?.projectId,
-            let uninvitedUsers = receivedData?.notInvitedUsers else { return }
+    func fetchData(_ request: OnGoingProjectDetails.Request.FetchProject) {
+        guard let projedtId = receivedData?.projectId else { return }
         presenter.presentLoading(true)
         worker.fetchProjectDetails(request: OnGoingProjectDetails
             .Request
@@ -189,19 +202,7 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
                                  sinopsis: data.sinopsis ?? .empty,
                                  teamMembers: .empty,
                                  needing: data.needing ?? .empty)
-                    guard let teamMemberIds = data.participants,
-                        let projectData = self.projectData else { return }
-                    guard teamMemberIds.count > 0 else {
-                        self.presenter.presentLoading(false)
-                        self.presenter.presentProjectDetails(projectData)
-                        return
-                    }
-                    if uninvitedUsers.count > 0 {
-                        self.presenter.presentAlertError(OnGoingProjectDetails.Constants.Texts.inviteError)
-                    }
-                    for id in teamMemberIds {
-                        self.fetchUserDetails(OnGoingProjectDetails.Request.FetchUserWithId(id: id))
-                    }
+                    self.fetchRelation()
                 case .error(let error):
                     self.presenter.presentLoading(false)
                     self.presenter.presentAlertError(error.description)
@@ -220,37 +221,6 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
         selectedTeamMemberId = teamMemberId
         presenter.presentUserDetails()
     }
-    
-    func fetchProjectRelation(_ request: OnGoingProjectDetails.Request.ProjectRelation) {
-        presenter.presentLoading(true)
-        guard let id = receivedData?.projectId else { return }
-        worker.fetchProjectRelation(request: OnGoingProjectDetails.Request.ProjectRelationWithId(projectId: id)) { response in
-            switch response {
-            case .success(let data):
-                guard let relation = data.relation else {
-                    return
-                }
-                if relation == "AUTHOR" {
-                    self.projectRelation = .author
-                } else if relation == "PARTICIPATING" {
-                    self.projectRelation = .simpleParticipating
-                } else if relation == "PENDING" {
-                    self.projectRelation = .sentRequest
-                } else if relation == "INVITED" {
-                    self.projectRelation = .receivedRequest
-                } else {
-                    self.projectRelation = .nothing
-                }
-                self.presenter.presentProjectRelationUI(OnGoingProjectDetails
-                    .Info
-                    .Model
-                    .RelationModel(relation: self.projectRelation ?? .nothing))
-            case .error(let error):
-                self.presenter.presentLoading(false)
-                self.presenter.presentAlertError(error.description)
-            }
-        }
-    }
 
     func fetchUpdateProjectImage(_ request: OnGoingProjectDetails.Request.UpdateImage) {
         self.presenter.presentLoading(true)
@@ -260,9 +230,9 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
                 switch response {
                 case .success(let data):
                     self.presenter.presentLoading(false)
-                    self.projectData?.image = data.imageURL
-                    guard let project = self.projectData else { return }
-                    self.presenter.presentProjectDetails(project)
+                    self.projectModel?.project.image = data.imageURL
+                    guard let projectModel = self.projectModel else { return }
+                    self.presenter.presentProject(projectModel)
                     self.presenter.presentSuccessAlert(OnGoingProjectDetails.Info.Model.Alert(title: "Alteração realizada", message: "Imagem do projeto foi alterada com sucesso"))
                 case .error(let error):
                     self.presenter.presentLoading(false)
@@ -281,16 +251,14 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
                                 switch response {
                                 case .success:
                                     self.presenter.presentLoading(false)
-                                    self.projectData?.title = request.title
-                                    self.projectData?.sinopsis = request.sinopsis
-                                    guard let project = self.projectData else { return }
-                                    self.presenter.presentProjectDetails(project)
+                                    self.projectModel?.project.title = request.title
+                                    self.projectModel?.project.sinopsis = request.sinopsis
+                                    guard let projectModel = self.projectModel else { return }
+                                    self.presenter.presentProject(projectModel)
                                     self.presenter.presentSuccessAlert(OnGoingProjectDetails.Info.Model.Alert(title: "Alteração realizada", message: "O título e a sinopse do projeto foram alterados com sucesso"))
                                 case .error(let error):
                                     self.presenter.presentLoading(false)
                                     self.presenter.presentToastError(error.description)
-                                    guard let project = self.projectData else { return }
-                                    self.presenter.presentProjectDetails(project)
                                 }
                                                                                                
         }
@@ -305,9 +273,9 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
                                     switch response {
                                     case .success:
                                         self.presenter.presentLoading(false)
-                                        self.projectData?.needing = request.needing
-                                        guard let project = self.projectData else { return }
-                                        self.presenter.presentProjectDetails(project)
+                                        self.projectModel?.project.needing = request.needing
+                                        guard let projectModel = self.projectModel else { return }
+                                        self.presenter.presentProject(projectModel)
                                         self.presenter.presentSuccessAlert(OnGoingProjectDetails.Info.Model.Alert(title: "Alteração realizada", message: "Alteração do que o projeto precisa foi realizada com sucesso"))
                                     case .error(let error):
                                         self.presenter.presentLoading(false)
@@ -317,8 +285,8 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
     }
     
     func didCancelEditing(_ request: OnGoingProjectDetails.Request.CancelEditing) {
-        guard let project = self.projectData else { return }
-        presenter.presentProjectDetails(project)
+        guard let projectModel = self.projectModel else { return }
+        presenter.presentProject(projectModel)
     }
     
     func fetchInteract(_ request: OnGoingProjectDetails.Request.FetchInteraction) {
