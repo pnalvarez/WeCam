@@ -71,9 +71,11 @@ extension ViewInterface {
     }
     
     func showAlertSuccess(title: String, description: String, doneText: String = WCConstants.Strings.ok) {
-        WCDialogView().show(dialogType: .successNotification(doneText: doneText),
-                            in: self,
-                            title: title,
-                            description: description)
+        DispatchQueue.main.async {
+            WCDialogView().show(dialogType: .successNotification(doneText: doneText),
+                                in: self,
+                                title: title,
+                                description: description)
+        }
     }
 }

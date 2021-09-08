@@ -146,7 +146,9 @@ class OnGoingProjectDetailsInteractor: OnGoingProjectDetailsDataStore {
     }
     
     private func fetchUpdateProgress(progress: Float) {
+        presenter.presentLoading(true)
         worker.fetchUpdateProgress(OnGoingProjectDetails.Request.UpdateProgressToInteger(projectId: projectData?.id ?? .empty, progress: Int(progress))) { response in
+            self.presenter.presentLoading(false)
             switch response {
             case .success:
                 self.presenter.presentSuccessAlert(OnGoingProjectDetails.Info.Model.Alert(title: OnGoingProjectDetails.Constants.Texts.updatedProgressTitle, message: OnGoingProjectDetails.Constants.Texts.updateProgressMessage))
