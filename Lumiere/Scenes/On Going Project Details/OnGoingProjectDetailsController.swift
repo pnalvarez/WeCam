@@ -92,13 +92,15 @@ class OnGoingProjectDetailsController: BaseViewController, HasNoTabBar, UINaviga
         return picker
     }()
     
-    private var viewModel: OnGoingProjectDetails.Info.ViewModel.Project? {
+    private var viewModel: OnGoingProjectDetails.Info.ViewModel.ProjectData? {
         didSet {
             DispatchQueue.main.async {
-                self.projectTitleDescriptionEditableView.setup(title: self.viewModel?.title ?? .empty,
-                                                               description: self.viewModel?.sinopsis ?? .empty)
-                self.projectNeedingBulletEditableView.setup(headerText: OnGoingProjectDetails.Constants.Texts.needFixedLbl,
-                                                            needingText: self.viewModel?.needing ?? .empty)
+                self.projectTitleDescriptionEditableView.setup(title: self.viewModel?.project.title ?? .empty, description: self.viewModel?.project.sinopsis ?? .empty)
+                self.projectNeedingBulletEditableView.setup(headerText: OnGoingProjectDetails.Constants.Texts.needFixedLbl, needingText: self.viewModel?.project.needing ?? .empty)
+                if let viewModel = self.viewModel {
+                    self.mainView.setup(viewModel: viewModel.project)
+                    self.mainView.updateUI(forRelation: viewModel.relation)
+                }
                 self.teamCollectionView.reloadData()
             }
         }
@@ -215,12 +217,12 @@ extension OnGoingProjectDetailsController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel?.teamMembers.count ?? 0
+        return viewModel?.project.teamMembers.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = teamCollectionView.dequeueReusableCell(indexPath: indexPath, type: TeamMemberCollectionViewCell.self)
-        guard let viewModel = viewModel?.teamMembers else { return UICollectionViewCell() }
+        guard let viewModel = viewModel?.project.teamMembers else { return UICollectionViewCell() }
         cell.setup(name: viewModel[indexPath.row].name,
                    jobDescription: viewModel[indexPath.row].ocupation,
                    image: viewModel[indexPath.row].image)
@@ -279,8 +281,7 @@ extension OnGoingProjectDetailsController: UIImagePickerControllerDelegate {
 extension OnGoingProjectDetailsController: OnGoingProjectDetailsDisplayLogic {
     
     func displayProject(_ viewModel: OnGoingProjectDetails.Info.ViewModel.ProjectData) {
-        mainView.setup(viewModel: viewModel.project)
-        mainView.updateUI(forRelation: viewModel.relation)
+        self.viewModel = viewModel
     }
     
     func displayUserDetails() {
