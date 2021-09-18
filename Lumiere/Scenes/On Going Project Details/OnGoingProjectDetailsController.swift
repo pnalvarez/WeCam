@@ -19,6 +19,7 @@ protocol OnGoingProjectDetailsDisplayLogic: ViewInterface {
     func displayConfirmFinishedProjectAlert()
     func displayInsertMediaScreen()
     func displayRoutingContextUI(_ viewModel: OnGoingProjectDetails.Info.ViewModel.RoutingContext)
+    func dispayProjectProgressUpdateSuccessMessage()
 }
 
 class OnGoingProjectDetailsController: BaseViewController, HasNoTabBar, UINavigationControllerDelegate {
@@ -322,5 +323,9 @@ extension OnGoingProjectDetailsController: OnGoingProjectDetailsDisplayLogic {
     func displayRoutingContextUI(_ viewModel: OnGoingProjectDetails.Info.ViewModel.RoutingContext) {
         mainView.setupAuxiliarComponentsVisibility(backButtonVisible: viewModel.context != .justCreatedProject, closeButtonVisible: viewModel.context != .checkingProject)
         interactionButton.isHidden = viewModel.context == .justCreatedProject
+    }
+    
+    func dispayProjectProgressUpdateSuccessMessage() {
+        WCToastView().show(withTitle: "Oi", status: .success, in: self.view)
     }
 }

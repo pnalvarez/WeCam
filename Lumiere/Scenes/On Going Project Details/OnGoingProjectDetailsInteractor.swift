@@ -129,9 +129,9 @@ class OnGoingProjectDetailsInteractor: OnGoingProjectDetailsDataStore {
             self.presenter.presentLoading(false)
             switch response {
             case .success:
-                self.presenter.presentSuccessAlert(OnGoingProjectDetails.Info.Model.Alert(title: OnGoingProjectDetails.Constants.Texts.updatedProgressTitle, message: OnGoingProjectDetails.Constants.Texts.updateProgressMessage))
                 self.projectModel?.project.progress = Int(progress)
                 guard let projectModel = self.projectModel else { return }
+                self.presenter.presentProjectProgressUpdateSuccessMessage()
                 self.presenter.presentProject(projectModel)
             case .error(let error):
                 self.presenter.presentToastError(error.description)

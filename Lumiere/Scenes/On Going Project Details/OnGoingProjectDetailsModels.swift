@@ -82,7 +82,6 @@ enum OnGoingProjectDetails {
             static let nothingModalText = "Deseja enviar uma solicitação para este projeto?"
             static let progressFixedLbl = "Concluído"
             static let updatedProgressTitle = "Progresso atualizado"
-            static let updateProgressMessage = "O progresso do seu projeto foi atualizado"
             static let finishConfirmationTitle = "Seu projeto está 100% concluído?"
             static let finishConfirmationMessage = "Por acaso você considera seu projeto finalizado? Se sim, ele entrará para o feed de projetos concluídos e terá de adicionar a URL de um vídeo"
             static let progressFixedText = "Deseja finalizar o seu projeto?"

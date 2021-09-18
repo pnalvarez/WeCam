@@ -48,11 +48,11 @@ class BaseViewController: UIViewController {
     }
     
     private func configureTabBarVisibility() {
-        if self is HasTabBar {
-            navigationController?.tabBarController?.tabBar.isHidden = false
-        } else if self is HasNoTabBar {
-            navigationController?.tabBarController?.tabBar.isHidden = true
-        }
+//        if self is HasTabBar {
+//            navigationController?.tabBarController?.tabBar.isHidden = false
+//        } else if self is HasNoTabBar {
+//            navigationController?.tabBarController?.tabBar.isHidden = true
+//        }
     }
 }
 

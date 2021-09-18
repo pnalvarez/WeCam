@@ -21,6 +21,7 @@ protocol OnGoingProjectDetailsPresentationLogic {
     func presentConfirmFinishedProjectAlert()
     func presentInsertMediaScreen()
     func presentRoutingContextUI(_ response: OnGoingProjectDetails.Info.Model.RoutingContext)
+    func presentProjectProgressUpdateSuccessMessage()
 }
 
 class OnGoingProjectDetailsPresenter: OnGoingProjectDetailsPresentationLogic {
@@ -108,5 +109,9 @@ class OnGoingProjectDetailsPresenter: OnGoingProjectDetailsPresentationLogic {
     func presentRoutingContextUI(_ response: OnGoingProjectDetails.Info.Model.RoutingContext) {
         let viewModel = OnGoingProjectDetails.Info.ViewModel.RoutingContext(context: response)
         viewController.displayRoutingContextUI(viewModel)
+    }
+    
+    func presentProjectProgressUpdateSuccessMessage() {
+        viewController.dispayProjectProgressUpdateSuccessMessage()
     }
 }
