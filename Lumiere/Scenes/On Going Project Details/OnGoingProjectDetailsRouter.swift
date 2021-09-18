@@ -38,18 +38,18 @@ class OnGoingProjectDetailsRouter: NSObject, OnGoingProjectDetailsDataTransfer {
         destination.project = ProjectParticipantsList
             .Info
             .Received
-            .Project(projectId: source.projectData?.id ?? .empty)
+            .Project(projectId: source.projectModel?.project.id ?? .empty)
     }
     
     private func transferDataToProjectInvites(from source: OnGoingProjectDetailsDataStore,
                                               to destination: inout ProjectInvitesDataStore) {
-        destination.projectReceivedModel = ProjectInvites.Info.Received.Project(projectId: source.projectData?.id ?? .empty)
+        destination.projectReceivedModel = ProjectInvites.Info.Received.Project(projectId: source.projectModel?.project.id ?? .empty)
         destination.receivedContext = .ongoing
     }
     
     private func transferDataToInsertMedia(from source: OnGoingProjectDetailsDataStore,
                                            to destination: inout InsertVideoDataStore) {
-        destination.receivedData = InsertVideo.Info.Received.ReceivedProject.finishing(InsertVideo.Info.Received.FinishingProject(id: source.projectData?.id ?? .empty))
+        destination.receivedData = InsertVideo.Info.Received.ReceivedProject.finishing(InsertVideo.Info.Received.FinishingProject(id: source.projectModel?.project.id ?? .empty))
     }
 }
 

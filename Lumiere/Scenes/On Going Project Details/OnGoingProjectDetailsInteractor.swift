@@ -25,8 +25,6 @@ protocol OnGoingProjectDetailsBusinessLogic {
 protocol OnGoingProjectDetailsDataStore {
     var receivedData: OnGoingProjectDetails.Info.Received.Project? { get set }
     var projectModel: OnGoingProjectDetails.Info.Model.ProjectData? { get }
-    var projectData: OnGoingProjectDetails.Info.Model.Project? { get set }
-    var projectRelation: OnGoingProjectDetails.Info.Model.ProjectRelation? { get set }
     var selectedTeamMemberId: String? { get set }
     var routingContext: OnGoingProjectDetails.Info.Received.RoutingContext? { get set }
     var selectedProgress: OnGoingProjectDetails.Info.Model.SavedProgress? { get }
@@ -39,8 +37,6 @@ class OnGoingProjectDetailsInteractor: OnGoingProjectDetailsDataStore {
     
     var receivedData: OnGoingProjectDetails.Info.Received.Project?
     var projectModel: OnGoingProjectDetails.Info.Model.ProjectData?
-    var projectData: OnGoingProjectDetails.Info.Model.Project?
-    var projectRelation: OnGoingProjectDetails.Info.Model.ProjectRelation?
     var selectedTeamMemberId: String?
     var routingContext: OnGoingProjectDetails.Info.Received.RoutingContext?
     var selectedProgress: OnGoingProjectDetails.Info.Model.SavedProgress?
@@ -129,7 +125,7 @@ class OnGoingProjectDetailsInteractor: OnGoingProjectDetailsDataStore {
     
     private func fetchUpdateProgress(progress: Float) {
         presenter.presentLoading(true)
-        worker.fetchUpdateProgress(OnGoingProjectDetails.Request.UpdateProgressToInteger(projectId: projectData?.id ?? .empty, progress: Int(progress))) { response in
+        worker.fetchUpdateProgress(OnGoingProjectDetails.Request.UpdateProgressToInteger(projectId: projectModel?.project.id ?? .empty, progress: Int(progress))) { response in
             self.presenter.presentLoading(false)
             switch response {
             case .success:
@@ -147,7 +143,7 @@ class OnGoingProjectDetailsInteractor: OnGoingProjectDetailsDataStore {
         presenter.presentInsertMediaScreen()
     }
     
-    private func fetchRelation() {
+    private func fetchRelation(withProject project: OnGoingProjectDetails.Info.Model.Project) {
         guard let id = receivedData?.projectId else { return }
         worker.fetchProjectRelation(request: OnGoingProjectDetails.Request.ProjectRelationWithId(projectId: id)) { response in
             self.presenter.presentLoading(false)
@@ -168,11 +164,9 @@ class OnGoingProjectDetailsInteractor: OnGoingProjectDetailsDataStore {
                 } else {
                     projectRelation = .nothing
                 }
-                if let projectData = self.projectData {
-                    self.projectModel = OnGoingProjectDetails.Info.Model.ProjectData(project: projectData, relation: OnGoingProjectDetails.Info.Model.RelationModel(relation: projectRelation))
-                    guard let projectModel = self.projectModel else { return }
-                    self.presenter.presentProject(projectModel)
-                }
+                self.projectModel = OnGoingProjectDetails.Info.Model.ProjectData(project: project, relation: OnGoingProjectDetails.Info.Model.RelationModel(relation: projectRelation))
+                guard let projectModel = self.projectModel else { return }
+                self.presenter.presentProject(projectModel)
             case .error(let error):
                 self.presenter.presentAlertError(error.description)
             }
@@ -190,19 +184,19 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
             .FetchProjectWithId(id: projedtId)) { response in
                 switch response {
                 case .success(let data):
-                    self.projectData = OnGoingProjectDetails
+                    let project = OnGoingProjectDetails
                         .Info
                         .Model
                         .Project(id: projedtId,
-                                 firstCathegory: data.cathegories?[0] ?? .empty,
-                                 secondCathegory: data.cathegories?.count ?? 0 > 1 ? (data.cathegories?[1] ?? .empty) : nil,
+                                 firstCathegory: data.cathegories?.first ?? .empty,
+                                 secondCathegory: data.cathegories?.count ?? 0 > 1 ? data.cathegories?.last : nil,
                                  image: data.image,
                                  progress: data.progress ?? 0,
                                  title: data.title ?? .empty,
                                  sinopsis: data.sinopsis ?? .empty,
                                  teamMembers: .empty,
                                  needing: data.needing ?? .empty)
-                    self.fetchRelation()
+                    self.fetchRelation(withProject: project)
                 case .error(let error):
                     self.presenter.presentLoading(false)
                     self.presenter.presentAlertError(error.description)
@@ -217,7 +211,7 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
     }
     
     func didSelectTeamMember(_ request: OnGoingProjectDetails.Request.SelectedTeamMember) {
-        guard let teamMemberId = projectData?.teamMembers[request.index].id else { return }
+        guard let teamMemberId = projectModel?.project.teamMembers[request.index].id else { return }
         selectedTeamMemberId = teamMemberId
         presenter.presentUserDetails()
     }
@@ -226,7 +220,7 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
         self.presenter.presentLoading(true)
         worker.fetchUpdateProjectImage(request: OnGoingProjectDetails
             .Request
-            .UpdateImageWithId(projectId: projectData?.id ?? .empty, image: request.image)) { response in
+                                        .UpdateImageWithId(projectId: projectModel?.project.id ?? .empty, image: request.image)) { response in
                 switch response {
                 case .success(let data):
                     self.presenter.presentLoading(false)
@@ -245,7 +239,7 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
         self.presenter.presentLoading(true)
         worker.fetchUpdateProjectInfo(request: OnGoingProjectDetails
             .Request
-            .UpdateInfoWithId(projectId: self.projectData?.id ?? .empty,
+                                        .UpdateInfoWithId(projectId: self.projectModel?.project.id ?? .empty,
                               title: request.title,
                               sinopsis: request.sinopsis)) { response in
                                 switch response {
@@ -268,7 +262,7 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
         presenter.presentLoading(true)
         worker.fetchUpdateProjectNeeding(request: OnGoingProjectDetails
             .Request
-            .UpdateNeedingWithId(projectId: projectData?.id ?? .empty,
+                                            .UpdateNeedingWithId(projectId: projectModel?.project.id ?? .empty,
                                  needing: request.needing)) { response in
                                     switch response {
                                     case .success:
@@ -290,59 +284,54 @@ extension OnGoingProjectDetailsInteractor: OnGoingProjectDetailsBusinessLogic {
     }
     
     func fetchInteract(_ request: OnGoingProjectDetails.Request.FetchInteraction) {
-        presenter.presentConfirmationModal(forRelation: OnGoingProjectDetails.Info.Model.RelationModel(relation: projectRelation ?? .nothing))
+        presenter.presentConfirmationModal(forRelation: OnGoingProjectDetails.Info.Model.RelationModel(relation: projectModel?.relation.relation ?? .nothing))
     }
     
     func fetchConfirmInteraction(_ request: OnGoingProjectDetails.Request.ConfirmInteraction) {
         presenter.presentLoading(true)
-        guard let relation = projectRelation else { return }
+        guard let relation = projectModel?.relation.relation else { return }
         switch relation {
         case .author:
             finishProject()
         case .simpleParticipating:
             fetchExitProject(OnGoingProjectDetails
                 .Request
-                .ExitProject(projectId: projectData?.id ?? .empty))
+                                .ExitProject(projectId: projectModel?.project.id ?? .empty))
         case .sentRequest:
             fetchRemoveProjectParticipationRequest(OnGoingProjectDetails
                 .Request
-                .RemoveProjectParticipationRequest(projectId: projectData?.id ?? .empty))
+                                                    .RemoveProjectParticipationRequest(projectId: projectModel?.project.id ?? .empty))
         case .receivedRequest:
             fetchAcceptProjectInvite(OnGoingProjectDetails
                 .Request
-                .AcceptProjectInvite(projectId: projectData?.id ?? .empty))
+                                        .AcceptProjectInvite(projectId: projectModel?.project.id ?? .empty))
         case .nothing:
-            fetchSendProjectParticipationRequest(OnGoingProjectDetails.Request.ProjectParticipationRequest(projectId: projectData?.id ?? .empty))
+            fetchSendProjectParticipationRequest(OnGoingProjectDetails.Request.ProjectParticipationRequest(projectId: projectModel?.project.id ?? .empty))
         }
     }
     
     func fetchRefuseInteraction(_ request: OnGoingProjectDetails.Request.RefuseInteraction) {
         presenter.presentLoading(true)
-        guard let relation = projectRelation else { return }
+        guard let relation = projectModel?.relation.relation else { return }
         switch relation {
         case .author, .simpleParticipating, .sentRequest, .nothing:
             presenter.presentLoading(false)
         case .receivedRequest:
             fetchRefuseProjectInvite(OnGoingProjectDetails
                 .Request
-                .RefuseProjectInvite(projectId: projectData?.id ?? .empty))
-
+                                        .RefuseProjectInvite(projectId: projectModel?.project.id ?? .empty))
         }
     }
     
     func fetchProgressPercentage(_ request: OnGoingProjectDetails.Request.FetchProgress) {
-        guard let percentage = projectData?.progress else { return }
+        guard let percentage = projectModel?.project.progress else { return }
         let progressModel = OnGoingProjectDetails.Info.Model.Progress(percentage: percentage)
         presenter.presentEditProgressModal(withProgress: progressModel)
     }
     
     func fetchUpdateProgress(_ request: OnGoingProjectDetails.Request.UpdateProgress) {
         selectedProgress = OnGoingProjectDetails.Info.Model.SavedProgress(progress: request.newProgress)
-        if request.newProgress > OnGoingProjectDetails.Constants.BusinessLogic.finishedProjectBottomRange {
-            presenter.presentConfirmFinishedProjectAlert()
-        } else {
-            fetchUpdateProgress(progress: request.newProgress * WCConstants.Floats.hundredPercent)
-        }
+        request.newProgress > OnGoingProjectDetails.Constants.BusinessLogic.finishedProjectBottomRange ? presenter.presentConfirmFinishedProjectAlert() : fetchUpdateProgress(progress: request.newProgress * WCConstants.Floats.hundredPercent)
     }
     
     func fetchConfirmNewProgress(_ request: OnGoingProjectDetails.Request.ConfirmProgress) {
