@@ -174,12 +174,12 @@ extension SignUpView: ViewCodeProtocol {
 //            make.left.right.equalToSuperview().inset(40)
 //            make.height.equalTo(29)
 //        }
-//        signUpButton.snp.makeConstraints { make in
-//            make.bottom.equalToSuperview().inset(10)
-//            make.top.equalTo(titleHeaderIcon.snp.bottom).offset(1020)
-//            make.width.equalTo(99)
-//            make.centerX.equalToSuperview()
-//        }
+        signUpButton.snp.makeConstraints { make in
+            make.bottom.equalToSuperview().inset(10)
+            make.top.equalTo(cathegoryListView.snp.bottom).offset(48)
+            make.width.equalTo(99)
+            make.centerX.equalToSuperview()
+        }
         cathegoryListView.snp.makeConstraints { make in
 //            make.top.equalTo(cathegoriesLbl.snp.bottom).offset(36)
             make.height.equalTo(501)
