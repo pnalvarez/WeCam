@@ -61,6 +61,6 @@ extension SignUpRouter: SignUpRoutingLogic {
         dialogView.show(dialogType: .errorNotification(doneText: WCConstants.Strings.ok),
                         in: navigationController,
                         title: SignUp.Constants.Texts.signUpError,
-                        description: description)
+                        description: error.description)
     }
 }
