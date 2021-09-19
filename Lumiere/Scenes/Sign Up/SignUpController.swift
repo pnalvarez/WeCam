@@ -19,10 +19,9 @@ protocol SignUpDisplayLogic: ViewInterface {
 
 class SignUpController: BaseViewController {
 
-    private lazy var imageButton: UIButton = {
-        let view = UIButton(frame: .zero)
-        view.addTarget(self, action: #selector(didTapImageButton), for: .touchUpInside)
-        view.setImage(SignUp.Constants.Images.camera, for: .normal)
+    private lazy var imageButton: WCImageButton = {
+        let view = WCImageButton(frame: .zero)
+        view.delegate = self
         return view
     }()
     
@@ -98,7 +97,6 @@ class SignUpController: BaseViewController {
     }()
     
     private lazy var mainView: SignUpView = {
-
         return SignUpView(frame: .zero,
                           imageButton: imageButton,
                           nameTextField: nameTextField,
@@ -156,18 +154,6 @@ class SignUpController: BaseViewController {
     }
     
     @objc
-    func didTapImageButton() {
-        imagePicker.allowsEditing = true
-        PHPhotoLibrary.requestAuthorization { newStatus in
-            if newStatus == .authorized {
-                DispatchQueue.main.async {
-                    self.present(self.imagePicker, animated: true, completion: nil)
-                }
-            }
-        }
-    }
-    
-    @objc
     private func didTapBackButton() {
         router?.routeBack()
     }
@@ -182,6 +168,20 @@ class SignUpController: BaseViewController {
                                             phoneNumber: cellphoneTextField.text ?? .empty,
                                             professionalArea: professionalTextField.text ?? .empty)
         interactor?.fetchSignUp(request)
+    }
+}
+
+extension SignUpController: WCImageButtonDelegate {
+    
+    func didChangeButtonImage(_ view: WCImageButton) {
+        imagePicker.allowsEditing = true
+        PHPhotoLibrary.requestAuthorization { newStatus in
+            if newStatus == .authorized {
+                DispatchQueue.main.async {
+                    self.present(self.imagePicker, animated: true, completion: nil)
+                }
+            }
+        }
     }
 }
 
