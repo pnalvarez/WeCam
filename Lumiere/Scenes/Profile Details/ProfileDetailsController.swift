@@ -94,6 +94,7 @@ class ProfileDetailsController: BaseViewController, HasTabBar {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         interactor?.fetchUserInfo(ProfileDetails.Request.UserData())
+        showTabBar(true)
     }
     
     override func loadView() {

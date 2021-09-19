@@ -47,9 +47,11 @@ extension ViewInterface {
     
     func showSuccessToast(withText text: String) {
         DispatchQueue.main.async {
-            WCToastView().show(withTitle: text,
-                               status: .success,
-                               in: self.view)
+            if let view = UIApplication.shared.windows.filter({$0.isKeyWindow}).first?.rootViewController?.view {
+                WCToastView().show(withTitle: text,
+                                   status: .success,
+                                   in: view)
+            }
         }
     }
     

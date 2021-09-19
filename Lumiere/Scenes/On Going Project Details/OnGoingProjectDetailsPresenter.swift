@@ -112,6 +112,6 @@ class OnGoingProjectDetailsPresenter: OnGoingProjectDetailsPresentationLogic {
     }
     
     func presentProjectProgressUpdateSuccessMessage() {
-        viewController.dispayProjectProgressUpdateSuccessMessage()
+        viewController.showSuccessToast(withText: OnGoingProjectDetails.Constants.Texts.updatedProgressTitle)
     }
 }

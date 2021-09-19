@@ -41,6 +41,8 @@ extension EditProfileDetailsRouter: EditProfileDetailsRoutingLogic {
     func routeBackSuccess() {
         guard let navigationController = viewController?.navigationController else { return }
         navigationController.popViewController(animated: true)
-        WCToastView().show(withTitle: EditProfileDetails.Constants.Texts.editDetailsSuccessTitle, status: .success, in: navigationController.view)
+        if let view = navigationController.viewControllers.last?.view {
+            WCToastView().show(withTitle: EditProfileDetails.Constants.Texts.editDetailsSuccessTitle, status: .success, in: view)
+        }
     }
 }

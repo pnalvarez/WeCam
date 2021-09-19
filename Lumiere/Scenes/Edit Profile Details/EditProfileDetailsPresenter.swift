@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol EditProfileDetailsPresentationLogic {
+protocol EditProfileDetailsPresentationLogic: PresenterInterface {
     func presentUserData(_ response: EditProfileDetails.Info.Model.User)
     func didUpdateUser()
     func presentLoading(_ loading: Bool)
