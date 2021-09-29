@@ -59,9 +59,8 @@ extension SelectProjectCathegoryView: ViewCodeProtocol {
             make.left.right.bottom.equalToSuperview()
         }
         advanceButton.snp.makeConstraints { make in
-            make.top.equalTo(collectionView.snp.bottom).offset(102)
-            make.centerX.equalToSuperview()
-            make.width.equalTo(82)
+            make.top.equalTo(collectionView.snp.bottom).offset(WCDimens.Margins.large)
+            make.left.right.equalToSuperview().inset(36)
             make.bottom.equalToSuperview().inset(24)
         }
         titleLbl.snp.makeConstraints { make in
@@ -70,7 +69,7 @@ extension SelectProjectCathegoryView: ViewCodeProtocol {
             make.width.equalTo(87)
         }
         collectionView.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(121)
+            make.top.equalToSuperview().offset(WCDimens.Margins.big)
             make.left.right.equalToSuperview()
             make.height.equalTo(479)
         }

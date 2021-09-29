@@ -133,7 +133,6 @@ class OnGoingProjectDetailsInteractor: OnGoingProjectDetailsDataStore {
                 guard let projectModel = self.projectModel else { return }
                 self.presenter.presentProjectProgressUpdateSuccessMessage()
                 self.presenter.presentProject(projectModel)
-                self.presenter.presentToastError("Oi")
             case .error(let error):
                 self.presenter.presentToastError(error.description)
             }
