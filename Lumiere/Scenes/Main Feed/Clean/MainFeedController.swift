@@ -64,6 +64,10 @@ class MainFeedController: BaseViewController, HasTabBar {
         self.view = mainView
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         interactor?.fetchMainFeed(MainFeed.Request.MainFeed())
