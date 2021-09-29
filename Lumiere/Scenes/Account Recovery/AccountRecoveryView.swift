@@ -9,7 +9,7 @@
 import UIKit
 import WCUIKit
 
-class AccountRecoveryView: BaseView {
+class AccountRecoveryView: BaseView, ModalViewable {
     
     private lazy var headerView: WCHeaderView = {
         let view = WCHeaderView(frame: .zero)

@@ -78,15 +78,15 @@ extension SignInView: ViewCodeProtocol {
         }
         forgetButton.snp.makeConstraints { make in
             make.top.equalTo(textFieldStackView.snp.bottom).offset(WCDimens.Margins.small)
-            make.left.right.equalToSuperview().inset(WCDimens.Margins.bigger)
+            make.left.right.equalToSuperview().inset(WCDimens.Margins.larger)
         }
         enterButton.snp.makeConstraints { make in
             make.top.equalTo(forgetButton.snp.bottom).offset(WCDimens.Margins.default)
-            make.left.right.equalToSuperview().inset(WCDimens.Margins.big)
+            make.left.right.equalToSuperview().inset(WCDimens.Margins.larger)
         }
         signUpButton.snp.makeConstraints { make in
             make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).offset(-16)
-            make.left.right.equalToSuperview().inset(WCDimens.Margins.bigger)
+            make.left.right.equalToSuperview().inset(WCDimens.Margins.larger)
         }
     }
     
