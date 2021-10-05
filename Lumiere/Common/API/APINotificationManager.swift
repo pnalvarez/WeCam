@@ -21,7 +21,6 @@ final class APINotificationManager {
     func cleanOngoingProjectInvites(projecId: String,
                                     successCallback: @escaping () -> Void,
                                     failureCallback: @escaping (WCError) -> Void) {
-        var pendingInvites = [String]()
         var notifications = [[String : Any]]()
         
         realtimeDB
@@ -30,11 +29,12 @@ final class APINotificationManager {
             .child(projecId)
             .child("pending_invites")
             .observeSingleEvent(of: .value) { snapshot in
-                if let pendingIds = snapshot.value as? [String] {
-                    pendingInvites = pendingIds
+                guard let pendingIds = snapshot.value as? [String] else {
+                    successCallback()
+                    return
                 }
                 let outDispatchGroup = DispatchGroup()
-                for userId in pendingInvites {
+                for userId in pendingIds {
                     outDispatchGroup.enter()
                     self.realtimeDB
                         .child(Paths.usersPath)
@@ -54,6 +54,9 @@ final class APINotificationManager {
                                 .child(Paths.usersPath)
                                 .child(userId)
                                 .updateChildValues(["project_invite_notifications" : notifications]) { error, ref in
+                                    if error != nil {
+                                        failureCallback(.removeProjectInviteToUser)
+                                    }
                                     outDispatchGroup.leave()
                                 }
                     }
