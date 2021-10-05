@@ -148,8 +148,7 @@ extension SignUpView: ViewCodeProtocol {
         signUpButton.snp.makeConstraints { make in
             make.bottom.equalToSuperview().inset(10)
             make.top.equalTo(cathegoryListView.snp.bottom).offset(48)
-            make.width.equalTo(99)
-            make.centerX.equalToSuperview()
+            make.left.right.equalToSuperview().inset(36)
         }
         cathegoryListView.snp.makeConstraints { make in
             make.top.equalTo(cathegoriesLbl.snp.bottom).offset(36)
