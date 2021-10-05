@@ -24,13 +24,6 @@ class InviteProfileToProjectsRouter: NSObject, InviteProfileToProjectsDataTransf
     var dataStore: InviteProfileToProjectsDataStore?
 }
 
-extension InviteProfileToProjectsRouter: BaseRouterProtocol {
-    
-    func routeTo(nextVC: UIViewController) {
-        
-    }
-}
-
 extension InviteProfileToProjectsRouter: InviteProfileToProjectsRoutingLogic {
     
     func routeBack() {
